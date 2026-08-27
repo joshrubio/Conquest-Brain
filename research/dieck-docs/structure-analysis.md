@@ -4,8 +4,11 @@
 
 ## Estado
 
-- Videos analizados: 0 / objetivo 5–8
-- Última actualización: —
+- Transcripciones listas: 6 / 6 (`transcripts/T01`–`T06`, ver `candidates.md`)
+- Videos analizados: 0 / 6
+- Última actualización: 2026-08-27
+
+> Todas las transcripciones son auto-ASR (TurboScribe / NoteGPT). T01–T03 sin timestamps (mapear por proporción de texto). T04–T06 con anclas `[HH:MM:SS]`. Verificar nombres/cifras/citas contra el video antes de trasladar nada a `docs/`.
 
 ---
 
