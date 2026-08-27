@@ -11,6 +11,7 @@
 | Tema [ID] | T0__ (debe estar `aprobado` en `ideas/themes.md`) |
 | Guionista asignado | Carmen / Josh |
 | Narrador asignado | Carmen / Josh |
+| Forma del cierre (`docs/09`) | A reflexión+para llevar / B lección distribuida / C pregunta abierta |
 | Estado | idea aprobada por rúbrica |
 
 ## Sujeto
@@ -25,18 +26,22 @@
 - [ ] Registro público documentado
 - [ ] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)
 - [ ] Ninguna persona de la comunidad hispanohablante de Rotterdam involucrada / identificable
-- [ ] La historia se sostiene sin la lección aplicada
+- [ ] La historia se sostiene por sí misma (el cierre no es el motivo de elegir el caso)
 - [ ] Pasa la política de separación (`docs/05-separation-policy.md`)
 
 ## Tesis de trabajo
 
 Una frase: ¿de qué trata realmente este episodio?
 
-## Las tres partes (una frase cada una)
+## Estructura (una frase cada una)
 
-1. **Narrativa periodística:** …
-2. **Reflexión psicológica / humana:** …
-3. **Para llevar (aplicable, quirúrgico):** … — *¿se deduce del caso sin forzar? Sí/No*
+1. **Cold open:** … (apertura: pregunta+tesis / misterio / escena / contraste)
+2. **Narrativa periodística:** …
+3. **Mecanismo humano / psicológico que revela:** …
+4. **Cierre — forma A/B/C:** …
+   - Si A: para llevar (una idea) — *¿se deduce del caso sin forzar? Sí/No*
+   - Si B: ¿en qué 2-3 beats vive la lección?
+   - Si C: ¿cuál es la disputa real y qué SÍ está establecido?
 
 ## Por qué ahora / por qué nosotros
 

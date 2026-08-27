@@ -24,7 +24,7 @@
 | P1 | Fuerza narrativa (arco, giro, desenlace) | plana | débil | buena | excelente | |
 | P2 | Calidad y accesibilidad de las fuentes | frágil | mixta | sólida | Tier A abundante | |
 | P3 | Ángulo psicológico / humano genuino | forzado | genérico | claro | revelador | |
-| P4 | «Para llevar» que se deduce del caso | inexistente | forzado | razonable | quirúrgico y potente | |
+| P4 | Cierre (forma A/B/C, `docs/09`) honesto y con fuerza | inexistente | forzado | razonable | potente y fiel al caso | |
 | P5 | Relevancia para los públicos del canal (emprendedores, soñadores, trabajadores, gente de Fe, inmigrantes…) | nula | tangencial | clara | alta | |
 | P6 | Factibilidad de archivo/visual | muy difícil | difícil | ok | fácil | |
 | P7 | Riesgo legal/reputacional (3 = bajo riesgo) | alto | medio-alto | medio | bajo | |

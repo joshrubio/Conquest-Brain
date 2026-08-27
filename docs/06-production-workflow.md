@@ -19,8 +19,9 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **Gate:** every load-bearing claim has ≥1 Tier A/B source; contested points identified; no reliance on Tier C/D.
 
 ## Stage 3 — Outline
-- Beat sheet against [docs/02-content-format.md](02-content-format.md): hook, narrative acts, reflection, takeaway.
-- **Gate:** structure holds without stretching facts; takeaway follows from the case.
+- Beat sheet against [docs/02-content-format.md](02-content-format.md): cold open → context pivot → narrative acts (mark explainer interludes + foreshadowing plants/pays) → close.
+- Confirm the close form (A/B/C) chosen in the brief still fits the material.
+- **Gate:** structure holds without stretching facts; close is honest to the case.
 
 ## Stage 4 — Script  → `05-script.md`
 - Template: [templates/script-template.md](../templates/script-template.md).

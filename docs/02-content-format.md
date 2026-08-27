@@ -1,60 +1,78 @@
 # 02 — Content Format Spec
 
-> **Status: v0 — working hypothesis.** This structure is drawn from the general Dieck Docs style and standard documentary craft, **not yet from a transcript analysis**. Validate and revise it against real transcripts using `research/dieck-docs/` (see `research/README.md`). Companion files: tone in [08-tone-of-voice.md](08-tone-of-voice.md), reflection craft in [09-reflection-rules.md](09-reflection-rules.md).
+> **Status: v1 — validated against 6 Dieck Docs transcripts (2026-08-27).** Basis: `research/dieck-docs/structure-analysis.md` (T01 Grinberg, T02 Titanic, T03 Chernobyl, T04 Heath Ledger, T05 McDonald's, T06 Steve Jobs). Companion files: tone in [08-tone-of-voice.md](08-tone-of-voice.md), reflection craft in [09-reflection-rules.md](09-reflection-rules.md).
+>
+> **We adopt Dieck's structure; we do NOT adopt his sourcing.** Several of the analyzed episodes lean on dramatized films as narrative scaffolding (e.g. *The Founder* for McDonald's) and carry a high density of "se dice / según la leyenda" without support. Our episodes keep this shape but meet the bar in [01-editorial-and-sourcing.md](01-editorial-and-sourcing.md): every load-bearing claim ≥1 Tier A/B source.
 
 ## Episode length
 
-**Target: 15–25 minutes.** Script ~2,400–4,000 words (Spanish, ~150–165 wpm narrated). Hard floor 12 min, hard ceiling 28 min.
+**Target: 15–25 minutes.** Reference episodes ran 18:35–28:52. Script ~2,400–4,000 words (Spanish, ~150–165 wpm narrated). Hard floor 12 min, ceiling 28 min. Longer = more biographical beats, same structure — not a looser structure.
 
 ## Reference
 
-Farid Dieck — *Dieck Docs*. Narrated journalistic documentary/biography; calm authoritative voice; archival visuals + light motion; ends on a human/psychological reflection with a usable lesson. We adapt the structure, not the person.
+Farid Dieck — *Dieck Docs*. Narrated journalistic documentary/biography; calm first-person voice; archival visuals + light motion; chronological spine with teaching digressions; closes on reflection, a distributed lesson, or an open question. We adapt the structure, not the person.
 
-## Episode anatomy (three parts + framing)
+## Episode anatomy
 
-### 0. Cold open / hook — 20–45 s
-A concrete scene, image, or question from the case. No channel intro before it. Ends on a tension the episode will resolve. **Sourced** — the hook is not allowed to overstate.
+Runtime split observed across the 6 (use as target, not a straitjacket):
 
-### 1. Journalistic narrative — ~55–65% of runtime
-The case, told chronologically or in clear acts.
-- Establish who/what/when/where with sourced specifics.
-- Build the arc: setup → escalation → turning point → outcome.
+| Section | Share of runtime |
+|---------|------------------|
+| 0. Cold open | 3–6% |
+| 1. Context pivot + era setup | 10–20% |
+| 2. Chronological narrative (with explainer interludes) | 55–70% |
+| 3. Close (reflection / distributed lesson / open question) | 8–20% |
+| 4. CTA coda | ~1% |
+
+### 0. Cold open / hook — 20–50 s
+Start *in medias res*. **No channel intro before it.** One of four openings (all seen in the reference set):
+- **Question + thesis** — "¿cuánto estás dispuesto a sacrificar por el éxito?" then state the episode's claim.
+- **Mystery / disputed-claim teaser** — "existe una teoría que dice que…".
+- **In-scene action** — "las alarmas se activan y el reactor se vuelve inestable".
+- **Contrast image** — two images of the subject, before/after.
+
+**Always end the cold open by naming what the video will do**: "en este video te cuento la historia", "aquí te van tres teorías", "primero necesitamos contexto". **Sourced** — the hook may not overstate what the record supports.
+
+### 1. Context pivot + era setup — 10–20%
+An explicit hinge line out of the hook: "pero para ver si esto es cierto, necesitamos algo de contexto" / "quiero que imagines que estás en…". Then the background the story needs: the era, the institution, the people, the stakes. This is where the first **explainer interlude** usually sits.
+
+### 2. Chronological narrative — 55–70%
+The spine.
+- **People:** birth → a childhood detail that foreshadows the arc → rise → peak → turn / fall → outcome.
+- **Events:** era → build-up → the event beat by beat → aftermath → investigation.
 - Attribute as you go ("según los registros del juicio…", "en su autobiografía…").
-- Show the documentary basis on screen (document, photo, headline, dataset) when possible.
-- Name uncertainty where it exists.
+- Show the documentary basis on screen when possible.
+- Name uncertainty in words (see [08-tone-of-voice.md](08-tone-of-voice.md) §Uncertainty).
 
-### 2. Psychological / human reflection — ~20–30%
-Step back. What does this case reveal about how people think, decide, follow, deceive, hope, or persist?
-- Name the mechanism accurately (bias, drive, social dynamic) and cite when citing a specific theory/study.
-- Keep it interpretive in tone.
-- Connect the reflection back to specific moments already shown — no new unsourced facts here.
+Two recurring devices, both **required**:
 
-### 3. Applied takeaway — final 45–90 s
-One idea, linked **surgically**, for the channel's audiences (entrepreneurs, dreamers, workers, people of faith, immigrants, …).
-- It must follow from the case as told.
-- Direct address is fine here ("si estás construyendo algo…").
-- No sales pitch for the membership business. At most a soft, brand-separate channel CTA (subscribe / next episode).
+- **Explainer interludes ("mini-cátedras").** Pause the story to teach a concept the audience needs (how nuclear fission works, Ford's assembly line, method acting, where the school system came from). **Signpost on the way in** ("por si aún no sabes qué es…") **and on the way out** ("ahora que tienes esto, volvamos a la historia"). Every fact inside an interlude is sourced like any other.
+- **Foreshadowing hooks.** Plant "quiero que recuerdes esto porque será importante más adelante" / "pon atención" 3–6 times per episode and pay every one off. This is the main retention mechanism in the reference set.
 
-### 4. Outro — ~10 s
-Minimal. Sources are credited in the description (always) and optionally a short on-screen "Fuentes principales" card.
+**Optional module — "las N teorías / los N responsables."** When the case is genuinely contested (Titanic: 3 theories; Grinberg: 4 hypotheses; Chernobyl: 3 responsible parties): present each, weigh it, and close each with an honest verdict ("no hay pruebas concluyentes" / "las fuentes sostienen esto"). Use only when the contest is real, never manufactured.
 
-## Tone of voice
+### 3. The close — 8–20%
+**Three legitimate forms** (all in the reference set — pick per episode in the brief; rules in [09-reflection-rules.md](09-reflection-rules.md)):
 
-Moved to [08-tone-of-voice.md](08-tone-of-voice.md). Summary: precise, calm, respectful; curiosity over sensationalism; no moralizing, no contempt for the subject; Spanish neutral-international.
+- **(A) Reflection + applied takeaway.** Step back, name one human mechanism, "yo creo que…", widen to one usable idea loosely addressed to the viewer. (Grinberg, McDonald's.)
+- **(B) Distributed lesson.** The reflection is threaded through the last third, tied to specific beats; the ending is elegiac, not a "para ti". Works for biographies where the subject's own words or fate carry the meaning. (Steve Jobs, Heath Ledger.)
+- **(C) Open question.** Hand the judgment to the viewer — "¿tú qué opinas? Te leo en los comentarios" — after laying out the evidence fairly. Only for genuinely contested accountability/conspiracy cases. (Titanic, Chernobyl.)
 
-## Reflection section
+No form is an excuse to skip the sourcing or to moralize. The takeaway/lesson is **never** the reason a case was chosen ([01-editorial-and-sourcing.md](01-editorial-and-sourcing.md) §6).
 
-Craft rules moved to [09-reflection-rules.md](09-reflection-rules.md).
+### 4. CTA coda — ~10 s
+A distinct beat **after** the close has fully landed. Soft channel CTA only (subscribe / next episode). **No membership-business pitch, no business link** ([05-separation-policy.md](05-separation-policy.md)). Sources credited in the description always; optional on-screen "Fuentes principales" card.
 
 ## Recurring structural rules
 
-- Every episode answers, by the end: *what happened, why it matters about people, what I can do with it.*
-- The three parts are always present and always in this order.
-- The takeaway is never the reason a case was chosen — the case earns its place on the strength of the story and the record first.
+- Every episode answers, by the end: *what happened, why it matters about people, and — for forms A/B — what I can do with it* (form C leaves the "what I can do" as the viewer's to form).
+- Cold open → context pivot → chronological narrative → close → CTA. This order is fixed.
+- Explainer interludes and foreshadowing hooks appear in every episode.
+- Any psychological concept invoked is **named and, where a specific theory/study/thinker is used, sourced** ([09-reflection-rules.md](09-reflection-rules.md)).
 
 ## Series identity elements (to define once brand is set)
 
-- Standard title pattern (see [docs/07-publishing-seo-metrics.md](07-publishing-seo-metrics.md)).
+- Standard title pattern (see [07-publishing-seo-metrics.md](07-publishing-seo-metrics.md)).
 - Standard thumbnail system.
 - Standard "Fuentes" description block (see [templates/description-and-credits.md](../templates/description-and-credits.md)).
 - Optional 3–5 s visual signature (not a loud intro).

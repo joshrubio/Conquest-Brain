@@ -47,4 +47,4 @@ The **blueprint**: documentation, templates and folder structure. **No video pro
 - **Channel type:** own new channel vs. recurring segment inside an existing team channel — **undecided**. Blueprint is written channel-agnostic.
 - **Real name / handle / visual identity** — pending.
 - **Publishing cadence** — proposed default in [docs/07-publishing-seo-metrics.md](docs/07-publishing-seo-metrics.md), not locked.
-- **Format specs (`docs/02`, `08`, `09`) are v0** — validate against real transcripts (`research/README.md`).
+- **Format specs (`docs/02`, `08`, `09`) are v1** — validated against 6 Dieck Docs transcripts (`research/dieck-docs/structure-analysis.md`). Re-validate as more are added.
