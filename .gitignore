@@ -1,0 +1,31 @@
+# Media / heavy binaries — keep the repo text-only
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wav
+*.aif
+*.aiff
+*.mp3
+*.prproj
+*.aep
+*.psd
+*.ai
+*.zip
+
+# Episode working assets (archive downloads, exports, renders)
+episodes/**/assets/*
+!episodes/**/assets/README.md
+
+# Third-party transcripts used for format analysis — copyright, keep local only
+research/dieck-docs/transcripts/*
+!research/dieck-docs/transcripts/README.txt
+
+# OS / editor
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.tmp
+~$*
+.vscode/
+.idea/
