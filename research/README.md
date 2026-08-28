@@ -7,7 +7,9 @@ Working analysis that feeds the `docs/` specs. Not published, not part of any ep
 Reverse-engineering the reference format (Farid Dieck — *Dieck Docs*) so that `docs/02-content-format.md`, `docs/08-tone-of-voice.md` and `docs/09-reflection-rules.md` are grounded in real structure, not assumption.
 
 - `dieck-docs/transcripts/` — raw transcripts, one file per video: `NN-slug.txt`. Add a source line at the top (video title + URL + retrieval date). **Do not commit long verbatim transcripts to the public GitHub repo** — see note below.
-- `dieck-docs/structure-analysis.md` — the analysis worksheet. Fill one block per video, then write the synthesis.
+- `dieck-docs/structure-analysis.md` — the analysis worksheet. One block per video + synthesis. Feeds `docs/02`, `08`, `09`.
+- `dieck-docs/phrasebook.md` — verbatim hinge lines (cold opens, context pivots, explainer entry/exit, foreshadowing, closes, CTA) classified by function. Register model, not copy source. Condensed adapted set is in `templates/script-template.md`.
+- `dieck-docs/candidates.md` — the 20-video shortlist and the 6 picked.
 
 ## Method
 

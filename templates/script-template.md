@@ -1,9 +1,8 @@
 # Guion — E0XX «<título provisional>»
 
 > Stage 4. Estructura: cold open → pivote a contexto → narrativa cronológica (con interludios explicadores + foreshadowing) → cierre → CTA. Ver `docs/02-content-format.md` (v1).
-> Objetivo: 15–25 min · ~2.400–4.000 palabras · ~150–165 ppm.
+> Tono: `docs/08-tone-of-voice.md`. Formas de cierre A/B/C: `docs/09-reflection-rules.md`. Menús de frases: `research/dieck-docs/phrasebook.md`.
 > Cada afirmación factual lleva un tag `[S..]` que resuelve contra `03-source-log.csv`.
-> Tono: `docs/08-tone-of-voice.md`. Reglas del cierre (formas A/B/C): `docs/09-reflection-rules.md`.
 
 | Campo | Valor |
 |-------|-------|
@@ -12,9 +11,28 @@
 | Fecha | AAAA-MM-DD |
 | Guionista | Carmen / Josh |
 | Narrador | Carmen / Josh |
-| **Forma del cierre** | A (reflexión + para llevar) / B (lección distribuida) / C (pregunta abierta) — fijada en el brief |
+| **Forma del cierre** | A / B / C — fijada en el brief |
 | Recuento de palabras | … |
 | Duración estimada | … min |
+
+---
+
+## Presupuesto por sección
+
+Ritmo de narración objetivo: **~155 palabras/min**. Elegir columna según duración objetivo.
+
+| Sección | % metraje | 15 min (~2.325 pal) | 20 min (~3.100 pal) | 25 min (~3.875 pal) |
+|---------|-----------|---------------------|---------------------|---------------------|
+| 0. Cold open | 3–6% | 90–140 pal · 25–50 s | 110–180 pal · 30–55 s | 130–220 pal · 35–60 s |
+| 1. Pivote a contexto + época | 10–20% | 250–460 pal | 350–620 pal | 450–780 pal |
+| 2. Narrativa cronológica | 55–70% | 1.300–1.630 pal | 1.700–2.170 pal | 2.150–2.700 pal |
+| 3. Cierre (forma A/B/C) | 8–20% | 200–460 pal | 250–620 pal | 320–780 pal |
+| 4. CTA coda | ~1% | 20–35 pal · ~10 s | 20–35 pal · ~10 s | 20–35 pal · ~10 s |
+
+**Dentro de la narrativa:**
+- **Interludios explicadores:** 2–4 por episodio · ~150–350 palabras cada uno (60–140 s). Cuentan dentro del % de narrativa.
+- **Foreshadowing:** 3–6 plants · ~1 frase cada uno · todos pagados.
+- **Módulo «las N teorías» (opcional):** 10–20% del metraje cuando se usa; sustituye parte del bloque de cierre/investigación.
 
 ---
 
@@ -31,11 +49,15 @@
 
 ---
 
-## 0. COLD OPEN / HOOK  (0:00–0:50)  · ≤ 130 palabras
+## 0. COLD OPEN / HOOK
+
+**Elegir una apertura** (adaptar, no copiar — banco completo en `phrasebook.md §1`):
+- Misterio / desaparición · Afirmación en disputa · Escena en acción · Suceso extraño · Pregunta + tesis · Imagen de contraste
+
+**Cerrar el hook anunciando qué hará el video** (`phrasebook.md §2`): "en este episodio reconstruimos…", "aquí van las tres versiones del caso…", "para entenderlo, primero el contexto".
 
 [NARRACIÓN]
-… (elegir apertura: pregunta+tesis / gancho de misterio / escena en acción / imagen de contraste)
-… termina anunciando qué hará el video: «en este video te cuento…» / «primero, contexto» / «aquí van tres teorías».
+…
 
 [EN PANTALLA]
 …
@@ -44,20 +66,24 @@
 
 ---
 
-## 1. PIVOTE A CONTEXTO + ÉPOCA  (~10–20%)
+## 1. PIVOTE A CONTEXTO + ÉPOCA
+
+**Frase bisagra** (`phrasebook.md §3`): "pero para saber si esto es cierto, necesitamos contexto" · "imagina que estás en <año>" · "lo que viene nos ayudará a entender <la pregunta del episodio>".
 
 [NARRACIÓN]
-Frase bisagra: «pero para ver si esto es cierto, necesitamos algo de contexto» / «quiero que imagines que estás en…».
 Época, institución, personas, lo que estaba en juego. [S..]
 
-[EXPLICADOR] (si aplica ya aquí) — concepto que el público necesita. Señalizar: «por si no sabes qué es…» … «ahora que tienes esto, sigamos». [S..]
+[EXPLICADOR] (si el primer concepto va aquí)
+- Entrada (`phrasebook.md §4`): "por si no sabes qué es <X>, lo explico en breve" · "si no conoces a <X>, contexto rápido".
+- Salida (`phrasebook.md §5`): "ahora que tienes esto, volvamos a la historia" · "con todo esto en mente, nos trasladamos a <año>".
+- Todo dato del interludio: [S..].
 
 [EN PANTALLA]
 …
 
 ---
 
-## 2. NARRATIVA CRONOLÓGICA  (~55–70%)
+## 2. NARRATIVA CRONOLÓGICA
 
 > Personas: nacimiento → detalle de infancia que prefigura → ascenso → cima → giro/caída → desenlace.
 > Eventos: época → preparación → el hecho beat-by-beat → consecuencias → investigación.
@@ -65,16 +91,21 @@ Frase bisagra: «pero para ver si esto es cierto, necesitamos algo de contexto»
 ### Acto 1 — …
 
 [NARRACIÓN]
-… con concreción y atribución sobre la marcha («según los registros…», «en su declaración…»). [S..]
+… con atribución sobre la marcha («según los registros…», «en su declaración…»). [S..]
 
-[PLANT] «recuerda este detalle, será importante» — (qué se planta, dónde se paga: Acto __)
+[PLANT] (`phrasebook.md §6`) "quiero que recuerdes este detalle porque va a importar" — plantar aquí, pagar en Acto __.
 
 ### Acto 2 — …
 
 [NARRACIÓN]
 … [S..]
 
-[EXPLICADOR] — (mini-cátedra: Ford / fisión / método / etc.). Entrada y salida señalizadas. Cada dato [S..].
+[EXPLICADOR] mini-cátedra (concepto necesario). Entrada + salida señalizadas. Cada dato [S..].
+
+### (Opcional) Interludio reflexivo con respuesta diferida
+
+[NARRACIÓN]
+Plantear la pregunta universal que abre el caso y **diferir la respuesta** (`phrasebook.md §8`): "esto abre una pregunta interesante: <…>. En un momento te digo qué pienso yo."
 
 ### Acto 3 — Punto de giro
 
@@ -86,31 +117,36 @@ Frase bisagra: «pero para ver si esto es cierto, necesitamos algo de contexto»
 [NARRACIÓN]
 … resultado / veredicto / cierre documentado. Nombrar lo que no se sabe. [S..]
 
-[PAY] — pagar aquí los foreshadowings plantados.
+[PAY] (`phrasebook.md §7`) pagar aquí los foreshadowings: "¿recuerdas lo que dije sobre <X>? Aquí es donde importa."
 
 ### (Opcional) Módulo «las N teorías / los N responsables»
 
 [NARRACIÓN]
-Solo si el caso está genuinamente en disputa. Cada posición: se presenta, se pesa, se cierra honestamente («no hay pruebas concluyentes de…», «esto sí está documentado…»). [S..]
+Solo si el caso está genuinamente en disputa (`phrasebook.md §13`). Intro: "hay <N> versiones que se sostienen; vamos una por una."
+Cada posición: se presenta, se pesa, se cierra honestamente — "no hay pruebas concluyentes de…", "esto sí está documentado…". [S..]
 
 ---
 
-## 3. CIERRE  (~8–20%)  ·  FORMA: ___
+## 3. CIERRE  ·  FORMA: ___
 
-### Si FORMA A — Reflexión + para llevar
+### Si FORMA A — Reflexión + para llevar (`phrasebook.md §14`)
 [NARRACIÓN]
 Transición fuera de la narrativa → nombrar UN mecanismo humano → 2-3 observaciones ancladas a escenas ya vistas → ensanchar a lo general → UNA idea aplicable.
-Marco interpretativo obligatorio («una lectura posible…»). Autoridad externa nombrada + [S..] si se cita teoría/estudio/pensador.
-Para llevar: una sola idea, ≤ 90 s, pasa el test quirúrgico (se deduce del caso tal como se contó).
+- Marco interpretativo obligatorio: "una lectura posible…".
+- Autoridad externa nombrada + [S..] si se cita teoría/estudio/pensador (`phrasebook.md §11`).
+- Arranque tipo: "creo que hay algo que aprender aquí…", "yo creo que ni <A> ni <B> estaban equivocados…".
+- Para llevar: una sola idea, ≤ 90 s, pasa el test quirúrgico (se deduce del caso tal como se contó).
+- **Menos moralina que Dieck**: enunciar el mecanismo, no predicar el deber (`docs/08 §1`).
 
-### Si FORMA B — Lección distribuida
-[NOTA] La reflexión ya se entregó en 2-3 piezas dentro de la narrativa (marcarlas: Acto __, __, __). Aquí el cierre es elegíaco / recapitulativo, NO un «para ti».
+### Si FORMA B — Lección distribuida (`phrasebook.md §15`)
+[NOTA] La reflexión ya se entregó en 2-3 piezas dentro de la narrativa (Acto __, __, __).
 [NARRACIÓN]
-…
+Bisagras de entrega usadas: "con lo que vimos, se entiende la primera lección…", "aquí entra la segunda…".
+Cierre elegíaco / recapitulativo, NO un «para ti»: "aunque <…> fue breve, <…> permanece".
 
-### Si FORMA C — Pregunta abierta
+### Si FORMA C — Pregunta abierta (`phrasebook.md §16`)
 [NARRACIÓN]
-Reccapitular qué SÍ está establecido. Entregar el juicio al espectador con una pregunta real: «¿quién crees que…?».
+Recapitular qué SÍ está establecido → entregar el juicio al espectador con una pregunta real: "¿tú qué opinas? ¿quién crees que…?".
 [NOTA] Sin veredicto implícito por música/montaje que el guion no defienda.
 
 ### (Opcional, cualquier forma) Coda emocional
@@ -121,7 +157,8 @@ Reccapitular qué SÍ está establecido. Entregar el juicio al espectador con un
 ## 4. CTA CODA  (~10 s)
 
 [NARRACIÓN]
-Después de que el cierre aterrice. CTA suave del canal (suscríbete / próximo episodio). Sin pitch ni enlace del negocio de membresía.
+Después de que el cierre aterrice. CTA suave del canal, separado de la idea. Sin pitch ni enlace del negocio de membresía (`docs/05`).
+Borrador: «Si estas historias te sirven, suscríbete — así no te pierdes el próximo episodio. Las fuentes están en la descripción.»
 
 [EN PANTALLA] Rótulo opcional «Fuentes principales».
 
@@ -140,15 +177,22 @@ Después de que el cierre aterrice. CTA suave del canal (suscríbete / próximo 
 |---|--------------|-----------|------|
 | 1 | | | |
 
+## Interludios explicadores — registro
+
+| # | Concepto | Acto | Palabras | Entrada/salida señalizadas |
+|---|----------|------|----------|----------------------------|
+| 1 | | | | ☐ |
+
 ## Autorrevisión del guionista (antes de pasar a fact-check)
 
+- [ ] Recuento de palabras dentro del presupuesto de la duración objetivo
 - [ ] Todo `[S..]` resuelve contra el source-log
 - [ ] Orden: cold open → contexto → narrativa → cierre → CTA
 - [ ] El hook se paga en el cuerpo
-- [ ] 3-6 foreshadowings, todos pagados
-- [ ] Interludios explicadores señalizados a la entrada y a la salida
+- [ ] 3-6 foreshadowings, todos pagados (tabla arriba)
+- [ ] 2-4 interludios explicadores, señalizados entrada y salida (tabla arriba)
 - [ ] Cierre en la forma fijada (A/B/C); si B, las 2-3 piezas están identificadas
 - [ ] Sin película dramatizada usada como registro histórico
 - [ ] Sin moralina, sin desprecio al sujeto, sin clickbait
 - [ ] Cumple `docs/08` y `docs/09`
-- [ ] Español neutro-internacional
+- [ ] Español neutro-internacional; leído en voz alta sin tropiezos
