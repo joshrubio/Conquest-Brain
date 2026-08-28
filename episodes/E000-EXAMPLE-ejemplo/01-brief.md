@@ -1,64 +1,71 @@
 # Brief de episodio — E000 «La Burbuja de los Mares del Sur» (EJEMPLO)
 
-> EJEMPLO ILUSTRATIVO. No se produce.
+> EJEMPLO ILUSTRATIVO. No se produce. Muestra un brief Stage 1 completo con la estructura v1.
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E000 |
 | Slug carpeta | E000-EXAMPLE-ejemplo |
-| Fecha del brief | 2026-08-27 |
+| Fecha del brief | 2026-08-28 |
 | Autor del brief | Josh (ejemplo) |
+| Tema [ID] | T00 «Manías especulativas y burbujas financieras» (ejemplo — supuesto `aprobado` en `ideas/themes.md`) |
+| Guionista asignado | Carmen |
+| Narrador asignado | Josh |
+| Forma del cierre (`docs/09`) | **A — reflexión + para llevar** |
 | Estado | ejemplo — no entra en producción |
 
 ## Sujeto
 
 - **Tipo:** empresa / práctica financiera + caso histórico.
 - **Época / lugar:** Gran Bretaña, 1711–1721; auge y colapso en 1720.
-- **Resumen en 3 frases:** La South Sea Company se fundó en 1711 y asumió deuda pública británica a cambio de un monopolio comercial que apenas operó. En 1720 un plan de conversión de deuda disparó su cotización en meses y arrastró a inversores de toda condición. El desplome posterior arruinó a miles y desató una investigación parlamentaria.
+- **Resumen en 3 frases:** La South Sea Company se fundó en 1711 y asumió deuda pública británica a cambio de un monopolio de comercio con la América española que apenas llegó a operar. En 1720, un plan para convertir más deuda del Estado en acciones de la compañía disparó su cotización en pocos meses y arrastró a inversores de toda condición. El desplome de otoño arruinó a miles y desató una investigación parlamentaria que destapó sobornos a políticos.
 
-## Elegibilidad (resumen de la rúbrica)
+## Elegibilidad (resumen de la rúbrica — ver `ideas/evaluation-rubric.md`)
 
-- [x] Registro público documentado (actas parlamentarias, prensa de la época, historiografía)
-- [x] Fuentes Tier A/B localizadas (ver abajo)
-- [x] Ninguna persona de la comunidad hispanohablante de Rotterdam involucrada
-- [x] La historia se sostiene sin la lección aplicada
-- [x] Pasa la política de separación
+- [x] Pertenece a un tema `aprobado` en `ideas/themes.md` (T00, ejemplo)
+- [x] Registro público documentado (actas del Parlamento 1721, prensa de la época, historiografía)
+- [x] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)
+- [x] Ninguna persona de la comunidad hispanohablante de Rotterdam involucrada / identificable
+- [x] La historia se sostiene por sí misma (el cierre no es el motivo de elegir el caso)
+- [x] Pasa la política de separación (`docs/05-separation-policy.md`)
 
 ## Tesis de trabajo
 
-Cómo una promesa de riqueza sin negocio real detrás se sostuvo colectivamente hasta que dejó de sostenerse — y qué hace que gente sensata compre lo que no entiende.
+Cómo una promesa de riqueza sin negocio real detrás se sostuvo colectivamente durante meses — hasta que dejó de sostenerse — y qué hace que gente sensata compre algo cuyo valor no sabe explicar.
 
-## Las tres partes (una frase cada una)
+## Estructura (una frase cada una)
 
-1. **Narrativa periodística:** la mecánica del esquema de conversión de deuda de 1720, el papel de la política y la prensa, y la cronología del colapso.
-2. **Reflexión psicológica / humana:** prueba social, miedo a quedarse fuera (FOMO), y racionalización — por qué el precio que suben otros se lee como información.
-3. **Para llevar (quirúrgico):** antes de entrar en algo porque "todos están dentro", separar la evidencia del entusiasmo ajeno; si no puedes explicar de dónde sale el valor, no lo entiendes todavía. — *¿se deduce del caso sin forzar? Sí.*
+1. **Cold open:** apertura tipo *afirmación en disputa* — "hay quien dice que la primera gran burbuja bursátil de la historia fue un fraude planeado desde arriba; la verdad, según las actas del Parlamento, es a la vez menos y más inquietante". Cierra anunciando: "para entenderlo, primero hay que saber qué era la South Sea Company".
+2. **Narrativa periodística:** fundación 1711 y el canje deuda-por-monopolio → el comercio que casi no existió → el esquema de conversión de 1720 y su aprobación → la subida y las compañías imitadoras → el pinchazo → la investigación de 1721, los sobornos, las penas.
+3. **Mecanismo humano / psicológico que revela:** cuando no sabemos cuánto vale algo, leemos el precio que suben los demás como información ("sabrán algo que yo no sé") — prueba social / cascada informacional. Autoridad citada: la corrección historiográfica de Hoppit al mito de la "locura de las masas".
+4. **Cierre — forma A:** para llevar — antes de entrar en algo porque "todos están dentro", separar la evidencia de valor del entusiasmo ajeno; si no puedes explicar de dónde sale el valor con tus palabras, aún no lo entiendes. *¿Se deduce del caso sin forzar? Sí — es exactamente lo que falló en 1720.*
 
 ## Por qué ahora / por qué nosotros
 
-Patrón recurrente (manías especulativas modernas). Encaja con públicos del canal: emprendedores y trabajadores que toman decisiones financieras bajo presión de grupo.
+Patrón recurrente (manías especulativas modernas). Encaja con los públicos del canal: emprendedores y trabajadores que toman decisiones financieras bajo presión de grupo. El caso tiene registro primario (Parlamento) suficiente para sostener el rigor del canal.
 
 ## Top 3 fuentes ya encontradas
 
 | # | Fuente | Tier | Enlace / referencia | Qué aporta |
 |---|--------|------|---------------------|------------|
-| 1 | John Carswell, *The South Sea Bubble* (rev. ed., Alan Sutton, 1993) | B | libro académico con notas | cronología y actores |
-| 2 | Actas de la investigación del Parlamento británico, 1721 (*Journals of the House of Commons*) | A | archivo parlamentario — *localización exacta a completar* | hallazgos oficiales, sobornos |
-| 3 | Julian Hoppit, "The Myths of the South Sea Bubble", *Transactions of the Royal Historical Society*, 2002 | B | artículo revisado por pares | correcciones a la leyenda popular |
+| 1 | Actas de la investigación parlamentaria, 1721 (*Journals of the House of Commons* / *Report of the Committee of Secrecy*) | A | archivo parlamentario del Reino Unido — *signatura a completar* | hallazgos oficiales, sobornos, penas |
+| 2 | John Carswell, *The South Sea Bubble* (ed. rev., Alan Sutton, 1993) | B | libro académico con notas — *ISBN a completar* | cronología y actores |
+| 3 | Julian Hoppit, "The Myths of the South Sea Bubble", *Transactions of the Royal Historical Society*, vol. 12 (2002) | B | artículo revisado por pares — *DOI a completar* | matiza el relato popular; corrige cifras |
 
 ## Riesgos
 
 - **Legales / reputacionales:** bajos (siglo XVIII, sin personas vivas).
-- **De fuentes:** la "leyenda popular" exagera cifras y anécdotas — Hoppit obliga a matizar. Marcar puntos disputados.
+- **De fuentes (puntos disputados, huecos):** las cifras de cotización que circulan (£128 → ~£1.000) están redondeadas y varían según fuente → verificar y presentar con rango. La frase de Newton ("puedo calcular el movimiento de los astros, pero no la locura de la gente") es **apócrifa / atribución dudosa** → o se omite o se presenta explícitamente como leyenda.
 - **De separación:** ninguno.
-- **De tono:** evitar el relato caricaturesco de "locura colectiva"; fue más racional de lo que se cuenta.
+- **De tono:** evitar el relato de "locura colectiva" caricaturesco — Hoppit muestra que muchos hicieron un cálculo razonable con la información que circulaba.
 
 ## Estimación
 
-- Duración objetivo: 18–22 min (~3.000–3.600 palabras)
+- Duración objetivo: **18–20 min** (~2.900–3.100 palabras)
 - Esfuerzo de investigación: medio
-- Necesidades de archivo: grabados de la época (dominio público), sin problema
+- Necesidades de archivo: grabados y panfletos de la época (dominio público, sin problema); cotizaciones históricas (gráfico propio con fuente)
 
 ## Decisión
 
-- [ ] Aprobado — (ejemplo, no aplica)
+- [ ] Aprobado para pasar a investigación — (ejemplo, no aplica)
+- [ ] En pausa / descartado — motivo: …
