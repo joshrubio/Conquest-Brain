@@ -20,7 +20,7 @@ The **blueprint**: documentation, templates and folder structure. **No video pro
 
 | Path | Purpose |
 |------|---------|
-| `docs/` | Standing rules: charter, editorial standard, format spec, tone, reflection rules, legal/ethics, separation policy, workflow, publishing, git workflow. |
+| `docs/` | Standing rules: charter, editorial standard, format spec, tone, reflection rules, legal/ethics, separation policy, workflow, publishing, git workflow, visual rhythm. |
 | `templates/` | Blank fill-in templates for every stage of an episode. |
 | `episodes/` | One folder per episode. `_TEMPLATE-episode-folder/` to copy; `E000-EXAMPLE-*` as a worked reference; `_STATUS.md` master index. |
 | `ideas/` | Two tiers: **themes** (recurring topic areas, filtered) → **idea pool** (individual video ideas, scored). See `ideas/README.md`. |

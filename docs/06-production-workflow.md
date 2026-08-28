@@ -35,9 +35,9 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **Gate:** zero unresolved claims; legal checklist clear; sheet signed.
 
 ## Stage 6 — Shotlist / B-roll  → `06-shotlist.md`
-- Template: [templates/shotlist-broll.md](../templates/shotlist-broll.md).
-- Per beat: visual needed, source/rights, on-screen text, caption.
-- **Gate:** every visual has a rights status.
+- Template: [templates/shotlist-broll.md](../templates/shotlist-broll.md). Method: [docs/11-visual-rhythm.md](11-visual-rhythm.md).
+- **Inferred from the locked script** — one beat per subject change / `[EN PANTALLA]` / `[EXPLICADOR]` / `[PLANT]`/`[PAY]`. Per beat: visual, source/rights, on-screen text, motion.
+- **Gate:** every visual has a rights status; every graphed number has a source label; beat count matches the target rhythm for the runtime.
 
 ## Stage 7 — Record
 - The episode's assigned narrator (Carmen or Josh) does VO + on-camera per shotlist. Clean audio pass.
