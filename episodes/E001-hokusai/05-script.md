@@ -6,7 +6,7 @@
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E001 |
-| Versión | v1 (ampliada y revisada sobre v0) |
+| Versión | v1.1 (correcciones de Layer 2) |
 | Guionista | Josh |
 | Narrador | Carmen |
 | Forma del cierre | **A — reflexión + para llevar** |
@@ -37,7 +37,7 @@ Para entender esa frase hay que ver la vida entera. Esta es la historia de Katsu
 ## 1. PIVOTE A CONTEXTO + ÉPOCA  (0:40–3:30)
 
 [NARRACIÓN]
-Para situarnos. Hokusai nace hacia 1760 en el distrito de Katsushika, a las afueras de Edo [S02]. Japón lleva más de un siglo prácticamente cerrado al exterior, bajo el gobierno de los shogun. Es un país en paz, con una capital que ronda el millón de habitantes y una clase urbana —comerciantes, artesanos— con dinero para gastar en teatro, en libros ilustrados y en estampas.
+Para situarnos. Hokusai nace hacia 1760 en el distrito de Katsushika, a las afueras de Edo [S02]. Japón lleva más de un siglo prácticamente cerrado al exterior, bajo el gobierno de los shogun. Es un país en paz. Y Edo, en ese momento, es probablemente la ciudad más grande del mundo: cerca de un millón de personas [S20], con una clase urbana —comerciantes, artesanos— que tiene dinero para gastar en teatro, en libros ilustrados y en estampas.
 
 [EXPLICADOR]  ‹entrada señalizada›
 Conviene explicar qué son esas estampas, porque es el oficio de Hokusai.
@@ -99,7 +99,7 @@ Ten presente el momento: llega a los setenta años arruinado por las deudas de u
 ### Acto 3 — Los setenta
 
 [NARRACIÓN]
-Entre 1830 y 1833, más o menos, Hokusai publica la serie *Treinta y seis vistas del monte Fuji* [S09]. El Fuji desde un campo de arroz. El Fuji entre los andamios de un tonelero, encuadrado dentro de un barril a medio montar. El Fuji rojo al amanecer. Y una lámina en la que el Fuji es apenas un triángulo pequeño al fondo, porque lo que llena la imagen es una ola inmensa, con la cresta abierta en garras de espuma, cayendo sobre tres barcas de pescadores [S09].
+A principios de la década de 1830, Hokusai publica la serie *Treinta y seis vistas del monte Fuji* [S09]. El Fuji desde un campo de arroz. El Fuji entre los andamios de un tonelero, encuadrado dentro de un barril a medio montar. El Fuji rojo al amanecer. Y una lámina en la que el Fuji es apenas un triángulo pequeño al fondo, porque lo que llena la imagen es una ola inmensa, con la cresta abierta en garras de espuma, cayendo sobre tres barcas de pescadores [S09].
 
 Esa lámina se llama «La gran ola frente a Kanagawa». Hokusai tenía unos setenta años cuando la hizo [S09].
 
@@ -115,9 +115,9 @@ El hombre arruinado por las deudas del nieto, el que se había mudado noventa ve
 [NARRACIÓN]
 En 1834, Hokusai publica otro libro sobre el Fuji, *Cien vistas del monte Fuji*, y al final añade una nota firmada de su puño [S01].
 
-Dice, en esencia —y esto es traducción nuestra—: que nada de lo que había hecho antes de los setenta merecía la pena. Que desde los setenta y tres empezaba a entender un poco cómo están hechos los animales, las plantas, los pájaros. Que a los ochenta lo haría mucho mejor; a los noventa penetraría el sentido de las cosas; y que a los cien, quizá, cada punto y cada línea que trazara estarían vivos [S01].
+Dice, en esencia —y esto es traducción nuestra—: que nada de lo que había hecho antes de los setenta merecía la pena. Que desde los setenta y tres empezaba a entender un poco cómo están hechos los animales, las plantas, los pájaros. Que a los ochenta lo haría mucho mejor; a los noventa penetraría el sentido de las cosas; a los cien alcanzaría de verdad lo extraordinario; y que a los ciento diez, cada punto y cada línea que trazara estarían vivos [S01].
 
-Lo escribe a los setenta y cuatro años. Ya había hecho «La gran ola». Y su propio balance es: todavía no sé nada —pero voy en la dirección correcta.
+Lo escribe a los setenta y cuatro años. Ya había hecho «La gran ola». Y su propio balance es: todavía no sé nada —pero voy en la dirección correcta. Y se pone de plazo hasta los ciento diez.
 
 [EXPLICADOR]  ‹breve›
 Y no era falsa modestia. Firmaba muchas de sus obras tardías con un nombre nuevo: *Gakyō Rōjin Manji*. En nuestra traducción, algo así como «el viejo loco por la pintura» [S13]. No «el maestro». El viejo que sigue obsesionado con esto.
@@ -134,13 +134,13 @@ Guarda esta imagen: un hombre de más de ochenta años, que lo ha perdido casi t
 ### Acto 5 — Lo que pasó después
 
 [NARRACIÓN]
-Hokusai murió en Edo en 1849, con unos ochenta y ocho años [S12].
+Hokusai murió en Edo en 1849, con unos ochenta y ocho años —o noventa, según cómo se cuenten los años en Japón, donde uno nace con un año [S12].
 
 [PAY]  ‹pago del foreshadowing 1 y 4›
-Se había cambiado el nombre unas treinta veces buscando el que correspondiera a lo que sabía hacer en cada etapa. Y murió pidiendo cinco o diez años más para, por fin, hacerlo bien.
+Se había cambiado el nombre unas treinta veces buscando el que correspondiera a lo que sabía hacer en cada etapa. Y murió pidiendo cinco o diez años más para, por fin, hacerlo bien —cuando se había puesto de plazo hasta los ciento diez.
 
 [NARRACIÓN]
-Medio siglo después, sus estampas llegaron a Europa —a veces, literalmente, como papel de embalar de cerámica japonesa— y cayeron sobre una generación de artistas que buscaba otra forma de mirar. Monet colgó estampas de Hokusai en su casa de Giverny. Van Gogh copió composiciones japonesas para aprender. Y cuando en 1905 el compositor Claude Debussy publicó *La Mer*, la portada de la primera edición llevaba una versión de «La gran ola» [S14][S19].
+Medio siglo después, sus estampas empezaron a llegar a Europa. Se cuenta —y puede que la historia esté algo pulida— que algunas viajaron como papel de embalar, protegiendo cerámica japonesa dentro de las cajas [S19]. Llegaran como llegaran, cayeron sobre una generación de artistas que buscaba otra forma de mirar. Monet colgó estampas japonesas en su casa de Giverny [S19]. Van Gogh copió composiciones japonesas para aprender [S19]. Y cuando en 1905 el compositor Claude Debussy publicó *La Mer*, la portada de la primera edición llevaba una versión de «La gran ola» [S14][S19].
 
 [PAY]  ‹pago del foreshadowing 2›
 Aquel hombre al que le gustaba que lo vieran trabajar y le gustaba lo grande acabó siendo visto por más gente, y en más países, de la que habría podido imaginar. Solo que casi todo eso pasó cuando él ya no estaba.
@@ -158,9 +158,9 @@ Hay dos maneras de hacerlo. Una es preguntarte: «¿ya llegué?». La otra: «¿
 
 La primera pregunta tiene solo dos respuestas, y las dos terminan mal. O no has llegado —y entonces, según esa vara, has fracasado—. O has llegado —y entonces se acabó el camino, y toca averiguar qué haces ahora con los años que te queden [S15].
 
-La segunda pregunta no se agota nunca. Siempre puedes acercarte un poco más. La psicología de la motivación lo describe más o menos así: hay quien persigue **demostrar** lo que ya vale, y hay quien persigue **mejorar**, sin un punto final [S15]. Y una lectura posible de la vida de Hokusai es que él eligió, a conciencia, la segunda. Puso la meta —«ser un pintor de verdad»— tan lejos que sabía que no iba a alcanzarla. Y eso, en vez de hundirlo, fue lo que lo mantuvo delante del papel a los ochenta y ocho, después de los incendios y las deudas.
+La segunda pregunta no se agota nunca. Siempre puedes acercarte un poco más. La psicología de la motivación lleva décadas distinguiendo dos formas de encarar cualquier tarea: perseguir **demostrar** lo que ya vales, o perseguir **aprender**, sin un punto final [S15]. Y si nos guiamos por lo que Hokusai dejó escrito, él se medía con la segunda. Puso la meta —«ser un pintor de verdad»— tan lejos que sabía que no iba a alcanzarla. Y eso, en vez de hundirlo, fue lo que lo mantuvo delante del papel a los ochenta y ocho, después de los incendios y las deudas.
 
-[NOTA] Marco interpretativo obligatorio ("una lectura posible"). El concepto se nombra en general; `[S15]` marca la literatura, no un estudio único (`docs/09` A6).
+[NOTA] Marco interpretativo obligatorio ("si nos guiamos por lo que dejó escrito"). El concepto se nombra en general; `[S15]` marca la literatura (Nicholls; Dweck), no un estudio único del caso (`docs/09` A6).
 
 [EN PANTALLA] Recuperar la línea de tiempo de nombres; luego «La gran ola» otra vez, completa.
 
@@ -194,17 +194,18 @@ Si estas historias te sirven, suscríbete — así no te pierdes el próximo epi
 | S06 | ~93 mudanzas, pobreza, desorden | Calza 2003 |
 | S07 | incendio del taller ~1839 | Clark 2017 |
 | S08 | deudas del nieto, ruina en los 1830 | Calza 2003 |
-| S09 | 36 vistas del Fuji ~1830–33, "La gran ola", edad ~70 | ficha del Met |
+| S09 | 36 vistas del Fuji, principios de la década de 1830, "La gran ola", edad ~70 | ficha del Met |
 | S10 | *Hokusai Manga* desde 1814, éxito de ventas | Calza 2003 |
 | S11 | últimos años con Katsushika Ōi; atribuciones discutidas | Clark 2017 |
 | S12 | muerte en 1849 ~88 años; palabras del lecho de muerte (tradición, versiones) | Calza 2003 |
 | S13 | firma tardía "Gakyō Rōjin Manji" | Clark 2017 |
 | S14 | "La gran ola" como imagen muy reproducida; japonismo | Clark 2017 |
-| S15 | metas de demostración vs. de mejora (concepto de la reflexión) | referencia a completar |
+| S15 | metas de rendimiento vs. de maestría (concepto de la reflexión) | Nicholls 1984 / Dweck 2006 |
 | S16 | retrato de Hokusai anciano (B-roll) | colección a definir |
 | S17 | el Daruma gigante de Nagoya (1817) y las miniaturas | Calza 2003 |
 | S18 | el azul de Prusia importado en las *Treinta y seis vistas* | Clark 2017 |
-| S19 | Monet, Van Gogh, portada de *La Mer* de Debussy (1905) | referencia a completar / Clark 2017 |
+| S19 | papel de embalar (se cuenta), Monet, Van Gogh, portada de *La Mer* (1905) | referencias a completar / Clark 2017 |
+| S20 | Edo ~1 millón de habitantes, probablemente la ciudad más grande del mundo | referencia a completar |
 
 ## Foreshadowing — registro
 
@@ -235,4 +236,20 @@ Si estas historias te sirven, suscríbete — así no te pierdes el próximo epi
 - [x] Cifras dudosas (~30 nombres, ~93 mudanzas) atribuidas y con rótulo de salvedad
 - [x] Citas de Hokusai y nombres traducidos marcados como traducción propia
 - [ ] Español neutro-internacional; leído en voz alta sin tropiezos — pendiente Carmen
-- [ ] **Pendiente Stage 5:** cerrar S15 y S19; verificar fechas (1793, ~1839, ventana de las 36 vistas), parentesco exacto del nieto, edad al morir (88 vs 90 según el cómputo), datación de "La gran ola" con 2ª fuente, versiones de la frase del lecho de muerte, detalle del Daruma de 1817 (dimensiones, fecha exacta), portada de *La Mer* de 1905
+
+### Correcciones de Layer 2 aplicadas (v1 → v1.1)
+
+- [x] #30 — la escala del prefacio: "cada punto y cada línea vivos" ahora atribuido a los **110 años** (era 100); añadido "se pone de plazo hasta los 110"
+- [x] #23 — fechas de las *36 vistas*: guion y source-log (S09) alineados en "a principios de la década de 1830"
+- [x] #7 — Edo: "probablemente la ciudad más grande del mundo, cerca de un millón" + fuente S20 (a cerrar)
+- [x] #36 — papel de embalar: ahora "se cuenta —y puede que la historia esté algo pulida—"; S19 ampliada
+- [x] "a conciencia" → "si nos guiamos por lo que dejó escrito"
+- [x] S15 — referencia real (Nicholls 1984 / Dweck 2006); pendiente cerrar DOI/ISBN y formulación exacta
+- [x] edad al morir: nota del doble cómputo (88/90) añadida una vez en Acto 5
+
+### Pendiente Stage 5 (Layer 3 — Carmen, contra fuente real)
+
+- Cerrar S15 (DOI/ISBN), S19 (cada ejemplo por separado), S20 (fuente de población de Edo)
+- Verificar: fecha de ruptura con Katsukawa (1793), año del incendio (~1839), parentesco exacto del nieto, datación de "La gran ola" con 2ª fuente (Art Institute of Chicago), versiones de la frase del lecho de muerte, dimensiones/fecha exacta del Daruma de 1817, edición de la portada de *La Mer* (Durand 1905)
+- Recuento de nombres (~30) y mudanzas (~93) contra la fuente
+- Pases legal y de separación

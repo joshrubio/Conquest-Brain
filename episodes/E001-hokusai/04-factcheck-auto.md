@@ -2,9 +2,9 @@
 
 - Script: `episodes/E001-hokusai/05-script.md`
 - Source-log: `episodes/E001-hokusai/03-source-log.csv`
-- Tags used: 39 (19 unique)
-- Sources: 19 — A:3, B:16
-- Orphan-claim candidates: 6
+- Tags used: 43 (20 unique)
+- Sources: 20 — A:3, B:17
+- Orphan-claim candidates: 9
 
 ## Orphan-claim candidates (human: tag or confirm non-factual)
 
@@ -14,11 +14,15 @@
 - L157: Hay dos maneras de hacerlo. Una es preguntarte: «¿ya llegué?». La otra: «¿me estoy acercando?».
 - L170: No «¿esto me haría llegar?». Sino: «¿este es un trabajo del que querría tener diez años más?».
 - L172: Porque el que se define por «ya está» y el que se define por «casi lo tengo» envejecen de forma muy distinta. Hokusai nunca llegó a donde…
+- L252: - Cerrar S15 (DOI/ISBN), S19 (cada ejemplo por separado), S20 (fuente de población de Edo)
+- L253: - Verificar: fecha de ruptura con Katsukawa (1793), año del incendio (~1839), parentesco exacto del nieto, datación de "La gran ola" con …
+- L254: - Recuento de nombres (~30) y mudanzas (~93) contra la fuente
 
 ## Verdict: **PASS**
 
 (PASS on consistency, but the orphan candidates above still need a human pass.)
 
+> Script v1.1 (correcciones de Layer 2 aplicadas — ver §Layer 2 y `05-script.md`).
 
 ## Layer 2 — LLM
 
