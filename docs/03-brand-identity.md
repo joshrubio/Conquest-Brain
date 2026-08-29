@@ -13,7 +13,7 @@
 
 - **Brand type:** independent show brand — no real person's name. Round 2 direction: an **invented word + "Docs"** (production-house style, à la *Dieck Docs*).
 - **Name tone:** rigorous / archival register — signals evidence, document, investigation.
-- **Naming exploration:** [brand/naming-exploration.md](../brand/naming-exploration.md). Round 1 (Spanish archive words) rejected. Round 2 shortlist: *Verax Docs*, *Nexo Docs*, *Probo Docs* (suplente: *Rastro Docs*). Pending: availability + collision checks by Josh.
+- **Naming exploration:** [brand/naming-exploration.md](../brand/naming-exploration.md). R1 (Spanish archive words) and R2 (invented word + Docs) not chosen. R3 direction: **recognizable-in-any-language word + "Docs"** (spark: "Top Docs"). R3 shortlist: *Deep Docs*, *True Docs*, *Raw Docs* (suplente: *Cold Docs*). Pending: availability + collision checks by Josh.
 
 ## Channel-type decision (open)
 

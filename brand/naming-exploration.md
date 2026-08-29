@@ -132,3 +132,48 @@ Suplente: **Rastro Docs** si se quiere algo más narrativo/investigativo y menos
 - [ ] Colisión con el negocio de membresía y otros canales del equipo
 - [ ] Se dice y se escribe al oído sin dudar
 - [ ] Cabe en rótulo de miniatura
+
+---
+
+# Ronda 3 — «[palabra reconocible en cualquier idioma] + Docs»
+
+> 2026-08-28. Chispa: **«Top Docs»**. Dirección: una palabra corta, entendible sin traducir por un hispanohablante (anglicismo asentado), + «Docs».
+
+**Molde:** monosílabo (o bisílabo muy común) · consonante dura que pegue con «Docs» · significado que cualquiera capta · a poder ser, conecta con verdad / evidencia / historia / profundidad.
+
+**Advertencia de esta ronda:** «[palabra inglesa] + Docs» es una construcción obvia → muchas combinaciones estarán tomadas o sonarán genéricas. Es el precio de "reconocible en cualquier idioma". Verificar disponibilidad es aquí más crítico que en las otras rondas.
+
+## Sobre «Top Docs»
+
+Catchy (dos monosílabos, ritmo). Pero: (1) muy usado para rankings de médicos ("top doctors"); (2) "top" = "los mejores" → suena jactancioso y **no dice de qué va el canal**. Se puede, pero hay opciones que además significan algo.
+
+## Candidatos
+
+| # | Nombre | Qué capta cualquiera | Fonética | Encaje con el canal | Riesgo |
+|---|--------|----------------------|----------|---------------------|--------|
+| 1 | **Deep Docs** | "deep dive", ir a fondo | /dip · doks/ | Alto — señala rigor, investigación a fondo | Construcción común; "deep" muy usado en tech |
+| 2 | **True Docs** | "true", verdadero | /tru · doks/ | Alto — la promesa es la verdad verificada | Puede leerse cerca de "true crime" |
+| 3 | **Real Docs** | "real", de verdad | /ríal · doks/ | Medio-alto — "historias reales" | Genérico; "Real" también se lee en español (Real Madrid, etc.) |
+| 4 | **Raw Docs** | "raw", crudo, sin filtro | /ro · doks/ | Alto — "la historia sin adornos" | "raw" arrastra otras cosas (RAW wrestling, comida cruda, +18) |
+| 5 | **Cold Docs** | "cold case", caso frío | /kold · doks/ | Alto — energía investigativa, casos sin resolver | Escora a crimen / a tono sombrío |
+| 6 | **Core Docs** | "core", el núcleo del asunto | /kor · doks/ | Alto — "el fondo de la cuestión" | "Core" muy usado en tech/fitness; ¿lo capta todo hispanohablante? |
+| 7 | **Fact Docs** | "fact", hecho | /fakt · doks/ | Alto — periodístico, "hechos" | Plano; suena a fact-checking, no a narrativa |
+| 8 | **Prime Docs** | "prime", de primera / principal | /praim · doks/ | Medio — calidad, pero no dice el tema | "Prime" = Amazon Prime, muy colonizado |
+| 9 | **Retro Docs** | "retro", mirar atrás | /retro · doks/ | Medio-alto — canal de historia; "volver al pasado" | "Retro" también = estética nostálgica (puede despistar) |
+| 10 | **Case Docs** | "case", caso | /keis · doks/ | Alto — "casos reales", literal | Muy literal / genérico; poca personalidad |
+
+## Shortlist Ronda 3
+
+1. **Deep Docs** — el que mejor combina universal + significado alineado (rigor, ir a fondo) + ritmo con «Docs».
+2. **True Docs** — la promesa central (verdad verificada) en una palabra; solo vigilar que no se lea como "true crime".
+3. **Raw Docs** — el más con carácter ("sin adornos"), si se asume el riesgo de las otras connotaciones de "raw".
+
+Suplente: **Cold Docs** si el canal quiere apoyarse en el ángulo "caso sin resolver / investigación".
+
+## Comparación rápida de las tres direcciones
+
+| Dirección | Ejemplo | Pro | Contra |
+|-----------|---------|-----|--------|
+| Ronda 1 — palabra de archivo en español | *Legajo*, *Constancia* | Significado rico, muy "nuestro" | Menos catchy, puede sonar árido |
+| Ronda 2 — palabra inventada + Docs | *Verax Docs*, *Nexo Docs* | Molde *Dieck Docs* exacto, distintivo, libre | Palabra inventada = 0 reconocimiento inicial |
+| Ronda 3 — anglicismo + Docs | *Deep Docs*, *True Docs* | Reconocible al instante en cualquier idioma | Construcción obvia → colisión/genérico probable |
