@@ -68,3 +68,8 @@ Any AI-generated, AI-animated, or colourised visual carries an on-screen label �
 ## Sign-off
 
 The idea's track owner (Carmen for T01, Josh for T02) ticks the worksheet. Recorded in the idea-pool row and carried into `01-brief.md`. Re-checked at Stage 2 (research dossier) when the exact beats are known — `06-shotlist.md` then resolves each beat to a specific item.
+
+## Per-episode artifacts
+
+- `material-search.md` — the resource search: what exists, what's weak, the video conclusion, how to depict a subject with no photograph, and any fact-check findings the search turned up.
+- `resources.md` — the linked list: a direct URL per shotlist need, rights column, and a "chosen" column for the style pass. Start from aggregators (ukiyo-e.org, Met/AIC open access, Wikimedia Commons) then pin one impression per print.

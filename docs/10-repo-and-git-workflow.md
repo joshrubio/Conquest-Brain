@@ -6,12 +6,13 @@ The project lives **locally + GitHub**. This repo (`D:\Youtube`) is the single s
 
 - Local path: `D:\Youtube`
 - Default branch: `main`
-- Remote: GitHub — **to be created**. Recommended: **private** repo (contains unpublished scripts and research). Name suggestion: `exodo` or `exodo-youtube`.
+- Remote: **`https://github.com/joshrubio/Exodo-Brain.git`** (account: `joshrubio`).
+- **Visibility: should be private** — the repo holds unpublished scripts, editorial internals and the separation policy. Confirm it is private before pushing anything new.
 
-### First push (when the GitHub repo exists)
+### Push
 
 ```bash
-git remote add origin git@github.com:<org-or-user>/<repo>.git
+git remote add origin https://github.com/joshrubio/Exodo-Brain.git
 git push -u origin main
 ```
 
