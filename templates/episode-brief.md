@@ -8,8 +8,9 @@
 | Slug carpeta | E0XX-<slug> |
 | Fecha del brief | AAAA-MM-DD |
 | Autor del brief | Carmen / Josh |
-| Tema [ID] | T0__ (debe estar `aprobado` en `ideas/themes.md`) |
-| Guionista asignado | Carmen / Josh |
+| Track | T01 Historias Inspiradoras / T02 Exploración (`ideas/tracks.md`) |
+| Hook-title elegido (`docs/13`) | … |
+| Guionista | Josh |
 | Narrador asignado | Carmen / Josh |
 | Forma del cierre (`docs/09`) | A reflexión+para llevar / B lección distribuida / C pregunta abierta |
 | Estado | idea aprobada por rúbrica |
@@ -20,9 +21,10 @@
 - **Época / lugar:** …
 - **Resumen en 3 frases:** …
 
-## Elegibilidad (resumen de la rúbrica — ver `ideas/evaluation-rubric.md`)
+## Elegibilidad (resumen de la rúbrica — ver `ideas/idea-rubric.md`)
 
-- [ ] Pertenece a un tema `aprobado` en `ideas/themes.md`
+- [ ] Track asignado + hook-title redactado (`docs/13`)
+- [ ] Cross-check de contenido disponible hecho — hay material de dominio público (`docs/12`)
 - [ ] Registro público documentado
 - [ ] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)
 - [ ] Ninguna persona de la comunidad hispanohablante de Rotterdam involucrada / identificable
@@ -54,6 +56,18 @@ Una frase: ¿de qué trata realmente este episodio?
 | 1 | | | | |
 | 2 | | | | |
 | 3 | | | | |
+
+## Cross-check de contenido disponible (`docs/12`) — resumen
+
+| Necesidad | ¿Hay? | Archivo + ref | Derechos | Si no hay |
+|-----------|-------|---------------|----------|-----------|
+| Retrato(s) figura(s) clave | | | | |
+| Fotos de época del lugar/evento | | | | |
+| Documentos (expedientes, cartas, titulares) | | | | |
+| Imagen en movimiento de la época | | | | |
+| Datos para gráficos | | | | |
+
+- ¿Menos del ~30% sería "narrador sobre fondo negro"? Sí/No →  si Sí, la idea falla E8.
 
 ## Riesgos
 

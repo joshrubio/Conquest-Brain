@@ -1,19 +1,21 @@
-# Hoja de verificación — E0XX «<título>»
+# Hoja de verificación — E0XX «<título>» (Layer 3)
 
-> Stage 5. La completa quien **NO** escribió el guion (Carmen verifica los guiones de Josh y viceversa). No se graba hasta que esta hoja esté firmada y sin ítems abiertos.
+> Stage 5, **Layer 3** del protocolo (`docs/14-fact-check-protocol.md`). La firma **Carmen** (no escribió el guion — lo hace siempre Josh). Antes de esta hoja ya corrieron: Layer 1 (`tools/factcheck.py` → `04-factcheck-auto.md`) y Layer 2 (prompt LLM → `04-factcheck-auto.md`). No se graba hasta que esta hoja esté firmada y sin ítems abiertos.
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E0XX |
-| Verificador (no guionista) | Carmen / Josh |
-| Guionista | Carmen / Josh |
+| Verificador (firma) | Carmen |
+| Guionista | Josh |
 | Narrador | Carmen / Josh |
 | Versión de guion revisada | v__ (AAAA-MM-DD) |
 | Fecha de verificación | AAAA-MM-DD |
+| Layer 1 (`04-factcheck-auto.md`) | PASS / FAIL — banderas resueltas: ☐ |
+| Layer 2 (`04-factcheck-auto.md`) | banderas resueltas contra fuente real: ☐ |
 
 ## 1. Verificación afirmación por afirmación
 
-> Extraer cada afirmación factual del guion (cada tag `[S..]` y cualquier frase factual sin tag). Una fila por afirmación.
+> Partir de la tabla de Layer 2. Resolver cada bandera contra la **fuente real** (no contra el modelo). Spot-check directo de una muestra de las marcadas `respalda`. Una fila por afirmación revisada.
 
 | # | Línea/tiempo guion | Afirmación | Fuente citada [ID] | Tier | ¿Independiente 2ª fuente? | Veredicto | Acción |
 |---|--------------------|-----------|--------------------|------|---------------------------|-----------|--------|

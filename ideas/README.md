@@ -1,33 +1,38 @@
-# Sistema de temas e ideas
+# Sistema de tracks e ideas
 
-Dos niveles. Una idea de video **no** se produce si no cuelga de un **tema aprobado**.
+Dos niveles: **track** (permanente, por persona) → **idea** de video individual.
 
 ```
-TEMA (área recurrente)  ──filtro──►  aprobado / vetado
-   │
-   └─ IDEA de video individual  ──rúbrica──►  aprobada / incubando / descartada
-                                                   │
-                                                   └─ carpeta de episodio E0XX
+TRACK (fijo)
+   ├─ T01 Historias Inspiradoras  · owner de ideación: Carmen
+   └─ T02 Exploración             · owner de ideación: Josh
+        │
+        └─ IDEA de video ──[hook-title + cross-check de material + rúbrica]──► aprobada
+                                                                                  │
+                                                                                  └─ carpeta E0XX
 ```
 
-## Nivel 1 — Temas / topics
+## Nivel 1 — Tracks
 
-Un **tema** es un área recurrente que el canal puede cubrir muchas veces (ej.: "manías especulativas", "fundadores que cayeron", "persuasión y sectas", "inventos que mintieron sobre lo que hacían").
+No hay rúbrica que apruebe tracks: son **dos, fijos**. Ver [tracks.md](tracks.md).
+- **T01 Historias Inspiradoras** — biografías/trayectorias (personas, empresas, familias, productos, métodos). Carmen.
+- **T02 Exploración** — todo lo demás (errores, fraudes, sectas, burbujas, inventores saboteados, migración histórica…). Josh.
 
-- Registro: [themes.md](themes.md)
-- Filtro para aceptar o vetar un tema: [theme-rubric.md](theme-rubric.md)
-- Criterios clave: encaje con la tesis del canal, ¿hay suficientes casos con registro público para sostener una serie?, riesgo de tono, y **política de separación** (`docs/05-separation-policy.md`).
+## Nivel 2 — Ideas
 
-## Nivel 2 — Ideas de videos individuales
+Cada idea, en la **fase de ideación**, necesita:
+1. **Track** asignado.
+2. **Hook-title** estilo Farid Dieck — [docs/13-hook-naming.md](../docs/13-hook-naming.md). *Sin hook fuerte, no hay audiencia.*
+3. **Cross-check de contenido disponible** — [docs/12-available-material-protocol.md](../docs/12-available-material-protocol.md). Solo dominio público. *Sin material, no hay episodio.*
+4. Pasar los **eliminatorios** + **puntuación** de [idea-rubric.md](idea-rubric.md).
 
-Una **idea** es un caso concreto (una figura, un caso histórico, una empresa) dentro de un tema aprobado.
-
-- Pool: [idea-pool.md](idea-pool.md)
-- Rúbrica por idea: [evaluation-rubric.md](evaluation-rubric.md) (7 filtros eliminatorios + puntuación /21)
+Registro: [idea-pool.md](idea-pool.md).
 
 ## Flujo
 
-1. ¿El caso encaja en un tema ya aprobado en `themes.md`? Si no hay tema → primero pasar el tema por `theme-rubric.md`.
-2. Añadir la idea a `idea-pool.md` con su `tema`.
-3. Correr `evaluation-rubric.md`. ≥14 y eliminatorios OK → `aprobada`.
-4. Al arrancar: copiar `episodes/_TEMPLATE-episode-folder/` → `episodes/E0XX-<slug>/`, actualizar `episodes/_STATUS.md`.
+1. Owner del track propone la idea con su hook-title.
+2. Cross-check de material (Protocolo 1).
+3. Rúbrica de idea (eliminatorios + /21).
+4. ≥14 y todo en SÍ → `aprobada` → carpeta de episodio → Stage 1 (Brief).
+
+Guion de todos los episodios: **Josh**. Fact-check: protocolo automatizado + firma de Carmen ([docs/14-fact-check-protocol.md](../docs/14-fact-check-protocol.md)).

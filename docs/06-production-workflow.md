@@ -2,16 +2,19 @@
 
 Pipeline for one episode. Stages are gated: do not start a stage until the previous gate is signed. Files live in `episodes/E0XX-<slug>/`, numbered to match the stages.
 
-## Stage 0 — Idea intake
-- Add to [ideas/backlog.md](../ideas/backlog.md).
-- Score with [ideas/evaluation-rubric.md](../ideas/evaluation-rubric.md).
-- **Gate:** passes rubric (public record + sources exist + genuine human/psych angle + honest applied takeaway + clears separation policy).
+## Stage 0 — Ideation
+- Track owner proposes the idea: **T01 Historias Inspiradoras** (Carmen) or **T02 Exploración** (Josh) — see [ideas/tracks.md](../ideas/tracks.md).
+- **Protocol 2 — Hook Naming** ([docs/13](13-hook-naming.md)): 3 hook-title variants, Dieck register.
+- **Protocol 1 — Available material** ([docs/12](12-available-material-protocol.md)): cross-check the case against public-domain archives; fill the worksheet. No material → no episode.
+- Score with [ideas/idea-rubric.md](../ideas/idea-rubric.md): eliminatorios E1–E8 + /21.
+- Record in [ideas/idea-pool.md](../ideas/idea-pool.md).
+- **Gate:** track assigned; hook-title done; material cross-check passes (E8); all eliminatorios YES; score ≥ 14.
 
 ## Stage 1 — Brief  → `01-brief.md`
 - Template: [templates/episode-brief.md](../templates/episode-brief.md).
-- Working thesis, why now, the three parts in one sentence each, candidate takeaway, top 3 sources already found, risks.
-- **Assign:** which approved theme this belongs to, script writer, and **narrator (Carmen or Josh)**.
-- **Gate:** Carmen + Josh agree it's worth the research time; theme is approved; narrator assigned.
+- Working thesis, why now, structure in one sentence each, candidate close (form A/B/C), top 3 sources already found, risks.
+- **Assign:** track, hook-title (from Stage 0), and **narrator (Carmen or Josh)**. Writer is always Josh.
+- **Gate:** Carmen + Josh agree it's worth the research time; narrator assigned.
 
 ## Stage 2 — Research dossier  → `02-research-dossier.md` + `03-source-log.csv`
 - Template: [templates/research-dossier.md](../templates/research-dossier.md), [templates/source-log.csv](../templates/source-log.csv).
@@ -28,11 +31,12 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - Full narration + on-screen cues + inline source tags `[S12]` linking to the source log.
 - **Gate:** self-review complete; every `[S..]` resolves.
 
-## Stage 5 — Fact-check  → `04-fact-check.md`
-- Template: [templates/fact-check-sheet.md](../templates/fact-check-sheet.md).
-- Done by the person who did **not** write the script. Claim-by-claim: source, tier, verdict (verified / needs work / cut).
-- Legal & ethics pass: [docs/04-legal-and-ethics.md](04-legal-and-ethics.md).
-- **Gate:** zero unresolved claims; legal checklist clear; sheet signed.
+## Stage 5 — Fact-check  → `04-factcheck-auto.md` + `04-fact-check.md`
+- Protocol: [docs/14-fact-check-protocol.md](14-fact-check-protocol.md). Three layers:
+  - **L1 deterministic:** `python tools/factcheck.py 05-script.md 03-source-log.csv` → must PASS.
+  - **L2 LLM-assisted:** run [templates/fact-check-auto-prompt.md](../templates/fact-check-auto-prompt.md); resolve every flag against the real source.
+  - **L3 human:** **Carmen** (did not write it — Josh always does) completes [templates/fact-check-sheet.md](../templates/fact-check-sheet.md) + the legal/ethics ([docs/04](04-legal-and-ethics.md)) and separation ([docs/05](05-separation-policy.md)) passes, and signs.
+- **Gate (hard):** L1 PASS; all L2 flags resolved; `04-fact-check.md` signed by Carmen; legal + separation clear.
 
 ## Stage 6 — Shotlist / B-roll  → `06-shotlist.md`
 - Template: [templates/shotlist-broll.md](../templates/shotlist-broll.md). Method: [docs/11-visual-rhythm.md](11-visual-rhythm.md).
@@ -62,23 +66,24 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - 48h + 30d: metrics, what worked, corrections issued, process fixes.
 - Update [episodes/_STATUS.md](../episodes/_STATUS.md) and [docs/07-publishing-seo-metrics.md](07-publishing-seo-metrics.md) KPI log.
 
-## Roles per stage
+## Roles
 
-`Writer` and `Narrator` are assigned per episode at Stage 1 and can be either Carmen or Josh (they need not be the same person). The fact-checker is always **the one who did not write** that script.
+- **Josh writes every script.** Also: T02 ideation, shotlist, edit, publishing, tech, `tools/`.
+- **Carmen:** editorial lead, T01 ideation, research direction, fact-check sign-off (Layer 3), on-camera/narration (share).
+- **Narrator** assigned per episode (Carmen or Josh) — usually follows the track owner; keep a rough balance.
 
 | Stage | Lead | Support |
 |-------|------|---------|
-| 0–3 research | Writer (Carmen or Josh) | the other |
-| 4 script | Writer | the other |
-| 5 fact-check | Non-writer | Writer answers |
+| 0 ideation | Track owner (Carmen T01 / Josh T02) | the other |
+| 1–3 research | Josh | Carmen (direction) |
+| 4 script | Josh | — |
+| 5 fact-check | L1+L2 automated · L3 **Carmen** | Josh answers |
 | 6 shotlist | Josh | Carmen |
 | 7 record | Narrator (Carmen or Josh) | the other |
-| 8 edit | Josh | other reviews |
-| 9 package | Josh | Writer approves title/thumb |
-| 10 publish | Josh | Carmen + Josh co-sign |
+| 8 edit | Josh | Carmen reviews |
+| 9 package | Josh | Carmen approves title/thumb |
+| 10 publish | Josh | Carmen co-signs |
 | 11 retro | Both | — |
-
-Keep a rough balance of narrator assignments across episodes unless a specific story clearly fits one voice.
 
 ## Definition of Done
 

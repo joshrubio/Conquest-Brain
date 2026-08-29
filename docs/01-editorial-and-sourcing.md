@@ -19,7 +19,7 @@ Every factual statement in a script — dates, numbers, quotes, causal claims, "
 
 ## 3. Public-record eligibility
 
-Before research starts, the subject must clear [ideas/evaluation-rubric.md](../ideas/evaluation-rubric.md):
+Before research starts, the subject must clear [ideas/idea-rubric.md](../ideas/idea-rubric.md):
 - Is it a public figure, a historical case, or a company/practice?
 - Is there a public documentary record (not just chatter)?
 - Are the sources in the public domain / lawfully accessible?

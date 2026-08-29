@@ -25,7 +25,7 @@ This channel and the membership business must not bleed into each other. Same fo
 
 - **This repo** (`D:\Youtube`) is the only home for this channel's work. Business work lives elsewhere.
 - Separate asset storage, separate upload account/brand account, separate analytics.
-- Separate idea backlog — `ideas/backlog.md` here never imports from business editorial planning.
+- Separate idea pool — `ideas/idea-pool.md` here never imports from business editorial planning.
 - Research for this channel uses public sources only (see [docs/01-editorial-and-sourcing.md](01-editorial-and-sourcing.md)); it never queries business data, CRM, or member records.
 - If a team member notices a great episode idea while doing business work, they may bring the *public* version of it (public figure / historical / company) — but must re-source it from scratch from public material and note the reset in `02-research-dossier.md`.
 

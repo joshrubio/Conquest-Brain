@@ -8,11 +8,14 @@
 | Slug carpeta | E000-EXAMPLE-ejemplo |
 | Fecha del brief | 2026-08-28 |
 | Autor del brief | Josh (ejemplo) |
-| Tema [ID] | T00 «Manías especulativas y burbujas financieras» (ejemplo — supuesto `aprobado` en `ideas/themes.md`) |
-| Guionista asignado | Carmen |
+| Track | **T02 Exploración** (`ideas/tracks.md`) |
+| Hook-title elegido (`docs/13`) | `¿La PRIMERA BURBUJA de la historia fue un FRAUDE planeado? \| Los Mares del Sur, 1720 \| Documental` |
+| Guionista | Josh |
 | Narrador asignado | Josh |
 | Forma del cierre (`docs/09`) | **A — reflexión + para llevar** |
 | Estado | ejemplo — no entra en producción |
+
+**Otros 2 hook-titles (para A/B en Stage 9):** `La VERDADERA HISTORIA DETRÁS de la primera gran estafa bursátil \| Documental` · `El día que MEDIA INGLATERRA compró algo que no existía \| Los Mares del Sur \| Documental`
 
 ## Sujeto
 
@@ -20,9 +23,10 @@
 - **Época / lugar:** Gran Bretaña, 1711–1721; auge y colapso en 1720.
 - **Resumen en 3 frases:** La South Sea Company se fundó en 1711 y asumió deuda pública británica a cambio de un monopolio de comercio con la América española que apenas llegó a operar. En 1720, un plan para convertir más deuda del Estado en acciones de la compañía disparó su cotización en pocos meses y arrastró a inversores de toda condición. El desplome de otoño arruinó a miles y desató una investigación parlamentaria que destapó sobornos a políticos.
 
-## Elegibilidad (resumen de la rúbrica — ver `ideas/evaluation-rubric.md`)
+## Elegibilidad (resumen de la rúbrica — ver `ideas/idea-rubric.md`)
 
-- [x] Pertenece a un tema `aprobado` en `ideas/themes.md` (T00, ejemplo)
+- [x] Track asignado (T02) + hook-title redactado (`docs/13`)
+- [x] Cross-check de contenido disponible hecho — ver sección abajo (`docs/12`)
 - [x] Registro público documentado (actas del Parlamento 1721, prensa de la época, historiografía)
 - [x] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)
 - [x] Ninguna persona de la comunidad hispanohablante de Rotterdam involucrada / identificable
@@ -51,6 +55,18 @@ Patrón recurrente (manías especulativas modernas). Encaja con los públicos de
 | 1 | Actas de la investigación parlamentaria, 1721 (*Journals of the House of Commons* / *Report of the Committee of Secrecy*) | A | archivo parlamentario del Reino Unido — *signatura a completar* | hallazgos oficiales, sobornos, penas |
 | 2 | John Carswell, *The South Sea Bubble* (ed. rev., Alan Sutton, 1993) | B | libro académico con notas — *ISBN a completar* | cronología y actores |
 | 3 | Julian Hoppit, "The Myths of the South Sea Bubble", *Transactions of the Royal Historical Society*, vol. 12 (2002) | B | artículo revisado por pares — *DOI a completar* | matiza el relato popular; corrige cifras |
+
+## Cross-check de contenido disponible (`docs/12`) — resumen
+
+| Necesidad | ¿Hay? | Archivo + ref | Derechos | Si no hay |
+|-----------|-------|---------------|----------|-----------|
+| Retratos de figuras clave (Aislabie, Walpole) | Sí | retratos s. XVIII en Wikimedia Commons / National Portrait Gallery (PD por antigüedad) | dominio público | — |
+| Grabados satíricos de la burbuja / Exchange Alley | Sí | British Museum, Rijksmuseum, Library of Congress P&P | dominio público | — |
+| Documentos: Report of the Committee of Secrecy 1721, prensa de época | Sí | Internet Archive / Google Books (obra de 1721, PD); Chronicling America para prensa análoga | dominio público | — |
+| Imagen en movimiento de la época | No (no existe, s. XVIII) | — | — | animación de grabados + motion graphics |
+| Datos para el gráfico de cotización | Parcial | series históricas en literatura académica | cita del dato | gráfico propio |
+
+- ¿Menos del ~30% sería "narrador sobre fondo negro"? **No** — grabados + documentos + gráficos propios cubren todo. **E8: pasa.**
 
 ## Riesgos
 

@@ -10,10 +10,10 @@ The channel is **Phase 1**: free content that builds trust and audience for a hy
 
 | Person | Role |
 |--------|------|
-| Carmen | Editorial lead, research direction, script. Journalist, ex-university lecturer. Narrates and/or appears on camera in a share of episodes. |
-| Josh | Production, technology, edit, publishing, systems, this repo. Also narrates and/or appears on camera in a share of episodes. |
+| Carmen | Editorial lead, research direction, ideation of track **T01 Historias Inspiradoras**, fact-check sign-off (Layer 3). Journalist, ex-university lecturer. Narrates / on camera in a share of episodes. |
+| Josh | **Writes every script.** Ideation of track **T02 Exploración**, production, edit, publishing, tech, `tools/`. Narrates / on camera in a share of episodes. |
 
-**Narration is per-episode.** Some episodes are narrated by Carmen, others by Josh — decided at the brief stage and recorded in `episodes/_STATUS.md`. Whoever does not write a given script runs its fact-check.
+**Two content tracks**, one owner each — see [ideas/tracks.md](../ideas/tracks.md). **Josh writes all scripts;** the "checker ≠ writer" principle is preserved by two automated fact-check passes plus **Carmen's** sign-off ([14-fact-check-protocol.md](14-fact-check-protocol.md)). **Narration is per-episode** (Carmen or Josh), recorded in `episodes/_STATUS.md`.
 
 ## Audience
 
