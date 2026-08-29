@@ -1,8 +1,8 @@
-# Exploración de nombre — canal Cross Check
+# Exploración de nombre — canal Éxodo
 
-> **DECIDIDO (2026-08-28): «Cross Check».** Diferenciador de handle si el limpio no está: **«Official»** (`@crosscheckofficial`). Especificación de marca en `docs/03-brand-identity.md`. Este archivo conserva el recorrido completo de opciones por si hay que reabrir.
+> **DECIDIDO (2026-08-28): «Éxodo»** — wordmark / handles «Exodo Official» (`@exodoofficial`). Especificación de marca en `docs/03-brand-identity.md`. Este archivo conserva el recorrido completo por si hay que reabrir.
 >
-> **Recorrido:** R1 (palabras de archivo en español) → no. R2 (palabra inventada + Docs) → no. R3 (anglicismo + Docs) → «Top Docs» descartado por choque con *Doc Tops* (16M subs, canal español). Familia "verificar" en español (*Contraste*, *Contrapunto*, *Cotejo*) → saturada en periodismo hispano (*Cotejo.info* = fact-checker de referencia en Venezuela). *Éxodo* → acota el tema + término ya colonizado por cobertura de migración venezolana. **Cross Check** = el método como nombre, lane libre en YouTube español; se asume el choque con *CrossCheck Media* (productora US) y se verifica marca en clase 41.
+> **Recorrido:** R1 (palabras de archivo en español) → no. R2 (palabra inventada + Docs) → no. R3 (anglicismo + Docs) → «Top Docs» descartado (choque con *Doc Tops*, 16M subs). Familia "verificar" en español (*Contraste*, *Contrapunto*, *Cotejo*) → saturada (*Cotejo.info* = fact-checker de referencia en Venezuela). **Cross Check** llegó a "definitivo" y luego se descartó. **Decisión final: «Éxodo».** Trade-offs asumidos conscientemente: (1) el nombre escora a temática migración/exilio aunque el contenido es amplio → se abraza, la historia de los fundadores (periodistas venezolanos, parte del éxodo de ~7,7M) *es* la marca; (2) término saturado (*Exodus* wallet cripto — clase 36 distinta; banda; disco de Marley; documentales bíblicos; uso en periodismo sobre migración venezolana — Radio Ambulante, Revista 5W); (3) ningún **canal** de documentales en español lo tiene → lane libre; (4) ruido en búsqueda por nombre asumido (el descubrimiento en YouTube va por miniatura/título/sugeridos). Handles limpios (`@exodo`, `@canal_exodo`) tomados → de ahí «Official». Verificar marca en clase 41.
 
 ## Decisiones ya tomadas (2026-08-28)
 

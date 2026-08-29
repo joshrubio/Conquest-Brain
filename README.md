@@ -1,6 +1,6 @@
-# Cross Check — YouTube Blueprint (Phase 1)
+# Éxodo — YouTube Blueprint (Phase 1)
 
-> **Name:** *Cross Check* (chosen 2026-08-28; handle differentiator "Official" if needed). See [docs/03-brand-identity.md](docs/03-brand-identity.md). Trademark search (class 41) and handle acquisition still pending.
+> **Name:** *Éxodo* (wordmark / handles: "Exodo Official", `@exodoofficial`). Chosen 2026-08-28. See [docs/03-brand-identity.md](docs/03-brand-identity.md). Trademark search (class 41) and handle acquisition still pending.
 
 Free-content YouTube channel/segment ("Phase 1") that feeds a hyperlocal membership business for the Spanish-speaking community of Rotterdam, led by **Carmen** (journalist, ex-university lecturer) and **Josh** (production/technology). Both write and both narrate — narration is assigned per episode.
 
@@ -45,7 +45,7 @@ The **blueprint**: documentation, templates and folder structure. **No video pro
 ## Open decisions
 
 - **Channel type:** own new channel vs. recurring segment inside an existing team channel — **undecided**. Blueprint is written channel-agnostic.
-- **Name:** *Cross Check* — decided. Trademark search (class 41) + handle acquisition + visual identity still to do ([docs/03](docs/03-brand-identity.md)).
+- **Name:** *Éxodo* / "Exodo Official" — decided. Trademark search (class 41) + handle acquisition + visual identity still to do ([docs/03](docs/03-brand-identity.md)).
 - **Publishing cadence** — proposed default in [docs/07-publishing-seo-metrics.md](docs/07-publishing-seo-metrics.md), not locked.
 - **Format specs (`docs/02`, `08`, `09`) are v1** — validated against 6 Dieck Docs transcripts (`research/dieck-docs/structure-analysis.md`). Re-validate as more are added.
 - **Themes:** at least one theme must be approved in [ideas/themes.md](ideas/themes.md) before any episode can start.
