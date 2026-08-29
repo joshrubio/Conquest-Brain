@@ -29,3 +29,6 @@ Desktop.ini
 ~$*
 .vscode/
 .idea/
+
+# Generated pitch PDFs (regenerate with tools/build_idea_pitch.py)
+ideas/*.pdf
