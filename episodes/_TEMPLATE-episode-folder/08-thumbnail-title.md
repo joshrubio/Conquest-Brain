@@ -1,6 +1,6 @@
 # Brief de título y miniatura — E0XX «<título>»
 
-> Stage 9. El título y la miniatura deben ser honestos con el cuerpo del vídeo. Sin clickbait que el episodio no pague.
+> Stage 10. El título y la miniatura deben ser honestos con el cuerpo del vídeo. Sin clickbait que el episodio no pague.
 
 | Campo | Valor |
 |-------|-------|

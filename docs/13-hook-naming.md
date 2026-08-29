@@ -1,6 +1,6 @@
 # 13 — Hook Naming (Protocol 2)
 
-Every idea is presented, **from ideation**, with a **hook-title** — a working title built to earn the click, in the register Farid Dieck uses for *Dieck Docs*. Without a strong hook in the name, the video has no audience. The final published title (Stage 9) is chosen from the hook-title variants; see also [07-publishing-seo-metrics.md](07-publishing-seo-metrics.md).
+Every idea is presented, **from ideation**, with a **hook-title** — a working title built to earn the click, in the register Farid Dieck uses for *Dieck Docs*. Without a strong hook in the name, the video has no audience. The final published title (Stage 10) is chosen from the hook-title variants; see also [07-publishing-seo-metrics.md](07-publishing-seo-metrics.md).
 
 ## The Dieck title anatomy (from `research/dieck-docs/`)
 
@@ -48,7 +48,7 @@ El PRECIO de <logro> | <Sujeto> | Documental
 
 - **3 hook-title variants** (distinct hook types). Recorded in `idea-pool.md`.
 - The strongest → the idea's working name and the front-runner published title.
-- The other two → carried to [templates/thumbnail-title-brief.md](../templates/thumbnail-title-brief.md) for A/B at Stage 9.
+- The other two → carried to [templates/thumbnail-title-brief.md](../templates/thumbnail-title-brief.md) for A/B at Stage 10.
 - P1 in [idea-rubric.md](../ideas/idea-rubric.md) scores the hook: *plano / débil / bueno / irresistible y fiel*.
 
 ## Worked examples (our subjects, our register)

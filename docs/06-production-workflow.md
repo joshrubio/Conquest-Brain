@@ -40,28 +40,36 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 ## Stage 6 — Shotlist / B-roll  → `06-shotlist.md`
 - Template: [templates/shotlist-broll.md](../templates/shotlist-broll.md). Method: [docs/11-visual-rhythm.md](11-visual-rhythm.md).
-- **Inferred from the locked script** — one beat per subject change / `[EN PANTALLA]` / `[EXPLICADOR]` / `[PLANT]`/`[PAY]`. Per beat: visual, source/rights, on-screen text, motion.
-- **Gate:** every visual has a rights status; every graphed number has a source label; beat count matches the target rhythm for the runtime.
+- **Inferred from the locked script** — one beat per subject change / `[EN PANTALLA]` / `[EXPLICADOR]` / `[PLANT]`/`[PAY]`. Per beat: visual **need**, archival vs own-graphic, on-screen text, motion.
+- **Gate:** every beat classified; every graphed number has a source label; beat count matches the target rhythm.
 
-## Stage 7 — Record
+## Stage 7 — Asset selection + photography pass  → `07-assets.md`
+- Template: [templates/asset-manifest.md](../templates/asset-manifest.md). Search feasibility already done in `material-search.md`; here it gets specific.
+- **1. Candidate pull (automatable):** for each archival beat, find 1–3 **specific images** — direct object link, museum + number, licence, max resolution. Not archive roots — individual images.
+- **2. Photography pass (Josh, manual):** for each candidate, judge on resolution / condition / colour / crop / sequence coherence against the series look ([docs/03](03-brand-identity.md) §Visual direction). ✅ / ⚠️ / ❌.
+- **3. Manifest:** one row per **accepted** image, downloaded to `assets/` with a consistent name. Own-graphics beats → design brief, not the manifest.
+- **Gate:** every archival beat has an accepted image or a fallback graphic; every image has a clear licence; colour/condition checked by sequence, not just per image; courtesy credits logged for `09-description.md`.
+- Runs in parallel with Stage 8 (recording doesn't depend on it).
+
+## Stage 8 — Record
 - The episode's assigned narrator (Carmen or Josh) does VO + on-camera per shotlist. Clean audio pass.
 - **Gate:** full take against locked script; pickups noted.
 
-## Stage 8 — Edit
+## Stage 9 — Edit
 - Assembly → picture lock → sound → captions/lower-thirds → source cards.
 - Spanish subtitles (.srt) generated and corrected.
 - **Gate:** picture lock reviewed by both; captions accurate.
 
-## Stage 9 — Package  → `07-thumbnail-title.md`, `08-description.md`
+## Stage 10 — Package  → `08-thumbnail-title.md`, `09-description.md`
 - Templates: [templates/thumbnail-title-brief.md](../templates/thumbnail-title-brief.md), [templates/description-and-credits.md](../templates/description-and-credits.md).
-- 3 title options, thumbnail, description with **Fuentes principales** block, chapters, tags.
+- 3 title options (from the hook-titles), thumbnail, description with **Fuentes principales** block + asset courtesy credits, chapters, tags.
 - **Gate:** title/thumbnail honest to the content (no clickbait the body doesn't pay off).
 
-## Stage 10 — Publish  → `09-publish-checklist.md`
+## Stage 11 — Publish  → `10-publish-checklist.md`
 - Template: [templates/publish-checklist.md](../templates/publish-checklist.md).
 - Final legal/separation tick by Carmen + Josh. Upload, subtitles, chapters, end screen, pinned comment (sources / any caveat). Schedule.
 
-## Stage 11 — Retro  → `10-retro.md`
+## Stage 12 — Retro  → `11-retro.md`
 - Template: [templates/episode-retro.md](../templates/episode-retro.md).
 - 48h + 30d: metrics, what worked, corrections issued, process fixes.
 - Update [episodes/_STATUS.md](../episodes/_STATUS.md) and [docs/07-publishing-seo-metrics.md](07-publishing-seo-metrics.md) KPI log.
@@ -79,11 +87,12 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 | 4 script | Josh | — |
 | 5 fact-check | L1+L2 automated · L3 **Carmen** | Josh answers |
 | 6 shotlist | Josh | Carmen |
-| 7 record | Narrator (Carmen or Josh) | the other |
-| 8 edit | Josh | Carmen reviews |
-| 9 package | Josh | Carmen approves title/thumb |
-| 10 publish | Josh | Carmen co-signs |
-| 11 retro | Both | — |
+| 7 asset selection + photography pass | Josh | — |
+| 8 record | Narrator (Carmen or Josh) | the other |
+| 9 edit | Josh | Carmen reviews |
+| 10 package | Josh | Carmen approves title/thumb |
+| 11 publish | Josh | Carmen co-signs |
+| 12 retro | Both | — |
 
 ## Definition of Done
 

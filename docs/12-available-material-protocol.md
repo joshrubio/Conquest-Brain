@@ -71,5 +71,5 @@ The idea's track owner (Carmen for T01, Josh for T02) ticks the worksheet. Recor
 
 ## Per-episode artifacts
 
-- `material-search.md` — the resource search: what exists, what's weak, the video conclusion, how to depict a subject with no photograph, and any fact-check findings the search turned up.
-- `resources.md` — the linked list: a direct URL per shotlist need, rights column, and a "chosen" column for the style pass. Start from aggregators (ukiyo-e.org, Met/AIC open access, Wikimedia Commons) then pin one impression per print.
+- `material-search.md` — this protocol's output at ideation / Stage 2: does enough PD material exist, what's weak, the video question, how to depict a subject with no photograph, and any fact-check findings the search turned up. **Feasibility, not selection.**
+- `07-assets.md` — **Stage 7**, after fact-check + shotlist. The per-image manifest: a direct object link per archival beat + Josh's **photography pass** (does each image fit the series look?). See [06-production-workflow.md](06-production-workflow.md) Stage 7 and [templates/asset-manifest.md](../templates/asset-manifest.md).

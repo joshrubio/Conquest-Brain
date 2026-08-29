@@ -20,7 +20,7 @@ The **blueprint**: documentation, templates and folder structure. **No video pro
 
 | Path | Purpose |
 |------|---------|
-| `docs/` | Standing rules, 00–14: charter, editorial/sourcing, format, brand, legal, separation, workflow, publishing, tone, reflection, git, visual rhythm, available-material protocol, hook naming, fact-check protocol. |
+| `docs/` | Standing rules, 00–14: charter, editorial/sourcing, format, brand, legal, separation, workflow (12 stages), publishing, tone, reflection, git, visual rhythm, available-material protocol, hook naming, fact-check protocol. |
 | `templates/` | Blank fill-in templates for every stage of an episode. |
 | `episodes/` | One folder per episode. `_TEMPLATE-episode-folder/` to copy; `E000-EXAMPLE-*` as a worked reference; `_STATUS.md` master index. |
 | `ideas/` | Two **tracks** (`tracks.md`): T01 Historias Inspiradoras (Carmen), T02 Exploración (Josh) → **idea pool** (`idea-pool.md`), scored with `idea-rubric.md`. |
@@ -41,7 +41,7 @@ The **blueprint**: documentation, templates and folder structure. **No video pro
 2. **Available-material cross-check** ([docs/12](docs/12-available-material-protocol.md)) — public-domain archives only.
 3. Add to [ideas/idea-pool.md](ideas/idea-pool.md); score with [ideas/idea-rubric.md](ideas/idea-rubric.md) (eliminatorios + /21).
 4. If it passes: copy `episodes/_TEMPLATE-episode-folder/` → `episodes/E0XX-<slug>/`. Josh writes; assign narrator in the brief.
-5. Work the stages in order. See [docs/06-production-workflow.md](docs/06-production-workflow.md). Fact-check = `factcheck.py` + LLM prompt + Carmen's sign-off ([docs/14](docs/14-fact-check-protocol.md)).
+5. Work the 12 stages in order. See [docs/06-production-workflow.md](docs/06-production-workflow.md). Fact-check (5) = `factcheck.py` + LLM prompt + Carmen's sign-off ([docs/14](docs/14-fact-check-protocol.md)); then shotlist (6) → asset selection + photography pass (7, `07-assets.md`).
 6. Update `episodes/_STATUS.md`.
 
 ## Open decisions

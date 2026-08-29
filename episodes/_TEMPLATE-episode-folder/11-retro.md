@@ -1,6 +1,6 @@
 # Retrospectiva — E0XX «<título>»
 
-> Stage 11. Dos pasadas: 48 h y 30 días tras la publicación.
+> Stage 12. Dos pasadas: 48 h y 30 días tras la publicación.
 
 | Campo | Valor |
 |-------|-------|

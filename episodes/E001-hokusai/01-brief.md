@@ -15,13 +15,13 @@
 | Forma del cierre (`docs/09`) | **A — reflexión + para llevar** |
 | Estado | aprobada → en producción (E001) |
 
-**Otros 2 hook-titles (A/B en Stage 9):** `A los 70 dijo que aún NO sabía dibujar | Hokusai | Documental` · `El artista que cambió de nombre 30 veces buscando ser mejor | Hokusai | Documental`
+**Otros 2 hook-titles (A/B en Stage 10):** `A los 70 dijo que aún NO sabía dibujar | Hokusai | Documental` · `El artista que cambió de nombre 30 veces buscando ser mejor | Hokusai | Documental`
 
 ## Sujeto
 
 - **Tipo:** figura pública (artista) / disciplina (grabado ukiyo-e).
 - **Época / lugar:** Edo (actual Tokio), Japón, ~1760–1849.
-- **Resumen en 3 frases:** Katsushika Hokusai fue un grabador y pintor japonés que trabajó más de setenta años y cambió de nombre artístico unas treinta veces, cada vez que sentía que empezaba una etapa nueva. Vivió en la pobreza casi toda su vida —un incendio destruyó su obra y su taller hacia 1839, y las deudas de un nieto lo arruinaron—, y aun así siguió produciendo hasta su muerte a los ~88 años. Su serie más famosa, *Treinta y seis vistas del monte Fuji* —con "La gran ola frente a Kanagawa"—, la hizo pasados los setenta, y a esa edad escribió que todo lo que había pintado hasta entonces no valía nada y que solo a los cien empezaría a entender de verdad.
+- **Resumen en 3 frases:** Katsushika Hokusai fue un grabador y pintor japonés que trabajó más de setenta años y cambió de nombre artístico unas treinta veces, cada vez que sentía que empezaba una etapa nueva. Vivió en la pobreza casi toda su vida —un incendio destruyó su obra y su taller hacia 1839, y las deudas de un nieto lo arruinaron—, y aun así siguió produciendo hasta su muerte a los ~88 años. Su serie más famosa, *Treinta y seis vistas del monte Fuji* —con "La gran ola frente a Kanagawa"—, la hizo pasados los setenta, y a esa edad escribió que todo lo que había pintado hasta entonces no valía nada y que solo hacia los ciento diez cada línea suya estaría viva.
 
 ## Elegibilidad (resumen — `ideas/idea-rubric.md`)
 

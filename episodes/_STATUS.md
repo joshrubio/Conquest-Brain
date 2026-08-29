@@ -4,7 +4,7 @@
 
 ## Leyenda de stages
 
-0 idea · 1 brief · 2 investigación · 3 outline · 4 guion · 5 fact-check · 6 shotlist · 7 grabación · 8 edición · 9 paquete · 10 publicación · 11 retro
+0 idea · 1 brief · 2 investigación · 3 outline · 4 guion · 5 fact-check · 6 shotlist · 7 recursos+pase de fotografía · 8 grabación · 9 edición · 10 paquete · 11 publicación · 12 retro
 
 ## Episodios
 

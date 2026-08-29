@@ -78,6 +78,10 @@ Muestra cómo se veía a sí mismo — más interesante que una foto.
 3. **"Fuji rojo":** es *Gaifū kaisei* ("Fine Wind, Clear Morning" / "South Wind, Clear Sky"), no *Sanka hakuu* ("Shower Below the Summit", que es la del rayo). Corregir la referencia del shotlist (beat 26).
 4. **Portada de *La Mer*:** confirmado — Durand 1905, mitad izquierda de la Ola, Fuji omitido en la cubierta de la partitura orquestal, recoloreada; Debussy puso su nombre donde Hokusai puso el suyo. S19 (ese ejemplo) queda prácticamente cerrado.
 
+## Selección concreta (Stage 7)
+
+Este archivo es **factibilidad** (¿hay material PD suficiente?). La **lista de imágenes individuales** con enlace directo y el **pase de fotografía** de Josh están en `07-assets.md` (`docs/06` Stage 7).
+
 ## Gate Protocolo 1 (revisión Stage 2)
 
 - [x] Hay material PD de sobra para la narrativa y los explicadores

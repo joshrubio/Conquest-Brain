@@ -1,6 +1,6 @@
 # Descripción de YouTube y créditos — E0XX «<título>»
 
-> Stage 9. El bloque «Fuentes principales» es obligatorio en todos los episodios. Sin enlace ni pitch del negocio de membresía en Fase 1.
+> Stage 10. El bloque «Fuentes principales» es obligatorio en todos los episodios. Sin enlace ni pitch del negocio de membresía en Fase 1.
 
 ---
 

@@ -15,7 +15,7 @@
 | Forma del cierre (`docs/09`) | **A — reflexión + para llevar** |
 | Estado | ejemplo — no entra en producción |
 
-**Otros 2 hook-titles (para A/B en Stage 9):** `La VERDADERA HISTORIA DETRÁS de la primera gran estafa bursátil \| Documental` · `El día que MEDIA INGLATERRA compró algo que no existía \| Los Mares del Sur \| Documental`
+**Otros 2 hook-titles (para A/B en Stage 10):** `La VERDADERA HISTORIA DETRÁS de la primera gran estafa bursátil \| Documental` · `El día que MEDIA INGLATERRA compró algo que no existía \| Los Mares del Sur \| Documental`
 
 ## Sujeto
 

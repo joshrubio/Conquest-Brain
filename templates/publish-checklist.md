@@ -1,6 +1,6 @@
 # Checklist de publicación — E0XX «<título>»
 
-> Stage 10. Nada se sube sin el visto de Carmen **y** Josh en las secciones legal y de separación.
+> Stage 11. Nada se sube sin el visto de Carmen **y** Josh en las secciones legal y de separación.
 
 | Campo | Valor |
 |-------|-------|
