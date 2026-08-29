@@ -8,10 +8,10 @@
 
 ## Episodios
 
-| ID | Slug | Título provisional | Tema [ID] | Guionista | Narrador | Stage actual | Responsable stage | Fecha objetivo pub. | Notas |
-|----|------|--------------------|-----------|-----------|----------|--------------|-------------------|---------------------|-------|
+| ID | Slug | Título provisional | Track | Guionista | Narrador | Stage actual | Responsable stage | Fecha objetivo pub. | Notas |
+|----|------|--------------------|-------|-----------|----------|--------------|-------------------|---------------------|-------|
 | E000 | E000-EXAMPLE-ejemplo | (referencia, no se publica) | — | — | — | — | — | — | Ejemplo de carpeta completa |
-| E001 | — | — | — | — | — | — | — | — | — |
+| E001 | E001-hokusai | «Hokusai» | T01 | Josh | Carmen | **4 → 5** (guion v0 hecho; falta investigación a fondo + fact-check) | Josh (guion) → Carmen (L3) | — | Primer episodio real. Guion v0 corto (~2.350 pal), ampliar a ~2.900. Pendientes en `05-script.md` §Autorrevisión. |
 
 ## Reglas
 
