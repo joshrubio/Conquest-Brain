@@ -97,6 +97,18 @@
 - [ ] Grabado de incendio urbano en Edo (dominio público)
 - [ ] Cerrar la referencia del concepto de la reflexión — S15
 
+## Añadidos v1 (el guion pasó a v1 — integrar en la numeración al hacer el shotlist final)
+
+| Beat | Sección / guion | Visual | Fuente [ID] | Derechos | Rótulo | Motion |
+|------|-----------------|--------|-------------|----------|--------|--------|
+| +A | Acto 1 · "En 1814… los *Hokusai Manga*" | Páginas de los *Manga* (figuras, animales, muecas) | S10 (LOC/Met, PD) | dominio público | «Hokusai Manga, desde 1814» | pase rápido de páginas |
+| +B | Acto 1 · "en 1817, en Nagoya… un retrato gigante de Daruma" | Ilustración/grabado del acto público del Daroma; escala humana al lado | S17 + reconstrucción propia | PD + propio | «Nagoya, 1817» + salvedad de dimensiones | zoom out para revelar el tamaño |
+| +C | Acto 1 · `[PLANT 2]` "le gustaba que lo vieran… le gustaba lo grande" | Congelar el plano del Daruma (se repite en Acto 5) | S17 | PD/propio | — | congelado |
+| +D | Acto 3 · `[EXPLICADOR 2]` "el azul… pigmento sintético importado de Europa" | Comparativa: azul vegetal apagado vs. azul de Prusia intenso en dos láminas; mapa de la ruta de importación | S18 + elaboración propia | CC0 + propio | «azul de Prusia (bero-ai)» | split + trazado de ruta |
+| +E | Acto 5 · "sus estampas llegaron a Europa… como papel de embalar" | Estampa arrugada usada como envoltorio de cerámica (reconstrucción) | elaboración propia | propio | — | — |
+| +F | Acto 5 · "Monet colgó estampas… Van Gogh copió… la portada de *La Mer*" | Interior de Giverny con estampas japonesas; una copia de Van Gogh de ukiyo-e; portada de la 1ª ed. de *La Mer* (1905) | S19 (verificar cada uno) | Van Gogh y *La Mer* 1905 = dominio público; Giverny = confirmar | «japonismo» | cortes |
+| +G | Acto 5 · `[PAY 2]` "acabó siendo visto por más gente… cuando él ya no estaba" | **Mismo plano que +C** (Daruma congelado) → disolvencia a la portada de *La Mer* | S17 → S19 | PD | — | disolvencia |
+
 ## Gate Stage 6
 
 - [ ] Todo visual con estado de derechos en `03-source-log.csv` (varios "a definir")
