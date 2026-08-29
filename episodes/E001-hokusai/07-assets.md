@@ -31,20 +31,20 @@ Herramienta clave: **[ukiyo-e.org](https://ukiyo-e.org/artist/katsushika-hokusai
 | 7 | ídem | **Retrato/estudio de Hokusai anciano** — opción B (Smithsonian) | https://asia-archive.si.edu/object/F1904.282/ | NMAA F1904.282 | ⚠️ verificar licencia (Smithsonian Open Access filtra CC0) | | |
 | 8 | ídem | **Autorretrato de anciano** (~1839, dibujo en carta) | https://commons.wikimedia.org/wiki/File:Hokusai_as_an_old_man.jpg | Commons | PD | | el más personal — bueno para el cierre |
 | 9 | 34–35 · +2 (self-depiction) | **«Autorretrato como pescador»** (1835, dibujo de Hokusai + poema de Ōi) | https://www.artic.edu/artworks/81212/self-portrait-as-a-fisherman · alt https://ukiyo-e.org/image/aic/69121_1159733 | AIC | CC0 | | ata Hokusai + Ōi |
-| 10 | 11–12 · [PLANT 1] | **Obra temprana firmada "Shunrō"** (retrato de actor, época Katsukawa) | buscar: ukiyo-e.org "Shunro" / "Hokusai actor" — necesita firma legible para el zoom | — | PD esperado | | HUECO |
-| 11 | 10 | Grabado de actor de la **escuela Katsukawa (Shunshō)** | buscar: Met Open Access "Katsukawa Shunsho actor" | Met | CC0 esperado | | |
-| 12 | 21–22 · +A | **Páginas de los *Hokusai Manga*** (figuras / animales / muecas / olas) | https://archive.org/details/hokusaimangav2kats · https://archive.org/details/hokusaimangav4kats · Commons https://commons.wikimedia.org/wiki/Category:Hokusai_Manga | Internet Archive / Commons | PD | | elegir 4–6 páginas con variedad; **exportar a resolución alta desde el visor de IA** |
-| 13 | +B, +C | El **Daruma gigante de Nagoya** (1817) | no hay imagen contemporánea → **ilustración/reconstrucción propia** + grabado de multitud PD (buscar: Commons "Edo crowd festival") | — | propio | | no es archivo |
-| 14 | 30–31 · G4 | **Colofón de *Cien vistas del monte Fuji*** (1834) — página del texto | https://www.metmuseum.org/art/collection/search/57551 (vol. 1) · https://archive.org/details/hokusai00henr | Met / Internet Archive | PD | | localizar la página exacta del colofón |
-| 15 | 25b–26 | Alguna lámina de *Cien vistas* para ilustrar la serie | Met https://www.metmuseum.org/art/collection/search/78803 · Princeton https://artmuseum.princeton.edu/art/collections/objects/61616 | Met / Princeton | PD | | |
-| 16 | 33 | **Incendio urbano en Edo** | buscar: Commons "Great fires of Edo" / grabado ukiyo-e de incendio | Commons | PD | | |
-| 17 | 34–35 | **Obra de Katsushika Ōi** — «Night Scene in the Yoshiwara» | Ota Memorial Museum (Tokio) https://www.ukiyoe-ota-muse.jp/ · imagen ref. https://www.arthistoryproject.com/artists/katsushika-oi/night-scene-in-the-yoshiwara/ | Ōta Memorial | ⚠️ **NO open-access** — pedir permiso o plan B | | solo ~10 obras suyas confirmadas |
+| 10 | 11–12 · [PLANT 1] | **Obra temprana firmada "Shunrō"** (actor kabuki, formato *hosoban*, década de 1780) | Met Open Access, buscar «Shunro» → p. ej. *The Sumo Wrestlers Kimenzan Tanigorō and Dewanoumi Kinzō* (c. 1782–84, firmado Katsukawa Shunrō): https://www.metmuseum.org/art/collection/search?q=Shunro&showOnly=openAccess · MFA Boston tiene también gran fondo Shunrō open-access | Met / MFA Boston | CC0 | | necesita firma legible para el zoom del `[PLANT]` — comprobar en el objeto |
+| 11 | 10 | Grabado de actor de la **escuela Katsukawa (Shunshō)** | Met Open Access: https://www.metmuseum.org/art/collection/search?q=Katsukawa+Shunsho&showOnly=openAccess (cientos, CC0) | Met | CC0 | | elegir uno que pegue con #10 |
+| 12 | 21–22 · +A | **Páginas de los *Hokusai Manga*** (figuras / animales / muecas / olas) | **Smithsonian Libraries** (JPEG-2000 alta res): [vol. 2](https://library.si.edu/digital-library/book/hokusaimangav2kats) · [vol. 5](https://library.si.edu/digital-library/book/hokusaimangav5kats) · [vol. 7](https://library.si.edu/digital-library/book/hokusaimangav7kats) · [vol. 9](https://library.si.edu/digital-library/book/hokusaimangav9kats) · [vol. 12](https://library.si.edu/digital-library/book/hokusaimangav12kats) · alt [LOC](https://www.loc.gov/item/j67001705/) | Smithsonian / LOC | PD | | descargar 4–6 páginas concretas del visor; anotar vol. y nº de página |
+| 13 | +B, +C | El **Daruma gigante de Nagoya** (1817) | no hay imagen contemporánea del acto → **ilustración/reconstrucción propia** + grabado de multitud PD ([LOC festivales de Edo](https://www.loc.gov/collections/japanese-fine-prints-pre-1915/?q=festival)) | — | propio | | no es archivo |
+| 14 | 30–31 · G4 | **Colofón de *Cien vistas del monte Fuji*** (1834) — la página del texto | Met [Fugaku Hyakkei vol. 1](https://www.metmuseum.org/art/collection/search/57551) · [Internet Archive, libro completo](https://archive.org/details/hokusai00henr) | Met / Internet Archive | PD | | el colofón está al final del vol. 1 — navegar a las últimas páginas del libro digitalizado |
+| 15 | 25b–26 | Alguna lámina de *Cien vistas* para ilustrar la serie | Met [/78803](https://www.metmuseum.org/art/collection/search/78803) · Princeton [/61616](https://artmuseum.princeton.edu/art/collections/objects/61616) | Met / Princeton | PD | | |
+| 16 | 33 | **Incendio urbano en Edo** | LOC *Fine Prints: Japanese pre-1915*: https://www.loc.gov/collections/japanese-fine-prints-pre-1915/?q=fire (bomberos *hikeshi* / escenas de incendio de Hiroshige, Kuniyoshi — todo PD) · alt Commons "ukiyo-e fire" | LOC / Commons | PD | | elegir una que no distraiga — el incendio como atmósfera, no como noticia |
+| 17 | 34–35 | **Obra de Katsushika Ōi** | **MFA Boston** (open access): https://collections.mfa.org/search/objects/*/Katsushika%20Oi · **Smithsonian/Freer** Open Access: https://asia.si.edu/?s=Katsushika+Oi · «Night Scene in the Yoshiwara» está en el Ōta Memorial (Tokio) y **NO es open-access** — pedir permiso o **plan B: usar solo #9 (fisherman, colaborativa, CC0) + una tarjeta de texto** | MFA / Freer | CC0 (MFA/Freer) · ⚠️ (Ōta) | | solo ~10 obras suyas confirmadas |
 | 18 | 6–7 | **Mapa / vista de Edo** s. XVIII–XIX | LOC https://www.loc.gov/collections/japanese-fine-prints-pre-1915/ · Commons https://commons.wikimedia.org/wiki/Category:Old_maps_of_Edo | LOC / Commons | PD | | |
 | 19 | 8 · G1 | Referencia visual del proceso ukiyo-e | https://commons.wikimedia.org/wiki/Category:Woodblock_printing_in_Japan | Commons | PD | | el beat final es motion-graphic propio |
-| 20 | +D | Primera tirada azul (*aizuri-e*) de "La gran ola" u otra vista | comparar estados en ukiyo-e.org "Kanagawa" | varios | CC0 esperado | | para la comparativa azul vegetal vs. de Prusia |
-| 21 | +F | **Portada de *La Mer* de Debussy** (1905, Durand) | https://www.metmuseum.org/perspectives/debussy-la-mer · https://www.esm.rochester.edu/sibley/la-mer2/ · Commons https://commons.wikimedia.org/wiki/Category:La_mer_(Debussy) | varios | PD (partitura 1905) | | |
-| 22 | +F | **Copia de Van Gogh de Hiroshige** (1887, "Japonaiserie") | https://www.vangoghmuseum.nl/en/collection (buscar "Japonaiserie: Bridge in the Rain") | Van Gogh Museum | PD | | |
-| 23 | +E, +F | Estampas japonesas en casa de **Monet (Giverny)** | foto actual del interior = con derechos → **plan B: solo mención**, o su colección reproducida en fuente abierta | — | ⚠️ | | decidir si se usa |
+| 20 | +D | Primera tirada azul (*aizuri-e*) de una vista del Fuji | comparar estados en **ukiyo-e.org**: [«Kanagawa»](https://ukiyo-e.org/search?q=Kanagawa+Hokusai) (algunas impresiones son de bloque azul dominante) · «Kajikazawa in Kai» tiene versiones *aizuri* | varios museos | CC0 / PD | | para la comparativa azul vegetal (apagado) vs. azul de Prusia (intenso) |
+| 21 | +F | **Portada de *La Mer* de Debussy** (1905, Durand) | **IMSLP** (1ª ed. Durand 1905, escaneada, PD): https://imslp.org/wiki/La_mer_(Debussy,_Claude) · alt [Sibley Music Library](https://www.esm.rochester.edu/sibley/la-mer2/) | IMSLP / Sibley | PD (partitura de 1905) | | |
+| 22 | +F | **Copia de Van Gogh de Hiroshige** (1887, «El puente bajo la lluvia») | **Wikimedia Commons** (Google Art Project, alta res): https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_Brug_in_de_regen-_naar_Hiroshige_-_Google_Art_Project.jpg · Van Gogh Museum [s0114V1962](https://www.vangoghmuseum.nl/en/collection/s0114V1962) | Commons / VG Museum | PD (Van Gogh †1890) | | RESUELTO |
+| 23 | +E, +F | Estampas japonesas en casa de **Monet (Giverny)** | **No hay foto PD del muro de estampas de Monet.** Recomendación: **cortar el plano de Giverny** — la línea de "Monet las coleccionaba" se cubre con #22 + (opcional) un retrato PD de Monet + tarjeta de texto. Si Josh quiere la foto del interior → es una imagen **con licencia** (Fondation Monet) — decisión suya, fuera de este manifiesto PD. | — | ❌ para el manifiesto PD | | decisión de Josh en el pase |
 
 ## Gráficos propios (brief de diseño — no manifiesto)
 
@@ -57,14 +57,29 @@ Herramienta clave: **[ukiyo-e.org](https://ukiyo-e.org/artist/katsushika-hokusai
 | G5 | 39 | "¿ya llegué?" vs "¿me estoy acercando?" — dos caminos | [S15] |
 | — | 25b | Contador «36 → 46» | [S09] |
 
-## Huecos / a conseguir (Stage 7)
+## Estado de las 9 filas "buscar:" (resueltas 2026-08-29)
 
-- [ ] #10 — obra temprana firmada "Shunrō" con firma legible
-- [ ] #17 — Ōi: permiso del Ōta Memorial o plan B (solo la colaborativa #9 + gráfico)
-- [ ] #14 — página exacta del colofón de 1834 (edición digitalizada concreta)
-- [ ] #7 — confirmar licencia del retrato Smithsonian F1904.282
-- [ ] #23 — decisión sobre Giverny
-- [ ] Elegir **una** impresión de "La gran ola" y de cada lámina, y cerrar nº de objeto
+| # | Antes | Ahora |
+|---|-------|-------|
+| 10 | "buscar Shunro" | Met Open Access "Shunro" — objeto candidato nombrado (sumo, c.1782–84). Falta: abrir y comprobar firma legible |
+| 11 | "buscar Shunsho" | Met Open Access "Katsukawa Shunsho" (cientos, CC0) — elegir uno |
+| 12 | archivo raíz | Smithsonian Libraries, 5 volúmenes con enlace directo; descargar páginas concretas del visor |
+| 14 | "localizar página" | libro completo (Met + Internet Archive); colofón al final del vol. 1 — navegar a las últimas páginas |
+| 16 | "buscar Great fires" | LOC *Fine Prints Japanese pre-1915* con query `fire` — elegir una |
+| 17 | Ōta Memorial (no open) | **MFA Boston + Freer** open access con búsqueda directa; plan B = solo #9 + tarjeta |
+| 20 | "comparar estados" | ukiyo-e.org con query para comparar estados de "Kanagawa" / "Kajikazawa" |
+| 21 | "varios" | **IMSLP** — 1ª ed. Durand 1905 escaneada, PD, enlace directo |
+| 22 | "buscar en VG Museum" | **Wikimedia Commons** (Google Art Project, alta res) — enlace directo al archivo. RESUELTO |
+
+**Sobre sacar screenshots:** para todo lo de arriba **no hace falta** — hay archivo PD/CC0 descargable en cada caso. Los museos dan el archivo grande gratis; un screenshot sería ~100 dpi, corto para 4K con push-in. El único caso sin fuente PD es **#23 (interior de Giverny)** → es una foto **con licencia**, y screenshotearla no cambia sus derechos. Recomendación: cortar ese plano (ver fila 23).
+
+## Huecos reales que quedan
+
+- [ ] #10 — abrir el objeto Met y confirmar que la firma "Shunrō" se lee para el zoom
+- [ ] #7 — confirmar licencia del retrato Smithsonian F1904.282 (¿Open Access CC0?)
+- [ ] #17 — ver qué obra de Ōi hay en MFA/Freer con imagen libre; si nada sirve → plan B
+- [ ] #23 — decisión de Josh: cortar Giverny o licenciar la foto
+- [ ] Elegir **una** impresión de "La gran ola" y de cada lámina, y cerrar nº de objeto en el pase de fotografía
 
 ## Gate Stage 7
 
