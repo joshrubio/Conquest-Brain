@@ -6,14 +6,13 @@ The project lives **locally + GitHub**. This repo (`D:\Youtube`) is the single s
 
 - Local path: `D:\Youtube`
 - Default branch: `main`
-- Remote: **`https://github.com/joshrubio/Exodo-Brain.git`** (account: `joshrubio`).
-- **Visibility: should be private** — the repo holds unpublished scripts, editorial internals and the separation policy. Confirm it is private before pushing anything new.
+- Remote: **`https://github.com/joshrubio/Exodo-Brain.git`** (account: `joshrubio`). **Private** (set 2026-08-29). Keep it private — it holds unpublished scripts, editorial internals and the separation policy.
+- First push done 2026-08-29 (`main` tracks `origin/main`).
 
-### Push
+### Day-to-day
 
 ```bash
-git remote add origin https://github.com/joshrubio/Exodo-Brain.git
-git push -u origin main
+git push          # main already tracks origin/main
 ```
 
 ## What is and isn't versioned
