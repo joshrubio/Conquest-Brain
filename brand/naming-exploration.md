@@ -85,3 +85,50 @@ Para cada finalista:
 2. Los que sobrevivan → decisión Carmen + Josh.
 3. Nombre elegido → `docs/03-brand-identity.md` (registrar), find & replace de `SEGMENTO` en el repo, asegurar handles.
 4. Pasar a dirección visual (`docs/03` §Visual direction).
+
+---
+
+# Ronda 2 — nombre inventado + «Docs» (estilo *Dieck Docs*)
+
+> 2026-08-28. La Ronda 1 no convenció. Nueva dirección: palabra **inventada** (tipo casa productora, no un apellido real) + **«Docs»**. Se acepta que esto ancla la marca a un "autor" implícito aunque no exista una persona con ese nombre.
+
+## Qué hace catchy a «Dieck Docs»
+
+- Dos palabras, muy corto (2 sílabas + 1).
+- Consonantes duras y eco: **D**ieck **D**ocs.
+- «Docs» = anglicismo → moderno, internacional, y dice literalmente *esto son documentales*.
+- El ancla suena a **apellido** → suena a firma, a autoría.
+
+**Molde para la palabra inventada:** 1–2 sílabas · sonido duro (k / x / t / o final) que rime o haga eco con «Docs» · legible como apellido o palabra-estudio · a poder ser, con un significado latente (verdad, registro, rastro, vínculo).
+
+## Candidatos
+
+| # | Nombre | Palabra evoca | Fonética | Feel | Riesgo | A verificar |
+|---|--------|---------------|----------|------|--------|-------------|
+| 1 | **Verax Docs** | *verax* (latín, "veraz") | /bé·raks · doks/ — la x hace eco con «Docs» | Coído, con filo, on-theme (verdad) | «Verax» fue nombre en clave de Snowden y título de un corto de 2013 — notable pero no es un canal de docs | handles · .com · marca · buscar "Verax" docs/medios |
+| 2 | **Codex Docs** | *codex* ("libro de registro antiguo") | /kó·deks · doks/ — aliteración k + eco x | Muy "estudio", archivo, autoridad | «Codex» es también un grupo de la escena warez (pirateo) — asociación negativa en algunos círculos; muy usado en tech/juegos | handles · .com · marca · sopesar la connotación warez |
+| 3 | **Nexo Docs** | *nexo* ("el vínculo") — el formato une caso → reflexión → lección | /nék·so · doks/ — x + o, encaja | Corto, moderno, significado exacto para el formato | *Nexo Jornal* (Brasil, medio respetado, en portugués) — revisar confusión | handles · .com · marca · buscar "Nexo" medios ES |
+| 4 | **Probo Docs** | *probo* ("honrado, íntegro" — "un hombre probo") | /pró·bo · doks/ | Suena a apellido real, con significado noble, probablemente libre | Poco conocido como adjetivo hoy; algunos lo leerán solo como sonido | handles · .com · marca |
+| 5 | **Rastro Docs** | *rastro* ("seguir el rastro" — investigación) | /rás·tro · doks/ | Investigativo, evocador, muy español | «El Rastro» = mercadillo de Madrid (colisión menor); 2 sílabas con grupo consonántico | handles · .com · marca · buscar podcasts "Rastro" |
+| 6 | **Testa Docs** | de *testimonio / testigo* (raíz *testis*) | /tés·ta · doks/ | Corto, duro, raíz "testimonio" | «Testa» = "cabeza" en italiano (menor); marcas de moda usan "Testa" | handles · .com · marca |
+| 7 | **Índex Docs** | *índice / índex* (de archivo) | /ín·deks · doks/ — doble x | Archivo, catálogo, orden | Genérico; muy usado en software/finanzas | handles · .com · marca |
+| 8 | **Consta Docs** | *consta* ("consta que…", está registrado) | /kóns·ta · doks/ | Periodístico, "esto está probado" | Palabra común como forma verbal; ¿se lee como nombre? | handles · .com · marca · test de percepción |
+| 9 | **Halden Docs** | apellido puro inventado (neutro, como "Dieck") | /ál·den · doks/ | Suena a autor real, serio, internacional | Sin significado latente; podría existir alguien con ese apellido haciendo algo | handles · .com · marca · buscar "Halden" |
+| 10 | **Vero Docs** | *vero* (latín/italiano "verdadero"; también "la vera verdad") | /bé·ro · doks/ | Cálido, corto, name-like | «Vero» = diminutivo de Verónica (colisión / SEO); app de RRSS "Vero" existe | handles · .com · marca |
+
+## Shortlist Ronda 2
+
+1. **Verax Docs** — la mejor combinación de molde (corto, x que rima con Docs), significado (verdad) y probable disponibilidad.
+2. **Nexo Docs** — el significado ("el vínculo") describe exactamente el formato; muy limpio. Revisar *Nexo Jornal*.
+3. **Probo Docs** — el que más suena a apellido real con significado noble; probablemente libre.
+
+Suplente: **Rastro Docs** si se quiere algo más narrativo/investigativo y menos latino.
+
+## Checklist (misma que Ronda 1) — por finalista
+
+- [ ] Handle YouTube `@nombre` · [ ] `.com`/`.tv`/`.co` · [ ] IG · [ ] TikTok
+- [ ] Marca (OEPM / EUIPO / USPTO)
+- [ ] Búsqueda: ¿canal / podcast / medio en español con ese nombre?
+- [ ] Colisión con el negocio de membresía y otros canales del equipo
+- [ ] Se dice y se escribe al oído sin dudar
+- [ ] Cabe en rótulo de miniatura

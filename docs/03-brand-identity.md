@@ -11,9 +11,9 @@
 
 ## Decisions taken (2026-08-28)
 
-- **Brand type:** independent show brand — the name names no person (fits Carmen + Josh both narrating, and scales).
+- **Brand type:** independent show brand — no real person's name. Round 2 direction: an **invented word + "Docs"** (production-house style, à la *Dieck Docs*).
 - **Name tone:** rigorous / archival register — signals evidence, document, investigation.
-- **Naming exploration in progress:** [brand/naming-exploration.md](../brand/naming-exploration.md). Shortlist: *Constancia*, *Legajo*, *Nota al Pie* (suplente: *Apostilla*). Pending: availability + collision checks by Josh.
+- **Naming exploration:** [brand/naming-exploration.md](../brand/naming-exploration.md). Round 1 (Spanish archive words) rejected. Round 2 shortlist: *Verax Docs*, *Nexo Docs*, *Probo Docs* (suplente: *Rastro Docs*). Pending: availability + collision checks by Josh.
 
 ## Channel-type decision (open)
 
