@@ -2,7 +2,7 @@
 
 - Script: `episodes/E001-hokusai/05-script.md`
 - Source-log: `episodes/E001-hokusai/03-source-log.csv`
-- Tags used: 43 (20 unique)
+- Tags used: 44 (20 unique)
 - Sources: 20 — A:3, B:17
 - Orphan-claim candidates: 9
 
@@ -10,19 +10,19 @@
 
 - L29: Para entender esa frase hay que ver la vida entera. Esta es la historia de Katsushika Hokusai.
 - L87: Lo que no tuvo nunca fue estabilidad. Durante la mayor parte de su vida fue pobre —pobre de no saber si comería, no pobre de artista con …
-- L120: Lo escribe a los setenta y cuatro años. Ya había hecho «La gran ola». Y su propio balance es: todavía no sé nada —pero voy en la direcció…
-- L157: Hay dos maneras de hacerlo. Una es preguntarte: «¿ya llegué?». La otra: «¿me estoy acercando?».
-- L170: No «¿esto me haría llegar?». Sino: «¿este es un trabajo del que querría tener diez años más?».
-- L172: Porque el que se define por «ya está» y el que se define por «casi lo tengo» envejecen de forma muy distinta. Hokusai nunca llegó a donde…
-- L252: - Cerrar S15 (DOI/ISBN), S19 (cada ejemplo por separado), S20 (fuente de población de Edo)
-- L253: - Verificar: fecha de ruptura con Katsukawa (1793), año del incendio (~1839), parentesco exacto del nieto, datación de "La gran ola" con …
-- L254: - Recuento de nombres (~30) y mudanzas (~93) contra la fuente
+- L122: Lo escribe a los setenta y cuatro años. Ya había hecho «La gran ola». Y su propio balance es: todavía no sé nada —pero voy en la direcció…
+- L159: Hay dos maneras de hacerlo. Una es preguntarte: «¿ya llegué?». La otra: «¿me estoy acercando?».
+- L172: No «¿esto me haría llegar?». Sino: «¿este es un trabajo del que querría tener diez años más?».
+- L174: Porque el que se define por «ya está» y el que se define por «casi lo tengo» envejecen de forma muy distinta. Hokusai nunca llegó a donde…
+- L254: - Cerrar S15 (DOI/ISBN), S19 (cada ejemplo por separado), S20 (fuente de población de Edo)
+- L255: - Verificar: fecha de ruptura con Katsukawa (1793), año del incendio (~1839), parentesco exacto del nieto, datación de "La gran ola" con …
+- L256: - Recuento de nombres (~30) y mudanzas (~93) contra la fuente
 
 ## Verdict: **PASS**
 
 (PASS on consistency, but the orphan candidates above still need a human pass.)
 
-> Script v1.1 (correcciones de Layer 2 aplicadas — ver §Layer 2 y `05-script.md`).
+> Script v1.2 (hallazgos de la búsqueda de recursos aplicados).
 
 ## Layer 2 — LLM
 

@@ -11,7 +11,7 @@
 | ID | Slug | Título provisional | Track | Guionista | Narrador | Stage actual | Responsable stage | Fecha objetivo pub. | Notas |
 |----|------|--------------------|-------|-----------|----------|--------------|-------------------|---------------------|-------|
 | E000 | E000-EXAMPLE-ejemplo | (referencia, no se publica) | — | — | — | — | — | — | Ejemplo de carpeta completa |
-| E001 | E001-hokusai | «Hokusai» | T01 | Josh | Carmen | **4 → 5** (guion v1 ~2.950 pal; falta cerrar S15/S19 + fact-check L2/L3) | Josh (guion) → Carmen (L3) | — | Primer episodio real. Guion v1 hecho. Layer 1 PASS. Pendientes en `05-script.md` §Autorrevisión (verificar fechas, cerrar 2 fuentes). |
+| E001 | E001-hokusai | «Hokusai» | T01 | Josh | Carmen | **5** (guion v1.2; L1 PASS + L2 corrido y corregido; falta L3 Carmen) | Carmen (L3) | — | Primer episodio real. Guion v1.2, shotlist v1, `material-search.md` hecho. Pendiente Layer 3 + cerrar S15/S19/S20 contra fuente. |
 
 ## Reglas
 

@@ -51,6 +51,20 @@ An idea is not approved until someone has confirmed, against real archive listin
 - **Favours:** pre-~1930 subjects (photos frequently PD by age), government-documented cases, historical corporate/engineering cases, anything with court records or archives.
 - **Harder right now:** recent events, living people whose only images are rights-managed, anything that needs modern broadcast footage. Possible, but leans heavily on own graphics — score P7 low.
 
+## Subject with no photograph (pre-photography or no likeness survives)
+
+Common for T01/T02 (Semmelweis, Hokusai, Tulipmania, Radium-era…). Layered approach, most honest first:
+
+1. **Contemporary depictions** — portraits, engravings, busts, plaques made in the subject's lifetime or soon after. Usually few (2–4) → reuse deliberately as a motif.
+2. **How they were shown by others / showed themselves** — self-portraits, caricatures, courtroom sketches, a figure in their own work. Primary-source, on-brand.
+3. **The act, in close-up (reconstruction)** — hands, tools, the object being made/used. Shows the person working without needing a face. Low risk.
+4. **Light 2.5D parallax** on portrait stills (layer separation, subtle motion, no face manipulation). Gives life without crossing into reenactment.
+5. **A recurring stylised illustration** of the subject for journey / timeline / abstract sequences — clearly an illustration, labelled once. Needs an illustrator.
+
+**Not as a primary device:** photoreal AI "bringing a portrait to life". Tone risk for a rigor channel, needs a prominent on-screen label ([04-legal-and-ethics.md](04-legal-and-ethics.md) §8), often uncanny. At most one deliberate moment, labelled.
+
+Any AI-generated, AI-animated, or colourised visual carries an on-screen label — always.
+
 ## Sign-off
 
 The idea's track owner (Carmen for T01, Josh for T02) ticks the worksheet. Recorded in the idea-pool row and carried into `01-brief.md`. Re-checked at Stage 2 (research dossier) when the exact beats are known — `06-shotlist.md` then resolves each beat to a specific item.

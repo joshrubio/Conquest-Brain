@@ -45,6 +45,32 @@
 - **Con derechos de terceros (no usar sin permiso):** animación de capas de color de *BunPan Japan* (YouTube); animación 3D de la Ola en ArtStation; documental *Hokusai: Beyond the Great Wave* (BBC/Exhibition on Screen) — **útil solo como referencia de investigación**.
 - **Conclusión:** todo el "movimiento" del episodio se genera animando las stills PD. Encaja con `docs/11 §2.4` (Ken Burns, revelado de documento, disolvencias) y con G1/G2/G4/G5 (motion-graphics propios).
 
+## Cómo mostrar a Hokusai (el hombre)
+
+No hay fotografías: murió en 1849, antes de la fotografía en Japón. Enfoque en capas, de lo más honesto/barato a lo más caro/arriesgado:
+
+**1. Los retratos reales de la época (ancla).** Existen unos pocos, todos dominio público:
+- **Autorretrato a los 83** (~1842), un dibujo rápido de sí mismo en una carta. Wikimedia, PD.
+- **Retrato de Hokusai anciano** atribuido a un discípulo / a su hija Ōi (frontispicio de una compilación biográfica).
+- **Retrato por Keisai Eisen** (en el *Zoku ukiyo-e ruikō*).
+- Grabado de Hokusai en la vejez / lecho de muerte.
+Son 3–4 imágenes → se reutilizan a propósito, como motivo recurrente (`docs/11`). El autorretrato a los 83 encaja perfecto con "el viejo loco por la pintura" y con el cierre.
+
+**2. Cómo se dibujó él mismo** (primary source, on-brand):
+- **"Autorretrato como pescador"** (1835): Hokusai se dibuja, Ōi escribe el poema encima.
+- Autocaricaturas y figuras del artista dentro de los *Manga*.
+Muestra cómo se veía a sí mismo — más interesante que una foto.
+
+**3. El acto, en primer plano (reconstrucción).** Manos, pincel, tinta, la gubia sobre la madera, la estampa saliendo. No enseña la cara, enseña al hombre trabajando — ata con el hilo "quería que lo vieran trabajar". Bajo riesgo, mucha textura.
+
+**4. Parallax 2.5D sobre los retratos** (separar figura/fondo, movimiento sutil, respiración, sin tocar la cara). Da vida sin cruzar a reenactment. **Si se usa cualquier retoque de IA sobre la cara → rótulo en pantalla** (`docs/04`).
+
+**5. (Opcional, si hay presupuesto) Ilustración estilizada recurrente de Hokusai** para las secuencias de "las 93 mudanzas" / la línea de tiempo / el viaje. Claramente una ilustración, rotulada como tal una vez. Da material ilimitado y animable (caminar, pintar, mudarse).
+
+**Lo que NO hacemos como recurso principal:** "dar vida" foto-realista al retrato con IA (estilo *Deep Nostalgia*). Riesgo de tono para un canal de rigor, exige rótulo prominente, y suele quedar *uncanny*. Como mucho, en **un solo momento** (p. ej. el lecho de muerte), con nota en pantalla, como decisión deliberada — nunca a lo largo del episodio.
+
+**Recomendación para E001:** capas 1 + 2 + 3. Parallax suave (capa 4) sobre el autorretrato a los 83. Sin IA sobre la cara. La ilustración recurrente (capa 5) queda para cuando haya ilustrador.
+
 ## Hallazgos que afectan al fact-check (pasar a Layer 3)
 
 1. **Datación de "La gran ola":** AIC la fecha "1830/33" y en otra ficha "1831"; Wikipedia "c. 1829–1832". El guion ("a principios de la década de 1830") es coherente con todas. Cerrar S09 citando la ficha concreta que se use.
@@ -56,5 +82,6 @@
 
 - [x] Hay material PD de sobra para la narrativa y los explicadores
 - [x] < 30% "narrador sobre negro" — muy por debajo
-- [ ] Cerrar: holding concreto de obra de Ōi; ficha exacta de la impresión de "La gran ola" a usar; edición digitalizada del colofón de 1834
+- [x] Enfoque para mostrar a Hokusai (el hombre) definido — retratos reales + autorrepresentaciones + primeros planos del acto + parallax suave; sin IA sobre la cara
+- [ ] Cerrar: holding concreto de obra de Ōi; ficha exacta de la impresión de "La gran ola" a usar; edición digitalizada del colofón de 1834; copia de Van Gogh (Van Gogh Museum, PD)
 - [x] Vídeo: confirmado que no hay PD usable → animación propia de stills

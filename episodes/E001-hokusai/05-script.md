@@ -6,7 +6,7 @@
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E001 |
-| Versión | v1.1 (correcciones de Layer 2) |
+| Versión | v1.2 (hallazgos de la búsqueda de recursos) |
 | Guionista | Josh |
 | Narrador | Carmen |
 | Forma del cierre | **A — reflexión + para llevar** |
@@ -99,7 +99,9 @@ Ten presente el momento: llega a los setenta años arruinado por las deudas de u
 ### Acto 3 — Los setenta
 
 [NARRACIÓN]
-A principios de la década de 1830, Hokusai publica la serie *Treinta y seis vistas del monte Fuji* [S09]. El Fuji desde un campo de arroz. El Fuji entre los andamios de un tonelero, encuadrado dentro de un barril a medio montar. El Fuji rojo al amanecer. Y una lámina en la que el Fuji es apenas un triángulo pequeño al fondo, porque lo que llena la imagen es una ola inmensa, con la cresta abierta en garras de espuma, cayendo sobre tres barcas de pescadores [S09].
+A principios de la década de 1830, Hokusai publica la serie *Treinta y seis vistas del monte Fuji* [S09]. Digo treinta y seis, pero acabaron siendo cuarenta y seis: gustó tanto que fue añadiendo láminas y no se molestó en cambiar el título [S09].
+
+El Fuji desde un campo de arroz. El Fuji entre los andamios de un tonelero, encuadrado dentro de un barril a medio montar. El Fuji rojo contra un cielo despejado. Y una lámina en la que el Fuji es apenas un triángulo pequeño al fondo, porque lo que llena la imagen es una ola inmensa, con la cresta abierta en garras de espuma, cayendo sobre tres barcas de pescadores [S09].
 
 Esa lámina se llama «La gran ola frente a Kanagawa». Hokusai tenía unos setenta años cuando la hizo [S09].
 
@@ -246,6 +248,13 @@ Si estas historias te sirven, suscríbete — así no te pierdes el próximo epi
 - [x] "a conciencia" → "si nos guiamos por lo que dejó escrito"
 - [x] S15 — referencia real (Nicholls 1984 / Dweck 2006); pendiente cerrar DOI/ISBN y formulación exacta
 - [x] edad al morir: nota del doble cómputo (88/90) añadida una vez en Acto 5
+
+### Hallazgos de la búsqueda de recursos aplicados (v1.1 → v1.2)
+
+- [x] "36 vistas" → añadido "acabaron siendo cuarenta y seis" [S09]
+- [x] "Fuji rojo al amanecer" → "Fuji rojo contra un cielo despejado" (*Gaifū kaisei*, no *Sanka hakuu*); shotlist beat 26 corregido
+- [x] S09 ampliada (datación Met/AIC, 46 láminas); S19 (*La Mer* prácticamente cerrada)
+- [x] Enfoque para "mostrar a Hokusai" documentado en `material-search.md`
 
 ### Pendiente Stage 5 (Layer 3 — Carmen, contra fuente real)
 
