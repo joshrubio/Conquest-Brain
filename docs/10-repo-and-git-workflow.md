@@ -6,7 +6,7 @@ The project lives **locally + GitHub**. This repo (`D:\Youtube`) is the single s
 
 - Local path: `D:\Youtube`
 - Default branch: `main`
-- Remote: GitHub — **to be created**. Recommended: **private** repo (contains unpublished scripts and research). Name suggestion: `segmento-youtube` (rename after brand).
+- Remote: GitHub — **to be created**. Recommended: **private** repo (contains unpublished scripts and research). Name suggestion: `cross-check` or `crosscheck-youtube`.
 
 ### First push (when the GitHub repo exists)
 

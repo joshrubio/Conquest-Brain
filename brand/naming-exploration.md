@@ -1,6 +1,8 @@
-# Exploración de nombre — canal SEGMENTO
+# Exploración de nombre — canal Cross Check
 
-> Documento de trabajo para decidir el nombre. La especificación estable de marca está en `docs/03-brand-identity.md`. Aquí se explora; allí se registra la decisión.
+> **DECIDIDO (2026-08-28): «Cross Check».** Diferenciador de handle si el limpio no está: **«Official»** (`@crosscheckofficial`). Especificación de marca en `docs/03-brand-identity.md`. Este archivo conserva el recorrido completo de opciones por si hay que reabrir.
+>
+> **Recorrido:** R1 (palabras de archivo en español) → no. R2 (palabra inventada + Docs) → no. R3 (anglicismo + Docs) → «Top Docs» descartado por choque con *Doc Tops* (16M subs, canal español). Familia "verificar" en español (*Contraste*, *Contrapunto*, *Cotejo*) → saturada en periodismo hispano (*Cotejo.info* = fact-checker de referencia en Venezuela). *Éxodo* → acota el tema + término ya colonizado por cobertura de migración venezolana. **Cross Check** = el método como nombre, lane libre en YouTube español; se asume el choque con *CrossCheck Media* (productora US) y se verifica marca en clase 41.
 
 ## Decisiones ya tomadas (2026-08-28)
 
