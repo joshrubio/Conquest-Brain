@@ -9,6 +9,12 @@
 3. Name and identity must work for a **broad Spanish-speaking audience** — not tied to Rotterdam, the Netherlands, or a local scene.
 4. Must not imply the channel covers private individuals or local community stories. It signals: history, real cases, human insight.
 
+## Decisions taken (2026-08-28)
+
+- **Brand type:** independent show brand — the name names no person (fits Carmen + Josh both narrating, and scales).
+- **Name tone:** rigorous / archival register — signals evidence, document, investigation.
+- **Naming exploration in progress:** [brand/naming-exploration.md](../brand/naming-exploration.md). Shortlist: *Constancia*, *Legajo*, *Nota al Pie* (suplente: *Apostilla*). Pending: availability + collision checks by Josh.
+
 ## Channel-type decision (open)
 
 Undecided: **own new YouTube channel** vs. **recurring segment inside an existing team channel**.
@@ -21,7 +27,7 @@ Undecided: **own new YouTube channel** vs. **recurring segment inside an existin
 
 Desired associations: real stories, evidence, the human behind the event, a lesson worth keeping. Avoid: "news", "true crime" sensational register, anything location-bound, anything that overlaps the business name.
 
-Deliverable when we do the naming pass: 6–8 candidates, each with — meaning, YouTube handle availability, .com availability, IG/TikTok handle availability, trademark quick-check, one-line rejection risk.
+Deliverable when we do the naming pass: 6–8 candidates, each with — meaning, YouTube handle availability, .com availability, IG/TikTok handle availability, trademark quick-check, one-line rejection risk. **Done — see [brand/naming-exploration.md](../brand/naming-exploration.md)** (10 candidates, territories, shortlist, verification checklist).
 
 ## Visual direction (to define)
 
