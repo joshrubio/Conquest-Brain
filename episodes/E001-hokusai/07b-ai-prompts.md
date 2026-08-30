@@ -13,9 +13,9 @@
 | Rótulo en pantalla | `Ilustración — Éxodo` (esquina inferior, discreto, legible) |
 | Fecha | 2026-08-30 |
 
-## Bloque de estilo (compartido — ya está dentro de cada prompt)
+## Estilo de ESTE episodio: ukiyo-e / xilografía
 
-Deriva de: obra real de Hokusai que sale en el episodio (prints CC0 del Met/AIC) → las IA tienen que sentarse al lado de esos prints y leerse como ilustración, no como foto.
+Elegido para E001 (no es el estilo del canal — se elige por episodio, `docs/15` regla 1). Motivo: el episodio está lleno de prints reales de Hokusai (CC0, Met/AIC); las IA tienen que **sentarse al lado de esos prints** y leerse como ilustración, no como foto. Para otros episodios el estilo puede ser fotorrealista.
 
 ```
 Style: Japanese ukiyo-e woodblock print aesthetic with sumi-e ink-wash. Flat

@@ -48,7 +48,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **1. Candidate pull (automatable):** for each archival beat, find 1–3 **specific images** — direct *download* link (no captcha), museum + number, licence, real resolution. Not archive roots.
 - **2. Photography pass (Josh, manual):** for each candidate, judge on resolution (vs. the standard in the template) / condition / colour / crop / sequence coherence against the series look ([docs/03](03-brand-identity.md) §Visual direction). ✅ / ⚠️ / ❌.
 - **3. Own-graphics** beats → design brief, not the manifest.
-- **4. AI-illustration** ([docs/15](15-ai-illustration-protocol.md)): for the beats left ❌ (no PD image, no own-graphic — an event with no depiction, a person with no usable likeness), run `tools/build_ai_prompts.py` → `07b-ai-prompts.md`; Claude writes the scenes; Josh generates; images land in `assets/ai/`. Always stylised + on-screen label.
+- **4. AI-illustration** ([docs/15](15-ai-illustration-protocol.md)): for the beats left ❌ (no real image, no own-graphic), run `tools/build_ai_prompts.py` → `07b-ai-prompts.md`; pick the episode style (photoreal allowed), Claude writes the scenes, Josh generates, images land in `assets/ai/`. On-screen label always; never a photoreal face of a real person; never a fake document.
 - **5. Manifest:** one row per **accepted** image (archival or AI), downloaded to `assets/` with a consistent name.
 - **Gate:** every beat covered (accepted image / graphic / AI); every image a clear licence + resolution for its use; colour/condition checked by sequence; AI images stylised, labelled, no real-person face; courtesy credits logged for `09-description.md`.
 - Runs in parallel with Stage 8 (recording doesn't depend on it).

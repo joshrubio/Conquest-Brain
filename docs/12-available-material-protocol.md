@@ -21,10 +21,16 @@ An idea is not approved until someone has confirmed, against real archive listin
 - NASA, NOAA (PD by default)
 - The Public Domain Review (curated leads)
 
-**Moving image**
+**Moving image (archival)**
 - Internet Archive (archive.org) — incl. Prelinger Archives (PD stock/ephemeral film)
 - NARA motion pictures; Library of Congress film
 - Wikimedia Commons video
+
+**Free stock (generic illustrative b-roll only)** — a modern lab, hands typing, waves, a city at night: **not** the specific real place/event (that's archival). Free/CC0/permissive only, no paid stock:
+- Images: Pexels, Pixabay, Unsplash, Openverse
+- Video: Pexels Videos, Coverr, Mixkit
+- All have free APIs (Pexels/Pixabay need a free key; Openverse/Met/AIC don't) → the Stage 7 pull can hit them directly. See `docs/06` Stage 7.
+- Stock is illustrative, not evidentiary — use it where a viewer reads it as a cutaway, not as "here is the real thing". If in doubt, a discreet label or an own-graphic is safer.
 
 **Audio / music**
 - Musopen (PD classical)
@@ -33,6 +39,8 @@ An idea is not approved until someone has confirmed, against real archive listin
 
 **Our own**
 - Charts, timelines, diagrams, animated maps, text cards — always available; cite the underlying data source in `03-source-log.csv`.
+
+**AI illustration** — only where nothing real exists; see [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md).
 
 ## Worksheet (fill per idea — goes in `idea-pool.md` notes + the brief)
 

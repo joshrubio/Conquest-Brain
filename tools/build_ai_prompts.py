@@ -20,15 +20,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 
-STYLE_DEFAULT = """Style: sumi-e / woodblock print aesthetic, ink-wash. Flat perspective, bold
-carved outlines, visible woodgrain and washi paper texture, limited palette,
-hand-printed matte look with slight ink bleed. NOT photorealistic, NOT 3D,
-NOT digital painting, NOT oil painting. 16:9, cinematic negative space,
-single clear focal point."""
+STYLE_DEFAULT = """<DEFINIR EL ESTILO DE ESTE EPISODIO — docs/15 regla 1. 3-5 lineas.
+Ejemplos de registro: ukiyo-e / xilografia (encaja con archivo de prints);
+carboncillo / grabado; pictorico sobrio; recreacion fotorrealista
+cinematografica, paleta apagada, luz natural, 16:9. Elegir uno y ser
+consistente en todo el episodio.>"""
 
-NEGATIVE = """photorealistic, photograph, hyperrealistic, 3D, CGI, render, modern clothing,
-text, watermark, signature, visible detailed human face, western oil painting,
-anime, neon, lens flare, HDR"""
+NEGATIVE = """text, letters, words, watermark, signature, logo, caption,
+recognizable real person face, deepfake, fake document, fake newspaper,
+fake photograph
+<si el estilo NO es fotorrealista, anadir: photorealistic, photograph, 3D, CGI, render>"""
 
 FNAME_RE = re.compile(r"^([A-Za-z0-9]+)_ai(\d{2})_([a-z0-9-]+)\.(png|jpg|jpeg|webp|tif|tiff)$", re.I)
 
