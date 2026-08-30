@@ -7,6 +7,9 @@
 *.aif
 *.aiff
 *.mp3
+*.ogg
+*.flac
+*.m4a
 *.prproj
 *.aep
 *.psd

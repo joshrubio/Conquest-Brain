@@ -55,14 +55,23 @@ def env(name):
     return ""
 
 
-# CC licences that allow use in a MONETISED YouTube video (= commercial + sync/derivative).
-# BY and BY-SA only; NC and ND are out. Attribution is still required (log it).
-COMMERCIAL_OK = ("by", "by-sa", "cc0", "publicdomain", "zero")
-
-
+# A monetised YouTube video is commercial use + a sync/derivative.
+# Reject any CC licence carrying NC (non-commercial) or ND (no-derivatives).
 def _lic_slug(ccurl):
     parts = (ccurl or "").rstrip("/").split("/")
-    return parts[-2] if len(parts) >= 2 else ""
+    return parts[-2].lower() if len(parts) >= 2 else ""
+
+
+def commercial_ok(slug):
+    """True if the CC licence allows monetised/commercial use. Empty slug -> unknown."""
+    if not slug:
+        return None                       # can't tell — surface it, flag it
+    if slug in ("cc0", "zero", "publicdomain", "mark"):
+        return True
+    tokens = set(slug.split("-"))          # e.g. {"by","nc","sa"}
+    if "nc" in tokens or "nd" in tokens:
+        return False
+    return tokens <= {"by", "sa"}
 
 
 # --------------------------------------------------------------------------- search
@@ -83,13 +92,17 @@ def jamendo(query, cid, n=40):
         if dur < 90:
             continue
         slug = _lic_slug(t.get("license_ccurl"))
-        if slug and not any(slug.startswith(ok) for ok in COMMERCIAL_OK):
-            continue                              # belt-and-suspenders vs the API filter
-        lic = (t.get("license_ccurl") or "").rstrip("/").split("/")[-2:]
+        ok = commercial_ok(slug)
+        if ok is False:                           # NC or ND -> drop (API filter is unreliable)
+            continue
+        parts = (t.get("license_ccurl") or "").rstrip("/").split("/")[-2:]
+        licstr = ("CC " + "-".join(parts).upper()) if slug else "CC (verificar en la page)"
+        if ok is None:
+            licstr += "  ⚠ sin licencia legible"
         out.append({
             "src": "jamendo", "id": str(t["id"]),
             "title": t.get("name", ""), "artist": t.get("artist_name", ""),
-            "dur": dur, "lic": "CC " + "-".join(lic).upper() if lic else "CC",
+            "dur": dur, "lic": licstr,
             "tags": " ".join((t.get("musicinfo") or {}).get("tags", {}).get("genres", [])),
             "preview": t.get("audio", ""), "download": t.get("audiodownload", ""),
             "page": t.get("shareurl", ""),
@@ -133,27 +146,42 @@ def search(query):
     return openverse(query), "openverse (sin JAMENDO_CLIENT_ID — beds flojos)"
 
 
+HEAD = [
+    "# Candidatos de música — pool acumulado",
+    "",
+    "> Cada `find_music.py \"query\"` AÑADE aquí (dedup por id). Brief: **ominosa ambiental**.",
+    "> Solo CC-BY / CC-BY-SA / CC0 (uso comercial OK). **CC-BY exige crédito** — se registra",
+    "> en `LICENSES.md` al descargar. Sin líos: YouTube Audio Library (Studio) o pixabay.com/music.",
+    "> Escucha, elige 3–5, corre:  `python tools/find_music.py --get <id> <id> ...`",
+    "",
+]
+
+
 def run(query):
     hits, src = search(query)
     MUS.mkdir(parents=True, exist_ok=True)
-    L = [f"# Candidatos de música — «{query}»", "",
-         f"> Fuente: {src}. Brief: **ominosa ambiental** (ambiente, no lúgubre, no misterio).",
-         "> Solo CC-BY / CC-BY-SA / CC0 (uso comercial OK). **CC-BY exige crédito** al autor "
-         "+ licencia en `09-description.md` — se registra en `LICENSES.md` al descargar.",
-         "> Sin líos y sin atribución: YouTube Audio Library (en Studio) o pixabay.com/music.",
-         "> Escucha los preview. Elige 3–5 y corre:  "
-         "`python tools/find_music.py --get <id> <id> ...`", ""]
+    prev = CAND.read_text(encoding="utf-8") if CAND.exists() else "\n".join(HEAD)
+    have = set(re.findall(r"^## `([^`]+)`", prev, re.M))
+    new = []
     for h in hits:
+        key = f"{h['src']}:{h['id']}"
+        if key in have:
+            continue
+        have.add(key)
         mm, ss = divmod(h["dur"], 60)
-        L.append(f"## `{h['src']}:{h['id']}` — {h['title']} · {h['artist']}")
-        L.append(f"- {mm}:{ss:02d} · {h['lic']}" + (f" · {h['tags']}" if h['tags'] else ""))
-        L.append(f"- preview: {h['preview']}")
+        new += [
+            f"## `{key}` — {h['title']} · {h['artist']}",
+            f"- {mm}:{ss:02d} · {h['lic']} · «{query}»" + (f" · {h['tags']}" if h['tags'] else ""),
+            f"- download: {h['download'] or h['preview']}",
+        ]
         if h["page"]:
-            L.append(f"- page: {h['page']}")
-        L.append("")
-    CAND.write_text("\n".join(L) + "\n", encoding="utf-8")
-    print(f"escrito  {CAND.relative_to(ROOT)}  ({len(hits)} candidatos, fuente: {src})")
-    print("siguiente: escucha, elige 3–5, `python tools/find_music.py --get <id> ...`")
+            new.append(f"- page: {h['page']}")
+        new.append("")
+    if new:
+        CAND.write_text(prev.rstrip() + "\n\n" + "\n".join(new) + "\n", encoding="utf-8")
+    n_new = sum(1 for x in new if x.startswith("## "))
+    print(f"escrito  {CAND.relative_to(ROOT)}  (+{n_new} nuevos, {len(have)} en el pool, fuente: {src})")
+    print("siguiente: escucha (page), elige 3–5, `python tools/find_music.py --get <id> ...`")
 
 
 def get(ids):
@@ -169,8 +197,8 @@ def get(ids):
             continue
         src, titleartist = m.group(1), m.group(2)
         block = txt[m.end():txt.find("\n## ", m.end()) if "\n## " in txt[m.end():] else len(txt)]
-        dl = re.search(r"preview: (\S+)", block)
-        lic = re.search(r"- \d+:\d+ · (CC[^\n·]*)", block)
+        dl = re.search(r"download: (\S+)", block) or re.search(r"preview: (\S+)", block)
+        lic = re.search(r"·\s*(CC[^\n·]*)", block)
         if not dl:
             print(f"  ?  {want} sin URL")
             continue
@@ -181,7 +209,15 @@ def get(ids):
             print(f"  FALLO  {want}  {e}")
             continue
         safe = re.sub(r"[^A-Za-z0-9]+", "-", titleartist.split(" · ")[0]).strip("-").lower()[:40]
-        ext = ".mp3" if "mp3" in r.headers.get("content-type", "") or dl.group(1).endswith(".mp3") else ".ogg"
+        head = r.content[:4]
+        if head[:3] == b"ID3" or head[:2] in (b"\xff\xfb", b"\xff\xf3", b"\xff\xfa", b"\xff\xf2"):
+            ext = ".mp3"
+        elif head == b"OggS":
+            ext = ".ogg"
+        elif head == b"fLaC":
+            ext = ".flac"
+        else:
+            ext = ".mp3" if "mp3" in dl.group(1).lower() else ".ogg"
         fn = MUS / f"{src}_{want}_{safe}{ext}"
         fn.write_bytes(r.content)
         print(f"  OK  {fn.name}  ({len(r.content)//1024} KB)")
