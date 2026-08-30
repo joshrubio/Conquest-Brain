@@ -356,6 +356,8 @@ def q_commons(query, key, n, opts, video=False):
                                        "no restrictions")):
             continue
         artist = strip((meta.get("Artist") or {}).get("value", ""))
+        if artist.lower() in ("", "missing name", "unknown", "unknown author", "anonymous"):
+            artist = ""
         title = p.get("title", "").replace("File:", "")
         desc = strip((meta.get("ImageDescription") or {}).get("value", ""))
         if not relevant(query, (title, artist, desc), must):
@@ -416,9 +418,43 @@ def read_spec(slug):
     return rows
 
 
-def build_html(slug, groups):
+def _ai_field(chunk, label):
+    m = re.search(rf"\*\*{label}:\*\*\s*(.+)", chunk)
+    return re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
+
+
+def parse_ai_prompts(slug):
+    """(negative_prompt, [{id, slug, beats, beats_short, para, fname, prompt}]).
+    ('', []) if 07b-ai-prompts.md is absent."""
+    f = EP_DIR / slug / "07b-ai-prompts.md"
+    if not f.exists():
+        return "", []
+    txt = f.read_text(encoding="utf-8")
+    neg = ""
+    m = re.search(r"## Negative prompt.*?```(.*?)```", txt, re.S)
+    if m:
+        neg = m.group(1).strip()
+    out = []
+    for chunk in re.split(r"\n## ", txt):
+        hm = re.match(r"(ai\d{2}) — (\S+)", chunk)
+        if not hm:
+            continue
+        beats = _ai_field(chunk, r"Beat\(s\) shotlist")
+        fn = re.search(r"\*\*Guardar como:\*\*\s*`([^`]+)`", chunk)
+        pm = re.search(r"```(.*?)```", chunk, re.S)
+        out.append(dict(
+            id=hm.group(1), slug=hm.group(2), beats=beats,
+            beats_short=re.split(r"[—(]", beats)[0].strip() or hm.group(1),
+            para=_ai_field(chunk, r"Para qué"),
+            fname=fn.group(1) if fn else f"{slug.split('-')[0]}_{hm.group(1)}.png",
+            prompt=pm.group(1).strip() if pm else ""))
+    return neg, out
+
+
+def build_html(slug, groups, ai_prompts=("", [])):
     import html as _h
     esc = _h.escape
+    neg, prompts = ai_prompts
     total = sum(len(c) for _, _, _, _, c, _ in groups)
     cards = []
     for beat, kind, query, srcs, cands, notes in groups:
@@ -452,6 +488,34 @@ def build_html(slug, groups):
                 + '</span></figcaption></label>')
         cards.append('</div></section>')
     body = "\n".join(cards)
+
+    # ---- right column: AI-generation prompts (07b) ----
+    if prompts:
+        ai = ['<h2 class="aih">Prompts IA <span>genera si el pull no trae lo que el beat necesita</span></h2>']
+        if neg:
+            ai.append(f'<details class="neg"><summary>negative prompt (compartido)</summary>'
+                      f'<pre>{esc(neg)}</pre></details>')
+        for p in prompts:
+            ai.append(
+                f'<div class="ai" data-ai="{esc(p["id"])}">'
+                f'<h3><span class="beat">beat {esc(p["beats_short"])}</span> '
+                f'{esc(p["id"])} — {esc(p["slug"])}</h3>'
+                + (f'<p class="para">{esc(p["para"])}</p>' if p["para"] else "")
+                + f'<pre>{esc(p["prompt"])}</pre>'
+                f'<button class="cp">copiar prompt</button>'
+                f'<div class="fn">guardar como <code>{esc(p["fname"])}</code></div>'
+                f'<input class="aipath" data-ai="{esc(p["id"])}" '
+                f'data-beats="{esc(p["beats_short"])}" data-fname="{esc(p["fname"])}" '
+                f'placeholder="ruta local o URL de tu imagen generada">'
+                '</div>')
+        aside = "\n".join(ai)
+        has_ai = "true"
+    else:
+        aside = ('<h2 class="aih">Prompts IA</h2><p class="empty">sin '
+                 f'<code>07b-ai-prompts.md</code> — corre '
+                 f'<code>python tools/build_ai_prompts.py {esc(slug)} &lt;slug&gt; …</code></p>')
+        has_ai = "false"
+
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Candidatos — {esc(slug)}</title>
@@ -461,13 +525,20 @@ def build_html(slug, groups):
  body{{font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;
    background:Canvas;color:CanvasText}}
  header{{position:sticky;top:0;z-index:9;display:flex;gap:1rem;align-items:center;
-   flex-wrap:wrap;padding:.7rem 1rem;background:Canvas;border-bottom:1px solid #8888}}
+   flex-wrap:wrap;padding:.7rem 1rem;background:Canvas;border-bottom:1px solid #8888;min-height:3.2rem}}
  header h1{{font-size:1rem;margin:0;font-weight:700}}
  #cnt{{font-variant-numeric:tabular-nums;opacity:.8}}
  button{{font:inherit;padding:.45rem .8rem;border:1px solid #8886;border-radius:7px;
    background:#8881;cursor:pointer}}
  button.primary{{background:#2563eb;color:#fff;border-color:#2563eb}}
- main{{padding:1rem;max-width:1600px;margin:0 auto}}
+ .wrap{{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:1.5rem;
+   max-width:1900px;margin:0 auto;padding:1rem}}
+ main{{min-width:0}}
+ aside{{position:sticky;top:4rem;align-self:start;max-height:calc(100vh - 5rem);
+   overflow:auto;border-left:1px solid #8884;padding-left:1rem}}
+ @media(max-width:1100px){{.wrap{{grid-template-columns:1fr}}
+   aside{{position:static;max-height:none;border-left:0;border-top:1px solid #8884;
+   padding-left:0;padding-top:1rem}}}}
  section{{margin:0 0 2rem}}
  h2{{font-size:.95rem;border-bottom:1px solid #8884;padding-bottom:.3rem}}
  h2 .q{{font-weight:400;opacity:.75}} h2 .k{{float:right;font-weight:400;opacity:.55;font-size:.8rem}}
@@ -486,52 +557,87 @@ def build_html(slug, groups):
  .badges b.vid{{background:#2563eb33}}
  code{{font-size:.75rem;opacity:.8}} .who{{opacity:.7}} .lic{{opacity:.55;font-size:.72rem}}
  .lnk{{font-size:.75rem}}
+ .aih span{{font-weight:400;opacity:.6;font-size:.75rem}}
+ details.neg{{font-size:.72rem;margin:.6rem 0}}
+ details.neg pre,.ai pre{{white-space:pre-wrap;font-size:.67rem;background:#8881;
+   padding:.5rem;border-radius:6px;max-height:9rem;overflow:auto;margin:.3rem 0}}
+ .ai{{border:1px solid #8884;border-radius:9px;padding:.7rem;margin-bottom:1rem}}
+ .ai.done{{border-color:#16a34a;background:#16a34a14}}
+ .ai h3{{font-size:.82rem;margin:.1rem 0 .3rem;font-weight:600}}
+ .ai .beat{{background:#8883;padding:.05rem .35rem;border-radius:4px;font-size:.7rem}}
+ .ai.done .beat{{background:#16a34a33}}
+ .ai .para{{opacity:.75;font-size:.76rem;margin:.2rem 0 .3rem}}
+ .ai .fn{{font-size:.72rem;opacity:.7;margin:.35rem 0 .25rem}}
+ .ai input{{width:100%;font:inherit;font-size:.76rem;padding:.4rem;border:1px solid #8886;
+   border-radius:6px;background:Canvas;color:CanvasText}}
+ .cp{{font-size:.7rem;padding:.25rem .55rem;margin-top:.1rem}}
 </style></head><body>
 <header>
- <h1>Candidatos · {esc(slug)}</h1>
- <span id="cnt">0 / {total} seleccionadas</span>
+ <h1>Stage 7 · {esc(slug)}</h1>
+ <span id="cnt">0 / {total} seleccionadas</span><span id="aicnt"></span>
  <button class="primary" id="exp">Exportar 07-picks.txt</button>
  <button id="clr">Limpiar</button>
  <span style="opacity:.6;font-size:.8rem">guárdalo en la carpeta del episodio, luego <code>--download</code></span>
 </header>
+<div class="wrap">
 <main>
 {body}
 </main>
+<aside>
+{aside}
+</aside>
+</div>
 <script>
-const LS="exodo-picks:{esc(slug)}";
+const SLUG="{esc(slug)}", HAS_AI={has_ai};
+const LS="exodo-picks:"+SLUG, LSA=LS+":ai";
 const boxes=[...document.querySelectorAll('.card')];
-const cnt=document.getElementById('cnt');
-function saved(){{try{{return new Set(JSON.parse(localStorage.getItem(LS)||'[]'))}}catch(e){{return new Set()}}}}
+const aip=[...document.querySelectorAll('.aipath')];
+const cnt=document.getElementById('cnt'), aicnt=document.getElementById('aicnt');
+function jget(k,d){{try{{return JSON.parse(localStorage.getItem(k))??d}}catch(e){{return d}}}}
 function sync(){{
-  const s=new Set();
-  boxes.forEach(c=>{{if(c.querySelector('input').checked)s.add(c.dataset.key)}});
-  localStorage.setItem(LS,JSON.stringify([...s]));
-  cnt.textContent=s.size+' / {total} seleccionadas';
+  const s=[]; boxes.forEach(c=>{{if(c.querySelector('input').checked)s.push(c.dataset.key)}});
+  localStorage.setItem(LS,JSON.stringify(s));
+  cnt.textContent=s.length+' / {total} seleccionadas';
 }}
-const init=saved();
-boxes.forEach(c=>{{
-  const i=c.querySelector('input');
-  if(init.has(c.dataset.key))i.checked=true;
-  i.addEventListener('change',sync);
+function syncA(){{
+  const o={{}}; aip.forEach(i=>{{const v=i.value.trim(); if(v)o[i.dataset.ai]=v;
+    i.closest('.ai').classList.toggle('done',!!v)}});
+  localStorage.setItem(LSA,JSON.stringify(o));
+  aicnt.textContent = aip.length ? ('  ·  '+Object.keys(o).length+' / '+aip.length+' IA') : '';
+}}
+const initP=new Set(jget(LS,[]));
+boxes.forEach(c=>{{const i=c.querySelector('input');
+  if(initP.has(c.dataset.key))i.checked=true; i.addEventListener('change',sync)}});
+const initA=jget(LSA,{{}});
+aip.forEach(i=>{{if(initA[i.dataset.ai])i.value=initA[i.dataset.ai];
+  i.addEventListener('input',syncA)}});
+sync(); syncA();
+document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{{
+  navigator.clipboard.writeText(b.previousElementSibling.textContent.trim());
+  const t=b.textContent; b.textContent='copiado ✓'; setTimeout(()=>b.textContent=t,1200);
 }});
-sync();
-document.getElementById('clr').onclick=()=>{{boxes.forEach(c=>c.querySelector('input').checked=false);sync()}};
+document.getElementById('clr').onclick=()=>{{
+  boxes.forEach(c=>c.querySelector('input').checked=false); sync();
+}};
 document.getElementById('exp').onclick=async()=>{{
-  const lines=['# 07-picks.txt — beat<TAB>source:id<TAB>url  (generado por 07-candidates.html)'];
+  const L=['# 07-picks.txt — beat<TAB>source:id<TAB>url  (generado por 07-candidates.html)'];
   boxes.forEach(c=>{{if(c.querySelector('input').checked)
-    lines.push(c.dataset.beat+'\\t'+c.dataset.key+'\\t'+c.dataset.url)}});
-  const txt=lines.join('\\n')+'\\n';
+    L.push(c.dataset.beat+'\\t'+c.dataset.key+'\\t'+c.dataset.url)}});
+  const ail=[]; aip.forEach(i=>{{const v=i.value.trim(); if(v)
+    ail.push(i.dataset.beats+'\\tai:'+i.dataset.ai+'\\t'+v)}});
+  if(ail.length){{L.push('# --- IA generada (beats<TAB>ai:id<TAB>ruta o URL) ---'); L.push(...ail)}}
+  const txt=L.join('\\n')+'\\n';
   try{{
     const fh=await window.showSaveFilePicker({{suggestedName:'07-picks.txt',
       types:[{{description:'texto',accept:{{'text/plain':['.txt']}}}}]}});
-    const w=await fh.createWritable();await w.write(txt);await w.close();
-    alert('Guardado. Corre:  python tools/pull_assets.py {esc(slug)} --download');
+    const w=await fh.createWritable(); await w.write(txt); await w.close();
+    alert('Guardado. Corre:  python tools/pull_assets.py '+SLUG+' --download');
     return;
   }}catch(e){{if(e&&e.name==='AbortError')return;}}
   navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{{}});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([txt],{{type:'text/plain'}}));
-  a.download='07-picks.txt';a.click();
+  a.download='07-picks.txt'; a.click();
 }};
 </script></body></html>
 """
@@ -623,11 +729,13 @@ def run(slug):
             md.append(f"<!-- {note} -->")
         md.append("")
     ep = EP_DIR / slug
+    ai = parse_ai_prompts(slug)
     (ep / "07-candidates.md").write_text("\n".join(md) + "\n", encoding="utf-8")
-    (ep / "07-candidates.html").write_text(build_html(slug, groups), encoding="utf-8")
+    (ep / "07-candidates.html").write_text(build_html(slug, groups, ai), encoding="utf-8")
     print(f"escrito  episodes/{slug}/07-candidates.md   ({n_c} candidatos, {len(rows)} beats)")
-    print(f"escrito  episodes/{slug}/07-candidates.html  <- ábrelo en el navegador")
-    print("siguiente: marca las miniaturas, pulsa «Exportar 07-picks.txt», corre --download")
+    print(f"escrito  episodes/{slug}/07-candidates.html  <- ábrelo en el navegador"
+          + (f"  ({len(ai[1])} prompts IA en la columna derecha)" if ai[1] else ""))
+    print("siguiente: marca las miniaturas, pega rutas IA, «Exportar 07-picks.txt», corre --download")
 
 
 # ---------------------------------------------------------------------- download
@@ -674,12 +782,55 @@ def read_picks(slug):
     return picks
 
 
+def _dl_ai(ep, beat, aid, src, fname, rows, credits):
+    """Place a Josh-generated AI image into assets/ai/ under its 07b filename."""
+    dst_dir = ep / "assets" / "ai"
+    dst_dir.mkdir(parents=True, exist_ok=True)
+    data, srcext = None, ""
+    if src.lower().startswith(("http://", "https://")):
+        try:
+            r = requests.get(requests.utils.requote_uri(src),
+                             headers={"User-Agent": UA}, timeout=90)
+            r.raise_for_status()
+            data = r.content
+            srcext = Path(src.split("?")[0]).suffix
+        except Exception as e:
+            print(f"  FALLO  ai:{aid}  {e}")
+            return
+    else:
+        for cand in (Path(src), ROOT / src, ep / src, dst_dir / src):
+            if cand.is_file():
+                data, srcext = cand.read_bytes(), cand.suffix
+                break
+        if data is None:
+            print(f"  FALLO  ai:{aid}  no existe la ruta: {src}")
+            return
+    ext = srcext.lower() if srcext.lower() in (".png", ".jpg", ".jpeg", ".webp") else Path(fname).suffix
+    dst = dst_dir / (Path(fname).stem + ext)
+    dst.write_bytes(data)
+    dim = "?"
+    try:
+        im = Image.open(io.BytesIO(data))
+        dim = f"{im.width}x{im.height}"
+    except Exception:
+        pass
+    rel = dst.relative_to(ep).as_posix()
+    print(f"  OK  {dst.name}  {dim}  (IA)")
+    rows.append(f"| {beat} |  | {aid} — ilustración propia (IA) | — | — | "
+                f"ilustración propia (IA) — rótulo en pantalla | {dim} |  |  | `{rel}` |")
+    credits.append(f"- beat {beat}: {aid} — ilustración propia (IA), rótulo «Ilustración — Éxodo» en pantalla")
+
+
 def download(slug):
     keys = load_env()
     picks = read_picks(slug)
     ep = EP_DIR / slug
+    ai_fname = {p["id"]: p["fname"] for p in parse_ai_prompts(slug)[1]}
     rows, credits = [], []
     for beat, src, cid, url in picks:
+        if src == "ai":
+            _dl_ai(ep, beat, cid, url, ai_fname.get(cid, f"{cid}.png"), rows, credits)
+            continue
         sub = ("video" if src in VIDEO_SRCS
                else "archive" if src in ARCHIVE_SRCS else "stock")
         (ep / "assets" / sub).mkdir(parents=True, exist_ok=True)

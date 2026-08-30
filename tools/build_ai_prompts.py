@@ -106,9 +106,10 @@ def scaffold(slug, img_slugs, force):
 {blocks}
 ## Después de generar
 
-1. 3–4 variantes por prompt → elegir la que más pega con el set → guardar con el nombre exacto en `assets/ai/`.
-2. `python tools/build_ai_prompts.py {slug} --check`.
-3. Claude añade las filas IA a `07-assets.md` y anota el rótulo en `09-description.md`.
+1. Corre `python tools/pull_assets.py {slug}` — estos prompts salen en la columna derecha de `07-candidates.html`.
+2. Por prompt: 3–4 variantes → elige la que más pega con el set → pega su ruta/URL en el input del prompt.
+3. «Exportar 07-picks.txt» → `python tools/pull_assets.py {slug} --download` copia cada imagen a `assets/ai/` con su nombre e imprime la fila de manifiesto.
+4. Claude añade las filas IA a `07-assets.md` y anota el rótulo en `09-description.md`.
 """
     out.write_text(text, encoding="utf-8")
     print(f"creado  {out.relative_to(ROOT)}")

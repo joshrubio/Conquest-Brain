@@ -19,11 +19,21 @@ python tools/pull_assets.py E0XX-slug              # -> 07-candidates.md + 07-ca
 python tools/pull_assets.py E0XX-slug --download   # -> assets/stock|video|archive/, CREDITS.md, rows
 ```
 
-**Picker UX:** `07-candidates.html` is a self-contained thumbnail contact sheet — click
-to select (persists in `localStorage`), **Exportar 07-picks.txt** writes the selection
-into the episode folder (Chrome/Edge save dialog; other browsers download it). `--download`
-reads `07-picks.txt` if present, else falls back to `- [x]` lines in `07-candidates.md`.
-`07-candidates.html` is gitignored; `07-candidates.md` and `07-picks.txt` are tracked.
+**Picker UX:** `07-candidates.html` is a self-contained two-column Stage-7 surface.
+- **Left** — pulled candidates per beat; click a thumbnail to select (persists in `localStorage`).
+- **Right** — the `07b-ai-prompts.md` prompts (parsed live). Each panel: the prompt +
+  a *copiar prompt* button + an input for the path/URL of the image you generated. For
+  beats the pull couldn't cover.
+- **Exportar 07-picks.txt** writes both — ticked candidates *and* filled AI paths — into
+  the episode folder (Chrome/Edge save dialog; other browsers download it).
+
+`--download` reads `07-picks.txt` if present (else `- [x]` lines in `07-candidates.md`
+for the candidates only). Candidate picks → `assets/stock|video|archive/`; `ai:` rows →
+`assets/ai/<07b filename>` (local path is copied, URL is fetched), verified + added to
+the manifest as *ilustración propia (IA)*. `07-candidates.html` is gitignored;
+`07-candidates.md` and `07-picks.txt` are tracked.
+
+Run `build_ai_prompts.py` **before** the pull so the prompts appear in the picker.
 
 `07-pull.tsv` — tab-separated, one row per beat that needs a pulled image/clip
 (own-graphics beats don't go here): `beat · kind · source · query · opts`.

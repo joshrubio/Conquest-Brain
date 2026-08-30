@@ -138,6 +138,7 @@ faint indigo wash along the horizon.
 
 ## Después de generar
 
-1. Josh: 3–4 variantes por prompt → elegir la que más pega con el set → guardar con el nombre exacto en `assets/ai/`.
-2. `python tools/build_ai_prompts.py E001-hokusai --check`.
-3. Claude añade las 4 filas IA a `07-assets.md` (licencia = «ilustración propia (IA) — rótulo en pantalla») y anota el rótulo en `09-description.md`.
+1. `python tools/pull_assets.py E001-hokusai` — estos 4 prompts salen en la columna derecha de `07-candidates.html`.
+2. Por prompt: 3–4 variantes → elegir la que más pega con el set → pegar su ruta/URL en el input del prompt.
+3. «Exportar 07-picks.txt» → `python tools/pull_assets.py E001-hokusai --download` copia cada imagen a `assets/ai/` con su nombre e imprime la fila de manifiesto (licencia = «ilustración propia (IA) — rótulo en pantalla»).
+4. Claude añade las 4 filas IA a `07-assets.md` y anota el rótulo en `09-description.md`.
