@@ -29,7 +29,7 @@ An idea is not approved until someone has confirmed, against real archive listin
 **Free stock (generic illustrative b-roll only)** — a modern lab, hands typing, waves, a city at night: **not** the specific real place/event (that's archival). Free/CC0/permissive only, no paid stock:
 - Images: Pexels, Pixabay, Unsplash, Openverse
 - Video: Pexels Videos, Coverr, Mixkit
-- All have free APIs → `tools/pull_assets.py` hits them at Stage 7 (see `docs/06` Stage 7). Keys (Pexels, Pixabay, Unsplash) go in `tools/.env` (gitignored); Openverse / Met / AIC need no key.
+- All have free APIs → `tools/pull_assets.py` hits them at Stage 7 (see `docs/06` Stage 7), ~3 candidates/beat, and writes a thumbnail picker (`07-candidates.html`). Keys (Pexels, Pixabay, Unsplash) go in `tools/.env` (gitignored); Openverse / Met / AIC need no key.
 - Known limits: **Pixabay** free API delivers images capped at ~1280 px (inset use only); **AIC** blocks direct image download from some networks (open the artwork page, use its Download button). Pexels/Unsplash/Met deliver full resolution.
 - Stock is illustrative, not evidentiary — use it where a viewer reads it as a cutaway, not as "here is the real thing". If in doubt, a discreet label or an own-graphic is safer.
 - Attribution: Pexels + Unsplash require crediting the platform and the author in `09-description.md`; `--download` logs every pulled item to `assets/CREDITS.md`.

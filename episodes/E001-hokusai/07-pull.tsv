@@ -6,7 +6,7 @@
 #   source group keywords:  stock = pexels,pixabay,unsplash,openverse
 #                           archive = met,aic          video = pexels,pixabay
 #   opts (all optional):
-#     n=4              candidates per source
+#     n=3              total candidates for the beat (default 3)
 #     orientation=landscape|portrait|square   (pexels/unsplash)
 #     min=3000         drop candidates whose long side < N px
 #     license=cc0,by   openverse licence filter
@@ -17,26 +17,26 @@
 # AI beats (ai01-ai04, +B/+C Daruma, +E packing-paper) live in 07b, not here.
 #
 beat	kind	source	query	opts
-2	archive	aic,met	great wave off kanagawa	must=hokusai,kanagawa;n=5
-4	archive	aic,met	hokusai portrait self portrait old	must=hokusai;n=6
-7	archive	met,aic	edo japan busy street ukiyo-e	must=street;n=5
-9	archive	met,aic	ukiyo-e illustrated book ehon album	must=book;n=5
-10	archive	met,aic	katsukawa shunsho kabuki actor	must=shunsho;n=4
-11	archive	met,aic	hokusai shunro early surimono	must=hokusai;n=5
-14	archive	met,aic	nagasaki harbour dutch ship view	must=nagasaki;n=4
-17	archive	met,aic	katsushika hokusai	must=hokusai;n=8
-21	archive	met,aic	hokusai manga sketches figures	must=manga;n=5
-25	archive	aic,met	thirty-six views of mount fuji	must=hokusai,fuji;n=8
-26	archive	aic,met	fine wind clear morning south wind red fuji	must=hokusai,fuji;n=4
-30	archive	met,aic	one hundred views of mount fuji	must=hokusai,fuji;n=5
-32	archive	met,aic	hokusai painting old age	must=hokusai;n=4
-33	archive	met,aic	fire conflagration edo city	must=fire;n=4
-34	archive	aic,met	katsushika oi painting	must=katsushika;n=5
-36	archive	met,aic	hokusai portrait	must=hokusai;n=4
-FG	archive	aic,met	van gogh japonaiserie	must=gogh;n=4
+2	archive	aic,met	great wave off kanagawa	must=hokusai,kanagawa;n=3
+4	archive	aic,met	hokusai portrait self portrait old	must=hokusai;n=3
+7	archive	met,aic	edo japan busy street ukiyo-e	must=street;n=3
+9	archive	met,aic	ukiyo-e illustrated book ehon album	must=book;n=3
+10	archive	met,aic	katsukawa shunsho kabuki actor	must=shunsho;n=3
+11	archive	met,aic	hokusai shunro early surimono	must=hokusai;n=3
+14	archive	met,aic	nagasaki harbour dutch ship view	must=nagasaki;n=3
+17	archive	met,aic	katsushika hokusai	must=hokusai;n=4
+21	archive	met,aic	hokusai manga sketches figures	must=manga;n=3
+25	archive	aic,met	thirty-six views of mount fuji	must=hokusai,fuji;n=3
+26	archive	aic,met	fine wind clear morning south wind red fuji	must=hokusai,fuji;n=3
+30	archive	met,aic	one hundred views of mount fuji	must=hokusai,fuji;n=3
+32	archive	met,aic	hokusai painting old age	must=hokusai;n=3
+33	archive	met,aic	fire conflagration edo city	must=fire;n=3
+34	archive	aic,met	katsushika oi painting	must=katsushika;n=3
+36	archive	met,aic	hokusai portrait	must=hokusai;n=3
+FG	archive	aic,met	van gogh japonaiserie	must=gogh;n=3
 # --- generic b-roll (transitions / texture / grounding) ---
-BR1	stock	pexels,unsplash	big ocean wave breaking foam storm	orientation=landscape;min=3000;n=4
+BR1	stock	pexels,unsplash	big ocean wave breaking foam storm	orientation=landscape;min=3000;n=3
 BR2	stock	pexels,unsplash	mount fuji distant clear sky japan	orientation=landscape;min=3000;n=3
-BR3	stock	pexels,pixabay	sumi ink brush black stroke rice paper	min=2000;n=3
-BR4	stock	unsplash,pexels	old worn japanese paper parchment texture	min=2000;n=3
+BR3	stock	pexels,pixabay	sumi ink brush black stroke rice paper	min=3000;n=3
+BR4	stock	unsplash,pexels	old worn japanese paper parchment texture	min=3000;n=3
 BR1v	video	pexels,pixabay	ocean wave slow motion crashing	n=3

@@ -35,3 +35,7 @@ ideas/*.pdf
 
 # API keys for tools/pull_assets.py
 tools/.env
+
+# Stage 7 candidate picker — generated, regenerate with tools/pull_assets.py
+# (07-candidates.md and 07-picks.txt ARE tracked — the review record)
+episodes/**/07-candidates.html

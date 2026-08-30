@@ -12,18 +12,24 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 ## pull_assets.py
 
 ```
-python tools/pull_assets.py E0XX-slug --init      # scaffold 07-pull.tsv
-python tools/pull_assets.py E0XX-slug             # -> 07-candidates.md
-# tick the keepers "- [x]" in 07-candidates.md, then:
-python tools/pull_assets.py E0XX-slug --download  # -> assets/, CREDITS.md, manifest rows
-python tools/pull_assets.py --check-keys
+python tools/pull_assets.py --check-keys          # report tools/.env keys
+python tools/pull_assets.py E0XX-slug --init       # scaffold 07-pull.tsv
+python tools/pull_assets.py E0XX-slug              # -> 07-candidates.md + 07-candidates.html
+# open 07-candidates.html in a browser, tick thumbnails, "Exportar 07-picks.txt"
+python tools/pull_assets.py E0XX-slug --download   # -> assets/, CREDITS.md, manifest rows
 ```
+
+**Picker UX:** `07-candidates.html` is a self-contained thumbnail contact sheet — click
+to select (persists in `localStorage`), **Exportar 07-picks.txt** writes the selection
+into the episode folder (Chrome/Edge save dialog; other browsers download it). `--download`
+reads `07-picks.txt` if present, else falls back to `- [x]` lines in `07-candidates.md`.
+`07-candidates.html` is gitignored; `07-candidates.md` and `07-picks.txt` are tracked.
 
 `07-pull.tsv` — tab-separated, one row per beat that needs a pulled image/clip
 (own-graphics beats don't go here): `beat · kind (stock|archive|video) · source · query · opts`.
 
 - `source`: comma list or a group keyword — `stock` = pexels,pixabay,unsplash,openverse · `archive` = met,aic · video only does pexels,pixabay.
-- `opts`: `n=4` · `orientation=landscape` · `min=3000` (drop candidates whose long side is smaller) · `license=cc0,by` (openverse) · `must=hokusai,fuji` (archive only — every term must appear in artist/title/tags).
+- `opts`: `n=3` (total candidates per beat, split across sources) · `orientation=landscape` · `min=3000` (drop candidates whose long side is smaller) · `license=cc0,by` (openverse) · `must=hokusai,fuji` (archive only — every term must appear in artist/title/tags).
 
 **Keys** go in `tools/.env` (gitignored — copy `tools/.env.example`). Without it, only the
 keyless sources run (Openverse, Met, AIC). Get them: Pexels `pexels.com/api`, Pixabay

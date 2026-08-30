@@ -21,12 +21,14 @@ Usage
       scaffold episodes/E0XX-slug/07-pull.tsv
 
   python tools/pull_assets.py E0XX-slug
-      run every spec row -> episodes/E0XX-slug/07-candidates.md
+      run every spec row -> 07-candidates.md (git record) + 07-candidates.html
+      (open in a browser: thumbnails, tick the keepers, "Exportar" writes
+      07-picks.txt). ~3 candidates per beat by default (opts n=).
 
   python tools/pull_assets.py E0XX-slug --download
-      read 07-candidates.md, download every "- [x]" candidate into
-      assets/stock|archive/, verify resolution, append assets/CREDITS.md,
-      print manifest rows for 07-assets.md
+      read 07-picks.txt (or, if absent, "- [x]" lines in 07-candidates.md),
+      download each pick into assets/stock|archive/, verify resolution,
+      append assets/CREDITS.md, print manifest rows for 07-assets.md
 
   python tools/pull_assets.py --check-keys
       report which API keys tools/.env provides
@@ -69,7 +71,8 @@ SPEC_HEADER = """# 07-pull.tsv — Stage 7 candidate-pull spec for this episode.
 #           video only supports pexels,pixabay
 #   query   search terms
 #   opts    key=value;key=value  (all optional)
-#             n=4               candidates per source (default 4)
+#             n=3               total candidates for the beat (default 3),
+#                               split across the sources
 #             orientation=landscape|portrait|square   (pexels/unsplash)
 #             min=3000          drop candidates whose long side < this many px
 #             license=cc0,by    openverse licence filter
@@ -106,19 +109,26 @@ def check_keys():
 
 # --------------------------------------------------------------------------- model
 class Cand:
-    __slots__ = ("src", "id", "w", "h", "author", "lic", "url", "page", "dur")
+    __slots__ = ("src", "id", "w", "h", "author", "lic", "url", "page", "dur", "thumb")
 
-    def __init__(self, src, id, url, w=0, h=0, author="", lic="", page="", dur=0):
+    def __init__(self, src, id, url, w=0, h=0, author="", lic="", page="", dur=0, thumb=""):
         self.src, self.id, self.url = src, str(id), url
-        self.w, self.h, self.author, self.lic, self.page, self.dur = w, h, author, lic, page, dur
+        self.w, self.h, self.author, self.lic = w, h, author, lic
+        self.page, self.dur, self.thumb = page, dur, thumb
+
+    @property
+    def key(self):
+        return f"{self.src}:{self.id}"
+
+    def dim(self):
+        return f"{self.w}x{self.h}" if self.w else "?x?"
 
     def line(self):
-        dim = f"{self.w}x{self.h}" if self.w else "?x?"
         extra = f" · {self.dur}s" if self.dur else ""
         who = f" · {self.author}" if self.author else ""
         lic = f" · {self.lic}" if self.lic else ""
-        pg = f"\n      page: {self.page}" if self.page else ""
-        return f"- [ ] `{self.src}:{self.id}` · {dim}{extra}{who}{lic} · {self.url}{pg}"
+        pg = f"\n        page: {self.page}" if self.page else ""
+        return f"- [ ] `{self.key}` · {self.dim()}{extra}{who}{lic} · {self.url}{pg}"
 
 
 STOP = {"the", "and", "for", "with", "from", "also", "known", "view", "views",
@@ -165,12 +175,12 @@ def q_pexels(query, key, n, opts, video=False):
             f = files[0]
             out.append(Cand("pexels", v["id"], f["link"], f.get("width", 0), f.get("height", 0),
                             v.get("user", {}).get("name", ""), "Pexels License",
-                            v.get("url", ""), v.get("duration", 0)))
+                            v.get("url", ""), v.get("duration", 0), thumb=v.get("image", "")))
     else:
         for ph in r.json().get("photos", []):
             out.append(Cand("pexels", ph["id"], ph["src"]["original"], ph.get("width", 0),
                             ph.get("height", 0), ph.get("photographer", ""), "Pexels License",
-                            ph.get("url", "")))
+                            ph.get("url", ""), thumb=ph.get("src", {}).get("medium", "")))
     return out
 
 
@@ -189,15 +199,19 @@ def q_pixabay(query, key, n, opts, video=False):
             best = max(vids.values(), key=lambda x: x.get("width", 0)) if vids else None
             if not best:
                 continue
+            th = ""
+            for q in ("tiny", "small", "medium", "large"):
+                th = (vids.get(q) or {}).get("thumbnail") or th
             out.append(Cand("pixabay", h["id"], best["url"], best.get("width", 0),
                             best.get("height", 0), h.get("user", ""), "Pixabay Content License",
-                            h.get("pageURL", ""), h.get("duration", 0)))
+                            h.get("pageURL", ""), h.get("duration", 0), thumb=th))
         else:
             # free API delivers largeImageURL capped at 1280 px on the long side,
             # regardless of imageWidth/imageHeight (those are the source dims)
             out.append(Cand("pixabay", h["id"], h.get("largeImageURL", ""),
                             0, 0, h.get("user", ""),
-                            "Pixabay Content License (entrega <=1280 px)", h.get("pageURL", "")))
+                            "Pixabay Content License (entrega <=1280 px)", h.get("pageURL", ""),
+                            thumb=h.get("webformatURL", "")))
     return out
 
 
@@ -215,7 +229,8 @@ def q_unsplash(query, key, n, opts, video=False):
         full = raw + ("&" if "?" in raw else "?") + "q=90&fm=jpg"
         out.append(Cand("unsplash", ph["id"], full, ph.get("width", 0), ph.get("height", 0),
                         ph.get("user", {}).get("name", ""), "Unsplash License",
-                        ph.get("links", {}).get("html", "")))
+                        ph.get("links", {}).get("html", ""),
+                        thumb=ph.get("urls", {}).get("small", "")))
     return out
 
 
@@ -231,7 +246,8 @@ def q_openverse(query, key, n, opts, video=False):
         lic = f"{h.get('license', '').upper()} {h.get('license_version', '')}".strip()
         out.append(Cand("openverse", h["id"], h.get("url", ""), h.get("width", 0) or 0,
                         h.get("height", 0) or 0, h.get("creator", "") or "", lic,
-                        h.get("foreign_landing_url", "")))
+                        h.get("foreign_landing_url", ""),
+                        thumb=h.get("thumbnail", "") or h.get("url", "")))
     return out
 
 
@@ -259,7 +275,8 @@ def q_met(query, key, n, opts, video=False):
         tags = " ".join(t.get("term", "") for t in (o.get("tags") or []))
         if not relevant(query, (who, title, tags, o.get("culture", ""), o.get("period", "")), must):
             continue
-        c = Cand("met", oid, img, 0, 0, "", "CC0 (The Met)", o.get("objectURL", ""))
+        c = Cand("met", oid, img, 0, 0, "", "CC0 (The Met)", o.get("objectURL", ""),
+                 thumb=o.get("primaryImageSmall", "") or img)
         c.author = f"{who} — {title}".strip(" —")
         out.append(c)
     return out[:n]
@@ -297,7 +314,8 @@ def q_aic(query, key, n, opts, video=False):
         out.append(Cand("aic", a["id"], url, w, h,
                         f"{who} — {a.get('title', '')}".strip(" —"),
                         "CC0 (Art Institute of Chicago)",
-                        f"https://www.artic.edu/artworks/{a['id']}"))
+                        f"https://www.artic.edu/artworks/{a['id']}",
+                        thumb=f"https://www.artic.edu/iiif/2/{iid}/full/400,/0/default.jpg"))
     return out
 
 
@@ -344,55 +362,196 @@ def read_spec(slug):
     return rows
 
 
+def build_html(slug, groups):
+    import html as _h
+    esc = _h.escape
+    total = sum(len(c) for _, _, _, _, c, _ in groups)
+    cards = []
+    for beat, kind, query, srcs, cands, notes in groups:
+        cards.append(f'<section><h2>beat {esc(beat)} '
+                     f'<span class="q">"{esc(query)}"</span> '
+                     f'<span class="k">{esc(kind)} · {esc(",".join(srcs))}</span></h2>')
+        if not cands:
+            cards.append('<p class="empty">— sin candidatos. '
+                         f'{esc("; ".join(notes)) or "amplía la query en 07-pull.tsv"} —</p>')
+        cards.append('<div class="grid">')
+        for c in cands:
+            badges = [f'<b>{esc(c.dim())}</b>']
+            if c.dur:
+                badges.append(f'<b class="vid">▶ {c.dur}s</b>')
+            if c.w and max(c.w, c.h) < 1920:
+                badges.append('<b class="warn">baja-res</b>')
+            if "1280" in c.lic:
+                badges.append('<b class="warn">≤1280</b>')
+            thumb = esc(c.thumb) if c.thumb else ""
+            img = (f'<img loading="lazy" src="{thumb}" alt="">'
+                   if thumb else '<div class="noimg">sin miniatura</div>')
+            cards.append(
+                f'<label class="card" data-key="{esc(c.key)}" data-beat="{esc(beat)}" '
+                f'data-url="{esc(c.url)}"><input type="checkbox">{img}'
+                f'<figcaption><span class="badges">{"".join(badges)}</span>'
+                f'<code>{esc(c.key)}</code>'
+                f'<span class="who">{esc(c.author or "")}</span>'
+                f'<span class="lic">{esc(c.lic)}</span>'
+                f'<span class="lnk"><a href="{esc(c.url)}" target="_blank" rel="noopener">full</a>'
+                + (f' · <a href="{esc(c.page)}" target="_blank" rel="noopener">page</a>' if c.page else "")
+                + '</span></figcaption></label>')
+        cards.append('</div></section>')
+    body = "\n".join(cards)
+    return f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Candidatos — {esc(slug)}</title>
+<style>
+ :root{{color-scheme:light dark}}
+ *{{box-sizing:border-box}}
+ body{{font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;
+   background:Canvas;color:CanvasText}}
+ header{{position:sticky;top:0;z-index:9;display:flex;gap:1rem;align-items:center;
+   flex-wrap:wrap;padding:.7rem 1rem;background:Canvas;border-bottom:1px solid #8888}}
+ header h1{{font-size:1rem;margin:0;font-weight:700}}
+ #cnt{{font-variant-numeric:tabular-nums;opacity:.8}}
+ button{{font:inherit;padding:.45rem .8rem;border:1px solid #8886;border-radius:7px;
+   background:#8881;cursor:pointer}}
+ button.primary{{background:#2563eb;color:#fff;border-color:#2563eb}}
+ main{{padding:1rem;max-width:1600px;margin:0 auto}}
+ section{{margin:0 0 2rem}}
+ h2{{font-size:.95rem;border-bottom:1px solid #8884;padding-bottom:.3rem}}
+ h2 .q{{font-weight:400;opacity:.75}} h2 .k{{float:right;font-weight:400;opacity:.55;font-size:.8rem}}
+ .empty{{opacity:.6;font-style:italic}}
+ .grid{{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}}
+ .card{{border:2px solid transparent;border-radius:9px;overflow:hidden;background:#8881;
+   cursor:pointer;display:flex;flex-direction:column}}
+ .card:has(:checked){{border-color:#2563eb;background:#2563eb22}}
+ .card input{{position:absolute;width:22px;height:22px;margin:6px;accent-color:#2563eb}}
+ .card img,.card .noimg{{width:100%;aspect-ratio:4/3;object-fit:cover;background:#0002;display:block}}
+ .noimg{{display:flex;align-items:center;justify-content:center;opacity:.5;font-size:.8rem}}
+ figcaption{{padding:.5rem .6rem;display:flex;flex-direction:column;gap:.2rem;font-size:.8rem}}
+ .badges{{display:flex;gap:.3rem;flex-wrap:wrap}}
+ .badges b{{font-weight:600;background:#8883;padding:.05rem .35rem;border-radius:4px}}
+ .badges b.warn{{background:#f59e0b33;color:#b45309}}
+ .badges b.vid{{background:#2563eb33}}
+ code{{font-size:.75rem;opacity:.8}} .who{{opacity:.7}} .lic{{opacity:.55;font-size:.72rem}}
+ .lnk{{font-size:.75rem}}
+</style></head><body>
+<header>
+ <h1>Candidatos · {esc(slug)}</h1>
+ <span id="cnt">0 / {total} seleccionadas</span>
+ <button class="primary" id="exp">Exportar 07-picks.txt</button>
+ <button id="clr">Limpiar</button>
+ <span style="opacity:.6;font-size:.8rem">guárdalo en la carpeta del episodio, luego <code>--download</code></span>
+</header>
+<main>
+{body}
+</main>
+<script>
+const LS="exodo-picks:{esc(slug)}";
+const boxes=[...document.querySelectorAll('.card')];
+const cnt=document.getElementById('cnt');
+function saved(){{try{{return new Set(JSON.parse(localStorage.getItem(LS)||'[]'))}}catch(e){{return new Set()}}}}
+function sync(){{
+  const s=new Set();
+  boxes.forEach(c=>{{if(c.querySelector('input').checked)s.add(c.dataset.key)}});
+  localStorage.setItem(LS,JSON.stringify([...s]));
+  cnt.textContent=s.size+' / {total} seleccionadas';
+}}
+const init=saved();
+boxes.forEach(c=>{{
+  const i=c.querySelector('input');
+  if(init.has(c.dataset.key))i.checked=true;
+  i.addEventListener('change',sync);
+}});
+sync();
+document.getElementById('clr').onclick=()=>{{boxes.forEach(c=>c.querySelector('input').checked=false);sync()}};
+document.getElementById('exp').onclick=async()=>{{
+  const lines=['# 07-picks.txt — beat<TAB>source:id<TAB>url  (generado por 07-candidates.html)'];
+  boxes.forEach(c=>{{if(c.querySelector('input').checked)
+    lines.push(c.dataset.beat+'\\t'+c.dataset.key+'\\t'+c.dataset.url)}});
+  const txt=lines.join('\\n')+'\\n';
+  try{{
+    const fh=await window.showSaveFilePicker({{suggestedName:'07-picks.txt',
+      types:[{{description:'texto',accept:{{'text/plain':['.txt']}}}}]}});
+    const w=await fh.createWritable();await w.write(txt);await w.close();
+    alert('Guardado. Corre:  python tools/pull_assets.py {esc(slug)} --download');
+    return;
+  }}catch(e){{if(e&&e.name==='AbortError')return;}}
+  navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{{}});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([txt],{{type:'text/plain'}}));
+  a.download='07-picks.txt';a.click();
+}};
+</script></body></html>
+"""
+
+
+def gather_beat(beat, kind, source, query, opts, keys):
+    """Query every source for a beat, then trim to `n` total (default 3),
+    round-robin so each source stays represented. Returns (srcs, cands, notes)."""
+    n = max(1, int(opts.get("n", 3)))
+    want_video = kind.lower() == "video"
+    srcs = expand_sources(kind, source)
+    per = max(1, -(-n // len(srcs)))          # ceil(n / nsrcs)
+    mn = int(opts.get("min", 0))
+    buckets, notes = {}, []
+    for src in srcs:
+        fn = DISPATCH.get(src)
+        if not fn:
+            notes.append(f"fuente desconocida: {src}")
+            continue
+        key = keys.get(KEY_FOR.get(src, ""), "")
+        if src in KEY_FOR and not key:
+            notes.append(f"{src}: sin API key en tools/.env")
+            continue
+        try:
+            cands = fn(query, key, per + 2, opts, video=want_video)
+        except requests.HTTPError as e:
+            notes.append(f"{src}: HTTP {getattr(e.response, 'status_code', '?')}")
+            continue
+        except Exception as e:
+            notes.append(f"{src}: {e}")
+            continue
+        if mn:
+            cands = [c for c in cands if (not c.w) or max(c.w, c.h) >= mn]
+        if not cands:
+            notes.append(f"{src}: 0 resultados")
+        buckets[src] = cands
+        time.sleep(0.3)
+    # round-robin merge, cap at n
+    merged, i = [], 0
+    while len(merged) < n and any(buckets.values()):
+        src = srcs[i % len(srcs)]
+        if buckets.get(src):
+            merged.append(buckets[src].pop(0))
+        i += 1
+        if i > len(srcs) * (n + 3):
+            break
+    return srcs, merged, notes
+
+
 def run(slug):
     keys = load_env()
     rows = read_spec(slug)
-    out = [f"# Candidatos de recursos — {slug}",
-           "",
-           "> Stage 7 · pull automático (`tools/pull_assets.py`). **Esto no es selección.**",
-           "> Marca `- [x]` los que quieras y corre `--download`. Todo lo demás se ignora.",
-           "> stock = b-roll ilustrativo genérico, nunca 'lo real' (docs/12).",
-           ""]
-    n_c = 0
+    md = [f"# Candidatos de recursos — {slug}", "",
+          "> Stage 7 · pull automático (`tools/pull_assets.py`). **Esto no es selección.**",
+          "> Trabaja en `07-candidates.html` (miniaturas). Para picar a mano aquí: `- [x]`.",
+          "> stock = b-roll ilustrativo genérico, nunca 'lo real' (docs/12).", ""]
+    groups, n_c = [], 0
     for beat, kind, source, query, rawopts in rows:
         opts = parse_opts(rawopts)
-        n = int(opts.get("n", 4))
-        want_video = kind.lower() == "video"
-        srcs = expand_sources(kind, source)
-        out.append(f"## beat {beat} — \"{query}\"  [{kind}: {','.join(srcs)}]\n")
-        for src in srcs:
-            fn = DISPATCH.get(src)
-            if not fn:
-                out.append(f"  <!-- fuente desconocida: {src} -->")
-                continue
-            key = keys.get(KEY_FOR.get(src, ""), "")
-            if src in KEY_FOR and not key:
-                out.append(f"  <!-- {src}: sin API key en tools/.env, saltado -->")
-                continue
-            try:
-                cands = fn(query, key, n, opts, video=want_video)
-            except requests.HTTPError as e:
-                out.append(f"  <!-- {src}: HTTP {e.response.status_code} -->")
-                continue
-            except Exception as e:
-                out.append(f"  <!-- {src}: {e} -->")
-                continue
-            mn = int(opts.get("min", 0))
-            if mn:
-                cands = [c for c in cands if (not c.w) or max(c.w, c.h) >= mn]
-            if not cands:
-                out.append(f"  <!-- {src}: 0 resultados -->")
-                continue
-            for c in cands:
-                out.append("  " + c.line().replace("\n      ", "\n        "))
-                n_c += 1
-            out.append("")
-            time.sleep(0.3)
-        out.append("")
-    dst = EP_DIR / slug / "07-candidates.md"
-    dst.write_text("\n".join(out) + "\n", encoding="utf-8")
-    print(f"escrito  {dst.relative_to(ROOT)}  ({n_c} candidatos, {len(rows)} beats)")
-    print("siguiente: marca `- [x]` los elegidos y corre --download")
+        srcs, cands, notes = gather_beat(beat, kind, source, query, opts, keys)
+        groups.append((beat, kind, query, srcs, cands, notes))
+        md.append(f"## beat {beat} — \"{query}\"  [{kind}: {','.join(srcs)}]\n")
+        for c in cands:
+            md.append(c.line())
+            n_c += 1
+        for note in notes:
+            md.append(f"<!-- {note} -->")
+        md.append("")
+    ep = EP_DIR / slug
+    (ep / "07-candidates.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    (ep / "07-candidates.html").write_text(build_html(slug, groups), encoding="utf-8")
+    print(f"escrito  episodes/{slug}/07-candidates.md   ({n_c} candidatos, {len(rows)} beats)")
+    print(f"escrito  episodes/{slug}/07-candidates.html  <- ábrelo en el navegador")
+    print("siguiente: marca las miniaturas, pulsa «Exportar 07-picks.txt», corre --download")
 
 
 # ---------------------------------------------------------------------- download
@@ -402,13 +561,29 @@ EXT_OK = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp",
           "video/mp4": ".mp4", "video/quicktime": ".mov"}
 
 
-def download(slug):
-    keys = load_env()
-    md = EP_DIR / slug / "07-candidates.md"
+def read_picks(slug):
+    """(beat, src, id, url) list. Prefer 07-picks.txt (from the HTML picker),
+    fall back to '- [x]' lines in 07-candidates.md."""
+    ep = EP_DIR / slug
+    pf = ep / "07-picks.txt"
+    if pf.exists():
+        picks = []
+        for ln in pf.read_text(encoding="utf-8").splitlines():
+            ln = ln.strip()
+            if not ln or ln.startswith("#"):
+                continue
+            parts = ln.split("\t")
+            if len(parts) < 3 or ":" not in parts[1]:
+                continue
+            src, cid = parts[1].split(":", 1)
+            picks.append((parts[0], src, cid, parts[2]))
+        if picks:
+            print(f"picks: 07-picks.txt ({len(picks)})")
+            return picks
+    md = ep / "07-candidates.md"
     if not md.exists():
         sys.exit(f"no {md.relative_to(ROOT)} — corre el pull primero")
-    beat = "?"
-    picks = []
+    beat, picks = "?", []
     for ln in md.read_text(encoding="utf-8").splitlines():
         b = BEAT_RE.match(ln)
         if b:
@@ -417,8 +592,15 @@ def download(slug):
         if m:
             picks.append((beat, m.group(1), m.group(2), m.group(3)))
     if not picks:
-        sys.exit("0 candidatos marcados `- [x]` en 07-candidates.md")
+        sys.exit("0 picks — usa 07-candidates.html («Exportar 07-picks.txt») "
+                 "o marca `- [x]` en 07-candidates.md")
+    print(f"picks: 07-candidates.md ({len(picks)})")
+    return picks
 
+
+def download(slug):
+    keys = load_env()
+    picks = read_picks(slug)
     ep = EP_DIR / slug
     rows, credits = [], []
     for beat, src, cid, url in picks:
@@ -496,8 +678,8 @@ def init(slug):
     f = d / "07-pull.tsv"
     if f.exists():
         sys.exit(f"ya existe {f.relative_to(ROOT)}")
-    sample = ("1\tarchive\tmet,aic\tkatsushika hokusai\tn=5\n"
-              "7\tstock\tpexels,unsplash\tedo period japanese street crowd\torientation=landscape;min=3000\n"
+    sample = ("1\tarchive\tmet,aic\tkatsushika hokusai\tmust=hokusai;n=3\n"
+              "7\tstock\tpexels,unsplash\tedo period japanese street crowd\torientation=landscape;min=3000;n=3\n"
               "2\tvideo\tpexels,pixabay\tocean wave breaking slow motion\tn=3\n")
     f.write_text(SPEC_HEADER + sample, encoding="utf-8")
     print(f"creado  {f.relative_to(ROOT)}  (edita las filas y corre el pull)")
