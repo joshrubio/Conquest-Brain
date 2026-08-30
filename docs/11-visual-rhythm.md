@@ -14,6 +14,7 @@ This is Stage 6 of the workflow. Input: locked `05-script.md`. Output: `06-shotl
 
 1. **One visual beat every ~2–3 sentences of narration**, or wherever the *subject* of the sentence changes (new person, place, year, object).
 2. Every `[EN PANTALLA]` cue in the script → a beat, kept verbatim.
+2b. **Cold open** → the `[HOOK VISUAL]` list in the script is 2–5 beats, hard-cut on the narration beat, **stock video preferred** over a push-in on a still. The last is the "turn" shot. **Bumper (§0b)** = one beat: black + `Éxodo` wordmark, 3–6 s, no motion.
 3. Every **named** person / place / document / institution / number → its own archival image or graphic.
 4. `[EXPLICADOR]` interlude → one motion-graphic / diagram sequence. **No talking head.** Budget it as the single longest visual block (~60–140 s).
 5. `[PLANT]` and its `[PAY]` → **the same shot both times** (visual rhyme; the viewer recognizes the image and the callback lands).
@@ -25,7 +26,8 @@ This is Stage 6 of the workflow. Input: locked `05-script.md`. Output: `06-shotl
 
 | Section | Beats per minute | Feel |
 |---------|------------------|------|
-| Cold open | 10–12 | fast, montage-like |
+| Cold open (hook) | 10–12 · 2–5 shots in 20–40 s, video preferred | fast, montage-like |
+| Bumper | 1 shot, 3–6 s | black, still, a breath |
 | Context + era setup | 6–8 | steady |
 | Narrative acts | 7–9 | steady, quickens toward the turn |
 | Explainer interlude | 3–5 | slower; one idea builds |
@@ -43,7 +45,7 @@ For a 20-minute episode that's roughly **150–180 distinct visual beats**. Not 
 - Document — page, headline, filing, ledger — with a zoom to the relevant line.
 - Own-made graphic: chart, timeline, diagram, animated map, counter.
 - Plain text card — a quote, a date, a caveat, a chapter marker.
-- Licensed stock footage — sparingly, only when nothing archival exists.
+- Free stock footage/photo — generic b-roll only (`docs/12`); **preferred in the cold-open visual hook** and anywhere a real moving shot beats hand-animating a still.
 - **No** dramatized-film clips as if they were record; **no** AI/reenactment unless labeled ([docs/04](04-legal-and-ethics.md), [docs/08](08-tone-of-voice.md)).
 
 ### 2.4 Motion & treatment defaults

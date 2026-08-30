@@ -31,6 +31,9 @@ beat	kind	source	query	opts
 34	archive	commons,aic,met	katsushika oi painting	must=katsushika;n=3
 36	archive	commons,aic,met	hokusai portrait	must=hokusai;n=3
 FG	archive	commons,aic,met	van gogh japonaiserie	must=gogh;n=3
+# --- cold-open hook (docs/02 §0): 2-5 planos, vídeo preferido ---
+HOOK1	stock	stock	dim traditional japanese tatami room candle dawn	orientation=landscape;min=1920;n=3
+HOOK2	stock	stock	old hands calligraphy brush ink paper close up	orientation=landscape;min=1920;n=3
 # --- generic b-roll: video first, image fallback ---
 BR1	stock	stock	ocean big wave breaking slow motion	orientation=landscape;min=1920;n=3
 BR2	stock	stock	mount fuji distant snow clear sky	orientation=landscape;min=1920;n=3

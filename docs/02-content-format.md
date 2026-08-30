@@ -18,20 +18,28 @@ Runtime split observed across the 6 (use as target, not a straitjacket):
 
 | Section | Share of runtime |
 |---------|------------------|
-| 0. Cold open | 3–6% |
+| 0. Cold open (narrative hook + visual hook) | 3–6% |
+| 0b. Bumper (presenter + channel, on black) | 3–6 s |
 | 1. Context pivot + era setup | 10–20% |
 | 2. Chronological narrative (with explainer interludes) | 55–70% |
 | 3. Close (reflection / distributed lesson / open question) | 8–20% |
 | 4. CTA coda | ~1% |
 
-### 0. Cold open / hook — 20–50 s
-Start *in medias res*. **No channel intro before it.** One of four openings (all seen in the reference set):
-- **Question + thesis** — "¿cuánto estás dispuesto a sacrificar por el éxito?" then state the episode's claim.
+### 0. Cold open / hook — 20–40 s (hard cap 45 s)
+Start *in medias res*. **No channel intro before it.** Two layers, running together:
+
+**Narrative hook** — 55–100 words, one of four openings (all in the reference set):
+- **Question + thesis** — "¿cuánto estás dispuesto a sacrificar por el éxito?" then state the episode's claim. *(Shortest — Dieck's McDonald's cold open is 28 s.)*
 - **Mystery / disputed-claim teaser** — "existe una teoría que dice que…".
 - **In-scene action** — "las alarmas se activan y el reactor se vuelve inestable".
-- **Contrast image** — two images of the subject, before/after.
+- **Contrast image** — two states of the subject, before/after.
 
-**Always end the cold open by naming what the video will do**: "en este video te cuento la historia", "aquí te van tres teorías", "primero necesitamos contexto". **Sourced** — the hook may not overstate what the record supports.
+**Visual hook** — **2–5 shots**, hard-cut on the beat of the narration, each illustrating one concrete image the narration names. **Stock video preferred** (`tools/pull_assets.py` `stock` beats pull video first) — a moving shot here is worth more than a push-in on a still. ~3–6 s per shot, escalating; the last shot is the "turn" (the thing that makes the answer feel necessary) and may hold ½ s longer before the cut to black. Archival/AI shots allowed, labelled per `docs/15`; stock must stay generic (`docs/12`). High cut rate — this is the densest moment of the episode (10–12 beats/min, `docs/11`).
+
+**Always end the narrative hook by naming what the video will do**: "en este episodio reconstruimos…", "aquí van las tres versiones del caso…", "para entenderlo, primero el contexto". **Sourced** — the hook may not overstate what the record supports.
+
+### 0b. Bumper — 3–6 s, on black
+The reset beat between hook and story (Dieck does this — the brand moment lands *after* the hook, never before). Cut to **black**. Presenter says one line — "Soy Carmen." / "Soy Josh." — the **`Éxodo`** wordmark appears, one low tone or a beat of silence, out. No logo animation, no music sting longer than the beat. This is also the narrative's "chapter 1" line — the context pivot starts on the next shot. Everything up to here (hook + bumper) is **≤ 50 s**, target ~35 s; the context pivot is running by **0:45–0:50**.
 
 ### 1. Context pivot + era setup — 10–20%
 An explicit hinge line out of the hook: "pero para ver si esto es cierto, necesitamos algo de contexto" / "quiero que imagines que estás en…". Then the background the story needs: the era, the institution, the people, the stakes. This is where the first **explainer interlude** usually sits.
@@ -66,7 +74,7 @@ A distinct beat **after** the close has fully landed. Soft channel CTA only (sub
 ## Recurring structural rules
 
 - Every episode answers, by the end: *what happened, why it matters about people, and — for forms A/B — what I can do with it* (form C leaves the "what I can do" as the viewer's to form).
-- Cold open → context pivot → chronological narrative → close → CTA. This order is fixed.
+- Cold open (narrative + visual hook) → bumper on black → context pivot → chronological narrative → close → CTA. This order is fixed.
 - Explainer interludes and foreshadowing hooks appear in every episode.
 - Any psychological concept invoked is **named and, where a specific theory/study/thinker is used, sourced** ([09-reflection-rules.md](09-reflection-rules.md)).
 
@@ -75,4 +83,4 @@ A distinct beat **after** the close has fully landed. Soft channel CTA only (sub
 - Standard title pattern (see [07-publishing-seo-metrics.md](07-publishing-seo-metrics.md)).
 - Standard thumbnail system.
 - Standard "Fuentes" description block (see [templates/description-and-credits.md](../templates/description-and-credits.md)).
-- Optional 3–5 s visual signature (not a loud intro).
+- The **bumper** (§0b) is the only brand moment in the body: presenter line + `Éxodo` wordmark on black, 3–6 s, after the cold open. No loud pre-roll intro anywhere.

@@ -15,7 +15,7 @@
 
 ---
 
-## 0. COLD OPEN / HOOK  (0:00–0:40)
+## 0. COLD OPEN / HOOK  (0:00–0:38)
 
 [NARRACIÓN]
 En 1849, en un cuarto de alquiler de Edo —el Tokio de entonces—, un hombre de unos ochenta y ocho años se estaba muriendo [S12].
@@ -26,15 +26,29 @@ Y según cuentan quienes estaban con él, lo último que pidió no fue despedirs
 
 Un pintor de verdad. A los ochenta y ocho, después de toda una vida.
 
-Para entender esa frase hay que ver la vida entera. Esta es la historia de Katsushika Hokusai.
+Para entender esa frase hay que ver la vida entera.
 
-[EN PANTALLA] «La gran ola frente a Kanagawa», detalle, empuje lento hacia las barcas [S09]. Luego: retrato de Hokusai anciano [S16].
+[HOOK VISUAL]  4 planos, corte seco al ritmo de la voz (`docs/02 §0`). Vídeo stock preferido salvo la ola.
+- v1 (~3 s) — interior humilde de Edo en penumbra, luz de amanecer por una shoji; sin cara. `E001_ai01_deathbed-room` (IA, rótulo) — o vídeo stock de una habitación de tatami con vela.
+- v2 (~3 s) — vídeo stock: manos ancianas soltando un pincel de caligrafía / tinta sobre papel de arroz (beat BR3).
+- v3 (~4 s) — «La gran ola frente a Kanagawa», detalle: la garra de espuma sobre las barcas [S09]. Corte seco, sin empuje.
+- v4 · «giro» (~4 s) — retrato de Hokusai anciano [S16], fijo; aguanta ½ s → corte a negro.
 
 [NOTA] Sin intro de canal antes de esto. Tono contenido. "Cinco o diez años" se dice como lo que es: un relato con varias versiones [S12].
 
 ---
 
-## 1. PIVOTE A CONTEXTO + ÉPOCA  (0:40–3:30)
+## 0b. BUMPER  (0:38–0:43)
+
+[EN PANTALLA] Negro. Aparece la marca **`Éxodo`** (esquina o centro, discreta).
+
+[NARRACIÓN]  (Carmen) Soy Carmen.
+
+[NOTA] 3–5 s. Un tono grave bajo, o silencio. Sin animación de logo. El pivote a contexto entra en el plano siguiente.
+
+---
+
+## 1. PIVOTE A CONTEXTO + ÉPOCA  (0:43–3:30)
 
 [NARRACIÓN]
 Para situarnos. Hokusai nace hacia 1760 en el distrito de Katsushika, a las afueras de Edo [S02]. Japón lleva más de un siglo prácticamente cerrado al exterior, bajo el gobierno de los shogun. Es un país en paz. Y Edo, en ese momento, es probablemente la ciudad más grande del mundo: cerca de un millón de personas [S20], con una clase urbana —comerciantes, artesanos— que tiene dinero para gastar en teatro, en libros ilustrados y en estampas.

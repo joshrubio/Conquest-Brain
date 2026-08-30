@@ -23,7 +23,8 @@ Ritmo de narración objetivo: **~155 palabras/min**. Elegir columna según durac
 
 | Sección | % metraje | 15 min (~2.325 pal) | 20 min (~3.100 pal) | 25 min (~3.875 pal) |
 |---------|-----------|---------------------|---------------------|---------------------|
-| 0. Cold open | 3–6% | 90–140 pal · 25–50 s | 110–180 pal · 30–55 s | 130–220 pal · 35–60 s |
+| 0. Cold open (hook narrativo + hook visual) | 3–6% | 55–100 pal · 20–40 s | 70–120 pal · 25–42 s | 80–130 pal · 28–45 s |
+| 0b. Bumper (presentador + canal, en negro) | — | 6–12 pal · 3–6 s | 6–12 pal · 3–6 s | 6–12 pal · 3–6 s |
 | 1. Pivote a contexto + época | 10–20% | 250–460 pal | 350–620 pal | 450–780 pal |
 | 2. Narrativa cronológica | 55–70% | 1.300–1.630 pal | 1.700–2.170 pal | 2.150–2.700 pal |
 | 3. Cierre (forma A/B/C) | 8–20% | 200–460 pal | 250–620 pal | 320–780 pal |
@@ -49,9 +50,9 @@ Ritmo de narración objetivo: **~155 palabras/min**. Elegir columna según durac
 
 ---
 
-## 0. COLD OPEN / HOOK
+## 0. COLD OPEN / HOOK  —  20–40 s (tope 45 s)
 
-**Elegir una apertura** (adaptar, no copiar — banco completo en `phrasebook.md §1`):
+**Hook narrativo** (55–100 pal). Elegir una apertura (adaptar, no copiar — banco en `phrasebook.md §1`):
 - Misterio / desaparición · Afirmación en disputa · Escena en acción · Suceso extraño · Pregunta + tesis · Imagen de contraste
 
 **Cerrar el hook anunciando qué hará el video** (`phrasebook.md §2`): "en este episodio reconstruimos…", "aquí van las tres versiones del caso…", "para entenderlo, primero el contexto".
@@ -59,10 +60,24 @@ Ritmo de narración objetivo: **~155 palabras/min**. Elegir columna según durac
 [NARRACIÓN]
 …
 
-[EN PANTALLA]
-…
+[HOOK VISUAL]  2–5 planos, corte seco al ritmo de la narración, cada uno ilustra una imagen concreta que la voz nombra. **Vídeo stock preferido** (`tools/pull_assets.py` — beats `stock` traen vídeo primero). ~3–6 s/plano, en escalada; el último es el «giro» y puede aguantar ½ s más antes del corte a negro. Archivo/IA permitido con rótulo (`docs/15`); stock siempre genérico (`docs/12`).
+- v1 — …
+- v2 — …
+- v3 — …
 
-[NOTA] Sin intro de canal antes del hook. No exagerar respecto a lo que prueban las fuentes.
+[NOTA] Sin intro de canal antes del hook. No exagerar respecto a lo que prueban las fuentes. Momento de más cortes del episodio (10–12 beats/min).
+
+---
+
+## 0b. BUMPER  —  3–6 s, en negro
+
+El beat de reinicio entre hook e historia (Dieck lo hace así — la marca aparece **después** del hook, nunca antes).
+
+[EN PANTALLA] Corte a **negro**. Aparece la marca **`Éxodo`**.
+
+[NARRACIÓN] Una línea del presentador: «Soy Carmen.» / «Soy Josh.»
+
+[NOTA] Un tono grave bajo o un beat de silencio. Sin animación de logo, sin sting largo. El pivote a contexto entra en el plano siguiente. Todo hasta aquí (hook + bumper) ≤ 50 s, objetivo ~35 s; el contexto corre para 0:45–0:50.
 
 ---
 
@@ -187,7 +202,8 @@ Borrador: «Si estas historias te sirven, suscríbete — así no te pierdes el 
 
 - [ ] Recuento de palabras dentro del presupuesto de la duración objetivo
 - [ ] Todo `[S..]` resuelve contra el source-log
-- [ ] Orden: cold open → contexto → narrativa → cierre → CTA
+- [ ] Orden: cold open (hook narrativo + `[HOOK VISUAL]` 2–5 planos) → bumper en negro → contexto → narrativa → cierre → CTA
+- [ ] Cold open ≤ 45 s; hook + bumper ≤ 50 s; contexto corre para 0:50
 - [ ] El hook se paga en el cuerpo
 - [ ] 3-6 foreshadowings, todos pagados (tabla arriba)
 - [ ] 2-4 interludios explicadores, señalizados entrada y salida (tabla arriba)

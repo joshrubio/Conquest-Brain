@@ -14,6 +14,7 @@
 
 1. Un beat visual cada ~2–3 frases, o cuando cambia el sujeto de la frase.
 2. Todo `[EN PANTALLA]` del guion = beat, literal.
+2b. **Cold open:** el bloque `[HOOK VISUAL]` del guion = 2–5 beats, corte seco, **vídeo stock preferido**; el último es el «giro». **Bumper:** 1 beat = negro + marca `Éxodo`, 3–6 s, sin motion.
 3. Toda persona / lugar / documento / institución / cifra nombrada → imagen o gráfico propio.
 4. `[EXPLICADOR]` → una secuencia motion-graphic / diagrama. Sin talking-head. Es el bloque visual más largo (~60–140 s).
 5. `[PLANT]` y `[PAY]` → **mismo plano** las dos veces (rima visual).
@@ -21,7 +22,7 @@
 7. Toda cifra → gráfico propio con rótulo de fuente en pantalla.
 8. Afirmación disputada o aproximada → rótulo de salvedad en pantalla.
 
-**Ritmo objetivo (v1, calibrar en `docs/11 §4`):** cold open 10–12 beats/min · contexto 6–8 · narrativa 7–9 · explicador 3–5 · módulo teorías 8–10 · cierre 4–6 · CTA 1–2. Episodio de 20 min ≈ 150–180 beats (con reutilización).
+**Ritmo objetivo (v1, calibrar en `docs/11 §4`):** cold open 10–12 beats/min (2–5 planos en 20–40 s) · bumper 1 plano 3–6 s · contexto 6–8 · narrativa 7–9 · explicador 3–5 · módulo teorías 8–10 · cierre 4–6 · CTA 1–2. Episodio de 20 min ≈ 150–180 beats (con reutilización).
 
 ## A cámara (narrador del episodio: Carmen / Josh)
 
@@ -61,4 +62,5 @@
 - [ ] `[PLANT]` y `[PAY]` usan el mismo plano
 - [ ] Sin clip de película dramatizada como registro histórico
 - [ ] Reenactments / IA / colorizado marcados para rótulo en pantalla
+- [ ] Cold open: 2–5 planos de hook (vídeo preferido) + bumper en negro; hook+bumper ≤ 50 s
 - [ ] Nº de beats coherente con el ritmo objetivo para la duración
