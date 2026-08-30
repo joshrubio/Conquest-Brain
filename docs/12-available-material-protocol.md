@@ -35,10 +35,11 @@ An idea is not approved until someone has confirmed, against real archive listin
 - Stock is illustrative, not evidentiary — use it where a viewer reads it as a cutaway, not as "here is the real thing". If in doubt, a discreet label or an own-graphic is safer.
 - Attribution: Pexels + Unsplash require crediting the platform and the author in `09-description.md`; `--download` logs every pulled item to `assets/CREDITS.md`.
 
-**Audio / music**
-- Musopen (PD classical)
-- Free Music Archive / ccMixter — **CC, not automatically PD**; log the exact licence per track
-- Internet Archive audio
+**Audio / music** — a monetised video is **commercial** use + a sync/derivative. Usable: **CC0 / PD**, **CC-BY** (credit required), **CC-BY-SA** (credit + share-alike). **Not** anything with **NC** or **ND**.
+- **YouTube Audio Library** (in Studio) and **Pixabay Music** — free, commercial-cleared, mostly no attribution. Browse-only, no API. Best for the channel's fixed 3–5 beds (`docs/16` move 4).
+- Jamendo — per-track CC (many are BY-NC → unusable); `tools/find_music.py` filters to BY / BY-SA / CC0. Its paid "Jamendo Licensing" is **not** needed for CC-BY.
+- Musopen (PD classical) · Free Music Archive / ccMixter — CC, log the exact licence.
+- Every track: exact licence + attribution in `brand/assets/music/LICENSES.md` and the video description.
 
 **Our own**
 - Charts, timelines, diagrams, animated maps, text cards — always available; cite the underlying data source in `03-source-log.csv`.

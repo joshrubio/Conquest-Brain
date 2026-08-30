@@ -53,7 +53,17 @@ Stills only (video already moves). The move is chosen from the image's **real as
 ## 4. Background music — `tools/find_music.py` (run once for the channel)
 
 - **Brief: ominous ambient.** Atmosphere, not dread, not a mystery stinger. Instrumental, low, slow, minimal or no melody, no vocals, no percussion spikes, loops cleanly.
-- `find_music.py` queries the **Jamendo** API (CC-licensed full tracks; free `JAMENDO_CLIENT_ID` in `tools/.env` — register at devportal.jamendo.com) → candidates with preview, licence, duration, tags. No key → falls back to Openverse audio (weaker for beds). `python tools/find_music.py "dark ambient drone cinematic"` → `brand/assets/music/candidates.md`; Josh auditions the previews, picks **3–5**, `python tools/find_music.py --get <id> <id> ...` → `brand/assets/music/` + `brand/assets/music/LICENSES.md` (exact licence + attribution per track — CC, not automatically PD, see `docs/12`).
+### Licence — a monetised YouTube video is **commercial** use
+
+A track only works for us if its licence allows **commercial use** *and* using it as a video soundtrack (a sync / derivative). That means:
+- **OK:** CC0 / public domain (no strings) · **CC-BY** (must credit the artist + licence in `09-description.md`) · **CC-BY-SA** (credit + the "share-alike" ask).
+- **NOT OK:** anything with **NC** (non-commercial) or **ND** (no-derivatives).
+- **Jamendo:** its free catalogue is per-track CC — many are BY-NC (unusable). `find_music.py` filters to BY / BY-SA / CC0 only. Jamendo's paid "Jamendo Licensing" is a separate product and is **not** required for CC-BY tracks.
+- **Zero-hassle, no attribution:** **YouTube Audio Library** (inside Studio) and **Pixabay Music** (`pixabay.com/music`) — both browse-only, no API. For a channel that reuses 3–5 beds forever, picking them by hand here is fine.
+
+### The tool
+
+- `find_music.py` queries **Jamendo** (free `JAMENDO_CLIENT_ID` in `tools/.env`; no key → Openverse fallback), keeping only BY / BY-SA / CC0. `python tools/find_music.py "dark ambient drone cinematic"` → `brand/assets/music/candidates.md`; Josh auditions the previews, picks **3–5**, `python tools/find_music.py --get <id> <id> ...` → `brand/assets/music/` + `brand/assets/music/LICENSES.md` (exact licence + required attribution per track).
 - **Per episode:** one bed under the whole piece, sitting ~20–24 dB under the VO peak; duck −4 to −6 dB under speech. A second, slightly warmer track may enter at the close (M3, `docs/02` §3). **No music in the bumper.**
 - The same 3–5 tracks every episode until a retro (`docs/06` Stage 12) says to refresh them.
 

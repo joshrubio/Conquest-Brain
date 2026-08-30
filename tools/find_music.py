@@ -7,10 +7,18 @@ Brief: OMINOUS AMBIENT. Atmosphere, not dread, not a mystery stinger.
 Instrumental, low, slow, minimal melody, no vocals, no percussion spikes.
 Run once (or in a couple of passes), keep 3–5 tracks, reuse every episode.
 
-Source: Jamendo API (CC-licensed music, free client_id). Put it in tools/.env as
-  JAMENDO_CLIENT_ID=...
-Register (2 min): https://devportal.jamendo.com/  ->  create an app  ->  Client ID.
-No key -> falls back to Openverse audio (mostly Freesound; SFX/texture, weak for beds).
+Source: Jamendo API (free client_id in tools/.env as JAMENDO_CLIENT_ID; register at
+https://devportal.jamendo.com/). No key -> Openverse audio fallback (weak for beds).
+
+LICENCE — read this. A monetised YouTube video is COMMERCIAL use and a sync/derivative.
+This tool only keeps tracks under CC-BY / CC-BY-SA / CC0 (NC and ND are filtered out).
+CC-BY still REQUIRES crediting the artist + licence in the video description — the tool
+logs each to brand/assets/music/LICENSES.md. CC-BY-SA additionally asks that the work
+be shareable alike; if that bothers you, stick to CC-BY / CC0.
+Jamendo's separate PAID "Jamendo Licensing" service is NOT needed for CC-BY tracks —
+it's for a clean no-attribution licence or for tracks the artist kept all-rights.
+No-hassle alternatives with zero attribution: YouTube Audio Library (in Studio),
+Pixabay Music (pixabay.com/music) — both browse-only, no API.
 
 Usage
   python tools/find_music.py "dark ambient drone cinematic underscore"
@@ -47,13 +55,24 @@ def env(name):
     return ""
 
 
+# CC licences that allow use in a MONETISED YouTube video (= commercial + sync/derivative).
+# BY and BY-SA only; NC and ND are out. Attribution is still required (log it).
+COMMERCIAL_OK = ("by", "by-sa", "cc0", "publicdomain", "zero")
+
+
+def _lic_slug(ccurl):
+    parts = (ccurl or "").rstrip("/").split("/")
+    return parts[-2] if len(parts) >= 2 else ""
+
+
 # --------------------------------------------------------------------------- search
-def jamendo(query, cid, n=25):
+def jamendo(query, cid, n=40):
     r = requests.get("https://api.jamendo.com/v3.0/tracks/", params={
         "client_id": cid, "format": "json", "limit": n,
         "fuzzytags": query.replace(" ", "+"),
         "include": "musicinfo licenses", "audioformat": "mp32",
         "order": "popularity_total", "vocalinstrumental": "instrumental",
+        "ccnd": "false", "cc_nc": "false",       # exclude NoDerivatives + NonCommercial
     }, headers={"User-Agent": UA}, timeout=30)
     r.raise_for_status()
     out = []
@@ -63,6 +82,9 @@ def jamendo(query, cid, n=25):
         dur = int(t.get("duration") or 0)
         if dur < 90:
             continue
+        slug = _lic_slug(t.get("license_ccurl"))
+        if slug and not any(slug.startswith(ok) for ok in COMMERCIAL_OK):
+            continue                              # belt-and-suspenders vs the API filter
         lic = (t.get("license_ccurl") or "").rstrip("/").split("/")[-2:]
         out.append({
             "src": "jamendo", "id": str(t["id"]),
@@ -116,6 +138,9 @@ def run(query):
     MUS.mkdir(parents=True, exist_ok=True)
     L = [f"# Candidatos de música — «{query}»", "",
          f"> Fuente: {src}. Brief: **ominosa ambiental** (ambiente, no lúgubre, no misterio).",
+         "> Solo CC-BY / CC-BY-SA / CC0 (uso comercial OK). **CC-BY exige crédito** al autor "
+         "+ licencia en `09-description.md` — se registra en `LICENSES.md` al descargar.",
+         "> Sin líos y sin atribución: YouTube Audio Library (en Studio) o pixabay.com/music.",
          "> Escucha los preview. Elige 3–5 y corre:  "
          "`python tools/find_music.py --get <id> <id> ...`", ""]
     for h in hits:
