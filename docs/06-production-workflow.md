@@ -66,15 +66,17 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **Gate:** full take against locked script; pickups noted.
 
 ## Stage 9 — Edit  → `07c-edit.md`
-- Protocol: [docs/16-edit-and-delivery.md](16-edit-and-delivery.md). Template: [templates/edit-checklist.md](../templates/edit-checklist.md). **Deliberately minimal — five moves only:**
-  1. **Trim** the take(s) — `tools/trim_talk.py` (faster-whisper → cut silences + fillers, smooth).
-  2. **B-roll** on the marked beats — from `06-shotlist.md` + `07-selection.md`. Cold open = 2–5 `assets/intro/` clips + bumper on black.
-  3. **Ken Burns** on stills — `tools/kenburns.py`, move chosen by image orientation.
-  4. **Background music** — one ominous-ambient bed from `brand/assets/music/` (`tools/find_music.py`, picked once), ducked under the VO. No music in the bumper.
-  5. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
-- No colour grade / letterbox / grain until `docs/03` §Visual direction is locked. Source cards minimal (quote / contested number / named document only). AI + reenactment labelled every appearance.
-- Export −14 LUFS, channel resolution, `E0XX-<slug>-vN.mp4`.
-- **Gate:** only the five moves used; every beat covered; Ken Burns matches orientation; music ducked, licences logged; AI/reenactment labelled; `.srt` corrected; picture lock signed by **Carmen** in `07c-edit.md`.
+- Protocol: [docs/16-edit-and-delivery.md](16-edit-and-delivery.md). Template: [templates/edit-checklist.md](../templates/edit-checklist.md). **Deliberately minimal**, in order:
+  1. **Ken Burns clips** — `tools/kenburns.py --all` (Stage 7 stills + AI images → moving clips, move by orientation, 4K).
+  2. **Trim** — `tools/trim_talk.py` (faster-whisper → cut silences + fillers, smooth) per Stage 8 take.
+  3. **Review** — `tools/edit_review.py` → `07c-edit.html`: watch every KB clip + trimmed take, approve or leave feedback; **Exportar 07c-review.txt** → Claude re-runs the tools per the feedback → repeat until all **APROBADO**.
+  4. **B-roll assembly** — only after step 3 is all-green. Lay each beat's asset on the VO per `06-shotlist.md` + `07-selection.md`. Cold open = 2–5 `assets/intro/` clips + bumper on black.
+  5. **Background music** — one ominous-ambient bed from `brand/assets/music/`, ducked under the VO. No music in the bumper.
+  6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
+- Assembly (4–5) with Claude + ffmpeg for now; **DaVinci Resolve MCP** an option later if that's too fiddly.
+- **4K** output; a shot that can't fill it drops to its best, timeline stays 4K. No grade / letterbox / grain until `docs/03` §Visual direction is locked. Source cards minimal. AI + reenactment labelled every appearance.
+- Export −14 LUFS, `E0XX-<slug>-vN.mp4`.
+- **Gate:** every KB clip + trimmed take APROBADO; only the listed moves; every beat covered; music ducked + licences logged; AI/reenactment labelled; `.srt` corrected; 4K (or best common); picture lock signed by **Carmen** in `07c-edit.md`.
 
 ## Stage 10 — Package  → `08-thumbnail-title.md`, `09-description.md`
 - Templates: [templates/thumbnail-title-brief.md](../templates/thumbnail-title-brief.md), [templates/description-and-credits.md](../templates/description-and-credits.md).

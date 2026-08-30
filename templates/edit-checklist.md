@@ -1,14 +1,15 @@
 # Edición — E0XX «<título>»
 
-> Stage 9. Protocolo: `docs/16-edit-and-delivery.md`. **Cinco movimientos, nada más.**
+> Stage 9. Protocolo: `docs/16-edit-and-delivery.md`. **Solo lo que está en docs/16.**
 > Depende de: `05-script.md` (bloqueado) · `06-shotlist.md` · `07-selection.md` · `brand/assets/music/`.
+> Superficie de revisión: `07c-edit.html` (genera `tools/edit_review.py`).
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E0XX |
 | Versión de guion | v__ |
 | Responsable | Josh |
-| Resolución de salida | (1080p / 4K — de `docs/03`) |
+| Resolución de salida | **4K (3840×2160)**; si una fuente no llega, ese plano baja, el timeline sigue en 4K |
 | fps | (24 / 30) |
 | Fecha | AAAA-MM-DD |
 
@@ -20,90 +21,86 @@
 |------|---------|-----------------------|-----------------|
 | T1 | `assets/…` | | |
 
-## 1. Trim  (`tools/trim_talk.py`)
+## 1. Ken Burns  (`tools/kenburns.py`)
 
 ```
-python tools/trim_talk.py assets/T1.mp4        # -> T1.trimmed.mp4 + T1.cuts.md
+python tools/kenburns.py E0XX-slug --all        # 07-selection stills -> assets/kb/ (4K)
 ```
 
-- [ ] Transcripción revisada; cortes vetados anotados (`--keep MM:SS`)
+- [ ] Un clip por still de `assets/{archive,stock,ai}/` con nombre `beatNN_*`
+- [ ] Movimiento por orientación (≈16:9 push-in · panorámica pan H · vertical pan V · pequeña estática en negro)
+
+## 2. Trim  (`tools/trim_talk.py`)
+
+```
+python tools/trim_talk.py assets/T1.mp4          # -> T1.trimmed.mp4 + T1.cuts.md
+```
+
+- [ ] Una pasada por toma
 - [ ] Cortes suaves (padding 120–180 ms; nada por debajo de 0.4 s)
-- [ ] Tomas ensambladas en orden de secciones del guion
 
-| Toma | Cortes | Duración final | Vetos aplicados |
-|------|--------|----------------|-----------------|
-| T1 | | | |
+| Toma | Cortes | Duración final |
+|------|--------|----------------|
+| T1 | | |
 
-## 2. B-roll
+## 3. Revisión  (`tools/edit_review.py` → `07c-edit.html`)
 
-- [ ] Cada beat de `06-shotlist.md` marcado archivo/stock/IA tiene su asset de `07-selection.md` en pantalla
+```
+python tools/edit_review.py E0XX-slug            # -> 07c-edit.html
+```
+
+- [ ] Cada clip KB: `aprobado` o feedback («más lento» / «empieza a la izquierda» / «dir arriba» / «estática» / «dura 4 s»)
+- [ ] Cada toma trimmeada: `aprobado` o correcciones («mantener pausa 00:12» / «cortar antes 02:03» / «no cortes el "eh" 03:04»)
+- [ ] **Exportar `07c-review.txt`** → Claude re-genera los clips con FIX → re-revisar
+- [ ] **Todo APROBADO** antes de pasar al b-roll
+
+## 4. B-roll  (ensamblaje — Claude + ffmpeg; DaVinci MCP más adelante si hace falta)
+
+- [ ] Cada beat de `06-shotlist.md` (archivo/stock/IA) con su asset de `07-selection.md` sobre el VO
 - [ ] Cold open: 2–5 clips de `assets/intro/` en orden, corte seco; último aguanta ½ s → negro
 - [ ] Bumper: 3–6 s negro + marca `Éxodo` + «Soy <narrador>». Sin música.
 - [ ] Clips de vídeo a duración, sin rampa ni filtro; loop solo si el punto es invisible
 - [ ] `[PLANT]`/`[PAY]`: mismo plano las dos veces
 
-## 3. Ken Burns  (`tools/kenburns.py`)
-
-```
-python tools/kenburns.py E0XX-slug --all       # lee 07-selection.md -> assets/kb/
-```
-
-- [ ] Movimiento por orientación (≈16:9 push-in · panorámica pan H · vertical pan V · pequeña estática)
-- [ ] Duración = duración del beat
-- [ ] Overrides por beat anotados abajo
-
-| Beat | Imagen (W×H) | Movimiento | Override |
-|------|-------------|------------|----------|
-| | | | |
-
-## 4. Música de fondo
+## 5. Música de fondo
 
 - [ ] Un lecho de `brand/assets/music/` (ominosa ambiental) bajo todo el episodio
 - [ ] ~20–24 dB bajo el pico de voz; ducking −4 a −6 dB bajo el habla
-- [ ] (Opcional) segunda pista más cálida entra en el cierre (M3)
+- [ ] (Opcional) segunda pista más cálida en el cierre (M3)
 - [ ] **Sin música en el bumper**
-- [ ] Licencia de cada pista en `brand/assets/music/LICENSES.md`
+- [ ] Licencia de cada pista en `brand/assets/music/LICENSES.md` + descripción
 
-| Cue | Sección | Pista | Nivel | Ducking |
-|-----|---------|-------|-------|---------|
-| M1 | todo | | | |
-| M3 | cierre | | | |
+## 6. Subtítulos
 
-## 5. Subtítulos
-
-- [ ] `.srt` generado del VO **ya trimmeado**
-- [ ] Corregido a mano contra `05-script.md` (cifras, nombres, claims `[S..]` literales)
+- [ ] `.srt` del VO **ya trimmeado**, corregido a mano contra `05-script.md` (cifras, nombres, `[S..]` literales)
 - [ ] 1–2 líneas, ≤ 42 car./línea, ≥ 1 s en pantalla · español
 
 ## Source cards (mínimo)
 
 Cita en pantalla **solo si**: cita textual · cifra en disputa/aproximada · documento nombrado. El resto → `09-description.md` «Fuentes principales».
 
-| Beat | Qué | Texto en pantalla (`Autor — Obra / Año`) |
-|------|-----|------------------------------------------|
-| | | |
-
 - [ ] IA / recreación / colorizado: rótulo en **cada** aparición (`Ilustración — Éxodo` / `Recreación`)
 
 ## Export
 
-- [ ] Resolución del canal (`docs/03`) · fps fijo
+- [ ] 4K (3840×2160), o la mejor resolución común si 4K implica upscalear casi todo · fps fijo
 - [ ] −14 LUFS integrado · true peak ≤ −1 dBTP · AAC estéreo 320k
 - [ ] `E0XX-<slug>-vN.mp4`
 
-## Revisión
+## Revisión final
 
-- [ ] Josh: montaje → **picture lock** (sin más cambios de timing)
+- [ ] Josh: b-roll + música ensamblados → **picture lock**
 - [ ] Carmen: ve el corte entero contra `05-script.md` + `docs/04` (rótulos, claims, dignidad)
 - [ ] Carmen firma el picture lock: __________  fecha: ______
 - [ ] Sonido + `.srt` finalizados → Stage 10
 
 ## Gate Stage 9
 
-- [ ] Solo los cinco movimientos; sin grade/letterbox/grano
+- [ ] Cada clip KB y cada toma trimmeada **APROBADO** en `07c-review.txt`
+- [ ] Solo los movimientos de `docs/16`; sin grade/letterbox/grano
 - [ ] Todo beat con su asset; cold open 2–5 planos + bumper en negro
 - [ ] Ken Burns coherente con orientación; `[PLANT]`/`[PAY]` idénticos
 - [ ] Un lecho de música, ducked; sin música en el bumper; licencias anotadas
 - [ ] IA/recreación rotulado en cada aparición
 - [ ] `.srt` corregido contra el guion
-- [ ] −14 LUFS; resolución del canal; picture lock firmado por Carmen
+- [ ] −14 LUFS; 4K (o mejor común); picture lock firmado por Carmen

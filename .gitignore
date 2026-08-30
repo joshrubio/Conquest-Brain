@@ -48,6 +48,7 @@ tools/.env
 episodes/**/07-photography-pass.html
 
 # Stage 9 edit — generated / transient (media already covered above)
-# (07c-edit.md and brand/assets/music/LICENSES.md ARE tracked)
+# (07c-edit.md, 07c-review.txt, brand/assets/music/LICENSES.md ARE tracked)
 brand/assets/music/candidates.md
 episodes/**/*.cuts.md
+episodes/**/07c-edit.html

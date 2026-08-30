@@ -40,6 +40,7 @@ Undecided: **own new YouTube channel** vs. **recurring segment inside an existin
 
 ## Visual direction (to define)
 
+- **Output resolution: 4K (3840×2160)** — decided. If a source can't fill 4K, that shot drops to the best it supports; the timeline stays 4K (`docs/16`). Export drops to the highest common resolution only if 4K would mean upscaling most of the piece.
 - Narrator framing standard (Carmen or Josh on camera): shot size, background, lighting note.
 - Archival treatment: framing, grain/vignette, caption style for documents.
 - Lower-third / source-citation caption style.
