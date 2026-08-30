@@ -1,7 +1,8 @@
 * text=auto eol=lf
 *.png binary
 *.jpg binary
+*.jpeg binary
+*.webp binary
+*.pdf binary
 *.mp4 binary
 *.mov binary
-*.wav binary
-*.psd binary

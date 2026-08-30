@@ -14,6 +14,10 @@
 # AI beats (ai01-ai04, +B/+C Daruma, +E packing-paper) live in 07b, not here.
 #
 beat	kind	source	query	opts
+# --- intro / cold open (docs/02 §0) — footage de impacto sobre el tema ---
+INTRO1	intro	intro	japan aerial cinematic landscape mountains	orientation=landscape;min=1920;n=3
+INTRO2	intro	intro	ukiyo-e woodblock print ink brush closeup	orientation=landscape;min=1920;n=3
+INTRO3	intro	intro	rough sea waves japan dramatic	orientation=landscape;min=1920;n=2
 2	archive	commons,aic,met	great wave off kanagawa	must=hokusai,kanagawa;n=3
 4	archive	commons,aic,met	hokusai portrait self portrait old	must=hokusai;n=3
 7	archive	commons,aic,met	edo japan busy street ukiyo-e	must=street;n=3

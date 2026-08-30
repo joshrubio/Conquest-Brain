@@ -41,9 +41,9 @@ Scaffolded by `tools/build_ai_prompts.py`, then the **episode style** and the sc
 ## Round trip
 
 1. Stage 7 photography pass flags the ❌ beats.
-2. `python tools/build_ai_prompts.py E0XX-<slug> <slug1> <slug2> …` → creates `assets/ai/` and scaffolds `07b-ai-prompts.md`. **Do this before `pull_assets.py`** so the prompts render in the right column of `07-candidates.html`.
+2. `python tools/build_ai_prompts.py E0XX-<slug> <slug1> <slug2> …` → creates `assets/ai/` and scaffolds `07b-ai-prompts.md`. **Do this before `pull_assets.py`** so the prompts render in the right column of `07-photography-pass.html`.
 3. Claude writes the scene text for each prompt (framing, what's depicted, face-avoidance).
-4. In `07-candidates.html` (right column), Josh copies each prompt, makes 3–4 variants in the generator, picks the one that best matches the set, saves it, and **pastes the file path/URL into that prompt's input**.
+4. In `07-photography-pass.html` (right column), Josh copies each prompt, makes 3–4 variants in the generator, picks the one that best matches the set, saves it, and **pastes the file path/URL into that prompt's input**.
 5. **Exportar 07-picks.txt** → `python tools/pull_assets.py E0XX-<slug> --download` copies each AI image into `assets/ai/` under its `E0XX_aiNN_<slug>` name, verifies it, and prints the manifest row (licence = «ilustración propia (IA) — rótulo en pantalla»). `build_ai_prompts.py --check` still works for a manual audit.
 6. Claude folds the AI rows into `07-assets.md` and notes the label in `09-description.md` credits.
 

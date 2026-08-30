@@ -33,9 +33,11 @@ Si una imagen no llega, la opción es: usarla más pequeña (inserto), cortar un
 
 ## Flujo
 
-1. **Pull de candidatos** — `07-pull.tsv` (beat · kind `stock|archive|video` · source · query · opts) → `python tools/pull_assets.py E0XX-slug` → `07-candidates.md` con enlace de descarga directa, licencia, autor y resolución por candidato. Keys en `tools/.env`.
-2. **Pase de fotografía** (Josh, manual) — marca `- [x]` los candidatos válidos con los criterios de abajo, luego `python tools/pull_assets.py E0XX-slug --download` los baja a `assets/`, verifica resolución real y escribe `assets/CREDITS.md` + filas de manifiesto.
-3. **Manifiesto final** — una fila por imagen **aceptada**, con nombre de archivo local.
+**`07-photography-pass.html` es el artefacto central del Stage 7.** Todo se decide ahí.
+
+1. **Pull** — `07-pull.tsv` (beat · kind `stock|stock-img|video|intro|archive` · source · query · opts) + `build_ai_prompts.py` antes → `python tools/pull_assets.py E0XX-slug` → `07-photography-pass.md` (registro) + `.html` (la superficie: intro arriba, candidatos por beat a la izquierda, prompts IA a la derecha).
+2. **Pase** (Josh) — intro (hasta 5 propios + sugeridos + checkbox «intro» en cards) · candidatos por beat con los criterios de abajo · rutas de imágenes IA en la columna derecha. **Exportar 07-picks.txt** → `python tools/pull_assets.py E0XX-slug --download` baja todo a `assets/{intro,stock,video,archive,ai}/`, verifica resolución, escribe `assets/CREDITS.md` + **`07-selection.md`**.
+3. **Manifiesto** — plegar `07-selection.md` aquí; una fila por asset **aceptado** (intro / beat / IA), con Uso y Pase.
 
 ## Criterios del pase de fotografía
 
@@ -48,11 +50,18 @@ Marca cada candidato:
 - **Coherencia de secuencia** — las imágenes que van juntas en un tramo, ¿parecen de la misma familia (misma calidad de escaneo, mismo tratamiento)?
 - **Veredicto** — ✅ aceptada · ⚠️ dudosa (anota qué falta) · ❌ rechazada (motivo)
 
-## Manifiesto
+## Intro / cold open (§0) — orden de pantalla
+
+| # | Qué es | Fuente / enlace | Licencia | Res. real | Pase | Archivo local |
+|---|--------|-----------------|----------|-----------|------|---------------|
+| 1 | | | | | ✅/⚠️/❌ | `assets/intro/intro01_…` |
+| 2 | | | | | | |
+
+## Manifiesto (por beat + IA)
 
 | # | Beat(s) | Qué es | Enlace de descarga | Museo / nº | Licencia | Res. real | Uso (estático / push-in / inserto) | Pase | Archivo local |
 |---|---------|--------|--------------------|------------|----------|-----------|------------------------------------|------|---------------|
-| 1 | | | | | CC0 / PD / licencia / ⚠️ | px reales | | ✅/⚠️/❌ + nota | `assets/…` |
+| 1 | | | | | CC0 / PD / licencia / IA (rótulo) / ⚠️ | px reales | | ✅/⚠️/❌ + nota | `assets/…` |
 | 2 | | | | | | | | | |
 
 ## Gráficos propios (no van en el manifiesto — resumen para el brief de diseño)
@@ -67,6 +76,7 @@ Marca cada candidato:
 
 ## Gate Stage 7
 
+- [ ] Cold open (§0): 2–5 assets de intro aceptados, en orden
 - [ ] Cada beat archivístico del shotlist tiene una imagen **aceptada** o un plan B (gráfico propio)
 - [ ] Toda imagen con licencia clara (CC0 / PD / licencia obtenida) y **descarga directa sin captcha**
 - [ ] Cada imagen **llega a la resolución** que pide su uso (tabla arriba); si no, se usa como inserto / recorte de detalle / se corta

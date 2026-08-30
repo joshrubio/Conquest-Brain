@@ -1,8 +1,33 @@
-# Candidatos de recursos — E001-hokusai
+# Photography pass — E001-hokusai
 
-> Stage 7 · pull automático (`tools/pull_assets.py`). **Esto no es selección.**
-> Trabaja en `07-candidates.html` (miniaturas). Para picar a mano aquí: `- [x]`.
+> Stage 7 · central. Pull automático (`tools/pull_assets.py`) — **esto no es selección.**
+> Trabaja en `07-photography-pass.html` (miniaturas + prompts IA + intro). Para picar a mano aquí: `- [x]`.
 > stock = b-roll ilustrativo genérico, nunca 'lo real' (docs/12).
+
+## intro — "japan aerial cinematic landscape mountains"  [intro]
+
+- [ ] `pexelsv:34654580` · 3840x2160 · 52s · Hide · Pexels License · https://videos.pexels.com/video-files/34654580/14688983_3840_2160_50fps.mp4
+        page: https://www.pexels.com/video/aerial-view-of-scenic-red-bridge-in-mountainous-landscape-34654580/
+- [ ] `pixabayv:367684` · 3840x2160 · 12s · Hoangbuifilms · Pixabay Content License · https://cdn.pixabay.com/video/2026/07/31/367684_large.mp4
+        page: https://pixabay.com/videos/id-367684/
+- [ ] `pexelsv:34601557` · 3840x2160 · 53s · Hide · Pexels License · https://videos.pexels.com/video-files/34601557/14664245_3840_2160_50fps.mp4
+        page: https://www.pexels.com/video/aerial-view-of-scenic-red-bridge-in-mountainous-landscape-34601557/
+
+## intro — "ukiyo-e woodblock print ink brush closeup"  [intro]
+
+- [ ] `pexelsv:5745499` · 3840x2160 · 13s · Miguel Á. Padriñán · Pexels License · https://videos.pexels.com/video-files/5745499/5745499-uhd_3840_2160_30fps.mp4
+        page: https://www.pexels.com/video/paint-brushes-hanging-near-the-wall-5745499/
+- [ ] `pixabayv:10378` · 1920x1080 · 19s · xiaozongzi · Pixabay Content License · https://cdn.pixabay.com/video/2017/06/29/10378-224234522_large.mp4
+        page: https://pixabay.com/videos/id-10378/
+- [ ] `pexelsv:9478320` · 4096x2160 · 11s · cottonbro studio · Pexels License · https://videos.pexels.com/video-files/9478320/9478320-uhd_4096_2160_25fps.mp4
+        page: https://www.pexels.com/video/close-up-video-of-getting-paint-9478320/
+
+## intro — "rough sea waves japan dramatic"  [intro]
+
+- [ ] `pexelsv:32515903` · 1920x1080 · 57s · Annie Chen · Pexels License · https://videos.pexels.com/video-files/32515903/13865755_1920_1080_30fps.mp4
+        page: https://www.pexels.com/video/dramatic-rocky-coastline-in-overcast-weather-32515903/
+- [ ] `pixabayv:182970` · 1920x1080 · 32s · Mario_Krimer · Pixabay Content License · https://cdn.pixabay.com/video/2023/09/30/182970-869947284_large.mp4
+        page: https://pixabay.com/videos/id-182970/
 
 ## beat 2 — "great wave off kanagawa"  [archive: commons,aic,met]
 
@@ -15,7 +40,7 @@
 
 ## beat 4 — "hokusai portrait self portrait old"  [archive: commons,aic,met]
 
-- [ ] `commons:124369341` · 4200x8717 · missing name — Hokusai as an old man.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/1/1c/Hokusai_as_an_old_man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+- [ ] `commons:124369341` · 4200x8717 · Hokusai as an old man.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/1/1c/Hokusai_as_an_old_man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Hokusai_as_an_old_man.jpg
 - [ ] `aic:81212` · ?x? · Katsushika Hokusai 葛飾 北斎 — Self-Portrait as a Fisherman · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/95e11a7e-2f5e-a711-f56b-8da1c9a1ca2f/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/81212
@@ -34,8 +59,8 @@
 
 ## beat 9 — "ukiyo-e illustrated book ehon album"  [archive: commons,aic,met]
 
-- [ ] `commons:59371952` · 3353x2585 · Yashima Gakutei — 一老画譜-Ichirō Picture Album (Ichirō gafu) MET 2013 680 04.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/b/bc/%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_%28Ichir%C5%8D_gafu%29_MET_2013_680_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_(Ichir%C5%8D_gafu)_MET_2013_680_04.jpg
+- [ ] `commons:59372018` · 3340x2567 · Yashima Gakutei — 一老画譜-Ichirō Picture Album (Ichirō gafu) MET 2013 680 09.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/8/84/%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_%28Ichir%C5%8D_gafu%29_MET_2013_680_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_(Ichir%C5%8D_gafu)_MET_2013_680_09.jpg
 - [ ] `aic:22599` · ?x? · Torii Kiyonaga — Ono no Komachi Washing the Copybook (Soshiarai Komachi), from the series The Seven Ukiyo-e Aspects of Komachi (Ukiyo-e nana Komachi) · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/451f2445-90da-81c8-fb40-0d3e7057f556/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/22599
 - [ ] `met:57756` · ?x? · Nishikawa Sukenobu 西川祐信 — Picture Book: Thousand-Year Mountain? (Ehon Chitoseyama? 絵本千年山? · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/JIB90_003_crd.jpg
@@ -155,7 +180,7 @@
         page: https://commons.wikimedia.org/wiki/File:Katsushika_Hokusai_-_Portrait_of_the_Poet_Matsuo_Bash%C5%8D_(%5E)_-_56.121.11_-_Metropolitan_Museum_of_Art.jpg
 - [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/24645
-- [ ] `commons:124369341` · 4200x8717 · missing name — Hokusai as an old man.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/1/1c/Hokusai_as_an_old_man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+- [ ] `commons:124369341` · 4200x8717 · Hokusai as an old man.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/1/1c/Hokusai_as_an_old_man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Hokusai_as_an_old_man.jpg
 <!-- met: 0 resultados -->
 
@@ -222,7 +247,7 @@
 
 - [ ] `pexels:5102221` · 5466x3644 · Dan Cristian Pădureț · Pexels License · https://images.pexels.com/photos/5102221/pexels-photo-5102221.jpeg
         page: https://www.pexels.com/photo/brown-crumpled-paper-bag-on-table-5102221/
-- [ ] `pixabay:250012` · ?x? · nuzree · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/gd2a946fe7266b1bef610f90316ea655475122e7e684c004c380b7449d17094cbe0a8057dbb6d36c8eae5e13331696afe6164ced06e110261bd3bd8285c49ba8c_1280.jpg
+- [ ] `pixabay:250012` · ?x? · nuzree · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/g8c26528d8ba7883765488759a82b521347bb2864dd1d18bf13e7f92fbf63be23d7912efed60f1bffb6c1fcd9c41eac79ef9a554ccece80db25c92bb5e9bdbdeb_1280.jpg
         page: https://pixabay.com/photos/boot-leather-shoe-old-shoestrings-250012/
 - [ ] `unsplash:3ch06Zm4bV0` · 5304x8000 · Heather Green · Unsplash License · https://images.unsplash.com/photo-1705837863332-7162639852d8?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8b2xkJTIwd29ybiUyMGphcGFuZXNlJTIwd2FzaGklMjBwYXBlciUyMHRleHR1cmV8ZW58MHx8fHwxNzg4MTAzMjcwfDA&ixlib=rb-4.1.0&q=90&fm=jpg
         page: https://unsplash.com/photos/old-creased-blank-paper-texture-3ch06Zm4bV0

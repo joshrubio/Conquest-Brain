@@ -6,7 +6,7 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 |--------|-------|--------------|
 | `factcheck.py` | 5 | Layer 1 deterministic fact-check. `python tools/factcheck.py 05-script.md 03-source-log.csv` → PASS/FAIL. |
 | `build_ai_prompts.py` | 7 | Scaffolds `07b-ai-prompts.md` for AI-illustration beats (docs/15). `... E0XX-slug <img-slug> ...` / `... --check`. |
-| `pull_assets.py` | 7 | Candidate pull from free APIs (Met, AIC, Pexels, Pixabay, Unsplash, Openverse). See below. |
+| `pull_assets.py` | 7 | **The Stage-7 hub.** Pulls candidates from free APIs → `07-photography-pass.html` (per-beat candidates + AI prompts + intro). See below. |
 | `build_idea_pitch.py` | 0 | Renders `ideas/idea-pool.md` as a pitch PDF for Carmen. Data is inline — sync by hand. |
 
 ## pull_assets.py
@@ -14,26 +14,33 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 ```
 python tools/pull_assets.py --check-keys          # report tools/.env keys
 python tools/pull_assets.py E0XX-slug --init       # scaffold 07-pull.tsv
-python tools/pull_assets.py E0XX-slug              # -> 07-candidates.md + 07-candidates.html
-# open 07-candidates.html in a browser, tick thumbnails, "Exportar 07-picks.txt"
+python tools/pull_assets.py E0XX-slug              # -> 07-photography-pass.md + 07-photography-pass.html
+# open 07-photography-pass.html in a browser, tick thumbnails, "Exportar 07-picks.txt"
 python tools/pull_assets.py E0XX-slug --download   # -> assets/stock|video|archive/, CREDITS.md, rows
 ```
 
-**Picker UX:** `07-candidates.html` is a self-contained two-column Stage-7 surface.
-- **Left** — pulled candidates per beat; click a thumbnail to select (persists in `localStorage`).
-- **Right** — the `07b-ai-prompts.md` prompts (parsed live). Each panel: the prompt +
-  a *copiar prompt* button + an input for the path/URL of the image you generated. For
-  beats the pull couldn't cover.
-- **Exportar 07-picks.txt** writes both — ticked candidates *and* filled AI paths — into
-  the episode folder (Chrome/Edge save dialog; other browsers download it).
+**`07-photography-pass.html`** is the central artifact of Stage 7 — one self-contained page,
+three surfaces:
+- **Intro row (top)** — the cold open (docs/02 §0). 5 inputs for your own paths/links +
+  the suggested `intro` clips + an "intro" checkbox on every card below. Export order:
+  own (1–5) → suggested → cards.
+- **Left column** — pulled candidates per beat; click a thumbnail to approve it for that
+  beat (persists in `localStorage`).
+- **Right column** — the `07b-ai-prompts.md` prompts (parsed live): prompt + *copiar
+  prompt* + an input for the path/URL of the image you generated.
 
-`--download` reads `07-picks.txt` if present (else `- [x]` lines in `07-candidates.md`
-for the candidates only). Candidate picks → `assets/stock|video|archive/`; `ai:` rows →
-`assets/ai/<07b filename>` (local path is copied, URL is fetched), verified + added to
-the manifest as *ilustración propia (IA)*. `07-candidates.html` is gitignored;
-`07-candidates.md` and `07-picks.txt` are tracked.
+**Exportar 07-picks.txt** writes all three into the episode folder (Chrome/Edge save
+dialog; other browsers download it). Then `--download`:
+- intro → `assets/intro/intro01…` (screen order) · beats → `assets/{stock,video,archive}/`
+  · `ai:` → `assets/ai/<07b filename>` (local path copied, URL fetched)
+- verifies resolution, appends `assets/CREDITS.md`, writes **`07-selection.md`** (the pass
+  record — folds into `07-assets.md`), prints manifest rows.
 
-Run `build_ai_prompts.py` **before** the pull so the prompts appear in the picker.
+`--download` falls back to `- [x]` lines in `07-photography-pass.md` for beats only
+(intro + AI need the picker). `07-photography-pass.html` is gitignored;
+`07-photography-pass.md`, `07-picks.txt`, `07-selection.md` are tracked.
+
+Run `build_ai_prompts.py` **before** the pull so the prompts appear in the pass.
 
 `07-pull.tsv` — tab-separated, one row per beat that needs a pulled image/clip
 (own-graphics beats don't go here): `beat · kind · source · query · opts`.
@@ -44,6 +51,8 @@ Run `build_ai_prompts.py` **before** the pull so the prompts appear in the picke
     for generic b-roll. `opts motion=no` → images only · `motion=only` → video only.
   - `stock-img` — images only (pexels, pixabay, unsplash, openverse).
   - `video` — pexels + pixabay video only.
+  - `intro` — pexels + pixabay video; name the beat `INTRO1`, `INTRO2`… — results go to
+    the Intro row of the pass, not a beat. High-impact cold-open footage on the topic.
   - `archive` — the real artifact: met, commons, aic.
 - `source`: usually just repeat the kind keyword; or a comma list of specific sources
   (`commons,met` · `pexels-video,unsplash` · …).

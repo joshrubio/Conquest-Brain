@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-pull_assets.py — Stage 7 candidate pull (archive + free stock).
+pull_assets.py — Stage 7 photography pass (archive + free stock + intro).
 Protocol: docs/12-available-material-protocol.md, docs/06 Stage 7.
 
-Reads a per-episode spec (07-pull.tsv), queries free APIs, and writes a
-candidate list (07-candidates.md) with direct download URLs, licence,
-author and resolution. The photography pass stays human: Josh ticks the
-candidates he wants, then --download pulls them into assets/.
+`07-photography-pass.html` is the central artifact of Stage 7. It shows,
+per beat, the resources the pull found (left) and the AI-generation
+prompts from 07b (right); an Intro section at the top collects the cold
+open (docs/02 §0). Josh works entirely in that page, exports 07-picks.txt,
+and --download turns every choice into files + 07-selection.md.
 
 APIs
-  stock   pexels  pixabay  unsplash  openverse
-  video   pexels  pixabay
+  stock   pexels  pixabay  unsplash  openverse   (video: pexels, pixabay)
   archive met  commons (Wikimedia Commons)  aic (Art Institute of Chicago)
 Keys live in tools/.env (gitignored). No .env -> only keyless sources run
 (openverse, met, commons, aic).
@@ -21,14 +21,13 @@ Usage
       scaffold episodes/E0XX-slug/07-pull.tsv
 
   python tools/pull_assets.py E0XX-slug
-      run every spec row -> 07-candidates.md (git record) + 07-candidates.html
-      (open in a browser: thumbnails, tick the keepers, "Exportar" writes
-      07-picks.txt). ~3 candidates per beat by default (opts n=).
+      run every spec row -> 07-photography-pass.md (git record)
+      + 07-photography-pass.html (the picker). ~3 candidates per beat.
 
   python tools/pull_assets.py E0XX-slug --download
-      read 07-picks.txt (or, if absent, "- [x]" lines in 07-candidates.md),
-      download each pick into assets/stock|archive/, verify resolution,
-      append assets/CREDITS.md, print manifest rows for 07-assets.md
+      read 07-picks.txt (from the picker's Exportar button), download every
+      choice into assets/{intro,stock,video,archive,ai}/, verify resolution,
+      append assets/CREDITS.md, write 07-selection.md, print manifest rows.
 
   python tools/pull_assets.py --check-keys
       report which API keys tools/.env provides
@@ -55,6 +54,12 @@ ENV = Path(__file__).resolve().parent / ".env"
 UA = "ExodoOficial/1.0 (educational documentary; contact joshuerubio@gmail.com)"
 TIMEOUT = 30
 
+SPEC_F = "07-pull.tsv"
+PASS_MD = "07-photography-pass.md"
+PASS_HTML = "07-photography-pass.html"
+PICKS_F = "07-picks.txt"
+SELECTION_F = "07-selection.md"
+
 STOCK_IMG = ["pexels", "pixabay", "unsplash", "openverse"]         # kind: stock-img
 STOCK_MOTION = ["pexelsv", "pixabayv", "pexels", "unsplash",       # kind: stock
                 "pixabay", "openverse"]                            # video sources first
@@ -70,12 +75,15 @@ SPEC_HEADER = """# 07-pull.tsv — Stage 7 candidate-pull spec for this episode.
 #
 # columns:
 #   beat    shotlist beat id (1, 25b, +B ...). Free text, just a label.
-#   kind    stock | stock-img | archive | video
+#           use INTRO1, INTRO2 ... for cold-open clip searches (docs/02 §0) —
+#           their results land in the Intro section of the pass, not a beat.
+#   kind    stock | stock-img | archive | video | intro
 #   source  comma list, or a group keyword:
 #             stock     = pexels+pixabay VIDEO first, then pexels/unsplash/
 #                         pixabay/openverse images  (motion b-roll preferred)
 #             stock-img = images only (pexels,pixabay,unsplash,openverse)
 #             video     = pexels,pixabay video only
+#             intro     = pexels,pixabay video — high-impact cold-open footage
 #             archive   = met,commons,aic
 #   query   search terms
 #   opts    key=value;key=value  (all optional)
@@ -382,7 +390,7 @@ def expand_sources(kind, source):
         return list(STOCK_MOTION)      # video first, then images
     if s in ("stock-img", "stockimg"):
         return list(STOCK_IMG)
-    if s == "video":
+    if s in ("video", "intro"):
         return ["pexelsv", "pixabayv"]
     if s == "archive":
         return list(ARCHIVE_ALL)
@@ -402,7 +410,7 @@ def parse_opts(raw):
 
 # --------------------------------------------------------------------------- run
 def read_spec(slug):
-    f = EP_DIR / slug / "07-pull.tsv"
+    f = EP_DIR / slug / SPEC_F
     if not f.exists():
         sys.exit(f"no {f.relative_to(ROOT)} — corre:  python tools/pull_assets.py {slug} --init")
     rows = []
@@ -451,10 +459,40 @@ def parse_ai_prompts(slug):
     return neg, out
 
 
-def build_html(slug, groups, ai_prompts=("", [])):
+def _card_html(esc, c, beat, intro_only=False):
+    badges = [f'<b>{esc(c.dim())}</b>']
+    if c.dur:
+        badges.append(f'<b class="vid">▶ {c.dur}s</b>')
+    if c.w and max(c.w, c.h) < 1920:
+        badges.append('<b class="warn">baja-res</b>')
+    if "1280" in c.lic:
+        badges.append('<b class="warn">≤1280</b>')
+    thumb = esc(c.thumb) if c.thumb else ""
+    img = (f'<img loading="lazy" src="{thumb}" alt="">'
+           if thumb else '<div class="noimg">sin miniatura</div>')
+    if intro_only:
+        toggles = '<input type="checkbox" class="ick" title="usar en la intro">'
+    else:
+        toggles = ('<input type="checkbox" class="pick" title="aprobar para este beat">'
+                   '<label class="itog" title="incluir en la intro">'
+                   '<input type="checkbox" class="ick"><span>intro</span></label>')
+    return (
+        f'<div class="card{" introcard" if intro_only else ""}" data-key="{esc(c.key)}" '
+        f'data-beat="{esc(beat)}" data-url="{esc(c.url)}">{toggles}{img}'
+        f'<figcaption><span class="badges">{"".join(badges)}</span>'
+        f'<code>{esc(c.key)}</code>'
+        f'<span class="who">{esc(c.author or "")}</span>'
+        f'<span class="lic">{esc(c.lic)}</span>'
+        f'<span class="lnk"><a href="{esc(c.url)}" target="_blank" rel="noopener">full</a>'
+        + (f' · <a href="{esc(c.page)}" target="_blank" rel="noopener">page</a>' if c.page else "")
+        + '</span></figcaption></div>')
+
+
+def build_html(slug, groups, ai_prompts=("", []), intro_sug=None):
     import html as _h
     esc = _h.escape
     neg, prompts = ai_prompts
+    intro_sug = intro_sug or []
     total = sum(len(c) for _, _, _, _, c, _ in groups)
     cards = []
     for beat, kind, query, srcs, cands, notes in groups:
@@ -466,28 +504,30 @@ def build_html(slug, groups, ai_prompts=("", [])):
                          f'{esc("; ".join(notes)) or "amplía la query en 07-pull.tsv"} —</p>')
         cards.append('<div class="grid">')
         for c in cands:
-            badges = [f'<b>{esc(c.dim())}</b>']
-            if c.dur:
-                badges.append(f'<b class="vid">▶ {c.dur}s</b>')
-            if c.w and max(c.w, c.h) < 1920:
-                badges.append('<b class="warn">baja-res</b>')
-            if "1280" in c.lic:
-                badges.append('<b class="warn">≤1280</b>')
-            thumb = esc(c.thumb) if c.thumb else ""
-            img = (f'<img loading="lazy" src="{thumb}" alt="">'
-                   if thumb else '<div class="noimg">sin miniatura</div>')
-            cards.append(
-                f'<label class="card" data-key="{esc(c.key)}" data-beat="{esc(beat)}" '
-                f'data-url="{esc(c.url)}"><input type="checkbox">{img}'
-                f'<figcaption><span class="badges">{"".join(badges)}</span>'
-                f'<code>{esc(c.key)}</code>'
-                f'<span class="who">{esc(c.author or "")}</span>'
-                f'<span class="lic">{esc(c.lic)}</span>'
-                f'<span class="lnk"><a href="{esc(c.url)}" target="_blank" rel="noopener">full</a>'
-                + (f' · <a href="{esc(c.page)}" target="_blank" rel="noopener">page</a>' if c.page else "")
-                + '</span></figcaption></label>')
+            cards.append(_card_html(esc, c, beat))
         cards.append('</div></section>')
     body = "\n".join(cards)
+
+    # ---- Intro section (cold open, docs/02 §0) ----
+    slots = "".join(
+        f'<label class="slot">{i}<input class="intropath" data-slot="{i}" '
+        f'placeholder="ruta o URL de un recurso para la intro"></label>'
+        for i in range(1, 6))
+    if intro_sug:
+        sug = ('<h3>Sugeridos — footage de impacto para el tema '
+               f'<span>({len(intro_sug)})</span></h3><div class="grid">'
+               + "\n".join(_card_html(esc, c, "intro", intro_only=True) for c in intro_sug)
+               + '</div>')
+    else:
+        sug = ('<p class="empty">sin clips sugeridos — añade filas '
+               '<code>INTRO1 … intro …</code> en 07-pull.tsv</p>')
+    introbox = (
+        '<section class="introbox"><h2>Intro / cold open '
+        '<span class="q">— §0: hook visual de 2–5 planos (docs/02)</span></h2>'
+        '<p class="hint">pega hasta 5 recursos propios, y/o marca sugeridos, '
+        'y/o marca «intro» en cualquier card de abajo. El orden de exportación es: '
+        'propios (1–5) → sugeridos → cards.</p>'
+        f'<div class="slots">{slots}</div>{sug}</section>')
 
     # ---- right column: AI-generation prompts (07b) ----
     if prompts:
@@ -518,7 +558,7 @@ def build_html(slug, groups, ai_prompts=("", [])):
 
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Candidatos — {esc(slug)}</title>
+<title>Photography pass — {esc(slug)}</title>
 <style>
  :root{{color-scheme:light dark}}
  *{{box-sizing:border-box}}
@@ -527,10 +567,17 @@ def build_html(slug, groups, ai_prompts=("", [])):
  header{{position:sticky;top:0;z-index:9;display:flex;gap:1rem;align-items:center;
    flex-wrap:wrap;padding:.7rem 1rem;background:Canvas;border-bottom:1px solid #8888;min-height:3.2rem}}
  header h1{{font-size:1rem;margin:0;font-weight:700}}
- #cnt{{font-variant-numeric:tabular-nums;opacity:.8}}
+ #cnt,#introcnt{{font-variant-numeric:tabular-nums;opacity:.8}}
  button{{font:inherit;padding:.45rem .8rem;border:1px solid #8886;border-radius:7px;
    background:#8881;cursor:pointer}}
  button.primary{{background:#2563eb;color:#fff;border-color:#2563eb}}
+ .introbox{{max-width:1900px;margin:0 auto;padding:1rem 1rem 0}}
+ .introbox .hint{{opacity:.7;font-size:.8rem;margin:.3rem 0 .7rem}}
+ .slots{{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}}
+ .slot{{display:flex;align-items:center;gap:.4rem;font-size:.8rem;flex:1 1 340px}}
+ .slot input{{flex:1;font:inherit;font-size:.78rem;padding:.4rem;border:1px solid #8886;
+   border-radius:6px;background:Canvas;color:CanvasText}}
+ .slot input:not(:placeholder-shown){{border-color:#d97706;background:#d9770614}}
  .wrap{{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:1.5rem;
    max-width:1900px;margin:0 auto;padding:1rem}}
  main{{min-width:0}}
@@ -542,12 +589,18 @@ def build_html(slug, groups, ai_prompts=("", [])):
  section{{margin:0 0 2rem}}
  h2{{font-size:.95rem;border-bottom:1px solid #8884;padding-bottom:.3rem}}
  h2 .q{{font-weight:400;opacity:.75}} h2 .k{{float:right;font-weight:400;opacity:.55;font-size:.8rem}}
+ h3 span{{font-weight:400;opacity:.55}}
  .empty{{opacity:.6;font-style:italic}}
  .grid{{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}}
- .card{{border:2px solid transparent;border-radius:9px;overflow:hidden;background:#8881;
-   cursor:pointer;display:flex;flex-direction:column}}
- .card:has(:checked){{border-color:#2563eb;background:#2563eb22}}
- .card input{{position:absolute;width:22px;height:22px;margin:6px;accent-color:#2563eb}}
+ .card{{position:relative;border:2px solid transparent;border-radius:9px;overflow:hidden;
+   background:#8881;cursor:pointer;display:flex;flex-direction:column}}
+ .card:has(.pick:checked){{border-color:#2563eb;background:#2563eb22}}
+ .card:has(.ick:checked){{outline:2px solid #d97706;outline-offset:-2px}}
+ .card>input,.card .itog{{position:absolute;z-index:2;margin:6px}}
+ .card>input{{left:0;width:22px;height:22px;accent-color:#2563eb}}
+ .card .itog{{right:0;display:flex;align-items:center;gap:.2rem;font-size:.68rem;
+   background:#000a;color:#fff;padding:.1rem .35rem;border-radius:5px}}
+ .card .itog input{{width:14px;height:14px;accent-color:#d97706}}
  .card img,.card .noimg{{width:100%;aspect-ratio:4/3;object-fit:cover;background:#0002;display:block}}
  .noimg{{display:flex;align-items:center;justify-content:center;opacity:.5;font-size:.8rem}}
  figcaption{{padding:.5rem .6rem;display:flex;flex-direction:column;gap:.2rem;font-size:.8rem}}
@@ -573,12 +626,15 @@ def build_html(slug, groups, ai_prompts=("", [])):
  .cp{{font-size:.7rem;padding:.25rem .55rem;margin-top:.1rem}}
 </style></head><body>
 <header>
- <h1>Stage 7 · {esc(slug)}</h1>
- <span id="cnt">0 / {total} seleccionadas</span><span id="aicnt"></span>
- <button class="primary" id="exp">Exportar 07-picks.txt</button>
+ <h1>Photography pass · {esc(slug)}</h1>
+ <span id="cnt">0 / {total} beats</span>
+ <span id="introcnt"></span>
+ <span id="aicnt"></span>
+ <button class="primary" id="exp">Exportar {PICKS_F}</button>
  <button id="clr">Limpiar</button>
  <span style="opacity:.6;font-size:.8rem">guárdalo en la carpeta del episodio, luego <code>--download</code></span>
 </header>
+{introbox}
 <div class="wrap">
 <main>
 {body}
@@ -589,15 +645,27 @@ def build_html(slug, groups, ai_prompts=("", [])):
 </div>
 <script>
 const SLUG="{esc(slug)}", HAS_AI={has_ai};
-const LS="exodo-picks:"+SLUG, LSA=LS+":ai";
-const boxes=[...document.querySelectorAll('.card')];
+const LS="exodo-pass:"+SLUG, LSA=LS+":ai", LSI=LS+":intro";
+const cards=[...document.querySelectorAll('.card')];
+const slots=[...document.querySelectorAll('.intropath')];
 const aip=[...document.querySelectorAll('.aipath')];
-const cnt=document.getElementById('cnt'), aicnt=document.getElementById('aicnt');
+const cnt=document.getElementById('cnt'), icnt=document.getElementById('introcnt'),
+      aicnt=document.getElementById('aicnt');
 function jget(k,d){{try{{return JSON.parse(localStorage.getItem(k))??d}}catch(e){{return d}}}}
+function pk(c){{return c.querySelector('.pick')}}
+function ik(c){{return c.querySelector('.ick')}}
 function sync(){{
-  const s=[]; boxes.forEach(c=>{{if(c.querySelector('input').checked)s.push(c.dataset.key)}});
-  localStorage.setItem(LS,JSON.stringify(s));
-  cnt.textContent=s.length+' / {total} seleccionadas';
+  const picks=[],intro=[];
+  cards.forEach(c=>{{
+    if(pk(c)&&pk(c).checked)picks.push(c.dataset.key);
+    if(ik(c)&&ik(c).checked)intro.push(c.dataset.key);
+  }});
+  localStorage.setItem(LS,JSON.stringify(picks));
+  localStorage.setItem(LSI,JSON.stringify(intro));
+  const sl=slots.filter(s=>s.value.trim()).length;
+  cnt.textContent=picks.length+' / {total} beats';
+  icnt.textContent='  ·  intro: '+(sl+intro.length)+'  ('+sl+' propios + '+intro.length+' cards)';
+  localStorage.setItem(LS+':slots',JSON.stringify(slots.map(s=>s.value)));
 }}
 function syncA(){{
   const o={{}}; aip.forEach(i=>{{const v=i.value.trim(); if(v)o[i.dataset.ai]=v;
@@ -605,9 +673,19 @@ function syncA(){{
   localStorage.setItem(LSA,JSON.stringify(o));
   aicnt.textContent = aip.length ? ('  ·  '+Object.keys(o).length+' / '+aip.length+' IA') : '';
 }}
-const initP=new Set(jget(LS,[]));
-boxes.forEach(c=>{{const i=c.querySelector('input');
-  if(initP.has(c.dataset.key))i.checked=true; i.addEventListener('change',sync)}});
+const initP=new Set(jget(LS,[])), initI=new Set(jget(LSI,[]));
+cards.forEach(c=>{{
+  if(pk(c)&&initP.has(c.dataset.key))pk(c).checked=true;
+  if(ik(c)&&initI.has(c.dataset.key))ik(c).checked=true;
+  c.addEventListener('click',e=>{{
+    if(e.target.closest('a,input,.itog'))return;
+    const box=pk(c)||ik(c);
+    if(box){{box.checked=!box.checked; sync();}}
+  }});
+  c.querySelectorAll('input').forEach(i=>i.addEventListener('change',sync));
+}});
+const initS=jget(LS+':slots',[]);
+slots.forEach((s,ix)=>{{if(initS[ix])s.value=initS[ix]; s.addEventListener('input',sync)}});
 const initA=jget(LSA,{{}});
 aip.forEach(i=>{{if(initA[i.dataset.ai])i.value=initA[i.dataset.ai];
   i.addEventListener('input',syncA)}});
@@ -617,18 +695,26 @@ document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{{
   const t=b.textContent; b.textContent='copiado ✓'; setTimeout(()=>b.textContent=t,1200);
 }});
 document.getElementById('clr').onclick=()=>{{
-  boxes.forEach(c=>c.querySelector('input').checked=false); sync();
+  cards.forEach(c=>c.querySelectorAll('input').forEach(i=>i.checked=false));
+  slots.forEach(s=>s.value=''); aip.forEach(i=>i.value=''); sync(); syncA();
 }};
 document.getElementById('exp').onclick=async()=>{{
-  const L=['# 07-picks.txt — beat<TAB>source:id<TAB>url  (generado por 07-candidates.html)'];
-  boxes.forEach(c=>{{if(c.querySelector('input').checked)
-    L.push(c.dataset.beat+'\\t'+c.dataset.key+'\\t'+c.dataset.url)}});
+  const L=['# {PICKS_F} — generado por {PASS_HTML}',
+           '# col1: beat | "intro"    col2: source:id | custom:N | ai:id    col3: url o ruta'];
+  const intro=[];
+  slots.forEach(s=>{{const v=s.value.trim(); if(v)intro.push('intro\\tcustom:'+s.dataset.slot+'\\t'+v)}});
+  cards.forEach(c=>{{if(ik(c)&&ik(c).checked)intro.push('intro\\t'+c.dataset.key+'\\t'+c.dataset.url)}});
+  if(intro.length){{L.push('# --- INTRO (cold open §0, en orden) ---'); L.push(...intro);}}
+  const beats=[];
+  cards.forEach(c=>{{if(pk(c)&&pk(c).checked)
+    beats.push(c.dataset.beat+'\\t'+c.dataset.key+'\\t'+c.dataset.url)}});
+  if(beats.length){{L.push('# --- BEATS ---'); L.push(...beats);}}
   const ail=[]; aip.forEach(i=>{{const v=i.value.trim(); if(v)
     ail.push(i.dataset.beats+'\\tai:'+i.dataset.ai+'\\t'+v)}});
-  if(ail.length){{L.push('# --- IA generada (beats<TAB>ai:id<TAB>ruta o URL) ---'); L.push(...ail)}}
+  if(ail.length){{L.push('# --- IA generada ---'); L.push(...ail);}}
   const txt=L.join('\\n')+'\\n';
   try{{
-    const fh=await window.showSaveFilePicker({{suggestedName:'07-picks.txt',
+    const fh=await window.showSaveFilePicker({{suggestedName:'{PICKS_F}',
       types:[{{description:'texto',accept:{{'text/plain':['.txt']}}}}]}});
     const w=await fh.createWritable(); await w.write(txt); await w.close();
     alert('Guardado. Corre:  python tools/pull_assets.py '+SLUG+' --download');
@@ -637,7 +723,7 @@ document.getElementById('exp').onclick=async()=>{{
   navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{{}});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([txt],{{type:'text/plain'}}));
-  a.download='07-picks.txt'; a.click();
+  a.download='{PICKS_F}'; a.click();
 }};
 </script></body></html>
 """
@@ -712,30 +798,37 @@ def gather_beat(beat, kind, source, query, opts, keys):
 def run(slug):
     keys = load_env()
     rows = read_spec(slug)
-    md = [f"# Candidatos de recursos — {slug}", "",
-          "> Stage 7 · pull automático (`tools/pull_assets.py`). **Esto no es selección.**",
-          "> Trabaja en `07-candidates.html` (miniaturas). Para picar a mano aquí: `- [x]`.",
+    md = [f"# Photography pass — {slug}", "",
+          "> Stage 7 · central. Pull automático (`tools/pull_assets.py`) — **esto no es selección.**",
+          f"> Trabaja en `{PASS_HTML}` (miniaturas + prompts IA + intro). Para picar a mano aquí: `- [x]`.",
           "> stock = b-roll ilustrativo genérico, nunca 'lo real' (docs/12).", ""]
-    groups, n_c = [], 0
+    groups, intro_sug, n_c = [], [], 0
     for beat, kind, source, query, rawopts in rows:
         opts = parse_opts(rawopts)
         srcs, cands, notes = gather_beat(beat, kind, source, query, opts, keys)
-        groups.append((beat, kind, query, srcs, cands, notes))
-        md.append(f"## beat {beat} — \"{query}\"  [{kind}: {','.join(srcs)}]\n")
+        n_c += len(cands)
+        if kind.lower() == "intro" or beat.lower().startswith("intro"):
+            for c in cands:
+                if c.key not in {x.key for x in intro_sug}:
+                    intro_sug.append(c)
+            md.append(f"## intro — \"{query}\"  [{kind}]\n")
+        else:
+            groups.append((beat, kind, query, srcs, cands, notes))
+            md.append(f"## beat {beat} — \"{query}\"  [{kind}: {','.join(srcs)}]\n")
         for c in cands:
             md.append(c.line())
-            n_c += 1
         for note in notes:
             md.append(f"<!-- {note} -->")
         md.append("")
     ep = EP_DIR / slug
     ai = parse_ai_prompts(slug)
-    (ep / "07-candidates.md").write_text("\n".join(md) + "\n", encoding="utf-8")
-    (ep / "07-candidates.html").write_text(build_html(slug, groups, ai), encoding="utf-8")
-    print(f"escrito  episodes/{slug}/07-candidates.md   ({n_c} candidatos, {len(rows)} beats)")
-    print(f"escrito  episodes/{slug}/07-candidates.html  <- ábrelo en el navegador"
-          + (f"  ({len(ai[1])} prompts IA en la columna derecha)" if ai[1] else ""))
-    print("siguiente: marca las miniaturas, pega rutas IA, «Exportar 07-picks.txt», corre --download")
+    (ep / PASS_MD).write_text("\n".join(md) + "\n", encoding="utf-8")
+    (ep / PASS_HTML).write_text(build_html(slug, groups, ai, intro_sug), encoding="utf-8")
+    print(f"escrito  episodes/{slug}/{PASS_MD}   ({n_c} candidatos, {len(groups)} beats"
+          + (f", {len(intro_sug)} clips intro" if intro_sug else "") + ")")
+    print(f"escrito  episodes/{slug}/{PASS_HTML}  <- ábrelo en el navegador"
+          + (f"  ({len(ai[1])} prompts IA)" if ai[1] else ""))
+    print("siguiente: intro + miniaturas + rutas IA, «Exportar 07-picks.txt», corre --download")
 
 
 # ---------------------------------------------------------------------- download
@@ -746,10 +839,10 @@ EXT_OK = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp",
 
 
 def read_picks(slug):
-    """(beat, src, id, url) list. Prefer 07-picks.txt (from the HTML picker),
-    fall back to '- [x]' lines in 07-candidates.md."""
+    """(beat_or_'intro', src, id, url) list. Prefer 07-picks.txt (from the
+    picker), fall back to '- [x]' lines in 07-photography-pass.md (beats only)."""
     ep = EP_DIR / slug
-    pf = ep / "07-picks.txt"
+    pf = ep / PICKS_F
     if pf.exists():
         picks = []
         for ln in pf.read_text(encoding="utf-8").splitlines():
@@ -762,9 +855,9 @@ def read_picks(slug):
             src, cid = parts[1].split(":", 1)
             picks.append((parts[0], src, cid, parts[2]))
         if picks:
-            print(f"picks: 07-picks.txt ({len(picks)})")
+            print(f"picks: {PICKS_F} ({len(picks)})")
             return picks
-    md = ep / "07-candidates.md"
+    md = ep / PASS_MD
     if not md.exists():
         sys.exit(f"no {md.relative_to(ROOT)} — corre el pull primero")
     beat, picks = "?", []
@@ -776,29 +869,26 @@ def read_picks(slug):
         if m:
             picks.append((beat, m.group(1), m.group(2), m.group(3)))
     if not picks:
-        sys.exit("0 picks — usa 07-candidates.html («Exportar 07-picks.txt») "
-                 "o marca `- [x]` en 07-candidates.md")
-    print(f"picks: 07-candidates.md ({len(picks)})")
+        sys.exit(f"0 picks — usa {PASS_HTML} («Exportar {PICKS_F}») "
+                 f"o marca `- [x]` en {PASS_MD}")
+    print(f"picks: {PASS_MD} ({len(picks)})")
     return picks
 
 
 def _dl_ai(ep, beat, aid, src, fname, rows, credits):
-    """Place a Josh-generated AI image into assets/ai/ under its 07b filename."""
+    """Place a Josh-generated AI image into assets/ai/ under its 07b filename.
+    Appends a (beat, 'ai:id', '(propia)', dim, relpath) tuple to `rows`."""
     dst_dir = ep / "assets" / "ai"
     dst_dir.mkdir(parents=True, exist_ok=True)
     data, srcext = None, ""
     if src.lower().startswith(("http://", "https://")):
-        try:
-            r = requests.get(requests.utils.requote_uri(src),
-                             headers={"User-Agent": UA}, timeout=90)
-            r.raise_for_status()
-            data = r.content
-            srcext = Path(src.split("?")[0]).suffix
-        except Exception as e:
-            print(f"  FALLO  ai:{aid}  {e}")
+        d, _ = _fetch(src, "ai")
+        if d is None:
+            print(f"  FALLO  ai:{aid}  {src}")
             return
+        data, srcext = d, Path(src.split("?")[0]).suffix
     else:
-        for cand in (Path(src), ROOT / src, ep / src, dst_dir / src):
+        for cand in (Path(src), ROOT / src, ep / src, dst_dir / src, Path.cwd() / src):
             if cand.is_file():
                 data, srcext = cand.read_bytes(), cand.suffix
                 break
@@ -808,17 +898,60 @@ def _dl_ai(ep, beat, aid, src, fname, rows, credits):
     ext = srcext.lower() if srcext.lower() in (".png", ".jpg", ".jpeg", ".webp") else Path(fname).suffix
     dst = dst_dir / (Path(fname).stem + ext)
     dst.write_bytes(data)
-    dim = "?"
-    try:
-        im = Image.open(io.BytesIO(data))
-        dim = f"{im.width}x{im.height}"
-    except Exception:
-        pass
-    rel = dst.relative_to(ep).as_posix()
+    dim = _dims(data, ext) or "?"
+    rel = f"assets/ai/{dst.name}"
     print(f"  OK  {dst.name}  {dim}  (IA)")
-    rows.append(f"| {beat} |  | {aid} — ilustración propia (IA) | — | — | "
-                f"ilustración propia (IA) — rótulo en pantalla | {dim} |  |  | `{rel}` |")
-    credits.append(f"- beat {beat}: {aid} — ilustración propia (IA), rótulo «Ilustración — Éxodo» en pantalla")
+    rows.append((beat, f"ai:{aid}", "(propia)", dim, rel))
+    credits.append(f"- {beat}: {aid} — ilustración propia (IA), rótulo «Ilustración — Éxodo» en pantalla")
+
+
+def _fetch(url, src):
+    """Fetch a URL (or read a local path). Returns (bytes, final_url) or (None, err)."""
+    if not url.lower().startswith(("http://", "https://")):
+        for cand in (Path(url), ROOT / url, Path.cwd() / url):
+            if cand.is_file():
+                return cand.read_bytes(), cand.as_posix()
+        return None, f"no existe la ruta: {url}"
+    tries, hdr = [url], {"User-Agent": UA}
+    if src == "aic":
+        hdr = {"User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                              "(KHTML, like Gecko) Chrome/124 Safari/537.36"),
+               "Referer": "https://www.artic.edu/"}
+        tries += [url.replace("/full/full/", f"/full/{w},/") for w in (3840, 1686, 843)]
+    last = "?"
+    for u in tries:
+        try:
+            r = requests.get(requests.utils.requote_uri(u), headers=hdr, timeout=90)
+            r.raise_for_status()
+            return r.content, u
+        except Exception as e:
+            last = e
+    return None, last
+
+
+def _dims(data, ext):
+    if ext.lower() in (".jpg", ".jpeg", ".png", ".webp"):
+        try:
+            im = Image.open(io.BytesIO(data))
+            return f"{im.width}x{im.height}"
+        except Exception:
+            return "?"
+    return ""
+
+
+def _ext_for(data, final_url, src):
+    ext = Path(final_url.split("?")[0]).suffix.lower()
+    if ext in (".jpg", ".jpeg", ".png", ".webp", ".mp4", ".mov", ".webm", ".tif", ".tiff"):
+        return ext
+    if data[:3] == b"\xff\xd8\xff":
+        return ".jpg"
+    if data[:8] == b"\x89PNG\r\n\x1a\n":
+        return ".png"
+    if data[4:12] == b"ftypmp42" or data[4:8] == b"ftyp":
+        return ".mp4"
+    if src in VIDEO_SRCS:
+        return ".mp4"
+    return ".jpg"
 
 
 def download(slug):
@@ -826,76 +959,91 @@ def download(slug):
     picks = read_picks(slug)
     ep = EP_DIR / slug
     ai_fname = {p["id"]: p["fname"] for p in parse_ai_prompts(slug)[1]}
-    rows, credits = [], []
-    for beat, src, cid, url in picks:
-        if src == "ai":
-            _dl_ai(ep, beat, cid, url, ai_fname.get(cid, f"{cid}.png"), rows, credits)
-            continue
-        sub = ("video" if src in VIDEO_SRCS
-               else "archive" if src in ARCHIVE_SRCS else "stock")
-        (ep / "assets" / sub).mkdir(parents=True, exist_ok=True)
-        tries = [url]
-        hdr = {"User-Agent": UA}
-        if src == "aic":
-            # AIC IIIF 403s on full/full for some images / non-browser clients;
-            # walk down the size ladder, send a browser-ish UA + Referer
-            hdr = {"User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                                  "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"),
-                   "Referer": "https://www.artic.edu/"}
-            tries = [url] + [url.replace("/full/full/", f"/full/{w},/") for w in (3840, 1686, 843)]
-        r = None
-        for u in tries:
-            try:
-                rr = requests.get(requests.utils.requote_uri(u), headers=hdr, timeout=90)
-                rr.raise_for_status()
-                r = rr
-                url = u
-                break
-            except Exception as e:
-                last = e
-        if r is None:
-            hint = ""
-            if src == "aic":
-                hint = "  (AIC bloquea descarga directa desde algunas redes — abre la page y usa el botón Download)"
-            print(f"  FALLO  {src}:{cid}  {last}{hint}")
-            continue
-        ct = r.headers.get("content-type", "").split(";")[0].strip()
-        ext = EXT_OK.get(ct, Path(url.split("?")[0]).suffix or ".bin")
-        safe_beat = re.sub(r"[^A-Za-z0-9+-]", "", beat)
-        name = f"beat{safe_beat}_{src}_{re.sub(r'[^A-Za-z0-9]', '', cid)[:16]}{ext}"
-        path = ep / "assets" / sub / name
-        path.write_bytes(r.content)
-        dim = ""
-        if ext in (".jpg", ".png", ".webp"):
-            try:
-                im = Image.open(io.BytesIO(r.content))
-                dim = f"{im.width}x{im.height}"
-            except Exception:
-                dim = "?"
-        # Unsplash: ping download endpoint (API terms)
-        if src == "unsplash":
-            key = keys.get("UNSPLASH_ACCESS_KEY", "")
-            if key:
-                try:
-                    requests.get(f"https://api.unsplash.com/photos/{cid}/download",
-                                 headers={"Authorization": f"Client-ID {key}"}, timeout=15)
-                except Exception:
-                    pass
-        rel = path.relative_to(ep)
-        print(f"  OK  {name}  {dim}")
-        rows.append(f"| {beat} |  | {src}:{cid} | {url} |  |  | {dim} |  |  | `{rel.as_posix()}` |")
-        credits.append(f"- beat {beat}: {src}:{cid} — {url}")
+    intro_rows, beat_rows, ai_rows, credits = [], [], [], []
+    intro_n = 0
 
-    if rows:
-        hdr = ("| # | Beat(s) | Qué es | Enlace de descarga | Museo / nº | Licencia "
-               "| Res. real | Uso | Pase | Archivo local |\n|---|---|---|---|---|---|---|---|---|---|")
-        print("\n--- filas para 07-assets.md ---\n" + hdr)
-        for r in rows:
-            print(r)
+    for beat, src, cid, url in picks:
+        is_intro = beat.lower() == "intro"
+
+        if src == "ai" and not is_intro:
+            _dl_ai(ep, beat, cid, url, ai_fname.get(cid, f"{cid}.png"), ai_rows, credits)
+            continue
+
+        data, final = _fetch(url, src)
+        if data is None:
+            print(f"  FALLO  {'intro ' if is_intro else ''}{src}:{cid}  {final}")
+            continue
+        ext = _ext_for(data, final, src)
+        dim = _dims(data, ext)
+
+        if is_intro:
+            intro_n += 1
+            sub, name = "intro", f"intro{intro_n:02d}_{src}_{re.sub(r'[^A-Za-z0-9]', '', cid)[:14]}{ext}"
+        else:
+            sub = ("video" if src in VIDEO_SRCS
+                   else "archive" if src in ARCHIVE_SRCS else "stock")
+            safe = re.sub(r"[^A-Za-z0-9+-]", "", beat)
+            name = f"beat{safe}_{src}_{re.sub(r'[^A-Za-z0-9]', '', cid)[:14]}{ext}"
+        dst = ep / "assets" / sub
+        dst.mkdir(parents=True, exist_ok=True)
+        (dst / name).write_bytes(data)
+        rel = f"assets/{sub}/{name}"
+
+        if src == "unsplash" and keys.get("UNSPLASH_ACCESS_KEY"):
+            try:
+                requests.get(f"https://api.unsplash.com/photos/{cid}/download",
+                             headers={"Authorization": f"Client-ID {keys['UNSPLASH_ACCESS_KEY']}"},
+                             timeout=15)
+            except Exception:
+                pass
+
+        tag = "intro" if is_intro else beat
+        print(f"  OK  {name}  {dim}")
+        row = (beat if not is_intro else str(intro_n), f"{src}:{cid}", final, dim, rel)
+        (intro_rows if is_intro else beat_rows).append(row)
+        credits.append(f"- {tag}: {src}:{cid} — {final if final.startswith('http') else '(archivo propio)'}")
+
+    _write_selection(ep, slug, intro_rows, beat_rows, ai_rows)
+    if credits:
         cf = ep / "assets" / "CREDITS.md"
+        cf.parent.mkdir(parents=True, exist_ok=True)
         prev = cf.read_text(encoding="utf-8") if cf.exists() else "# Créditos de recursos\n"
         cf.write_text(prev.rstrip() + "\n" + "\n".join(credits) + "\n", encoding="utf-8")
-        print(f"\ncréditos → {cf.relative_to(ROOT)}")
+        print(f"\ncréditos    → episodes/{slug}/assets/CREDITS.md")
+
+
+def _write_selection(ep, slug, intro_rows, beat_rows, ai_rows):
+    L = [f"# Selección — Stage 7 photography pass · {slug}", "",
+         f"> Generado por `pull_assets.py --download` desde `{PICKS_F}`. "
+         f"Este es el registro de decisiones del pase; se pliega en `07-assets.md`.", ""]
+    if intro_rows:
+        L += ["## Intro / cold open (§0) — orden de pantalla", "",
+              "| # | Fuente | Res. | Archivo |", "|---|--------|------|---------|"]
+        L += [f"| {n} | {s} | {d or '—'} | `{p}` |" for n, s, _u, d, p in intro_rows]
+        L += [""]
+    if beat_rows:
+        L += ["## Por beat", "", "| Beat | Fuente | Res. | Archivo |",
+              "|------|--------|------|---------|"]
+        L += [f"| {b} | {s} | {d or '—'} | `{p}` |" for b, s, _u, d, p in beat_rows]
+        L += [""]
+    if ai_rows:
+        L += ["## Ilustración IA (rótulo «Ilustración — Éxodo» en pantalla)", "",
+              "| Beat | id | Res. | Archivo |", "|------|----|------|---------|"]
+        L += [f"| {b} | {s.split(':', 1)[1]} | {d} | `{p}` |" for b, s, _u, d, p in ai_rows]
+        L += [""]
+    (ep / SELECTION_F).write_text("\n".join(L) + "\n", encoding="utf-8")
+    print(f"\nselección   → episodes/{slug}/{SELECTION_F}")
+    hdr = ("| Beat/Intro | Fuente | Enlace | Licencia | Res. | Uso | Pase | Archivo |\n"
+           "|---|---|---|---|---|---|---|---|")
+    body = []
+    for n, s, u, d, p in intro_rows:
+        body.append(f"| intro {n} | {s} | {u} |  | {d} |  |  | `{p}` |")
+    for b, s, u, d, p in beat_rows:
+        body.append(f"| {b} | {s} | {u} |  | {d} |  |  | `{p}` |")
+    for b, s, u, d, p in ai_rows:
+        body.append(f"| {b} | {s} | (propia) | ilustración IA — rótulo en pantalla | {d} |  |  | `{p}` |")
+    if body:
+        print("\n--- filas para 07-assets.md ---\n" + hdr + "\n" + "\n".join(body))
 
 
 # -------------------------------------------------------------------------- init
@@ -903,10 +1051,11 @@ def init(slug):
     d = EP_DIR / slug
     if not d.is_dir():
         sys.exit(f"no existe {d}")
-    f = d / "07-pull.tsv"
+    f = d / SPEC_F
     if f.exists():
         sys.exit(f"ya existe {f.relative_to(ROOT)}")
-    sample = ("1\tarchive\tmet,commons,aic\tkatsushika hokusai\tmust=hokusai;n=3\n"
+    sample = ("INTRO1\tintro\tintro\t<tema> cinematic aerial\torientation=landscape;min=1920;n=3\n"
+              "1\tarchive\tmet,commons,aic\t<sujeto>\tmust=<sujeto>;n=3\n"
               "7\tstock\tstock\tocean wave breaking slow motion\tmin=1920;n=3\n"
               "12\tstock-img\tstock-img\tworn rice paper texture\tmin=2500;n=3\n")
     f.write_text(SPEC_HEADER + sample, encoding="utf-8")
