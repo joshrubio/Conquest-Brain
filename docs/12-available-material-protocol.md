@@ -72,4 +72,5 @@ The idea's track owner (Carmen for T01, Josh for T02) ticks the worksheet. Recor
 ## Per-episode artifacts
 
 - `material-search.md` — this protocol's output at ideation / Stage 2: does enough PD material exist, what's weak, the video question, how to depict a subject with no photograph, and any fact-check findings the search turned up. **Feasibility, not selection.**
-- `07-assets.md` — **Stage 7**, after fact-check + shotlist. The per-image manifest: a direct object link per archival beat + Josh's **photography pass** (does each image fit the series look?). See [06-production-workflow.md](06-production-workflow.md) Stage 7 and [templates/asset-manifest.md](../templates/asset-manifest.md).
+- `07-assets.md` — **Stage 7**, after fact-check + shotlist. The per-image manifest: a direct download link per archival beat + Josh's **photography pass** (resolution / condition / colour / series fit). See [06-production-workflow.md](06-production-workflow.md) Stage 7 and [templates/asset-manifest.md](../templates/asset-manifest.md).
+- `07b-ai-prompts.md` — **Stage 7**, only if the photography pass leaves beats with no PD image and no own-graphic. Copy-paste AI-illustration prompts. See [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md).

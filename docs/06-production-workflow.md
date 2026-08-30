@@ -43,12 +43,14 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **Inferred from the locked script** — one beat per subject change / `[EN PANTALLA]` / `[EXPLICADOR]` / `[PLANT]`/`[PAY]`. Per beat: visual **need**, archival vs own-graphic, on-screen text, motion.
 - **Gate:** every beat classified; every graphed number has a source label; beat count matches the target rhythm.
 
-## Stage 7 — Asset selection + photography pass  → `07-assets.md`
+## Stage 7 — Asset selection + photography pass  → `07-assets.md` (+ `07b-ai-prompts.md`)
 - Template: [templates/asset-manifest.md](../templates/asset-manifest.md). Search feasibility already done in `material-search.md`; here it gets specific.
-- **1. Candidate pull (automatable):** for each archival beat, find 1–3 **specific images** — direct object link, museum + number, licence, max resolution. Not archive roots — individual images.
-- **2. Photography pass (Josh, manual):** for each candidate, judge on resolution / condition / colour / crop / sequence coherence against the series look ([docs/03](03-brand-identity.md) §Visual direction). ✅ / ⚠️ / ❌.
-- **3. Manifest:** one row per **accepted** image, downloaded to `assets/` with a consistent name. Own-graphics beats → design brief, not the manifest.
-- **Gate:** every archival beat has an accepted image or a fallback graphic; every image has a clear licence; colour/condition checked by sequence, not just per image; courtesy credits logged for `09-description.md`.
+- **1. Candidate pull (automatable):** for each archival beat, find 1–3 **specific images** — direct *download* link (no captcha), museum + number, licence, real resolution. Not archive roots.
+- **2. Photography pass (Josh, manual):** for each candidate, judge on resolution (vs. the standard in the template) / condition / colour / crop / sequence coherence against the series look ([docs/03](03-brand-identity.md) §Visual direction). ✅ / ⚠️ / ❌.
+- **3. Own-graphics** beats → design brief, not the manifest.
+- **4. AI-illustration** ([docs/15](15-ai-illustration-protocol.md)): for the beats left ❌ (no PD image, no own-graphic — an event with no depiction, a person with no usable likeness), run `tools/build_ai_prompts.py` → `07b-ai-prompts.md`; Claude writes the scenes; Josh generates; images land in `assets/ai/`. Always stylised + on-screen label.
+- **5. Manifest:** one row per **accepted** image (archival or AI), downloaded to `assets/` with a consistent name.
+- **Gate:** every beat covered (accepted image / graphic / AI); every image a clear licence + resolution for its use; colour/condition checked by sequence; AI images stylised, labelled, no real-person face; courtesy credits logged for `09-description.md`.
 - Runs in parallel with Stage 8 (recording doesn't depend on it).
 
 ## Stage 8 — Record

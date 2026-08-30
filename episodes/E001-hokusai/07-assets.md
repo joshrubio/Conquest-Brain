@@ -35,7 +35,11 @@ Si no llega: usar como inserto, cortar un **detalle** (un detalle a 2000 px sirv
 | 3 | 26 | **Fuji en el barril del tonelero** | https://www.metmuseum.org/art/collection/search/36500 → *Download* · alt AIC IIIF si tiene otra impresión | Met | CC0 | ~4000 px | full-frame (poco movimiento) | |
 | 4 | 26 | **Fuji desde un camino** (*Tōkaidō Hodogaya*) | https://www.artic.edu/artworks/86999 → *Download* / IIIF | AIC | CC0 | ~7000 px | full-frame | |
 | 5 | 25, 26 | 2–3 vistas más del Fuji | https://www.artic.edu/collection?artist_ids=Katsushika+Hokusai — elegir 2–3 de la serie, descargar IIIF nativo de cada una | AIC | CC0 | ~7000 px | cuadrícula (insertos) — **cualquier res sirve** | |
-| 6–8 | retratos | **Ver «Decisión: la cara de Hokusai» abajo** — el material de época existe pero el estilo no encaja | — | — | — | — | ⚠️ decisión pendiente |
+| 6b | 4, 24, 36 (una vez) | **Retrato de Hokusai por Keisai Eisen** — "la única cara real" | Commons: https://commons.wikimedia.org/wiki/File:Portrait_of_Hokusai_by_Keisai_Eisen.jpg | Commons | PD | por confirmar (verificar px del fichero) | inserto / uso puntual | |
+| ai01 | 1 (cold open) | **Ilustración IA** — 1849, el cuarto, el hombre que se muere (de espaldas) | `07b-ai-prompts.md` §ai01 → generar | — | ilustración propia (IA) · **rótulo en pantalla** | ≥4800 px (upscale) | full-frame + push-in | ⧗ generar |
+| ai02 | +B, +C (Acto 1) | **Ilustración IA** — el Daruma gigante de Nagoya (1817), figura de espaldas | `07b-ai-prompts.md` §ai02 | — | ilustración propia (IA) · rótulo | ≥4800 px | full-frame, zoom out | ⧗ generar |
+| ai03 | 33 (Acto 4) | **Ilustración IA** — el incendio del taller, noche, ~1839, figura pequeña de espaldas | `07b-ai-prompts.md` §ai03 | — | ilustración propia (IA) · rótulo | ≥4800 px | full-frame | ⧗ generar |
+| ai04 | 39 (cierre) | **Ilustración IA** — la metáfora del camino sin final (sustituye a G5) | `07b-ai-prompts.md` §ai04 | — | ilustración propia (IA) · rótulo | ≥4800 px | full-frame, ritmo lento | ⧗ generar |
 | 9 | 34–35 · self-depiction | **«Autorretrato como pescador»** (1835) | https://www.artic.edu/artworks/81212/self-portrait-as-a-fisherman → *Download* / IIIF | AIC | CC0 | ~5000 px | full-frame | |
 | 10 | 11–12 · [PLANT 1] | **Obra temprana firmada "Shunrō"** (actor kabuki, *hosoban*, 1780s) | Met Open Access: https://www.metmuseum.org/art/collection/search?q=Shunro&showOnly=openAccess — elegir una con **firma legible**, *Download* | Met | CC0 | ~4000 px | inserto + zoom a la firma → basta | |
 | 11 | 10 | Actor de la **escuela Katsukawa (Shunshō)** | https://www.metmuseum.org/art/collection/search?q=Katsukawa+Shunsho&showOnly=openAccess → *Download* | Met | CC0 | ~4000 px | full-frame | |
@@ -52,20 +56,13 @@ Si no llega: usar como inserto, cortar un **detalle** (un detalle a 2000 px sirv
 | 22 | +F | **Van Gogh copiando a Hiroshige** (1887) | Commons *Google Art Project* (alta res): https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_Brug_in_de_regen-_naar_Hiroshige_-_Google_Art_Project.jpg | Commons / VG Museum | PD (†1890) | ~10000 px | full-frame | ✅ res |
 | 23 | +E, +F | Interior de Giverny (Monet) | **sin fuente PD** — foto con licencia. **Recomendación: cortar el plano.** La línea "Monet las coleccionaba" se cubre con #22. | — | ❌ | — | — | ❌ manifiesto PD |
 
-## Decisión: la cara de Hokusai
+## Decisión: la cara de Hokusai — RESUELTO
 
-Los retratos de época **existen** (grabado formal de Keisai Eisen; el autorretrato-caricatura a los 83, muy suelto; el del Smithsonian) pero son de idioma japonés de su tiempo — planos, lineales, no "cinematográficos". No hay una cara con detalle para hacerle push-in o parallax. **No hay foto.**
+Método elegido: **ilustración estilizada por IA** (opción C, vía IA en vez de ilustrador), en registro **sumi-e / xilografía**, para que se siente al lado de los prints reales y se lea como ilustración. **Sin cara reconocible** (figura de espaldas / silueta / distancia). Rótulo en pantalla siempre. Protocolo: `docs/15`.
 
-Opciones (esto es `docs/03` §Visual direction — decisión de una vez, no por episodio):
-
-| | Enfoque | Pro | Contra |
-|--|---------|-----|--------|
-| **A** | Los retratos de época como **motivo consistente** — "solo lo vemos como su época lo dibujó" | Honesto, distintivo, barato | Cara plana; se repite (hay 2–3 imágenes) |
-| **B** | **Evitar la cara** — manos + el acto de pintar + sus autorrepresentaciones (#9 el pescador). El retrato de época aparece 1–2 veces como ancla | Riesgo cero, mucha textura, ata con "quería que lo vieran trabajar" | No hay un "primer plano de la persona" |
-| **C** | **Ilustración estilizada propia** de Hokusai en el look del canal — recurrente, rotulada como ilustración | Material ilimitado, animable | Necesita ilustrador + `docs/03` cerrado; coste |
-| **✗** | Retrato "realista" por IA | — | No hay foto → invención pura; exige rótulo; choca con el rigor del canal |
-
-**Recomendación E001:** **B**, con un toque de **A** (el grabado de Eisen usado 1–2 veces como "la única cara real que tenemos"). **C** cuando haya ilustrador.
+- Prompts: **[`07b-ai-prompts.md`](07b-ai-prompts.md)** — 4 imágenes (`ai01` cold open, `ai02` Daruma, `ai03` incendio, `ai04` camino del cierre).
+- Se mantiene además el grabado de **Keisai Eisen** 1–2 veces como "la única cara real que existe" (fila 6b abajo).
+- El material archivístico real (los ~20 prints CC0) sigue siendo la base. Las 4 IA son beats puntuales.
 
 ## Gráficos propios (brief de diseño)
 
@@ -80,8 +77,9 @@ Opciones (esto es `docs/03` §Visual direction — decisión de una vez, no por 
 
 ## Huecos reales
 
-- [ ] **Decisión A/B/C sobre la cara de Hokusai** (`docs/03`) — bloquea el pase definitivo
-- [ ] **Salida del canal** 1080p vs 4K (`docs/03`) — determina qué imágenes valen
+- [x] ~~Decisión sobre la cara de Hokusai~~ → **ilustración IA** (`07b-ai-prompts.md`)
+- [ ] **Generar las 4 IA** (ai01–ai04) y guardarlas en `assets/ai/`
+- [ ] **Salida del canal** 1080p vs 4K (`docs/03`) — determina qué imágenes archivísticas valen
 - [ ] #17 Ōi — confirmar qué hay en MFA/Freer con TIFF libre; si nada → plan B
 - [ ] #21 *La Mer* — probar Gallica; si no, plan B
 - [ ] #10 — abrir el objeto Met y confirmar firma "Shunrō" legible

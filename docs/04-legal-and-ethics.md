@@ -44,7 +44,7 @@ Higher care for **living people** and **recent events**.
 
 ## 8. Disclosure & honesty
 
-- [ ] Reenactments/AI-generated or colorized visuals labeled on screen.
+- [ ] Reenactments / AI-generated / colorized visuals labeled on screen, every appearance. **AI illustration follows [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md):** stylised (not photoreal), only where no real image exists, no recognisable real-person face, no fabricated documents.
 - [ ] Speculation labeled.
 - [ ] Description always carries the "Fuentes principales" list.
 - [ ] Any sponsorship or paid element disclosed (none expected in Phase 1).
