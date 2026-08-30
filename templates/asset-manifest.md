@@ -33,9 +33,9 @@ Si una imagen no llega, la opción es: usarla más pequeña (inserto), cortar un
 
 ## Flujo
 
-1. **Pull de candidatos** (automatizable) — por cada beat archivístico del shotlist, buscar 1–3 imágenes concretas: enlace **de descarga directa**, museo, nº de objeto, licencia, resolución real.
-2. **Pase de fotografía** (Josh, manual) — por cada candidato, verdict con los criterios de abajo.
-3. **Manifiesto final** — una fila por imagen **aceptada**, con nombre de archivo local tras descargar.
+1. **Pull de candidatos** — `07-pull.tsv` (beat · kind `stock|archive|video` · source · query · opts) → `python tools/pull_assets.py E0XX-slug` → `07-candidates.md` con enlace de descarga directa, licencia, autor y resolución por candidato. Keys en `tools/.env`.
+2. **Pase de fotografía** (Josh, manual) — marca `- [x]` los candidatos válidos con los criterios de abajo, luego `python tools/pull_assets.py E0XX-slug --download` los baja a `assets/`, verifica resolución real y escribe `assets/CREDITS.md` + filas de manifiesto.
+3. **Manifiesto final** — una fila por imagen **aceptada**, con nombre de archivo local.
 
 ## Criterios del pase de fotografía
 

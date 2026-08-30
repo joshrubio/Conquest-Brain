@@ -32,3 +32,9 @@ Desktop.ini
 
 # Generated pitch PDFs (regenerate with tools/build_idea_pitch.py)
 ideas/*.pdf
+
+# API keys for tools/pull_assets.py
+tools/.env
+
+# Stage 7 candidate pull output (regenerate with tools/pull_assets.py)
+episodes/**/07-candidates.md
