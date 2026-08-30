@@ -1,6 +1,6 @@
 # 16 — Edit & Delivery (Stage 9)
 
-Deliberately minimal. **If an effect isn't in this doc, it doesn't go in the episode.** No lower-thirds system, no colour grade, no transitions beyond a hard cut and a section fade. The rigor is in the script and the sourcing, not in the motion graphics.
+Deliberately minimal. **If an effect isn't in this doc, it doesn't go in the episode.** No lower-thirds system, no source cards, no transitions beyond a hard cut and a section fade. One house grade (`docs/03`), applied whole. The rigor is in the script and the sourcing, not in the motion graphics.
 
 Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`) · `07c-edit.html` (review surface, generated) · `07c-review.txt` (Josh's approvals + feedback).
 
@@ -15,7 +15,7 @@ Stage 7 assets are chosen; Stage 8 footage is in. Then:
 5. **Background music** — one ominous-ambient bed under the whole thing, ducked under the VO.
 6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
 
-Then: source cards, export, picture-lock review.
+Then: house grade, export, picture-lock review.
 
 ## Tooling — Claude first, DaVinci later if needed
 
@@ -64,7 +64,7 @@ Stills only (video already moves). The move is chosen from the image's **real as
 - `06-shotlist.md` marks which beats are archival / stock / AI; `07-selection.md` names the file (a KB clip for stills, the stock/intro clip for video). Lay each on its beat, over the VO.
 - **Video clips:** cut to length. No speed ramp, no filter, no zoom. Loop only if the clip is shorter than the beat *and* the loop point is invisible.
 - **Cold open (§0):** 2–5 clips from `assets/intro/` in numbered order, hard-cut on the narration beat (`docs/02` §0). Last shot holds ½ s → cut to black.
-- **Bumper (§0b):** 3–6 s black + `Éxodo` wordmark + presenter line. No music.
+- **Bumper (§0b):** 3–6 s black + `Exodo` wordmark + presenter line. No music.
 - Reused beats (`[PLANT]` / `[PAY]`): the **same** clip/frame both times.
 
 ## 5. Background music — `tools/find_music.py`
@@ -92,15 +92,14 @@ A track only works for us if its licence allows **commercial use** *and* using i
 
 ---
 
-## Source cards (minimal)
+## On-screen text — minimal
 
-A claim gets an **on-screen** citation only if it is: a direct quote, a contested/approximate number, or a named document/record. Everything else is credited in `09-description.md` «Fuentes principales».
-- Format: small lower-third, `Autor — Obra / Año`. Exact style frozen in `docs/03` §Visual direction (**pending**).
-- **AI / reenactment / colourised:** permanent on-screen label every appearance — `Ilustración — Éxodo` or `Recreación` (`docs/15`, `docs/04` §8). Not optional, not once.
+- **No source cards.** Every citation lives in `09-description.md` «Fuentes principales» + the pinned comment. Nothing on screen says "fuente: …".
+- On screen only: the **case-file device** (`EXPEDIENTE: CASO 00XX …`, Courier Prime — `docs/03`), **chapter / section cards** (Playfair), and the **AI / reenactment label** — `Ilustración — Exodo` or `Recreación`, permanent, every appearance (`docs/15`, `docs/04` §8).
 
-## Look / grade — PENDING `docs/03` §Visual direction
+## Look / grade — from `docs/03` §Visual identity
 
-Until the house look is locked: **no grade, no letterbox, no film grain, no vignette.** Straight cut, consistent export. Lower-third / source-card / typography styles come from `docs/03` when it exists. Revisit this section then.
+Apply the house grade to the whole timeline: **dark, warm, desaturated ~15–20%**, blacks lifted slightly warm; fine constant **film grain** at low opacity; subtle **spotlight vignette**. Documents on an aged-paper / newspaper underlay. Palette and typography per `docs/03`. No letterbox unless a source clip forces it (pad to frame on `#100D09`, never stretch).
 
 ## Export
 

@@ -26,9 +26,9 @@
 
 ## 3. Separación (gate duro)
 
-- [ ] «¿Conocería esta historia si el negocio de membresía no existiera?» → Sí
-- [ ] Cero datos, tips o casos del negocio de membresía
-- [ ] Sin persona identificable de la comunidad hispanohablante de Rotterdam
+- [ ] «¿Sería contable íntegra desde documentación pública por alguien que no conoce a nadie implicado?» → Sí
+- [ ] Cero datos o tips de fuente privada
+- [ ] Sin persona identificable que Carmen o Josh conozcan personalmente
 - [ ] Sin marca del negocio en el vídeo; sin enlace ni pitch del negocio en la descripción
 - [ ] Sin solapamiento de marca con otros canales del equipo
 - [ ] Carmen firma: __  ·  Josh firma: __

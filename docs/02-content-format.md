@@ -41,7 +41,7 @@ These shots are chosen in the **Intro row of `07-photography-pass.html`** (Stage
 **Always end the narrative hook by naming what the video will do**: "en este episodio reconstruimos…", "aquí van las tres versiones del caso…", "para entenderlo, primero el contexto". **Sourced** — the hook may not overstate what the record supports.
 
 ### 0b. Bumper — 3–6 s, on black
-The reset beat between hook and story (Dieck does this — the brand moment lands *after* the hook, never before). Cut to **black**. Presenter says one line — "Soy Carmen." / "Soy Josh." — the **`Éxodo`** wordmark appears, one low tone or a beat of silence, out. No logo animation, no music sting longer than the beat. This is also the narrative's "chapter 1" line — the context pivot starts on the next shot. Everything up to here (hook + bumper) is **≤ 50 s**, target ~35 s; the context pivot is running by **0:45–0:50**.
+The reset beat between hook and story (Dieck does this — the brand moment lands *after* the hook, never before). Cut to **black**. Presenter says one line — "Soy Carmen." / "Soy Josh." — the **`Exodo`** wordmark appears, one low tone or a beat of silence, out. No logo animation, no music sting longer than the beat. This is also the narrative's "chapter 1" line — the context pivot starts on the next shot. Everything up to here (hook + bumper) is **≤ 50 s**, target ~35 s; the context pivot is running by **0:45–0:50**.
 
 ### 1. Context pivot + era setup — 10–20%
 An explicit hinge line out of the hook: "pero para ver si esto es cierto, necesitamos algo de contexto" / "quiero que imagines que estás en…". Then the background the story needs: the era, the institution, the people, the stakes. This is where the first **explainer interlude** usually sits.
@@ -71,7 +71,7 @@ Two recurring devices, both **required**:
 No form is an excuse to skip the sourcing or to moralize. The takeaway/lesson is **never** the reason a case was chosen ([01-editorial-and-sourcing.md](01-editorial-and-sourcing.md) §6).
 
 ### 4. CTA coda — ~10 s
-A distinct beat **after** the close has fully landed. Soft channel CTA only (subscribe / next episode). **No membership-business pitch, no business link** ([05-separation-policy.md](05-separation-policy.md)). Sources credited in the description always; optional on-screen "Fuentes principales" card.
+A distinct beat **after** the close has fully landed. Soft channel CTA only (subscribe / next episode). **No third-party pitch or link** ([05-separation-policy.md](05-separation-policy.md)). Sources always credited in the description — no on-screen source card.
 
 ## Recurring structural rules
 
@@ -80,9 +80,10 @@ A distinct beat **after** the close has fully landed. Soft channel CTA only (sub
 - Explainer interludes and foreshadowing hooks appear in every episode.
 - Any psychological concept invoked is **named and, where a specific theory/study/thinker is used, sourced** ([09-reflection-rules.md](09-reflection-rules.md)).
 
-## Series identity elements (to define once brand is set)
+## Series identity elements  (set — [docs/03](03-brand-identity.md))
 
-- Standard title pattern (see [07-publishing-seo-metrics.md](07-publishing-seo-metrics.md)).
-- Standard thumbnail system.
-- Standard "Fuentes" description block (see [templates/description-and-credits.md](../templates/description-and-credits.md)).
-- The **bumper** (§0b) is the only brand moment in the body: presenter line + `Éxodo` wordmark on black, 3–6 s, after the cold open. No loud pre-roll intro anywhere.
+- **Title pattern:** `<Gancho> | <Sujeto> | Documental` (Dieck register, [docs/13](13-hook-naming.md)).
+- **Thumbnail system:** [docs/03](03-brand-identity.md) §Thumbnail system — subject image + house grade + one line of Playfair or the case-file device, gold accent on one word.
+- **"Fuentes principales" description block:** required every episode ([templates/description-and-credits.md](../templates/description-and-credits.md)). **This is where all citations live — no source cards on screen.**
+- **Case-file device:** every episode's context opens with `EXPEDIENTE: CASO 00XX …` in Courier Prime ([docs/03](03-brand-identity.md)). The reflection may use the interview-transcript style.
+- **Bumper** (§0b): the only brand moment in the body — presenter line + `Exodo` wordmark on black, 3–6 s, after the cold open. No loud pre-roll intro anywhere.

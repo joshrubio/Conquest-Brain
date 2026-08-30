@@ -57,7 +57,7 @@ Plant and pay off 3–6 per episode ([02-content-format.md](02-content-format.md
 - Sensationalize violence, death, illness, or abuse. Sober, non-graphic, help-resource note where relevant.
 - Reproduce song lyrics; quote long verbatim passages of copyrighted text.
 - Use a dramatized film as if it were the historical record ([01-editorial-and-sourcing.md](01-editorial-and-sourcing.md)).
-- Pitch the membership business. Soft channel CTA only.
+- Pitch anything external. Soft channel CTA only.
 - Contempt-by-editing: music stings, sarcastic pauses, "y entonces, cómo no…".
 
 ## 9. Narrator notes

@@ -29,7 +29,7 @@
 - [x] Cross-check de contenido disponible hecho — ver sección abajo (`docs/12`)
 - [x] Registro público documentado (actas del Parlamento 1721, prensa de la época, historiografía)
 - [x] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)
-- [x] Ninguna persona de la comunidad hispanohablante de Rotterdam involucrada / identificable
+- [x] Nadie que Carmen o Josh conozcan personalmente involucrado / identificable
 - [x] La historia se sostiene por sí misma (el cierre no es el motivo de elegir el caso)
 - [x] Pasa la política de separación (`docs/05-separation-policy.md`)
 

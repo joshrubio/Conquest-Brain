@@ -14,7 +14,7 @@ This is Stage 6 of the workflow. Input: locked `05-script.md`. Output: `06-shotl
 
 1. **One visual beat every ~2–3 sentences of narration**, or wherever the *subject* of the sentence changes (new person, place, year, object).
 2. Every `[EN PANTALLA]` cue in the script → a beat, kept verbatim.
-2b. **Cold open** → the `[HOOK VISUAL]` list in the script is 2–5 beats, hard-cut on the narration beat, **stock video preferred** over a push-in on a still. The last is the "turn" shot. **Bumper (§0b)** = one beat: black + `Éxodo` wordmark, 3–6 s, no motion.
+2b. **Cold open** → the `[HOOK VISUAL]` list in the script is 2–5 beats, hard-cut on the narration beat, **stock video preferred** over a push-in on a still. The last is the "turn" shot. **Bumper (§0b)** = one beat: black + `Exodo` wordmark, 3–6 s, no motion.
 3. Every **named** person / place / document / institution / number → its own archival image or graphic.
 4. `[EXPLICADOR]` interlude → one motion-graphic / diagram sequence. **No talking head.** Budget it as the single longest visual block (~60–140 s).
 5. `[PLANT]` and its `[PAY]` → **the same shot both times** (visual rhyme; the viewer recognizes the image and the callback lands).
@@ -52,8 +52,8 @@ For a 20-minute episode that's roughly **150–180 distinct visual beats**. Not 
 
 - Stills: slow Ken Burns (push-in or lateral). Hard cuts between beats; fades only at section breaks.
 - Documents: start wide, push to the cited line.
-- One consistent lower-third style for source captions (set at brand).
-- Grade/grain/letterbox: one house look, decided at brand; applied uniformly so archival and graphics read as one piece.
+- **No source captions on screen** — citations go in the description (`docs/03`, `docs/16`). The case-file device (`EXPEDIENTE: CASO 00XX`) and chapter cards are the only recurring text.
+- Grade/grain/letterbox: the house look from `docs/03` §Visual identity — dark, warm, desaturated, fine grain, subtle vignette; applied uniformly so archival and graphics read as one piece.
 
 ### 2.5 Rights gate (unchanged from `templates/shotlist-broll.md`)
 

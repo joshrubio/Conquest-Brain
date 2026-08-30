@@ -26,7 +26,7 @@
 - Toda idea pasa por los dos protocolos de ideación antes de consolidarse:
   1. **Contenido disponible** — `docs/12`. Cross-check contra archivos de dominio público. Sin material, no hay episodio.
   2. **Hook Naming** — `docs/13`. La idea se nombra con un título-hook estilo Farid Dieck desde el minuto uno.
-- Los eliminatorios de `idea-rubric.md` (registro público, ≥3 fuentes Tier A/B, nada de la comunidad de Rotterdam, separación del negocio) aplican a cada idea.
+- Los eliminatorios de `idea-rubric.md` (registro público, ≥3 fuentes Tier A/B, nadie que conozcamos, independencia del canal) aplican a cada idea.
 
 ## Revisión
 

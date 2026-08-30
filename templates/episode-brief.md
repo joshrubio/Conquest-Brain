@@ -27,7 +27,7 @@
 - [ ] Cross-check de contenido disponible hecho — hay material de dominio público (`docs/12`)
 - [ ] Registro público documentado
 - [ ] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)
-- [ ] Ninguna persona de la comunidad hispanohablante de Rotterdam involucrada / identificable
+- [ ] Nadie que Carmen o Josh conozcan personalmente involucrado / identificable
 - [ ] La historia se sostiene por sí misma (el cierre no es el motivo de elegir el caso)
 - [ ] Pasa la política de separación (`docs/05-separation-policy.md`)
 

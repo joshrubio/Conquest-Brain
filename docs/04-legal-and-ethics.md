@@ -6,7 +6,7 @@ Not legal advice. This is the working standard; escalate anything uncertain to a
 
 - [ ] Subject is a **public figure**, a **historical case**, or a **company/practice** — not a private individual.
 - [ ] There is a **public documentary record**.
-- [ ] No person from Carmen's Rotterdam Spanish-speaking community is involved, named, or identifiable — even anonymized. (Non-negotiable. If in doubt, drop it.)
+- [ ] No one Carmen or Josh personally know is involved, named, or identifiable — even anonymized ([docs/05](05-separation-policy.md) §2). (Non-negotiable. If in doubt, drop it.)
 - [ ] The story is not sub judice in a way that makes commentary risky (check for active proceedings).
 
 ## 2. Defamation / reputation
@@ -47,12 +47,12 @@ Higher care for **living people** and **recent events**.
 - [ ] Reenactments / AI-generated / colorized visuals labeled on screen, every appearance. **AI illustration follows [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md):** per-episode style (photoreal allowed), only where no real image exists, **never a photoreal face of an identifiable real person**, never a fabricated document/record/photograph.
 - [ ] Speculation labeled.
 - [ ] Description always carries the "Fuentes principales" list.
-- [ ] Any sponsorship or paid element disclosed (none expected in Phase 1).
+- [ ] Any sponsorship or paid element disclosed (none expected).
 
-## 9. Separation from the membership business (see [05-separation-policy.md](05-separation-policy.md))
+## 9. Independence & conflict of interest (see [05-separation-policy.md](05-separation-policy.md))
 
-- [ ] No membership-business subscriber data, tips, or community stories used.
-- [ ] No hard pitch for the business in the video. Soft channel CTA only.
+- [ ] Subject is not someone Carmen or Josh personally know; story is not from a private tip.
+- [ ] No third-party link or pitch in the video. Soft channel CTA only.
 
 ## 10. Pre-publish sign-off
 

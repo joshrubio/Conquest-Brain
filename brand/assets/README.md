@@ -10,4 +10,4 @@ Contenido previsto cuando se decida:
 - `source-card-template.*`
 - `channel-banner.*`, `avatar.*`
 
-Restricción: cero solapamiento visual con el negocio de membresía y con otros canales del equipo.
+Marca independiente — sin solape con ninguna otra marca o canal.

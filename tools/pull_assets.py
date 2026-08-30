@@ -1031,7 +1031,7 @@ def _dl_ai(ep, beat, aid, src, fname, rows, credits):
     rel = f"assets/ai/{dst.name}"
     print(f"  OK  {dst.name}  {dim}  (IA)")
     rows.append((beat, f"ai:{aid}", "(propia)", dim, rel))
-    credits.append(f"- {beat}: {aid} — ilustración propia (IA), rótulo «Ilustración — Éxodo» en pantalla")
+    credits.append(f"- {beat}: {aid} — ilustración propia (IA), rótulo «Ilustración — Exodo» en pantalla")
 
 
 def _fetch(url, src):
@@ -1199,7 +1199,7 @@ def _write_selection(ep, slug, intro_rows, beat_rows, ai_rows):
         L += [f"| {b} | {s} | {d or '—'} | `{p}` |" for b, s, _u, d, p in beat_rows]
         L += [""]
     if ai_rows:
-        L += ["## Ilustración IA (rótulo «Ilustración — Éxodo» en pantalla)", "",
+        L += ["## Ilustración IA (rótulo «Ilustración — Exodo» en pantalla)", "",
               "| Beat | id | Res. | Archivo |", "|------|----|------|---------|"]
         L += [f"| {b} | {s.split(':', 1)[1]} | {d} | `{p}` |" for b, s, _u, d, p in ai_rows]
         L += [""]

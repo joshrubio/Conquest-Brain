@@ -1,42 +1,38 @@
-# 05 — Separation Policy
+# 05 — Independence & Conflict of Interest
 
-This channel and the membership business must not bleed into each other. Same for any other team video channel. Three firewalls: **content**, **brand**, **workflow**.
+Exodo Channel is a standalone project. This file keeps it that way and keeps the founders' other roles from bleeding into the episodes.
 
-## 1. Content firewall
+## 1. Independent identity
 
-**Off-limits to this channel, always:**
-- Any real person from Carmen's Rotterdam Spanish-speaking community — named, described, or identifiable — even anonymized.
-- Any story, tip, complaint, or case that reached the team through the membership business: newsletter submissions, directory listings, member messages, community events, service-journalism reporting for the business.
-- Local Rotterdam / Netherlands community situations as episode subjects.
+- Own channel name, handle, logo, palette, typography, banner, avatar — [docs/03-brand-identity.md](03-brand-identity.md).
+- No "brought to you by / in association with" anyone, on screen or in the metadata.
+- No shared playlists, channel sections, or cross-posting with any other channel.
+- Own upload/brand account, own analytics, own asset storage. **This repo (`D:\Youtube`) is the only home for this channel's work.**
+- Description: soft channel CTA only (subscribe, next episode). No third-party link or pitch.
 
-**Allowed:** public figures, historical cases, companies/practices with a public record, per [docs/00-project-charter.md](00-project-charter.md). Geography of the subject is irrelevant as long as it's public record and not sourced from the business.
+## 2. Conflict of interest — subjects
 
-**Test:** *Would I know this story if the membership business did not exist?* If no → it does not go on this channel.
+**Off-limits as an episode subject, always:**
+- Anyone Carmen or Josh personally know — friends, family, colleagues, neighbours, community contacts — named, described, or identifiable, **even anonymized**. Privacy, consent, and the appearance of an axe to grind.
+- Any story that reached the team privately (a message, a tip, an off-record conversation) rather than through the public record.
+- The founders' own migration story as a subject. It is *voice and motive* — About page, the reflection — never the case on the table.
 
-## 2. Brand firewall
+**Test:** *Would this story be tellable entirely from public documentation by a journalist who has never met anyone involved?* If no → it is not an Exodo episode.
 
-- Separate channel name, handle, logo, palette, typography, banner, avatar — see [docs/03-brand-identity.md](03-brand-identity.md).
-- No "brought to you by [business]" on-screen, in the intro, or in the outro.
-- No shared playlists or channel sections with the business or other team channels.
-- Description: soft channel CTA only (subscribe, next episode). **No** link to the membership business, no signup pitch, in Phase 1. Revisit only as a deliberate Phase 2 decision, documented here first.
-- Carmen appears as narrator/host of this channel. Her being the business's face elsewhere is fine; the two presences are not cross-marketed inside the videos.
+**If an idea surfaces from private life** and there is a genuine *public* version of it (a public figure, a historical case, a documented company), it may be pursued — but re-sourced from scratch from public material, with the reset noted in `02-research-dossier.md`.
 
-## 3. Workflow firewall
+## 3. Research hygiene
 
-- **This repo** (`D:\Youtube`) is the only home for this channel's work. Business work lives elsewhere.
-- Separate asset storage, separate upload account/brand account, separate analytics.
-- Separate idea pool — `ideas/idea-pool.md` here never imports from business editorial planning.
-- Research for this channel uses public sources only (see [docs/01-editorial-and-sourcing.md](01-editorial-and-sourcing.md)); it never queries business data, CRM, or member records.
-- If a team member notices a great episode idea while doing business work, they may bring the *public* version of it (public figure / historical / company) — but must re-source it from scratch from public material and note the reset in `02-research-dossier.md`.
+- Public sources only ([docs/01-editorial-and-sourcing.md](01-editorial-and-sourcing.md)). No private records, CRMs, or personal correspondence as source material.
+- The idea pool (`ideas/idea-pool.md`) is generated here, from public material, and imports from nowhere else.
 
-## 4. What may legitimately connect
+## 4. What legitimately carries over
 
-- The **skill and standard**: the same journalistic rigor.
-- The **audience thesis**: Phase 1 grows an audience that Phase 2 may convert — but conversion mechanics are out of scope here and not built into the videos yet.
-- **Carmen and Josh** as people.
+- The **skill and standard** — the same journalistic rigor Carmen and Josh bring to any work.
+- **Carmen and Josh** as people, with their names and faces.
 
 Nothing else.
 
 ## 5. Review
 
-Check this firewall at two gates: idea intake (rubric) and pre-publish (checklist). Any breach = pull the episode.
+Checked at two gates: idea intake (rubric) and pre-publish (checklist). Any breach → pull the episode.

@@ -1,8 +1,8 @@
 # Pool de ideas — videos individuales
 
-> Nivel 2. Cada idea pertenece a un **track** (`tracks.md`). Se evalúa con [idea-rubric.md](idea-rubric.md). Nunca importa de la planificación editorial del negocio de membresía (`docs/05-separation-policy.md`).
+> Nivel 2. Cada idea pertenece a un **track** (`tracks.md`). Se evalúa con [idea-rubric.md](idea-rubric.md). Se genera aquí desde material público; no importa de ninguna otra planificación (`docs/05-separation-policy.md`).
 >
-> **Estado de la puntuación:** provisional (ideación). Eliminatorios E1–E5 confirmados para todas (ninguna toca la comunidad de Rotterdam, todas son registro público, todas tienen ≥3 Tier A/B localizables). E6–E8 y el /21 son estimación — se cierran en el brief. Citas y cifras se verifican en Stage 5 (`docs/14`).
+> **Estado de la puntuación:** provisional (ideación). Eliminatorios E1–E5 confirmados para todas (ninguna toca a personas que conozcamos, todas son registro público, todas tienen ≥3 Tier A/B localizables). E6–E8 y el /21 son estimación — se cierran en el brief. Citas y cifras se verifican en Stage 5 (`docs/14`).
 >
 > **Dirección T01:** sujetos **reconocibles** (marcas, productos, nombres que la audiencia ya conoce) con un **ángulo oculto** — "conoces X, pero no conoces ESTO". El multiplicador del hook es el reconocimiento. Varias traen mito pegado (Sanders "1009 rechazos", etc.); el canal lo **desmonta** de camino (`docs/01`, verdad vs. leyenda pulida).
 
@@ -99,7 +99,7 @@ Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Pr
 - `¿POR QUÉ en media Latinoamérica el bolígrafo se llama "birome"? | Documental`
 - `La pluma que la RAF necesitaba — y un refugiado que la hizo | Bíró | Documental`
 - **Material:** medio — Hungría / Argentina, 1930s–40s; patentes (PD), prensa mixta, gráfico propio.
-- **Cierre A/B.** Refugiado, solución bajo presión, la idea que se le ocurre viendo secarse la tinta de imprenta. **Ata con Éxodo** (nombre del canal) sin forzar — un episodio sobre alguien que tuvo que empezar de cero en otro continente.
+- **Cierre A/B.** Refugiado, solución bajo presión, la idea que se le ocurre viendo secarse la tinta de imprenta. **Ata con el nombre del canal** sin forzar — un episodio sobre alguien que tuvo que empezar de cero en otro continente.
 
 ### T01-07 · Colonel Sanders / KFC
 - `Empezó a los 65 con un cheque de la PENSIÓN | Colonel Sanders | Documental`

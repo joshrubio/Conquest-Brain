@@ -40,7 +40,7 @@ Para entender esa frase hay que ver la vida entera.
 
 ## 0b. BUMPER  (0:38–0:43)
 
-[EN PANTALLA] Negro. Aparece la marca **`Éxodo`** (esquina o centro, discreta).
+[EN PANTALLA] Negro. Aparece la marca **`Exodo`** (esquina o centro, discreta).
 
 [NARRACIÓN]  (Carmen) Soy Carmen.
 

@@ -11,7 +11,7 @@
 
 ## 1. Reinicio de fuentes
 
-No aplica: el caso no procede de material del negocio de membresía.
+No aplica: el caso es registro histórico público, no procede de fuente privada.
 
 ## 2. Cronología (esqueleto — completar fechas exactas contra S01/S03/S06)
 

@@ -41,12 +41,12 @@ Veredictos: **verificada** · **corregir** (texto exacto propuesto) · **cortar*
 
 - [ ] Se deduce del caso tal como se cuenta
 - [ ] No exige torcer ningún hecho
-- [ ] No es un pitch del negocio de membresía
+- [ ] No es un pitch de nada externo
 
 ## 5. Pase legal y ético (`docs/04-legal-and-ethics.md`)
 
 - [ ] Sujeto elegible (figura pública / caso histórico / empresa)
-- [ ] Nadie de la comunidad hispanohablante de Rotterdam involucrado/identificable
+- [ ] Nadie que Carmen o Josh conozcan personalmente involucrado/identificable
 - [ ] Afirmaciones negativas sobre personas vivas: Tier A/B + atribuidas en pantalla
 - [ ] Alegaciones etiquetadas como tales; desenlaces indicados
 - [ ] Derecho de réplica considerado (registrar gestión o motivo de no hacerla): …
@@ -57,7 +57,7 @@ Veredictos: **verificada** · **corregir** (texto exacto propuesto) · **cortar*
 
 ## 6. Pase de separación (`docs/05-separation-policy.md`)
 
-- [ ] «¿Conocería esta historia si el negocio de membresía no existiera?» → Sí
+- [ ] «¿Sería contable íntegra desde documentación pública por alguien que no conoce a nadie implicado?» → Sí
 - [ ] Cero datos/tips/casos del negocio
 - [ ] Sin enlace ni pitch del negocio en el vídeo
 

@@ -86,7 +86,7 @@ def scaffold(slug, img_slugs, force):
 | Carpeta destino | `episodes/{slug}/assets/ai/` |
 | Nomenclatura | `{eid}_aiNN_<slug>.png` |
 | Salida | ≥ 4K si el generador lo permite; si no, upscale |
-| Rótulo en pantalla | `Ilustración — Éxodo` (o «recreación»), discreto, legible |
+| Rótulo en pantalla | `Ilustración — Exodo` (o «recreación»), discreto, legible |
 | Fecha | (rellenar) |
 
 ## Bloque de estilo (compartido)

@@ -109,7 +109,7 @@ T01 = [
       "¿POR QUÉ en media Latinoamérica el bolígrafo se llama \u00abbirome\u00bb?",
       "La pluma que la RAF necesitaba — y un refugiado que la hizo"],
      "Refugiado, solución bajo presión, la idea al ver secarse la tinta de imprenta. Ata con "
-     "\u00abÉxodo\u00bb sin forzar: alguien que empieza de cero en otro continente.",
+     "\u00abExodo\u00bb sin forzar: alguien que empieza de cero en otro continente.",
      None),
     ("T01-07", "Colonel Sanders / KFC", "aprobada", "A", "medio", 17,
      "Empezó a los 65 con el cheque de la pensión, durmiendo en el coche.",
@@ -302,7 +302,7 @@ def footer(canvas, doc):
     canvas.setFont("Head-R", 8)
     canvas.setFillColor(MUTE)
     canvas.drawCentredString(A4[0] / 2, 12 * mm,
-                             f"Éxodo · Pool de ideas · pág. {doc.page}")
+                             f"Exodo · Pool de ideas · pág. {doc.page}")
     canvas.restoreState()
 
 
@@ -310,11 +310,11 @@ def build(out):
     doc = SimpleDocTemplate(out, pagesize=A4,
                             leftMargin=22 * mm, rightMargin=22 * mm,
                             topMargin=20 * mm, bottomMargin=20 * mm,
-                            title="Éxodo — Pool de ideas", author="Éxodo")
+                            title="Exodo — Pool de ideas", author="Exodo")
     st = []
     # cover
     st.append(Spacer(1, 40 * mm))
-    st.append(Paragraph("Éxodo", S["title"]))
+    st.append(Paragraph("Exodo", S["title"]))
     st.append(Spacer(1, 4))
     st.append(Paragraph("Pool de ideas — Ronda 1", S["h1"]))
     st.append(Spacer(1, 10))
@@ -335,7 +335,7 @@ def build(out):
         "ángulo humano, cierre, relevancia, material). Se cierra en el brief. \u226514 = aprobada.",
         "<b>Estado.</b> aprobada · incubando (falta material o ángulo) · en producción.",
         "<b>Nota de rigor.</b> Todo caso es registro público, con fuentes verificables, y ninguno "
-        "toca a la comunidad de Rotterdam ni al negocio de membresía. Los mitos pegados "
+        "toca a nadie que conozcamos. Los mitos pegados "
         "(\u00ab1009 rechazos\u00bb, etc.) el canal los desmonta de camino.",
     ]:
         st.append(Paragraph(line, S["body"]))

@@ -42,12 +42,12 @@ Veredictos usados: **verificada** · **corregir** (texto/estado) · **marcar com
 
 - [x] Se deduce del caso tal como se cuenta (el precio dependía del siguiente comprador; nadie miraba el negocio)
 - [x] No exige torcer ningún hecho
-- [x] No es un pitch del negocio de membresía
+- [x] No es un pitch de nada externo
 
 ## 5. Pase legal y ético (`docs/04-legal-and-ethics.md`)
 
 - [x] Sujeto elegible (empresa histórica + caso con registro público)
-- [x] Nadie de la comunidad hispanohablante de Rotterdam involucrado
+- [x] Nadie que Carmen o Josh conozcan personalmente involucrado
 - [x] Personas mencionadas: fallecidas hace siglos — sin riesgo de difamación
 - [x] Teoría del complot presentada como teoría, con lo documentado separado de lo no documentado
 - [x] Archivo: grabados/retratos de dominio público; gráfico de cotización de elaboración propia
@@ -56,7 +56,7 @@ Veredictos usados: **verificada** · **corregir** (texto/estado) · **marcar com
 
 ## 6. Pase de separación (`docs/05-separation-policy.md`)
 
-- [x] "¿Conocería esta historia si el negocio de membresía no existiera?" → Sí (caso histórico público)
+- [x] "¿Contable íntegra desde documentación pública por alguien ajeno?" → Sí (caso histórico público)
 - [x] Cero datos/tips/casos del negocio
 - [x] Sin enlace ni pitch del negocio en el vídeo
 

@@ -11,7 +11,7 @@
 
 ## 1. Reinicio de fuentes (si aplica)
 
-Si la idea surgió mientras se trabajaba para el negocio de membresía: **describir cómo se ha re-obtenido todo desde material público** y confirmar que no se usa ningún dato del negocio. Ver `docs/05-separation-policy.md`.
+Si la idea surgió de la vida privada de Carmen o Josh (un tip, una conversación): **describir cómo se ha re-obtenido todo desde material público** y confirmar que no se usa nada de fuente privada. Ver `docs/05-separation-policy.md`.
 
 > …
 

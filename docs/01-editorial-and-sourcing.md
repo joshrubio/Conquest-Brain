@@ -1,6 +1,6 @@
 # 01 — Editorial Standard & Sourcing
 
-The channel inherits the credibility standard of the membership business's service journalism. Treat every episode as publishable journalism, not "content".
+Treat every episode as publishable journalism, not "content". A viewer should be able to check any claim and find it holds.
 
 ## 1. The uncited-claim rule
 

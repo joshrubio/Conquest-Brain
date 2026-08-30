@@ -1,4 +1,4 @@
-# 06 — Production Workflow (Phase 1)
+# 06 — Production Workflow
 
 Pipeline for one episode. Stages are gated: do not start a stage until the previous gate is signed. Files live in `episodes/E0XX-<slug>/`, numbered to match the stages.
 
@@ -74,7 +74,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
   5. **Background music** — one ominous-ambient bed from `brand/assets/music/`, ducked under the VO. No music in the bumper.
   6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
 - Assembly (4–5) with Claude + ffmpeg for now; **DaVinci Resolve MCP** an option later if that's too fiddly.
-- **4K** output; a shot that can't fill it drops to its best, timeline stays 4K. No grade / letterbox / grain until `docs/03` §Visual direction is locked. Source cards minimal. AI + reenactment labelled every appearance.
+- **4K** output; a shot that can't fill it drops to its best, timeline stays 4K. House grade from `docs/03` applied whole (dark/warm/desaturated + grain + vignette). **No source cards** — citations in the description. AI + reenactment labelled every appearance.
 - Export −14 LUFS, `E0XX-<slug>-vN.mp4`.
 - **Gate:** every KB clip + trimmed take APROBADO; only the listed moves; every beat covered; music ducked + licences logged; AI/reenactment labelled; `.srt` corrected; 4K (or best common); picture lock signed by **Carmen** in `07c-edit.md`.
 

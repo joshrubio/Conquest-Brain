@@ -1,6 +1,6 @@
-# Exploración de nombre — canal Éxodo
+# Exploración de nombre — canal Exodo
 
-> **DECIDIDO (2026-08-28): «Éxodo»** — wordmark / handles «Exodo Official» (`@exodoofficial`). Especificación de marca en `docs/03-brand-identity.md`. Este archivo conserva el recorrido completo por si hay que reabrir.
+> **DEFINITIVO (2026-08):** nombre **Exodo** (sin tilde, siempre) · canal **Exodo Channel** · handle **`@exodochannel`** (`@exodoofficial` estaba tomado en YouTube) · **canal propio nuevo** (no segmento). Especificación de marca en `docs/03-brand-identity.md`. Este archivo conserva el recorrido histórico.
 >
 > **Recorrido:** R1 (palabras de archivo en español) → no. R2 (palabra inventada + Docs) → no. R3 (anglicismo + Docs) → «Top Docs» descartado (choque con *Doc Tops*, 16M subs). Familia "verificar" en español (*Contraste*, *Contrapunto*, *Cotejo*) → saturada (*Cotejo.info* = fact-checker de referencia en Venezuela). **Cross Check** llegó a "definitivo" y luego se descartó. **Decisión final: «Éxodo».** Trade-offs asumidos conscientemente: (1) el nombre escora a temática migración/exilio aunque el contenido es amplio → se abraza, la historia de los fundadores (periodistas venezolanos, parte del éxodo de ~7,7M) *es* la marca; (2) término saturado (*Exodus* wallet cripto — clase 36 distinta; banda; disco de Marley; documentales bíblicos; uso en periodismo sobre migración venezolana — Radio Ambulante, Revista 5W); (3) ningún **canal** de documentales en español lo tiene → lane libre; (4) ruido en búsqueda por nombre asumido (el descubrimiento en YouTube va por miniatura/título/sugeridos). Handles limpios (`@exodo`, `@canal_exodo`) tomados → de ahí «Official». Verificar marca en clase 41.
 

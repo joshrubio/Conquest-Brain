@@ -17,8 +17,8 @@
 | E1 | El sujeto es una **figura pública**, un **caso histórico** o una **empresa/práctica** (no una persona privada). | |
 | E2 | Existe un **registro público documentado** (no solo rumores). | |
 | E3 | Hay al menos **3 fuentes Tier A/B** localizables antes de empezar. | |
-| E4 | **Ninguna** persona de la comunidad hispanohablante de Rotterdam está involucrada o es identificable — ni anonimizada. | |
-| E5 | La idea **no** procede de datos, tips o casos del negocio de membresía (o se re-obtuvo íntegra desde material público). | |
+| E4 | **Nadie** que Carmen o Josh conozcan personalmente está involucrado o es identificable — ni anonimizado. | |
+| E5 | La idea **no** procede de un tip privado ni de una conversación off-record (o se re-obtuvo íntegra desde material público). | |
 | E6 | La historia **se sostiene sola**, sin necesidad del cierre. | |
 | E7 | Se puede contar **sin torcer hechos** para que encaje una moraleja. | |
 | E8 | El cross-check de material (R3) confirma que hay con qué ilustrarlo. | |

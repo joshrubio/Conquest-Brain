@@ -14,7 +14,7 @@
 
 1. Un beat visual cada ~2–3 frases, o cuando cambia el sujeto de la frase.
 2. Todo `[EN PANTALLA]` del guion = beat, literal.
-2b. **Cold open:** el bloque `[HOOK VISUAL]` del guion = 2–5 beats, corte seco, **vídeo stock preferido**; el último es el «giro». **Bumper:** 1 beat = negro + marca `Éxodo`, 3–6 s, sin motion.
+2b. **Cold open:** el bloque `[HOOK VISUAL]` del guion = 2–5 beats, corte seco, **vídeo stock preferido**; el último es el «giro». **Bumper:** 1 beat = negro + marca `Exodo`, 3–6 s, sin motion.
 3. Toda persona / lugar / documento / institución / cifra nombrada → imagen o gráfico propio.
 4. `[EXPLICADOR]` → una secuencia motion-graphic / diagrama. Sin talking-head. Es el bloque visual más largo (~60–140 s).
 5. `[PLANT]` y `[PAY]` → **mismo plano** las dos veces (rima visual).

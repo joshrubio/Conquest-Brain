@@ -58,7 +58,7 @@ python tools/edit_review.py E0XX-slug            # -> 07c-edit.html
 
 - [ ] Cada beat de `06-shotlist.md` (archivo/stock/IA) con su asset de `07-selection.md` sobre el VO
 - [ ] Cold open: 2–5 clips de `assets/intro/` en orden, corte seco; último aguanta ½ s → negro
-- [ ] Bumper: 3–6 s negro + marca `Éxodo` + «Soy <narrador>». Sin música.
+- [ ] Bumper: 3–6 s negro + marca `Exodo` + «Soy <narrador>». Sin música.
 - [ ] Clips de vídeo a duración, sin rampa ni filtro; loop solo si el punto es invisible
 - [ ] `[PLANT]`/`[PAY]`: mismo plano las dos veces
 
@@ -75,11 +75,12 @@ python tools/edit_review.py E0XX-slug            # -> 07c-edit.html
 - [ ] `.srt` del VO **ya trimmeado**, corregido a mano contra `05-script.md` (cifras, nombres, `[S..]` literales)
 - [ ] 1–2 líneas, ≤ 42 car./línea, ≥ 1 s en pantalla · español
 
-## Source cards (mínimo)
+## Texto en pantalla
 
-Cita en pantalla **solo si**: cita textual · cifra en disputa/aproximada · documento nombrado. El resto → `09-description.md` «Fuentes principales».
-
-- [ ] IA / recreación / colorizado: rótulo en **cada** aparición (`Ilustración — Éxodo` / `Recreación`)
+- [ ] **Sin source cards.** Toda cita → `09-description.md` «Fuentes principales» + comentario fijado
+- [ ] En pantalla solo: dispositivo de expediente (`EXPEDIENTE: CASO 00XX`, Courier Prime — `docs/03`) · tarjetas de capítulo (Playfair) · rótulo IA/recreación
+- [ ] IA / recreación / colorizado: rótulo en **cada** aparición (`Ilustración — Exodo` / `Recreación`)
+- [ ] Grade de casa aplicado a todo el timeline (oscuro/cálido/desaturado + grano + viñeta — `docs/03`)
 
 ## Export
 
@@ -97,7 +98,7 @@ Cita en pantalla **solo si**: cita textual · cifra en disputa/aproximada · doc
 ## Gate Stage 9
 
 - [ ] Cada clip KB y cada toma trimmeada **APROBADO** en `07c-review.txt`
-- [ ] Solo los movimientos de `docs/16`; sin grade/letterbox/grano
+- [ ] Solo los movimientos de `docs/16`; grade de casa aplicado; sin source cards; sin letterbox salvo que un clip lo fuerce
 - [ ] Todo beat con su asset; cold open 2–5 planos + bumper en negro
 - [ ] Ken Burns coherente con orientación; `[PLANT]`/`[PAY]` idénticos
 - [ ] Un lecho de música, ducked; sin música en el bumper; licencias anotadas

@@ -73,7 +73,7 @@ Ritmo de narración objetivo: **~155 palabras/min**. Elegir columna según durac
 
 El beat de reinicio entre hook e historia (Dieck lo hace así — la marca aparece **después** del hook, nunca antes).
 
-[EN PANTALLA] Corte a **negro**. Aparece la marca **`Éxodo`**.
+[EN PANTALLA] Corte a **negro**. Aparece la marca **`Exodo`**.
 
 [NARRACIÓN] Una línea del presentador: «Soy Carmen.» / «Soy Josh.»
 
@@ -172,7 +172,7 @@ Recapitular qué SÍ está establecido → entregar el juicio al espectador con 
 ## 4. CTA CODA  (~10 s)
 
 [NARRACIÓN]
-Después de que el cierre aterrice. CTA suave del canal, separado de la idea. Sin pitch ni enlace del negocio de membresía (`docs/05`).
+Después de que el cierre aterrice. CTA suave del canal, separado de la idea. Sin pitch ni enlace de terceros (`docs/05`).
 Borrador: «Si estas historias te sirven, suscríbete — así no te pierdes el próximo episodio. Las fuentes están en la descripción.»
 
 [EN PANTALLA] Rótulo opcional «Fuentes principales».
