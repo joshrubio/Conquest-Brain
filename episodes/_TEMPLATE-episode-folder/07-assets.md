@@ -8,12 +8,31 @@
 | ID episodio | E0XX |
 | Responsable | Josh |
 | Look de referencia | (grade / grano / letterbox / tratamiento de la serie — de `docs/03`) |
-| Salida de resolución | 4K (long edge ≥ ~4000 px para plano completo; menos para inserto) |
+| Salida del canal | (1080p o 4K — de `docs/03`) |
 | Fecha | AAAA-MM-DD |
+
+## Estándar de resolución
+
+Píxeles necesarios en el eje que **llena** la imagen:
+
+| Uso | Salida 1080p | Salida 4K |
+|-----|--------------|-----------|
+| Estático (sin movimiento) | ≥ 1920 px | ≥ 3840 px |
+| Push-in / paneo lento (~1,3×) | ≥ 2500 px | ≥ 4800 px |
+| Parallax / zoom fuerte | ≥ 3000 px | ≥ 6000 px |
+| Inserto (≤ 40% del cuadro) | ≥ 900 px | ≥ 1800 px |
+
+Si una imagen no llega, la opción es: usarla más pequeña (inserto), cortar un **detalle** (un detalle a 2000 px sirve donde la página entera no), o descartarla.
+
+## Fuentes: solo descarga directa, sin captcha
+
+- **Sí:** museos con Open Access de descarga directa — **The Met** (JPEG ~4000 px, botón *Download*), **Art Institute of Chicago** (IIIF: `.../full/full/0/default.jpg` = resolución nativa, suele ser 6000–10000 px), **Library of Congress** (TIFF), **Smithsonian Open Access** (CC0), **Rijksmuseum** (RM API), **Wikimedia Commons** (los ficheros *Google Art Project* suelen ser 7000–20000 px).
+- **No como fuente de descarga:** agregadores (ukiyo-e.org, Google Arts & Culture) — sirven para **localizar** en qué museo está la pieza, no para bajarla. Sitios con captcha o temporizador (IMSLP y similares). Blogs, prints shops, artículos.
+- Si el único sitio que tiene la pieza es de acceso restringido → tratar como **hueco** y buscar la misma pieza en otro museo, o plan B (gráfico propio / recorte / se corta).
 
 ## Flujo
 
-1. **Pull de candidatos** (automatizable) — por cada beat archivístico del shotlist, buscar 1–3 imágenes concretas: enlace directo al objeto, museo, nº de objeto, licencia, resolución máx.
+1. **Pull de candidatos** (automatizable) — por cada beat archivístico del shotlist, buscar 1–3 imágenes concretas: enlace **de descarga directa**, museo, nº de objeto, licencia, resolución real.
 2. **Pase de fotografía** (Josh, manual) — por cada candidato, verdict con los criterios de abajo.
 3. **Manifiesto final** — una fila por imagen **aceptada**, con nombre de archivo local tras descargar.
 
@@ -30,10 +49,10 @@ Marca cada candidato:
 
 ## Manifiesto
 
-| # | Beat(s) shotlist | Qué es | Enlace directo al objeto | Museo / nº | Licencia | Resolución | Pase de fotografía | Archivo local |
-|---|------------------|--------|--------------------------|------------|----------|------------|--------------------|---------------|
-| 1 | | | | | CC0 / PD / licencia / ⚠️ | | ✅/⚠️/❌ + nota | `assets/…` |
-| 2 | | | | | | | | |
+| # | Beat(s) | Qué es | Enlace de descarga | Museo / nº | Licencia | Res. real | Uso (estático / push-in / inserto) | Pase | Archivo local |
+|---|---------|--------|--------------------|------------|----------|-----------|------------------------------------|------|---------------|
+| 1 | | | | | CC0 / PD / licencia / ⚠️ | px reales | | ✅/⚠️/❌ + nota | `assets/…` |
+| 2 | | | | | | | | | |
 
 ## Gráficos propios (no van en el manifiesto — resumen para el brief de diseño)
 
@@ -48,7 +67,9 @@ Marca cada candidato:
 ## Gate Stage 7
 
 - [ ] Cada beat archivístico del shotlist tiene una imagen **aceptada** o un plan B (gráfico propio)
-- [ ] Toda imagen con licencia clara (CC0 / PD / licencia obtenida)
+- [ ] Toda imagen con licencia clara (CC0 / PD / licencia obtenida) y **descarga directa sin captcha**
+- [ ] Cada imagen **llega a la resolución** que pide su uso (tabla arriba); si no, se usa como inserto / recorte de detalle / se corta
 - [ ] Coherencia de color/estado revisada por tramos, no solo por imagen
 - [ ] Créditos de cortesía anotados para el bloque de descripción (`09-description.md`)
 - [ ] Descargas hechas a `assets/` con nombres consistentes
+- [ ] `docs/03` §Visual direction cerrado — sin el look de la serie el pase no es definitivo

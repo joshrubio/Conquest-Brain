@@ -69,7 +69,7 @@ Muestra cómo se veía a sí mismo — más interesante que una foto.
 
 **Lo que NO hacemos como recurso principal:** "dar vida" foto-realista al retrato con IA (estilo *Deep Nostalgia*). Riesgo de tono para un canal de rigor, exige rótulo prominente, y suele quedar *uncanny*. Como mucho, en **un solo momento** (p. ej. el lecho de muerte), con nota en pantalla, como decisión deliberada — nunca a lo largo del episodio.
 
-**Recomendación para E001:** capas 1 + 2 + 3. Parallax suave (capa 4) sobre el autorretrato a los 83. Sin IA sobre la cara. La ilustración recurrente (capa 5) queda para cuando haya ilustrador.
+**Estado:** el material de época existe pero **el estilo no encaja** con lo que Josh busca para el vídeo. La elección A/B/C está en `07-assets.md` §"Decisión: la cara de Hokusai" — y es una decisión de `docs/03` §Visual direction (de una vez, no por episodio). Recomendación E001: **B** (evitar la cara: manos + el acto + autorrepresentaciones) con un toque de **A** (el grabado de Eisen 1–2 veces). Sin IA sobre la cara.
 
 ## Hallazgos que afectan al fact-check (pasar a Layer 3)
 
