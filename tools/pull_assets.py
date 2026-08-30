@@ -12,9 +12,9 @@ candidates he wants, then --download pulls them into assets/.
 APIs
   stock   pexels  pixabay  unsplash  openverse
   video   pexels  pixabay
-  archive met     aic (Art Institute of Chicago)
+  archive met  commons (Wikimedia Commons)  aic (Art Institute of Chicago)
 Keys live in tools/.env (gitignored). No .env -> only keyless sources run
-(openverse, met, aic).
+(openverse, met, commons, aic).
 
 Usage
   python tools/pull_assets.py E0XX-slug --init
@@ -55,8 +55,14 @@ ENV = Path(__file__).resolve().parent / ".env"
 UA = "ExodoOficial/1.0 (educational documentary; contact joshuerubio@gmail.com)"
 TIMEOUT = 30
 
-STOCK_ALL = ["pexels", "pixabay", "unsplash", "openverse"]
-ARCHIVE_ALL = ["met", "aic"]
+STOCK_IMG = ["pexels", "pixabay", "unsplash", "openverse"]         # kind: stock-img
+STOCK_MOTION = ["pexelsv", "pixabayv", "pexels", "unsplash",       # kind: stock
+                "pixabay", "openverse"]                            # video sources first
+VIDEO_SRCS = {"pexelsv", "pixabayv"}
+ARCHIVE_ALL = ["met", "commons", "aic"]   # the `archive` group keyword
+ARCHIVE_SRCS = set(ARCHIVE_ALL)           # for assets/ folder routing
+# note: AIC's IIIF CDN 403s direct downloads from some networks/CI (works from a
+# normal browser). If --download fails on an aic pick, open its page + Download.
 
 SPEC_HEADER = """# 07-pull.tsv — Stage 7 candidate-pull spec for this episode.
 # Tab-separated. Lines starting with # are ignored. One row per shotlist beat
@@ -64,22 +70,27 @@ SPEC_HEADER = """# 07-pull.tsv — Stage 7 candidate-pull spec for this episode.
 #
 # columns:
 #   beat    shotlist beat id (1, 25b, +B ...). Free text, just a label.
-#   kind    stock | archive | video
+#   kind    stock | stock-img | archive | video
 #   source  comma list, or a group keyword:
-#             stock   = pexels,pixabay,unsplash,openverse
-#             archive = met,aic
-#           video only supports pexels,pixabay
+#             stock     = pexels+pixabay VIDEO first, then pexels/unsplash/
+#                         pixabay/openverse images  (motion b-roll preferred)
+#             stock-img = images only (pexels,pixabay,unsplash,openverse)
+#             video     = pexels,pixabay video only
+#             archive   = met,commons,aic
 #   query   search terms
 #   opts    key=value;key=value  (all optional)
-#             n=3               total candidates for the beat (default 3),
-#                               split across the sources
-#             orientation=landscape|portrait|square   (pexels/unsplash)
+#             n=3               total candidates for the beat (default 3)
+#             motion=no         stock: drop video, images only
+#             motion=only       stock: video only
+#             orientation=landscape|portrait|square   (pexels/unsplash images)
 #             min=3000          drop candidates whose long side < this many px
+#                               (also filters video by width, e.g. min=1920)
 #             license=cc0,by    openverse licence filter
 #             must=hokusai      archive only — every term must appear in
 #                               artist/title/tags (comma list = all required)
 #
 # stock = generic illustrative b-roll only, never "the real thing" (docs/12).
+# A found stock video beats making our own b-roll later — prefer it.
 #
 beat\tkind\tsource\tquery\topts
 """
@@ -163,7 +174,7 @@ def q_pexels(query, key, n, opts, video=False):
         return []
     base = "https://api.pexels.com/videos/search" if video else "https://api.pexels.com/v1/search"
     p = {"query": query, "per_page": max(n, 1)}
-    if not video and opts.get("orientation"):
+    if opts.get("orientation"):
         p["orientation"] = opts["orientation"]
     r = _get(base, headers={"Authorization": key}, params=p)
     out = []
@@ -173,7 +184,7 @@ def q_pexels(query, key, n, opts, video=False):
             if not files:
                 continue
             f = files[0]
-            out.append(Cand("pexels", v["id"], f["link"], f.get("width", 0), f.get("height", 0),
+            out.append(Cand("pexelsv", v["id"], f["link"], f.get("width", 0), f.get("height", 0),
                             v.get("user", {}).get("name", ""), "Pexels License",
                             v.get("url", ""), v.get("duration", 0), thumb=v.get("image", "")))
     else:
@@ -202,7 +213,7 @@ def q_pixabay(query, key, n, opts, video=False):
             th = ""
             for q in ("tiny", "small", "medium", "large"):
                 th = (vids.get(q) or {}).get("thumbnail") or th
-            out.append(Cand("pixabay", h["id"], best["url"], best.get("width", 0),
+            out.append(Cand("pixabayv", h["id"], best["url"], best.get("width", 0),
                             best.get("height", 0), h.get("user", ""), "Pixabay Content License",
                             h.get("pageURL", ""), h.get("duration", 0), thumb=th))
         else:
@@ -319,19 +330,62 @@ def q_aic(query, key, n, opts, video=False):
     return out
 
 
+def q_commons(query, key, n, opts, video=False):
+    if video:
+        return []
+    must = [x.strip() for x in opts.get("must", "").split(",") if x.strip()]
+    r = _get("https://commons.wikimedia.org/w/api.php", params={
+        "action": "query", "format": "json", "generator": "search",
+        "gsrsearch": query, "gsrnamespace": "6", "gsrlimit": str(n * 5),
+        "prop": "imageinfo", "iiprop": "url|size|extmetadata", "iiurlwidth": "420",
+    })
+    pages = ((r.json().get("query") or {}).get("pages") or {}).values()
+    strip = lambda s: re.sub(r"<[^>]+>", "", s or "").strip()
+    out = []
+    for p in sorted(pages, key=lambda x: x.get("index", 99)):
+        if len(out) >= n:
+            break
+        ii = (p.get("imageinfo") or [{}])[0]
+        url = ii.get("url", "")
+        if url.split("?")[0].lower().rsplit(".", 1)[-1] not in ("jpg", "jpeg", "png", "tif", "tiff"):
+            continue
+        meta = ii.get("extmetadata") or {}
+        lic = strip((meta.get("LicenseShortName") or {}).get("value", ""))
+        blob = (lic + " " + strip((meta.get("UsageTerms") or {}).get("value", ""))).lower()
+        if not any(k in blob for k in ("public domain", "pd-", "cc0", "no known copyright",
+                                       "no restrictions")):
+            continue
+        artist = strip((meta.get("Artist") or {}).get("value", ""))
+        title = p.get("title", "").replace("File:", "")
+        desc = strip((meta.get("ImageDescription") or {}).get("value", ""))
+        if not relevant(query, (title, artist, desc), must):
+            continue
+        out.append(Cand("commons", p.get("pageid"), url, ii.get("width", 0), ii.get("height", 0),
+                        f"{artist} — {title}".strip(" —"), lic or "PD",
+                        ii.get("descriptionurl", ""), thumb=ii.get("thumburl", "")))
+    return out
+
+
 DISPATCH = {"pexels": q_pexels, "pixabay": q_pixabay, "unsplash": q_unsplash,
-            "openverse": q_openverse, "met": q_met, "aic": q_aic}
+            "openverse": q_openverse, "met": q_met, "commons": q_commons, "aic": q_aic,
+            "pexelsv": q_pexels, "pixabayv": q_pixabay}
 KEY_FOR = {"pexels": "PEXELS_API_KEY", "pixabay": "PIXABAY_API_KEY",
-           "unsplash": "UNSPLASH_ACCESS_KEY"}
+           "unsplash": "UNSPLASH_ACCESS_KEY",
+           "pexelsv": "PEXELS_API_KEY", "pixabayv": "PIXABAY_API_KEY"}
 
 
 def expand_sources(kind, source):
     s = source.strip().lower()
     if s in ("stock", "all"):
-        return STOCK_ALL
+        return list(STOCK_MOTION)      # video first, then images
+    if s in ("stock-img", "stockimg"):
+        return list(STOCK_IMG)
+    if s == "video":
+        return ["pexelsv", "pixabayv"]
     if s == "archive":
-        return ARCHIVE_ALL
-    return [x.strip() for x in s.split(",") if x.strip()]
+        return list(ARCHIVE_ALL)
+    return [{"pexels-video": "pexelsv", "pixabay-video": "pixabayv"}.get(x.strip(), x.strip())
+            for x in s.split(",") if x.strip()]
 
 
 def parse_opts(raw):
@@ -483,12 +537,34 @@ document.getElementById('exp').onclick=async()=>{{
 """
 
 
+def _drain(order, buckets, need):
+    """Round-robin pop from buckets in `order` until `need` items or empty."""
+    got, i, guard = [], 0, 0
+    while len(got) < need and any(buckets.get(s) for s in order):
+        s = order[i % len(order)]
+        if buckets.get(s):
+            got.append(buckets[s].pop(0))
+        i += 1
+        guard += 1
+        if guard > len(order) * (need + 4):
+            break
+    return got
+
+
 def gather_beat(beat, kind, source, query, opts, keys):
-    """Query every source for a beat, then trim to `n` total (default 3),
-    round-robin so each source stays represented. Returns (srcs, cands, notes)."""
+    """Query every source, trim to `n` total (default 3). For `stock` beats
+    VIDEO candidates come first (motion b-roll saves editing work later);
+    images fill the rest. opts: motion=no (images only) / motion=only (video).
+    Returns (srcs, cands, notes)."""
     n = max(1, int(opts.get("n", 3)))
-    want_video = kind.lower() == "video"
     srcs = expand_sources(kind, source)
+    motion = opts.get("motion", "").lower()
+    if motion == "no":
+        srcs = [s for s in srcs if s not in VIDEO_SRCS]
+    elif motion == "only":
+        srcs = [s for s in srcs if s in VIDEO_SRCS]
+    if not srcs:
+        return [], [], ["sin fuentes tras filtro motion="]
     per = max(1, -(-n // len(srcs)))          # ceil(n / nsrcs)
     mn = int(opts.get("min", 0))
     buckets, notes = {}, []
@@ -502,7 +578,7 @@ def gather_beat(beat, kind, source, query, opts, keys):
             notes.append(f"{src}: sin API key en tools/.env")
             continue
         try:
-            cands = fn(query, key, per + 2, opts, video=want_video)
+            cands = fn(query, key, per + 2, opts, video=src in VIDEO_SRCS)
         except requests.HTTPError as e:
             notes.append(f"{src}: HTTP {getattr(e.response, 'status_code', '?')}")
             continue
@@ -511,19 +587,19 @@ def gather_beat(beat, kind, source, query, opts, keys):
             continue
         if mn:
             cands = [c for c in cands if (not c.w) or max(c.w, c.h) >= mn]
+        ori = opts.get("orientation", "")
+        if ori == "landscape":
+            cands = [c for c in cands if not (c.w and c.h and c.h > c.w)]
+        elif ori == "portrait":
+            cands = [c for c in cands if not (c.w and c.h and c.w > c.h)]
         if not cands:
             notes.append(f"{src}: 0 resultados")
         buckets[src] = cands
         time.sleep(0.3)
-    # round-robin merge, cap at n
-    merged, i = [], 0
-    while len(merged) < n and any(buckets.values()):
-        src = srcs[i % len(srcs)]
-        if buckets.get(src):
-            merged.append(buckets[src].pop(0))
-        i += 1
-        if i > len(srcs) * (n + 3):
-            break
+    vid_order = [s for s in srcs if s in VIDEO_SRCS]
+    img_order = [s for s in srcs if s not in VIDEO_SRCS]
+    merged = _drain(vid_order, buckets, n)                 # video first
+    merged += _drain(img_order, buckets, n - len(merged))  # images fill the rest
     return srcs, merged, notes
 
 
@@ -604,7 +680,8 @@ def download(slug):
     ep = EP_DIR / slug
     rows, credits = [], []
     for beat, src, cid, url in picks:
-        sub = "archive" if src in ARCHIVE_ALL else "stock"
+        sub = ("video" if src in VIDEO_SRCS
+               else "archive" if src in ARCHIVE_SRCS else "stock")
         (ep / "assets" / sub).mkdir(parents=True, exist_ok=True)
         tries = [url]
         hdr = {"User-Agent": UA}
@@ -678,9 +755,9 @@ def init(slug):
     f = d / "07-pull.tsv"
     if f.exists():
         sys.exit(f"ya existe {f.relative_to(ROOT)}")
-    sample = ("1\tarchive\tmet,aic\tkatsushika hokusai\tmust=hokusai;n=3\n"
-              "7\tstock\tpexels,unsplash\tedo period japanese street crowd\torientation=landscape;min=3000;n=3\n"
-              "2\tvideo\tpexels,pixabay\tocean wave breaking slow motion\tn=3\n")
+    sample = ("1\tarchive\tmet,commons,aic\tkatsushika hokusai\tmust=hokusai;n=3\n"
+              "7\tstock\tstock\tocean wave breaking slow motion\tmin=1920;n=3\n"
+              "12\tstock-img\tstock-img\tworn rice paper texture\tmin=2500;n=3\n")
     f.write_text(SPEC_HEADER + sample, encoding="utf-8")
     print(f"creado  {f.relative_to(ROOT)}  (edita las filas y corre el pull)")
 

@@ -21,6 +21,10 @@ episodes/**/assets/*
 research/dieck-docs/transcripts/*
 !research/dieck-docs/transcripts/README.txt
 
+# Python
+__pycache__/
+*.pyc
+
 # OS / editor
 Thumbs.db
 Desktop.ini

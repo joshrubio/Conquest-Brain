@@ -4,105 +4,122 @@
 > Trabaja en `07-candidates.html` (miniaturas). Para picar a mano aquí: `- [x]`.
 > stock = b-roll ilustrativo genérico, nunca 'lo real' (docs/12).
 
-## beat 2 — "great wave off kanagawa"  [archive: aic,met]
+## beat 2 — "great wave off kanagawa"  [archive: commons,aic,met]
 
+- [ ] `commons:5576388` · 8242x5640 · After Katsushika Hokusai — Great Wave off Kanagawa2.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/0/0d/Great_Wave_off_Kanagawa2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Great_Wave_off_Kanagawa2.jpg
 - [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/24645
 - [ ] `met:39799` · ?x? · Katsushika Hokusai — Under the Wave off Kanagawa (Kanagawa oki nami ura), or The Great Wave, from the series Thirty-six Views of Mount Fuji (Fugaku sanjūrokkei) · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/DP141042.jpg
         page: https://www.metmuseum.org/art/collection/search/39799
-- [ ] `aic:77333` · ?x? · Katsushika Hokusai 葛飾 北斎 — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjurokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/05cd1ba7-67d1-96c5-0e78-2eb4114b65e7/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/77333
 
-## beat 4 — "hokusai portrait self portrait old"  [archive: aic,met]
+## beat 4 — "hokusai portrait self portrait old"  [archive: commons,aic,met]
 
+- [ ] `commons:124369341` · 4200x8717 · missing name — Hokusai as an old man.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/1/1c/Hokusai_as_an_old_man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Hokusai_as_an_old_man.jpg
 - [ ] `aic:81212` · ?x? · Katsushika Hokusai 葛飾 北斎 — Self-Portrait as a Fisherman · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/95e11a7e-2f5e-a711-f56b-8da1c9a1ca2f/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/81212
+- [ ] `commons:81644807` · 872x834 · Katsushika Hokusai — Self-portrait between 1834 and 1846 by Hokusai.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/1/10/Self-portrait_between_1834_and_1846_by_Hokusai.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Self-portrait_between_1834_and_1846_by_Hokusai.jpg
 <!-- met: 0 resultados -->
 
-## beat 7 — "edo japan busy street ukiyo-e"  [archive: met,aic]
+## beat 7 — "edo japan busy street ukiyo-e"  [archive: commons,aic,met]
 
 - [ ] `met:45753` · ?x? · Street Scenes in Kyoto · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/DP233824_CRD.jpg
         page: https://www.metmuseum.org/art/collection/search/45753
 - [ ] `met:37248` · ?x? · Ōtsu, from the series The Fifty-Three Stations of the Tōkaidō Road (Tōkaidō gojūsan tsugi, Ōtsu) · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/DP123205.jpg
         page: https://www.metmuseum.org/art/collection/search/37248
+<!-- commons: 0 resultados -->
 <!-- aic: 0 resultados -->
 
-## beat 9 — "ukiyo-e illustrated book ehon album"  [archive: met,aic]
+## beat 9 — "ukiyo-e illustrated book ehon album"  [archive: commons,aic,met]
 
-- [ ] `met:57756` · ?x? · Nishikawa Sukenobu 西川祐信 — Picture Book: Thousand-Year Mountain? (Ehon Chitoseyama? 絵本千年山? · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/JIB90_003_crd.jpg
-        page: https://www.metmuseum.org/art/collection/search/57756
+- [ ] `commons:59372018` · 3340x2567 · Yashima Gakutei — 一老画譜-Ichirō Picture Album (Ichirō gafu) MET 2013 680 09.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/8/84/%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_%28Ichir%C5%8D_gafu%29_MET_2013_680_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_(Ichir%C5%8D_gafu)_MET_2013_680_09.jpg
 - [ ] `aic:22599` · ?x? · Torii Kiyonaga — Ono no Komachi Washing the Copybook (Soshiarai Komachi), from the series The Seven Ukiyo-e Aspects of Komachi (Ukiyo-e nana Komachi) · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/451f2445-90da-81c8-fb40-0d3e7057f556/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/22599
-- [ ] `aic:88155` · ?x? · Hishikawa Moronobu — Sei Shonagon, from the illustrated book "Collection of Pictures of Beauties (Bijin e-zukushi)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/1bb12bcd-ed58-c310-7dd0-1aaeefa6ccf5/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/88155
+- [ ] `met:57756` · ?x? · Nishikawa Sukenobu 西川祐信 — Picture Book: Thousand-Year Mountain? (Ehon Chitoseyama? 絵本千年山? · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/JIB90_003_crd.jpg
+        page: https://www.metmuseum.org/art/collection/search/57756
 
-## beat 10 — "katsukawa shunsho kabuki actor"  [archive: met,aic]
+## beat 10 — "katsukawa shunsho kabuki actor"  [archive: commons,aic,met]
 
+- [ ] `commons:79057108` · 1160x3000 · Katsukawa Shunshō — Katsukawa Shunsho - The Kabuki Actor Ichikawa Danjûrô II (1689-1758) - 1939.1947 - Art Institute of Chicago.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/2/25/Katsukawa_Shunsho_-_The_Kabuki_Actor_Ichikawa_Danj%C3%BBr%C3%B4_II_%281689-1758%29_-_1939.1947_-_Art_Institute_of_Chicago.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Katsukawa_Shunsho_-_The_Kabuki_Actor_Ichikawa_Danj%C3%BBr%C3%B4_II_(1689-1758)_-_1939.1947_-_Art_Institute_of_Chicago.jpg
 - [ ] `aic:12764` · ?x? · Katsukawa Shunsho 勝川 春章 — The Actor Otani Hiroji III as Kawazu no Saburo in the Play Myoto-giku Izu no Kisewata, Performed at the Ichimura Theater in the Eleventh Month, 1770 · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/154292ca-b195-89b4-21f2-3d817307dc24/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/12764
-- [ ] `aic:12801` · ?x? · Katsukawa Shunsho 勝川 春章 — The Actor Nakamura Noshio I in an Unidentified Role · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/bdea3e5c-5c3f-d768-b356-316b7c3b46e2/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/12801
-- [ ] `aic:13372` · ?x? · Katsukawa Shunsho 勝川 春章 — Weaving silk, plate 11 from the series "Silkworm Cultivation (Kaiko yashinai gusa)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/7fe61096-3713-f7e2-0c98-326cccbdcbaf/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/13372
+- [ ] `commons:77578681` · 3555x7884 · Katsukawa Shunshō — Katsukawa Shunsho - The Actor Segawa Kikunojo II Dancing with a Parasol - 1985.354 - Cleveland Museum of Art.tif · CC0 · https://upload.wikimedia.org/wikipedia/commons/6/61/Katsukawa_Shunsho_-_The_Actor_Segawa_Kikunojo_II_Dancing_with_a_Parasol_-_1985.354_-_Cleveland_Museum_of_Art.tif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Katsukawa_Shunsho_-_The_Actor_Segawa_Kikunojo_II_Dancing_with_a_Parasol_-_1985.354_-_Cleveland_Museum_of_Art.tif
 <!-- met: 0 resultados -->
 
-## beat 11 — "hokusai shunro early surimono"  [archive: met,aic]
+## beat 11 — "hokusai shunro early surimono"  [archive: commons,aic,met]
 
+- [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
+        page: https://www.artic.edu/artworks/24645
 - [ ] `met:56018` · ?x? · Katsushika Hokusai — Ichikawa Ebizō (Danjūrō V)  in the Role of Mongaku Shonin Disguised as Yamagatsu from the Play Kin no Menuki Minamotoya Kakutsuba · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/DP148847.jpg
         page: https://www.metmuseum.org/art/collection/search/56018
-- [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/24645
-- [ ] `met:37189` · ?x? · Katsushika Hokusai — The Sumo Wrestlers Takaneyama Yoichiemon and Sendagawa Kichigorō · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/DP148842.jpg
-        page: https://www.metmuseum.org/art/collection/search/37189
-
-## beat 14 — "nagasaki harbour dutch ship view"  [archive: met,aic]
-
-<!-- met: 0 resultados -->
-<!-- aic: 0 resultados -->
-
-## beat 17 — "katsushika hokusai"  [archive: met,aic]
-
-- [ ] `met:57805` · ?x? · Katsushika Hokusai — Random Sketches by Hokusai, Volume 12 · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/JIB_112_Preface 1_sf.JPG
-        page: https://www.metmuseum.org/art/collection/search/57805
-- [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/24645
-- [ ] `met:44634` · ?x? · Katsushika Hokusai — Drunken Asaina · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/DP-24853-002.jpg
-        page: https://www.metmuseum.org/art/collection/search/44634
 - [ ] `aic:21720` · ?x? · Katsushika Hokusai 葛飾 北斎 — Cranes on snow-covered pine · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/cc5fce96-3635-35da-e7fd-a68f4b2a26c3/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/21720
+<!-- commons: 0 resultados -->
 
-## beat 21 — "hokusai manga sketches figures"  [archive: met,aic]
+## beat 14 — "nagasaki harbour dutch ship view"  [archive: commons,aic,met]
+
+- [ ] `commons:2305884` · 6522x2892 · PHGCOM — DejimaInNagasakiBay.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/b/b4/DejimaInNagasakiBay.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:DejimaInNagasakiBay.jpg
+- [ ] `commons:33309529` · 2400x2049 · Johann Wolffgang Heydt — AMH-7112-KB View of Nagasaki.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/0/02/AMH-7112-KB_View_of_Nagasaki.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:AMH-7112-KB_View_of_Nagasaki.jpg
+- [ ] `commons:7712717` · 3213x2643 · Isaac Titsingh — Plattegrond van Deshima.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/5/50/Plattegrond_van_Deshima.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Plattegrond_van_Deshima.jpg
+<!-- aic: 0 resultados -->
+<!-- met: 0 resultados -->
+
+## beat 17 — "katsushika hokusai"  [archive: commons,aic,met]
+
+- [ ] `commons:39740407` · 5196x3520 · Katsushika Hokusai, published by Nishimuraya Yohachi (Eijudō) (1760 - 1849) – Artist (Japanese) Details on Google Art Project — Katsushika Hokusai, published by Nishimuraya Yohachi (Eijudō) - Fine Wind, Clear Weather (Gaifū kaisei), also known as Red Fuji, from the series Thirty-six Views o... - Google Art Project - Cropped.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/6/6f/Katsushika_Hokusai%2C_published_by_Nishimuraya_Yohachi_%28Eijud%C5%8D%29_-_Fine_Wind%2C_Clear_Weather_%28Gaif%C5%AB_kaisei%29%2C_also_known_as_Red_Fuji%2C_from_the_series_Thirty-six_Views_o..._-_Google_Art_Project_-_Cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Katsushika_Hokusai,_published_by_Nishimuraya_Yohachi_(Eijud%C5%8D)_-_Fine_Wind,_Clear_Weather_(Gaif%C5%AB_kaisei),_also_known_as_Red_Fuji,_from_the_series_Thirty-six_Views_o..._-_Google_Art_Project_-_Cropped.jpg
+- [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
+        page: https://www.artic.edu/artworks/24645
+- [ ] `met:57805` · ?x? · Katsushika Hokusai — Random Sketches by Hokusai, Volume 12 · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/JIB_112_Preface 1_sf.JPG
+        page: https://www.metmuseum.org/art/collection/search/57805
+- [ ] `commons:2798407` · 3859x2594 · Katsushika Hokusai — Tsunami by hokusai 19th century.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/a/a5/Tsunami_by_hokusai_19th_century.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Tsunami_by_hokusai_19th_century.jpg
+
+## beat 21 — "hokusai manga sketches figures"  [archive: commons,aic,met]
 
 - [ ] `aic:192276` · ?x? · Katsushika Hokusai 葛飾 北斎  — Hokusai manga (Sketches of Hokusai), v. 1-3, 5-11, and 14 of 15 · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/58962d76-c34a-5ebe-c798-f18f0846298d/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/192276
+<!-- commons: 0 resultados -->
 <!-- met: 0 resultados -->
 
-## beat 25 — "thirty-six views of mount fuji"  [archive: aic,met]
+## beat 25 — "thirty-six views of mount fuji"  [archive: commons,aic,met]
 
+- [ ] `commons:39740407` · 5196x3520 · Katsushika Hokusai, published by Nishimuraya Yohachi (Eijudō) (1760 - 1849) – Artist (Japanese) Details on Google Art Project — Katsushika Hokusai, published by Nishimuraya Yohachi (Eijudō) - Fine Wind, Clear Weather (Gaifū kaisei), also known as Red Fuji, from the series Thirty-six Views o... - Google Art Project - Cropped.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/6/6f/Katsushika_Hokusai%2C_published_by_Nishimuraya_Yohachi_%28Eijud%C5%8D%29_-_Fine_Wind%2C_Clear_Weather_%28Gaif%C5%AB_kaisei%29%2C_also_known_as_Red_Fuji%2C_from_the_series_Thirty-six_Views_o..._-_Google_Art_Project_-_Cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Katsushika_Hokusai,_published_by_Nishimuraya_Yohachi_(Eijud%C5%8D)_-_Fine_Wind,_Clear_Weather_(Gaif%C5%AB_kaisei),_also_known_as_Red_Fuji,_from_the_series_Thirty-six_Views_o..._-_Google_Art_Project_-_Cropped.jpg
 - [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/24645
 - [ ] `met:39799` · ?x? · Katsushika Hokusai — Under the Wave off Kanagawa (Kanagawa oki nami ura), or The Great Wave, from the series Thirty-six Views of Mount Fuji (Fugaku sanjūrokkei) · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/DP141042.jpg
         page: https://www.metmuseum.org/art/collection/search/39799
-- [ ] `aic:87008` · ?x? · Katsushika Hokusai 葛飾 北斎  — Shower Below the Summit (Sanka hakuu), from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjurokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/bbb6d024-f931-2e2f-eb95-750991834b1c/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/87008
 
-## beat 26 — "fine wind clear morning south wind red fuji"  [archive: aic,met]
+## beat 26 — "fine wind clear morning south wind red fuji"  [archive: commons,aic,met]
 
+- [ ] `commons:39740407` · 5196x3520 · Katsushika Hokusai, published by Nishimuraya Yohachi (Eijudō) (1760 - 1849) – Artist (Japanese) Details on Google Art Project — Katsushika Hokusai, published by Nishimuraya Yohachi (Eijudō) - Fine Wind, Clear Weather (Gaifū kaisei), also known as Red Fuji, from the series Thirty-six Views o... - Google Art Project - Cropped.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/6/6f/Katsushika_Hokusai%2C_published_by_Nishimuraya_Yohachi_%28Eijud%C5%8D%29_-_Fine_Wind%2C_Clear_Weather_%28Gaif%C5%AB_kaisei%29%2C_also_known_as_Red_Fuji%2C_from_the_series_Thirty-six_Views_o..._-_Google_Art_Project_-_Cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Katsushika_Hokusai,_published_by_Nishimuraya_Yohachi_(Eijud%C5%8D)_-_Fine_Wind,_Clear_Weather_(Gaif%C5%AB_kaisei),_also_known_as_Red_Fuji,_from_the_series_Thirty-six_Views_o..._-_Google_Art_Project_-_Cropped.jpg
 - [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/24645
+- [ ] `commons:313228` · 4400x2937 · Katsushika Hokusai — Red Fuji southern wind clear morning.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/5/57/Red_Fuji_southern_wind_clear_morning.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Red_Fuji_southern_wind_clear_morning.jpg
 <!-- met: 0 resultados -->
 
-## beat 30 — "one hundred views of mount fuji"  [archive: met,aic]
+## beat 30 — "one hundred views of mount fuji"  [archive: commons,aic,met]
 
+- [ ] `commons:95885668` · 705x1024 · Katsushika Hokusai — Fuji knothole.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/4/42/Fuji_knothole.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Fuji_knothole.jpg
 - [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/24645
-- [ ] `aic:87008` · ?x? · Katsushika Hokusai 葛飾 北斎  — Shower Below the Summit (Sanka hakuu), from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjurokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/bbb6d024-f931-2e2f-eb95-750991834b1c/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/87008
-- [ ] `aic:24800` · ?x? · Katsushika Hokusai 葛飾 北斎 — Ejiri in Suruga Province (Sunshu Ejiri), from the series "Thirty-six Views of Mount Fuji (Fugaku sanjurokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/5f3cc8e1-a024-9d9c-4d75-a18c5fcbbe65/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/24800
+- [ ] `commons:38311655` · 800x584 · thesandiegomuseumofartcollection — Foot of Mount Fuji (5758997201).jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/8/88/Foot_of_Mount_Fuji_%285758997201%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Foot_of_Mount_Fuji_(5758997201).jpg
 <!-- met: 0 resultados -->
 
-## beat 32 — "hokusai painting old age"  [archive: met,aic]
+## beat 32 — "hokusai painting old age"  [archive: commons,aic,met]
 
 - [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/24645
@@ -110,86 +127,84 @@
         page: https://www.artic.edu/artworks/21720
 - [ ] `aic:87008` · ?x? · Katsushika Hokusai 葛飾 北斎  — Shower Below the Summit (Sanka hakuu), from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjurokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/bbb6d024-f931-2e2f-eb95-750991834b1c/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/87008
+<!-- commons: 0 resultados -->
 <!-- met: 0 resultados -->
 
-## beat 33 — "fire conflagration edo city"  [archive: met,aic]
+## beat 33 — "fire conflagration edo city"  [archive: commons,aic,met]
 
+- [ ] `commons:25849` · 1224x664 · YokohamaFireBrigadeAtheletics.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/8/8b/YokohamaFireBrigadeAtheletics.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:YokohamaFireBrigadeAtheletics.jpg
 - [ ] `met:662131` · ?x? · William Keesey Hewitt — Awful Conflagration of the Steam Boat Lexington in Long Island Sound on Monday Eve, January 13th, 1840, by which melancholy occurrence, over 100 Persons Perished · CC0 (The Met) · https://images.metmuseum.org/CRDImages/dp/original/DP853624.jpg
         page: https://www.metmuseum.org/art/collection/search/662131
 - [ ] `met:435678` · ?x? · Herri met de Bles — The Temptation of Saint Anthony · CC0 (The Met) · https://images.metmuseum.org/CRDImages/ep/original/DP235224.jpg
         page: https://www.metmuseum.org/art/collection/search/435678
 <!-- aic: 0 resultados -->
 
-## beat 34 — "katsushika oi painting"  [archive: aic,met]
+## beat 34 — "katsushika oi painting"  [archive: commons,aic,met]
 
+- [ ] `commons:75969886` · 2229x4703 · Katsushika Ōi — Katsushika Ōi - Operating on Guanyu's Arm - 1998.178 - Cleveland Museum of Art.tiff · Public domain · https://upload.wikimedia.org/wikipedia/commons/3/36/Katsushika_%C5%8Ci_-_Operating_on_Guanyu%27s_Arm_-_1998.178_-_Cleveland_Museum_of_Art.tiff?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Katsushika_%C5%8Ci_-_Operating_on_Guanyu%27s_Arm_-_1998.178_-_Cleveland_Museum_of_Art.tiff
 - [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/24645
 - [ ] `met:56365` · ?x? · Katsushika Hokusai — Fuji Seen from Kanaya on the Tōkaidō (Tōkaidō Kanaya no Fuji), from the series Thirty-six Views of Mount Fuji (Fugaku sanjūrokkei · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/DP141070.jpg
         page: https://www.metmuseum.org/art/collection/search/56365
-- [ ] `aic:21720` · ?x? · Katsushika Hokusai 葛飾 北斎 — Cranes on snow-covered pine · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/cc5fce96-3635-35da-e7fd-a68f4b2a26c3/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/21720
 
-## beat 36 — "hokusai portrait"  [archive: met,aic]
+## beat 36 — "hokusai portrait"  [archive: commons,aic,met]
 
+- [ ] `commons:84970331` · 1488x2000 · Katsushika Hokusai — Katsushika Hokusai - Portrait of the Poet Matsuo Bashō (^) - 56.121.11 - Metropolitan Museum of Art.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/0/0d/Katsushika_Hokusai_-_Portrait_of_the_Poet_Matsuo_Bash%C5%8D_%28%5E%29_-_56.121.11_-_Metropolitan_Museum_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Katsushika_Hokusai_-_Portrait_of_the_Poet_Matsuo_Bash%C5%8D_(%5E)_-_56.121.11_-_Metropolitan_Museum_of_Art.jpg
 - [ ] `aic:24645` · ?x? · Katsushika Hokusai 葛飾 北斎  — Under the Wave off Kanagawa (Kanagawa oki nami ura), also known as The Great Wave, from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjūrokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/b3974542-b9b4-7568-fc4b-966738f61d78/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/24645
-- [ ] `aic:21720` · ?x? · Katsushika Hokusai 葛飾 北斎 — Cranes on snow-covered pine · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/cc5fce96-3635-35da-e7fd-a68f4b2a26c3/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/21720
-- [ ] `aic:87008` · ?x? · Katsushika Hokusai 葛飾 北斎  — Shower Below the Summit (Sanka hakuu), from the series "Thirty-Six Views of Mount Fuji (Fugaku sanjurokkei)" · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/bbb6d024-f931-2e2f-eb95-750991834b1c/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/87008
+- [ ] `commons:124369341` · 4200x8717 · missing name — Hokusai as an old man.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/1/1c/Hokusai_as_an_old_man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Hokusai_as_an_old_man.jpg
 <!-- met: 0 resultados -->
 
-## beat FG — "van gogh japonaiserie"  [archive: aic,met]
+## beat FG — "van gogh japonaiserie"  [archive: commons,aic,met]
 
+- [ ] `commons:13524326` · 4000x4755 · Vincent van Gogh — Vincent van Gogh - Bloeiende pruimenboomgaard- naar Hiroshige - Google Art Project.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/8/84/Vincent_van_Gogh_-_Bloeiende_pruimenboomgaard-_naar_Hiroshige_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_Bloeiende_pruimenboomgaard-_naar_Hiroshige_-_Google_Art_Project.jpg
 - [ ] `aic:28560` · ?x? · Vincent van Gogh (Dutch, 1853–1890) — The Bedroom · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/6644829f-f292-c5c4-a73c-0356a6fdbf0d/full/full/0/default.jpg
         page: https://www.artic.edu/artworks/28560
 - [ ] `met:436529` · ?x? · Vincent van Gogh — L'Arlésienne: Madame Joseph-Michel Ginoux (Marie Julien, 1848–1911) · CC0 (The Met) · https://images.metmuseum.org/CRDImages/ep/original/DT1396.jpg
         page: https://www.metmuseum.org/art/collection/search/436529
-- [ ] `aic:80607` · ?x? · Vincent van Gogh (Dutch, 1853–1890) — Self-Portrait · CC0 (Art Institute of Chicago) · https://www.artic.edu/iiif/2/47c5bcb8-62ef-e5d7-55e7-f5121f409a30/full/full/0/default.jpg
-        page: https://www.artic.edu/artworks/80607
 
-## beat BR1 — "big ocean wave breaking foam storm"  [stock: pexels,unsplash]
+## beat BR1 — "ocean big wave breaking slow motion"  [stock: pexelsv,pixabayv,pexels,unsplash,pixabay,openverse]
 
-- [ ] `pexels:15861998` · 5539x3693 · MICHAEL MCGARRY · Pexels License · https://images.pexels.com/photos/15861998/pexels-photo-15861998.jpeg
-        page: https://www.pexels.com/photo/big-wave-on-sea-shore-15861998/
-- [ ] `unsplash:0QEG_xOoY7Y` · 6720x4480 · Matt Paul Catalano · Unsplash License · https://images.unsplash.com/photo-1616141893496-fbc65370493e?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8YmlnJTIwb2NlYW4lMjB3YXZlJTIwYnJlYWtpbmclMjBmb2FtJTIwc3Rvcm18ZW58MHwwfHx8MTc4ODEwMDUwNnww&ixlib=rb-4.1.0&q=90&fm=jpg
-        page: https://unsplash.com/photos/white-and-blue-ocean-waves-0QEG_xOoY7Y
-- [ ] `pexels:7977145` · 3000x1623 · Ray Bilcliff · Pexels License · https://images.pexels.com/photos/7977145/pexels-photo-7977145.jpeg
-        page: https://www.pexels.com/photo/waves-in-the-middle-of-the-ocean-7977145/
+- [ ] `pexelsv:18680290` · 1920x1080 · 60s · Eclipse Chasers · Pexels License · https://videos.pexels.com/video-files/18680290/18680290-hd_1920_1080_25fps.mp4
+        page: https://www.pexels.com/video/slow-motion-wave-18680290/
+- [ ] `pixabayv:283533` · 1920x1080 · 40s · BlenderTimer · Pixabay Content License · https://cdn.pixabay.com/video/2025/06/03/283533_large.mp4
+        page: https://pixabay.com/videos/id-283533/
+- [ ] `pexelsv:19955848` · 4096x2160 · 17s · Daniel Torobekov · Pexels License · https://videos.pexels.com/video-files/19955848/19955848-uhd_4096_2160_50fps.mp4
+        page: https://www.pexels.com/video/big-wave-surfing-at-waimea-19955848/
+<!-- openverse: 0 resultados -->
 
-## beat BR2 — "mount fuji distant clear sky japan"  [stock: pexels,unsplash]
+## beat BR2 — "mount fuji distant snow clear sky"  [stock: pexelsv,pixabayv,pexels,unsplash,pixabay,openverse]
 
-- [ ] `pexels:33341980` · 6240x4160 · Vinny Anugraha · Pexels License · https://images.pexels.com/photos/33341980/pexels-photo-33341980.jpeg
-        page: https://www.pexels.com/photo/cyclist-with-mount-fuji-in-background-33341980/
-- [ ] `unsplash:u27Rrbs9Dwc` · 3000x2002 · Clay Banks · Unsplash License · https://images.unsplash.com/photo-1509023464722-18d996393ca8?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8bW91bnQlMjBmdWppJTIwZGlzdGFudCUyMGNsZWFyJTIwc2t5JTIwamFwYW58ZW58MHwwfHx8MTc4ODEwMjMyMXww&ixlib=rb-4.1.0&q=90&fm=jpg
-        page: https://unsplash.com/photos/mount-fuji-at-night-in-japan-u27Rrbs9Dwc
-- [ ] `pexels:37438095` · 8244x5496 · Guohua Song · Pexels License · https://images.pexels.com/photos/37438095/pexels-photo-37438095.jpeg
-        page: https://www.pexels.com/photo/stunning-view-of-mount-fuji-with-snow-capped-peak-37438095/
+- [ ] `pexelsv:6839687` · 3840x2160 · 22s · Hide · Pexels License · https://videos.pexels.com/video-files/6839687/6839687-uhd_3840_2160_30fps.mp4
+        page: https://www.pexels.com/video/aerial-shot-of-a-city-6839687/
+- [ ] `pixabayv:202877` · 3840x2160 · 12s · Kanenori · Pixabay Content License · https://cdn.pixabay.com/video/2024/03/04/202877-919288692_large.mp4
+        page: https://pixabay.com/videos/id-202877/
+- [ ] `pexelsv:19757067` · 3840x2160 · 38s · Huu Huynh · Pexels License · https://videos.pexels.com/video-files/19757067/19757067-uhd_3840_2160_30fps.mp4
+        page: https://www.pexels.com/video/mount-fuji-japan-2024-19757067/
+<!-- openverse: 0 resultados -->
 
-## beat BR3 — "sumi ink brush black stroke rice paper"  [stock: pexels,pixabay]
+## beat BR3 — "black ink swirling in water sumi"  [stock: pexelsv,pixabayv,pexels,unsplash,pixabay,openverse]
 
-- [ ] `pexels:9478289` · 6720x4480 · cottonbro studio · Pexels License · https://images.pexels.com/photos/9478289/pexels-photo-9478289.jpeg
-        page: https://www.pexels.com/photo/calligraphy-using-a-blank-ink-and-paint-brush-9478289/
-- [ ] `pixabay:3810555` · ?x? · HeungSoon · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/g0cfcd2775263858382fc8e2ac78b6504a437ad5c27d9e8396c41222fc8cbeae2b3818e091a8ef7a56a18c30dc662b2edf4cff6b76d484a845791b609e3e2c86f_1280.jpg
-        page: https://pixabay.com/photos/calligraphy-calligraphic-artist-art-3810555/
-- [ ] `pexels:8844017` · 6000x4000 · AI25.Studio  AI GENERATIVE · Pexels License · https://images.pexels.com/photos/8844017/pexels-photo-8844017.jpeg
-        page: https://www.pexels.com/photo/person-painting-an-art-8844017/
+- [ ] `pexelsv:4440734` · 1920x1080 · 7s · Stacey Koenitz · Pexels License · https://videos.pexels.com/video-files/4440734/4440734-hd_1920_1080_30fps.mp4
+        page: https://www.pexels.com/video/water-ink-smooth-dissolving-4440734/
+- [ ] `pixabayv:27803` · 1920x1080 · 24s · FreeCreativeStuff · Pixabay Content License · https://cdn.pixabay.com/video/2019/10/11/27803-365891137_large.mp4
+        page: https://pixabay.com/videos/id-27803/
+- [ ] `pexelsv:7794287` · 3840x2160 · 56s · Dan Cristian Pădureț · Pexels License · https://videos.pexels.com/video-files/7794287/7794287-uhd_3840_2160_25fps.mp4
+        page: https://www.pexels.com/video/a-cloud-of-white-paint-underwater-7794287/
+<!-- openverse: 0 resultados -->
 
-## beat BR4 — "old worn japanese paper parchment texture"  [stock: unsplash,pexels]
+## beat BR4 — "old worn japanese washi paper texture"  [stock-img: pexels,pixabay,unsplash,openverse]
 
-- [ ] `unsplash:QNFJRjo279k` · 2366x3231 · Anna Savina · Unsplash License · https://images.unsplash.com/photo-1719563015025-83946fb49e49?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8b2xkJTIwd29ybiUyMGphcGFuZXNlJTIwcGFwZXIlMjBwYXJjaG1lbnQlMjB0ZXh0dXJlfGVufDB8fHx8MTc4ODEwMjMyNXww&ixlib=rb-4.1.0&q=90&fm=jpg
-        page: https://unsplash.com/photos/a-beige-rug-with-a-white-border-on-top-of-it-QNFJRjo279k
 - [ ] `pexels:5102221` · 5466x3644 · Dan Cristian Pădureț · Pexels License · https://images.pexels.com/photos/5102221/pexels-photo-5102221.jpeg
         page: https://www.pexels.com/photo/brown-crumpled-paper-bag-on-table-5102221/
-- [ ] `unsplash:Ng5onpi5iRQ` · 3000x2000 · Pixelbuddha Studio · Unsplash License · https://images.unsplash.com/photo-1706790608211-4c03fd4f4d33?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8Mnx8b2xkJTIwd29ybiUyMGphcGFuZXNlJTIwcGFwZXIlMjBwYXJjaG1lbnQlMjB0ZXh0dXJlfGVufDB8fHx8MTc4ODEwMjMyNXww&ixlib=rb-4.1.0&q=90&fm=jpg
-        page: https://unsplash.com/photos/a-piece-of-paper-with-a-brown-background-Ng5onpi5iRQ
-
-## beat BR1v — "ocean wave slow motion crashing"  [video: pexels,pixabay]
-
-- [ ] `pexels:18680290` · 1920x1080 · 60s · Eclipse Chasers · Pexels License · https://videos.pexels.com/video-files/18680290/18680290-hd_1920_1080_25fps.mp4
-        page: https://www.pexels.com/video/slow-motion-wave-18680290/
-- [ ] `pixabay:182970` · 1920x1080 · 32s · Mario_Krimer · Pixabay Content License · https://cdn.pixabay.com/video/2023/09/30/182970-869947284_large.mp4
-        page: https://pixabay.com/videos/id-182970/
-- [ ] `pexels:33322233` · 1920x1080 · 44s · Mario Krimer · Pexels License · https://videos.pexels.com/video-files/33322233/14189897_1920_1080_24fps.mp4
-        page: https://www.pexels.com/video/dramatic-ocean-waves-crashing-on-rocky-shore-33322233/
+- [ ] `pixabay:250012` · ?x? · nuzree · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/gbb6a552c2e6fb6ef2129cc05d020a74928baf3dc04bdd012940b290bf7002c1bfecda9014755b13f1e03993990024ca10e2008c378d997b8d2888ba0dc7a7474_1280.jpg
+        page: https://pixabay.com/photos/boot-leather-shoe-old-shoestrings-250012/
+- [ ] `unsplash:3ch06Zm4bV0` · 5304x8000 · Heather Green · Unsplash License · https://images.unsplash.com/photo-1705837863332-7162639852d8?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8b2xkJTIwd29ybiUyMGphcGFuZXNlJTIwd2FzaGklMjBwYXBlciUyMHRleHR1cmV8ZW58MHx8fHwxNzg4MTAzMjcwfDA&ixlib=rb-4.1.0&q=90&fm=jpg
+        page: https://unsplash.com/photos/old-creased-blank-paper-texture-3ch06Zm4bV0
+<!-- openverse: 0 resultados -->
 

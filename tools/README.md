@@ -16,7 +16,7 @@ python tools/pull_assets.py --check-keys          # report tools/.env keys
 python tools/pull_assets.py E0XX-slug --init       # scaffold 07-pull.tsv
 python tools/pull_assets.py E0XX-slug              # -> 07-candidates.md + 07-candidates.html
 # open 07-candidates.html in a browser, tick thumbnails, "Exportar 07-picks.txt"
-python tools/pull_assets.py E0XX-slug --download   # -> assets/, CREDITS.md, manifest rows
+python tools/pull_assets.py E0XX-slug --download   # -> assets/stock|video|archive/, CREDITS.md, rows
 ```
 
 **Picker UX:** `07-candidates.html` is a self-contained thumbnail contact sheet — click
@@ -26,10 +26,20 @@ reads `07-picks.txt` if present, else falls back to `- [x]` lines in `07-candida
 `07-candidates.html` is gitignored; `07-candidates.md` and `07-picks.txt` are tracked.
 
 `07-pull.tsv` — tab-separated, one row per beat that needs a pulled image/clip
-(own-graphics beats don't go here): `beat · kind (stock|archive|video) · source · query · opts`.
+(own-graphics beats don't go here): `beat · kind · source · query · opts`.
 
-- `source`: comma list or a group keyword — `stock` = pexels,pixabay,unsplash,openverse · `archive` = met,aic · video only does pexels,pixabay.
-- `opts`: `n=3` (total candidates per beat, split across sources) · `orientation=landscape` · `min=3000` (drop candidates whose long side is smaller) · `license=cc0,by` (openverse) · `must=hokusai,fuji` (archive only — every term must appear in artist/title/tags).
+- `kind`:
+  - `stock` — **video first** (Pexels + Pixabay video), then images fill the rest. A
+    found stock clip beats hand-building the b-roll in the edit, so this is the default
+    for generic b-roll. `opts motion=no` → images only · `motion=only` → video only.
+  - `stock-img` — images only (pexels, pixabay, unsplash, openverse).
+  - `video` — pexels + pixabay video only.
+  - `archive` — the real artifact: met, commons, aic.
+- `source`: usually just repeat the kind keyword; or a comma list of specific sources
+  (`commons,met` · `pexels-video,unsplash` · …).
+- `opts`: `n=3` (total per beat) · `motion=no|only` · `orientation=landscape` ·
+  `min=3000` (drop smaller; also filters video by width, e.g. `min=1920`) ·
+  `license=cc0,by` (openverse) · `must=hokusai,fuji` (archive only).
 
 **Keys** go in `tools/.env` (gitignored — copy `tools/.env.example`). Without it, only the
 keyless sources run (Openverse, Met, AIC). Get them: Pexels `pexels.com/api`, Pixabay
@@ -37,10 +47,13 @@ keyless sources run (Openverse, Met, AIC). Get them: Pexels `pexels.com/api`, Pi
 
 **Known limits**
 - Pixabay free API delivers images ≤ 1280 px (inset use only). Its video is fine.
-- AIC blocks direct image download from some networks/CI — the candidate URL is still
-  correct; open the artwork page and use its Download button, or run the tool from a
-  normal connection.
-- Archive keyword search is filtered for relevance. Museum search engines rank
-  loosely, so add `must=<name>` to force the subject (e.g. `must=hokusai`).
-  A too-narrow query can return zero — broaden the query, keep `must`.
+- Wikimedia Commons often carries the same PD scans at higher resolution than Met
+  (Great Wave: 8242 px) with cleaner artist metadata — good for isolating a
+  specific artist (e.g. Katsushika Ōi vs. Hokusai).
+- AIC's IIIF CDN can 403 `--download` from some networks/CI. The candidate URL is
+  still correct — it downloads fine from a normal browser; if the tool fails on an
+  `aic` pick, open its page and use the Download button.
+- Archive keyword search is filtered for relevance. Search ranks loosely, so add
+  `must=<name>` to force the subject (e.g. `must=hokusai`). A too-narrow query can
+  return zero — broaden the query, keep `must`.
 - `stock` is generic illustrative b-roll only, never "the real thing" (docs/12).
