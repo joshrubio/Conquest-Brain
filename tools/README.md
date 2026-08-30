@@ -7,7 +7,12 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 | `factcheck.py` | 5 | Layer 1 deterministic fact-check. `python tools/factcheck.py 05-script.md 03-source-log.csv` → PASS/FAIL. |
 | `build_ai_prompts.py` | 7 | Scaffolds `07b-ai-prompts.md` for AI-illustration beats (docs/15). `... E0XX-slug <img-slug> ...` / `... --check`. |
 | `pull_assets.py` | 7 | **The Stage-7 hub.** Pulls candidates from free APIs → `07-photography-pass.html` (per-beat candidates + AI prompts + intro). See below. |
+| `trim_talk.py` | 9 | Trim silences + fillers from a take. `python tools/trim_talk.py TAKE.mp4` → `TAKE.trimmed.mp4` + `TAKE.cuts.md`. faster-whisper. See `docs/16`. |
+| `kenburns.py` | 9 | Orientation-aware Ken Burns on stills. `... IMAGE --dur 6` or `... E0XX-slug --all`. ffmpeg. |
+| `find_music.py` | 9 | Pick the channel's ominous-ambient music beds (once). `... "query"` → candidates; `... --get <id>...` downloads to `brand/assets/music/`. Jamendo (needs `JAMENDO_CLIENT_ID`). |
 | `build_idea_pitch.py` | 0 | Renders `ideas/idea-pool.md` as a pitch PDF for Carmen. Data is inline — sync by hand. |
+
+Stage 9 deps: `ffmpeg` on PATH, `faster-whisper`, `pillow`. See [docs/16-edit-and-delivery.md](../docs/16-edit-and-delivery.md).
 
 ## pull_assets.py
 

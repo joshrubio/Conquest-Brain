@@ -43,3 +43,8 @@ tools/.env
 # Stage 7 photography pass — generated, regenerate with tools/pull_assets.py
 # (07-photography-pass.md, 07-picks.txt, 07-selection.md ARE tracked — the pass record)
 episodes/**/07-photography-pass.html
+
+# Stage 9 edit — generated / transient (media already covered above)
+# (07c-edit.md and brand/assets/music/LICENSES.md ARE tracked)
+brand/assets/music/candidates.md
+episodes/**/*.cuts.md

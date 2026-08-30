@@ -505,13 +505,19 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None):
         cards.append('<div class="grid">')
         for c in cands:
             cards.append(_card_html(esc, c, beat))
-        cards.append('</div></section>')
+        cards.append('</div>')
+        cards.append(
+            f'<label class="beatcustom">recurso propio '
+            f'<span>— si lo pegas, se usa ESTE y se ignora la selección del beat</span>'
+            f'<input class="bcust" data-beat="{esc(beat)}" '
+            f'placeholder="ruta local o URL para el beat {esc(beat)}"></label>')
+        cards.append('</section>')
     body = "\n".join(cards)
 
     # ---- Intro section (cold open, docs/02 §0) ----
     slots = "".join(
-        f'<label class="slot">{i}<input class="intropath" data-slot="{i}" '
-        f'placeholder="ruta o URL de un recurso para la intro"></label>'
+        f'<label class="slot"><span>{i}</span><input class="intropath" data-slot="{i}" '
+        f'placeholder="ruta o URL para la intro"></label>'
         for i in range(1, 6))
     if intro_sug:
         sug = ('<h3>Sugeridos — footage de impacto para el tema '
@@ -581,17 +587,25 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None):
  button:hover{{border-color:var(--muted)}}
  button.primary{{background:var(--gold);color:#1a1610;border-color:var(--gold);font-weight:600}}
  button.primary:hover{{filter:brightness(1.08)}}
- .introbox{{max-width:1980px;margin:0 auto;padding:1.75rem 1.75rem .5rem}}
+ .introbox{{max-width:1980px;margin:1rem auto 0;padding:2rem 2.25rem 1.75rem;
+   background:var(--surface);border:1px solid var(--line);border-radius:14px}}
  .introbox>h2{{margin-top:0}}
- .introbox .hint{{color:var(--muted);font-size:.82rem;margin:.4rem 0 1.1rem;max-width:70ch}}
- .slots{{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem}}
- .slot{{display:flex;align-items:center;gap:.55rem;font-size:.85rem;color:var(--muted);
-   flex:1 1 360px}}
- input[type=text],.slot input,.ai input{{flex:1;width:100%;font:inherit;font-size:.82rem;
-   padding:.55rem .7rem;border:1px solid var(--line);border-radius:8px;
-   background:var(--surface);color:var(--fg)}}
+ .introbox .hint{{color:var(--muted);font-size:.8rem;margin:.4rem 0 1.25rem;max-width:74ch}}
+ .slots{{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+   gap:.6rem;margin-bottom:1.5rem}}
+ .slot{{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted)}}
+ .slot>span{{width:1rem;text-align:right;flex:none}}
+ input[type=text],.slot input,.ai input,.bcust{{flex:1;width:100%;font:inherit;
+   border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--fg)}}
+ .slot input{{font-size:.76rem;padding:.4rem .55rem}}
+ .ai input,.bcust{{font-size:.78rem;padding:.5rem .65rem}}
  input:focus{{outline:none;border-color:var(--gold)}}
- .slot input:not(:placeholder-shown){{border-color:var(--gold);background:var(--gold-soft)}}
+ .slot input:not(:placeholder-shown),
+ .bcust:not(:placeholder-shown){{border-color:var(--gold);background:var(--gold-soft)}}
+ .beatcustom{{display:block;margin-top:1rem;font-size:.76rem;color:var(--muted)}}
+ .beatcustom>span{{opacity:.8}}
+ .beatcustom .bcust,.beatcustom input{{margin-top:.35rem}}
+ section:has(.bcust:not(:placeholder-shown)) .grid{{opacity:.4}}
  .wrap{{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:2.25rem;
    max-width:1980px;margin:0 auto;padding:1.75rem}}
  main{{min-width:0}}
@@ -671,24 +685,29 @@ const SLUG="{esc(slug)}", HAS_AI={has_ai};
 const LS="exodo-pass:"+SLUG, LSA=LS+":ai", LSI=LS+":intro";
 const cards=[...document.querySelectorAll('.card')];
 const slots=[...document.querySelectorAll('.intropath')];
+const bcust=[...document.querySelectorAll('.bcust')];
 const aip=[...document.querySelectorAll('.aipath')];
 const cnt=document.getElementById('cnt'), icnt=document.getElementById('introcnt'),
       aicnt=document.getElementById('aicnt');
 function jget(k,d){{try{{return JSON.parse(localStorage.getItem(k))??d}}catch(e){{return d}}}}
 function pk(c){{return c.querySelector('.pick')}}
 function ik(c){{return c.querySelector('.ick')}}
+function bmap(){{const m={{}}; bcust.forEach(i=>{{const v=i.value.trim(); if(v)m[i.dataset.beat]=v}}); return m;}}
 function sync(){{
-  const picks=[],intro=[];
+  const bm=bmap(), picks=[],intro=[];
   cards.forEach(c=>{{
     if(pk(c)&&pk(c).checked)picks.push(c.dataset.key);
     if(ik(c)&&ik(c).checked)intro.push(c.dataset.key);
   }});
   localStorage.setItem(LS,JSON.stringify(picks));
   localStorage.setItem(LSI,JSON.stringify(intro));
-  const sl=slots.filter(s=>s.value.trim()).length;
-  cnt.textContent=picks.length+' / {total} beats';
-  icnt.textContent='  ·  intro: '+(sl+intro.length)+'  ('+sl+' propios + '+intro.length+' cards)';
   localStorage.setItem(LS+':slots',JSON.stringify(slots.map(s=>s.value)));
+  localStorage.setItem(LS+':bcust',JSON.stringify(bm));
+  const sl=slots.filter(s=>s.value.trim()).length;
+  const covered=new Set([...picks.map(k=>cards.find(c=>c.dataset.key===k).dataset.beat),
+                         ...Object.keys(bm)]);
+  cnt.textContent=covered.size+' / {total} beats'+(Object.keys(bm).length?(' ('+Object.keys(bm).length+' propios)'):'');
+  icnt.textContent='  ·  intro: '+(sl+intro.length)+'  ('+sl+' propios + '+intro.length+' cards)';
 }}
 function syncA(){{
   const o={{}}; aip.forEach(i=>{{const v=i.value.trim(); if(v)o[i.dataset.ai]=v;
@@ -709,6 +728,9 @@ cards.forEach(c=>{{
 }});
 const initS=jget(LS+':slots',[]);
 slots.forEach((s,ix)=>{{if(initS[ix])s.value=initS[ix]; s.addEventListener('input',sync)}});
+const initB=jget(LS+':bcust',{{}});
+bcust.forEach(i=>{{if(initB[i.dataset.beat])i.value=initB[i.dataset.beat];
+  i.addEventListener('input',sync)}});
 const initA=jget(LSA,{{}});
 aip.forEach(i=>{{if(initA[i.dataset.ai])i.value=initA[i.dataset.ai];
   i.addEventListener('input',syncA)}});
@@ -719,17 +741,20 @@ document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{{
 }});
 document.getElementById('clr').onclick=()=>{{
   cards.forEach(c=>c.querySelectorAll('input').forEach(i=>i.checked=false));
-  slots.forEach(s=>s.value=''); aip.forEach(i=>i.value=''); sync(); syncA();
+  slots.forEach(s=>s.value=''); bcust.forEach(i=>i.value=''); aip.forEach(i=>i.value='');
+  sync(); syncA();
 }};
 document.getElementById('exp').onclick=async()=>{{
   const L=['# {PICKS_F} — generado por {PASS_HTML}',
-           '# col1: beat | "intro"    col2: source:id | custom:N | ai:id    col3: url o ruta'];
+           '# col1: beat | "intro"   col2: source:id | custom:N (intro) | custom:<beat> | ai:id   col3: url o ruta',
+           '# custom:<beat> = recurso propio que ANULA la selección de ese beat'];
   const intro=[];
   slots.forEach(s=>{{const v=s.value.trim(); if(v)intro.push('intro\\tcustom:'+s.dataset.slot+'\\t'+v)}});
   cards.forEach(c=>{{if(ik(c)&&ik(c).checked)intro.push('intro\\t'+c.dataset.key+'\\t'+c.dataset.url)}});
   if(intro.length){{L.push('# --- INTRO (cold open §0, en orden) ---'); L.push(...intro);}}
-  const beats=[];
-  cards.forEach(c=>{{if(pk(c)&&pk(c).checked)
+  const bm=bmap(), beats=[];
+  Object.keys(bm).forEach(b=>beats.push(b+'\\tcustom:'+b+'\\t'+bm[b]));   // propio -> anula el beat
+  cards.forEach(c=>{{if(pk(c)&&pk(c).checked&&!(c.dataset.beat in bm))
     beats.push(c.dataset.beat+'\\t'+c.dataset.key+'\\t'+c.dataset.url)}});
   if(beats.length){{L.push('# --- BEATS ---'); L.push(...beats);}}
   const ail=[]; aip.forEach(i=>{{const v=i.value.trim(); if(v)
@@ -1003,8 +1028,14 @@ def download(slug):
             intro_n += 1
             sub, name = "intro", f"intro{intro_n:02d}_{src}_{re.sub(r'[^A-Za-z0-9]', '', cid)[:14]}{ext}"
         else:
-            sub = ("video" if src in VIDEO_SRCS
-                   else "archive" if src in ARCHIVE_SRCS else "stock")
+            if src == "custom":                       # Josh's own path for this beat
+                sub = "video" if ext in (".mp4", ".mov", ".webm") else "archive"
+            elif src in VIDEO_SRCS:
+                sub = "video"
+            elif src in ARCHIVE_SRCS:
+                sub = "archive"
+            else:
+                sub = "stock"
             safe = re.sub(r"[^A-Za-z0-9+-]", "", beat)
             name = f"beat{safe}_{src}_{re.sub(r'[^A-Za-z0-9]', '', cid)[:14]}{ext}"
         dst = ep / "assets" / sub
