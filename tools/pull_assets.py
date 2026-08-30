@@ -560,70 +560,93 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Photography pass — {esc(slug)}</title>
 <style>
- :root{{color-scheme:light dark}}
+ :root{{
+   color-scheme:dark;
+   --bg:#141310; --surface:#1e1c17; --surface-2:#29261e; --line:#3b362b;
+   --fg:#f1ead7; --muted:#a89e83; --gold:#c9a24a; --gold-soft:#c9a24a1f;
+   --bone:#e9e1cb;
+ }}
  *{{box-sizing:border-box}}
- body{{font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;
-   background:Canvas;color:CanvasText}}
- header{{position:sticky;top:0;z-index:9;display:flex;gap:1rem;align-items:center;
-   flex-wrap:wrap;padding:.7rem 1rem;background:Canvas;border-bottom:1px solid #8888;min-height:3.2rem}}
- header h1{{font-size:1rem;margin:0;font-weight:700}}
- #cnt,#introcnt{{font-variant-numeric:tabular-nums;opacity:.8}}
- button{{font:inherit;padding:.45rem .8rem;border:1px solid #8886;border-radius:7px;
-   background:#8881;cursor:pointer}}
- button.primary{{background:#2563eb;color:#fff;border-color:#2563eb}}
- .introbox{{max-width:1900px;margin:0 auto;padding:1rem 1rem 0}}
- .introbox .hint{{opacity:.7;font-size:.8rem;margin:.3rem 0 .7rem}}
- .slots{{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}}
- .slot{{display:flex;align-items:center;gap:.4rem;font-size:.8rem;flex:1 1 340px}}
- .slot input{{flex:1;font:inherit;font-size:.78rem;padding:.4rem;border:1px solid #8886;
-   border-radius:6px;background:Canvas;color:CanvasText}}
- .slot input:not(:placeholder-shown){{border-color:#d97706;background:#d9770614}}
- .wrap{{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:1.5rem;
-   max-width:1900px;margin:0 auto;padding:1rem}}
+ body{{font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+   margin:0;background:var(--bg);color:var(--fg)}}
+ a{{color:var(--gold)}}
+ ::selection{{background:var(--gold);color:#1a1610}}
+ header{{position:sticky;top:0;z-index:9;display:flex;gap:1.25rem;align-items:center;
+   flex-wrap:wrap;padding:1rem 1.75rem;background:var(--bg);
+   border-bottom:1px solid var(--line);min-height:3.6rem}}
+ header h1{{font-size:1rem;margin:0;font-weight:700;letter-spacing:.02em;color:var(--bone)}}
+ #cnt,#introcnt,#aicnt{{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.85rem}}
+ button{{font:inherit;padding:.5rem 1rem;border:1px solid var(--line);border-radius:9px;
+   background:var(--surface-2);color:var(--fg);cursor:pointer;transition:.12s}}
+ button:hover{{border-color:var(--muted)}}
+ button.primary{{background:var(--gold);color:#1a1610;border-color:var(--gold);font-weight:600}}
+ button.primary:hover{{filter:brightness(1.08)}}
+ .introbox{{max-width:1980px;margin:0 auto;padding:1.75rem 1.75rem .5rem}}
+ .introbox>h2{{margin-top:0}}
+ .introbox .hint{{color:var(--muted);font-size:.82rem;margin:.4rem 0 1.1rem;max-width:70ch}}
+ .slots{{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem}}
+ .slot{{display:flex;align-items:center;gap:.55rem;font-size:.85rem;color:var(--muted);
+   flex:1 1 360px}}
+ input[type=text],.slot input,.ai input{{flex:1;width:100%;font:inherit;font-size:.82rem;
+   padding:.55rem .7rem;border:1px solid var(--line);border-radius:8px;
+   background:var(--surface);color:var(--fg)}}
+ input:focus{{outline:none;border-color:var(--gold)}}
+ .slot input:not(:placeholder-shown){{border-color:var(--gold);background:var(--gold-soft)}}
+ .wrap{{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:2.25rem;
+   max-width:1980px;margin:0 auto;padding:1.75rem}}
  main{{min-width:0}}
- aside{{position:sticky;top:4rem;align-self:start;max-height:calc(100vh - 5rem);
-   overflow:auto;border-left:1px solid #8884;padding-left:1rem}}
- @media(max-width:1100px){{.wrap{{grid-template-columns:1fr}}
-   aside{{position:static;max-height:none;border-left:0;border-top:1px solid #8884;
-   padding-left:0;padding-top:1rem}}}}
- section{{margin:0 0 2rem}}
- h2{{font-size:.95rem;border-bottom:1px solid #8884;padding-bottom:.3rem}}
- h2 .q{{font-weight:400;opacity:.75}} h2 .k{{float:right;font-weight:400;opacity:.55;font-size:.8rem}}
- h3 span{{font-weight:400;opacity:.55}}
- .empty{{opacity:.6;font-style:italic}}
- .grid{{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}}
- .card{{position:relative;border:2px solid transparent;border-radius:9px;overflow:hidden;
-   background:#8881;cursor:pointer;display:flex;flex-direction:column}}
- .card:has(.pick:checked){{border-color:#2563eb;background:#2563eb22}}
- .card:has(.ick:checked){{outline:2px solid #d97706;outline-offset:-2px}}
- .card>input,.card .itog{{position:absolute;z-index:2;margin:6px}}
- .card>input{{left:0;width:22px;height:22px;accent-color:#2563eb}}
- .card .itog{{right:0;display:flex;align-items:center;gap:.2rem;font-size:.68rem;
-   background:#000a;color:#fff;padding:.1rem .35rem;border-radius:5px}}
- .card .itog input{{width:14px;height:14px;accent-color:#d97706}}
- .card img,.card .noimg{{width:100%;aspect-ratio:4/3;object-fit:cover;background:#0002;display:block}}
- .noimg{{display:flex;align-items:center;justify-content:center;opacity:.5;font-size:.8rem}}
- figcaption{{padding:.5rem .6rem;display:flex;flex-direction:column;gap:.2rem;font-size:.8rem}}
- .badges{{display:flex;gap:.3rem;flex-wrap:wrap}}
- .badges b{{font-weight:600;background:#8883;padding:.05rem .35rem;border-radius:4px}}
- .badges b.warn{{background:#f59e0b33;color:#b45309}}
- .badges b.vid{{background:#2563eb33}}
- code{{font-size:.75rem;opacity:.8}} .who{{opacity:.7}} .lic{{opacity:.55;font-size:.72rem}}
- .lnk{{font-size:.75rem}}
- .aih span{{font-weight:400;opacity:.6;font-size:.75rem}}
- details.neg{{font-size:.72rem;margin:.6rem 0}}
- details.neg pre,.ai pre{{white-space:pre-wrap;font-size:.67rem;background:#8881;
-   padding:.5rem;border-radius:6px;max-height:9rem;overflow:auto;margin:.3rem 0}}
- .ai{{border:1px solid #8884;border-radius:9px;padding:.7rem;margin-bottom:1rem}}
- .ai.done{{border-color:#16a34a;background:#16a34a14}}
- .ai h3{{font-size:.82rem;margin:.1rem 0 .3rem;font-weight:600}}
- .ai .beat{{background:#8883;padding:.05rem .35rem;border-radius:4px;font-size:.7rem}}
- .ai.done .beat{{background:#16a34a33}}
- .ai .para{{opacity:.75;font-size:.76rem;margin:.2rem 0 .3rem}}
- .ai .fn{{font-size:.72rem;opacity:.7;margin:.35rem 0 .25rem}}
- .ai input{{width:100%;font:inherit;font-size:.76rem;padding:.4rem;border:1px solid #8886;
-   border-radius:6px;background:Canvas;color:CanvasText}}
- .cp{{font-size:.7rem;padding:.25rem .55rem;margin-top:.1rem}}
+ aside{{position:sticky;top:4.4rem;align-self:start;max-height:calc(100vh - 5.6rem);
+   overflow:auto;border-left:1px solid var(--line);padding-left:1.5rem}}
+ @media(max-width:1100px){{.wrap{{grid-template-columns:1fr;gap:1.5rem}}
+   aside{{position:static;max-height:none;border-left:0;border-top:1px solid var(--line);
+   padding-left:0;padding-top:1.5rem}}}}
+ section{{margin:0 0 2.75rem}}
+ h2{{font-size:.95rem;font-weight:700;color:var(--bone);border-bottom:1px solid var(--line);
+   padding-bottom:.45rem;margin:0 0 1rem}}
+ h2 .q{{font-weight:400;color:var(--muted)}}
+ h2 .k{{float:right;font-weight:400;color:var(--muted);font-size:.8rem}}
+ h3{{font-size:.86rem;color:var(--bone);margin:1.5rem 0 .8rem}}
+ h3 span{{font-weight:400;color:var(--muted)}}
+ .empty{{color:var(--muted);font-style:italic}}
+ .grid{{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fill,minmax(235px,1fr))}}
+ .card{{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+   background:var(--surface);cursor:pointer;display:flex;flex-direction:column;transition:.12s}}
+ .card:hover{{border-color:var(--muted)}}
+ .card:has(.pick:checked){{border-color:var(--gold);
+   box-shadow:inset 0 0 0 1px var(--gold);background:var(--gold-soft)}}
+ .card:has(.ick:checked){{outline:2px dashed var(--bone);outline-offset:2px}}
+ .card>input,.card .itog{{position:absolute;z-index:2;margin:8px}}
+ .card>input{{left:0;width:20px;height:20px;accent-color:var(--gold);cursor:pointer}}
+ .card .itog{{right:0;display:flex;align-items:center;gap:.25rem;font-size:.66rem;
+   background:#0c0a07d9;color:var(--bone);padding:.15rem .4rem;border-radius:6px;
+   border:1px solid var(--line)}}
+ .card .itog input{{width:13px;height:13px;accent-color:var(--bone)}}
+ .card img,.card .noimg{{width:100%;aspect-ratio:4/3;object-fit:cover;
+   background:#0d0c09;display:block}}
+ .noimg{{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.8rem}}
+ figcaption{{padding:.7rem .8rem .8rem;display:flex;flex-direction:column;gap:.28rem;font-size:.8rem}}
+ .badges{{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.1rem}}
+ .badges b{{font-weight:600;background:var(--surface-2);color:var(--muted);
+   padding:.08rem .4rem;border-radius:5px;font-size:.72rem}}
+ .badges b.warn{{background:#5c4318;color:#e8c67a}}
+ .badges b.vid{{background:var(--gold-soft);color:var(--gold)}}
+ code{{font-size:.74rem;color:var(--muted);font-family:ui-monospace,monospace}}
+ .who{{color:var(--fg)}} .lic{{color:var(--muted);font-size:.72rem}}
+ .lnk{{font-size:.75rem;margin-top:.1rem}}
+ .aih span{{font-weight:400;color:var(--muted);font-size:.75rem}}
+ details.neg{{font-size:.74rem;margin:.8rem 0;color:var(--muted)}}
+ details.neg pre,.ai pre{{white-space:pre-wrap;font-size:.68rem;background:var(--surface-2);
+   color:var(--fg);padding:.65rem;border-radius:8px;max-height:9.5rem;overflow:auto;margin:.4rem 0}}
+ .ai{{border:1px solid var(--line);border-radius:12px;padding:.95rem;margin-bottom:1.25rem;
+   background:var(--surface)}}
+ .ai.done{{border-color:var(--gold);background:var(--gold-soft)}}
+ .ai h3{{font-size:.82rem;margin:.1rem 0 .4rem;font-weight:600}}
+ .ai .beat{{background:var(--surface-2);color:var(--muted);padding:.08rem .4rem;
+   border-radius:5px;font-size:.7rem}}
+ .ai.done .beat{{background:var(--gold-soft);color:var(--gold)}}
+ .ai .para{{color:var(--muted);font-size:.77rem;margin:.25rem 0 .35rem}}
+ .ai .fn{{font-size:.73rem;color:var(--muted);margin:.45rem 0 .3rem}}
+ .cp{{font-size:.7rem;padding:.3rem .6rem;margin-top:.15rem}}
 </style></head><body>
 <header>
  <h1>Photography pass · {esc(slug)}</h1>
@@ -809,7 +832,7 @@ def run(slug):
         n_c += len(cands)
         if kind.lower() == "intro" or beat.lower().startswith("intro"):
             for c in cands:
-                if c.key not in {x.key for x in intro_sug}:
+                if len(intro_sug) < 5 and c.key not in {x.key for x in intro_sug}:
                     intro_sug.append(c)
             md.append(f"## intro — \"{query}\"  [{kind}]\n")
         else:
