@@ -37,7 +37,7 @@
 |-------|-------|
 | Título elegido | |
 | Etiquetas | historia, caso real, documental, <sujeto>, … |
-| Categoría | Educación / Gente y blogs (decidir en brand) |
+| Categoría | Educación |
 | Idioma | Español |
 | Subtítulos | ES .srt corregido a mano — [ ] listo |
 | Miniatura | [ ] subida |

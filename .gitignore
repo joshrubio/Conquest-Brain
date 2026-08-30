@@ -52,3 +52,7 @@ episodes/**/07-photography-pass.html
 brand/assets/music/candidates.md
 episodes/**/*.cuts.md
 episodes/**/07c-edit.html
+
+# Review pages — generated (the exported *.txt records ARE tracked)
+ideas/idea-review.html
+episodes/**/10-package.html

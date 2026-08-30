@@ -10,15 +10,27 @@
 
 ## Títulos candidatos (3)
 
-| # | Título | Patrón | Promesa que hace | ¿Se paga en el vídeo? |
-|---|--------|--------|------------------|-----------------------|
-| A | | «Figura: tensión en una frase» | | |
-| B | | «Qué pasó — y qué dice de nosotros» | | |
-| C | | libre | | |
+Patrón (`docs/13`): `<Gancho> | <Sujeto> | Documental`. Español neutro · una o dos palabras en mayúscula OK · sin preguntas falsas · ≤ ~70 car. visibles.
+
+### A
+> <título A>
+
+- Promesa que hace: …
+- ¿Se paga en el vídeo?: …
+
+### B
+> <título B>
+
+- Promesa que hace: …
+- ¿Se paga en el vídeo?: …
+
+### C
+> <título C>
+
+- Promesa que hace: …
+- ¿Se paga en el vídeo?: …
 
 **Elegido:** __ — motivo: …
-
-Reglas: español neutro · sin MAYÚSCULAS sostenidas · sin preguntas falsas · ≤ ~70 caracteres visibles.
 
 ## Miniatura
 

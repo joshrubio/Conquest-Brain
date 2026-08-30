@@ -8,7 +8,8 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **Protocol 1 — Available material** ([docs/12](12-available-material-protocol.md)): cross-check the case against public-domain archives; fill the worksheet. No material → no episode.
 - Score with [ideas/idea-rubric.md](../ideas/idea-rubric.md): eliminatorios E1–E8 + /21.
 - Record in [ideas/idea-pool.md](../ideas/idea-pool.md).
-- **Gate:** track assigned; hook-title done; material cross-check passes (E8); all eliminatorios YES; score ≥ 14.
+- **Carmen's review:** `python tools/idea_review.py` → `ideas/idea-review.html` — she scores each idea, picks the strongest hook-title, comments; exports `idea-review.txt` → folded back into `idea-pool.md`.
+- **Gate:** track assigned; hook-title chosen; material cross-check passes (E8); all eliminatorios YES; score ≥ 14; Carmen signed off in `idea-pool.md`.
 
 ## Stage 1 — Brief  → `01-brief.md`
 - Template: [templates/episode-brief.md](../templates/episode-brief.md).
@@ -80,8 +81,9 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 ## Stage 10 — Package  → `08-thumbnail-title.md`, `09-description.md`
 - Templates: [templates/thumbnail-title-brief.md](../templates/thumbnail-title-brief.md), [templates/description-and-credits.md](../templates/description-and-credits.md).
-- 3 title options (from the hook-titles), thumbnail, description with **Fuentes principales** block + asset courtesy credits, chapters, tags.
-- **Gate:** title/thumbnail honest to the content (no clickbait the body doesn't pay off).
+- `python tools/package_review.py E0XX-slug --init` scaffolds `08` + `09` (pulls the 3 hook-titles from `idea-pool.md`). Fill them, then `python tools/package_review.py E0XX-slug` → **`10-package.html`**: Carmen picks the title, picks the thumbnail variant, edits the description (Fuentes principales auto-built from `03-source-log.csv` Tier A/B), ticks the 3 approvals. Exports `10-package.txt` → folded into `08` + `09`.
+- Description = 2–3 sentence summary + chapters + **Fuentes principales** + courtesy credits + soft CTA. No source cards on screen — this is where citations live.
+- **Gate:** title/thumbnail honest to the content (no clickbait the body doesn't pay off); Carmen's 3 approvals in `10-package.txt`.
 
 ## Stage 11 — Publish  → `10-publish-checklist.md`
 - Template: [templates/publish-checklist.md](../templates/publish-checklist.md).

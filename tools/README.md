@@ -12,8 +12,13 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 | `edit_review.py` | 9 | Build `07c-edit.html` — watch every KB clip + trimmed take, approve or feedback → `07c-review.txt`. `... E0XX-slug`. |
 | `find_music.py` | 9 | Ominous-ambient music beds. `... "query"` appends to the pool; ticks in the pass's Music section (or `... --get <id>...`) → `brand/assets/music/`. Jamendo (`JAMENDO_CLIENT_ID`). |
 | `build_idea_pitch.py` | 0 | Renders `ideas/idea-pool.md` as a pitch PDF for Carmen. Data is inline — sync by hand. |
+| `idea_review.py` | 0 | `ideas/idea-review.html` — Carmen scores + picks a hook-title + comments per idea → `idea-review.txt`. |
+| `package_review.py` | 10 | `E0XX/10-package.html` — pick title, pick thumbnail, review description with Carmen → `10-package.txt`. `--init` scaffolds `08` + `09`. |
+| `review_ui.py` | — | shared dark-theme HTML shell for the review pages (not a CLI). |
 
 Stage 9 deps: `ffmpeg` on PATH, `faster-whisper`, `pillow`. See [docs/16-edit-and-delivery.md](../docs/16-edit-and-delivery.md).
+
+**Review pages** (`*-review.html` / `10-package.html`, `07-photography-pass.html`, `07c-edit.html`) all follow the same pattern: a dark browser page with per-item controls, "Exportar" → a small `.txt` Claude folds back into the source doc. The `.html` is gitignored; the exported `.txt` is tracked.
 
 ## pull_assets.py
 

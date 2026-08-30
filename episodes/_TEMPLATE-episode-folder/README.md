@@ -18,8 +18,8 @@ Trabajar los archivos **en orden**. Cada uno corresponde a un stage de `docs/06-
 | `07-photography-pass.md` | 7 | `tools/pull_assets.py` (genera; hub del stage) |
 | `07c-edit.md` | 9 | `templates/edit-checklist.md` (ver `docs/16`) |
 | `07c-edit.html` · `07c-review.txt` | 9 | `tools/edit_review.py` (genera; revisión de KB + trim) |
-| `08-thumbnail-title.md` | 10 | `templates/thumbnail-title-brief.md` |
-| `09-description.md` | 10 | `templates/description-and-credits.md` |
+| `08-thumbnail-title.md` · `09-description.md` | 10 | `templates/…` — o `tools/package_review.py E0XX --init` |
+| `10-package.html` · `10-package.txt` | 10 | `tools/package_review.py` (genera; revisión de título/miniatura/descripción con Carmen) |
 | `10-publish-checklist.md` | 11 | `templates/publish-checklist.md` |
 | `11-retro.md` | 12 | `templates/episode-retro.md` |
 | `material-search.md` | 0/2 | — (Protocolo 1, `docs/12`) |
