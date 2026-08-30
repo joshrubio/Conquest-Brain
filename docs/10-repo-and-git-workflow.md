@@ -1,10 +1,10 @@
 # 10 — Repo & Git Workflow
 
-The project lives **locally + GitHub**. This repo (`D:\Youtube`) is the single source of truth for the channel's planning, docs, templates, scripts, and research. No Obsidian, no other tracker.
+The project lives **locally + GitHub**. This repo (`D:\Exodo`) is the single source of truth for the channel's planning, docs, templates, scripts, and research. No Obsidian, no other tracker.
 
 ## Repo
 
-- Local path: `D:\Youtube`
+- Local path: `D:\Exodo` (renamed from `D:\Youtube` on 2026-08-31)
 - Default branch: `main`
 - Remote: **`https://github.com/joshrubio/Exodo-Brain.git`** (account: `joshrubio`). **Private** (set 2026-08-29). Keep it private — it holds unpublished scripts, editorial internals and the separation policy.
 - First push done 2026-08-29 (`main` tracks `origin/main`).

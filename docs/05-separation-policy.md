@@ -7,7 +7,7 @@ Exodo Channel is a standalone project. This file keeps it that way and keeps the
 - Own channel name, handle, logo, palette, typography, banner, avatar — [docs/03-brand-identity.md](03-brand-identity.md).
 - No "brought to you by / in association with" anyone, on screen or in the metadata.
 - No shared playlists, channel sections, or cross-posting with any other channel.
-- Own upload/brand account, own analytics, own asset storage. **This repo (`D:\Youtube`) is the only home for this channel's work.**
+- Own upload/brand account, own analytics, own asset storage. **This repo (`D:\Exodo`) is the only home for this channel's work.**
 - Description: soft channel CTA only (subscribe, next episode). No third-party link or pitch.
 
 ## 2. Conflict of interest — subjects
