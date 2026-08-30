@@ -59,6 +59,8 @@ PASS_MD = "07-photography-pass.md"
 PASS_HTML = "07-photography-pass.html"
 PICKS_F = "07-picks.txt"
 SELECTION_F = "07-selection.md"
+MUSIC_DIR = ROOT / "brand" / "assets" / "music"
+MUSIC_CAND = MUSIC_DIR / "candidates.md"
 
 STOCK_IMG = ["pexels", "pixabay", "unsplash", "openverse"]         # kind: stock-img
 STOCK_MOTION = ["pexelsv", "pixabayv", "pexels", "unsplash",       # kind: stock
@@ -488,11 +490,33 @@ def _card_html(esc, c, beat, intro_only=False):
         + '</span></figcaption></div>')
 
 
-def build_html(slug, groups, ai_prompts=("", []), intro_sug=None):
+def parse_music():
+    """brand/assets/music/candidates.md -> [{key,id,title,artist,lic,dur,tag,url,page}]."""
+    if not MUSIC_CAND.exists():
+        return []
+    txt = MUSIC_CAND.read_text(encoding="utf-8")
+    out = []
+    for m in re.finditer(r"^## `([^`]+)` — (.+?)(?: · (.+))?$", txt, re.M):
+        block = txt[m.end():txt.find("\n## ", m.end()) if "\n## " in txt[m.end():] else len(txt)]
+        meta = re.search(r"^- (\d+:\d\d) · (CC[^\n·]*?)(?: · «[^»]*»)?(?: · (.+))?$", block, re.M)
+        url = re.search(r"download: (\S+)", block)
+        page = re.search(r"page: (\S+)", block)
+        out.append({
+            "key": m.group(1), "id": m.group(1).split(":", 1)[-1],
+            "title": m.group(2).strip(), "artist": (m.group(3) or "").strip(),
+            "dur": meta.group(1) if meta else "", "lic": meta.group(2).strip() if meta else "CC",
+            "tag": (meta.group(3) or "").strip() if meta else "",
+            "url": url.group(1) if url else "", "page": page.group(1) if page else "",
+        })
+    return out
+
+
+def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
     import html as _h
     esc = _h.escape
     neg, prompts = ai_prompts
     intro_sug = intro_sug or []
+    music = music or []
     total = sum(len(c) for _, _, _, _, c, _ in groups)
     cards = []
     for beat, kind, query, srcs, cands, notes in groups:
@@ -534,6 +558,32 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None):
         'y/o marca «intro» en cualquier card de abajo. El orden de exportación es: '
         'propios (1–5) → sugeridos → cards.</p>'
         f'<div class="slots">{slots}</div>{sug}</section>')
+
+    # ---- Música (consideración) — al final ----
+    if music:
+        rows = []
+        for m in music:
+            meta = " · ".join(x for x in (m["dur"], m["lic"], m["tag"]) if x)
+            rows.append(
+                f'<label class="mtrk" data-key="{esc(m["key"])}" data-url="{esc(m["url"])}">'
+                f'<input type="checkbox" class="mtrack">'
+                f'<span class="mt"><b>{esc(m["title"])}</b> · {esc(m["artist"])}</span>'
+                f'<span class="mm">{esc(meta)}</span>'
+                f'<audio controls preload="none" src="{esc(m["url"])}"></audio>'
+                + (f'<a href="{esc(m["page"])}" target="_blank" rel="noopener">page</a>' if m["page"] else "")
+                + '</label>')
+        musicbox = (
+            '<section class="musicbox"><h2>Música <span class="q">— lecho ominoso ambiental '
+            '(docs/16). Hoy consideramos todas; mañana quedan 3–5.</span></h2>'
+            '<p class="hint">solo CC-BY / CC-BY-SA / CC0. Marca las que consideras; al exportar '
+            'van como <code>music</code> y <code>--download</code> las baja a '
+            '<code>brand/assets/music/</code> + <code>LICENSES.md</code>. '
+            'Amplía el pool con <code>python tools/find_music.py "query"</code>.</p>'
+            + "\n".join(rows) + '</section>')
+    else:
+        musicbox = ('<section class="musicbox"><h2>Música</h2><p class="empty">sin '
+                    '<code>brand/assets/music/candidates.md</code> — corre '
+                    '<code>python tools/find_music.py "dark cinematic ambient"</code></p></section>')
 
     # ---- right column: AI-generation prompts (07b) ----
     if prompts:
@@ -606,6 +656,20 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None):
  .beatcustom>span{{opacity:.8}}
  .beatcustom .bcust,.beatcustom input{{margin-top:.35rem}}
  section:has(.bcust:not(:placeholder-shown)) .grid{{opacity:.4}}
+ .musicbox{{max-width:1980px;margin:0 auto 3rem;padding:2rem 2.25rem;
+   background:var(--surface);border:1px solid var(--line);border-radius:14px}}
+ .musicbox>h2{{margin-top:0}}
+ .musicbox .hint{{color:var(--muted);font-size:.8rem;margin:.4rem 0 1.25rem;max-width:78ch}}
+ .mtrk{{display:grid;grid-template-columns:20px minmax(180px,1fr) auto 320px auto;
+   gap:.9rem;align-items:center;padding:.55rem .3rem;border-bottom:1px solid var(--line);
+   font-size:.82rem;cursor:pointer}}
+ .mtrk:last-child{{border-bottom:0}}
+ .mtrk:has(.mtrack:checked){{background:var(--gold-soft)}}
+ .mtrk input[type=checkbox]{{width:18px;height:18px;accent-color:var(--gold)}}
+ .mtrk .mm{{color:var(--muted);font-size:.75rem}}
+ .mtrk audio{{height:34px;width:320px}}
+ @media(max-width:900px){{.mtrk{{grid-template-columns:20px 1fr;grid-auto-flow:row}}
+   .mtrk audio{{width:100%}}}}
  .wrap{{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:2.25rem;
    max-width:1980px;margin:0 auto;padding:1.75rem}}
  main{{min-width:0}}
@@ -680,12 +744,14 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None):
 {aside}
 </aside>
 </div>
+{musicbox}
 <script>
 const SLUG="{esc(slug)}", HAS_AI={has_ai};
 const LS="exodo-pass:"+SLUG, LSA=LS+":ai", LSI=LS+":intro";
 const cards=[...document.querySelectorAll('.card')];
 const slots=[...document.querySelectorAll('.intropath')];
 const bcust=[...document.querySelectorAll('.bcust')];
+const mtrk=[...document.querySelectorAll('.mtrk')];
 const aip=[...document.querySelectorAll('.aipath')];
 const cnt=document.getElementById('cnt'), icnt=document.getElementById('introcnt'),
       aicnt=document.getElementById('aicnt');
@@ -703,6 +769,8 @@ function sync(){{
   localStorage.setItem(LSI,JSON.stringify(intro));
   localStorage.setItem(LS+':slots',JSON.stringify(slots.map(s=>s.value)));
   localStorage.setItem(LS+':bcust',JSON.stringify(bm));
+  const mus=mtrk.filter(t=>t.querySelector('.mtrack').checked).map(t=>t.dataset.key);
+  localStorage.setItem(LS+':music',JSON.stringify(mus));
   const sl=slots.filter(s=>s.value.trim()).length;
   const covered=new Set([...picks.map(k=>cards.find(c=>c.dataset.key===k).dataset.beat),
                          ...Object.keys(bm)]);
@@ -731,6 +799,12 @@ slots.forEach((s,ix)=>{{if(initS[ix])s.value=initS[ix]; s.addEventListener('inpu
 const initB=jget(LS+':bcust',{{}});
 bcust.forEach(i=>{{if(initB[i.dataset.beat])i.value=initB[i.dataset.beat];
   i.addEventListener('input',sync)}});
+const initM=new Set(jget(LS+':music',[]));
+mtrk.forEach(t=>{{const b=t.querySelector('.mtrack');
+  if(initM.has(t.dataset.key))b.checked=true;
+  b.addEventListener('change',sync);
+  t.addEventListener('click',e=>{{if(e.target.closest('a,audio,input'))return;
+    b.checked=!b.checked; sync();}});}});
 const initA=jget(LSA,{{}});
 aip.forEach(i=>{{if(initA[i.dataset.ai])i.value=initA[i.dataset.ai];
   i.addEventListener('input',syncA)}});
@@ -741,13 +815,15 @@ document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{{
 }});
 document.getElementById('clr').onclick=()=>{{
   cards.forEach(c=>c.querySelectorAll('input').forEach(i=>i.checked=false));
+  mtrk.forEach(t=>t.querySelector('.mtrack').checked=false);
   slots.forEach(s=>s.value=''); bcust.forEach(i=>i.value=''); aip.forEach(i=>i.value='');
   sync(); syncA();
 }};
 document.getElementById('exp').onclick=async()=>{{
   const L=['# {PICKS_F} — generado por {PASS_HTML}',
-           '# col1: beat | "intro"   col2: source:id | custom:N (intro) | custom:<beat> | ai:id   col3: url o ruta',
-           '# custom:<beat> = recurso propio que ANULA la selección de ese beat'];
+           '# col1: <beat> | "intro" | "music"',
+           '# col2: source:id | custom:N (intro) | custom:<beat> | ai:id',
+           '# col3: url o ruta.   custom:<beat> ANULA la selección de ese beat.'];
   const intro=[];
   slots.forEach(s=>{{const v=s.value.trim(); if(v)intro.push('intro\\tcustom:'+s.dataset.slot+'\\t'+v)}});
   cards.forEach(c=>{{if(ik(c)&&ik(c).checked)intro.push('intro\\t'+c.dataset.key+'\\t'+c.dataset.url)}});
@@ -760,6 +836,9 @@ document.getElementById('exp').onclick=async()=>{{
   const ail=[]; aip.forEach(i=>{{const v=i.value.trim(); if(v)
     ail.push(i.dataset.beats+'\\tai:'+i.dataset.ai+'\\t'+v)}});
   if(ail.length){{L.push('# --- IA generada ---'); L.push(...ail);}}
+  const mus=[]; mtrk.forEach(t=>{{if(t.querySelector('.mtrack').checked)
+    mus.push('music\\t'+t.dataset.key+'\\t'+t.dataset.url)}});
+  if(mus.length){{L.push('# --- MÚSICA (consideración; brand/assets/music/) ---'); L.push(...mus);}}
   const txt=L.join('\\n')+'\\n';
   try{{
     const fh=await window.showSaveFilePicker({{suggestedName:'{PICKS_F}',
@@ -870,12 +949,14 @@ def run(slug):
         md.append("")
     ep = EP_DIR / slug
     ai = parse_ai_prompts(slug)
+    music = parse_music()
     (ep / PASS_MD).write_text("\n".join(md) + "\n", encoding="utf-8")
-    (ep / PASS_HTML).write_text(build_html(slug, groups, ai, intro_sug), encoding="utf-8")
+    (ep / PASS_HTML).write_text(build_html(slug, groups, ai, intro_sug, music), encoding="utf-8")
     print(f"escrito  episodes/{slug}/{PASS_MD}   ({n_c} candidatos, {len(groups)} beats"
           + (f", {len(intro_sug)} clips intro" if intro_sug else "") + ")")
     print(f"escrito  episodes/{slug}/{PASS_HTML}  <- ábrelo en el navegador"
-          + (f"  ({len(ai[1])} prompts IA)" if ai[1] else ""))
+          + (f"  ({len(ai[1])} prompts IA)" if ai[1] else "")
+          + (f"  ({len(music)} tracks música)" if music else ""))
     print("siguiente: intro + miniaturas + rutas IA, «Exportar 07-picks.txt», corre --download")
 
 
@@ -1002,16 +1083,53 @@ def _ext_for(data, final_url, src):
     return ".jpg"
 
 
+def _audio_ext(data):
+    if data[:3] == b"ID3" or data[:2] in (b"\xff\xfb", b"\xff\xf3", b"\xff\xfa", b"\xff\xf2"):
+        return ".mp3"
+    if data[:4] == b"OggS":
+        return ".ogg"
+    if data[:4] == b"fLaC":
+        return ".flac"
+    return ".mp3"
+
+
+def _dl_music(key, url, mmeta):
+    """Download a considered track into brand/assets/music/ + log its licence."""
+    MUSIC_DIR.mkdir(parents=True, exist_ok=True)
+    data, _ = _fetch(url, "music")
+    if data is None:
+        print(f"  FALLO  música {key}  (sin descarga)")
+        return
+    m = mmeta.get(key, {})
+    safe = re.sub(r"[^A-Za-z0-9]+", "-", m.get("title", key)).strip("-").lower()[:40] or "track"
+    fn = MUSIC_DIR / f"{key.replace(':', '_')}_{safe}{_audio_ext(data)}"
+    fn.write_bytes(data)
+    print(f"  OK  {fn.name}  ({len(data)//1024} KB)  (música)")
+    lf = MUSIC_DIR / "LICENSES.md"
+    prev = lf.read_text(encoding="utf-8") if lf.exists() else (
+        "# Licencias — música de fondo\n\n> CC, no dominio público. "
+        "Atribuir cada pista (autor + licencia) en la descripción del vídeo.\n")
+    line = (f"- `{fn.name}` — {m.get('title', '')} · {m.get('artist', '')} — "
+            f"{m.get('lic', 'CC')} — atribución obligatoria en 09-description.md")
+    if line not in prev:
+        lf.write_text(prev.rstrip() + "\n" + line + "\n", encoding="utf-8")
+
+
 def download(slug):
     keys = load_env()
     picks = read_picks(slug)
     ep = EP_DIR / slug
     ai_fname = {p["id"]: p["fname"] for p in parse_ai_prompts(slug)[1]}
+    mmeta = {m["key"]: m for m in parse_music()}
     intro_rows, beat_rows, ai_rows, credits = [], [], [], []
     intro_n = 0
 
     for beat, src, cid, url in picks:
         is_intro = beat.lower() == "intro"
+
+        if beat.lower() == "music":
+            _dl_music(f"{src}:{cid}", url, mmeta)
+            continue
 
         if src == "ai" and not is_intro:
             _dl_ai(ep, beat, cid, url, ai_fname.get(cid, f"{cid}.png"), ai_rows, credits)

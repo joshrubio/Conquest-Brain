@@ -63,7 +63,8 @@ A track only works for us if its licence allows **commercial use** *and* using i
 
 ### The tool
 
-- `find_music.py` queries **Jamendo** (free `JAMENDO_CLIENT_ID` in `tools/.env`; no key → Openverse fallback), keeping only BY / BY-SA / CC0. `python tools/find_music.py "dark ambient drone cinematic"` → `brand/assets/music/candidates.md`; Josh auditions the previews, picks **3–5**, `python tools/find_music.py --get <id> <id> ...` → `brand/assets/music/` + `brand/assets/music/LICENSES.md` (exact licence + required attribution per track).
+- `find_music.py` queries **Jamendo** (free `JAMENDO_CLIENT_ID` in `tools/.env`; no key → Openverse fallback), keeping only BY / BY-SA / CC0. `python tools/find_music.py "dark ambient drone cinematic"` **appends** to `brand/assets/music/candidates.md` (an accumulating pool — run several queries).
+- The pool then shows as the **Music section at the bottom of `07-photography-pass.html`** — audition inline, tick what to keep. Early on, keep them all; the channel settles on 3–5. `--download` (or `find_music.py --get <id> ...`) pulls the ticked tracks → `brand/assets/music/` + `LICENSES.md` (exact licence + required attribution per track).
 - **Per episode:** one bed under the whole piece, sitting ~20–24 dB under the VO peak; duck −4 to −6 dB under speech. A second, slightly warmer track may enter at the close (M3, `docs/02` §3). **No music in the bumper.**
 - The same 3–5 tracks every episode until a retro (`docs/06` Stage 12) says to refresh them.
 
