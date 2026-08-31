@@ -70,6 +70,23 @@ OPEN = {
     12: "12-metrics.html",
 }
 
+# short scannable label for the stage card
+CARD = {
+    0: "La idea: título con gancho + hay material + puntúa.",
+    1: "Brief: tesis, por qué ahora, cierre, top-3 fuentes, riesgos.",
+    2: "Investigación: dossier + registro de fuentes (Claude, fuentes reales).",
+    3: "Outline: la lista de beats en orden, antes del guion.",
+    4: "Guion completo + el 'script pass' beat a beat.",
+    5: "Fact-check automático: cada dato contra su fuente.",
+    6: "Shotlist: qué se ve en cada momento.",
+    7: "Pase de estilo: eliges imágenes, clips y música.",
+    8: "Grabas la voz siguiendo el shotlist. Offline.",
+    9: "Edición: Ken Burns, recorte, b-roll, música, subs.",
+    10: "Paquete: título publicado, miniatura, descripción.",
+    11: "Publicación: tick legal, subir, programar.",
+    12: "Retro: métricas a 48 h y 30 d.",
+}
+
 # human-friendly, non-developer explanation shown on hover / in the card
 HELP = {
     0: "La idea. Se le busca un buen título con gancho, se comprueba que hay material para ilustrarla y se puntúa. Si pasa, se convierte en carpeta de episodio.",

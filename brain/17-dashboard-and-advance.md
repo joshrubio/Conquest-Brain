@@ -107,6 +107,15 @@ Todos los botones del dashboard y de `cost.html` llevan tooltip temático (no el
 
 **Carpeta de recursos:** `pipeline.ensure_assets(epid)` crea `<ep>/assets/` con sus subcarpetas (`intro stock video archive ai kb thumb`) + README — al crear el episodio, al entrar en stage ≥ 6, y defensivamente en `dash.py`. El server lista la carpeta en `/episodes/<slug>/assets/`. El HTML del pase de estilo y la vista del shotlist enlazan a ella.
 
+## El pool de ideas
+
+Botón **💡 Ideas** del dashboard → `ideas/idea-review.html` (regenerada por `idea_review.py`). Es gestión del pool, no un gate lineal:
+
+- por idea: veredicto (aprobar / incubar / descartar) + hook + /21 + nota
+- **«Aplicar cambios»** → `POST /ideas` → escribe los estados en `idea-pool.md` al momento (descartar → `descartada`, incubar → `incubando`); las `aprobar` se listan para crear su episodio
+- **«＋ Generar 3 ideas»** → `POST /ideas-new` → encola una tarea `ideas` para el agente (añade ideas al pool, sin avanzar stages)
+- **← dashboard** para volver
+
 ## Adding an episode
 
 Approve an idea in `idea-review.html` → Stage 0 fold copies

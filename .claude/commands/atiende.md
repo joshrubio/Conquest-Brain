@@ -12,6 +12,7 @@ Atiende el dashboard de Exodo. **Lee SOLO `episodes/_loop.json` y `episodes/_que
 2. Por cada entrada `{ep, stage, action, reads, rules, produces, note}`:
    - Lee **únicamente** los ficheros de `reads` + los docs de `rules`. Nada más.
    - `action: "generate"` → escribe `produces` para ese episodio siguiendo `rules`.
+   - `action: "ideas"` (ep = `POOL`) → añade las ideas nuevas a `ideas/idea-pool.md` siguiendo la `note` (no crees carpetas, no avances stages). Luego `python tools/idea_review.py` para regenerar la página, y borra la entrada de la cola.
    - `action: "fold"` → aplica las decisiones de `<ep>/_exports/stage<NN>.json` (o el `.txt` canónico) al fichero fuente del stage.
    - Cuando termines: `python tools/advance.py fold <ep>` y luego, si el stage ≤ `Auto-avance` de ese episodio en `_STATUS.md`, `python tools/advance.py next <ep>`. Si el stage == el techo, para ahí y anótalo en el reporte.
    - Quita la entrada de la cola (`advance.py` no la borra por ti si fue `generate`: bórrala tú con un pequeño edit a `_queue.json`, o usa `pipeline.dequeue`).

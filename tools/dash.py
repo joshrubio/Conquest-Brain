@@ -115,28 +115,33 @@ def kpi_rows():
 
 def strip(epid, slug, cur, gate):
     e = _h.escape
-    dots = []
+    epp = P.EP_DIR / slug
+    cards = []
     for n in range(13):
         sm = P.STAGE[n]
-        cls = "d"
+        cls = "sc"
         if n < cur:
-            cls = "d done"
+            cls = "sc done"
         elif n == cur:
-            cls = "d cur " + gate
+            cls = "sc cur " + gate
         tgt = P.OPEN.get(n, "")
         href = ""
         if n <= cur and tgt:
-            if tgt.endswith(".html"):
-                href = (P.SERVED + tgt) if tgt.startswith("ideas/") else f"{P.SERVED}episodes/{slug}/{tgt}"
-                # only link if the html plausibly exists (review pages are per-episode / ideas)
+            if tgt.startswith("ideas/"):
+                exists = (P.ROOT / tgt).exists()
+                href = P.SERVED + tgt if exists else ""
+            elif tgt.endswith(".html"):
+                href = f"{P.SERVED}episodes/{slug}/{tgt}" if (epp / tgt).exists() else ""
             else:
-                href = f"{P.SERVED}view?ep={epid}&f={tgt}"
-        tip = f"Stage {n} · {e(sm['name'])} — {e(P.HELP.get(n, ''))}"
+                href = f"{P.SERVED}view?ep={epid}&f={tgt}" if (epp / tgt).exists() else ""
+        inner = (f'<span class="scn">{n}</span> <b>{e(sm["name"])}</b>'
+                 f'<span class="scd">{e(P.CARD.get(n, ""))}</span>'
+                 + ('' if href else '<span class="scx">— aún no</span>'))
         if href:
-            dots.append(f'<a class="{cls}" href="{href}" target="_blank" data-tip="{tip}">{n}</a>')
+            cards.append(f'<a class="{cls}" href="{href}" target="_blank">{inner}</a>')
         else:
-            dots.append(f'<span class="{cls}" data-tip="{tip}">{n}</span>')
-    return f'<div class="strip">{"".join(dots)}</div>'
+            cards.append(f'<div class="{cls}">{inner}</div>')
+    return f'<div class="strip">{"".join(cards)}</div>'
 
 
 def build():
@@ -263,15 +268,18 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
     extra = ('<style>'
              '.epc{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:1.1rem;margin:0 0 1.1rem}'
              '.epch{font-size:.95rem;margin-bottom:.7rem}'
-             '.strip{display:flex;gap:.3rem;margin:.4rem 0 .7rem;flex-wrap:wrap}'
-             '.d{width:1.8rem;height:1.8rem;display:grid;place-items:center;border-radius:6px;'
-             'font-size:.72rem;background:var(--surface-2);color:var(--muted);border:1px solid var(--line);'
-             'text-decoration:none}'
-             'a.d{cursor:pointer}a.d:hover{border-color:var(--bone);transform:translateY(-1px)}'
-             '.d.done{background:var(--gold-soft);color:var(--gold);border-color:var(--gold)}'
-             '.d.cur{border-color:var(--bone);color:var(--bone);font-weight:700}'
-             '.d.cur.firmado{background:var(--gold);color:#1a1610}'
-             '.d.cur.exportado{background:#6b5a2a;color:var(--bone)}'
+             '.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));'
+             'gap:.4rem;margin:.5rem 0 .8rem}'
+             '.sc{display:block;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);'
+             'padding:.45rem .55rem;font-size:.72rem;line-height:1.3;color:var(--muted);text-decoration:none}'
+             '.sc b{color:var(--fg);font-size:.76rem;font-weight:600}'
+             '.sc .scn{display:inline-block;min-width:1.2rem;color:var(--muted);font-variant-numeric:tabular-nums}'
+             '.sc .scd{display:block;margin-top:.15rem;font-size:.68rem}'
+             '.sc .scx{display:block;margin-top:.1rem;font-size:.65rem;opacity:.6}'
+             'a.sc{cursor:pointer}a.sc:hover{border-color:var(--bone)}'
+             '.sc.done{border-color:var(--gold);background:var(--gold-soft)}.sc.done b{color:var(--gold)}'
+             '.sc.cur{border-color:var(--bone);border-width:2px}.sc.cur b{color:var(--bone)}'
+             '.sc.cur.firmado{background:#3a3016}.sc.cur.exportado{background:#4a3d1e}'
              # themed hover tooltip (replaces native title=)
              '[data-tip]{position:relative}'
              '[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 6px);'
@@ -281,7 +289,9 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
              'box-shadow:0 8px 24px #0008;pointer-events:none}'
              '[data-tip]:hover::before{content:"";position:absolute;left:10px;top:calc(100% + 1px);'
              'border:5px solid transparent;border-bottom-color:var(--gold);z-index:51}'
-             'header [data-tip]:hover::after{max-width:26rem}'
+             'header [data-tip]:hover::after{max-width:24rem}'
+             '[data-tipr][data-tip]:hover::after{left:auto;right:0}'
+             '[data-tipr][data-tip]:hover::before{left:auto;right:12px}'
              '.now{font-size:.85rem}.notes{font-size:.8rem;color:var(--muted);margin:.4rem 0}'
              '.btns{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}'
              '.btn{font:inherit;font-size:.8rem;padding:.4rem .8rem;border:1px solid var(--line);border-radius:8px;'
@@ -305,7 +315,9 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
     hd = ('<h1>Exodo · dashboard</h1>'
           f'<span class="count">sesión: <b>{lbadge}</b></span>'
           + loopbtns
-          + ('<a class="btn" href="cost.html" style="margin-left:auto" '
+          + f'<a class="btn" href="{served}ideas/idea-review.html" target="_blank" '
+            'data-tip="El pool de ideas: puntúa, aprueba o descarta, y pide ideas nuevas. No avanza ningún episodio.">💡 Ideas</a>'
+          + ('<a class="btn" href="cost.html" style="margin-left:auto" data-tipr '
              'data-tip="Cuántos tokens consume el sistema y qué fracción de tu plan. Con consejos para no gastar de más.">Consumo</a>'
              if COST_MD.exists() else ''))
     return ("<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\">"
@@ -318,14 +330,17 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
 def build_cost():
     inner = md_to_html(COST_MD.read_text(encoding="utf-8"))
     head = ("<style>#upd{border-color:var(--gold);color:var(--gold)}"
-            "[data-tip]{position:relative}"
-            "[data-tip]:hover::after{content:attr(data-tip);position:absolute;right:0;top:calc(100% + 6px);"
-            "z-index:50;width:max-content;max-width:24rem;white-space:normal;background:var(--surface-2);"
-            "color:var(--fg);border:1px solid var(--gold);border-radius:8px;padding:.5rem .7rem;font-size:.78rem;"
-            "line-height:1.4;box-shadow:0 8px 24px #0008;pointer-events:none}</style>")
-    updbtn = ('<button class="hbtn" id="upd" data-tip="Pone la fecha de hoy, marca las filas con más de 3 meses para revisar, '
-              'añade una línea al historial con la versión actual y un hueco para el dato real de consumo, y refresca esta página. '
-              'No se inventa ningún número.">Actualizar</button>')
+            "header{position:relative}"
+            ".tipw{position:relative}"
+            ".tipw:hover .tipb{display:block}"
+            ".tipb{display:none;position:absolute;right:0;top:calc(100% + 8px);z-index:50;width:22rem;"
+            "background:var(--surface-2);color:var(--fg);border:1px solid var(--gold);border-radius:8px;"
+            "padding:.55rem .75rem;font-size:.78rem;line-height:1.45;box-shadow:0 8px 24px #0008;font-weight:400}"
+            "</style>")
+    updbtn = ('<span class="tipw"><button class="hbtn" id="upd">Actualizar</button>'
+              '<span class="tipb">Pone la fecha de hoy, marca las filas con más de 3 meses para revisar, '
+              'añade una línea al historial con la versión actual y un hueco para el dato real de consumo, '
+              'y refresca esta página. No se inventa ningún número.</span></span>')
     script = ("<script>document.getElementById('upd').onclick=async()=>{"
               "try{const r=await fetch('http://localhost:8765/cost-update',{method:'POST',"
               "headers:{'content-type':'application/json'},body:'{}'});"

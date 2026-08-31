@@ -12,7 +12,9 @@ gate (advance.py) -> regenerate the dashboard. No copy-paste, no chat.
 Started by Exodo-Dashboard.bat, or by Claude in the background, or by you
 in its own terminal (survives across sessions).
 """
+import html as _h
 import json
+import re
 import subprocess
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -90,11 +92,13 @@ class H(BaseHTTPRequestHandler):
     def _view(self, epid, fname):
         import dash
         ep = P.ep_path(epid)
-        # allow the episode folder, plus repo-level files like ideas/idea-pool.md
         target = (ep / fname) if not fname.startswith(("ideas/", "brain/")) else (P.ROOT / fname)
         target = target.resolve()
         if P.ROOT not in target.parents or not target.is_file():
-            return self._send(404, json.dumps({"error": "no file", "f": fname}))
+            f, ei = _h.escape(fname), _h.escape(epid)
+            inner = (f"<p>El fichero <code>{f}</code> aún no existe para <b>{ei}</b> — "
+                     "ese stage todavía no se ha generado. Vuelve cuando el episodio llegue ahí.</p>")
+            return self._send(200, dash.view_page(f"{ei} · {f}", inner), MIME[".html"])
         md = target.read_text(encoding="utf-8")
         P.ensure_assets(epid)
         assets_url = f"/episodes/{ep.name}/assets/"
@@ -145,6 +149,33 @@ class H(BaseHTTPRequestHandler):
 
         if path == "/cost-update":
             return self._send(200, json.dumps({"ok": True, "msg": _run(["cost_update.py"])}))
+
+        if path == "/ideas-new":
+            n = int(data.get("n", 3))
+            P.enqueue("POOL", 0, "ideas",
+                      note=f"Añade {n} ideas nuevas a ideas/idea-pool.md — alterna T01/T02, 3 hook-titles "
+                           f"estilo Dieck cada una, /21 estimada. No crees carpetas ni avances stages. "
+                           f"Reglas: brain/12, brain/13, ideas/idea-rubric.md")
+            _run(["dash.py"])
+            return self._send(200, json.dumps({"ok": True, "reload": False,
+                              "msg": f"{n} ideas en cola — el /loop o Claude las escribe en el pool"}))
+
+        if path == "/ideas":
+            pool = P.ROOT / "ideas" / "idea-pool.md"
+            approved, t = [], (pool.read_text(encoding="utf-8") if pool.exists() else "")
+            for iid, x in (data.get("verdicts") or {}).items():
+                v = x.get("v")
+                if v == "aprobar":
+                    approved.append(iid)
+                elif v in ("descartar", "incubar"):
+                    new = "descartada" if v == "descartar" else "incubando"
+                    t = re.sub(rf"(\|\s*{re.escape(iid)}\s*\|(?:[^|\n]*\|){{5}})\s*[^|\n]*(\|)",
+                               rf"\1 {new} \2", t, count=1)
+            if pool.exists():
+                pool.write_text(t, encoding="utf-8")
+            _run(["idea_review.py"]); _run(["dash.py"])
+            tail = (f" · aprobadas (crea episodio): {', '.join(approved)}" if approved else "")
+            return self._send(200, json.dumps({"ok": True, "msg": "Pool actualizado" + tail}))
 
         self._send(404, json.dumps({"error": "unknown endpoint", "path": path}))
 

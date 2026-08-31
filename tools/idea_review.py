@@ -98,8 +98,10 @@ def build(ideas):
     body = (
         '<section><h2>Pool de ideas — revisión editorial '
         f'<span>({total})</span></h2>'
-        '<p class="hint">Por idea: elige el hook-title más fuerte, pon veredicto, tu /21, y comenta. '
-        '«Exportar» → Claude lo pliega en <code>idea-pool.md</code> (estado, hook elegido, tu nota).</p>'
+        '<p class="hint">Por idea: elige el hook-title más fuerte, pon veredicto (aprobar / incubar / descartar), tu /21, y comenta. '
+        '<b>«Aplicar cambios»</b> escribe los estados en <code>idea-pool.md</code> al momento — descartar e incubar se aplican solos; '
+        'las «aprobar» quedan listadas para crear su episodio. <b>«＋ Generar 3 ideas»</b> pone a Claude a añadir ideas nuevas al pool, '
+        'sin avanzar de stage.</p>'
         '<div class="grid">' + "\n".join(cards) + '</div></section>')
     script = f"""
 const LS="exodo-ideareview";
@@ -131,22 +133,37 @@ cards.forEach(c=>{{
   c.querySelectorAll('input,textarea').forEach(x=>x.addEventListener('input',sync));
 }});
 sync();
-document.getElementById('exp').onclick=()=>{{
+async function srv(path,body,ok){{
+  try{{const r=await fetch(DASH+path,{{method:'POST',headers:{{'content-type':'application/json'}},
+    body:JSON.stringify(body)}});
+    if(r.ok){{const j=await r.json();alert((j.msg||ok)); if(j.reload!==false)location.reload(); return true;}}
+    alert('server '+r.status);}}catch(e){{return false;}}
+}}
+document.getElementById('exp').onclick=async()=>{{
   const o=state();
+  const verdicts={{}};
   const L=['# {REVIEW_TXT} — generado por idea-review.html',
            '# id  veredicto  /21|-  hook:N|-  nota: <texto>'];
   Object.entries(o).forEach(([id,x])=>{{
     if(x.v==='igual'&&!x.c&&!x.hk&&!x.s)return;
+    verdicts[id]={{v:x.v,hook:x.hk,score:x.s,c:x.c}};
     L.push([id, x.v, x.s||'-', x.hk?('hook:'+x.hk):'-', x.c?('nota: '+x.c.replace(/\\s+/g,' ')):''].join('  ').trim());
   }});
-  saveTxt('{REVIEW_TXT}', L.join('\\n')+'\\n',
-    'Guardado en ideas/. Pásaselo a Claude para actualizar idea-pool.md.');
+  const txt=L.join('\\n')+'\\n';
+  if(await srv('/ideas',{{verdicts,txt}},'Pool actualizado.'))return;
+  saveTxt('{REVIEW_TXT}', txt, 'Guardado en ideas/ (server no detectado). Pásaselo a Claude.');
 }};
+const nb=document.getElementById('newideas');
+if(nb)nb.onclick=()=>srv('/ideas-new',{{n:3}},'3 ideas en cola.');
 document.getElementById('clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
 """
     header = ('<h1>Pool de ideas · revisión editorial</h1><span class="count"></span>'
-              f'<button class="primary" id="exp">Exportar {REVIEW_TXT}</button>'
-              '<button id="clr">Limpiar</button>')
+              f'<button class="primary" id="exp">Aplicar cambios</button>'
+              '<button id="newideas">＋ Generar 3 ideas</button>'
+              '<button id="clr">Limpiar</button>'
+              '<a class="btn" href="http://localhost:8765/" style="margin-left:auto;padding:.5rem 1rem;'
+              'border:1px solid var(--line);border-radius:9px;background:var(--surface-2);color:var(--fg);'
+              'text-decoration:none">← dashboard</a>')
     return page(f"Revisión de ideas", header, body, script)
 
 
