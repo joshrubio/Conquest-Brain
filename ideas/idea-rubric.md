@@ -7,8 +7,8 @@
 | # | Requisito | Ref |
 |---|-----------|-----|
 | R1 | **Track asignado** — T01 Historias Inspiradoras o T02 Exploración | `tracks.md` |
-| R2 | **Hook-title** redactado (estilo Farid Dieck) | `docs/13-hook-naming.md` |
-| R3 | **Cross-check de contenido disponible** completo — hay material de dominio público (o plan de gráficos propios) para sostener el episodio | `docs/12-available-material-protocol.md` |
+| R2 | **Hook-title** redactado (estilo Farid Dieck) | `brain/13-hook-naming.md` |
+| R3 | **Cross-check de contenido disponible** completo — hay material de dominio público (o plan de gráficos propios) para sostener el episodio | `brain/12-available-material-protocol.md` |
 
 ## Filtros eliminatorios (todos deben ser SÍ)
 
@@ -17,7 +17,7 @@
 | E1 | El sujeto es una **figura pública**, un **caso histórico** o una **empresa/práctica** (no una persona privada). | |
 | E2 | Existe un **registro público documentado** (no solo rumores). | |
 | E3 | Hay al menos **3 fuentes Tier A/B** localizables antes de empezar. | |
-| E4 | **Nadie** que Carmen o Josh conozcan personalmente está involucrado o es identificable — ni anonimizado. | |
+| E4 | **Nadie** que Usuario 001 o Usuario 002 conozcan personalmente está involucrado o es identificable — ni anonimizado. | |
 | E5 | La idea **no** procede de un tip privado ni de una conversación off-record (o se re-obtuvo íntegra desde material público). | |
 | E6 | La historia **se sostiene sola**, sin necesidad del cierre. | |
 | E7 | Se puede contar **sin torcer hechos** para que encaje una moraleja. | |
@@ -33,7 +33,7 @@
 | P2 | Fuerza narrativa (arco, giro, desenlace) | plana | débil | buena | excelente | |
 | P3 | Calidad y accesibilidad de las fuentes | frágil | mixta | sólida | Tier A abundante | |
 | P4 | Ángulo psicológico / humano genuino | forzado | genérico | claro | revelador | |
-| P5 | Cierre (forma A/B/C, `docs/09`) honesto y con fuerza | inexistente | forzado | razonable | potente y fiel al caso | |
+| P5 | Cierre (forma A/B/C, `brain/09`) honesto y con fuerza | inexistente | forzado | razonable | potente y fiel al caso | |
 | P6 | Relevancia para los públicos del canal | nula | tangencial | clara | alta | |
 | P7 | Material de dominio público disponible | casi nada → todo gráfico propio | escaso | suficiente | abundante (fotos + docs + footage) | |
 

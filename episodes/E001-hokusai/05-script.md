@@ -1,14 +1,14 @@
 # Guion — E001 «Hokusai» (v1)
 
-> Stage 4. Estructura v1: cold open → pivote a contexto → narrativa (con explicadores + foreshadowing) → cierre forma A → CTA. Ver `docs/02`, `docs/08`, `docs/09`, `docs/13`.
+> Stage 4. Estructura v1: cold open → pivote a contexto → narrativa (con explicadores + foreshadowing) → cierre forma A → CTA. Ver `brain/02`, `brain/08`, `brain/09`, `brain/13`.
 > Cada afirmación factual lleva `[S..]` → `03-source-log.csv`. Traducciones de Hokusai: **propias**.
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E001 |
 | Versión | v1.2 (hallazgos de la búsqueda de recursos) |
-| Guionista | Josh |
-| Narrador | Carmen |
+| Guionista | Usuario 001 |
+| Narrador | Usuario 002 |
 | Forma del cierre | **A — reflexión + para llevar** |
 | Recuento de palabras | ~2.950 |
 | Duración estimada | ~18–19 min |
@@ -28,7 +28,7 @@ Un pintor de verdad. A los ochenta y ocho, después de toda una vida.
 
 Para entender esa frase hay que ver la vida entera.
 
-[HOOK VISUAL]  4 planos, corte seco al ritmo de la voz (`docs/02 §0`). Vídeo stock preferido salvo la ola.
+[HOOK VISUAL]  4 planos, corte seco al ritmo de la voz (`brain/02 §0`). Vídeo stock preferido salvo la ola.
 - v1 (~3 s) — interior humilde de Edo en penumbra, luz de amanecer por una shoji; sin cara. `E001_ai01_deathbed-room` (IA, rótulo) — o vídeo stock de una habitación de tatami con vela.
 - v2 (~3 s) — vídeo stock: manos ancianas soltando un pincel de caligrafía / tinta sobre papel de arroz (beat BR3).
 - v3 (~4 s) — «La gran ola frente a Kanagawa», detalle: la garra de espuma sobre las barcas [S09]. Corte seco, sin empuje.
@@ -42,7 +42,7 @@ Para entender esa frase hay que ver la vida entera.
 
 [EN PANTALLA] Negro. Aparece la marca **`Exodo`** (esquina o centro, discreta).
 
-[NARRACIÓN]  (Carmen) Soy Carmen.
+[NARRACIÓN]  (Usuario 002) Soy [nombre].
 
 [NOTA] 3–5 s. Un tono grave bajo, o silencio. Sin animación de logo. El pivote a contexto entra en el plano siguiente.
 
@@ -176,7 +176,7 @@ La primera pregunta tiene solo dos respuestas, y las dos terminan mal. O no has 
 
 La segunda pregunta no se agota nunca. Siempre puedes acercarte un poco más. La psicología de la motivación lleva décadas distinguiendo dos formas de encarar cualquier tarea: perseguir **demostrar** lo que ya vales, o perseguir **aprender**, sin un punto final [S15]. Y si nos guiamos por lo que Hokusai dejó escrito, él se medía con la segunda. Puso la meta —«ser un pintor de verdad»— tan lejos que sabía que no iba a alcanzarla. Y eso, en vez de hundirlo, fue lo que lo mantuvo delante del papel a los ochenta y ocho, después de los incendios y las deudas.
 
-[NOTA] Marco interpretativo obligatorio ("si nos guiamos por lo que dejó escrito"). El concepto se nombra en general; `[S15]` marca la literatura (Nicholls; Dweck), no un estudio único del caso (`docs/09` A6).
+[NOTA] Marco interpretativo obligatorio ("si nos guiamos por lo que dejó escrito"). El concepto se nombra en general; `[S15]` marca la literatura (Nicholls; Dweck), no un estudio único del caso (`brain/09` A6).
 
 [EN PANTALLA] Recuperar la línea de tiempo de nombres; luego «La gran ola» otra vez, completa.
 
@@ -251,7 +251,7 @@ Si estas historias te sirven, suscríbete — así no te pierdes el próximo epi
 - [x] Sin película dramatizada ni fuente secundaria débil como base
 - [x] Cifras dudosas (~30 nombres, ~93 mudanzas) atribuidas y con rótulo de salvedad
 - [x] Citas de Hokusai y nombres traducidos marcados como traducción propia
-- [ ] Español neutro-internacional; leído en voz alta sin tropiezos — pendiente Carmen
+- [ ] Español neutro-internacional; leído en voz alta sin tropiezos — pendiente Usuario 002
 
 ### Correcciones de Layer 2 aplicadas (v1 → v1.1)
 
@@ -270,7 +270,7 @@ Si estas historias te sirven, suscríbete — así no te pierdes el próximo epi
 - [x] S09 ampliada (datación Met/AIC, 46 láminas); S19 (*La Mer* prácticamente cerrada)
 - [x] Enfoque para "mostrar a Hokusai" documentado en `material-search.md`
 
-### Pendiente Stage 5 (Layer 3 — Carmen, contra fuente real)
+### Pendiente Stage 5 (Layer 3 — Usuario 002, contra fuente real)
 
 - Cerrar S15 (DOI/ISBN), S19 (cada ejemplo por separado), S20 (fuente de población de Edo)
 - Verificar: fecha de ruptura con Katsukawa (1793), año del incendio (~1839), parentesco exacto del nieto, datación de "La gran ola" con 2ª fuente (Art Institute of Chicago), versiones de la frase del lecho de muerte, dimensiones/fecha exacta del Daruma de 1817, edición de la portada de *La Mer* (Durand 1905)

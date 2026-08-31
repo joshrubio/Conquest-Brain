@@ -1,6 +1,6 @@
 # Edición — E0XX «<título>»
 
-> Stage 9. Protocolo: `docs/16-edit-and-delivery.md`. **Solo lo que está en docs/16.**
+> Stage 9. Protocolo: `brain/16-edit-and-delivery.md`. **Solo lo que está en brain/16.**
 > Depende de: `05-script.md` (bloqueado) · `06-shotlist.md` · `07-selection.md` · `brand/assets/music/`.
 > Superficie de revisión: `07c-edit.html` (genera `tools/edit_review.py`).
 
@@ -8,7 +8,7 @@
 |-------|-------|
 | ID episodio | E0XX |
 | Versión de guion | v__ |
-| Responsable | Josh |
+| Responsable | Usuario 001 |
 | Resolución de salida | **4K (3840×2160)**; si una fuente no llega, ese plano baja, el timeline sigue en 4K |
 | fps | (24 / 30) |
 | Fecha | AAAA-MM-DD |
@@ -78,9 +78,9 @@ python tools/edit_review.py E0XX-slug            # -> 07c-edit.html
 ## Texto en pantalla
 
 - [ ] **Sin source cards.** Toda cita → `09-description.md` «Fuentes principales» + comentario fijado
-- [ ] En pantalla solo: dispositivo de expediente (`EXPEDIENTE: CASO 00XX`, Courier Prime — `docs/03`) · tarjetas de capítulo (Playfair) · rótulo IA/recreación
+- [ ] En pantalla solo: dispositivo de expediente (`EXPEDIENTE: CASO 00XX`, Courier Prime — `brain/03`) · tarjetas de capítulo (Playfair) · rótulo IA/recreación
 - [ ] IA / recreación / colorizado: rótulo en **cada** aparición (`Ilustración — Exodo` / `Recreación`)
-- [ ] Grade de casa aplicado a todo el timeline (oscuro/cálido/desaturado + grano + viñeta — `docs/03`)
+- [ ] Grade de casa aplicado a todo el timeline (oscuro/cálido/desaturado + grano + viñeta — `brain/03`)
 
 ## Export
 
@@ -90,18 +90,18 @@ python tools/edit_review.py E0XX-slug            # -> 07c-edit.html
 
 ## Revisión final
 
-- [ ] Josh: b-roll + música ensamblados → **picture lock**
-- [ ] Carmen: ve el corte entero contra `05-script.md` + `docs/04` (rótulos, claims, dignidad)
-- [ ] Carmen firma el picture lock: __________  fecha: ______
+- [ ] Usuario 001: b-roll + música ensamblados → **picture lock**
+- [ ] Usuario 002: ve el corte entero contra `05-script.md` + `brain/04` (rótulos, claims, dignidad)
+- [ ] Usuario 002 firma el picture lock: __________  fecha: ______
 - [ ] Sonido + `.srt` finalizados → Stage 10
 
 ## Gate Stage 9
 
 - [ ] Cada clip KB y cada toma trimmeada **APROBADO** en `07c-review.txt`
-- [ ] Solo los movimientos de `docs/16`; grade de casa aplicado; sin source cards; sin letterbox salvo que un clip lo fuerce
+- [ ] Solo los movimientos de `brain/16`; grade de casa aplicado; sin source cards; sin letterbox salvo que un clip lo fuerce
 - [ ] Todo beat con su asset; cold open 2–5 planos + bumper en negro
 - [ ] Ken Burns coherente con orientación; `[PLANT]`/`[PAY]` idénticos
 - [ ] Un lecho de música, ducked; sin música en el bumper; licencias anotadas
 - [ ] IA/recreación rotulado en cada aparición
 - [ ] `.srt` corregido contra el guion
-- [ ] −14 LUFS; 4K (o mejor común); picture lock firmado por Carmen
+- [ ] −14 LUFS; 4K (o mejor común); picture lock firmado por Usuario 002

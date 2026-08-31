@@ -1,14 +1,14 @@
 # Manifiesto de recursos — E0XX «<título>»
 
 > **Stage 7.** Resuelve cada beat archivístico del shotlist a **una imagen concreta**, con enlace directo, y registra el **pase de estilo** (¿encaja con la estética del vídeo?). Los beats de gráfico propio no van aquí — van al brief de diseño.
-> Depende de: `06-shotlist.md` (los beats) · `docs/03` §Visual identity (grade, paleta, tipografía) · `material-search.md` (qué existe).
+> Depende de: `06-shotlist.md` (los beats) · `brain/03` §Visual identity (grade, paleta, tipografía) · `material-search.md` (qué existe).
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E0XX |
-| Responsable | Josh |
-| Look de referencia | (grade / grano / letterbox / tratamiento de la serie — de `docs/03`) |
-| Salida del canal | 4K (3840×2160) — `docs/03` |
+| Responsable | Usuario 001 |
+| Look de referencia | (grade / grano / letterbox / tratamiento de la serie — de `brain/03`) |
+| Salida del canal | 4K (3840×2160) — `brain/03` |
 | Fecha | AAAA-MM-DD |
 
 ## Estándar de resolución
@@ -36,7 +36,7 @@ Si una imagen no llega, la opción es: usarla más pequeña (inserto), cortar un
 **`07-style-pass.html` es el artefacto central del Stage 7.** Todo se decide ahí.
 
 1. **Pull** — `07-pull.tsv` (beat · kind `stock|stock-img|video|intro|archive` · source · query · opts) + `build_ai_prompts.py` antes → `python tools/pull_assets.py E0XX-slug` → `07-style-pass.md` (registro) + `.html` (la superficie: intro arriba, candidatos por beat a la izquierda, prompts IA a la derecha).
-2. **Pase** (Josh) — intro (hasta 5 propios + sugeridos + checkbox «intro» en cards) · candidatos por beat con los criterios de abajo · rutas de imágenes IA en la columna derecha. **Exportar 07-picks.txt** → `python tools/pull_assets.py E0XX-slug --download` baja todo a `assets/{intro,stock,video,archive,ai}/`, verifica resolución, escribe `assets/CREDITS.md` + **`07-selection.md`**.
+2. **Pase** (Usuario 001) — intro (hasta 5 propios + sugeridos + checkbox «intro» en cards) · candidatos por beat con los criterios de abajo · rutas de imágenes IA en la columna derecha. **Exportar 07-picks.txt** → `python tools/pull_assets.py E0XX-slug --download` baja todo a `assets/{intro,stock,video,archive,ai}/`, verifica resolución, escribe `assets/CREDITS.md` + **`07-selection.md`**.
 3. **Manifiesto** — plegar `07-selection.md` aquí; una fila por asset **aceptado** (intro / beat / IA), con Uso y Pase.
 
 ## Criterios del pase de estilo
@@ -83,4 +83,4 @@ Marca cada candidato:
 - [ ] Coherencia de color/estado revisada por tramos, no solo por imagen
 - [ ] Créditos de cortesía anotados para el bloque de descripción (`09-description.md`)
 - [ ] Descargas hechas a `assets/` con nombres consistentes
-- [ ] `docs/03` §Visual identity (grade, tipografía, dispositivo de expediente) — ya cerrado
+- [ ] `brain/03` §Visual identity (grade, tipografía, dispositivo de expediente) — ya cerrado

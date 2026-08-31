@@ -17,7 +17,7 @@ git push          # main already tracks origin/main
 
 ## What is and isn't versioned
 
-**Versioned (text):** all `docs/`, `templates/`, `ideas/`, `episodes/**/*.md` and `*.csv`, `research/**/*.md`, `README`, `.gitignore`.
+**Versioned (text):** all `brain/`, `templates/`, `ideas/`, `episodes/**/*.md` and `*.csv`, `research/**/*.md`, `README`, `.gitignore`.
 
 **Not versioned (see `.gitignore`):**
 - Media and heavy binaries (`.mp4`, `.wav`, `.psd`, project files, …).
@@ -29,7 +29,7 @@ Large media lives outside git (shared drive / cloud). Reference it from the epis
 ## Branching
 
 Lightweight:
-- Small edits to `docs/`, `ideas/`, `_STATUS.md` → commit straight to `main`.
+- Small edits to `brain/`, `ideas/`, `_STATUS.md` → commit straight to `main`.
 - A full episode in progress → branch `episode/E0XX-<slug>`, merge to `main` when the episode publishes (or at picture lock). Keeps `main` history readable per episode.
 - Format-spec revisions from a transcript study → branch `research/format-v1`.
 
@@ -51,8 +51,8 @@ status: E004 -> stage 8 (edit)
 
 ## Access
 
-- Carmen + Josh: write access.
-- No third-party collaborators without a separation-policy review (`docs/05-separation-policy.md`) — scripts name real people before publication.
+- Usuario 001 + Usuario 002: write access.
+- No third-party collaborators without a separation-policy review (`brain/05-separation-policy.md`) — scripts name real people before publication.
 
 ## Backups
 

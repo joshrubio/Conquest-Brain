@@ -1,18 +1,18 @@
 # Brief de episodio — E001 «Hokusai»
 
-> Stage 1 del flujo. Ver `docs/06-production-workflow.md`.
+> Stage 1 del flujo. Ver `brain/06-production-workflow.md`.
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E001 |
 | Slug carpeta | E001-hokusai |
 | Fecha del brief | 2026-08-29 |
-| Autor del brief | Carmen |
+| Autor del brief | Usuario 002 |
 | Track | **T01 Historias Inspiradoras** (`ideas/tracks.md`) |
-| Hook-title elegido (`docs/13`) | `Lo perdió TODO tres veces — y pintó "La gran ola" a los 70 \| Hokusai \| Documental` |
-| Guionista | Josh |
-| Narrador asignado | Carmen |
-| Forma del cierre (`docs/09`) | **A — reflexión + para llevar** |
+| Hook-title elegido (`brain/13`) | `Lo perdió TODO tres veces — y pintó "La gran ola" a los 70 \| Hokusai \| Documental` |
+| Guionista | Usuario 001 |
+| Narrador asignado | Usuario 002 |
+| Forma del cierre (`brain/09`) | **A — reflexión + para llevar** |
 | Estado | aprobada → en producción (E001) |
 
 **Otros 2 hook-titles (A/B en Stage 10):** `A los 70 dijo que aún NO sabía dibujar | Hokusai | Documental` · `El artista que cambió de nombre 30 veces buscando ser mejor | Hokusai | Documental`
@@ -25,13 +25,13 @@
 
 ## Elegibilidad (resumen — `ideas/idea-rubric.md`)
 
-- [x] Track asignado (T01) + hook-title redactado (`docs/13`)
-- [x] Cross-check de contenido disponible hecho — ver sección abajo (`docs/12`)
+- [x] Track asignado (T01) + hook-title redactado (`brain/13`)
+- [x] Cross-check de contenido disponible hecho — ver sección abajo (`brain/12`)
 - [x] Registro público documentado (obra conservada, prefacio de 1834, catálogos museísticos, biografías académicas)
 - [x] Fuentes Tier A/B localizadas (listadas en `03-source-log.csv`)
-- [x] Nadie que Carmen o Josh conozcan personalmente involucrado / identificable
+- [x] Nadie que Usuario 001 o Usuario 002 conozcan personalmente involucrado / identificable
 - [x] La historia se sostiene por sí misma (el cierre no es el motivo de elegir el caso)
-- [x] Pasa la política de separación (`docs/05-separation-policy.md`)
+- [x] Pasa la política de separación (`brain/05-separation-policy.md`)
 
 ## Tesis de trabajo
 
@@ -56,7 +56,7 @@ Sujeto **reconocible** ("La gran ola" es una de las imágenes más difundidas de
 | 2 | Timothy Clark (ed.), *Hokusai: Beyond the Great Wave*, British Museum, 2017 | B | catálogo académico de la exposición | cronología, últimos treinta años, atribuciones, contexto |
 | 3 | Gian Carlo Calza, *Hokusai*, Phaidon, 2003 | B | monografía académica | biografía general, nombres, cronología de series |
 
-## Cross-check de contenido disponible (`docs/12`) — resumen
+## Cross-check de contenido disponible (`brain/12`) — resumen
 
 | Necesidad | ¿Hay? | Archivo + ref | Derechos | Si no hay |
 |-----------|-------|---------------|----------|-----------|
@@ -75,7 +75,7 @@ Sujeto **reconocible** ("La gran ola" es una de las imágenes más difundidas de
 - **De fuentes (puntos disputados, huecos):** varias cifras muy repetidas y poco documentadas — **~30 nombres**, **~93 mudanzas**, la anécdota de la expulsión del taller de Shunshō, las palabras exactas del lecho de muerte. Atribuir ("la cifra que suele citarse…", "según la tradición…") y verificar en Stage 5. Traducciones del prefacio y de las citas: **traducción propia**, no copiar una traducción publicada.
 - **De separación:** ninguno.
 - **De tono:** evitar el "genio incomprendido" romántico; Hokusai tuvo éxito comercial en vida (los *Manga* se vendían mucho). El ángulo es la ambición sostenida, no la víctima.
-- **Culturales:** nombres y términos japoneses — glosar en primer uso, pronunciación consistente (`docs/08`).
+- **Culturales:** nombres y términos japoneses — glosar en primer uso, pronunciación consistente (`brain/08`).
 
 ## Estimación
 
@@ -85,5 +85,5 @@ Sujeto **reconocible** ("La gran ola" es una de las imágenes más difundidas de
 
 ## Decisión
 
-- [x] Aprobado para pasar a investigación — Carmen ✔ / Josh ✔ (2026-08-29)
+- [x] Aprobado para pasar a investigación — Usuario 002 ✔ / Usuario 001 ✔ (2026-08-29)
 - [ ] En pausa / descartado — motivo: …

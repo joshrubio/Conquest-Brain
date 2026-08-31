@@ -53,7 +53,7 @@ Runtime spread: 18:35 / 19:50 / 21:06 / 21:31 / 23:13 / 28:52.
 
 ## Transcript status
 
-Transcripts go in `transcripts/` as `T0N-slug.txt`, **local only** (gitignored — third-party copyright). Once present, fill `structure-analysis.md` one block per video, then synthesize into `docs/02`, `docs/08`, `docs/09` and bump them from v0 to v1.
+Transcripts go in `transcripts/` as `T0N-slug.txt`, **local only** (gitignored — third-party copyright). Once present, fill `structure-analysis.md` one block per video, then synthesize into `brain/02`, `brain/08`, `brain/09` and bump them from v0 to v1.
 
 | Tag | File | Transcript in? | Source tool | Words | Timestamps |
 |-----|------|----------------|-------------|-------|------------|
@@ -64,4 +64,4 @@ Transcripts go in `transcripts/` as `T0N-slug.txt`, **local only** (gitignored �
 | T05 | transcripts/T05-mcdonalds.txt | ✅ | NoteGPT | ~4.7k | `[HH:MM:SS]` per block |
 | T06 | transcripts/T06-steve-jobs.txt | ✅ | NoteGPT | ~6.0k | `[HH:MM:SS]` per block |
 
-All 6 normalized 2026-08-27: consistent `T0N-slug.txt` names, standard `#` heading block (tag, title, URL, duration, source tool, format notes, known ASR issues, copyright/local-only), service ad-lines stripped, `--- TRANSCRIPCION ---` marker before body. NoteGPT time ranges collapsed to `[HH:MM:SS]` start anchors. TurboScribe files have **no timestamps** — section mapping for T01–T03 must be done by text proportion + spot-checking the video. All are auto-ASR: **verify any name/number/quote against the video before it enters a script or `docs/` file.**
+All 6 normalized 2026-08-27: consistent `T0N-slug.txt` names, standard `#` heading block (tag, title, URL, duration, source tool, format notes, known ASR issues, copyright/local-only), service ad-lines stripped, `--- TRANSCRIPCION ---` marker before body. NoteGPT time ranges collapsed to `[HH:MM:SS]` start anchors. TurboScribe files have **no timestamps** — section mapping for T01–T03 must be done by text proportion + spot-checking the video. All are auto-ASR: **verify any name/number/quote against the video before it enters a script or `brain/` file.**

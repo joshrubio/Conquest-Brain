@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-find_music.py — pick the channel's background-music beds (Stage 9, docs/16 move 4).
+find_music.py — pick the channel's background-music beds (Stage 9, brain/16 move 4).
 
 Brief: OMINOUS AMBIENT. Atmosphere, not dread, not a mystery stinger.
 Instrumental, low, slow, minimal melody, no vocals, no percussion spikes.

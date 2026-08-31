@@ -45,15 +45,15 @@ For a 20-minute episode that's roughly **150–180 distinct visual beats**. Not 
 - Document — page, headline, filing, ledger — with a zoom to the relevant line.
 - Own-made graphic: chart, timeline, diagram, animated map, counter.
 - Plain text card — a quote, a date, a caveat, a chapter marker.
-- Free stock footage/photo — generic b-roll only (`docs/12`); **preferred in the cold-open visual hook** and anywhere a real moving shot beats hand-animating a still.
-- **No** dramatized-film clips as if they were record; **no** AI/reenactment unless labeled ([docs/04](04-legal-and-ethics.md), [docs/08](08-tone-of-voice.md)).
+- Free stock footage/photo — generic b-roll only (`brain/12`); **preferred in the cold-open visual hook** and anywhere a real moving shot beats hand-animating a still.
+- **No** dramatized-film clips as if they were record; **no** AI/reenactment unless labeled ([brain/04](04-legal-and-ethics.md), [brain/08](08-tone-of-voice.md)).
 
 ### 2.4 Motion & treatment defaults
 
 - Stills: slow Ken Burns (push-in or lateral). Hard cuts between beats; fades only at section breaks.
 - Documents: start wide, push to the cited line.
-- **No source captions on screen** — citations go in the description (`docs/03`, `docs/16`). The case-file device (`EXPEDIENTE: CASO 00XX`) and chapter cards are the only recurring text.
-- Grade/grain/letterbox: the house look from `docs/03` §Visual identity — dark, warm, desaturated, fine grain, subtle vignette; applied uniformly so archival and graphics read as one piece.
+- **No source captions on screen** — citations go in the description (`brain/03`, `brain/16`). The case-file device (`EXPEDIENTE: CASO 00XX`) and chapter cards are the only recurring text.
+- Grade/grain/letterbox: the house look from `brain/03` §Visual identity — dark, warm, desaturated, fine grain, subtle vignette; applied uniformly so archival and graphics read as one piece.
 
 ### 2.5 Rights gate (unchanged from `templates/shotlist-broll.md`)
 
@@ -69,7 +69,7 @@ A script marked this way *is* 80% of the shotlist.
 
 ## 4. Process B — video calibration pass (manual, run ONCE, then per major style change)
 
-Automated browser tools can't do this reliably (§5). Josh runs it by hand on **one** reference video (recommend T05 McDonald's, `research/dieck-docs/candidates.md`). ~20–30 min.
+Automated browser tools can't do this reliably (§5). Usuario 001 runs it by hand on **one** reference video (recommend T05 McDonald's, `research/dieck-docs/candidates.md`). ~20–30 min.
 
 **Protocol:**
 1. Open the reference video. Watch the first **3 minutes** with a stopwatch and a notepad.

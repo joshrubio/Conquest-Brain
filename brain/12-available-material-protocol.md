@@ -29,14 +29,14 @@ An idea is not approved until someone has confirmed, against real archive listin
 **Free stock (generic illustrative b-roll only)** — a modern lab, hands typing, waves, a city at night: **not** the specific real place/event (that's archival). Free/CC0/permissive only, no paid stock:
 - Images: Pexels, Pixabay, Unsplash, Openverse
 - Video: Pexels Videos, Coverr, Mixkit
-- All have free APIs → `tools/pull_assets.py` hits them at Stage 7 (see `docs/06` Stage 7), ~3 candidates/beat, and writes **`07-style-pass.html`** — the central Stage-7 artifact (per-beat candidates + AI prompts + cold-open intro). Keys (Pexels, Pixabay, Unsplash) go in `tools/.env` (gitignored); Openverse / Met / Wikimedia Commons / AIC need no key.
+- All have free APIs → `tools/pull_assets.py` hits them at Stage 7 (see `brain/06` Stage 7), ~3 candidates/beat, and writes **`07-style-pass.html`** — the central Stage-7 artifact (per-beat candidates + AI prompts + cold-open intro). Keys (Pexels, Pixabay, Unsplash) go in `tools/.env` (gitignored); Openverse / Met / Wikimedia Commons / AIC need no key.
 - **Prefer video.** A `stock` beat searches Pexels/Pixabay **video first**; images only fill what video didn't. A usable clip found here is inserted directly in the edit instead of hand-building a b-roll move over a still.
 - Archive sources: **Met**, **Wikimedia Commons** (often higher-res than Met, cleaner artist metadata), **AIC**. Known limits: **Pixabay** free API caps images at ~1280 px (inset only); **AIC** IIIF CDN can block `--download` from some networks (its page + Download button always works). Pexels/Unsplash/Met/Commons deliver full resolution.
 - Stock is illustrative, not evidentiary — use it where a viewer reads it as a cutaway, not as "here is the real thing". If in doubt, a discreet label or an own-graphic is safer.
 - Attribution: Pexels + Unsplash require crediting the platform and the author in `09-description.md`; `--download` logs every pulled item to `assets/CREDITS.md`.
 
 **Audio / music** — a monetised video is **commercial** use + a sync/derivative. Usable: **CC0 / PD**, **CC-BY** (credit required), **CC-BY-SA** (credit + share-alike). **Not** anything with **NC** or **ND**.
-- **YouTube Audio Library** (in Studio) and **Pixabay Music** — free, commercial-cleared, mostly no attribution. Browse-only, no API. Best for the channel's fixed 3–5 beds (`docs/16` move 4).
+- **YouTube Audio Library** (in Studio) and **Pixabay Music** — free, commercial-cleared, mostly no attribution. Browse-only, no API. Best for the channel's fixed 3–5 beds (`brain/16` move 4).
 - Jamendo — per-track CC (many are BY-NC → unusable); `tools/find_music.py` filters to BY / BY-SA / CC0. Its paid "Jamendo Licensing" is **not** needed for CC-BY.
 - Musopen (PD classical) · Free Music Archive / ccMixter — CC, log the exact licence.
 - Every track: exact licence + attribution in `brand/assets/music/LICENSES.md` and the video description.
@@ -79,10 +79,10 @@ Any AI-generated, AI-animated, or colourised visual carries an on-screen label �
 
 ## Sign-off
 
-The idea's track owner (Carmen for T01, Josh for T02) ticks the worksheet. Recorded in the idea-pool row and carried into `01-brief.md`. Re-checked at Stage 2 (research dossier) when the exact beats are known — `06-shotlist.md` then resolves each beat to a specific item.
+The idea's track owner (Usuario 002 for T01, Usuario 001 for T02) ticks the worksheet. Recorded in the idea-pool row and carried into `01-brief.md`. Re-checked at Stage 2 (research dossier) when the exact beats are known — `06-shotlist.md` then resolves each beat to a specific item.
 
 ## Per-episode artifacts
 
 - `material-search.md` — this protocol's output at ideation / Stage 2: does enough PD material exist, what's weak, the video question, how to depict a subject with no photograph, and any fact-check findings the search turned up. **Feasibility, not selection.**
-- `07-assets.md` — **Stage 7**, after fact-check + shotlist. The per-image manifest: a direct download link per archival beat + Josh's **style pass** (resolution / condition / colour / series fit). See [06-production-workflow.md](06-production-workflow.md) Stage 7 and [templates/asset-manifest.md](../templates/asset-manifest.md).
+- `07-assets.md` — **Stage 7**, after fact-check + shotlist. The per-image manifest: a direct download link per archival beat + Usuario 001's **style pass** (resolution / condition / colour / series fit). See [06-production-workflow.md](06-production-workflow.md) Stage 7 and [templates/asset-manifest.md](../templates/asset-manifest.md).
 - `07b-ai-prompts.md` — **Stage 7**, only if the style pass leaves beats with no PD image and no own-graphic. Copy-paste AI-illustration prompts. See [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md).

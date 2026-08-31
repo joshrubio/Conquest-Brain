@@ -5,9 +5,9 @@
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E000 |
-| Verificador (no guionista) | Josh |
-| Guionista | Carmen |
-| Narrador | Josh |
+| Verificador (no guionista) | Usuario 001 |
+| Guionista | Usuario 002 |
+| Narrador | Usuario 001 |
 | Versión de guion revisada | v1 (2026-08-28) |
 | Fecha de verificación | 2026-08-28 |
 
@@ -44,17 +44,17 @@ Veredictos usados: **verificada** · **corregir** (texto/estado) · **marcar com
 - [x] No exige torcer ningún hecho
 - [x] No es un pitch de nada externo
 
-## 5. Pase legal y ético (`docs/04-legal-and-ethics.md`)
+## 5. Pase legal y ético (`brain/04-legal-and-ethics.md`)
 
 - [x] Sujeto elegible (empresa histórica + caso con registro público)
-- [x] Nadie que Carmen o Josh conozcan personalmente involucrado
+- [x] Nadie que Usuario 001 o Usuario 002 conozcan personalmente involucrado
 - [x] Personas mencionadas: fallecidas hace siglos — sin riesgo de difamación
 - [x] Teoría del complot presentada como teoría, con lo documentado separado de lo no documentado
 - [x] Archivo: grabados/retratos de dominio público; gráfico de cotización de elaboración propia
 - [x] Sin letras de canciones; sin pasajes largos verbatim
 - [x] Sin reenactment ni material generado por IA
 
-## 6. Pase de separación (`docs/05-separation-policy.md`)
+## 6. Pase de separación (`brain/05-separation-policy.md`)
 
 - [x] "¿Contable íntegra desde documentación pública por alguien ajeno?" → Sí (caso histórico público)
 - [x] Cero datos/tips/casos del negocio
@@ -64,10 +64,10 @@ Veredictos usados: **verificada** · **corregir** (texto/estado) · **marcar com
 
 | # | Descripción | Responsable | Estado |
 |---|-------------|-------------|--------|
-| 1 | Cerrar C1 (fundación 1711) contra fuente primaria o cambiar atribución | Carmen | abierto |
-| 2 | Añadir 2ª serie de precios para C4 y ajustar el gráfico | Josh | abierto |
-| 3 | Verificar fecha exacta de la "Bubble Act" (C4/claim 4) | Carmen | abierto |
-| 4 | Cerrar referencia exacta de S11 (cascada informacional) | Carmen | abierto |
+| 1 | Cerrar C1 (fundación 1711) contra fuente primaria o cambiar atribución | Usuario 002 | abierto |
+| 2 | Añadir 2ª serie de precios para C4 y ajustar el gráfico | Usuario 001 | abierto |
+| 3 | Verificar fecha exacta de la "Bubble Act" (C4/claim 4) | Usuario 002 | abierto |
+| 4 | Cerrar referencia exacta de S11 (cascada informacional) | Usuario 002 | abierto |
 
 ## Firma
 

@@ -1,16 +1,16 @@
 # Pool de ideas — videos individuales
 
-> Nivel 2. Cada idea pertenece a un **track** (`tracks.md`). Se evalúa con [idea-rubric.md](idea-rubric.md). Se genera aquí desde material público; no importa de ninguna otra planificación (`docs/05-separation-policy.md`).
+> Nivel 2. Cada idea pertenece a un **track** (`tracks.md`). Se evalúa con [idea-rubric.md](idea-rubric.md). Se genera aquí desde material público; no importa de ninguna otra planificación (`brain/05-separation-policy.md`).
 >
-> **Estado de la puntuación:** provisional (ideación). Eliminatorios E1–E5 confirmados para todas (ninguna toca a personas que conozcamos, todas son registro público, todas tienen ≥3 Tier A/B localizables). E6–E8 y el /21 son estimación — se cierran en el brief. Citas y cifras se verifican en Stage 5 (`docs/14`).
+> **Estado de la puntuación:** provisional (ideación). Eliminatorios E1–E5 confirmados para todas (ninguna toca a personas que conozcamos, todas son registro público, todas tienen ≥3 Tier A/B localizables). E6–E8 y el /21 son estimación — se cierran en el brief. Citas y cifras se verifican en Stage 5 (`brain/14`).
 >
-> **Dirección T01:** sujetos **reconocibles** (marcas, productos, nombres que la audiencia ya conoce) con un **ángulo oculto** — "conoces X, pero no conoces ESTO". El multiplicador del hook es el reconocimiento. Varias traen mito pegado (Sanders "1009 rechazos", etc.); el canal lo **desmonta** de camino (`docs/01`, verdad vs. leyenda pulida).
+> **Dirección T01:** sujetos **reconocibles** (marcas, productos, nombres que la audiencia ya conoce) con un **ángulo oculto** — "conoces X, pero no conoces ESTO". El multiplicador del hook es el reconocimiento. Varias traen mito pegado (Sanders "1009 rechazos", etc.); el canal lo **desmonta** de camino (`brain/01`, verdad vs. leyenda pulida).
 
 ## Estados
 
 `nueva` · `incubando` · `aprobada` · `en producción (E0XX)` · `publicada (E0XX)` · `descartada`
 
-## Tabla resumen — T01 Historias Inspiradoras (owner: Carmen)
+## Tabla resumen — T01 Historias Inspiradoras (owner: Usuario 002)
 
 | # | Título de trabajo | Ángulo oculto | Cierre | Material PD | /21 (est.) | Estado |
 |---|-------------------|---------------|--------|-------------|------------|--------|
@@ -32,7 +32,7 @@
 
 **Cola T01 (material flojo):** Tetris (URSS lo inventa, guerra de derechos), Marvel (quiebra 1996, hipoteca de personajes para Iron Man).
 
-## Tabla resumen — T02 Exploración (owner: Josh)
+## Tabla resumen — T02 Exploración (owner: Usuario 001)
 
 | # | Título de trabajo | Sujeto / época | Cierre | Material PD | /21 (est.) | Estado |
 |---|-------------------|----------------|--------|-------------|------------|--------|
@@ -55,7 +55,7 @@
 
 ## Detalle — T01
 
-Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Protocolo 1, `docs/12`) · **ángulo/cierre** · **notas**.
+Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Protocolo 1, `brain/12`) · **ángulo/cierre** · **notas**.
 
 ### T01-01 · Coca-Cola
 - `La CocaCola nació para curar una ADICCIÓN | Documental`
@@ -63,7 +63,7 @@ Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Pr
 - `¿Qué había REALMENTE en la primera CocaCola? | Documental`
 - **Material:** alto — John Pemberton, Atlanta 1880s; anuncios y prensa de época (PD), Library of Congress, Wikimedia. Nada de branding moderno de la empresa.
 - **Cierre A.** El remedio de un hombre desesperado se vuelve el producto más reconocible del planeta; qué se borró de esa historia (la cocaína, Pemberton muriendo pobre, Asa Candler quedándose la marca).
-- **Notas:** separar el mito de marketing de lo documentado. Tratamiento sobrio con el tema de la adicción (`docs/04`).
+- **Notas:** separar el mito de marketing de lo documentado. Tratamiento sobrio con el tema de la adicción (`brain/04`).
 
 ### T01-02 · Nintendo
 - `La empresa que FRACASÓ en todo durante 80 años | Nintendo | Documental`
@@ -129,7 +129,7 @@ Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Pr
 - `"Solo lo mejor es suficiente" | Cómo una familia arruinada construyó LEGO | Documental`
 - **Material:** medio-bajo — archivo corporativo propietario; poca foto PD de Billund. Depende de gráficos propios. Cross-check real antes de aprobar.
 - **Cierre A.** Obsesión por la calidad en la Depresión + la casi quiebra de 2003–04 y el giro.
-- **Notas:** riesgo de hagiografía — contrastar con fuentes independientes, no solo la versión de la empresa (`docs/01`).
+- **Notas:** riesgo de hagiografía — contrastar con fuentes independientes, no solo la versión de la empresa (`brain/01`).
 
 ### T01-11 · Stanislav Petrov  *(incubando — material)*
 - `El hombre que evitó la GUERRA NUCLEAR — y al que castigaron | Stanislav Petrov | Documental`
@@ -206,7 +206,7 @@ Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Pr
 - `La FUNCIONARIA que dijo NO y salvó a un país | Talidomida y Frances Kelsey | Documental`
 - `¿CÓMO se aprobó? | La VERDADERA HISTORIA de la talidomida | Documental`
 - **Material:** medio — Frances Kelsey (funcionaria de EE.UU. → fotos PD), documentos de la FDA (PD); prensa internacional 1961–62 mixta.
-- **Cierre A/B.** El sistema que falló (marketing agresivo, pruebas insuficientes) y la persona que puso el freno. Sobrio; nota de recursos si aplica (`docs/04`).
+- **Cierre A/B.** El sistema que falló (marketing agresivo, pruebas insuficientes) y la persona que puso el freno. Sobrio; nota de recursos si aplica (`brain/04`).
 
 ### T02-06 · El gran engaño lunar de 1835
 - `El día que un PERIÓDICO dijo que había HOMBRES-MURCIÉLAGO en la Luna — y le creyeron | 1835 | Documental`

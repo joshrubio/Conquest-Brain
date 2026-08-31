@@ -1,8 +1,8 @@
 # 16 — Edit & Delivery (Stage 9)
 
-Deliberately minimal. **If an effect isn't in this doc, it doesn't go in the episode.** No lower-thirds system, no source cards, no transitions beyond a hard cut and a section fade. One house grade (`docs/03`), applied whole. The rigor is in the script and the sourcing, not in the motion graphics.
+Deliberately minimal. **If an effect isn't in this doc, it doesn't go in the episode.** No lower-thirds system, no source cards, no transitions beyond a hard cut and a section fade. One house grade (`brain/03`), applied whole. The rigor is in the script and the sourcing, not in the motion graphics.
 
-Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`) · `07c-edit.html` (review surface, generated) · `07c-review.txt` (Josh's approvals + feedback).
+Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`) · `07c-edit.html` (review surface, generated) · `07c-review.txt` (Usuario 001's approvals + feedback).
 
 ## The run
 
@@ -10,7 +10,7 @@ Stage 7 assets are chosen; Stage 8 footage is in. Then:
 
 1. **Ken Burns clips** — `tools/kenburns.py --all` turns the Stage 7 stills (+ AI images) into moving clips → `assets/kb/`.
 2. **Trim** — `tools/trim_talk.py` cuts silences + fillers from each Stage 8 take → `<take>.trimmed.mp4`.
-3. **Review** — `tools/edit_review.py` builds **`07c-edit.html`**: every KB clip and every trimmed take with a `<video>` preview, an *aprobado* checkbox and a feedback box. Josh approves each or writes what to fix; **Exportar 07c-review.txt** → Claude re-runs the tool per the feedback → regenerate the page → repeat until **all approved**.
+3. **Review** — `tools/edit_review.py` builds **`07c-edit.html`**: every KB clip and every trimmed take with a `<video>` preview, an *aprobado* checkbox and a feedback box. Usuario 001 approves each or writes what to fix; **Exportar 07c-review.txt** → Claude re-runs the tool per the feedback → regenerate the page → repeat until **all approved**.
 4. **B-roll assembly** — only once step 3 is all-green. Lay each beat's asset on the VO timeline per `06-shotlist.md` + `07-selection.md`. Cold open = `assets/intro/` clips + bumper.
 5. **Background music** — one ominous-ambient bed under the whole thing, ducked under the VO.
 6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
@@ -39,7 +39,7 @@ Stills only (video already moves). The move is chosen from the image's **real as
 | small — long side < the 4K frame | **static**, centred on a dark card, no move | not enough pixels to move at 4K |
 
 - `python tools/kenburns.py E0XX-slug --all` → every still in `assets/{archive,stock,ai}/` named `beatNN_*` → `assets/kb/beatNN_<slug>.mp4` at 4K.
-- Duration defaults to 5 s; per-clip `--dur` / `--move` / `--dir` overrides come from Josh's review feedback.
+- Duration defaults to 5 s; per-clip `--dur` / `--move` / `--dir` overrides come from Usuario 001's review feedback.
 - `[PLANT]` / `[PAY]`: identical move both times.
 
 ## 2. Trim — `tools/trim_talk.py`
@@ -63,7 +63,7 @@ Stills only (video already moves). The move is chosen from the image's **real as
 
 - `06-shotlist.md` marks which beats are archival / stock / AI; `07-selection.md` names the file (a KB clip for stills, the stock/intro clip for video). Lay each on its beat, over the VO.
 - **Video clips:** cut to length. No speed ramp, no filter, no zoom. Loop only if the clip is shorter than the beat *and* the loop point is invisible.
-- **Cold open (§0):** 2–5 clips from `assets/intro/` in numbered order, hard-cut on the narration beat (`docs/02` §0). Last shot holds ½ s → cut to black.
+- **Cold open (§0):** 2–5 clips from `assets/intro/` in numbered order, hard-cut on the narration beat (`brain/02` §0). Last shot holds ½ s → cut to black.
 - **Bumper (§0b):** 3–6 s black + `Exodo` wordmark + presenter line. No music.
 - Reused beats (`[PLANT]` / `[PAY]`): the **same** clip/frame both times.
 
@@ -82,24 +82,24 @@ A track only works for us if its licence allows **commercial use** *and* using i
 
 - `find_music.py` queries **Jamendo** (free `JAMENDO_CLIENT_ID` in `tools/.env`; no key → Openverse fallback), keeping only BY / BY-SA / CC0. `python tools/find_music.py "dark ambient drone cinematic"` **appends** to `brand/assets/music/candidates.md` (an accumulating pool — run several queries).
 - The pool then shows as the **Music section at the bottom of `07-style-pass.html`** — audition inline, tick what to keep. Early on, keep them all; the channel settles on 3–5. `--download` (or `find_music.py --get <id> ...`) pulls the ticked tracks → `brand/assets/music/` + `LICENSES.md` (exact licence + required attribution per track).
-- **Per episode:** one bed under the whole piece, sitting ~20–24 dB under the VO peak; duck −4 to −6 dB under speech. A second, slightly warmer track may enter at the close (M3, `docs/02` §3). **No music in the bumper.**
-- The same 3–5 tracks every episode until a retro (`docs/06` Stage 12) says to refresh them.
+- **Per episode:** one bed under the whole piece, sitting ~20–24 dB under the VO peak; duck −4 to −6 dB under speech. A second, slightly warmer track may enter at the close (M3, `brain/02` §3). **No music in the bumper.**
+- The same 3–5 tracks every episode until a retro (`brain/06` Stage 12) says to refresh them.
 
 ## 6. Subtitles
 
 - `.srt` generated from the **trimmed VO** (whisper on the trimmed file, or `trim_talk.py`'s transcript re-timed to the trimmed timeline), then **hand-corrected against `05-script.md`** — every number, name, and `[S..]`-backed claim must read exactly as written.
-- 1–2 lines, ≤ 42 characters/line, minimum 1 s on screen. Spanish, `.srt`. Non-negotiable every episode (`docs/07` §Subtitles).
+- 1–2 lines, ≤ 42 characters/line, minimum 1 s on screen. Spanish, `.srt`. Non-negotiable every episode (`brain/07` §Subtitles).
 
 ---
 
 ## On-screen text — minimal
 
 - **No source cards.** Every citation lives in `09-description.md` «Fuentes principales» + the pinned comment. Nothing on screen says "fuente: …".
-- On screen only: the **case-file device** (`EXPEDIENTE: CASO 00XX …`, Courier Prime — `docs/03`), **chapter / section cards** (Playfair), and the **AI / reenactment label** — `Ilustración — Exodo` or `Recreación`, permanent, every appearance (`docs/15`, `docs/04` §8).
+- On screen only: the **case-file device** (`EXPEDIENTE: CASO 00XX …`, Courier Prime — `brain/03`), **chapter / section cards** (Playfair), and the **AI / reenactment label** — `Ilustración — Exodo` or `Recreación`, permanent, every appearance (`brain/15`, `brain/04` §8).
 
-## Look / grade — from `docs/03` §Visual identity
+## Look / grade — from `brain/03` §Visual identity
 
-Apply the house grade to the whole timeline: **dark, warm, desaturated ~15–20%**, blacks lifted slightly warm; fine constant **film grain** at low opacity; subtle **spotlight vignette**. Documents on an aged-paper / newspaper underlay. Palette and typography per `docs/03`. No letterbox unless a source clip forces it (pad to frame on `#100D09`, never stretch).
+Apply the house grade to the whole timeline: **dark, warm, desaturated ~15–20%**, blacks lifted slightly warm; fine constant **film grain** at low opacity; subtle **spotlight vignette**. Documents on an aged-paper / newspaper underlay. Palette and typography per `brain/03`. No letterbox unless a source clip forces it (pad to frame on `#100D09`, never stretch).
 
 ## Export
 
@@ -110,7 +110,7 @@ Apply the house grade to the whole timeline: **dark, warm, desaturated ~15–20%
 
 ## Review loop
 
-KB + trim signed off in `07c-edit.html` → b-roll + music assembled → **picture lock** (no further timing changes) → Carmen watches once, end to end, against `05-script.md` and `docs/04` (labels present, claims accurate, dignity) → signs in `07c-edit.md` → sound + `.srt` finalised → Stage 10.
+KB + trim signed off in `07c-edit.html` → b-roll + music assembled → **picture lock** (no further timing changes) → Usuario 002 watches once, end to end, against `05-script.md` and `brain/04` (labels present, claims accurate, dignity) → signs in `07c-edit.md` → sound + `.srt` finalised → Stage 10.
 
 ## Gate (Stage 9)
 
@@ -121,4 +121,4 @@ KB + trim signed off in `07c-edit.html` → b-roll + music assembled → **pictu
 - [ ] One music bed, ducked under the VO; no music in the bumper; track licences logged
 - [ ] AI / reenactment / colourised labelled on every appearance
 - [ ] `.srt` generated and hand-corrected against `05-script.md`
-- [ ] −14 LUFS integrated; 4K (or best common resolution); picture lock signed by Carmen in `07c-edit.md`
+- [ ] −14 LUFS integrated; 4K (or best common resolution); picture lock signed by Usuario 002 in `07c-edit.md`

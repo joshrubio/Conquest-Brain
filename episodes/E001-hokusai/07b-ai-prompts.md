@@ -1,6 +1,6 @@
 # Prompts de ilustración IA — E001 «Hokusai»
 
-> Stage 7 · sub-parte. Protocolo: `docs/15-ai-illustration-protocol.md`.
+> Stage 7 · sub-parte. Protocolo: `brain/15-ai-illustration-protocol.md`.
 > Prompts con el bloque de estilo integrado → **copy y paste**. Cada uno dice cómo nombrar el archivo.
 
 | Campo | Valor |
@@ -15,7 +15,7 @@
 
 ## Estilo de ESTE episodio: ukiyo-e / xilografía
 
-Elegido para E001 (no es el estilo del canal — se elige por episodio, `docs/15` regla 1). Motivo: el episodio está lleno de prints reales de Hokusai (CC0, Met/AIC); las IA tienen que **sentarse al lado de esos prints** y leerse como ilustración, no como foto. Para otros episodios el estilo puede ser fotorrealista.
+Elegido para E001 (no es el estilo del canal — se elige por episodio, `brain/15` regla 1). Motivo: el episodio está lleno de prints reales de Hokusai (CC0, Met/AIC); las IA tienen que **sentarse al lado de esos prints** y leerse como ilustración, no como foto. Para otros episodios el estilo puede ser fotorrealista.
 
 ```
 Style: Japanese ukiyo-e woodblock print aesthetic with sumi-e ink-wash. Flat

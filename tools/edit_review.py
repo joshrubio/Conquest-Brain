@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-edit_review.py — Stage 9 review surface (docs/16). Same idea as the Stage 7
-style pass, for the edit: Josh watches every generated clip and either
+edit_review.py — Stage 9 review surface (brain/16). Same idea as the Stage 7
+style pass, for the edit: Usuario 001 watches every generated clip and either
 ticks it OK or writes what to fix.
 
 Scans the episode folder:
@@ -12,9 +12,9 @@ Scans the episode folder:
 
 Writes:
   07c-edit.html   the review page  (gitignored)
-  (Josh exports)  07c-review.txt   approvals + feedback  (tracked)
+  (editor exports)  07c-review.txt   approvals + feedback  (tracked)
 
-Loop: run kenburns/trim -> edit_review -> Josh reviews -> exports 07c-review.txt
+Loop: run kenburns/trim -> edit_review -> editor reviews -> exports 07c-review.txt
 -> Claude re-runs the tools per the feedback -> edit_review again -> until all OK.
 
 Usage

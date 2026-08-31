@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-trim_talk.py — trim silences + fillers from a recorded take (Stage 9, docs/16 move 1).
+trim_talk.py — trim silences + fillers from a recorded take (Stage 9, brain/16 move 1).
 
 faster-whisper transcribes the take with word timestamps, then removes:
   - silence gaps longer than --gap (default 0.6 s), trimmed to ~2x --pad of room

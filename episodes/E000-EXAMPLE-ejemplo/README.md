@@ -1,6 +1,6 @@
 # E000 — EJEMPLO ILUSTRATIVO (no se produce ni se publica)
 
-Carpeta de referencia: muestra **cómo se rellenan los archivos de un episodio** con la estructura v1 (`docs/02` · `docs/08` · `docs/09` · `templates/script-template.md`).
+Carpeta de referencia: muestra **cómo se rellenan los archivos de un episodio** con la estructura v1 (`brain/02` · `brain/08` · `brain/09` · `templates/script-template.md`).
 
 **No es un episodio real.** Caso usado como vehículo: **la Burbuja de los Mares del Sur (South Sea Company, 1720)** — dominio público total, sin personas vivas, registro documental abundante. Elegido además porque contiene los tres retos típicos de fuentes:
 1. cifras muy repetidas que hay que verificar (cotizaciones de la acción);
@@ -11,10 +11,10 @@ Carpeta de referencia: muestra **cómo se rellenan los archivos de un episodio**
 
 | Archivo | Qué demuestra |
 |---------|---------------|
-| `01-brief.md` | Brief Stage 1 completo: **track T02**, **3 hook-titles** (`docs/13`), cross-check de material (`docs/12`), forma de cierre A, estructura, riesgos. |
+| `01-brief.md` | Brief Stage 1 completo: **track T02**, **3 hook-titles** (`brain/13`), cross-check de material (`brain/12`), forma de cierre A, estructura, riesgos. |
 | `02-research-dossier.md` | Cronología, afirmaciones de carga con tier, puntos disputados, la cita apócrifa marcada. |
 | `03-source-log.csv` | Registro de fuentes con tier y estado de derechos. Fuentes reales; localización exacta marcada como *a completar*. |
-| `04-factcheck-auto.md` | Salida de Layer 1 (`tools/factcheck.py`) + hueco de Layer 2 (`docs/14`). |
+| `04-factcheck-auto.md` | Salida de Layer 1 (`tools/factcheck.py`) + hueco de Layer 2 (`brain/14`). |
 | `04-fact-check.md` | Layer 3: verificación claim-by-claim de una muestra de 6 afirmaciones — incluye una que se **corrige** y una que se **marca como disputada en pantalla**. |
 | `05-script.md` | Guion de ejemplo en estructura v1: cold open → pivote a contexto → narrativa con explicador y foreshadowing plant/pay → cierre forma A → CTA. Anotado. |
 | `06-shotlist.md` | Shotlist inferida del guion (26 beats), con la heurística documentada. |

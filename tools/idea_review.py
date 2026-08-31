@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-idea_review.py — Stage 0 review surface. Carmen scores + picks a hook-title +
-comments on each idea in the pool, in a page instead of a markdown table.
+idea_review.py — Stage 0 review surface. The editorial reviewer (Usuario 002)
+scores + picks a hook-title + comments on each idea in the pool, in a page
+instead of a markdown table.
 
 Reads  ideas/idea-pool.md
 Writes ideas/idea-review.html   (open in a browser — gitignored)
-       (Carmen exports)  ideas/idea-review.txt   (tracked)
+       (reviewer exports)  ideas/idea-review.txt   (tracked)
 
-Loop: idea_review.py -> Carmen reviews -> exports idea-review.txt ->
+Loop: idea_review.py -> reviewer reviews -> exports idea-review.txt ->
 Claude folds the verdicts / chosen hooks / notes back into idea-pool.md.
 
 Usage
@@ -92,10 +93,10 @@ def build(ideas):
             '<div class="row">'
             f'<input type="number" class="score" min="0" max="21" placeholder="tu /21 (est. {e(i["score"])})">'
             '</div>'
-            '<textarea class="cmt" placeholder="comentario de Carmen (qué falla, qué reforzar, por qué el hook elegido…)"></textarea>'
+            '<textarea class="cmt" placeholder="comentario de revisión (qué falla, qué reforzar, por qué el hook elegido…)"></textarea>'
             '</div>')
     body = (
-        '<section><h2>Pool de ideas — revisión de Carmen '
+        '<section><h2>Pool de ideas — revisión editorial '
         f'<span>({total})</span></h2>'
         '<p class="hint">Por idea: elige el hook-title más fuerte, pon veredicto, tu /21, y comenta. '
         '«Exportar» → Claude lo pliega en <code>idea-pool.md</code> (estado, hook elegido, tu nota).</p>'
@@ -143,7 +144,7 @@ document.getElementById('exp').onclick=()=>{{
 }};
 document.getElementById('clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
 """
-    header = ('<h1>Pool de ideas · Carmen</h1><span class="count"></span>'
+    header = ('<h1>Pool de ideas · revisión editorial</h1><span class="count"></span>'
               f'<button class="primary" id="exp">Exportar {REVIEW_TXT}</button>'
               '<button id="clr">Limpiar</button>')
     return page(f"Revisión de ideas", header, body, script)
@@ -157,4 +158,4 @@ if __name__ == "__main__":
         sys.exit("no se parsearon ideas de idea-pool.md")
     OUT_HTML.write_text(build(ideas), encoding="utf-8")
     print(f"escrito  ideas/idea-review.html  ({len(ideas)} ideas)")
-    print("siguiente: Carmen lo abre, revisa, «Exportar idea-review.txt», te lo pasa")
+    print("siguiente: el revisor lo abre, revisa, «Exportar idea-review.txt», te lo pasa")

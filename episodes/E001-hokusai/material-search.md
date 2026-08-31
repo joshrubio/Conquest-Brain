@@ -1,12 +1,12 @@
 # Búsqueda de recursos — E001 «Hokusai»
 
-> Protocolo 1 (`docs/12`) ejecutado sobre el guion v1.1 y el shotlist. Solo **dominio público / CC0** (sin archivos de pago). Fecha: 2026-08-29. Primer pase — las fichas exactas (número de objeto, resolución) se cierran al montar el shotlist final.
+> Protocolo 1 (`brain/12`) ejecutado sobre el guion v1.1 y el shotlist. Solo **dominio público / CC0** (sin archivos de pago). Fecha: 2026-08-29. Primer pase — las fichas exactas (número de objeto, resolución) se cierran al montar el shotlist final.
 
 ## Resumen
 
 - **Toda la obra de Hokusai es dominio público en todo el mundo** (falleció en 1849). Disponible en CC0 desde The Met Open Access y el Art Institute of Chicago, y en agregadores de dominio público. **El episodio con más material disponible posible.**
 - **Punto débil:** obra de **Katsushika Ōi** — sobreviven muy pocas piezas suyas firmadas. Hay que localizar holdings concretos.
-- **Vídeo:** **no hay vídeo de dominio público usable.** Los "cinemagraphs" de la Ola en Getty/iStock/Shutterstock son *royalty-free de pago*, no dominio público → fuera por regla. El movimiento sale de **animar nuestras stills PD** (Ken Burns, revelado de capas de color), que es lo que dice `docs/11 §2.4` de todas formas.
+- **Vídeo:** **no hay vídeo de dominio público usable.** Los "cinemagraphs" de la Ola en Getty/iStock/Shutterstock son *royalty-free de pago*, no dominio público → fuera por regla. El movimiento sale de **animar nuestras stills PD** (Ken Burns, revelado de capas de color), que es lo que dice `brain/11 §2.4` de todas formas.
 
 ## Fuentes de dominio público / abierto (para este episodio)
 
@@ -29,7 +29,7 @@
 | 4, 24, 29, 36 · +C, +G | Retrato de Hokusai anciano | ✅ | Autorretrato a los 83 (Wikimedia, PD). Verificar si además existe el atribuido a Ōi |
 | 21, 22 · +A | Páginas de los *Hokusai Manga* | ✅ | Internet Archive / LOC / Smithsonian / AIC — volúmenes digitalizados, PD |
 | 34, 35 | Obra de **Katsushika Ōi** | ⚠️ parcial | Sobreviven pocas piezas firmadas. "Autorretrato como pescador" (1835, dibujo de Hokusai + inscripción de Ōi). Sus escenas nocturnas están sobre todo en museos japoneses (Ōta Memorial, etc.) — **localizar holding con imagen libre; si no, plan B: solo su obra colaborativa + gráfico** |
-| 8 · G1 | Proceso del ukiyo-e (dibujo → planchas → impresión) | ✅ (para animar) | Wikimedia tiene imágenes del proceso; **mejor: motion-graphic propio** (`docs/11 §2.4`) |
+| 8 · G1 | Proceso del ukiyo-e (dibujo → planchas → impresión) | ✅ (para animar) | Wikimedia tiene imágenes del proceso; **mejor: motion-graphic propio** (`brain/11 §2.4`) |
 | +D | Azul de Prusia / primeras impresiones en azul (*aizuri-e*) | ✅ | Met y AIC a veces tienen dos estados de la misma lámina; comparativa azul vegetal vs. azul de Prusia con láminas reales |
 | 30, 31 · G4 | Colofón de *Cien vistas del monte Fuji* (1834) | ✅ | *Fugaku Hyakkei* digitalizado (Internet Archive / museos). Traducción propia en rótulo |
 | 33 | Incendio urbano en Edo | ✅ | Grabados de incendios de Edo en colecciones ukiyo-e (PD) |
@@ -43,7 +43,7 @@
 - **Dominio público:** ninguno usable (Hokusai es anterior a la fotografía; no hay metraje).
 - **De pago (fuera por regla actual):** cinemagraphs de la Ola en Getty / iStock / Shutterstock (royalty-free, no PD).
 - **Con derechos de terceros (no usar sin permiso):** animación de capas de color de *BunPan Japan* (YouTube); animación 3D de la Ola en ArtStation; documental *Hokusai: Beyond the Great Wave* (BBC/Exhibition on Screen) — **útil solo como referencia de investigación**.
-- **Conclusión:** todo el "movimiento" del episodio se genera animando las stills PD. Encaja con `docs/11 §2.4` (Ken Burns, revelado de documento, disolvencias) y con G1/G2/G4/G5 (motion-graphics propios).
+- **Conclusión:** todo el "movimiento" del episodio se genera animando las stills PD. Encaja con `brain/11 §2.4` (Ken Burns, revelado de documento, disolvencias) y con G1/G2/G4/G5 (motion-graphics propios).
 
 ## Cómo mostrar a Hokusai (el hombre)
 
@@ -54,7 +54,7 @@ No hay fotografías: murió en 1849, antes de la fotografía en Japón. Enfoque 
 - **Retrato de Hokusai anciano** atribuido a un discípulo / a su hija Ōi (frontispicio de una compilación biográfica).
 - **Retrato por Keisai Eisen** (en el *Zoku ukiyo-e ruikō*).
 - Grabado de Hokusai en la vejez / lecho de muerte.
-Son 3–4 imágenes → se reutilizan a propósito, como motivo recurrente (`docs/11`). El autorretrato a los 83 encaja perfecto con "el viejo loco por la pintura" y con el cierre.
+Son 3–4 imágenes → se reutilizan a propósito, como motivo recurrente (`brain/11`). El autorretrato a los 83 encaja perfecto con "el viejo loco por la pintura" y con el cierre.
 
 **2. Cómo se dibujó él mismo** (primary source, on-brand):
 - **"Autorretrato como pescador"** (1835): Hokusai se dibuja, Ōi escribe el poema encima.
@@ -63,13 +63,13 @@ Muestra cómo se veía a sí mismo — más interesante que una foto.
 
 **3. El acto, en primer plano (reconstrucción).** Manos, pincel, tinta, la gubia sobre la madera, la estampa saliendo. No enseña la cara, enseña al hombre trabajando — ata con el hilo "quería que lo vieran trabajar". Bajo riesgo, mucha textura.
 
-**4. Parallax 2.5D sobre los retratos** (separar figura/fondo, movimiento sutil, respiración, sin tocar la cara). Da vida sin cruzar a reenactment. **Si se usa cualquier retoque de IA sobre la cara → rótulo en pantalla** (`docs/04`).
+**4. Parallax 2.5D sobre los retratos** (separar figura/fondo, movimiento sutil, respiración, sin tocar la cara). Da vida sin cruzar a reenactment. **Si se usa cualquier retoque de IA sobre la cara → rótulo en pantalla** (`brain/04`).
 
 **5. (Opcional, si hay presupuesto) Ilustración estilizada recurrente de Hokusai** para las secuencias de "las 93 mudanzas" / la línea de tiempo / el viaje. Claramente una ilustración, rotulada como tal una vez. Da material ilimitado y animable (caminar, pintar, mudarse).
 
 **Lo que NO hacemos como recurso principal:** "dar vida" foto-realista al retrato con IA (estilo *Deep Nostalgia*). Riesgo de tono para un canal de rigor, exige rótulo prominente, y suele quedar *uncanny*. Como mucho, en **un solo momento** (p. ej. el lecho de muerte), con nota en pantalla, como decisión deliberada — nunca a lo largo del episodio.
 
-**Estado:** el material de época existe pero **el estilo no encaja** con lo que Josh busca para el vídeo. La elección A/B/C está en `07-assets.md` §"Decisión: la cara de Hokusai" — y es una decisión de `docs/03` §Visual direction (de una vez, no por episodio). Recomendación E001: **B** (evitar la cara: manos + el acto + autorrepresentaciones) con un toque de **A** (el grabado de Eisen 1–2 veces). Sin IA sobre la cara.
+**Estado:** el material de época existe pero **el estilo no encaja** con lo que Usuario 001 busca para el vídeo. La elección A/B/C está en `07-assets.md` §"Decisión: la cara de Hokusai" — y es una decisión de `brain/03` §Visual direction (de una vez, no por episodio). Recomendación E001: **B** (evitar la cara: manos + el acto + autorrepresentaciones) con un toque de **A** (el grabado de Eisen 1–2 veces). Sin IA sobre la cara.
 
 ## Hallazgos que afectan al fact-check (pasar a Layer 3)
 
@@ -80,7 +80,7 @@ Muestra cómo se veía a sí mismo — más interesante que una foto.
 
 ## Selección concreta (Stage 7)
 
-Este archivo es **factibilidad** (¿hay material PD suficiente?). La **lista de imágenes individuales** con enlace directo y el **pase de estilo** de Josh están en `07-assets.md` (`docs/06` Stage 7).
+Este archivo es **factibilidad** (¿hay material PD suficiente?). La **lista de imágenes individuales** con enlace directo y el **pase de estilo** de Usuario 001 están en `07-assets.md` (`brain/06` Stage 7).
 
 ## Gate Protocolo 1 (revisión Stage 2)
 

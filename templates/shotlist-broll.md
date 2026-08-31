@@ -1,16 +1,16 @@
 # Shotlist / B-roll — E0XX «<título>»
 
-> Stage 6. Se **infiere del guion bloqueado** (`docs/11-visual-rhythm.md`). Una fila por beat visual. Ningún visual pasa a edición sin estado de derechos.
+> Stage 6. Se **infiere del guion bloqueado** (`brain/11-visual-rhythm.md`). Una fila por beat visual. Ningún visual pasa a edición sin estado de derechos.
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E0XX |
 | Versión de guion | v__ |
-| Narrador del episodio | Carmen / Josh |
-| Responsable | Josh |
+| Narrador del episodio | Usuario 002 / Usuario 001 |
+| Responsable | Usuario 001 |
 | Fecha | AAAA-MM-DD |
 
-## Heurística de inferencia (proceso A — `docs/11 §2.1`)
+## Heurística de inferencia (proceso A — `brain/11 §2.1`)
 
 1. Un beat visual cada ~2–3 frases, o cuando cambia el sujeto de la frase.
 2. Todo `[EN PANTALLA]` del guion = beat, literal.
@@ -22,9 +22,9 @@
 7. Toda cifra → gráfico propio con rótulo de fuente en pantalla.
 8. Afirmación disputada o aproximada → rótulo de salvedad en pantalla.
 
-**Ritmo objetivo (v1, calibrar en `docs/11 §4`):** cold open 10–12 beats/min (2–5 planos en 20–40 s) · bumper 1 plano 3–6 s · contexto 6–8 · narrativa 7–9 · explicador 3–5 · módulo teorías 8–10 · cierre 4–6 · CTA 1–2. Episodio de 20 min ≈ 150–180 beats (con reutilización).
+**Ritmo objetivo (v1, calibrar en `brain/11 §4`):** cold open 10–12 beats/min (2–5 planos en 20–40 s) · bumper 1 plano 3–6 s · contexto 6–8 · narrativa 7–9 · explicador 3–5 · módulo teorías 8–10 · cierre 4–6 · CTA 1–2. Episodio de 20 min ≈ 150–180 beats (con reutilización).
 
-## A cámara (narrador del episodio: Carmen / Josh)
+## A cámara (narrador del episodio: Usuario 002 / Usuario 001)
 
 | Beat / sección | Encuadre | Fondo / luz | Guion (referencia) | Notas |
 |----------------|----------|-------------|--------------------|-------|

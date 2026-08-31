@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 """
 pull_assets.py — Stage 7 style pass (archive + free stock + intro).
-Protocol: docs/12-available-material-protocol.md, docs/06 Stage 7.
+Protocol: brain/12-available-material-protocol.md, brain/06 Stage 7.
 
 `07-style-pass.html` is the central artifact of Stage 7. It shows,
 per beat, the resources the pull found (left) and the AI-generation
 prompts from 07b (right); an Intro section at the top collects the cold
-open (docs/02 §0). Josh works entirely in that page, exports 07-picks.txt,
+open (brain/02 §0). Usuario 001 works entirely in that page, exports 07-picks.txt,
 and --download turns every choice into files + 07-selection.md.
 
 APIs
@@ -77,7 +77,7 @@ SPEC_HEADER = """# 07-pull.tsv — Stage 7 candidate-pull spec for this episode.
 #
 # columns:
 #   beat    shotlist beat id (1, 25b, +B ...). Free text, just a label.
-#           use INTRO1, INTRO2 ... for cold-open clip searches (docs/02 §0) —
+#           use INTRO1, INTRO2 ... for cold-open clip searches (brain/02 §0) —
 #           their results land in the Intro section of the pass, not a beat.
 #   kind    stock | stock-img | archive | video | intro
 #   source  comma list, or a group keyword:
@@ -99,7 +99,7 @@ SPEC_HEADER = """# 07-pull.tsv — Stage 7 candidate-pull spec for this episode.
 #             must=hokusai      archive only — every term must appear in
 #                               artist/title/tags (comma list = all required)
 #
-# stock = generic illustrative b-roll only, never "the real thing" (docs/12).
+# stock = generic illustrative b-roll only, never "the real thing" (brain/12).
 # A found stock video beats making our own b-roll later — prefer it.
 #
 beat\tkind\tsource\tquery\topts
@@ -538,7 +538,7 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
         cards.append('</section>')
     body = "\n".join(cards)
 
-    # ---- Intro section (cold open, docs/02 §0) ----
+    # ---- Intro section (cold open, brain/02 §0) ----
     slots = "".join(
         f'<label class="slot"><span>{i}</span><input class="intropath" data-slot="{i}" '
         f'placeholder="ruta o URL para la intro"></label>'
@@ -553,7 +553,7 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
                '<code>INTRO1 … intro …</code> en 07-pull.tsv</p>')
     introbox = (
         '<section class="introbox"><h2>Intro / cold open '
-        '<span class="q">— §0: hook visual de 2–5 planos (docs/02)</span></h2>'
+        '<span class="q">— §0: hook visual de 2–5 planos (brain/02)</span></h2>'
         '<p class="hint">pega hasta 5 recursos propios, y/o marca sugeridos, '
         'y/o marca «intro» en cualquier card de abajo. El orden de exportación es: '
         'propios (1–5) → sugeridos → cards.</p>'
@@ -574,7 +574,7 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
                 + '</label>')
         musicbox = (
             '<section class="musicbox"><h2>Música <span class="q">— lecho ominoso ambiental '
-            '(docs/16). Hoy consideramos todas; mañana quedan 3–5.</span></h2>'
+            '(brain/16). Hoy consideramos todas; mañana quedan 3–5.</span></h2>'
             '<p class="hint">solo CC-BY / CC-BY-SA / CC0. Marca las que consideras; al exportar '
             'van como <code>music</code> y <code>--download</code> las baja a '
             '<code>brand/assets/music/</code> + <code>LICENSES.md</code>. '
@@ -928,7 +928,7 @@ def run(slug):
     md = [f"# Style pass — {slug}", "",
           "> Stage 7 · central. Pull automático (`tools/pull_assets.py`) — **esto no es selección.**",
           f"> Trabaja en `{PASS_HTML}` (miniaturas + prompts IA + intro). Para picar a mano aquí: `- [x]`.",
-          "> stock = b-roll ilustrativo genérico, nunca 'lo real' (docs/12).", ""]
+          "> stock = b-roll ilustrativo genérico, nunca 'lo real' (brain/12).", ""]
     groups, intro_sug, n_c = [], [], 0
     for beat, kind, source, query, rawopts in rows:
         opts = parse_opts(rawopts)
@@ -1005,7 +1005,7 @@ def read_picks(slug):
 
 
 def _dl_ai(ep, beat, aid, src, fname, rows, credits):
-    """Place a Josh-generated AI image into assets/ai/ under its 07b filename.
+    """Place a user-generated AI image into assets/ai/ under its 07b filename.
     Appends a (beat, 'ai:id', '(propia)', dim, relpath) tuple to `rows`."""
     dst_dir = ep / "assets" / "ai"
     dst_dir.mkdir(parents=True, exist_ok=True)
@@ -1146,7 +1146,7 @@ def download(slug):
             intro_n += 1
             sub, name = "intro", f"intro{intro_n:02d}_{src}_{re.sub(r'[^A-Za-z0-9]', '', cid)[:14]}{ext}"
         else:
-            if src == "custom":                       # Josh's own path for this beat
+            if src == "custom":                       # the user's own path for this beat
                 sub = "video" if ext in (".mp4", ".mov", ".webm") else "archive"
             elif src in VIDEO_SRCS:
                 sub = "video"

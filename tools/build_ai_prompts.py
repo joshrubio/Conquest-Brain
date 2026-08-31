@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 build_ai_prompts.py — scaffold the AI-illustration prompt doc for an episode.
-Protocol: docs/15-ai-illustration-protocol.md
+Protocol: brain/15-ai-illustration-protocol.md
 
 Usage:
     python tools/build_ai_prompts.py E0XX-slug <img-slug-1> <img-slug-2> ...
@@ -20,7 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 
-STYLE_DEFAULT = """<DEFINIR EL ESTILO DE ESTE EPISODIO — docs/15 regla 1. 3-5 lineas.
+STYLE_DEFAULT = """<DEFINIR EL ESTILO DE ESTE EPISODIO — brain/15 regla 1. 3-5 lineas.
 Ejemplos de registro: ukiyo-e / xilografia (encaja con archivo de prints);
 carboncillo / grabado; pictorico sobrio; recreacion fotorrealista
 cinematografica, paleta apagada, luz natural, 16:9. Elegir uno y ser
@@ -67,7 +67,7 @@ def scaffold(slug, img_slugs, force):
     ai.mkdir(parents=True, exist_ok=True)
     (ai / "README.txt").write_text(
         f"# Imagenes IA de {eid}. Nombres: {eid}_aiNN_<slug>.png (ver ../../07b-ai-prompts.md).\n"
-        "# Gitignored. Rotulo en pantalla obligatorio (docs/15 regla 2).\n", encoding="utf-8")
+        "# Gitignored. Rotulo en pantalla obligatorio (brain/15 regla 2).\n", encoding="utf-8")
 
     out = d / "07b-ai-prompts.md"
     if out.exists() and not force:
@@ -76,7 +76,7 @@ def scaffold(slug, img_slugs, force):
     blocks = "\n".join(block(eid, i + 1, s) for i, s in enumerate(img_slugs))
     text = f"""# Prompts de ilustración IA — {eid}
 
-> Stage 7 · sub-parte. Protocolo: `docs/15-ai-illustration-protocol.md`.
+> Stage 7 · sub-parte. Protocolo: `brain/15-ai-illustration-protocol.md`.
 > Prompts con el bloque de estilo integrado → copy y paste. Cada uno dice cómo nombrar el archivo.
 
 | Campo | Valor |

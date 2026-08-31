@@ -5,12 +5,12 @@
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E0XX |
-| Responsable | Josh (aprueba Carmen) |
+| Responsable | Usuario 001 (aprueba Usuario 002) |
 | Fecha | AAAA-MM-DD |
 
 ## Títulos candidatos (3)
 
-Patrón (`docs/13`): `<Gancho> | <Sujeto> | Documental`. Español neutro · una o dos palabras en mayúscula OK · sin preguntas falsas · ≤ ~70 car. visibles.
+Patrón (`brain/13`): `<Gancho> | <Sujeto> | Documental`. Español neutro · una o dos palabras en mayúscula OK · sin preguntas falsas · ≤ ~70 car. visibles.
 
 ### A
 > <título A>
@@ -44,4 +44,4 @@ Patrón (`docs/13`): `<Gancho> | <Sujeto> | Documental`. Español neutro · una 
 
 - [ ] La miniatura no promete un giro que no ocurre
 - [ ] Ni título ni miniatura sensacionalizan a una persona real más allá del registro
-- [ ] Carmen aprueba: __ (fecha)
+- [ ] Usuario 002 aprueba: __ (fecha)

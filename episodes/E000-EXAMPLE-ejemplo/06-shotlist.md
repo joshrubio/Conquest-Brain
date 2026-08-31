@@ -1,13 +1,13 @@
 # Shotlist / B-roll — E000 «La Burbuja de los Mares del Sur» (EJEMPLO)
 
-> EJEMPLO ILUSTRATIVO. Planificación de planos **inferida de la narrativa del guion v1** (no de ver un video). El método usado está al final; se contrasta con el método "observación de video" en `docs/11-visual-rhythm.md`.
+> EJEMPLO ILUSTRATIVO. Planificación de planos **inferida de la narrativa del guion v1** (no de ver un video). El método usado está al final; se contrasta con el método "observación de video" en `brain/11-visual-rhythm.md`.
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E000 |
 | Versión de guion | v1 (2026-08-28) |
-| Narrador del episodio | Josh |
-| Responsable | Josh |
+| Narrador del episodio | Usuario 001 |
+| Responsable | Usuario 001 |
 | Fecha | 2026-08-28 |
 
 ## Heurística de inferencia aplicada (proceso A — "desde el guion")
@@ -23,7 +23,7 @@
 
 Ritmo estimado por este método: **~7–9 beats/min** en narrativa, **~10–12 beats/min** en el cold open (más rápido), **~4–5 beats/min** en el cierre (más lento).
 
-## A cámara (narrador: Josh)
+## A cámara (narrador: Usuario 001)
 
 | Beat / sección | Encuadre | Fondo / luz | Guion (ref) | Notas |
 |----------------|----------|-------------|-------------|-------|

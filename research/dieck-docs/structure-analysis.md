@@ -6,7 +6,7 @@ Analizadas 6 transcripciones (`transcripts/T01`–`T06`) el 2026-08-27. Fuente: 
 
 - Transcripciones listas: 6 / 6
 - Videos analizados: 6 / 6
-- Síntesis → `docs/`: hecha (v1). Última actualización 2026-08-27.
+- Síntesis → `brain/`: hecha (v1). Última actualización 2026-08-27.
 
 ---
 
@@ -116,7 +116,7 @@ Notas: reflexión **totalmente distribuida** y explícitamente diferida ("yo te 
 
 6. **Voz de investigador en primera persona.** "Investigando, descubrí que…", "indagando más…", "mientras profundizaba en la vida de esta pareja…". Posiciona al narrador como quien hizo el trabajo.
 
-7. **"Tú" didáctico en todo el episodio**, no solo al final: "para que te des una idea", "si no la has visto, te cuento", "¿qué piensas tú?". (Corrige el borrador v0 de `docs/08`, que lo restringía al para llevar.)
+7. **"Tú" didáctico en todo el episodio**, no solo al final: "para que te des una idea", "si no la has visto, te cuento", "¿qué piensas tú?". (Corrige el borrador v0 de `brain/08`, que lo restringía al para llevar.)
 
 8. **Incertidumbre marcada de forma verbal.** "Se dice", "según la leyenda", "sin ningún documento que lo avale", "no hay pruebas concluyentes". Dieck lo hace bien a nivel de fraseo — el problema es la densidad de material no verificado, no la honestidad.
 
@@ -131,7 +131,7 @@ Notas: reflexión **totalmente distribuida** y explícitamente diferida ("yo te 
 
 12. **Autoridad externa nombrada para el material psicológico/conceptual.** Michael Sandel + título del libro; Stanislavski + "actuación de método"; "resonancia límbica" como término neurocientífico real; Jung / Platón. Cuando se invoca un concepto, se nombra y a menudo se atribuye.
 
-13. **Reparto de metraje típico:** hook 3–6% · contexto 10–20% · narrativa con interludios 55–70% · reflexión/cierre 8–20% (menos de lo que asumía `docs/02` v0) · CTA ~1%.
+13. **Reparto de metraje típico:** hook 3–6% · contexto 10–20% · narrativa con interludios 55–70% · reflexión/cierre 8–20% (menos de lo que asumía `brain/02` v0) · CTA ~1%.
 
 ### Varía → ELECCIÓN por episodio
 
@@ -147,9 +147,9 @@ Notas: reflexión **totalmente distribuida** y explícitamente diferida ("yo te 
 **Adoptamos (estructura):** cold open in medias res + anuncio; pivote a contexto; espina cronológica; interludios explicadores señalizados; foreshadowing explícito; voz de investigador en 1ª persona; "tú" didáctico; incertidumbre marcada verbalmente; autoridad externa nombrada; las tres formas de cierre como opciones legítimas (incluida la pregunta abierta); CTA como coda separada.
 
 **NO adoptamos (fuentes — nuestro estándar es más alto que el de Dieck):**
-- Usar una película dramatizada como andamiaje narrativo (*The Founder* en McDonald's). Prohibido por `docs/01` (Tier C/D).
+- Usar una película dramatizada como andamiaje narrativo (*The Founder* en McDonald's). Prohibido por `brain/01` (Tier C/D).
 - Densidad alta de "se dice / según la leyenda" sin respaldo (Grinberg). Nuestro mínimo: toda afirmación de carga con ≥1 Tier A/B.
 - Especular sobre el estado mental interno de una persona real y presentarlo como narración.
 - Reconstrucción a partir de una sola obra.
 
-Nuestra versión = **la estructura de Dieck + el aparato de fuentes de `docs/01` + `templates/fact-check-sheet.md`.**
+Nuestra versión = **la estructura de Dieck + el aparato de fuentes de `brain/01` + `templates/fact-check-sheet.md`.**

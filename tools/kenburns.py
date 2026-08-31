@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-kenburns.py — orientation-aware Ken Burns for stills (Stage 9, docs/16 move 3).
+kenburns.py — orientation-aware Ken Burns for stills (Stage 9, brain/16 move 3).
 
 The move is picked from the image's real aspect ratio vs the 16:9 frame:
   ~16:9  (0.90–1.90)      -> slow push-in 1.00 -> 1.10
@@ -35,7 +35,7 @@ ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 RES = {"1080": (1920, 1080), "4k": (3840, 2160)}
 # NOTE: a still whose long side < the frame's is rendered STATIC on black rather than
-# scaled up — the project stays 4K, that clip just doesn't move (docs/16).
+# scaled up — the project stays 4K, that clip just doesn't move (brain/16).
 STILL_EXT = {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff"}
 FILL = "force_original_aspect_ratio=increase"
 
@@ -127,7 +127,7 @@ if __name__ == "__main__":
     def opt(name, default=None):
         return a[a.index(name) + 1] if name in a else default
 
-    res = (opt("--res", "4k") or "4k").lower()      # channel target = 4K (docs/03)
+    res = (opt("--res", "4k") or "4k").lower()      # channel target = 4K (brain/03)
     if res not in RES:
         sys.exit("--res: 1080 | 4k")
     fps = int(opt("--fps", "30"))

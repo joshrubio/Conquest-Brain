@@ -1,13 +1,13 @@
 # Hoja de verificación — E0XX «<título>» (Layer 3)
 
-> Stage 5, **Layer 3** del protocolo (`docs/14-fact-check-protocol.md`). La firma **Carmen** (no escribió el guion — lo hace siempre Josh). Antes de esta hoja ya corrieron: Layer 1 (`tools/factcheck.py` → `04-factcheck-auto.md`) y Layer 2 (prompt LLM → `04-factcheck-auto.md`). No se graba hasta que esta hoja esté firmada y sin ítems abiertos.
+> Stage 5, **Layer 3** del protocolo (`brain/14-fact-check-protocol.md`). La firma **Usuario 002** (no escribió el guion — lo hace siempre Usuario 001). Antes de esta hoja ya corrieron: Layer 1 (`tools/factcheck.py` → `04-factcheck-auto.md`) y Layer 2 (prompt LLM → `04-factcheck-auto.md`). No se graba hasta que esta hoja esté firmada y sin ítems abiertos.
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E0XX |
-| Verificador (firma) | Carmen |
-| Guionista | Josh |
-| Narrador | Carmen / Josh |
+| Verificador (firma) | Usuario 002 |
+| Guionista | Usuario 001 |
+| Narrador | Usuario 002 / Usuario 001 |
 | Versión de guion revisada | v__ (AAAA-MM-DD) |
 | Fecha de verificación | AAAA-MM-DD |
 | Layer 1 (`04-factcheck-auto.md`) | PASS / FAIL — banderas resueltas: ☐ |
@@ -43,10 +43,10 @@ Veredictos: **verificada** · **corregir** (texto exacto propuesto) · **cortar*
 - [ ] No exige torcer ningún hecho
 - [ ] No es un pitch de nada externo
 
-## 5. Pase legal y ético (`docs/04-legal-and-ethics.md`)
+## 5. Pase legal y ético (`brain/04-legal-and-ethics.md`)
 
 - [ ] Sujeto elegible (figura pública / caso histórico / empresa)
-- [ ] Nadie que Carmen o Josh conozcan personalmente involucrado/identificable
+- [ ] Nadie que Usuario 001 o Usuario 002 conozcan personalmente involucrado/identificable
 - [ ] Afirmaciones negativas sobre personas vivas: Tier A/B + atribuidas en pantalla
 - [ ] Alegaciones etiquetadas como tales; desenlaces indicados
 - [ ] Derecho de réplica considerado (registrar gestión o motivo de no hacerla): …
@@ -55,7 +55,7 @@ Veredictos: **verificada** · **corregir** (texto exacto propuesto) · **cortar*
 - [ ] Reenactments / IA / colorizado marcados en pantalla
 - [ ] Temas sensibles tratados con sobriedad; nota de recursos de ayuda si aplica
 
-## 6. Pase de separación (`docs/05-separation-policy.md`)
+## 6. Pase de separación (`brain/05-separation-policy.md`)
 
 - [ ] «¿Sería contable íntegra desde documentación pública por alguien que no conoce a nadie implicado?» → Sí
 - [ ] Cero datos/tips/casos del negocio

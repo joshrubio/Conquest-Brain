@@ -1,6 +1,6 @@
 # 15 — AI Illustration Protocol
 
-Runs **inside Stage 7** ([06-production-workflow.md](06-production-workflow.md)), only when the style pass concludes a beat has **no viable public-domain image and no own-graphic plan**. It produces a copy-paste prompt document so Josh can generate the images and drop them back in.
+Runs **inside Stage 7** ([06-production-workflow.md](06-production-workflow.md)), only when the style pass concludes a beat has **no viable public-domain image and no own-graphic plan**. It produces a copy-paste prompt document so Usuario 001 can generate the images and drop them back in.
 
 ## When it triggers
 
@@ -10,7 +10,7 @@ At Stage 7, after the style pass, some `07-assets.md` rows are ❌ (no PD source
 
 ## Hard rules
 
-1. **Style is chosen per episode** — decided at Stage 7, written into `07b-ai-prompts.md`, and **consistent within the episode** (one style block, every image). It can be a period-illustration register (e.g. ukiyo-e for Hokusai, so the AI sits next to the real prints), a painterly look, or a **photorealistic cinematic recreation**. Pick the one that serves the story and matches the episode's real material and the channel look ([docs/03](03-brand-identity.md) §Visual identity).
+1. **Style is chosen per episode** — decided at Stage 7, written into `07b-ai-prompts.md`, and **consistent within the episode** (one style block, every image). It can be a period-illustration register (e.g. ukiyo-e for Hokusai, so the AI sits next to the real prints), a painterly look, or a **photorealistic cinematic recreation**. Pick the one that serves the story and matches the episode's real material and the channel look ([brain/03](03-brand-identity.md) §Visual identity).
 2. **On-screen label, every time it appears** — `Ilustración — Exodo` or `Recreación`, discreet but legible. **More important when the style is photoreal**, not less — the viewer must never mistake it for archival footage or a real photograph. Same rule as reenactments / colourised visuals ([04-legal-and-ethics.md](04-legal-and-ethics.md) §8).
 3. **Invents nothing that reads as fact.**
    - **Scenes, places, events, atmosphere, abstract/metaphor shots:** allowed, photoreal or not, with the label.
@@ -26,24 +26,24 @@ The number of AI images = the count of shotlist beats flagged in `07-assets.md` 
 
 ## The prompt document — `07b-ai-prompts.md`
 
-Scaffolded by `tools/build_ai_prompts.py`, then the **episode style** and the scene text are written (by Josh or Claude). Template: [templates/ai-prompts.md](../templates/ai-prompts.md). It contains:
+Scaffolded by `tools/build_ai_prompts.py`, then the **episode style** and the scene text are written (by Usuario 001 or Claude). Template: [templates/ai-prompts.md](../templates/ai-prompts.md). It contains:
 
 - **Header:** episode, output spec, save folder, naming convention.
-- **The episode style block** — chosen for *this* episode (rule 1), 3–5 lines. Ties to the channel look ([docs/03](03-brand-identity.md) §Visual identity) and the episode's real archival material. Merged into every prompt below it.
+- **The episode style block** — chosen for *this* episode (rule 1), 3–5 lines. Ties to the channel look ([brain/03](03-brand-identity.md) §Visual identity) and the episode's real archival material. Merged into every prompt below it.
 - **Negative prompt** — shared. When the style is *not* photoreal, it excludes photoreal; when the style *is* photoreal, it still excludes text/watermark/faces-of-real-people and anything that would make it read as an actual archival photo.
 - **One block per image:** an ID (`aiNN`), the shotlist beat(s), what it's for, the **full copy-paste prompt** (episode style already merged in), the negative prompt, and the exact **filename to save as**.
 
 ## Folder + naming
 
 - Images go to **`episodes/E0XX-<slug>/assets/ai/`** (created by the script; gitignored — images stay local).
-- Filename: **`E0XX_aiNN_<slug>.png`** — e.g. `E001_ai01_deathbed-room.png`. The `aiNN` and `<slug>` match the block in `07b-ai-prompts.md`, so when Josh saves a file with that name, it's unambiguous which prompt it answers.
+- Filename: **`E0XX_aiNN_<slug>.png`** — e.g. `E001_ai01_deathbed-room.png`. The `aiNN` and `<slug>` match the block in `07b-ai-prompts.md`, so when Usuario 001 saves a file with that name, it's unambiguous which prompt it answers.
 
 ## Round trip
 
 1. Stage 7 style pass flags the ❌ beats.
 2. `python tools/build_ai_prompts.py E0XX-<slug> <slug1> <slug2> …` → creates `assets/ai/` and scaffolds `07b-ai-prompts.md`. **Do this before `pull_assets.py`** so the prompts render in the right column of `07-style-pass.html`.
 3. Claude writes the scene text for each prompt (framing, what's depicted, face-avoidance).
-4. In `07-style-pass.html` (right column), Josh copies each prompt, makes 3–4 variants in the generator, picks the one that best matches the set, saves it, and **pastes the file path/URL into that prompt's input**.
+4. In `07-style-pass.html` (right column), Usuario 001 copies each prompt, makes 3–4 variants in the generator, picks the one that best matches the set, saves it, and **pastes the file path/URL into that prompt's input**.
 5. **Exportar 07-picks.txt** → `python tools/pull_assets.py E0XX-<slug> --download` copies each AI image into `assets/ai/` under its `E0XX_aiNN_<slug>` name, verifies it, and prints the manifest row (licence = «ilustración propia (IA) — rótulo en pantalla»). `build_ai_prompts.py --check` still works for a manual audit.
 6. Claude folds the AI rows into `07-assets.md` and notes the label in `09-description.md` credits.
 

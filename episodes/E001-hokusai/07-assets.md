@@ -1,12 +1,12 @@
 # Manifiesto de recursos — E001 «Hokusai»
 
-> **Stage 7.** Cada beat archivístico del shotlist (`06-shotlist.md`) → una imagen concreta con **descarga directa** + **pase de estilo** (Josh). Los gráficos propios (G1–G5, contadores) van al brief de diseño, no aquí.
-> Depende de `docs/03` §Visual direction — **sin cerrar**. El pase no es definitivo hasta tener el look de la serie.
+> **Stage 7.** Cada beat archivístico del shotlist (`06-shotlist.md`) → una imagen concreta con **descarga directa** + **pase de estilo** (Usuario 001). Los gráficos propios (G1–G5, contadores) van al brief de diseño, no aquí.
+> Depende de `brain/03` §Visual direction — **sin cerrar**. El pase no es definitivo hasta tener el look de la serie.
 
 | Campo | Valor |
 |-------|-------|
-| ID episodio | E001 · narrador Carmen |
-| Salida del canal | **PENDIENTE** (1080p o 4K — `docs/03`). Este manifiesto asume 4K y avisa lo que no llega. |
+| ID episodio | E001 · narrador Usuario 002 |
+| Salida del canal | **PENDIENTE** (1080p o 4K — `brain/03`). Este manifiesto asume 4K y avisa lo que no llega. |
 | Look de referencia | **PENDIENTE**. Provisional: prints a sangre (sin margen ni sellos), color cálido consistente, grano fino. |
 | Fecha | 2026-08-30 |
 
@@ -58,7 +58,7 @@ Si no llega: usar como inserto, cortar un **detalle** (un detalle a 2000 px sirv
 
 ## Decisión: la cara de Hokusai — RESUELTO
 
-Método elegido: **ilustración estilizada por IA** (opción C, vía IA en vez de ilustrador), en registro **sumi-e / xilografía**, para que se siente al lado de los prints reales y se lea como ilustración. **Sin cara reconocible** (figura de espaldas / silueta / distancia). Rótulo en pantalla siempre. Protocolo: `docs/15`.
+Método elegido: **ilustración estilizada por IA** (opción C, vía IA en vez de ilustrador), en registro **sumi-e / xilografía**, para que se siente al lado de los prints reales y se lea como ilustración. **Sin cara reconocible** (figura de espaldas / silueta / distancia). Rótulo en pantalla siempre. Protocolo: `brain/15`.
 
 - Prompts: **[`07b-ai-prompts.md`](07b-ai-prompts.md)** — 4 imágenes (`ai01` cold open, `ai02` Daruma, `ai03` incendio, `ai04` camino del cierre).
 - Se mantiene además el grabado de **Keisai Eisen** 1–2 veces como "la única cara real que existe" (fila 6b abajo).
@@ -79,7 +79,7 @@ Método elegido: **ilustración estilizada por IA** (opción C, vía IA en vez d
 
 - [x] ~~Decisión sobre la cara de Hokusai~~ → **ilustración IA** (`07b-ai-prompts.md`)
 - [ ] **Generar las 4 IA** (ai01–ai04) y guardarlas en `assets/ai/`
-- [ ] **Salida del canal** 1080p vs 4K (`docs/03`) — determina qué imágenes archivísticas valen
+- [ ] **Salida del canal** 1080p vs 4K (`brain/03`) — determina qué imágenes archivísticas valen
 - [ ] #17 Ōi — confirmar qué hay en MFA/Freer con TIFF libre; si nada → plan B
 - [ ] #21 *La Mer* — probar Gallica; si no, plan B
 - [ ] #10 — abrir el objeto Met y confirmar firma "Shunrō" legible
@@ -93,4 +93,4 @@ Método elegido: **ilustración estilizada por IA** (opción C, vía IA en vez d
 - [ ] Color/estado revisados por tramo (las 36 vistas juntas; los retratos juntos)
 - [ ] Créditos de cortesía para `09-description.md` (AIC, Met, LOC, Commons…)
 - [ ] Descargas a `assets/` — `E001_beat27_greatwave_aic.tif`
-- [ ] `docs/03` §Visual direction + salida del canal cerrados
+- [ ] `brain/03` §Visual direction + salida del canal cerrados

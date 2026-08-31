@@ -5,17 +5,17 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 | Script | Stage | What it does |
 |--------|-------|--------------|
 | `factcheck.py` | 5 | Layer 1 deterministic fact-check. `python tools/factcheck.py 05-script.md 03-source-log.csv` → PASS/FAIL. |
-| `build_ai_prompts.py` | 7 | Scaffolds `07b-ai-prompts.md` for AI-illustration beats (docs/15). `... E0XX-slug <img-slug> ...` / `... --check`. |
+| `build_ai_prompts.py` | 7 | Scaffolds `07b-ai-prompts.md` for AI-illustration beats (brain/15). `... E0XX-slug <img-slug> ...` / `... --check`. |
 | `pull_assets.py` | 7 | **The Stage-7 hub.** Pulls candidates from free APIs → `07-style-pass.html` (per-beat candidates + AI prompts + intro). See below. |
 | `kenburns.py` | 9 | Orientation-aware Ken Burns on stills, **4K by default**. `... IMAGE --dur 6` or `... E0XX-slug --all`. ffmpeg. |
 | `trim_talk.py` | 9 | Trim silences + fillers from a take. `python tools/trim_talk.py TAKE.mp4` → `TAKE.trimmed.mp4` + `TAKE.cuts.md`. faster-whisper. |
 | `edit_review.py` | 9 | Build `07c-edit.html` — watch every KB clip + trimmed take, approve or feedback → `07c-review.txt`. `... E0XX-slug`. |
 | `find_music.py` | 9 | Ominous-ambient music beds. `... "query"` appends to the pool; ticks in the pass's Music section (or `... --get <id>...`) → `brand/assets/music/`. Jamendo (`JAMENDO_CLIENT_ID`). |
-| `idea_review.py` | 0 | `ideas/idea-review.html` — Carmen scores + picks a hook-title + comments per idea → `idea-review.txt`. |
-| `package_review.py` | 10 | `E0XX/10-package.html` — pick title, pick thumbnail, review description with Carmen → `10-package.txt`. `--init` scaffolds `08` + `09`. |
+| `idea_review.py` | 0 | `ideas/idea-review.html` — Usuario 002 scores + picks a hook-title + comments per idea → `idea-review.txt`. |
+| `package_review.py` | 10 | `E0XX/10-package.html` — pick title, pick thumbnail, review description with Usuario 002 → `10-package.txt`. `--init` scaffolds `08` + `09`. |
 | `review_ui.py` | — | shared dark-theme HTML shell for the review pages (not a CLI). |
 
-Stage 9 deps: `ffmpeg` on PATH, `faster-whisper`, `pillow`. See [docs/16-edit-and-delivery.md](../docs/16-edit-and-delivery.md).
+Stage 9 deps: `ffmpeg` on PATH, `faster-whisper`, `pillow`. See [brain/16-edit-and-delivery.md](../brain/16-edit-and-delivery.md).
 
 **Review pages** (`*-review.html` / `10-package.html`, `07-style-pass.html`, `07c-edit.html`) all follow the same pattern: a dark browser page with per-item controls, "Exportar" → a small `.txt` Claude folds back into the source doc. The `.html` is gitignored; the exported `.txt` is tracked.
 
@@ -31,7 +31,7 @@ python tools/pull_assets.py E0XX-slug --download   # -> assets/stock|video|archi
 
 **`07-style-pass.html`** is the central artifact of Stage 7 — one self-contained page,
 three surfaces:
-- **Intro row (top)** — the cold open (docs/02 §0). 5 inputs for your own paths/links +
+- **Intro row (top)** — the cold open (brain/02 §0). 5 inputs for your own paths/links +
   the suggested `intro` clips + an "intro" checkbox on every card below. Export order:
   own (1–5) → suggested → cards.
 - **Left column** — pulled candidates per beat; click a thumbnail to approve it for that
@@ -85,4 +85,4 @@ keyless sources run (Openverse, Met, AIC). Get them: Pexels `pexels.com/api`, Pi
 - Archive keyword search is filtered for relevance. Search ranks loosely, so add
   `must=<name>` to force the subject (e.g. `must=hokusai`). A too-narrow query can
   return zero — broaden the query, keep `must`.
-- `stock` is generic illustrative b-roll only, never "the real thing" (docs/12).
+- `stock` is generic illustrative b-roll only, never "the real thing" (brain/12).

@@ -1,18 +1,18 @@
 # Brief de episodio — E0XX «<título provisional>»
 
-> Stage 1 del flujo. Rellenar antes de invertir tiempo en investigación. Ver `docs/06-production-workflow.md`.
+> Stage 1 del flujo. Rellenar antes de invertir tiempo en investigación. Ver `brain/06-production-workflow.md`.
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E0XX |
 | Slug carpeta | E0XX-<slug> |
 | Fecha del brief | AAAA-MM-DD |
-| Autor del brief | Carmen / Josh |
+| Autor del brief | Usuario 002 / Usuario 001 |
 | Track | T01 Historias Inspiradoras / T02 Exploración (`ideas/tracks.md`) |
-| Hook-title elegido (`docs/13`) | … |
-| Guionista | Josh |
-| Narrador asignado | Carmen / Josh |
-| Forma del cierre (`docs/09`) | A reflexión+para llevar / B lección distribuida / C pregunta abierta |
+| Hook-title elegido (`brain/13`) | … |
+| Guionista | Usuario 001 |
+| Narrador asignado | Usuario 002 / Usuario 001 |
+| Forma del cierre (`brain/09`) | A reflexión+para llevar / B lección distribuida / C pregunta abierta |
 | Estado | idea aprobada por rúbrica |
 
 ## Sujeto
@@ -23,13 +23,13 @@
 
 ## Elegibilidad (resumen de la rúbrica — ver `ideas/idea-rubric.md`)
 
-- [ ] Track asignado + hook-title redactado (`docs/13`)
-- [ ] Cross-check de contenido disponible hecho — hay material de dominio público (`docs/12`)
+- [ ] Track asignado + hook-title redactado (`brain/13`)
+- [ ] Cross-check de contenido disponible hecho — hay material de dominio público (`brain/12`)
 - [ ] Registro público documentado
 - [ ] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)
-- [ ] Nadie que Carmen o Josh conozcan personalmente involucrado / identificable
+- [ ] Nadie que Usuario 001 o Usuario 002 conozcan personalmente involucrado / identificable
 - [ ] La historia se sostiene por sí misma (el cierre no es el motivo de elegir el caso)
-- [ ] Pasa la política de separación (`docs/05-separation-policy.md`)
+- [ ] Pasa la política de separación (`brain/05-separation-policy.md`)
 
 ## Tesis de trabajo
 
@@ -57,7 +57,7 @@ Una frase: ¿de qué trata realmente este episodio?
 | 2 | | | | |
 | 3 | | | | |
 
-## Cross-check de contenido disponible (`docs/12`) — resumen
+## Cross-check de contenido disponible (`brain/12`) — resumen
 
 | Necesidad | ¿Hay? | Archivo + ref | Derechos | Si no hay |
 |-----------|-------|---------------|----------|-----------|
@@ -84,5 +84,5 @@ Una frase: ¿de qué trata realmente este episodio?
 
 ## Decisión
 
-- [ ] Aprobado para pasar a investigación — Carmen __ / Josh __
+- [ ] Aprobado para pasar a investigación — Usuario 002 __ / Usuario 001 __
 - [ ] En pausa / descartado — motivo: …

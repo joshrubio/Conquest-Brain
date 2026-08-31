@@ -1,26 +1,31 @@
 # Empieza aquí
 
-Esta carpeta son **guías para leer y aprender**. No son reglas —las reglas viven en `docs/`, escritas en corto y en inglés—. Aquí explicamos, con ejemplos y en español, *cómo se piensa y se hace* un episodio de Exodo Channel y cómo funcionan las herramientas.
+Esta carpeta son **guías para leer y aprender**. No son reglas —las reglas viven en `brain/`, escritas en corto y en inglés—. Aquí explicamos, con ejemplos y en español, *cómo se piensa y se hace* un episodio de Exodo Channel y cómo funcionan las herramientas.
 
-Cuando aparezca un término técnico que también existe en `docs/`, lo dejamos con su nombre original entre paréntesis la primera vez —así puedes saltar a la regla exacta si la necesitas—.
+Cuando aparezca un término técnico que también existe en `brain/`, lo dejamos con su nombre original entre paréntesis la primera vez —así puedes saltar a la regla exacta si la necesitas—.
 
 ## ¿Para quién es esto?
 
-- **Carmen** — para dominar el modelo narrativo, tu papel editorial y el fact-check de Layer 3.
-- **Josh** — todo lo anterior + producción, herramientas y edición.
+- **Usuario 002** — para dominar el modelo narrativo, tu papel editorial y el fact-check de Layer 3.
+- **Usuario 001** — todo lo anterior + producción, herramientas y edición.
 - **Cualquiera que se sume al equipo** — este archivo es su primer día.
+
+> **`Usuario 001` / `Usuario 002`** son *slots*, no nombres. El sistema es agnóstico
+> para poder clonarse a otro canal. Quién es quién y qué hace cada uno vive en
+> [configuración-usuarios.md](configuración-usuarios.md) (y su gemelo técnico
+> `brain/USERS.md`) — los únicos dos archivos con nombres reales.
 
 ## El proyecto en cinco frases
 
 1. Exodo Channel es un canal de YouTube en español: **documentales narrados de casos reales** que cierran con una reflexión psicológica y una idea aplicable.
 2. Referencia de formato: **Dieck Docs** (Farid Dieck). Adoptamos su *estructura*, no su nivel de fuentes —el nuestro es más alto—.
-3. **Josh escribe todos los guiones.** Carmen dirige la línea editorial, investiga y firma el fact-check. Ambos narran (se asigna por episodio).
+3. **Usuario 001 escribe todos los guiones.** Usuario 002 dirige la línea editorial, investiga y firma el fact-check. Ambos narran (se asigna por episodio).
 4. Los sujetos son **públicos**: figuras públicas, casos históricos, empresas con documentación pública verificable. Nunca individuos privados, nunca gente que conozcamos.
 5. **Ninguna afirmación sin fuente.** Cada dato lleva una etiqueta `[S..]` que apunta al registro de fuentes.
 
 ## Cómo leer estas guías
 
-**Si vas a escribir un guion** (Carmen y Josh), lee en orden:
+**Si vas a escribir un guion** (Usuario 001 y Usuario 002), lee en orden:
 
 | # | Guía | Qué aprendes |
 |---|------|--------------|
@@ -36,15 +41,17 @@ Cuando aparezca un término técnico que también existe en `docs/`, lo dejamos 
 **Si vas a producir o editar**, sigue con:
 
 - [pipeline/1-las-12-etapas](pipeline/1-las-12-etapas.md) — el recorrido completo, quién hace qué, dónde están los "gates".
-- [herramientas/0-instalación-y-claves](herramientas/0-instalación-y-claves.md) — qué instalar y cómo conseguir las claves de API.
-- [herramientas/2-pull_assets](herramientas/2-pull_assets.md) — la herramienta central del Stage 7.
+- [pipeline/2-de-idea-a-episodio](pipeline/2-de-idea-a-episodio.md) · [pipeline/3-los-3-protocolos](pipeline/3-los-3-protocolos.md) · [pipeline/4-fact-check](pipeline/4-fact-check.md)
+- [pipeline/5-pase-de-estilo](pipeline/5-pase-de-estilo.md) · [pipeline/6-la-edición](pipeline/6-la-edición.md) · [pipeline/7-empaquetado-y-publicación](pipeline/7-empaquetado-y-publicación.md) · [pipeline/8-retro-y-métricas](pipeline/8-retro-y-métricas.md)
+- [herramientas/0-instalación-y-claves](herramientas/0-instalación-y-claves.md) — qué instalar y cómo conseguir las claves de API. *(2ª pasada)*
+- [herramientas/2-pull_assets](herramientas/2-pull_assets.md) — la herramienta central del Stage 7. *(2ª pasada)*
 
 ## Mapa del repositorio
 
 ```
 Exodo/  (antes "Youtube")
-  docs/            reglas permanentes, 00–16 (inglés, en corto)
-  documentación/   ESTO — guías para aprender (español)
+  brain/            reglas permanentes, 00–16 + USERS.md (inglés, en corto)
+  documentación/   ESTO — guías para aprender (español) · configuración-usuarios.md
   templates/       plantillas en blanco de cada etapa
   episodes/        una carpeta por episodio · _TEMPLATE-* para copiar · E000-EXAMPLE-* de referencia
   ideas/           el pool de ideas y las rúbricas
@@ -58,5 +65,5 @@ Exodo/  (antes "Youtube")
 1. **Ninguna afirmación sin fuente.** Si no lo puedes citar, no va en el guion.
 2. **Solo casos públicos y documentados.** Nunca alguien que conozcamos, nunca un chivatazo privado.
 3. **La reflexión nombra un mecanismo, no da un sermón.**
-4. **El que revisa no es el que escribe.** Josh escribe, dos pasadas automáticas + Carmen firman.
+4. **El que revisa no es el que escribe.** Usuario 001 escribe, dos pasadas automáticas + Usuario 002 firman.
 5. **La miniatura y el título no prometen un giro que el vídeo no paga.**

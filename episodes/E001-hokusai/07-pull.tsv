@@ -9,12 +9,12 @@
 #           archive   -> the real artifact (met,commons,aic)
 #   opts:   n=3  motion=no|only  orientation=landscape  min=1920  must=hokusai
 #
-# stock = generic illustrative b-roll only, never "the real thing" (docs/12).
+# stock = generic illustrative b-roll only, never "the real thing" (brain/12).
 # A found stock video beats making our own b-roll later — prefer it.
 # AI beats (ai01-ai04, +B/+C Daruma, +E packing-paper) live in 07b, not here.
 #
 beat	kind	source	query	opts
-# --- intro / cold open (docs/02 §0) — footage de impacto sobre el tema ---
+# --- intro / cold open (brain/02 §0) — footage de impacto sobre el tema ---
 INTRO1	intro	intro	japan aerial cinematic landscape mountains	orientation=landscape;min=1920;n=3
 INTRO2	intro	intro	ukiyo-e woodblock print ink brush closeup	orientation=landscape;min=1920;n=3
 INTRO3	intro	intro	rough sea waves japan dramatic	orientation=landscape;min=1920;n=2
@@ -35,7 +35,7 @@ INTRO3	intro	intro	rough sea waves japan dramatic	orientation=landscape;min=1920
 34	archive	commons,aic,met	katsushika oi painting	must=katsushika;n=3
 36	archive	commons,aic,met	hokusai portrait	must=hokusai;n=3
 FG	archive	commons,aic,met	van gogh japonaiserie	must=gogh;n=3
-# --- cold-open hook (docs/02 §0): 2-5 planos, vídeo preferido ---
+# --- cold-open hook (brain/02 §0): 2-5 planos, vídeo preferido ---
 HOOK1	stock	stock	dim traditional japanese tatami room candle dawn	orientation=landscape;min=1920;n=3
 HOOK2	stock	stock	old hands calligraphy brush ink paper close up	orientation=landscape;min=1920;n=3
 # --- generic b-roll: video first, image fallback ---

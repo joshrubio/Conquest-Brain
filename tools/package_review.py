@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 package_review.py — Stage 10 review surface. Pick the title, pick the thumbnail,
-review the description — with Carmen — in a page.
+review the description — with the editorial reviewer (Usuario 002) — in a page.
 
 Reads  episodes/E0XX-slug/08-thumbnail-title.md   (3 title candidates)
        episodes/E0XX-slug/09-description.md        (assembled description)
        episodes/E0XX-slug/03-source-log.csv        (Fuentes principales, Tier A/B)
        episodes/E0XX-slug/assets/thumb/*           (thumbnail variants, if any)
 Writes episodes/E0XX-slug/10-package.html   (browser — gitignored)
-       (Carmen exports)  10-package.txt     (tracked) -> Claude folds into 08 + 09
+       (reviewer exports)  10-package.txt   (tracked) -> Claude folds into 08 + 09
 
 Usage
   python tools/package_review.py E0XX-slug --init   # scaffold 08 + 09 from templates
@@ -145,13 +145,13 @@ def build(ep, slug):
            f'<pre class="box">{e(fuentes)}</pre></details>' if fuentes else "")
         + '</section>'
 
-        '<section><h2>Aprobación de Carmen</h2>'
+        '<section><h2>Aprobación editorial</h2>'
         '<div class="verdict">'
         '<label><input type="checkbox" id="ok_t"> título OK</label>'
         '<label><input type="checkbox" id="ok_m"> miniatura OK</label>'
         '<label><input type="checkbox" id="ok_d"> descripción OK</label>'
         '</div>'
-        '<textarea id="nota" placeholder="nota de Carmen (qué cambiar en título/miniatura/descripción)" '
+        '<textarea id="nota" placeholder="nota de revisión (qué cambiar en título/miniatura/descripción)" '
         'style="margin-top:.6rem"></textarea></section>'
     )
 
@@ -218,4 +218,4 @@ if __name__ == "__main__":
         sys.exit(f"no {slug}/08-thumbnail-title.md — corre:  python tools/package_review.py {slug} --init")
     (ep / "10-package.html").write_text(build(ep, slug), encoding="utf-8")
     print(f"escrito  episodes/{slug}/10-package.html")
-    print("siguiente: Carmen lo abre, elige título + miniatura, revisa la descripción, «Exportar 10-package.txt»")
+    print("siguiente: el revisor lo abre, elige título + miniatura, revisa la descripción, «Exportar 10-package.txt»")

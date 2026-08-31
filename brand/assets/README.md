@@ -1,6 +1,6 @@
 # brand/assets
 
-Vacío hasta fijar la identidad (ver `docs/03-brand-identity.md`).
+Vacío hasta fijar la identidad (ver `brain/03-brand-identity.md`).
 
 Contenido previsto cuando se decida:
 - `logo.svg`, `logo.png`

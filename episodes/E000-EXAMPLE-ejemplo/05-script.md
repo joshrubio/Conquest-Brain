@@ -8,8 +8,8 @@
 |-------|-------|
 | ID episodio | E000 |
 | Versión | v1 (ejemplo) |
-| Guionista | Carmen |
-| Narrador | Josh |
+| Guionista | Usuario 002 |
+| Narrador | Usuario 001 |
 | Forma del cierre | **A — reflexión + para llevar** |
 | Recuento de palabras | ~2.050 (ejemplo abreviado; un episodio real: ~2.900–3.100 para 18–20 min) |
 | Duración estimada | ~13 min tal cual; ~18–20 min con la narrativa central desarrollada |

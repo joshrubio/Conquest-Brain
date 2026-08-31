@@ -2,7 +2,7 @@
 
 > Stage 7 · central. Pull automático (`tools/pull_assets.py`) — **esto no es selección.**
 > Trabaja en `07-style-pass.html` (miniaturas + prompts IA + intro). Para picar a mano aquí: `- [x]`.
-> stock = b-roll ilustrativo genérico, nunca 'lo real' (docs/12).
+> stock = b-roll ilustrativo genérico, nunca 'lo real' (brain/12).
 
 ## intro — "japan aerial cinematic landscape mountains"  [intro]
 

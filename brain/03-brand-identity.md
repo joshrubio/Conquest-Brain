@@ -6,7 +6,7 @@ Chosen 2026-08-28. Full option trail: [brand/naming-exploration.md](../brand/nam
 
 ## Name — rationale
 
-- **Meaning:** *éxodo* = a mass departure. For Carmen and Josh it is literal — they are **Venezuelan journalists**, part of the ~7.7M-person Venezuelan exodus. The name carries the founders' story and the thesis: the gap between the official version and what actually happened, told by people who left because the official version was a lie.
+- **Meaning:** *éxodo* = a mass departure. For its two founders it is literal — they are **Venezuelan journalists**, part of the ~7.7M-person Venezuelan exodus (real names in [USERS.md](USERS.md)). The name carries the founders' story and the thesis: the gap between the official version and what actually happened, told by people who left because the official version was a lie.
 - **Spelling:** **"Exodo"** everywhere, no diacritic — cleaner internationally, matches the handle, and the wordmark stylises the **X** as the pivot letter.
 - **Accepted trade-offs:**
   - The name leans thematic (migration / exile). Some of the audience will read it as a migration channel even though episodes are broad. Decision: lean in — the founders' story *is* the brand.
@@ -18,14 +18,14 @@ Chosen 2026-08-28. Full option trail: [brand/naming-exploration.md](../brand/nam
 
 - **Channel type:** **own new YouTube channel.** *Exodo Channel* is the channel name + handle; not a segment inside anyone else's channel.
 - **Category (YouTube):** *Education* — same lane as Farid Dieck / Dieck Docs (narrated journalistic documentary).
-- **Brand type:** independent show brand, no real person's name (fits Carmen + Josh both narrating; scales).
+- **Brand type:** independent show brand, no real person's name (fits both founders narrating; scales).
 - **Founder story:** front and centre — Venezuelan journalists; the exodus is *why* "verified vs. official version" matters to them. Lives in the channel About + a pinned intro video, and in the reflection — **never** as an episode subject.
-- **Output resolution:** 4K (3840×2160). A shot that can't fill it drops to its best for that shot; the timeline stays 4K (`docs/16`).
-- **No on-screen source cards** — every citation lives in the description «Fuentes principales» + pinned comment. On screen: only the AI/reenactment label (`docs/15`), chapter/section cards, and the case-file device below.
+- **Output resolution:** 4K (3840×2160). A shot that can't fill it drops to its best for that shot; the timeline stays 4K (`brain/16`).
+- **No on-screen source cards** — every citation lives in the description «Fuentes principales» + pinned comment. On screen: only the AI/reenactment label (`brain/15`), chapter/section cards, and the case-file device below.
 
 ## Hard constraints
 
-1. **Standalone channel.** Run by Carmen + Josh. Not tied to, co-branded with, or cross-posted from any other channel or business. No "by X" tag on screen.
+1. **Standalone channel.** Run by its two founders. Not tied to, co-branded with, or cross-posted from any other channel or business. No "by X" tag on screen.
 2. Identity must work for a **broad Spanish-speaking audience** — not tied to Rotterdam, the Netherlands, or any local scene.
 3. **Subjects are public.** Public figures, historical cases, companies/practices with verifiable public documentation — **never private individuals**, never unrecorded personal stories. This is the channel's value proposition (journalistic rigor), not an administrative rule.
 4. The Venezuelan/founder angle is *voice and motive*, never *subject*. "Exodo" must never be used to tell a private migration story.
@@ -51,7 +51,7 @@ Restrained. Gold is a spice, not a base. No pure white, no pure black.
 
 - **Dark, warm, desaturated.** Lift blacks slightly to warm; pull saturation down ~15–20%; a gentle warm cast overall.
 - **Film grain** — fine, constant, low opacity. **Spotlight vignette** — subtle, centred on the focal point.
-- **Documents / archival:** sit them on an aged-paper or newspaper-clipping underlay; slight rotation, torn/taped edges allowed. Real scans, never faked (`docs/15`).
+- **Documents / archival:** sit them on an aged-paper or newspaper-clipping underlay; slight rotation, torn/taped edges allowed. Real scans, never faked (`brain/15`).
 - **Motifs:** thin gold circle (lens/target reticle), registration crosshairs, faint typewriter text in the margins.
 
 ### Case-file device (the recurring signature)
@@ -78,7 +78,7 @@ And the reflection/close can use the interview-transcript style (`ENTREVISTADOR:
 
 ### Narrator on camera
 
-Rare — only the applied-takeaway moment (`docs/02` §3, form A). When used: **centred, medium shot (waist-up), plain dark background, soft key from one side.** No desk, no set dressing.
+Rare — only the applied-takeaway moment (`brain/02` §3, form A). When used: **centred, medium shot (waist-up), plain dark background, soft key from one side.** No desk, no set dressing.
 
 ### Wordmark
 

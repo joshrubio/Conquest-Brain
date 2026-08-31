@@ -6,7 +6,7 @@ Not legal advice. This is the working standard; escalate anything uncertain to a
 
 - [ ] Subject is a **public figure**, a **historical case**, or a **company/practice** — not a private individual.
 - [ ] There is a **public documentary record**.
-- [ ] No one Carmen or Josh personally know is involved, named, or identifiable — even anonymized ([docs/05](05-separation-policy.md) §2). (Non-negotiable. If in doubt, drop it.)
+- [ ] No one Usuario 001 or Usuario 002 personally know is involved, named, or identifiable — even anonymized ([brain/05](05-separation-policy.md) §2). (Non-negotiable. If in doubt, drop it.)
 - [ ] The story is not sub judice in a way that makes commentary risky (check for active proceedings).
 
 ## 2. Defamation / reputation
@@ -51,9 +51,9 @@ Higher care for **living people** and **recent events**.
 
 ## 9. Independence & conflict of interest (see [05-separation-policy.md](05-separation-policy.md))
 
-- [ ] Subject is not someone Carmen or Josh personally know; story is not from a private tip.
+- [ ] Subject is not someone Usuario 001 or Usuario 002 personally know; story is not from a private tip.
 - [ ] No third-party link or pitch in the video. Soft channel CTA only.
 
 ## 10. Pre-publish sign-off
 
-Both Carmen and Josh tick this file (or its copy in the episode folder) before upload. Recorded in `09-publish-checklist.md`.
+Both Usuario 001 and Usuario 002 tick this file (or its copy in the episode folder) before upload. Recorded in `09-publish-checklist.md`.

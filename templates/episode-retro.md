@@ -7,7 +7,7 @@
 | ID episodio | E0XX |
 | Fecha de publicación | AAAA-MM-DD |
 | Duración final | … min |
-| Autor de la retro | Carmen + Josh |
+| Autor de la retro | Usuario 001 + Usuario 002 |
 
 ## Métricas
 
@@ -42,7 +42,7 @@
 
 - …
 
-## Cambios de proceso (llevar a `docs/`)
+## Cambios de proceso (llevar a `brain/`)
 
 | Cambio propuesto | Archivo docs a editar | Responsable |
 |------------------|-----------------------|-------------|
@@ -50,4 +50,4 @@
 
 ## Decisión de cadencia (solo tras E003)
 
-Tras 3 episodios: cadencia recomendada = … (ver `docs/07-publishing-seo-metrics.md`).
+Tras 3 episodios: cadencia recomendada = … (ver `brain/07-publishing-seo-metrics.md`).

@@ -1,6 +1,6 @@
 # Exploración de nombre — canal Exodo
 
-> **DEFINITIVO (2026-08):** nombre **Exodo** (sin tilde, siempre) · canal **Exodo Channel** · handle **`@exodochannel`** (`@exodoofficial` estaba tomado en YouTube) · **canal propio nuevo** (no segmento). Especificación de marca en `docs/03-brand-identity.md`. Este archivo conserva el recorrido histórico.
+> **DEFINITIVO (2026-08):** nombre **Exodo** (sin tilde, siempre) · canal **Exodo Channel** · handle **`@exodochannel`** (`@exodoofficial` estaba tomado en YouTube) · **canal propio nuevo** (no segmento). Especificación de marca en `brain/03-brand-identity.md`. Este archivo conserva el recorrido histórico.
 >
 > **Recorrido:** R1 (palabras de archivo en español) → no. R2 (palabra inventada + Docs) → no. R3 (anglicismo + Docs) → «Top Docs» descartado (choque con *Doc Tops*, 16M subs). Familia "verificar" en español (*Contraste*, *Contrapunto*, *Cotejo*) → saturada (*Cotejo.info* = fact-checker de referencia en Venezuela). **Cross Check** llegó a "definitivo" y luego se descartó. **Decisión final: «Éxodo».** Trade-offs asumidos conscientemente: (1) el nombre escora a temática migración/exilio aunque el contenido es amplio → se abraza, la historia de los fundadores (periodistas venezolanos, parte del éxodo de ~7,7M) *es* la marca; (2) término saturado (*Exodus* wallet cripto — clase 36 distinta; banda; disco de Marley; documentales bíblicos; uso en periodismo sobre migración venezolana — Radio Ambulante, Revista 5W); (3) ningún **canal** de documentales en español lo tiene → lane libre; (4) ruido en búsqueda por nombre asumido (el descubrimiento en YouTube va por miniatura/título/sugeridos). Handles limpios (`@exodo`, `@canal_exodo`) tomados → de ahí «Official». Verificar marca en clase 41.
 
@@ -8,10 +8,10 @@
 
 | Decisión | Valor |
 |----------|-------|
-| Tipo de marca | **Programa independiente** — el nombre no menciona a ninguna persona. Encaja con que Carmen y Josh narran episodios distintos y escala si entra más gente. |
+| Tipo de marca | **Programa independiente** — el nombre no menciona a ninguna persona. Encaja con que Usuario 001 y Usuario 002 narran episodios distintos y escala si entra más gente. |
 | Registro de tono | **Riguroso / archivo** — el nombre señala evidencia, documento, investigación. Sobrio. |
-| Chequeo de colisión | Pendiente — Josh verifica cada candidato contra el nombre del negocio de membresía y otros canales del equipo antes de decidir. |
-| Tipo de canal (propio vs segmento) | Sin decidir — ver `docs/03` §Channel-type. El nombre funciona igual en ambos casos. |
+| Chequeo de colisión | Pendiente — Usuario 001 verifica cada candidato contra el nombre del negocio de membresía y otros canales del equipo antes de decidir. |
+| Tipo de canal (propio vs segmento) | Sin decidir — ver `brain/03` §Channel-type. El nombre funciona igual en ambos casos. |
 
 ## Posicionamiento
 
@@ -20,7 +20,7 @@ Un canal en español que reconstruye casos reales —figuras públicas, hechos h
 ## Criterios del nombre
 
 **Innegociables:**
-- No menciona a Carmen, a Josh ni al negocio de membresía.
+- No menciona a Usuario 002, a Usuario 001 ni al negocio de membresía.
 - Cero solapamiento de marca/wordmark con el negocio de membresía y con otros canales del equipo.
 - Funciona para toda la hispanofonía — sin regionalismos, sin atarlo a Rotterdam/Países Bajos.
 - No sugiere que cubrimos personas privadas ni casos locales. Señala: historia, casos reales, evidencia, la persona detrás del hecho.
@@ -66,7 +66,7 @@ Un canal en español que reconstruye casos reales —figuras públicas, hechos h
 
 Suplente: **Apostilla** si se quiere algo culto y libre de colisiones.
 
-## Checklist de verificación por candidato (Josh)
+## Checklist de verificación por candidato (Usuario 001)
 
 Para cada finalista:
 
@@ -83,10 +83,10 @@ Para cada finalista:
 
 ## Siguientes pasos
 
-1. Josh corre la checklist sobre la shortlist (3 + suplente).
-2. Los que sobrevivan → decisión Carmen + Josh.
-3. Nombre elegido → `docs/03-brand-identity.md` (registrar), find & replace de `SEGMENTO` en el repo, asegurar handles.
-4. Pasar a dirección visual (`docs/03` §Visual direction).
+1. Usuario 001 corre la checklist sobre la shortlist (3 + suplente).
+2. Los que sobrevivan → decisión Usuario 001 + Usuario 002.
+3. Nombre elegido → `brain/03-brand-identity.md` (registrar), find & replace de `SEGMENTO` en el repo, asegurar handles.
+4. Pasar a dirección visual (`brain/03` §Visual direction).
 
 ---
 
@@ -107,7 +107,7 @@ Para cada finalista:
 
 | # | Nombre | Palabra evoca | Fonética | Feel | Riesgo | A verificar |
 |---|--------|---------------|----------|------|--------|-------------|
-| 1 | **Verax Docs** | *verax* (latín, "veraz") | /bé·raks · doks/ — la x hace eco con «Docs» | Coído, con filo, on-theme (verdad) | «Verax» fue nombre en clave de Snowden y título de un corto de 2013 — notable pero no es un canal de docs | handles · .com · marca · buscar "Verax" docs/medios |
+| 1 | **Verax Docs** | *verax* (latín, "veraz") | /bé·raks · doks/ — la x hace eco con «Docs» | Coído, con filo, on-theme (verdad) | «Verax» fue nombre en clave de Snowden y título de un corto de 2013 — notable pero no es un canal de docs | handles · .com · marca · buscar "Verax" brain/medios |
 | 2 | **Codex Docs** | *codex* ("libro de registro antiguo") | /kó·deks · doks/ — aliteración k + eco x | Muy "estudio", archivo, autoridad | «Codex» es también un grupo de la escena warez (pirateo) — asociación negativa en algunos círculos; muy usado en tech/juegos | handles · .com · marca · sopesar la connotación warez |
 | 3 | **Nexo Docs** | *nexo* ("el vínculo") — el formato une caso → reflexión → lección | /nék·so · doks/ — x + o, encaja | Corto, moderno, significado exacto para el formato | *Nexo Jornal* (Brasil, medio respetado, en portugués) — revisar confusión | handles · .com · marca · buscar "Nexo" medios ES |
 | 4 | **Probo Docs** | *probo* ("honrado, íntegro" — "un hombre probo") | /pró·bo · doks/ | Suena a apellido real, con significado noble, probablemente libre | Poco conocido como adjetivo hoy; algunos lo leerán solo como sonido | handles · .com · marca |

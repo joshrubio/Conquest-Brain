@@ -7,12 +7,12 @@
 | ID episodio | E000 |
 | Slug carpeta | E000-EXAMPLE-ejemplo |
 | Fecha del brief | 2026-08-28 |
-| Autor del brief | Josh (ejemplo) |
+| Autor del brief | Usuario 001 (ejemplo) |
 | Track | **T02 Exploración** (`ideas/tracks.md`) |
-| Hook-title elegido (`docs/13`) | `¿La PRIMERA BURBUJA de la historia fue un FRAUDE planeado? \| Los Mares del Sur, 1720 \| Documental` |
-| Guionista | Josh |
-| Narrador asignado | Josh |
-| Forma del cierre (`docs/09`) | **A — reflexión + para llevar** |
+| Hook-title elegido (`brain/13`) | `¿La PRIMERA BURBUJA de la historia fue un FRAUDE planeado? \| Los Mares del Sur, 1720 \| Documental` |
+| Guionista | Usuario 001 |
+| Narrador asignado | Usuario 001 |
+| Forma del cierre (`brain/09`) | **A — reflexión + para llevar** |
 | Estado | ejemplo — no entra en producción |
 
 **Otros 2 hook-titles (para A/B en Stage 10):** `La VERDADERA HISTORIA DETRÁS de la primera gran estafa bursátil \| Documental` · `El día que MEDIA INGLATERRA compró algo que no existía \| Los Mares del Sur \| Documental`
@@ -25,13 +25,13 @@
 
 ## Elegibilidad (resumen de la rúbrica — ver `ideas/idea-rubric.md`)
 
-- [x] Track asignado (T02) + hook-title redactado (`docs/13`)
-- [x] Cross-check de contenido disponible hecho — ver sección abajo (`docs/12`)
+- [x] Track asignado (T02) + hook-title redactado (`brain/13`)
+- [x] Cross-check de contenido disponible hecho — ver sección abajo (`brain/12`)
 - [x] Registro público documentado (actas del Parlamento 1721, prensa de la época, historiografía)
 - [x] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)
-- [x] Nadie que Carmen o Josh conozcan personalmente involucrado / identificable
+- [x] Nadie que Usuario 001 o Usuario 002 conozcan personalmente involucrado / identificable
 - [x] La historia se sostiene por sí misma (el cierre no es el motivo de elegir el caso)
-- [x] Pasa la política de separación (`docs/05-separation-policy.md`)
+- [x] Pasa la política de separación (`brain/05-separation-policy.md`)
 
 ## Tesis de trabajo
 
@@ -56,7 +56,7 @@ Patrón recurrente (manías especulativas modernas). Encaja con los públicos de
 | 2 | John Carswell, *The South Sea Bubble* (ed. rev., Alan Sutton, 1993) | B | libro académico con notas — *ISBN a completar* | cronología y actores |
 | 3 | Julian Hoppit, "The Myths of the South Sea Bubble", *Transactions of the Royal Historical Society*, vol. 12 (2002) | B | artículo revisado por pares — *DOI a completar* | matiza el relato popular; corrige cifras |
 
-## Cross-check de contenido disponible (`docs/12`) — resumen
+## Cross-check de contenido disponible (`brain/12`) — resumen
 
 | Necesidad | ¿Hay? | Archivo + ref | Derechos | Si no hay |
 |-----------|-------|---------------|----------|-----------|

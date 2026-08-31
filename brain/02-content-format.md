@@ -34,14 +34,14 @@ Start *in medias res*. **No channel intro before it.** Two layers, running toget
 - **In-scene action** — "las alarmas se activan y el reactor se vuelve inestable".
 - **Contrast image** — two states of the subject, before/after.
 
-**Visual hook** — **2–5 shots**, hard-cut on the beat of the narration, each illustrating one concrete image the narration names. **Stock video preferred** — a moving shot here is worth more than a push-in on a still. ~3–6 s per shot, escalating; the last shot is the "turn" (the thing that makes the answer feel necessary) and may hold ½ s longer before the cut to black. Archival/AI shots allowed, labelled per `docs/15`; stock must stay generic (`docs/12`). High cut rate — this is the densest moment of the episode (10–12 beats/min, `docs/11`).
+**Visual hook** — **2–5 shots**, hard-cut on the beat of the narration, each illustrating one concrete image the narration names. **Stock video preferred** — a moving shot here is worth more than a push-in on a still. ~3–6 s per shot, escalating; the last shot is the "turn" (the thing that makes the answer feel necessary) and may hold ½ s longer before the cut to black. Archival/AI shots allowed, labelled per `brain/15`; stock must stay generic (`brain/12`). High cut rate — this is the densest moment of the episode (10–12 beats/min, `brain/11`).
 
-These shots are chosen in the **Intro row of `07-style-pass.html`** (Stage 7): `INTRO1…` spec rows search high-impact footage on the topic (for Hokusai: Japan / ukiyo-e / ocean), Josh also pastes his own links, or flags any card. `--download` numbers them `assets/intro/intro01…` in screen order.
+These shots are chosen in the **Intro row of `07-style-pass.html`** (Stage 7): `INTRO1…` spec rows search high-impact footage on the topic (for Hokusai: Japan / ukiyo-e / ocean), Usuario 001 also pastes his own links, or flags any card. `--download` numbers them `assets/intro/intro01…` in screen order.
 
 **Always end the narrative hook by naming what the video will do**: "en este episodio reconstruimos…", "aquí van las tres versiones del caso…", "para entenderlo, primero el contexto". **Sourced** — the hook may not overstate what the record supports.
 
 ### 0b. Bumper — 3–6 s, on black
-The reset beat between hook and story (Dieck does this — the brand moment lands *after* the hook, never before). Cut to **black**. Presenter says one line — "Soy Carmen." / "Soy Josh." — the **`Exodo`** wordmark appears, one low tone or a beat of silence, out. No logo animation, no music sting longer than the beat. This is also the narrative's "chapter 1" line — the context pivot starts on the next shot. Everything up to here (hook + bumper) is **≤ 50 s**, target ~35 s; the context pivot is running by **0:45–0:50**.
+The reset beat between hook and story (Dieck does this — the brand moment lands *after* the hook, never before). Cut to **black**. Presenter says one line — "Soy [nombre]." — the **`Exodo`** wordmark appears, one low tone or a beat of silence, out. No logo animation, no music sting longer than the beat. This is also the narrative's "chapter 1" line — the context pivot starts on the next shot. Everything up to here (hook + bumper) is **≤ 50 s**, target ~35 s; the context pivot is running by **0:45–0:50**.
 
 ### 1. Context pivot + era setup — 10–20%
 An explicit hinge line out of the hook: "pero para ver si esto es cierto, necesitamos algo de contexto" / "quiero que imagines que estás en…". Then the background the story needs: the era, the institution, the people, the stakes. This is where the first **explainer interlude** usually sits.
@@ -80,10 +80,10 @@ A distinct beat **after** the close has fully landed. Soft channel CTA only (sub
 - Explainer interludes and foreshadowing hooks appear in every episode.
 - Any psychological concept invoked is **named and, where a specific theory/study/thinker is used, sourced** ([09-reflection-rules.md](09-reflection-rules.md)).
 
-## Series identity elements  (set — [docs/03](03-brand-identity.md))
+## Series identity elements  (set — [brain/03](03-brand-identity.md))
 
-- **Title pattern:** `<Gancho> | <Sujeto> | Documental` (Dieck register, [docs/13](13-hook-naming.md)).
-- **Thumbnail system:** [docs/03](03-brand-identity.md) §Thumbnail system — subject image + house grade + one line of Playfair or the case-file device, gold accent on one word.
+- **Title pattern:** `<Gancho> | <Sujeto> | Documental` (Dieck register, [brain/13](13-hook-naming.md)).
+- **Thumbnail system:** [brain/03](03-brand-identity.md) §Thumbnail system — subject image + house grade + one line of Playfair or the case-file device, gold accent on one word.
 - **"Fuentes principales" description block:** required every episode ([templates/description-and-credits.md](../templates/description-and-credits.md)). **This is where all citations live — no source cards on screen.**
-- **Case-file device:** every episode's context opens with `EXPEDIENTE: CASO 00XX …` in Courier Prime ([docs/03](03-brand-identity.md)). The reflection may use the interview-transcript style.
+- **Case-file device:** every episode's context opens with `EXPEDIENTE: CASO 00XX …` in Courier Prime ([brain/03](03-brand-identity.md)). The reflection may use the interview-transcript style.
 - **Bumper** (§0b): the only brand moment in the body — presenter line + `Exodo` wordmark on black, 3–6 s, after the cold open. No loud pre-roll intro anywhere.

@@ -11,13 +11,13 @@
 
 - Honest to the body. The hook's promise must be paid off in the video.
 - Spanish, neutral-international.
-- **Pattern (Dieck register, `docs/13`):** `<Gancho> | <Sujeto> | Documental` — e.g. `Lo perdió TODO tres veces — y pintó "La gran ola" a los 70 | Hokusai | Documental`. The hook carries the tension; the subject and "Documental" anchor it.
+- **Pattern (Dieck register, `brain/13`):** `<Gancho> | <Sujeto> | Documental` — e.g. `Lo perdió TODO tres veces — y pintó "La gran ola" a los 70 | Hokusai | Documental`. The hook carries the tension; the subject and "Documental" anchor it.
 - One or two capitalised words in the hook for emphasis is fine (Dieck does it); not ALL CAPS, no fake questions the video doesn't answer.
-- 3 candidates per episode in `07-thumbnail-title.md` (from the Stage 0 hook-titles); pick with Carmen.
+- 3 candidates per episode in `07-thumbnail-title.md` (from the Stage 0 hook-titles); pick with Usuario 002.
 
 ## Thumbnails
 
-- One system (`docs/03` §Thumbnail system): subject image + the house grade + one line of Playfair or the case-file device, gold accent on one word.
+- One system (`brain/03` §Thumbnail system): subject image + the house grade + one line of Playfair or the case-file device, gold accent on one word.
 - ≤ 4 words of text, high contrast, readable at 320px.
 - Archival image or a still tied to the actual story. No arrows, no shocked faces, no red circles.
 
@@ -39,7 +39,7 @@ Map to the format: Hook / Narrative acts / Reflexión / Para llevar. Helps reten
 ## Tags & metadata
 
 - Spanish keywords tied to the subject and to "historia", "caso real", "documental".
-- Category: **Education** (`docs/03`).
+- Category: **Education** (`brain/03`).
 - Language: Spanish. Add auto-translate titles only if quality is acceptable.
 
 ## Subtitles

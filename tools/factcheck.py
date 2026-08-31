@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-factcheck.py — Layer 1 (deterministic) of the fact-check protocol (docs/14).
+factcheck.py — Layer 1 (deterministic) of the fact-check protocol (brain/14).
 
 Usage:
     python tools/factcheck.py episodes/E0XX-slug/05-script.md episodes/E0XX-slug/03-source-log.csv

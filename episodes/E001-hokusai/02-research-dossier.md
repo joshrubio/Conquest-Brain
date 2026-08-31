@@ -5,13 +5,13 @@
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E0XX |
-| Investigador principal | Carmen |
+| Investigador principal | Usuario 002 |
 | Última actualización | AAAA-MM-DD |
 | Nº de fuentes en source-log | … (A: __ / B: __ / C: __) |
 
 ## 1. Reinicio de fuentes (si aplica)
 
-Si la idea surgió de la vida privada de Carmen o Josh (un tip, una conversación): **describir cómo se ha re-obtenido todo desde material público** y confirmar que no se usa nada de fuente privada. Ver `docs/05-separation-policy.md`.
+Si la idea surgió de la vida privada de Usuario 001 o Usuario 002 (un tip, una conversación): **describir cómo se ha re-obtenido todo desde material público** y confirmar que no se usa nada de fuente privada. Ver `brain/05-separation-policy.md`.
 
 > …
 
@@ -75,4 +75,4 @@ Si la idea surgió de la vida privada de Carmen o Josh (un tip, una conversació
 - [ ] Toda afirmación de carga con ≥1 Tier A/B
 - [ ] Puntos disputados identificados
 - [ ] Sin dependencia de Tier C/D para sostener nada
-- [ ] Revisado por Josh — fecha __
+- [ ] Revisado por Usuario 001 — fecha __

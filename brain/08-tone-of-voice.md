@@ -2,7 +2,7 @@
 
 > **Status: v1 — validated against 6 Dieck Docs transcripts (2026-08-27)** (`research/dieck-docs/structure-analysis.md`). v0 → v1 changes: **direct "tú" is now used throughout the episode**, not only in the takeaway (that was wrong in v0); added the first-person investigator voice; verbal uncertainty markers are now a required habit; clarified where we deliberately diverge from Dieck (he moralizes lightly in his closes — we keep ours lighter, for the journalism brand).
 
-Applies to every script regardless of narrator. Two narrators (Carmen, Josh) — the **channel voice is one**; personal delivery differs, the writing standard does not.
+Applies to every script regardless of narrator. Two narrators (Usuario 002, Usuario 001) — the **channel voice is one**; personal delivery differs, the writing standard does not.
 
 ## 1. Register
 
@@ -64,8 +64,8 @@ Plant and pay off 3–6 per episode ([02-content-format.md](02-content-format.md
 
 | Narrator | Delivery note (fill after first recordings) |
 |----------|--------------------------------------------|
-| Carmen | … |
-| Josh | … |
+| Usuario 002 | … |
+| Usuario 001 | … |
 
 ## 10. Quick self-check (in the script self-review)
 

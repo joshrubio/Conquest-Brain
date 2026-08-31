@@ -5,7 +5,7 @@
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E000 |
-| Investigador principal | Carmen (ejemplo) |
+| Investigador principal | Usuario 002 (ejemplo) |
 | Última actualización | 2026-08-28 |
 | Nº de fuentes en source-log | 11 (A: 5 / B: 5 / D: 1 — la D es la cita apócrifa, no se usa como real) |
 
@@ -91,4 +91,4 @@ No aplica: el caso es registro histórico público, no procede de fuente privada
 - [ ] Toda afirmación de carga con ≥1 Tier A/B (C1 y C4 aún abiertas en este ejemplo)
 - [x] Puntos disputados identificados
 - [x] Sin dependencia de Tier C/D para sostener nada (la D es la cita apócrifa, marcada como no usable)
-- [ ] Revisado por Josh — (ejemplo)
+- [ ] Revisado por Usuario 001 — (ejemplo)

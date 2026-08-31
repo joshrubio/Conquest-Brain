@@ -115,7 +115,7 @@ Closing each option honestly:
 
 - "Creo que todos podemos aprender algo de esta historia. Sea cierta o no la teoría… lo que sí podemos hacer es manipular nuestra forma de entender y comportarnos en el mundo. Ser más conscientes de por qué hacemos lo que hacemos podría ser el primer paso…" (T01)
 - "Pero en realidad, yo creo que ni Rey ni Ethel estaban equivocados, simplemente tenían visiones radicalmente diferentes de lo que significa la felicidad." (T05)
-- "La verdadera riqueza no solo se mide en billetes. Yo creo que sería genial que como sociedad aprendiéramos a valorar y admirar más a personas como los hermanos McDonald…" (T05) — *note: this is the "light moralizing" we keep shorter (docs/08 §1)*
+- "La verdadera riqueza no solo se mide en billetes. Yo creo que sería genial que como sociedad aprendiéramos a valorar y admirar más a personas como los hermanos McDonald…" (T05) — *note: this is the "light moralizing" we keep shorter (brain/08 §1)*
 
 ## 15. Close — Form B (distributed lesson)
 
@@ -137,4 +137,4 @@ Elegiac ending:
 
 > "Para ti que llegaste hasta el final, muchísimas gracias por ver el video completo. Quiero agradecerte también por todo tu apoyo y recordarte que si no te has suscrito a mi canal, lo hagas en este momento. La verdad me apoyarías bastante y así también te aseguras de no perderte ninguno de mis videos. Sin más, tú y yo nos vemos en el próximo video."
 
-**Our version:** shorter, brand-separate, no over-familiar tone. See `templates/description-and-credits.md` and `docs/05-separation-policy.md`. Draft: *"Si estas historias te sirven, suscríbete — así no te pierdes el próximo episodio. Las fuentes están en la descripción."*
+**Our version:** shorter, brand-separate, no over-familiar tone. See `templates/description-and-credits.md` and `brain/05-separation-policy.md`. Draft: *"Si estas historias te sirven, suscríbete — así no te pierdes el próximo episodio. Las fuentes están en la descripción."*

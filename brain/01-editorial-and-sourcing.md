@@ -46,7 +46,7 @@ Post-publication errors: pinned comment + description note + on-screen card if m
 
 ## 8. Fact-check gate
 
-No script proceeds to record until `04-fact-check.md` is complete and signed by someone who did **not** write the script (Carmen writes → Josh checks, or vice versa). See [templates/fact-check-sheet.md](../templates/fact-check-sheet.md).
+No script proceeds to record until `04-fact-check.md` is complete and signed by someone who did **not** write the script (Usuario 002 writes → Usuario 001 checks, or vice versa). See [templates/fact-check-sheet.md](../templates/fact-check-sheet.md).
 
 ## 9. AI use
 

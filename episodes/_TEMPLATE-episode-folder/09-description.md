@@ -20,8 +20,8 @@
 - (Listado completo de fuentes en el dossier del episodio.)
 
 🎬 Créditos
-- Investigación y guion: Carmen
-- Producción y edición: Josh
+- Investigación y guion: Usuario 002
+- Producción y edición: Usuario 001
 - Música: <pista(s)> — <librería> (<licencia>)
 - Archivo: <colecciones / dominio público / CC — detalle>
 
