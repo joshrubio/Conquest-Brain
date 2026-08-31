@@ -74,4 +74,4 @@ Este doc (`.md`) es **tracked**; su render `cost.html` lo regenera `tools/dash.p
 - cambien los límites del plan Pro → actualiza §Contra el plan
 - midas tokens reales → §Historial + recalibra la tabla
 - una etapa cambie de coste (nueva herramienta, más/menos lectura) → su fila
-`tools/dash.py` lo re-renderiza a `cost.html` en cada regeneración del dashboard.
+El botón **«Actualizar»** (arriba, en esta página) corre `tools/cost_update.py`. `tools/dash.py` lo re-renderiza a `cost.html` en cada regeneración del dashboard.

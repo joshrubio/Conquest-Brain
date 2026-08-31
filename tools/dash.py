@@ -167,7 +167,6 @@ document.querySelectorAll('[data-human]').forEach(b=>b.onclick=()=>{{
   const [ep,st]=b.dataset.human.split(':'); post('/human',{{ep,stage:+st}});}});
 document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
   await post('/loop',{{state:b.dataset.loop}});}});
-const cu=document.getElementById('costupd'); if(cu)cu.onclick=()=>post('/cost-update',{{}});
 """
     loop_state = P.read_loop().get("state", "run")
     lbadge = {"run": "activa", "pause": "pausada", "stop": "cerrada"}.get(loop_state, loop_state)
@@ -234,7 +233,6 @@ const cu=document.getElementById('costupd'); if(cu)cu.onclick=()=>post('/cost-up
           '<button class="btn" data-loop="run">▶ Reanudar</button>'
           '<button class="btn" data-loop="stop">⏹ Cerrar sesión</button>'
           + ('<a class="btn" href="cost.html" style="margin-left:auto">Consumo</a>'
-             '<button class="btn" id="costupd">Actualizar plan</button>'
              if COST_MD.exists() else ''))
     return ("<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\">"
             "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
@@ -253,12 +251,23 @@ def build_cost():
             "h1,h2,h3{border:0}h2{margin-top:2rem}"
             "table.kpi{width:100%;border-collapse:collapse;font-size:.8rem;margin:.6rem 0}"
             "table.kpi td,table.kpi th{border-top:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}"
-            "table.kpi th{color:var(--muted)}li{margin:.2rem 0}</style></head><body>"
+            "table.kpi th{color:var(--muted)}li{margin:.2rem 0}"
+            ".hbtn{font:inherit;font-size:.8rem;padding:.4rem .8rem;border:1px solid var(--line);"
+            "border-radius:8px;background:var(--surface-2);color:var(--fg);text-decoration:none;cursor:pointer}"
+            "#upd{border-color:var(--gold);color:var(--gold)}</style></head><body>"
             "<header><h1>Consumo del sistema</h1>"
-            "<a class=\"btn\" href=\"dashboard.html\" style=\"font-size:.8rem;padding:.4rem .8rem;"
-            "border:1px solid var(--line);border-radius:8px;background:var(--surface-2);"
-            "color:var(--fg);text-decoration:none\">← dashboard</a></header>"
-            "<main>" + inner + "</main></body></html>\n")
+            "<button class=\"hbtn\" id=\"upd\" title=\"Corre tools/cost_update.py: pone la fecha de hoy en las marcas «a fecha de», "
+            "marca como (revisar) las filas de la tabla por etapa con más de 90 días, añade una fila al Historial con el commit "
+            "actual y un hueco para el dato real de /usage, y regenera esta página. No inventa cifras.\">Actualizar</button>"
+            "<a class=\"hbtn\" href=\"dashboard.html\" style=\"margin-left:auto\">← dashboard</a></header>"
+            "<main>" + inner + "</main>"
+            "<script>document.getElementById('upd').onclick=async()=>{"
+            "try{const r=await fetch('http://localhost:8765/cost-update',{method:'POST',"
+            "headers:{'content-type':'application/json'},body:'{}'});"
+            "if(r.ok){const j=await r.json();alert(j.msg||'actualizado');location.reload();}"
+            "else alert('server respondió '+r.status);}"
+            "catch(e){alert('El server no está corriendo. Abre Exodo-Dashboard.bat, o corre  python tools/cost_update.py');}};"
+            "</script></body></html>\n")
 
 
 if __name__ == "__main__":

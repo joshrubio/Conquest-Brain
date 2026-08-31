@@ -78,7 +78,7 @@ El **server** (`serve.py`) es aparte y no gasta tokens; ciérralo cuando quieras
 
 ## Ahorro de tokens
 
-El dashboard incluye la burbuja «Cómo no gastar tokens» y, por card, el **manifiesto de contexto** (los `reads` + `rules` del stage — lo único que el agente debe abrir). El reporte vive en `research/system-cost.md` → botón «Consumo»; el botón «Actualizar plan» corre `tools/cost_update.py` (bumpea fecha, marca filas viejas, añade una fila de Historial con hueco para el `/usage` real).
+El dashboard incluye la burbuja «Cómo no gastar tokens» y, por card, el **manifiesto de contexto** (los `reads` + `rules` del stage — lo único que el agente debe abrir). El reporte vive en `research/system-cost.md` (tracked) → botón «Consumo» del dashboard abre su render `cost.html`. Dentro, el botón **«Actualizar»** (con tooltip) corre `tools/cost_update.py`: bumpea la fecha, marca como *revisar* las filas > 90 días, añade una fila al Historial con el commit actual y un hueco para el `/usage` real, y re-renderiza. No inventa cifras.
 
 ## The `/loop` (optional layer)
 
