@@ -37,9 +37,11 @@ El `.html` es regenerable (gitignored); el `.txt` exportado es el registro que s
 
 ## Roles
 
+**`Usuario 001` y `Usuario 002` son *slots*, no personas.** Las responsabilidades son ítems asignables; el reparto de abajo es el de esta iteración. Quién es quién vive en [configuración-usuarios.md](../configuración-usuarios.md) (y `brain/USERS.md`) — los únicos archivos con nombres reales.
+
 - **Usuario 001 escribe todos los guiones.** También: ideación T02, shotlist, edición, publicación, tech, `tools/`.
 - **Usuario 002:** lead editorial, ideación T01, dirección de investigación, firma del fact-check (Layer 3), a cámara/narración (compartido).
-- **Narrador** asignado por episodio — suele seguir al dueño del track; mantener un reparto equilibrado.
+- **Narrador** asignado por episodio — suele seguir al dueño del track; mantener un reparto equilibrado. En cámara dice su nombre real (`«Soy [nombre].»`).
 
 | Etapa | Lead | Apoyo |
 |-------|------|-------|
