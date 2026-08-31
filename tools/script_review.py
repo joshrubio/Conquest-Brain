@@ -178,7 +178,7 @@ def build(slug, header, beats):
         f'<section><h2>El guion — {nbeats} beats</h2>'
         '<p class="hint">Por beat: márcalo <b>aprobado</b>, o escribe qué editar. Pulsa la etiqueta '
         '(<code>[NARRACIÓN]</code>, <code>[EXPLICADOR]</code>…) para ver qué significa. '
-        '«Exportar» → Claude aplica tus notas a <code>05-script.md</code>.</p>'
+        '<b>«Finalizar Stage 4»</b> cierra el gate; Claude aplica tus notas a <code>05-script.md</code>.</p>'
         + "\n".join(cards) + '</section>'
         '<section><h2>Nota global y firma</h2>'
         '<textarea id="global" placeholder="nota general (ritmo, arco, el cierre, lo que falta…)"></textarea>'
@@ -240,7 +240,7 @@ $('#exp').onclick=()=>{{
 $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
 """
     hd = (f'<h1>Script pass · {e(slug)}</h1><span class="count"></span>'
-          f'<button class="primary" id="exp">Exportar {REVIEW_TXT}</button>'
+          f'<button class="primary" id="exp">Finalizar Stage 4</button>'
           '<button id="clr">Limpiar</button>')
     extra = ('<style>'
              'table.mini{width:100%;border-collapse:collapse;font-size:.8rem;margin:.3rem 0}'
@@ -276,4 +276,4 @@ if __name__ == "__main__":
     (ep / REVIEW_HTML).write_text(build(slug, header, beats), encoding="utf-8")
     nb = sum(1 for b in beats if b["kind"] == "beat")
     print(f"escrito  episodes/{slug}/{REVIEW_HTML}  ({nb} beats)")
-    print("siguiente: ábrelo, aprueba / comenta cada beat, «Exportar 05-script-pass.txt»")
+    print("siguiente: ábrelo, aprueba / comenta cada beat, «Finalizar Stage 4»")

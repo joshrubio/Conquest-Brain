@@ -37,7 +37,7 @@ python tools/package_review.py E0XX-slug
 - **Descripción:** editable en la caja. «Fuentes principales» se auto-construye de `03-source-log.csv` (filas Tier A/B).
 - **3 aprobaciones:** título OK · miniatura OK · descripción OK.
 
-**Exportar 10-package.txt** → Claude lo pliega en `08` + `09`.
+**«Finalizar Stage 10»** (escribe `10-package.txt`) → Claude lo pliega en `08` + `09`.
 
 ### La descripción — bloques obligatorios
 

@@ -198,7 +198,7 @@ $('#exp').onclick=()=>{{
 $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
 """
     header = (f'<h1>Paquete · {e(slug)}</h1><span class="count"></span>'
-              '<button class="primary" id="exp">Exportar 10-package.txt</button>'
+              '<button class="primary" id="exp">Finalizar Stage 10</button>'
               '<button id="clr">Limpiar</button>')
     return page(f"Paquete — {e(slug)}", header, body, script)
 
@@ -219,4 +219,4 @@ if __name__ == "__main__":
         sys.exit(f"no {slug}/08-thumbnail-title.md — corre:  python tools/package_review.py {slug} --init")
     (ep / "10-package.html").write_text(build(ep, slug), encoding="utf-8")
     print(f"escrito  episodes/{slug}/10-package.html")
-    print("siguiente: el revisor lo abre, elige título + miniatura, revisa la descripción, «Exportar 10-package.txt»")
+    print("siguiente: el revisor lo abre, elige título + miniatura, revisa la descripción, «Finalizar Stage 10»")

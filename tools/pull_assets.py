@@ -25,7 +25,7 @@ Usage
       + 07-style-pass.html (the picker). ~3 candidates per beat.
 
   python tools/pull_assets.py E0XX-slug --download
-      read 07-picks.txt (from the picker's Exportar button), download every
+      read 07-picks.txt (from the picker's Finalizar button), download every
       choice into assets/{intro,stock,video,archive,ai}/, verify resolution,
       append assets/CREDITS.md, write 07-selection.md, print manifest rows.
 
@@ -660,10 +660,10 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
  <span id="cnt">0 / {total} beats</span>
  <span id="introcnt"></span>
  <span id="aicnt"></span>
- <button class="primary" id="exp">Exportar {PICKS_F}</button>
+ <button class="primary" id="exp">Finalizar Stage 7</button>
  <button id="clr">Limpiar</button>
  <a class="btn ghost" id="assets" href="http://localhost:8765/episodes/{slug}/assets/" target="_blank">Carpeta de recursos</a>
- <span class="small" style="opacity:.7">al Exportar se descargan los recursos elegidos ahí</span>
+ <span class="small" style="opacity:.7">al finalizar se descargan los recursos elegidos ahí</span>
 </header>
 {introbox}
 <div class="wrap">
@@ -899,7 +899,7 @@ def run(slug):
     print(f"escrito  episodes/{slug}/{PASS_HTML}  <- ábrelo en el navegador"
           + (f"  ({len(ai[1])} prompts IA)" if ai[1] else "")
           + (f"  ({len(music)} tracks música)" if music else ""))
-    print("siguiente: intro + miniaturas + rutas IA, «Exportar 07-picks.txt», corre --download")
+    print("siguiente: intro + miniaturas + rutas IA, «Finalizar Stage 7», corre --download")
 
 
 # ---------------------------------------------------------------------- download
@@ -940,7 +940,7 @@ def read_picks(slug):
         if m:
             picks.append((beat, m.group(1), m.group(2), m.group(3)))
     if not picks:
-        sys.exit(f"0 picks — usa {PASS_HTML} («Exportar {PICKS_F}») "
+        sys.exit(f"0 picks — usa {PASS_HTML} («Finalizar Stage 7») "
                  f"o marca `- [x]` en {PASS_MD}")
     print(f"picks: {PASS_MD} ({len(picks)})")
     return picks

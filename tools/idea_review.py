@@ -173,4 +173,4 @@ if __name__ == "__main__":
         sys.exit("no se parsearon ideas de idea-pool.md")
     OUT_HTML.write_text(build(ideas), encoding="utf-8")
     print(f"escrito  ideas/idea-review.html  ({len(ideas)} ideas)")
-    print("siguiente: el revisor lo abre, revisa, «Exportar idea-review.txt», te lo pasa")
+    print("siguiente: el revisor lo abre, revisa, «Aplicar cambios», te lo pasa")

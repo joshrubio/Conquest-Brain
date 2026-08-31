@@ -62,8 +62,8 @@
         page: https://commons.wikimedia.org/wiki/File:%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_(Ichir%C5%8D_gafu)_MET_2013_680_09.jpg
 - [ ] `met:57756` · ?x? · Nishikawa Sukenobu 西川祐信 — Picture Book: Thousand-Year Mountain? (Ehon Chitoseyama? 絵本千年山? · CC0 (The Met) · https://images.metmuseum.org/CRDImages/as/original/JIB90_003_crd.jpg
         page: https://www.metmuseum.org/art/collection/search/57756
-- [ ] `commons:59371952` · 3353x2585 · Yashima Gakutei — 一老画譜-Ichirō Picture Album (Ichirō gafu) MET 2013 680 04.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/b/bc/%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_%28Ichir%C5%8D_gafu%29_MET_2013_680_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_(Ichir%C5%8D_gafu)_MET_2013_680_04.jpg
+- [ ] `commons:59371961` · 3349x2576 · Yashima Gakutei — 一老画譜-Ichirō Picture Album (Ichirō gafu) MET 2013 680 06.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/8/80/%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_%28Ichir%C5%8D_gafu%29_MET_2013_680_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:%E4%B8%80%E8%80%81%E7%94%BB%E8%AD%9C-Ichir%C5%8D_Picture_Album_(Ichir%C5%8D_gafu)_MET_2013_680_06.jpg
 
 ## beat 10 — "katsukawa shunsho kabuki actor"  [archive: commons,met]
 
@@ -163,10 +163,10 @@
 
 - [ ] `commons:84970331` · 1488x2000 · Katsushika Hokusai — Katsushika Hokusai - Portrait of the Poet Matsuo Bashō (^) - 56.121.11 - Metropolitan Museum of Art.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/0/0d/Katsushika_Hokusai_-_Portrait_of_the_Poet_Matsuo_Bash%C5%8D_%28%5E%29_-_56.121.11_-_Metropolitan_Museum_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Katsushika_Hokusai_-_Portrait_of_the_Poet_Matsuo_Bash%C5%8D_(%5E)_-_56.121.11_-_Metropolitan_Museum_of_Art.jpg
-- [ ] `commons:124369341` · 4200x8717 · Hokusai as an old man.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/1/1c/Hokusai_as_an_old_man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:Hokusai_as_an_old_man.jpg
 - [ ] `commons:313067` · 1216x1774 · Hokusai Portrait of a woman holding a fan.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/4/48/Hokusai_Portrait_of_a_woman_holding_a_fan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Hokusai_Portrait_of_a_woman_holding_a_fan.jpg
+- [ ] `commons:124369341` · 4200x8717 · Hokusai as an old man.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/1/1c/Hokusai_as_an_old_man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Hokusai_as_an_old_man.jpg
 <!-- met: 0 resultados -->
 
 ## beat FG — "van gogh japonaiserie"  [archive: commons,met]
@@ -232,9 +232,9 @@
 
 - [ ] `pexels:5102221` · 5466x3644 · Dan Cristian Pădureț · Pexels License · https://images.pexels.com/photos/5102221/pexels-photo-5102221.jpeg
         page: https://www.pexels.com/photo/brown-crumpled-paper-bag-on-table-5102221/
-- [ ] `pixabay:250012` · ?x? · nuzree · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/gdcbe048157721fb3beaf3e0318b23d8f42c3f01a97cee0b772f24348380352a8661d6930c3c03ef47f5b3d412282de984ca2d0239a5f7268c6b3fc3aef3982a3_1280.jpg
-        page: https://pixabay.com/photos/boot-leather-shoe-old-shoestrings-250012/
-- [ ] `unsplash:3ch06Zm4bV0` · 5304x8000 · Heather Green · Unsplash License · https://images.unsplash.com/photo-1705837863332-7162639852d8?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8b2xkJTIwd29ybiUyMGphcGFuZXNlJTIwd2FzaGklMjBwYXBlciUyMHRleHR1cmV8ZW58MHx8fHwxNzg4MTAzMjcwfDA&ixlib=rb-4.1.0&q=90&fm=jpg
-        page: https://unsplash.com/photos/old-creased-blank-paper-texture-3ch06Zm4bV0
+- [ ] `pixabay:1846965` · ?x? · Pexels · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/g54146bfee45d77d547c8a1580ce087314e85e8e2801b116a8932d1c4b0d4f1dcd8806e862f5aa8ba411ab6675109f013ed9b7ad1bce260c672259b02cb783688_1280.jpg
+        page: https://pixabay.com/photos/wall-dark-wooden-green-grunge-1846965/
+- [ ] `unsplash:LTc7eZ34z_c` · 3286x4929 · Museum of New Zealand Te Papa Tongarewa · Unsplash License · https://images.unsplash.com/photo-1681057574265-d0a18c131cf8?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8b2xkJTIwd29ybiUyMGphcGFuZXNlJTIwd2FzaGklMjBwYXBlciUyMHRleHR1cmV8ZW58MHx8fHwxNzg4MTk2NTM0fDA&ixlib=rb-4.1.0&q=90&fm=jpg
+        page: https://unsplash.com/photos/a-textured-crumpled-light-brown-paper-background-LTc7eZ34z_c
 <!-- openverse: 0 resultados -->
 

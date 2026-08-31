@@ -125,7 +125,7 @@ def build(slug, kb, trims):
 <header>
  <h1>Edit review · {e(slug)}</h1>
  <span id="cnt"></span>
- <button class="primary" id="exp">Exportar {REVIEW_TXT}</button>
+ <button class="primary" id="exp">Finalizar Stage 9</button>
  <button id="clr">Limpiar</button>
  <span style="color:var(--muted);font-size:.8rem">guárdalo en la carpeta del episodio</span>
 </header>
@@ -214,4 +214,4 @@ if __name__ == "__main__":
     kb, trims = scan(slug)
     (EP_DIR / slug / REVIEW_HTML).write_text(build(slug, kb, trims), encoding="utf-8")
     print(f"escrito  episodes/{slug}/{REVIEW_HTML}  ({len(kb)} KB, {len(trims)} tomas)")
-    print("siguiente: ábrelo, aprueba / deja feedback, «Exportar 07c-review.txt», pásaselo a Claude")
+    print("siguiente: ábrelo, aprueba / deja feedback, «Finalizar Stage 9», pásaselo a Claude")

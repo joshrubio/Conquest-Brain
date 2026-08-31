@@ -61,7 +61,7 @@ Escanea `assets/kb/*.mp4` y `assets/*.trimmed.mp4` (+ `*.cuts.md`). Por clip:
 - KB: «más lento» / «empieza a la izquierda» / «dir arriba» / «déjalo estático» / «dura 4 s».
 - trim: «mantener la pausa en 00:12» / «cortar antes en 02:03» / «no cortes el "eh" de 03:04».
 
-**Exportar 07c-review.txt** → cada línea `kb|trim  <id>  APROBADO | FIX: <texto>`. Claude lo lee, re-corre `kenburns.py` / `trim_talk.py` por cada FIX, regenera la página. Bucle hasta que **toda fila esté APROBADO**. Solo entonces empieza el paso 4.
+**«Finalizar Stage 9»** → `07c-review.txt`, cada línea `kb|trim  <id>  APROBADO | FIX: <texto>`. Claude lo lee, re-corre `kenburns.py` / `trim_talk.py` por cada FIX, regenera la página. Bucle hasta que **toda fila esté APROBADO**. Solo entonces empieza el paso 4.
 
 ## 4 · Montaje de b-roll
 

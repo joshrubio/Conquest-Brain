@@ -74,7 +74,7 @@ $('#exp').onclick=()=>{{
 $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
 """
     hd = (f'<h1>Métricas · {e(slug)}</h1><span class="count"></span>'
-          '<button class="primary" id="exp">Exportar 12-metrics.txt</button>'
+          '<button class="primary" id="exp">Finalizar Stage 12</button>'
           '<button id="clr">Limpiar</button>')
     return page(f"Métricas · {slug}", hd, body, script)
 
@@ -89,4 +89,4 @@ if __name__ == "__main__":
     title = P.read_status().get(slug[:4], {}).get("title", "")
     (ep / "12-metrics.html").write_text(build(slug, title), encoding="utf-8")
     print(f"escrito  episodes/{slug}/12-metrics.html")
-    print("siguiente: rellena las métricas, «Exportar 12-metrics.txt»")
+    print("siguiente: rellena las métricas, «Finalizar Stage 12»")

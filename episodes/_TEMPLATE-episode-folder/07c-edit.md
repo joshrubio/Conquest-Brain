@@ -51,7 +51,7 @@ python tools/edit_review.py E0XX-slug            # -> 07c-edit.html
 
 - [ ] Cada clip KB: `aprobado` o feedback («más lento» / «empieza a la izquierda» / «dir arriba» / «estática» / «dura 4 s»)
 - [ ] Cada toma trimmeada: `aprobado` o correcciones («mantener pausa 00:12» / «cortar antes 02:03» / «no cortes el "eh" 03:04»)
-- [ ] **Exportar `07c-review.txt`** → Claude re-genera los clips con FIX → re-revisar
+- [ ] **Finalizar Stage 9** (`07c-review.txt`) → Claude re-genera los clips con FIX → re-revisar
 - [ ] **Todo APROBADO** antes de pasar al b-roll
 
 ## 4. B-roll  (ensamblaje — Claude + ffmpeg; DaVinci MCP más adelante si hace falta)

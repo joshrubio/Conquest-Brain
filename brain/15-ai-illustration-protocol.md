@@ -51,7 +51,7 @@ Scaffolded by `tools/build_ai_prompts.py`, then the **episode style** and the sc
 1. Style pass flags the ❌ beats → `python tools/build_ai_prompts.py E0XX-<slug> <slug1> …` scaffolds `07b-ai-prompts.md` (**before `pull_assets.py`**, so the prompts render in the picker's right column).
 2. Claude writes each scene (framing, what's depicted, face-avoidance).
 3. In `07-style-pass.html`, Usuario 001 generates 3–4 variants per prompt, picks the best match for the set, pastes the path into that prompt's input.
-4. **Exportar** → `pull_assets.py --download` copies each into `assets/ai/` as `E0XX_aiNN_<slug>`, prints the manifest row. Claude folds the rows into `07-assets.md` + notes the label in `09-description.md`.
+4. **Finalizar Stage 7** → `pull_assets.py --download` copies each into `assets/ai/` as `E0XX_aiNN_<slug>`, prints the manifest row. Claude folds the rows into `07-assets.md` + notes the label in `09-description.md`.
 
 ## Gate (part of Stage 7)
 

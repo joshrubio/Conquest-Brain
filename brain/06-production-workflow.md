@@ -12,7 +12,7 @@ authority: canonical
 
 Pipeline for one episode. Stages are gated: do not start a stage until the previous gate is signed. Files live in `episodes/E0XX-<slug>/`, numbered to match the stages.
 
-**The dashboard** ([brain/17](17-dashboard-and-advance.md)) — `dashboard.html` (from `tools/dash.py`) is one screen for every chapter; `tools/serve.py` + `tools/advance.py` close each gate with one click and regenerate it. **Review pages.** Six stages hand off to a generated dark-theme HTML instead of a markdown table — either user works in the browser, hits *Exportar*, and Claude folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 2 `02-research.html` · Stage 4 `05-script.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record. **Any gate can be signed by one person.**
+**The dashboard** ([brain/17](17-dashboard-and-advance.md)) — `dashboard.html` (from `tools/dash.py`) is one screen for every chapter; `tools/serve.py` + `tools/advance.py` close each gate with one click and regenerate it. **Review pages.** Six stages hand off to a generated dark-theme HTML instead of a markdown table — either user works in the browser, hits **Finalizar Stage N**, and the server (or Claude) folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 2 `02-research.html` · Stage 4 `05-script.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record. **Any gate can be signed by one person.**
 
 ## Stage 0 — Ideation
 - Track owner proposes the idea: **T01 Historias Inspiradoras** (Usuario 002) or **T02 Exploración** (Usuario 001) — see [ideas/tracks.md](../ideas/tracks.md).
@@ -32,7 +32,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 ## Stage 2 — Research dossier  → `02-research-dossier.md` + `03-source-log.csv`
 - Template: [templates/research-dossier.md](../templates/research-dossier.md), [templates/source-log.csv](../templates/source-log.csv).
 - Full timeline, key figures, every claim with source + tier, open questions, contested points, rights status of any visual. Claude drafts it from public sources (WebSearch/WebFetch); the reviewer checks it.
-- **Review:** `python tools/research_review.py E0XX-slug` → **`02-research.html`** — dossier sections + the full source-log table (tier / rights / 2nd-source per row) + per-section OK box + notes. **Exportar 02-research.txt** → folded back.
+- **Review:** `python tools/research_review.py E0XX-slug` → **`02-research.html`** — dossier sections + the full source-log table (tier / rights / 2nd-source per row) + per-section OK box + notes. **Finalizar Stage 2** (writes `02-research.txt`) → folded back.
 - **Gate:** every load-bearing claim has ≥1 Tier A/B source; contested points identified; no reliance on Tier C/D; `02-research.txt` signed (either user).
 
 ## Stage 3 — Outline  → `03-outline.md`
@@ -45,7 +45,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 ## Stage 4 — Script  → `05-script.md`
 - Template: [templates/script-template.md](../templates/script-template.md). Craft: all of `documentación/modelo-narrativo/`; rules `brain/02`, `08`, `09`, `13`.
 - Full narration + on-screen cues + inline source tags `[S12]` linking to the source log. Close: form (A/B/C) + register(s) per the brief (`brain/09`).
-- **The script pass:** `python tools/script_review.py E0XX-slug` → **`05-script.html`** — every beat as a card to approve or comment on, with an inline explainer for each narrative note (`[EXPLICADOR]`, `[PLANT]`, `[S..]`, the close forms/registers…). **Exportar 05-script-pass.txt** → Claude folds the edits into `05-script.md`.
+- **The script pass:** `python tools/script_review.py E0XX-slug` → **`05-script.html`** — every beat as a card to approve or comment on, with an inline explainer for each narrative note (`[EXPLICADOR]`, `[PLANT]`, `[S..]`, the close forms/registers…). **Finalizar Stage 4** (writes `05-script-pass.txt`) → Claude folds the edits into `05-script.md`.
 - **Gate:** self-review complete; script pass done; every `[S..]` resolves.
 
 ## Stage 5 — Fact-check  → `04-factcheck-auto.md`  *(fully automated, no human step)*
@@ -65,7 +65,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 1. **AI prompts first** (if needed) — `build_ai_prompts.py E0XX-slug <slug>…` for beats with no real image and no own-graphic, so they render in the pass ([brain/15](15-ai-illustration-protocol.md)).
 2. **Pull** — write `07-pull.tsv` (one row per beat: kind `stock|stock-img|video|archive|intro`, query, `n=3`; `stock` = video-first; `INTRO1…` = cold-open footage). `python tools/pull_assets.py E0XX-slug` → `07-style-pass.md` (git record) + `.html`.
-3. **Style pass** (Usuario 001, in the page) — intro row (5 own slots + suggested + card checkboxes), per-beat candidates judged on resolution / condition / colour / sequence fit vs. [brain/03](03-brand-identity.md), AI prompt paste-ins, music pool. **Exportar 07-picks.txt**.
+3. **Style pass** (Usuario 001, in the page) — intro row (5 own slots + suggested + card checkboxes), per-beat candidates judged on resolution / condition / colour / sequence fit vs. [brain/03](03-brand-identity.md), AI prompt paste-ins, music pool. **Finalizar Stage 7** (writes `07-picks.txt`).
 4. **Download** — `pull_assets.py E0XX-slug --download` → `assets/{intro,stock,video,archive,ai}/` + music + `LICENSES.md`, verifies resolution, appends `CREDITS.md`, writes `07-selection.md`.
 5. **Manifest** — fold `07-selection.md` into `07-assets.md` (one row per accepted asset).
 - **Gate:** every beat covered; cold open 2–5 intro assets; every asset a clear licence + resolution for its use; AI stylised + labelled + no real-person face; credits logged for `09-description.md`.
@@ -79,7 +79,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - Protocol: [brain/16-edit-and-delivery.md](16-edit-and-delivery.md). Template: [templates/edit-checklist.md](../templates/edit-checklist.md). **Deliberately minimal**, in order:
   1. **Ken Burns clips** — `tools/kenburns.py --all` (Stage 7 stills + AI images → moving clips, move by orientation, 4K).
   2. **Trim** — `tools/trim_talk.py` (faster-whisper → cut silences + fillers, smooth) per Stage 8 take.
-  3. **Review** — `tools/edit_review.py` → `07c-edit.html`: watch every KB clip + trimmed take, approve or leave feedback; **Exportar 07c-review.txt** → Claude re-runs the tools per the feedback → repeat until all **APROBADO**.
+  3. **Review** — `tools/edit_review.py` → `07c-edit.html`: watch every KB clip + trimmed take, approve or leave feedback; **Finalizar Stage 9** (writes `07c-review.txt`) → Claude re-runs the tools per the feedback → repeat until all **APROBADO**.
   4. **B-roll assembly** — only after step 3 is all-green. Lay each beat's asset on the VO per `06-shotlist.md` + `07-selection.md`. Cold open = 2–5 `assets/intro/` clips + bumper on black.
   5. **Background music** — one ominous-ambient bed from `brand/assets/music/`, ducked under the VO. No music in the bumper.
   6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.

@@ -32,7 +32,7 @@ Regla completa: `brain/06-production-workflow.md`. Cada etapa tiene su plantilla
 
 ## Las "review pages"
 
-Siete etapas entregan el trabajo a una **página HTML generada** en vez de a una tabla markdown. Un usuario (001 o 002) trabaja en el navegador, pulsa "Exportar", y Claude —o el server— pliega el `.txt` de vuelta al doc fuente. Todas comparten el diseño de `tools/theme.py`:
+Siete etapas entregan el trabajo a una **página HTML generada** en vez de a una tabla markdown. Un usuario (001 o 002) trabaja en el navegador, pulsa **«Finalizar Stage N»**, y el server (o Claude) pliega el `.txt` de vuelta al doc fuente. Todas comparten el diseño de `tools/theme.py`:
 
 | Etapa | Página | Genera |
 |-------|--------|--------|

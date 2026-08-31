@@ -45,7 +45,7 @@ Si una imagen no llega, la opción es: usarla más pequeña (inserto), cortar un
 **`07-style-pass.html` es el artefacto central del Stage 7.** Todo se decide ahí.
 
 1. **Pull** — `07-pull.tsv` (beat · kind `stock|stock-img|video|intro|archive` · source · query · opts) + `build_ai_prompts.py` antes → `python tools/pull_assets.py E0XX-slug` → `07-style-pass.md` (registro) + `.html` (la superficie: intro arriba, candidatos por beat a la izquierda, prompts IA a la derecha).
-2. **Pase** (Usuario 001) — intro (hasta 5 propios + sugeridos + checkbox «intro» en cards) · candidatos por beat con los criterios de abajo · rutas de imágenes IA en la columna derecha. **Exportar 07-picks.txt** → `python tools/pull_assets.py E0XX-slug --download` baja todo a `assets/{intro,stock,video,archive,ai}/`, verifica resolución, escribe `assets/CREDITS.md` + **`07-selection.md`**.
+2. **Pase** (Usuario 001) — intro (hasta 5 propios + sugeridos + checkbox «intro» en cards) · candidatos por beat con los criterios de abajo · rutas de imágenes IA en la columna derecha. **Finalizar Stage 7** (escribe `07-picks.txt`) → `python tools/pull_assets.py E0XX-slug --download` baja todo a `assets/{intro,stock,video,archive,ai}/`, verifica resolución, escribe `assets/CREDITS.md` + **`07-selection.md`**.
 3. **Manifiesto** — plegar `07-selection.md` aquí; una fila por asset **aceptado** (intro / beat / IA), con Uso y Pase.
 
 ## Criterios del pase de estilo

@@ -74,7 +74,7 @@ Y en paralelo: la intro (hasta 5 propios + sugeridos + cards marcadas), las ruta
 
 ### 5 · Exporta y descarga
 
-**Exportar 07-picks.txt** (se guarda en la carpeta del episodio). Luego:
+**«Finalizar Stage 7»** (escribe `07-picks.txt` en la carpeta del episodio). Luego:
 
 ```
 python tools/pull_assets.py E0XX-slug --download

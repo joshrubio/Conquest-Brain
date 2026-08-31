@@ -201,7 +201,7 @@ $('#exp').onclick=()=>{{
 $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
 """
     header = (f'<h1>Research · {e(slug)}</h1><span class="count"></span>'
-              f'<button class="primary" id="exp">Exportar {REVIEW_TXT}</button>'
+              f'<button class="primary" id="exp">Finalizar Stage 2</button>'
               '<button id="clr">Limpiar</button>')
     extra = ('<style>'
              '.card.need{border-color:var(--gold)}'
@@ -234,4 +234,4 @@ if __name__ == "__main__":
                 counts[row.get("tier", "?")] = counts.get(row.get("tier", "?"), 0) + 1
     (ep / REVIEW_HTML).write_text(build(slug, sections, sources, counts), encoding="utf-8")
     print(f"escrito  episodes/{slug}/{REVIEW_HTML}  ({len(sections)} secciones, {len(sources)} fuentes)")
-    print("siguiente: ábrelo, revisa fuentes + dossier, marca el gate, firma, «Exportar 02-research.txt»")
+    print("siguiente: ábrelo, revisa fuentes + dossier, marca el gate, firma, «Finalizar Stage 2»")

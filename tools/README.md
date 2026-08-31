@@ -32,7 +32,7 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 
 Stage 9 deps: `ffmpeg` on PATH, `faster-whisper`, `pillow`. See [brain/16-edit-and-delivery.md](../brain/16-edit-and-delivery.md).
 
-**Review pages** (`*-review.html` / `10-package.html`, `07-style-pass.html`, `07c-edit.html`) all follow the same pattern: a dark browser page with per-item controls, "Exportar" → a small `.txt` Claude folds back into the source doc. The `.html` is gitignored; the exported `.txt` is tracked.
+**Review pages** (`*-review.html` / `10-package.html`, `07-style-pass.html`, `07c-edit.html`) all follow the same pattern: a dark browser page with per-item controls, "Finalizar Stage N" → a small `.txt` Claude folds back into the source doc. The `.html` is gitignored; the exported `.txt` is tracked.
 
 ## pull_assets.py
 
@@ -40,7 +40,7 @@ Stage 9 deps: `ffmpeg` on PATH, `faster-whisper`, `pillow`. See [brain/16-edit-a
 python tools/pull_assets.py --check-keys          # report tools/.env keys
 python tools/pull_assets.py E0XX-slug --init       # scaffold 07-pull.tsv
 python tools/pull_assets.py E0XX-slug              # -> 07-style-pass.md + 07-style-pass.html
-# open 07-style-pass.html in a browser, tick thumbnails, "Exportar 07-picks.txt"
+# open 07-style-pass.html in a browser, tick thumbnails, "Finalizar Stage 7"
 python tools/pull_assets.py E0XX-slug --download   # -> assets/stock|video|archive/, CREDITS.md, rows
 ```
 
@@ -54,7 +54,7 @@ three surfaces:
 - **Right column** — the `07b-ai-prompts.md` prompts (parsed live): prompt + *copiar
   prompt* + an input for the path/URL of the image you generated.
 
-**Exportar 07-picks.txt** writes all three into the episode folder (Chrome/Edge save
+**Finalizar Stage 7** writes all three into the episode folder (Chrome/Edge save
 dialog; other browsers download it). Then `--download`:
 - intro → `assets/intro/intro01…` (screen order) · beats → `assets/{stock,video,archive}/`
   · `ai:` → `assets/ai/<07b filename>` (local path copied, URL fetched)

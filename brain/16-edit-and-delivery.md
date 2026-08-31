@@ -20,7 +20,7 @@ Stage 7 assets are chosen; Stage 8 footage is in. Then:
 
 1. **Ken Burns clips** — `tools/kenburns.py --all` turns the Stage 7 stills (+ AI images) into moving clips → `assets/kb/`.
 2. **Trim** — `tools/trim_talk.py` cuts silences + fillers from each Stage 8 take → `<take>.trimmed.mp4`.
-3. **Review** — `tools/edit_review.py` builds **`07c-edit.html`**: every KB clip and every trimmed take with a `<video>` preview, an *aprobado* checkbox and a feedback box. Usuario 001 approves each or writes what to fix; **Exportar 07c-review.txt** → Claude re-runs the tool per the feedback → regenerate the page → repeat until **all approved**.
+3. **Review** — `tools/edit_review.py` builds **`07c-edit.html`**: every KB clip and every trimmed take with a `<video>` preview, an *aprobado* checkbox and a feedback box. Usuario 001 approves each or writes what to fix; **Finalizar Stage 9** (writes `07c-review.txt`) → Claude re-runs the tool per the feedback → regenerate the page → repeat until **all approved**.
 4. **B-roll assembly** — only once step 3 is all-green. Lay each beat's asset on the VO timeline per `06-shotlist.md` + `07-selection.md`. Cold open = `assets/intro/` clips + bumper.
 5. **Background music** — one ominous-ambient bed under the whole thing, ducked under the VO.
 6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
@@ -65,7 +65,7 @@ Stills only (video already moves). The move is chosen from the image's **real as
 
 - Scans `assets/kb/*.mp4` and `assets/*.trimmed.mp4` (+ `*.cuts.md`).
 - Per clip: `<video>` preview · `aprobado` checkbox · free-text feedback (KB: «más lento» / «empieza a la izquierda» / «dir arriba» / «déjalo estático» / «dura 4 s»; trim: «mantener la pausa en 00:12» / «cortar antes en 02:03» / «no cortes el "eh" de 03:04»).
-- **Exportar 07c-review.txt** → each line `kb|trim  <id>  APROBADO | FIX: <texto>`.
+- **Finalizar Stage 9** → `07c-review.txt`, each line `kb|trim  <id>  APROBADO | FIX: <texto>`.
 - Claude reads it, re-runs `kenburns.py` (per-clip flags) / `trim_talk.py` (`--keep …`) for every FIX, regenerates the page. Loop until every row is APROBADO.
 - Only then does step 4 (b-roll) start.
 
