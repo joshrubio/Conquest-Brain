@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 edit_review.py — Stage 9 review surface (docs/16). Same idea as the Stage 7
-photography pass, for the edit: Josh watches every generated clip and either
+style pass, for the edit: Josh watches every generated clip and either
 ticks it OK or writes what to fix.
 
 Scans the episode folder:

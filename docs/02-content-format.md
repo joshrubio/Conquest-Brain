@@ -36,7 +36,7 @@ Start *in medias res*. **No channel intro before it.** Two layers, running toget
 
 **Visual hook** — **2–5 shots**, hard-cut on the beat of the narration, each illustrating one concrete image the narration names. **Stock video preferred** — a moving shot here is worth more than a push-in on a still. ~3–6 s per shot, escalating; the last shot is the "turn" (the thing that makes the answer feel necessary) and may hold ½ s longer before the cut to black. Archival/AI shots allowed, labelled per `docs/15`; stock must stay generic (`docs/12`). High cut rate — this is the densest moment of the episode (10–12 beats/min, `docs/11`).
 
-These shots are chosen in the **Intro row of `07-photography-pass.html`** (Stage 7): `INTRO1…` spec rows search high-impact footage on the topic (for Hokusai: Japan / ukiyo-e / ocean), Josh also pastes his own links, or flags any card. `--download` numbers them `assets/intro/intro01…` in screen order.
+These shots are chosen in the **Intro row of `07-style-pass.html`** (Stage 7): `INTRO1…` spec rows search high-impact footage on the topic (for Hokusai: Japan / ukiyo-e / ocean), Josh also pastes his own links, or flags any card. `--download` numbers them `assets/intro/intro01…` in screen order.
 
 **Always end the narrative hook by naming what the video will do**: "en este episodio reconstruimos…", "aquí van las tres versiones del caso…", "para entenderlo, primero el contexto". **Sourced** — the hook may not overstate what the record supports.
 

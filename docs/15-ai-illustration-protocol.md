@@ -1,10 +1,10 @@
 # 15 — AI Illustration Protocol
 
-Runs **inside Stage 7** ([06-production-workflow.md](06-production-workflow.md)), only when the photography pass concludes a beat has **no viable public-domain image and no own-graphic plan**. It produces a copy-paste prompt document so Josh can generate the images and drop them back in.
+Runs **inside Stage 7** ([06-production-workflow.md](06-production-workflow.md)), only when the style pass concludes a beat has **no viable public-domain image and no own-graphic plan**. It produces a copy-paste prompt document so Josh can generate the images and drop them back in.
 
 ## When it triggers
 
-At Stage 7, after the photography pass, some `07-assets.md` rows are ❌ (no PD source, e.g. an event with no contemporary depiction, or a person with no usable likeness). If those beats also can't be an own-made graphic (chart / map / text card), they become **AI-illustration beats**.
+At Stage 7, after the style pass, some `07-assets.md` rows are ❌ (no PD source, e.g. an event with no contemporary depiction, or a person with no usable likeness). If those beats also can't be an own-made graphic (chart / map / text card), they become **AI-illustration beats**.
 
 **AI is not a shortcut past sourcing.** It is only for beats where *nothing real exists* — an event no one depicted, a place we can't photograph, an abstract idea — and a drawn or recreated shot (labelled) is the honest option anyway.
 
@@ -40,10 +40,10 @@ Scaffolded by `tools/build_ai_prompts.py`, then the **episode style** and the sc
 
 ## Round trip
 
-1. Stage 7 photography pass flags the ❌ beats.
-2. `python tools/build_ai_prompts.py E0XX-<slug> <slug1> <slug2> …` → creates `assets/ai/` and scaffolds `07b-ai-prompts.md`. **Do this before `pull_assets.py`** so the prompts render in the right column of `07-photography-pass.html`.
+1. Stage 7 style pass flags the ❌ beats.
+2. `python tools/build_ai_prompts.py E0XX-<slug> <slug1> <slug2> …` → creates `assets/ai/` and scaffolds `07b-ai-prompts.md`. **Do this before `pull_assets.py`** so the prompts render in the right column of `07-style-pass.html`.
 3. Claude writes the scene text for each prompt (framing, what's depicted, face-avoidance).
-4. In `07-photography-pass.html` (right column), Josh copies each prompt, makes 3–4 variants in the generator, picks the one that best matches the set, saves it, and **pastes the file path/URL into that prompt's input**.
+4. In `07-style-pass.html` (right column), Josh copies each prompt, makes 3–4 variants in the generator, picks the one that best matches the set, saves it, and **pastes the file path/URL into that prompt's input**.
 5. **Exportar 07-picks.txt** → `python tools/pull_assets.py E0XX-<slug> --download` copies each AI image into `assets/ai/` under its `E0XX_aiNN_<slug>` name, verifies it, and prints the manifest row (licence = «ilustración propia (IA) — rótulo en pantalla»). `build_ai_prompts.py --check` still works for a manual audit.
 6. Claude folds the AI rows into `07-assets.md` and notes the label in `09-description.md` credits.
 

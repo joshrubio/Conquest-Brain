@@ -41,7 +41,7 @@ Documentation, templates, per-episode folders, and the `tools/` that run the pip
 2. **Available-material cross-check** ([docs/12](docs/12-available-material-protocol.md)) — public sources only.
 3. Add to [ideas/idea-pool.md](ideas/idea-pool.md); score with [ideas/idea-rubric.md](ideas/idea-rubric.md).
 4. If it passes: copy `episodes/_TEMPLATE-episode-folder/` → `episodes/E0XX-<slug>/`. Josh writes; assign narrator in the brief.
-5. Work the 12 stages in order — [docs/06-production-workflow.md](docs/06-production-workflow.md). Fact-check (5) = `factcheck.py` + LLM prompt + Carmen's sign-off ([docs/14](docs/14-fact-check-protocol.md)); assets (7) run through **`07-photography-pass.html`** (`pull_assets.py`); edit (9) = `kenburns` → `trim_talk` → `edit_review` → b-roll → music ([docs/16](docs/16-edit-and-delivery.md)).
+5. Work the 12 stages in order — [docs/06-production-workflow.md](docs/06-production-workflow.md). Fact-check (5) = `factcheck.py` + LLM prompt + Carmen's sign-off ([docs/14](docs/14-fact-check-protocol.md)); assets (7) run through **`07-style-pass.html`** (`pull_assets.py`); edit (9) = `kenburns` → `trim_talk` → `edit_review` → b-roll → music ([docs/16](docs/16-edit-and-delivery.md)).
 6. Update `episodes/_STATUS.md`.
 
 ## Status
@@ -50,4 +50,4 @@ Documentation, templates, per-episode folders, and the `tools/` that run the pip
 - **Format specs (`docs/02`, `08`, `09`) are v1** — validated against 6 Dieck Docs transcripts.
 - **Idea pool:** 21 ideas. `python tools/idea_review.py` → `ideas/idea-review.html` for Carmen to score + pick hook-titles.
 - **E001 Hokusai** in production — stuck at Stage 5 (Carmen's Layer 3 sign-off + closing S15/S19/S20).
-- **Music:** Jamendo pool built; pick 3–5 beds from the Music section of the photography pass.
+- **Music:** Jamendo pool built; pick 3–5 beds from the Music section of the style pass.

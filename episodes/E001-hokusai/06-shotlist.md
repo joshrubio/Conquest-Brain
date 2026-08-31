@@ -30,7 +30,7 @@
 | 3 · HOOK v3 | 0:06 (~4 s) | "una ola curvada como una garra… sobre tres barcas" | «La gran ola frente a Kanagawa», **detalle** de la garra de espuma sobre las barcas | S09 · alt vídeo `assets/intro/` (INTRO3, mar) | CC0 / stock | — | corte seco, sin empuje |
 | 4 · HOOK v4 «giro» | 0:10 (~4 s) | "«podría llegar a ser un pintor de verdad»" | Retrato de Hokusai anciano, fijo; aguanta ½ s → **corte a negro** | S16 | dominio público | — | estático |
 
-> Los 4 planos del hook se eligen en la **fila Intro de `07-photography-pass.html`** (Stage 7). El pull trae candidatos de `INTRO1–3`; Josh añade propios o marca cards. `--download` los numera `assets/intro/intro01…` en orden de pantalla.
+> Los 4 planos del hook se eligen en la **fila Intro de `07-style-pass.html`** (Stage 7). El pull trae candidatos de `INTRO1–3`; Josh añade propios o marca cards. `--download` los numera `assets/intro/intro01…` en orden de pantalla.
 | 4b · BUMPER | 0:38 (~5 s) | (Carmen) "Soy Carmen." | **Negro.** Aparece la marca «Exodo» | — | propio | «Exodo» | ninguno |
 | 6 | Contexto 0:43 | "Hokusai nace hacia 1760… Katsushika, a las afueras de Edo" | Mapa de Edo s. XVIII con Katsushika marcado | elaboración propia | propio | «Edo, c. 1760» | aparición |
 | 7 | 1:00 | "Japón lleva más de un siglo cerrado… bajo los shogun" | Grabado de una calle comercial de Edo llena de gente | (colección, PD) | dominio público | — | paneo lateral |

@@ -80,7 +80,7 @@ Muestra cómo se veía a sí mismo — más interesante que una foto.
 
 ## Selección concreta (Stage 7)
 
-Este archivo es **factibilidad** (¿hay material PD suficiente?). La **lista de imágenes individuales** con enlace directo y el **pase de fotografía** de Josh están en `07-assets.md` (`docs/06` Stage 7).
+Este archivo es **factibilidad** (¿hay material PD suficiente?). La **lista de imágenes individuales** con enlace directo y el **pase de estilo** de Josh están en `07-assets.md` (`docs/06` Stage 7).
 
 ## Gate Protocolo 1 (revisión Stage 2)
 

@@ -6,7 +6,7 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 |--------|-------|--------------|
 | `factcheck.py` | 5 | Layer 1 deterministic fact-check. `python tools/factcheck.py 05-script.md 03-source-log.csv` → PASS/FAIL. |
 | `build_ai_prompts.py` | 7 | Scaffolds `07b-ai-prompts.md` for AI-illustration beats (docs/15). `... E0XX-slug <img-slug> ...` / `... --check`. |
-| `pull_assets.py` | 7 | **The Stage-7 hub.** Pulls candidates from free APIs → `07-photography-pass.html` (per-beat candidates + AI prompts + intro). See below. |
+| `pull_assets.py` | 7 | **The Stage-7 hub.** Pulls candidates from free APIs → `07-style-pass.html` (per-beat candidates + AI prompts + intro). See below. |
 | `kenburns.py` | 9 | Orientation-aware Ken Burns on stills, **4K by default**. `... IMAGE --dur 6` or `... E0XX-slug --all`. ffmpeg. |
 | `trim_talk.py` | 9 | Trim silences + fillers from a take. `python tools/trim_talk.py TAKE.mp4` → `TAKE.trimmed.mp4` + `TAKE.cuts.md`. faster-whisper. |
 | `edit_review.py` | 9 | Build `07c-edit.html` — watch every KB clip + trimmed take, approve or feedback → `07c-review.txt`. `... E0XX-slug`. |
@@ -17,19 +17,19 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 
 Stage 9 deps: `ffmpeg` on PATH, `faster-whisper`, `pillow`. See [docs/16-edit-and-delivery.md](../docs/16-edit-and-delivery.md).
 
-**Review pages** (`*-review.html` / `10-package.html`, `07-photography-pass.html`, `07c-edit.html`) all follow the same pattern: a dark browser page with per-item controls, "Exportar" → a small `.txt` Claude folds back into the source doc. The `.html` is gitignored; the exported `.txt` is tracked.
+**Review pages** (`*-review.html` / `10-package.html`, `07-style-pass.html`, `07c-edit.html`) all follow the same pattern: a dark browser page with per-item controls, "Exportar" → a small `.txt` Claude folds back into the source doc. The `.html` is gitignored; the exported `.txt` is tracked.
 
 ## pull_assets.py
 
 ```
 python tools/pull_assets.py --check-keys          # report tools/.env keys
 python tools/pull_assets.py E0XX-slug --init       # scaffold 07-pull.tsv
-python tools/pull_assets.py E0XX-slug              # -> 07-photography-pass.md + 07-photography-pass.html
-# open 07-photography-pass.html in a browser, tick thumbnails, "Exportar 07-picks.txt"
+python tools/pull_assets.py E0XX-slug              # -> 07-style-pass.md + 07-style-pass.html
+# open 07-style-pass.html in a browser, tick thumbnails, "Exportar 07-picks.txt"
 python tools/pull_assets.py E0XX-slug --download   # -> assets/stock|video|archive/, CREDITS.md, rows
 ```
 
-**`07-photography-pass.html`** is the central artifact of Stage 7 — one self-contained page,
+**`07-style-pass.html`** is the central artifact of Stage 7 — one self-contained page,
 three surfaces:
 - **Intro row (top)** — the cold open (docs/02 §0). 5 inputs for your own paths/links +
   the suggested `intro` clips + an "intro" checkbox on every card below. Export order:
@@ -46,9 +46,9 @@ dialog; other browsers download it). Then `--download`:
 - verifies resolution, appends `assets/CREDITS.md`, writes **`07-selection.md`** (the pass
   record — folds into `07-assets.md`), prints manifest rows.
 
-`--download` falls back to `- [x]` lines in `07-photography-pass.md` for beats only
-(intro + AI need the picker). `07-photography-pass.html` is gitignored;
-`07-photography-pass.md`, `07-picks.txt`, `07-selection.md` are tracked.
+`--download` falls back to `- [x]` lines in `07-style-pass.md` for beats only
+(intro + AI need the picker). `07-style-pass.html` is gitignored;
+`07-style-pass.md`, `07-picks.txt`, `07-selection.md` are tracked.
 
 Run `build_ai_prompts.py` **before** the pull so the prompts appear in the pass.
 

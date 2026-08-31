@@ -1,7 +1,7 @@
-# Photography pass — E001-hokusai
+# Style pass — E001-hokusai
 
 > Stage 7 · central. Pull automático (`tools/pull_assets.py`) — **esto no es selección.**
-> Trabaja en `07-photography-pass.html` (miniaturas + prompts IA + intro). Para picar a mano aquí: `- [x]`.
+> Trabaja en `07-style-pass.html` (miniaturas + prompts IA + intro). Para picar a mano aquí: `- [x]`.
 > stock = b-roll ilustrativo genérico, nunca 'lo real' (docs/12).
 
 ## intro — "japan aerial cinematic landscape mountains"  [intro]

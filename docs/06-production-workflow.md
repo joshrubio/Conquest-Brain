@@ -2,7 +2,7 @@
 
 Pipeline for one episode. Stages are gated: do not start a stage until the previous gate is signed. Files live in `episodes/E0XX-<slug>/`, numbered to match the stages.
 
-**Review pages.** Four stages hand off to a generated dark-theme HTML instead of a markdown table — Carmen or Josh works in the browser, hits *Exportar*, and Claude folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 7 `07-photography-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record.
+**Review pages.** Four stages hand off to a generated dark-theme HTML instead of a markdown table — Carmen or Josh works in the browser, hits *Exportar*, and Claude folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record.
 
 ## Stage 0 — Ideation
 - Track owner proposes the idea: **T01 Historias Inspiradoras** (Carmen) or **T02 Exploración** (Josh) — see [ideas/tracks.md](../ideas/tracks.md).
@@ -46,18 +46,18 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **Inferred from the locked script** — one beat per subject change / `[EN PANTALLA]` / `[EXPLICADOR]` / `[PLANT]`/`[PAY]`. Per beat: visual **need**, archival vs own-graphic, on-screen text, motion.
 - **Gate:** every beat classified; every graphed number has a source label; beat count matches the target rhythm.
 
-## Stage 7 — Asset selection + photography pass  → `07-assets.md` (+ `07b-ai-prompts.md`)
+## Stage 7 — Asset selection + style pass  → `07-assets.md` (+ `07b-ai-prompts.md`)
 
-**`07-photography-pass.html` is the hub of this stage** — every asset decision (per beat, the AI images, and the cold-open intro) is made in that one page and exported as `07-picks.txt`; `--download` turns the picks into files + `07-selection.md`. Nothing enters the edit that didn't go through it.
+**`07-style-pass.html` is the hub of this stage** — every asset decision (per beat, the AI images, and the cold-open intro) is made in that one page and exported as `07-picks.txt`; `--download` turns the picks into files + `07-selection.md`. Nothing enters the edit that didn't go through it.
 
 - Template: [templates/asset-manifest.md](../templates/asset-manifest.md). Search feasibility already done in `material-search.md`; here it gets specific.
-- **1. Candidate pull (`tools/pull_assets.py`):** write `07-pull.tsv` (one row per beat that needs an image/clip: beat, kind `stock|stock-img|video|archive|intro`, source, query, opts; `n=3` per beat). `stock` beats return **video first** (Pexels/Pixabay); `INTRO1…` rows with kind `intro` search high-impact cold-open footage. Run `build_ai_prompts.py` first so the AI prompts show in the pass. `python tools/pull_assets.py E0XX-slug` hits the free APIs (Met, Wikimedia Commons, AIC, Pexels, Pixabay, Unsplash, Openverse) → **`07-photography-pass.md`** (git record) + **`07-photography-pass.html`**.
-- **2. Photography pass (Josh, manual) — in `07-photography-pass.html`:**
+- **1. Candidate pull (`tools/pull_assets.py`):** write `07-pull.tsv` (one row per beat that needs an image/clip: beat, kind `stock|stock-img|video|archive|intro`, source, query, opts; `n=3` per beat). `stock` beats return **video first** (Pexels/Pixabay); `INTRO1…` rows with kind `intro` search high-impact cold-open footage. Run `build_ai_prompts.py` first so the AI prompts show in the pass. `python tools/pull_assets.py E0XX-slug` hits the free APIs (Met, Wikimedia Commons, AIC, Pexels, Pixabay, Unsplash, Openverse) → **`07-style-pass.md`** (git record) + **`07-style-pass.html`**.
+- **2. Style pass (Josh, manual) — in `07-style-pass.html`:**
   - **Intro row (top):** the cold open (docs/02 §0). Up to 5 inputs for your own paths/links + the suggested `intro` clips + an "intro" checkbox on any card below. Export order = own (1–5) → suggested → cards.
   - **Left column:** the pulled candidates per beat. Judge each thumbnail on resolution (vs. the template standard) / condition / colour / crop / sequence coherence against the series look ([docs/03](03-brand-identity.md) §Visual identity); tick the keepers.
   - **Right column:** the `07b-ai-prompts.md` prompts. For a beat the pull didn't cover: copy the prompt, generate, paste the image path/URL into that prompt's input.
   - **Music section (bottom):** the pool from `tools/find_music.py` (ominous-ambient beds, CC-BY/BY-SA/CC0). Audition inline, tick the ones to keep — early on, all of them; the channel settles on 3–5 (`docs/16` move 4).
-  - **Exportar 07-picks.txt** (saves into the episode folder) writes all of it. Then `python tools/pull_assets.py E0XX-slug --download` pulls into `assets/{intro,stock,video,archive}/`, copies AI images into `assets/ai/`, downloads ticked music into `brand/assets/music/` + `LICENSES.md`, verifies resolution, appends `assets/CREDITS.md`, writes **`07-selection.md`**, prints manifest rows. (No browser? tick `- [x]` in `07-photography-pass.md` for beats; intro/AI/music need the picker.)
+  - **Exportar 07-picks.txt** (saves into the episode folder) writes all of it. Then `python tools/pull_assets.py E0XX-slug --download` pulls into `assets/{intro,stock,video,archive}/`, copies AI images into `assets/ai/`, downloads ticked music into `brand/assets/music/` + `LICENSES.md`, verifies resolution, appends `assets/CREDITS.md`, writes **`07-selection.md`**, prints manifest rows. (No browser? tick `- [x]` in `07-style-pass.md` for beats; intro/AI/music need the picker.)
 - **3. Own-graphics** beats → design brief, not the manifest.
 - **4. AI-illustration** ([docs/15](15-ai-illustration-protocol.md)): for the beats left ❌ (no real image, no own-graphic), `tools/build_ai_prompts.py` → `07b-ai-prompts.md` *before* the pull. Pick the episode style (photoreal allowed); Claude writes the scenes; Josh generates and pastes paths in the picker. On-screen label always; never a photoreal face of a real person; never a fake document.
 - **5. Manifest:** fold `07-selection.md` into `07-assets.md` — one row per **accepted** asset (intro / beat / AI), with the Uso + Pase columns filled by Josh.
@@ -109,7 +109,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 | 4 script | Josh | — |
 | 5 fact-check | L1+L2 automated · L3 **Carmen** | Josh answers |
 | 6 shotlist | Josh | Carmen |
-| 7 asset selection + photography pass | Josh | — |
+| 7 asset selection + style pass | Josh | — |
 | 8 record | Narrator (Carmen or Josh) | the other |
 | 9 edit | Josh | Carmen reviews |
 | 10 package | Josh | Carmen approves title/thumb |

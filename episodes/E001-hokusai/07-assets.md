@@ -1,6 +1,6 @@
 # Manifiesto de recursos — E001 «Hokusai»
 
-> **Stage 7.** Cada beat archivístico del shotlist (`06-shotlist.md`) → una imagen concreta con **descarga directa** + **pase de fotografía** (Josh). Los gráficos propios (G1–G5, contadores) van al brief de diseño, no aquí.
+> **Stage 7.** Cada beat archivístico del shotlist (`06-shotlist.md`) → una imagen concreta con **descarga directa** + **pase de estilo** (Josh). Los gráficos propios (G1–G5, contadores) van al brief de diseño, no aquí.
 > Depende de `docs/03` §Visual direction — **sin cerrar**. El pase no es definitivo hasta tener el look de la serie.
 
 | Campo | Valor |

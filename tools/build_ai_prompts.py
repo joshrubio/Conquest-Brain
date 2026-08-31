@@ -106,7 +106,7 @@ def scaffold(slug, img_slugs, force):
 {blocks}
 ## Después de generar
 
-1. Corre `python tools/pull_assets.py {slug}` — estos prompts salen en la columna derecha de `07-photography-pass.html`.
+1. Corre `python tools/pull_assets.py {slug}` — estos prompts salen en la columna derecha de `07-style-pass.html`.
 2. Por prompt: 3–4 variantes → elige la que más pega con el set → pega su ruta/URL en el input del prompt.
 3. «Exportar 07-picks.txt» → `python tools/pull_assets.py {slug} --download` copia cada imagen a `assets/ai/` con su nombre e imprime la fila de manifiesto.
 4. Claude añade las filas IA a `07-assets.md` y anota el rótulo en `09-description.md`.

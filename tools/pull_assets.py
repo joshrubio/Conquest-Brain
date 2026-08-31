@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-pull_assets.py — Stage 7 photography pass (archive + free stock + intro).
+pull_assets.py — Stage 7 style pass (archive + free stock + intro).
 Protocol: docs/12-available-material-protocol.md, docs/06 Stage 7.
 
-`07-photography-pass.html` is the central artifact of Stage 7. It shows,
+`07-style-pass.html` is the central artifact of Stage 7. It shows,
 per beat, the resources the pull found (left) and the AI-generation
 prompts from 07b (right); an Intro section at the top collects the cold
 open (docs/02 §0). Josh works entirely in that page, exports 07-picks.txt,
@@ -21,8 +21,8 @@ Usage
       scaffold episodes/E0XX-slug/07-pull.tsv
 
   python tools/pull_assets.py E0XX-slug
-      run every spec row -> 07-photography-pass.md (git record)
-      + 07-photography-pass.html (the picker). ~3 candidates per beat.
+      run every spec row -> 07-style-pass.md (git record)
+      + 07-style-pass.html (the picker). ~3 candidates per beat.
 
   python tools/pull_assets.py E0XX-slug --download
       read 07-picks.txt (from the picker's Exportar button), download every
@@ -55,8 +55,8 @@ UA = "ExodoOficial/1.0 (educational documentary; contact joshuerubio@gmail.com)"
 TIMEOUT = 30
 
 SPEC_F = "07-pull.tsv"
-PASS_MD = "07-photography-pass.md"
-PASS_HTML = "07-photography-pass.html"
+PASS_MD = "07-style-pass.md"
+PASS_HTML = "07-style-pass.html"
 PICKS_F = "07-picks.txt"
 SELECTION_F = "07-selection.md"
 MUSIC_DIR = ROOT / "brand" / "assets" / "music"
@@ -614,7 +614,7 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
 
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Photography pass — {esc(slug)}</title>
+<title>Style pass — {esc(slug)}</title>
 <style>
  :root{{
    color-scheme:dark;
@@ -727,7 +727,7 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
  .cp{{font-size:.7rem;padding:.3rem .6rem;margin-top:.15rem}}
 </style></head><body>
 <header>
- <h1>Photography pass · {esc(slug)}</h1>
+ <h1>Style pass · {esc(slug)}</h1>
  <span id="cnt">0 / {total} beats</span>
  <span id="introcnt"></span>
  <span id="aicnt"></span>
@@ -925,7 +925,7 @@ def gather_beat(beat, kind, source, query, opts, keys):
 def run(slug):
     keys = load_env()
     rows = read_spec(slug)
-    md = [f"# Photography pass — {slug}", "",
+    md = [f"# Style pass — {slug}", "",
           "> Stage 7 · central. Pull automático (`tools/pull_assets.py`) — **esto no es selección.**",
           f"> Trabaja en `{PASS_HTML}` (miniaturas + prompts IA + intro). Para picar a mano aquí: `- [x]`.",
           "> stock = b-roll ilustrativo genérico, nunca 'lo real' (docs/12).", ""]
@@ -969,7 +969,7 @@ EXT_OK = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp",
 
 def read_picks(slug):
     """(beat_or_'intro', src, id, url) list. Prefer 07-picks.txt (from the
-    picker), fall back to '- [x]' lines in 07-photography-pass.md (beats only)."""
+    picker), fall back to '- [x]' lines in 07-style-pass.md (beats only)."""
     ep = EP_DIR / slug
     pf = ep / PICKS_F
     if pf.exists():
@@ -1185,7 +1185,7 @@ def download(slug):
 
 
 def _write_selection(ep, slug, intro_rows, beat_rows, ai_rows):
-    L = [f"# Selección — Stage 7 photography pass · {slug}", "",
+    L = [f"# Selección — Stage 7 style pass · {slug}", "",
          f"> Generado por `pull_assets.py --download` desde `{PICKS_F}`. "
          f"Este es el registro de decisiones del pase; se pliega en `07-assets.md`.", ""]
     if intro_rows:
