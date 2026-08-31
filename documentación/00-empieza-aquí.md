@@ -12,6 +12,8 @@ Esta carpeta son **guías para leer y aprender**. No son reglas —las reglas vi
 
 Cuando aparezca un término técnico que también existe en `brain/`, lo dejamos con su nombre original entre paréntesis la primera vez —así puedes saltar a la regla exacta si la necesitas—.
 
+> **¿Eres un agente (o quieres el mapa rápido)?** Empieza por [`AGENTS.md`](../AGENTS.md) en la raíz → te rutea a `brain/INDEX.md` (tabla "voy a X → lee Y") y al resto. Cada doc de `brain/`, `templates/` y `documentación/` lleva frontmatter YAML (`summary`, `stage`, `read_when`) para encontrar el archivo correcto sin leerlo todo.
+
 ## ¿Para quién es esto?
 
 - **Usuario 002** — para dominar el modelo narrativo, tu papel editorial y la investigación.
@@ -57,11 +59,12 @@ Cuando aparezca un término técnico que también existe en `brain/`, lo dejamos
 ## Mapa del repositorio
 
 ```
-Exodo/  (antes "Youtube")
-  brain/            reglas permanentes, 00–16 + USERS.md (inglés, en corto)
-  documentación/   ESTO — guías para aprender (español) · configuración-usuarios.md
-  templates/       plantillas en blanco de cada etapa
-  episodes/        una carpeta por episodio · _TEMPLATE-* para copiar · E000-EXAMPLE-* de referencia
+Exodo-brain/  (carpeta local; repo github.com/joshrubio/Exodo-Brain)
+  AGENTS.md         empieza aquí — el ruteo para cualquiera (humano o agente)
+  brain/            reglas permanentes, 00–16 + USERS.md + INDEX.md (inglés, en corto)
+  documentación/   ESTO — guías para aprender (español) · 00-empieza-aquí · configuración-usuarios
+  templates/       plantillas en blanco de cada etapa + INDEX.md
+  episodes/        una carpeta por episodio · _TEMPLATE-* para copiar · E000-EXAMPLE-* de referencia · _STATUS.md
   ideas/           el pool de ideas y las rúbricas
   research/        el análisis de Dieck Docs (transcripciones locales, no se suben)
   tools/           los scripts que mueven el pipeline

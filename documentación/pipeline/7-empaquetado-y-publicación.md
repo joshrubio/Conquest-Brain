@@ -30,7 +30,7 @@ Crea `08` + `09` desde plantilla y trae los **3 hook-titles** del `idea-pool.md`
 python tools/package_review.py E0XX-slug
 ```
 
-→ **`10-package.html`**. En el navegador (revisión editorial = Usuario 002):
+→ **`10-package.html`**. En el navegador (lo abre un usuario, 001 o 002):
 
 - **Título:** elige uno de los 3 candidatos, o escribe «otro». Patrón Dieck: `<Gancho> | <Sujeto> | Documental`. El gancho lleva la tensión; el sujeto y «Documental» lo anclan. Una o dos palabras en mayúscula para énfasis está bien; nunca TODO EN MAYÚSCULAS, nunca una pregunta falsa que el vídeo no responde.
 - **Miniatura:** elige la variante de `assets/thumb/` o pega una ruta. Un solo sistema (`brain/03`): imagen del sujeto + el grade de casa + una línea de Playfair o el dispositivo de expediente, acento dorado en una palabra. ≤ 4 palabras de texto, alto contraste, legible a 320px. Imagen de archivo o un fotograma del propio caso. Sin flechas, sin caras de susto, sin círculos rojos.
@@ -53,7 +53,7 @@ Plantilla: `templates/description-and-credits.md`.
 ### El gate de Stage 10
 
 - [ ] Título y miniatura honestos con el contenido (ningún clickbait que el cuerpo no pague)
-- [ ] Las 3 aprobaciones de Usuario 002 en `10-package.txt`
+- [ ] Las 3 aprobaciones marcadas en `10-package.txt`
 
 ---
 
@@ -63,7 +63,7 @@ Plantilla: `templates/publish-checklist.md` (copiada a la carpeta del episodio).
 
 ### El tick final
 
-**Nada se sube** sin el visto de **Usuario 001 y Usuario 002** en las secciones legal y de independencia/COI del checklist (`brain/04`):
+**Nada se sube** sin el visto (un usuario, 001 o 002) en las secciones legal y de independencia/COI del checklist (`brain/04`):
 
 - Sujeto elegible (figura pública / caso histórico / empresa documentada), no persona privada.
 - Nadie que el equipo conozca, ni anonimizado. La idea no vino de un tip privado.

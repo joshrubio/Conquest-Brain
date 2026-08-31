@@ -77,9 +77,9 @@ Antes de puntuar: ¿hay material de dominio público —fotos, documentos, foota
 - **10–13** → `incubando`: falta hook, material o ángulo.
 - **<10** → `descartada`.
 
-### 7 · La revisión de Usuario 002 (review page)
+### 7 · La revisión de ideas (review page)
 
-`python tools/idea_review.py` → `ideas/idea-review.html`. Usuario 002 ve las 21 ideas del pool, y por cada una: elige el hook-title más fuerte, pone veredicto (aprobar / incubar / descartar), su propia /21, y un comentario. Exporta `idea-review.txt` → Claude lo pliega en `idea-pool.md`.
+`python tools/idea_review.py` → `ideas/idea-review.html`. Un usuario (001 o 002) ve las ideas del pool, y por cada una: elige el hook-title más fuerte, pone veredicto (aprobar / incubar / descartar), su propia /21, y un comentario. Exporta `idea-review.txt` → Claude lo pliega en `idea-pool.md`.
 
 ### 8 · Idea aprobada → carpeta
 
