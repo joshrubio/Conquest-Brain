@@ -28,4 +28,4 @@
 
 ## Layer 2 — LLM
 
-(EJEMPLO: aquí iría la salida del prompt `templates/fact-check-auto-prompt.md`, con cada bandera resuelta contra la fuente real por un humano antes de pasar a Layer 3.)
+(EJEMPLO: aquí iría la salida del prompt `templates/fact-check-auto-prompt.md`, con cada bandera resuelta contra la fuente real y anotada en la tabla de Resolución.)

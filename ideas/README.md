@@ -35,4 +35,4 @@ Registro: [idea-pool.md](idea-pool.md).
 3. Rúbrica de idea (eliminatorios + /21).
 4. ≥14 y todo en SÍ → `aprobada` → carpeta de episodio → Stage 1 (Brief).
 
-Guion de todos los episodios: **Usuario 001**. Fact-check: protocolo automatizado + firma de Usuario 002 ([brain/14-fact-check-protocol.md](../brain/14-fact-check-protocol.md)).
+Guion de todos los episodios: **Usuario 001**. Fact-check: automático — L1 + L2, sin firma humana ([brain/14-fact-check-protocol.md](../brain/14-fact-check-protocol.md)).

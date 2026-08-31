@@ -92,7 +92,7 @@ python tools/edit_review.py E0XX-slug            # -> 07c-edit.html
 
 - [ ] Usuario 001: b-roll + música ensamblados → **picture lock**
 - [ ] Usuario 002: ve el corte entero contra `05-script.md` + `brain/04` (rótulos, claims, dignidad)
-- [ ] Usuario 002 firma el picture lock: __________  fecha: ______
+- [ ] Firma del picture lock (Usuario 001 o Usuario 002): __________  fecha: ______
 - [ ] Sonido + `.srt` finalizados → Stage 10
 
 ## Gate Stage 9
@@ -104,4 +104,4 @@ python tools/edit_review.py E0XX-slug            # -> 07c-edit.html
 - [ ] Un lecho de música, ducked; sin música en el bumper; licencias anotadas
 - [ ] IA/recreación rotulado en cada aparición
 - [ ] `.srt` corregido contra el guion
-- [ ] −14 LUFS; 4K (o mejor común); picture lock firmado por Usuario 002
+- [ ] −14 LUFS; 4K (o mejor común); picture lock firmado (un usuario)

@@ -67,6 +67,6 @@ Detalle completo, tipos de gancho, plantillas y ejemplos en [modelo-narrativo/7-
 
 ## Protocolo 3 — Fact-check
 
-Tres capas en Stage 5: L1 determinista (`tools/factcheck.py`), L2 asistida por LLM (un prompt), L3 humana (**Usuario 002 firma**). Ningún guion pasa a grabación hasta que las tres despejan.
+Dos capas automáticas en Stage 5: L1 determinista (`tools/factcheck.py`) y L2 asistida por LLM (un prompt de 6 tablas de banderas). No hay firma humana. El guionista resuelve cada bandera en el guion. Ningún guion pasa a grabación hasta que L1 = PASS y cero banderas sin resolver.
 
 Detalle completo en [4-fact-check](4-fact-check.md).

@@ -1,6 +1,6 @@
 # 05 — Independence & Conflict of Interest
 
-Keeps the founders' other roles and private lives out of the episodes. Checked at two gates: idea intake (rubric) and fact-check (Layer 3). Any breach → pull the episode.
+Keeps the founders' other roles and private lives out of the episodes. Checked at idea intake (rubric), flagged by the L2 fact-check pass, and ticked at Stage 11 publish. Any breach → pull the episode.
 
 *(Brand/identity independence — own channel, no co-branding, no third-party pitch — lives in [03-brand-identity.md](03-brand-identity.md).)*
 

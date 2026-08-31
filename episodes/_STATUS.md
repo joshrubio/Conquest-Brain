@@ -11,7 +11,7 @@
 | ID | Slug | Título provisional | Track | Guionista | Narrador | Stage actual | Responsable stage | Fecha objetivo pub. | Notas |
 |----|------|--------------------|-------|-----------|----------|--------------|-------------------|---------------------|-------|
 | E000 | E000-EXAMPLE-ejemplo | (referencia, no se publica) | — | — | — | — | — | — | Ejemplo de carpeta completa |
-| E001 | E001-hokusai | «Hokusai» | T01 | Usuario 001 | Usuario 002 | **5** (guion v1.2; L1 PASS + L2 corrido y corregido; falta L3 Usuario 002) | Usuario 002 (L3) | — | Primer episodio real. Guion v1.2, shotlist v1, `material-search.md` hecho. Pendiente Layer 3 + cerrar S15/S19/S20 contra fuente. |
+| E001 | E001-hokusai | «Hokusai» | T01 | Usuario 001 | Usuario 002 | **5** (guion v1.2; L1 PASS; L2 corrido) | Usuario 001 | — | Primer episodio real. Guion v1.2, shotlist v1. Pendiente: aplicar las correcciones L2 al guion (#23 fechas, #30 escala de edades) + cerrar S15/S19/S20 contra fuente. |
 
 ## Reglas
 

@@ -38,7 +38,7 @@ ex-university lecturer.
 | Tech, `tools/` | Usuario 001 |
 | Editorial lead, research direction | Usuario 002 |
 | Ideation — T01 Historias Inspiradoras | Usuario 002 |
-| Fact-check sign-off (Layer 3) | Usuario 002 |
+| Fact-check: resolve L2 flags in the script | Usuario 001 |
 | Legal / ethics + independence-COI pass | Usuario 002 |
 | Narration / on camera | per episode — either slot, logged in `episodes/_STATUS.md` |
 | Final publish tick (legal + independence) | both |

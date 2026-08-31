@@ -46,7 +46,7 @@ Post-publication errors: pinned comment + description note + on-screen card if m
 
 ## 8. Fact-check gate
 
-No script proceeds to record until `04-fact-check.md` is complete and signed by someone who did **not** write it. Usuario 001 writes every script; Usuario 002 signs. Full protocol: [14-fact-check-protocol.md](14-fact-check-protocol.md).
+No script proceeds to record until the Stage 5 fact-check is complete: L1 `PASS` + every L2 flag resolved in the script. Full protocol: [14-fact-check-protocol.md](14-fact-check-protocol.md).
 
 ## 9. AI use
 

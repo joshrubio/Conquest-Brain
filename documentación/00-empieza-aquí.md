@@ -6,7 +6,7 @@ Cuando aparezca un término técnico que también existe en `brain/`, lo dejamos
 
 ## ¿Para quién es esto?
 
-- **Usuario 002** — para dominar el modelo narrativo, tu papel editorial y el fact-check de Layer 3.
+- **Usuario 002** — para dominar el modelo narrativo, tu papel editorial y la investigación.
 - **Usuario 001** — todo lo anterior + producción, herramientas y edición.
 - **Cualquiera que se sume al equipo** — este archivo es su primer día.
 
@@ -19,7 +19,7 @@ Cuando aparezca un término técnico que también existe en `brain/`, lo dejamos
 
 1. Exodo Channel es un canal de YouTube en español: **documentales narrados de casos reales** que cierran con una reflexión psicológica y una idea aplicable.
 2. Referencia de formato: **Dieck Docs** (Farid Dieck). Adoptamos su *estructura*, no su nivel de fuentes —el nuestro es más alto—.
-3. **Usuario 001 escribe todos los guiones.** Usuario 002 dirige la línea editorial, investiga y firma el fact-check. Ambos narran (se asigna por episodio).
+3. **Usuario 001 escribe todos los guiones.** El fact-check es automático (L1 + L2); el guionista resuelve las banderas. Usuario 002 dirige la línea editorial y la investigación. Ambos narran (se asigna por episodio).
 4. Los sujetos son **públicos**: figuras públicas, casos históricos, empresas con documentación pública verificable. Nunca individuos privados, nunca gente que conozcamos.
 5. **Ninguna afirmación sin fuente.** Cada dato lleva una etiqueta `[S..]` que apunta al registro de fuentes.
 
@@ -65,5 +65,5 @@ Exodo/  (antes "Youtube")
 1. **Ninguna afirmación sin fuente.** Si no lo puedes citar, no va en el guion.
 2. **Solo casos públicos y documentados.** Nunca alguien que conozcamos, nunca un chivatazo privado.
 3. **La reflexión nombra un mecanismo, no da un sermón.**
-4. **El que revisa no es el que escribe.** Usuario 001 escribe, dos pasadas automáticas + Usuario 002 firman.
+4. **El fact-check es automático.** L1 (`factcheck.py`) + L2 (prompt LLM de banderas); el guionista resuelve cada bandera en el guion. Sin firma de segundo usuario.
 5. **La miniatura y el título no prometen un giro que el vídeo no paga.**

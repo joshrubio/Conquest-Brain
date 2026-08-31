@@ -24,7 +24,7 @@ Este documento y su gemelo técnico [`brain/USERS.md`](../brain/USERS.md) son lo
 | Slot | Persona |
 |------|---------|
 | Usuario 001 | Josh — escribe los guiones, producción, edición, publicación, tech, `tools/`, ideación T02. |
-| Usuario 002 | Carmen — lead editorial, dirección de investigación, ideación T01, firma del fact-check (capa 3), pasada legal/ética + independencia. |
+| Usuario 002 | Carmen — lead editorial, dirección de investigación, ideación T01. |
 
 Los dos son **periodistas venezolanos**, parte del éxodo venezolano —el hecho que
 le da nombre y tesis al canal (`brain/03`)—. Usuario 002 fue además profesora

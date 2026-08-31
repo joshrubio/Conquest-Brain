@@ -18,11 +18,11 @@
 
 ## 2. Verificación y legal (gate duro)
 
-- [ ] `04-fact-check.md` completo, cero ítems abiertos, firmado
+- [ ] Fact-check: L1 PASS + todas las banderas L2 resueltas (`04-factcheck-auto.md`)
 - [ ] Checklist legal-ético (`brain/04-legal-and-ethics.md`) sin casillas abiertas
 - [ ] Derecho de réplica: gestionado o motivo registrado
 - [ ] Todo el archivo/música con estado de derechos en `03-source-log.csv`
-- [ ] Usuario 002 firma: __  ·  Usuario 001 firma: __
+- [ ] Firma (Usuario 001 o Usuario 002): __
 
 ## 3. Separación (gate duro)
 
@@ -31,7 +31,7 @@
 - [ ] Sin persona identificable que Usuario 001 o Usuario 002 conozcan personalmente
 - [ ] Sin marca del negocio en el vídeo; sin enlace ni pitch del negocio en la descripción
 - [ ] Sin solapamiento de marca con otros canales del equipo
-- [ ] Usuario 002 firma: __  ·  Usuario 001 firma: __
+- [ ] Firma (Usuario 001 o Usuario 002): __
 
 ## 4. Paquete
 

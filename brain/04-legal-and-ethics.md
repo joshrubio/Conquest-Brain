@@ -51,7 +51,7 @@ Higher care for **living people** and **recent events**.
 
 ## 9. Independence & conflict of interest
 
-- [ ] Independence/COI gate clear ([05-independence-and-coi.md](05-independence-and-coi.md)) — checked in full at fact-check Layer 3.
+- [ ] Independence/COI gate clear ([05-independence-and-coi.md](05-independence-and-coi.md))  — the L2 pass flags obvious risks; the full tick is at Stage 11.
 - [ ] No third-party link or pitch in the video. Soft channel CTA only.
 
 ## 10. Pre-publish sign-off

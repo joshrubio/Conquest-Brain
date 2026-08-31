@@ -70,7 +70,7 @@ La IA ayuda con navegación de investigación, estructura, transcripción y borr
 
 ## 8. El gate de fact-check
 
-Ningún guion pasa a grabación hasta que `04-fact-check.md` esté completo y **firmado por alguien que NO escribió el guion** — Usuario 001 escribe siempre, así que firma **Usuario 002** (Layer 3), después de dos pasadas automáticas (L1 `factcheck.py`, L2 prompt LLM).
+Ningún guion pasa a grabación hasta que el fact-check de Stage 5 despeje: **L1** (`factcheck.py`, determinista) = PASS y **L2** (un prompt LLM de 6 tablas de banderas) con **cada bandera resuelta en el guion**. Sin firma humana — el guionista resuelve. El pase legal/COI se vuelve a marcar en Stage 11.
 
 Detalle del proceso en [pipeline/4-fact-check](../pipeline/4-fact-check.md).
 

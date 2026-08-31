@@ -20,7 +20,7 @@
 
 ## Reglas comunes
 
-- **Guionista de todos los episodios: Usuario 001.** Usuario 002: dirección editorial, ideación de T01, investigación, cara/narración (reparto), y **firma del fact-check** (ver `brain/14`).
+- **Guionista de todos los episodios: Usuario 001.** Usuario 002: dirección editorial, ideación de T01, investigación, cara/narración (reparto).
 - **Narración:** por episodio, Usuario 001 o Usuario 002.
 - Un mismo caso puede ir a **cualquier track** según el ángulo y la forma de cierre. El track se fija en la ideación, junto con el hook-title.
 - Toda idea pasa por los dos protocolos de ideación antes de consolidarse:

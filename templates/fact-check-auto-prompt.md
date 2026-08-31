@@ -1,6 +1,6 @@
 # Fact-check — Layer 2 prompt (LLM-assisted)
 
-> `brain/14-fact-check-protocol.md` Layer 2. Usuario 001 pastes the script + the source-log into an LLM using the prompt below. Output goes into `04-factcheck-auto.md` (Layer 2 section). **The LLM is not a source** — every flag it raises is a to-do for a human to re-verify against the real source.
+> `brain/14-fact-check-protocol.md` Layer 2 — the last check before record (there is no Layer 3). Usuario 001 pastes the script + the source-log into an LLM using the prompt below; the output goes into `04-factcheck-auto.md` and **every flag is resolved in the script** (correction applied, or dismissed with a one-line reason). **The LLM is not a source** — a flag is a to-do to check against the real source, not a verdict.
 
 ---
 
@@ -35,10 +35,15 @@ Cosas dichas con seguridad que probablemente merecen "se dice…", "según algun
 Cualquier concepto psicológico, estadística llamativa o "dato curioso" que suene a mito o a divulgación sin respaldo (p. ej. "usamos el 10% del cerebro", "la regla de las 10.000 horas").
 | # | Línea | Afirmación | Nota |
 
-### 6. Resumen
+### 6. Legal / ético / independencia (banderas, no dictamen)
+Señala riesgos evidentes para revisión humana antes de publicar (`brain/04`, `brain/05`):
+| # | Línea | Riesgo | Tipo |
+Tipo: `difamación` (afirmación negativa sobre persona viva sin fuente fuerte / sin atribuir) · `alegación-sin-desenlace` (se acusa, no se dice cómo acabó) · `menor-identificable` · `tema-sensible` (suicidio/abuso/violencia sin sobriedad o sin nota de ayuda) · `sujeto-privado` (parece persona privada, no figura pública) · `pitch-externo` · `dignidad` (mofa, monólogo interior inventado como hecho).
+
+### 7. Resumen
 - Nº de afirmaciones factuales: __
 - `desajuste`: __ · `no se puede saber`: __ · `sin tag`: __
-- Banderas en tablas 2–5: __
+- Banderas en tablas 2–6: __
 - Lo más urgente de revisar (máx. 5 puntos):
 
 No inventes fuentes. No des una afirmación por verificada. Si algo no se puede evaluar con la descripción del source-log, dilo.
@@ -49,5 +54,5 @@ No inventes fuentes. No des una afirmación por verificada. Si algo no se puede 
 ## Después de correr el prompt
 
 1. Pega la salida en `04-factcheck-auto.md` bajo `## Layer 2 — LLM`.
-2. Usuario 001 o Usuario 002 resuelve cada bandera contra la **fuente real** (no contra el modelo) y anota la resolución.
-3. Solo entonces Usuario 002 abre `04-fact-check.md` (Layer 3).
+2. Resuelve **cada bandera** contra la fuente real (no contra el modelo): aplica la corrección en `05-script.md`, o descártala con una línea de motivo, y anótalo en la columna **Resolución**.
+3. Gate: L1 `PASS` + cero banderas sin resolver. No hay más pasadas — el guion pasa a grabación.

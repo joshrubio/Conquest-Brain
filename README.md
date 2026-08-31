@@ -49,5 +49,5 @@ Documentation, templates, per-episode folders, and the `tools/` that run the pip
 - **Brand:** decided (name, channel type, spelling, category, palette, grade, typography, case-file device, 4K). To do: secure `@exodochannel` on IG/TikTok, produce logo SVG + thumbnail template, re-export banner at 2560×1440, trademark clearance (class 41, lawyer, before registering).
 - **Format specs (`brain/02`, `08`, `09`) are v1** — validated against 6 Dieck Docs transcripts.
 - **Idea pool:** 21 ideas. `python tools/idea_review.py` → `ideas/idea-review.html` for Usuario 002 to score + pick hook-titles.
-- **E001 Hokusai** in production — stuck at Stage 5 (Usuario 002's Layer 3 sign-off + closing S15/S19/S20).
+- **E001 Hokusai** in production — at Stage 5 — apply the L2 corrections + close S15/S19/S20.
 - **Music:** Jamendo pool built; pick 3–5 beds from the Music section of the style pass.

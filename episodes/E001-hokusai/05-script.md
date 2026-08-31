@@ -270,9 +270,8 @@ Si estas historias te sirven, suscríbete — así no te pierdes el próximo epi
 - [x] S09 ampliada (datación por fichas de museo, 46 láminas); S19 (*La Mer* prácticamente cerrada)
 - [x] Enfoque para "mostrar a Hokusai" documentado en `material-search.md`
 
-### Pendiente Stage 5 (Layer 3 — Usuario 002, contra fuente real)
+### Pendiente Stage 5 (aplicar al guion, contra fuente real)
 
 - Cerrar S15 (DOI/ISBN), S19 (cada ejemplo por separado), S20 (fuente de población de Edo)
 - Verificar: fecha de ruptura con Katsukawa (1793), año del incendio (~1839), parentesco exacto del nieto, datación de "La gran ola" con 2ª fuente (ficha de museo: The Met / British Museum), versiones de la frase del lecho de muerte, dimensiones/fecha exacta del Daruma de 1817, edición de la portada de *La Mer* (Durand 1905)
 - Recuento de nombres (~30) y mudanzas (~93) contra la fuente
-- Pases legal y de separación

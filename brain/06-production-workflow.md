@@ -2,7 +2,7 @@
 
 Pipeline for one episode. Stages are gated: do not start a stage until the previous gate is signed. Files live in `episodes/E0XX-<slug>/`, numbered to match the stages.
 
-**Review pages.** Four stages hand off to a generated dark-theme HTML instead of a markdown table — Usuario 001 or Usuario 002 works in the browser, hits *Exportar*, and Claude folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record.
+**Review pages.** Five stages hand off to a generated dark-theme HTML instead of a markdown table — either user works in the browser, hits *Exportar*, and Claude folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 2 `02-research.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record. **Any gate can be signed by one person.**
 
 ## Stage 0 — Ideation
 - Track owner proposes the idea: **T01 Historias Inspiradoras** (Usuario 002) or **T02 Exploración** (Usuario 001) — see [ideas/tracks.md](../ideas/tracks.md).
@@ -10,19 +10,20 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **Protocol 1 — Available material** ([brain/12](12-available-material-protocol.md)): cross-check the case against public-domain archives; fill the worksheet. No material → no episode.
 - Score with [ideas/idea-rubric.md](../ideas/idea-rubric.md): eliminatorios E1–E8 + /21.
 - Record in [ideas/idea-pool.md](../ideas/idea-pool.md).
-- **Usuario 002's review:** `python tools/idea_review.py` → `ideas/idea-review.html` — scores each idea, picks the strongest hook-title, comments; exports `idea-review.txt` → folded back into `idea-pool.md`.
-- **Gate:** track assigned; hook-title chosen; material cross-check passes (E8); all eliminatorios YES; score ≥ 14; Usuario 002 signed off in `idea-pool.md`.
+- **Review:** `python tools/idea_review.py` → `ideas/idea-review.html` — score each idea, pick the strongest hook-title, comment; exports `idea-review.txt` → folded back into `idea-pool.md`.
+- **Gate:** track assigned; hook-title chosen; material cross-check passes (E8); all eliminatorios YES; score ≥ 14; signed off in `idea-pool.md`.
 
 ## Stage 1 — Brief  → `01-brief.md`
 - Template: [templates/episode-brief.md](../templates/episode-brief.md).
 - Working thesis, why now, structure in one sentence each, candidate close (form A/B/C), top 3 sources already found, risks.
-- **Assign:** track, hook-title (from Stage 0), and **narrator (Usuario 001 or Usuario 002)**. Writer is always Usuario 001.
-- **Gate:** Usuario 001 + Usuario 002 agree it's worth the research time; narrator assigned.
+- **Assign:** track, hook-title (from Stage 0), and **narrator**. Writer is always Usuario 001.
+- **Gate:** worth the research time; narrator assigned.
 
 ## Stage 2 — Research dossier  → `02-research-dossier.md` + `03-source-log.csv`
 - Template: [templates/research-dossier.md](../templates/research-dossier.md), [templates/source-log.csv](../templates/source-log.csv).
-- Full timeline, key figures, every claim with source + tier, open questions, contested points, rights status of any visual.
-- **Gate:** every load-bearing claim has ≥1 Tier A/B source; contested points identified; no reliance on Tier C/D.
+- Full timeline, key figures, every claim with source + tier, open questions, contested points, rights status of any visual. Claude drafts it from public sources (WebSearch/WebFetch); the reviewer checks it.
+- **Review:** `python tools/research_review.py E0XX-slug` → **`02-research.html`** — dossier sections + the full source-log table (tier / rights / 2nd-source per row) + per-section OK box + notes. **Exportar 02-research.txt** → folded back.
+- **Gate:** every load-bearing claim has ≥1 Tier A/B source; contested points identified; no reliance on Tier C/D; `02-research.txt` signed (either user).
 
 ## Stage 3 — Outline
 - Beat sheet against [brain/02-content-format.md](02-content-format.md): cold open → context pivot → narrative acts (mark explainer interludes + foreshadowing plants/pays) → close.
@@ -34,12 +35,12 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - Full narration + on-screen cues + inline source tags `[S12]` linking to the source log.
 - **Gate:** self-review complete; every `[S..]` resolves.
 
-## Stage 5 — Fact-check  → `04-factcheck-auto.md` + `04-fact-check.md`
-- Protocol: [brain/14-fact-check-protocol.md](14-fact-check-protocol.md). Three layers:
+## Stage 5 — Fact-check  → `04-factcheck-auto.md`
+- Protocol: [brain/14-fact-check-protocol.md](14-fact-check-protocol.md). **Two layers, both automated — no human sign-off layer.**
   - **L1 deterministic:** `python tools/factcheck.py 05-script.md 03-source-log.csv` → must PASS.
-  - **L2 LLM-assisted:** run [templates/fact-check-auto-prompt.md](../templates/fact-check-auto-prompt.md); resolve every flag against the real source.
-  - **L3 human:** **Usuario 002** (did not write it — Usuario 001 always does) completes [templates/fact-check-sheet.md](../templates/fact-check-sheet.md) + the legal/ethics ([brain/04](04-legal-and-ethics.md)) and independence/COI ([brain/05](05-independence-and-coi.md)) passes, and signs.
-- **Gate (hard):** L1 PASS; all L2 flags resolved; `04-fact-check.md` signed by Usuario 002; legal + COI clear.
+  - **L2 LLM-assisted:** run [templates/fact-check-auto-prompt.md](../templates/fact-check-auto-prompt.md) → six flag tables (claims, interpretation, quotes, hedging, pop-psych, legal/ethics/COI) in `04-factcheck-auto.md`.
+  - Usuario 001 **resolves every L2 flag in `05-script.md`** (fix applied or dismissed with a reason) and logs it in the Resolución table.
+- **Gate (hard):** L1 PASS; zero unresolved L2 flags. (Legal/COI checklist ticked again at Stage 11.)
 
 ## Stage 6 — Shotlist / B-roll  → `06-shotlist.md`
 - Template: [templates/shotlist-broll.md](../templates/shotlist-broll.md). Method: [brain/11-visual-rhythm.md](11-visual-rhythm.md).
@@ -71,17 +72,17 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
   5. **Background music** — one ominous-ambient bed from `brand/assets/music/`, ducked under the VO. No music in the bumper.
   6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
 - Assembly (4–5) with Claude + ffmpeg for now; **DaVinci Resolve MCP** an option later. Output 4K, house grade, −14 LUFS, `E0XX-<slug>-vN.mp4` — all per [brain/16](16-edit-and-delivery.md).
-- **Gate:** every KB clip + trimmed take APROBADO; only the listed moves; every beat covered; music ducked + licences logged; AI/reenactment labelled; `.srt` corrected; 4K (or best common); picture lock signed by **Usuario 002** in `07c-edit.md`.
+- **Gate:** every KB clip + trimmed take APROBADO; only the listed moves; every beat covered; music ducked + licences logged; AI/reenactment labelled; `.srt` corrected; 4K (or best common); picture lock signed in `07c-edit.md` (either user).
 
 ## Stage 10 — Package  → `08-thumbnail-title.md`, `09-description.md`
 - Templates: [templates/thumbnail-title-brief.md](../templates/thumbnail-title-brief.md), [templates/description-and-credits.md](../templates/description-and-credits.md).
-- `python tools/package_review.py E0XX-slug --init` scaffolds `08` + `09` (pulls the 3 hook-titles from `idea-pool.md`). Fill them, then `python tools/package_review.py E0XX-slug` → **`10-package.html`**: Usuario 002 picks the title, picks the thumbnail variant, edits the description (Fuentes principales auto-built from `03-source-log.csv` Tier A/B), ticks the 3 approvals. Exports `10-package.txt` → folded into `08` + `09`.
+- `python tools/package_review.py E0XX-slug --init` scaffolds `08` + `09` (pulls the 3 hook-titles from `idea-pool.md`). Fill them, then `python tools/package_review.py E0XX-slug` → **`10-package.html`**: pick the title, pick the thumbnail variant, edit the description (Fuentes principales auto-built from `03-source-log.csv` Tier A/B), ticks the 3 approvals. Exports `10-package.txt` → folded into `08` + `09`.
 - Description = 2–3 sentence summary + chapters + **Fuentes principales** + courtesy credits + soft CTA. No source cards on screen — this is where citations live.
-- **Gate:** title/thumbnail honest to the content (no clickbait the body doesn't pay off); Usuario 002's 3 approvals in `10-package.txt`.
+- **Gate:** title/thumbnail honest to the content (no clickbait the body doesn't pay off); the 3 approvals ticked in `10-package.txt`.
 
 ## Stage 11 — Publish  → `10-publish-checklist.md`
 - Template: [templates/publish-checklist.md](../templates/publish-checklist.md).
-- Final legal + independence/COI tick by Usuario 001 + Usuario 002. Upload, subtitles, chapters, end screen, pinned comment (sources / any caveat). Schedule.
+- Final legal + independence/COI tick (either user). Upload, subtitles, chapters, end screen, pinned comment (sources / any caveat). Schedule.
 
 ## Stage 12 — Retro  → `11-retro.md`
 - Template: [templates/episode-retro.md](../templates/episode-retro.md).
@@ -90,21 +91,12 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 ## Roles
 
-Slots and the responsibility split: [brain/00](00-project-charter.md) + [brain/USERS.md](USERS.md). Per stage:
+Slots and the responsibility split: [brain/00](00-project-charter.md) + [brain/USERS.md](USERS.md).
 
-| Stage | Lead | Support |
-|-------|------|---------|
-| 0 ideation | Track owner (Usuario 002 T01 / Usuario 001 T02) | the other |
-| 1–3 research | Usuario 001 | Usuario 002 (direction) |
-| 4 script | Usuario 001 | — |
-| 5 fact-check | L1+L2 automated · L3 **Usuario 002** | Usuario 001 answers |
-| 6 shotlist | Usuario 001 | Usuario 002 |
-| 7 asset selection + style pass | Usuario 001 | — |
-| 8 record | Narrator (Usuario 001 or Usuario 002) | the other |
-| 9 edit | Usuario 001 | Usuario 002 reviews |
-| 10 package | Usuario 001 | Usuario 002 approves title/thumb |
-| 11 publish | Usuario 001 | Usuario 002 co-signs |
-| 12 retro | Both | — |
+- **Stage 0 ideation** — the track owner (Usuario 002 for T01, Usuario 001 for T02).
+- **Stages 1–7, 9–10** — Usuario 001 leads; the picture-lock and package gates are review pages **either user can sign**.
+- **Stage 8 record** — the assigned narrator.
+- **Stage 11 publish, Stage 12 retro** — Usuario 001; the legal/COI tick can be either user.
 
 ## Definition of Done
 

@@ -114,7 +114,7 @@
 - Banderas de matiz (tabla 4): 4 · Interpretación como hecho (tabla 2): 4
 - **Cita abierta crítica:** S15 (concepto de la reflexión) y S19 (japonismo, cada ejemplo por separado)
 
-**Lo más urgente (para Usuario 001, antes de pasar a Usuario 002 / Layer 3):**
+**Lo más urgente (Usuario 001 aplica en el guion):**
 1. Corregir #30 — la escala del prefacio: "cada punto y línea vivos" = 110 años.
 2. Alinear #23 — fechas de las *Treinta y seis vistas* entre guion y source-log.
 3. Cerrar S15 con una referencia real (metas de maestría vs. rendimiento).
@@ -123,6 +123,11 @@
 
 ---
 
-## Layer 3 — humano (Usuario 002)
+## Resolución de banderas
 
-Pendiente. Al abrir `04-fact-check.md`: resolver cada bandera de arriba **contra la fuente real** (no contra este informe), hacer spot-check de una muestra de las `respalda`, y correr los pases legal y de separación.
+Pendiente. Resolver **cada bandera de arriba** contra la fuente real (no contra este informe): aplicar la corrección en `05-script.md` o descartarla con un motivo. Anotar aquí.
+
+| Bandera | Qué se hizo | Guion actualizado |
+|---------|-------------|-------------------|
+| #30 | | |
+| #23 | | |

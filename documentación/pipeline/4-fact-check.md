@@ -1,83 +1,65 @@
 # Fact-check (Stage 5)
 
-Usuario 001 escribe **todos** los guiones, así que el principio "el que revisa no es el que escribe" se preserva con **la firma de Usuario 002** más dos pasadas automáticas que corren antes de esa firma.
+**Dos capas, las dos automáticas. No hay firma humana.** La pasada L2 es el último control antes de grabar; el guionista resuelve cada bandera en el guion.
 
-Tres capas, en orden. El guion no pasa a grabación hasta que las tres despejan.
-
-Regla: `brain/14-fact-check-protocol.md`. Producto: `04-factcheck-auto.md` (L1+L2) + `04-fact-check.md` (L3, firmado).
+Regla: `brain/14-fact-check-protocol.md`. Producto: `04-factcheck-auto.md` (L1 + L2 + tabla de Resolución).
 
 ---
 
-## Layer 1 — Pasada determinista (automática)
+## Layer 1 — Pasada determinista
 
 `python tools/factcheck.py 05-script.md 03-source-log.csv`
 
-Sin juicio — pura consistencia. Comprueba:
+Sin juicio — pura consistencia:
 
 1. **Toda `[S..]` del guion resuelve** a una fila de `03-source-log.csv`.
 2. Toda fila del source-log tiene `tier` (A/B/C/D) y `rights_status`.
-3. **Heurística de afirmación huérfana:** marca frases que contienen un número, una fecha, un nombre propio o comillas **pero no llevan `[S..]`** → candidatas a claim sin fuente, para que un humano las revise.
-4. **Chequeo de tier:** lista toda claim cuya única `[S..]` apunta a Tier C/D → hay que subirla de tier o reformularla como en disputa.
-5. Reporta conteos: claims etiquetadas, fuentes por tier, huérfanas candidatas, claims solo-C/D.
+3. **Heurística de huérfana:** marca frases con número / fecha / nombre propio / comillas **sin `[S..]`** → candidatas a claim sin fuente.
+4. **Chequeo de tier:** toda claim cuya única `[S..]` es Tier C/D → subir de tier o reformular como disputada.
+5. Reporta conteos.
 
-**Gate:** L1 debe ser `PASS` (cero errores de etiqueta/tier sin resolver; cada huérfana candidata o bien etiquetada o bien confirmada como no-factual).
-
-Detalle de la herramienta en `herramientas/1-factcheck` (2ª pasada).
+**Gate:** `PASS` — cero errores de etiqueta/tier; cada huérfana etiquetada en el guion o confirmada como no-factual.
 
 ---
 
-## Layer 2 — Pasada asistida por LLM (primer borrador automático)
+## Layer 2 — Pasada asistida por LLM
 
-Usuario 001 corre `templates/fact-check-auto-prompt.md`: pega el guion + el source-log, recibe una tabla estructurada de claims.
+`templates/fact-check-auto-prompt.md`: pega guion + source-log, devuelve **seis tablas de banderas**:
 
-El prompt pide al modelo:
-- Extraer toda claim factual y la `[S..]` que cita.
-- Para cada una: ¿la fuente citada (por su descripción) sostiene *plausiblemente* la claim? → `supported` / `mismatch` / `no se puede saber por la descripción`.
-- Marcar interpretación enunciada como hecho (sobre todo en la reflexión / cierre).
-- Marcar citas no marcadas como traducidas.
-- Marcar claims que deberían ir hedged ("se dice…", "no hay pruebas concluyentes…").
-- Marcar claims de psicología popular y cualquier cita que huela a apócrifa.
+1. **Afirmaciones factuales** — cada una con su `[S..]`; `respalda` / `desajuste` / `no se puede saber` / `sin tag`.
+2. **Interpretación como hecho** — + reescritura sugerida con marco ("una lectura posible…").
+3. **Citas textuales** — ¿traducción marcada? ¿atribución + fecha? ¿riesgo apócrifa?
+4. **Afirmaciones que deberían ir matizadas.**
+5. **Psicología popular / datos-mito.**
+6. **Riesgos legales / éticos / de independencia** — difamación, alegación sin desenlace, menor identificable, tema sensible, sujeto privado, pitch externo, dignidad (`brain/04`, `brain/05`).
 
-**El LLM no es una fuente** (`brain/01` §9). Su output es una **lista de tareas**. Cada marca se re-verifica contra la fuente real antes de darla por despejada.
+**El LLM no es una fuente** (`brain/01` §9). Una bandera es una tarea de comprobar contra la fuente real, no un veredicto.
 
-**Gate:** cada marca de L2 tiene una resolución anotada por un humano.
+---
+
+## Resolver las banderas
+
+Usuario 001 (quien escribió) recorre cada bandera y:
+- **aplica la corrección** en `05-script.md` (arregla una fecha, añade un matiz, reencuadra una interpretación, corta una línea sin fuente, añade una atribución en pantalla), o
+- **la descarta** con una línea de motivo ("el guion ya lo marca como tradición").
+
+Se anota en la **tabla de Resolución** de `04-factcheck-auto.md`.
+
+**Gate:** L1 `PASS` + cero banderas sin resolver → el guion pasa a grabación. El pase legal/COI se vuelve a marcar en Stage 11 (`templates/publish-checklist.md`).
 
 ### Lo que L2 encontró en E001 (ejemplo real)
 
-En el guion de Hokusai, L2 marcó 39 claims, y de esas encontró:
+L2 marcó 39 afirmaciones y encontró:
 - **2 errores reales:** la escala de edades del prefacio decía "a los 100" cuando el original dice "a los 110"; y una inconsistencia interna de fechas de la serie del Fuji.
 - **3 claims poco sostenidas:** "Japón cerrado", la población de Edo, la anécdota del papel de embalar.
 
-Los errores se corrigieron; la anécdota se enmarcó como lo que es ("se cuenta —y puede que la historia esté algo pulida—").
-
----
-
-## Layer 3 — Firma humana (Usuario 002)
-
-Usuario 002 (no escribió el guion) trabaja `templates/fact-check-sheet.md` → `04-fact-check.md`:
-
-- Revisa el output de L1 + L2; resuelve cada marca abierta **contra fuentes reales Tier A/B**.
-- **Spot-check** de una muestra de claims marcadas `supported` — no confía a ciegas en el "supported" de la máquina.
-- Corre la pasada **legal y ética** (`brain/04`) y la de **independencia / conflicto de interés** (`brain/05`) — estas se quedan 100% humanas.
-- Firma.
-
-**Gate (duro):** `04-fact-check.md` firmado por Usuario 002; cero ítems abiertos; legal + COI despejados.
-
-### La hoja de Usuario 002 — qué contiene
-
-| Bloque | Qué |
-|--------|-----|
-| Tabla de claims | # · línea/tiempo del guion · afirmación · fuente citada [ID] · tier · ¿2ª fuente independiente? · veredicto · acción |
-| Chequeo legal/ético | sujeto elegible · sin difamación no soportada · sin menores identificables · sin pitch externo · rótulos IA/recreación planeados |
-| Chequeo de independencia | nadie que conozcamos · no procede de tip privado · "¿contable íntegra desde documentación pública por alguien ajeno?" → Sí |
-| Ítems abiertos | (deben quedar en cero) |
-| Firma | Usuario 002 + fecha |
+Los errores se corrigen en el guion; la anécdota se enmarca como lo que es ("se cuenta —y puede que la historia esté algo pulida—").
 
 ---
 
 ## Qué significa "automatizado" aquí
 
-L1 y L2 son la automatización — convierten una revisión de página en blanco en un triaje de marcas ya encontradas, y corren en minutos. **L3 se queda humana** porque el valor entero del canal es periodismo verificado, y un "supported" de un modelo no es una verificación.
+L1 y L2 convierten una revisión de página en blanco en un triaje de banderas ya encontradas, en minutos. No hay tercera capa: el criterio del canal es que un guion que pasa L1 limpio y con cada bandera de L2 resuelta está listo. El riesgo legal/ético fuerte se vuelve a mirar en el checklist de publicación.
 
 ## Si aparece un error después de publicar
 

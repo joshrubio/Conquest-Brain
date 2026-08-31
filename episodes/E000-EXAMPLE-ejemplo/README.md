@@ -15,10 +15,9 @@ Carpeta de referencia: muestra **cómo se rellenan los archivos de un episodio**
 | `02-research-dossier.md` | Cronología, afirmaciones de carga con tier, puntos disputados, la cita apócrifa marcada. |
 | `03-source-log.csv` | Registro de fuentes con tier y estado de derechos. Fuentes reales; localización exacta marcada como *a completar*. |
 | `04-factcheck-auto.md` | Salida de Layer 1 (`tools/factcheck.py`) + hueco de Layer 2 (`brain/14`). |
-| `04-fact-check.md` | Layer 3: verificación claim-by-claim de una muestra de 6 afirmaciones — incluye una que se **corrige** y una que se **marca como disputada en pantalla**. |
 | `05-script.md` | Guion de ejemplo en estructura v1: cold open → pivote a contexto → narrativa con explicador y foreshadowing plant/pay → cierre forma A → CTA. Anotado. |
 | `06-shotlist.md` | Shotlist inferida del guion (26 beats), con la heurística documentada. |
 
 ## Aviso
 
-Las cifras y citas del guion de ejemplo llevan tag `[S..]` pero **no están verificadas**: es material didáctico. Antes de cualquier uso real, todo pasaría por `04-fact-check.md` de verdad.
+Las cifras y citas del guion de ejemplo llevan tag `[S..]` pero **no están verificadas**: es material didáctico. Antes de cualquier uso real pasaría por el fact-check L1+L2 de verdad.

@@ -11,11 +11,11 @@ Produce Spanish-language journalistic documentary episodes that (1) narrate a ve
 | Slot | Responsibilities (this iteration's assignment) |
 |------|------|
 | Usuario 001 | **Writes every script.** Ideation of track **T02 Exploración**, production, edit, publishing, tech, `tools/`. Narrates / on camera in a share of episodes. |
-| Usuario 002 | Editorial lead, research direction, ideation of track **T01 Historias Inspiradoras**, fact-check sign-off (Layer 3). Narrates / on camera in a share of episodes. |
+| Usuario 002 | Editorial lead, research direction, ideation of track **T01 Historias Inspiradoras**. Narrates / on camera in a share of episodes. |
 
 Roles are independent and responsibilities are assignable items — the split above is the current assignment, not a fixed identity. Real people behind each slot: see [USERS.md](USERS.md).
 
-**Two content tracks**, one owner each — see [ideas/tracks.md](../ideas/tracks.md). **Usuario 001 writes all scripts;** the "checker ≠ writer" principle is preserved by two automated fact-check passes plus **Usuario 002's** sign-off ([14-fact-check-protocol.md](14-fact-check-protocol.md)). **Narration is per-episode** (Usuario 001 or Usuario 002), recorded in `episodes/_STATUS.md`.
+**Two content tracks**, one owner each — see [ideas/tracks.md](../ideas/tracks.md). **Usuario 001 writes all scripts.** Fact-check is two automated passes — L1 deterministic + L2 LLM-assisted ([14-fact-check-protocol.md](14-fact-check-protocol.md)); the writer resolves every flag. No second-reviewer requirement; every gate can be signed by one person. **Narration is per-episode**, recorded in `episodes/_STATUS.md`.
 
 ## Audience
 
@@ -42,4 +42,4 @@ Broad Spanish-speaking audience — Monterrey to Madrid to Buenos Aires. Not tie
 
 ## Change control
 
-This charter and the other `brain/` files are **standing rules**. Changing a non-negotiable requires explicit sign-off from both Usuario 001 and Usuario 002, recorded in the git history of this file.
+This charter and the other `brain/` files are **standing rules**. Changing a non-negotiable is a deliberate decision recorded in the git history of this file.

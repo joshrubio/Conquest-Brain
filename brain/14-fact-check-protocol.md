@@ -1,66 +1,58 @@
 # 14 — Fact-Check Protocol
 
-Stage 5 of the pipeline. Usuario 001 writes **every** script, so the "checker ≠ writer" principle is preserved by **Usuario 002's sign-off** plus two automated passes that run before that sign-off.
+Stage 5. **Two layers, both automated. No human sign-off layer** — the L2 pass is the last check before record.
 
-Three layers, in order. The script does not proceed to record until all three clear.
+- **L1 deterministic** — a script. Consistency only.
+- **L2 LLM-assisted** — a prompt. Flags claims, interpretation-as-fact, quotes, hedging, pop-psych, and obvious legal/ethics/COI risks.
+- Then the writer **resolves every L2 flag in the script** and records what was done.
 
-## Layer 1 — Deterministic pass (automated)
+The script does not go to record until L1 is `PASS` and no L2 flag is left unresolved.
 
-`tools/factcheck.py` runs on `05-script.md` + `03-source-log.csv`. No judgement — pure consistency.
+## Layer 1 — Deterministic pass
 
-Checks:
-1. Every `[S..]` tag in the script resolves to a row in `03-source-log.csv`.
+`tools/factcheck.py` on `05-script.md` + `03-source-log.csv`. No judgement.
+
+1. Every `[S..]` tag resolves to a row in `03-source-log.csv`.
 2. Every source-log row has a `tier` (A/B/C/D) and a `rights_status`.
-3. **Orphan-claim heuristic:** flags sentences that contain a number, a date, a proper noun, or quotation marks but carry **no `[S..]` tag** — candidate unsourced claims for a human to check.
-4. **Tier check:** lists every claim whose only `[S..]` points to a Tier C/D source → must be upgraded or reframed as disputed.
-5. Reports counts: claims tagged, sources by tier, orphan candidates, C/D-only claims.
+3. **Orphan-claim heuristic:** sentences with a number, date, proper noun, or quotation marks but **no `[S..]`** → candidate unsourced claims.
+4. **Tier check:** every claim whose only `[S..]` is Tier C/D → upgrade or reframe as disputed.
+5. Reports counts.
 
-Output: `04-factcheck-auto.md` (Layer 1 section) with `PASS` / `FAIL` and the flag list.
+Output: `04-factcheck-auto.md` (Layer 1 section), `PASS` / `FAIL`.
 
-**Gate:** Layer 1 must be `PASS` (zero unresolved tag/tier errors; every orphan candidate either tagged or confirmed non-factual).
+**Gate:** `PASS` — zero unresolved tag/tier errors; every orphan candidate either tagged in the script or confirmed non-factual.
 
-## Layer 2 — LLM-assisted pass (automated first draft)
+## Layer 2 — LLM-assisted pass
 
-Usuario 001 runs [templates/fact-check-auto-prompt.md](../templates/fact-check-auto-prompt.md): paste the script + the source-log, get back a structured claims table.
+[templates/fact-check-auto-prompt.md](../templates/fact-check-auto-prompt.md): script + source-log in, six flag tables out (pasted into `04-factcheck-auto.md`):
 
-The prompt asks the model to:
-- Extract every factual claim and the `[S..]` it cites.
-- For each: does the cited source (by its description) *plausibly* support the claim? → `supported` / `mismatch` / `can't tell from description`.
-- Flag interpretation stated as fact (especially in the reflection / close).
-- Flag quotes not marked as translated.
-- Flag claims that should be hedged ("se dice…", "no hay pruebas concluyentes…").
-- Flag popular-psychology claims and any quote that smells apocryphal.
+1. **Factual claims** — each with its `[S..]`; `respalda` / `desajuste` / `no se puede saber` / `sin tag`.
+2. **Interpretation stated as fact** — + a suggested interpretive rewrite.
+3. **Quotes** — translation marked? attribution + date? apocryphal risk?
+4. **Claims that should be hedged.**
+5. **Pop-psychology / mythy stats.**
+6. **Legal / ethics / independence risks** — defamation, allegation with no outcome, identifiable minor, sensitive-topic handling, private subject, external pitch, dignity ([brain/04](04-legal-and-ethics.md), [brain/05](05-independence-and-coi.md)).
 
-**The LLM is not a source** ([01-editorial-and-sourcing.md](01-editorial-and-sourcing.md) §9). Its output is a **to-do list**. Every flag is re-verified by a human against the real source before it is cleared.
+**The LLM is not a source** ([01](01-editorial-and-sourcing.md) §9). A flag is a to-do to check against the real source, not a verdict.
 
-Output: appended to `04-factcheck-auto.md` (Layer 2 section).
+## Resolving the flags
 
-**Gate:** every Layer 2 flag has a resolution noted by a human.
+Usuario 001 (the writer) goes through every flag and either:
+- **applies the fix** in `05-script.md` (correct a date, add a hedge, reframe an interpretation, cut an unsourced line, add an on-screen attribution), or
+- **dismisses it** with a one-line reason (e.g. "el guion ya lo marca como tradición").
 
-## Layer 3 — Human sign-off (Usuario 002)
+Recorded in the **Resolución** table of `04-factcheck-auto.md`.
 
-Usuario 002 (did not write the script) works [templates/fact-check-sheet.md](../templates/fact-check-sheet.md) → `04-fact-check.md`:
-- Reviews Layers 1 + 2 output; resolves every open flag against real Tier A/B sources.
-- Spot-checks a sample of `supported` claims directly (don't trust the machine's "supported" blindly).
-- Runs the **legal & ethics** ([04](04-legal-and-ethics.md)) and **independence/COI** ([05](05-independence-and-coi.md)) passes — these stay fully human.
-- Signs.
-
-**Gate (hard):** `04-fact-check.md` signed by Usuario 002; zero open items; legal + independence/COI clear.
-
-## What "automated" means here
-
-Layers 1 and 2 are the automation — they turn a blank-page review into a triage of pre-found flags, and they run in minutes. Layer 3 stays human because the channel's whole value is verified journalism and a model's "supported" is not a verification.
+**Gate:** L1 `PASS` + zero unresolved L2 flags. The legal/ethics + independence/COI **checklist** is ticked once more at Stage 11 ([templates/publish-checklist.md](../templates/publish-checklist.md)) before upload.
 
 ## Files
 
-| File | Layer | Who |
-|------|-------|-----|
-| `tools/factcheck.py` | 1 | script |
-| `04-factcheck-auto.md` (in episode folder) | 1 + 2 output | script + LLM |
-| `templates/fact-check-auto-prompt.md` | 2 | Usuario 001 runs |
-| `templates/fact-check-sheet.md` → `04-fact-check.md` | 3 | Usuario 002 |
+| File | Layer |
+|------|-------|
+| `tools/factcheck.py` → `04-factcheck-auto.md` (L1) | 1 |
+| `templates/fact-check-auto-prompt.md` → `04-factcheck-auto.md` (L2 + Resolución) | 2 |
 
 ## Roadmap
 
-- v1 (now): `factcheck.py` for Layer 1; a prompt for Layer 2 run manually.
-- Later: wrap Layer 2 in a script that calls an LLM API and writes `04-factcheck-auto.md` in one command; add a check that `[S..]` numbering is contiguous; pull source URLs and check they still resolve (link-rot).
+- Now: L1 script; L2 prompt run by hand + manual resolution.
+- Next: wrap L2 in a script that calls an LLM API and writes the L2 section in one command; `[S..]` contiguity check; source-URL link-rot check.

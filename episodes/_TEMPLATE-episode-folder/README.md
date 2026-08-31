@@ -11,7 +11,6 @@ Trabajar los archivos **en orden**. Cada uno corresponde a un stage de `brain/06
 | `03-source-log.csv` | 2 | `templates/source-log.csv` |
 | `05-script.md` | 4 | `templates/script-template.md` |
 | `04-factcheck-auto.md` | 5 (L1+L2) | — (genera `tools/factcheck.py` + `templates/fact-check-auto-prompt.md`) |
-| `04-fact-check.md` | 5 (L3) | `templates/fact-check-sheet.md` |
 | `06-shotlist.md` | 6 | `templates/shotlist-broll.md` |
 | `07-assets.md` | 7 | `templates/asset-manifest.md` |
 | `07b-ai-prompts.md` | 7 (solo si hace falta) | `tools/build_ai_prompts.py` (genera; ver `brain/15`) |

@@ -100,7 +100,7 @@ Aplicado a toda la timeline: **oscuro, cálido, desaturado ~15–20%**, negros l
 
 ## El picture lock
 
-KB + trim firmados en `07c-edit.html` → b-roll + música montados → **picture lock** (no más cambios de timing) → Usuario 002 lo ve una vez, de principio a fin, contra `05-script.md` y `brain/04` (rótulos presentes, claims exactos, dignidad) → firma en `07c-edit.md` → sonido + `.srt` finales → Stage 10.
+KB + trim firmados en `07c-edit.html` → b-roll + música montados → **picture lock** (no más cambios de timing) → un usuario (001 o 002) lo ve una vez, de principio a fin, contra `05-script.md` y `brain/04` (rótulos presentes, claims exactos, dignidad) → firma en `07c-edit.md` → sonido + `.srt` finales → Stage 10.
 
 ## El gate de Stage 9
 
@@ -111,7 +111,7 @@ KB + trim firmados en `07c-edit.html` → b-roll + música montados → **pictur
 - [ ] Un lecho de música, con ducking bajo la voz; sin música en el bumper; licencias registradas
 - [ ] IA / recreación / coloreado rotulado en cada aparición
 - [ ] `.srt` generado y corregido a mano contra `05-script.md`
-- [ ] −14 LUFS integrado; 4K (o la mejor resolución común); picture lock firmado por Usuario 002 en `07c-edit.md`
+- [ ] −14 LUFS integrado; 4K (o la mejor resolución común); picture lock firmado (un usuario) en `07c-edit.md`
 
 ---
 
