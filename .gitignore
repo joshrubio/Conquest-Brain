@@ -62,6 +62,7 @@ episodes/**/12-metrics.html
 
 # Dashboard — generated / transient (tools/dash.py, tools/serve.py)
 dashboard.html
+cost.html
 episodes/_queue.json
 episodes/_loop.json
 episodes/**/_exports/

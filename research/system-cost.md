@@ -70,7 +70,7 @@ Claude Pro (~20 USD/mes) usa un límite móvil que **se reinicia cada 5 h** más
 
 ## Cómo se actualiza
 
-Este doc es **tracked** (no gitignored). Edítalo a mano cuando:
+Este doc (`.md`) es **tracked**; su render `cost.html` lo regenera `tools/dash.py` (gitignored, como `dashboard.html`). Edítalo a mano cuando:
 - cambien los límites del plan Pro → actualiza §Contra el plan
 - midas tokens reales → §Historial + recalibra la tabla
 - una etapa cambie de coste (nueva herramienta, más/menos lectura) → su fila
