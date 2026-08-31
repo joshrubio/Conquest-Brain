@@ -7,34 +7,21 @@
 - Better to hold an episode than to ship one with an open fact-check.
 - Lock the cadence after 3 published episodes, using the retro data.
 
-## Titles
+## Titles & thumbnails
 
-- Honest to the body. The hook's promise must be paid off in the video.
-- Spanish, neutral-international.
-- **Pattern (Dieck register, `brain/13`):** `<Gancho> | <Sujeto> | Documental` — e.g. `Lo perdió TODO tres veces — y pintó "La gran ola" a los 70 | Hokusai | Documental`. The hook carries the tension; the subject and "Documental" anchor it.
-- One or two capitalised words in the hook for emphasis is fine (Dieck does it); not ALL CAPS, no fake questions the video doesn't answer.
-- 3 candidates per episode in `07-thumbnail-title.md` (from the Stage 0 hook-titles); pick with Usuario 002.
-
-## Thumbnails
-
-- One system (`brain/03` §Thumbnail system): subject image + the house grade + one line of Playfair or the case-file device, gold accent on one word.
-- ≤ 4 words of text, high contrast, readable at 320px.
-- Archival image or a still tied to the actual story. No arrows, no shocked faces, no red circles.
+- **Title** — pattern, hook types, rules, A/B: [brain/13](13-hook-naming.md). 3 candidates per episode in `08-thumbnail-title.md` (from the Stage 0 hook-titles); pick with Usuario 002. Honest to the body; ≤ ~70 chars.
+- **Thumbnail** — one system: [brain/03](03-brand-identity.md) §Thumbnail system. ≤ 4 words, readable at 320px, no arrows/shock-faces/red-circles. Title and thumbnail don't repeat the same words.
 
 ## Description — required blocks
 
-1. 2–3 sentence summary.
-2. **Fuentes principales** — bulleted, from `03-source-log.csv` (Tier A/B). Always present.
-3. Chapters (timestamps).
-4. Soft channel CTA (subscribe / next episode). **No third-party link or pitch.**
-5. Credits (music license, archival, research).
-6. Correction log line if any.
-
 Template: [templates/description-and-credits.md](../templates/description-and-credits.md).
 
-## Chapters
-
-Map to the format: Hook / Narrative acts / Reflexión / Para llevar. Helps retention analysis per section.
+1. 2–3 sentence summary.
+2. **Fuentes principales** — bulleted, from `03-source-log.csv` (Tier A/B). Always present. **All citations live here** — no source cards on screen.
+3. Chapters (timestamps) — map to the format: Hook / Narrative acts / Reflexión / Para llevar. Helps per-section retention analysis.
+4. Soft channel CTA. **No third-party link or pitch.**
+5. Credits (music licence, archival, research).
+6. Correction log line if any.
 
 ## Tags & metadata
 
@@ -68,4 +55,4 @@ Vanity views alone are not the goal — audience that returns is.
 
 ## Publishing checklist
 
-See [templates/publish-checklist.md](../templates/publish-checklist.md) — copied into each episode folder as `09-publish-checklist.md`.
+See [templates/publish-checklist.md](../templates/publish-checklist.md) — copied into each episode folder as `10-publish-checklist.md`.

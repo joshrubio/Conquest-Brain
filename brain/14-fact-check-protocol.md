@@ -42,10 +42,10 @@ Output: appended to `04-factcheck-auto.md` (Layer 2 section).
 Usuario 002 (did not write the script) works [templates/fact-check-sheet.md](../templates/fact-check-sheet.md) → `04-fact-check.md`:
 - Reviews Layers 1 + 2 output; resolves every open flag against real Tier A/B sources.
 - Spot-checks a sample of `supported` claims directly (don't trust the machine's "supported" blindly).
-- Runs the **legal & ethics** pass ([04-legal-and-ethics.md](04-legal-and-ethics.md)) and the **separation** pass ([05-separation-policy.md](05-separation-policy.md)) — these stay fully human.
+- Runs the **legal & ethics** ([04](04-legal-and-ethics.md)) and **independence/COI** ([05](05-independence-and-coi.md)) passes — these stay fully human.
 - Signs.
 
-**Gate (hard):** `04-fact-check.md` signed by Usuario 002; zero open items; legal + separation clear.
+**Gate (hard):** `04-fact-check.md` signed by Usuario 002; zero open items; legal + independence/COI clear.
 
 ## What "automated" means here
 

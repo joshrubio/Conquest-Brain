@@ -57,7 +57,7 @@ The spine.
 Two recurring devices, both **required**:
 
 - **Explainer interludes ("mini-cátedras").** Pause the story to teach a concept the audience needs (how nuclear fission works, Ford's assembly line, method acting, where the school system came from). **Signpost on the way in** ("por si aún no sabes qué es…") **and on the way out** ("ahora que tienes esto, volvamos a la historia"). Every fact inside an interlude is sourced like any other.
-- **Foreshadowing hooks.** Plant "quiero que recuerdes esto porque será importante más adelante" / "pon atención" 3–6 times per episode and pay every one off. This is the main retention mechanism in the reference set.
+- **Foreshadowing hooks.** Plant 3–6 per episode and pay every one off — the main retention mechanism in the reference set. Phrase toolkit: [08-tone-of-voice.md](08-tone-of-voice.md) §6.
 
 **Optional module — "las N teorías / los N responsables."** When the case is genuinely contested (Titanic: 3 theories; Grinberg: 4 hypotheses; Chernobyl: 3 responsible parties): present each, weigh it, and close each with an honest verdict ("no hay pruebas concluyentes" / "las fuentes sostienen esto"). Use only when the contest is real, never manufactured.
 
@@ -71,7 +71,7 @@ Two recurring devices, both **required**:
 No form is an excuse to skip the sourcing or to moralize. The takeaway/lesson is **never** the reason a case was chosen ([01-editorial-and-sourcing.md](01-editorial-and-sourcing.md) §6).
 
 ### 4. CTA coda — ~10 s
-A distinct beat **after** the close has fully landed. Soft channel CTA only (subscribe / next episode). **No third-party pitch or link** ([05-separation-policy.md](05-separation-policy.md)). Sources always credited in the description — no on-screen source card.
+A distinct beat **after** the close has fully landed. Soft channel CTA only (subscribe / next episode). **No third-party pitch or link** ([05-independence-and-coi.md](05-independence-and-coi.md)). Sources always credited in the description — no on-screen source card.
 
 ## Recurring structural rules
 
@@ -80,10 +80,9 @@ A distinct beat **after** the close has fully landed. Soft channel CTA only (sub
 - Explainer interludes and foreshadowing hooks appear in every episode.
 - Any psychological concept invoked is **named and, where a specific theory/study/thinker is used, sourced** ([09-reflection-rules.md](09-reflection-rules.md)).
 
-## Series identity elements  (set — [brain/03](03-brand-identity.md))
+## Series identity elements
 
-- **Title pattern:** `<Gancho> | <Sujeto> | Documental` (Dieck register, [brain/13](13-hook-naming.md)).
-- **Thumbnail system:** [brain/03](03-brand-identity.md) §Thumbnail system — subject image + house grade + one line of Playfair or the case-file device, gold accent on one word.
-- **"Fuentes principales" description block:** required every episode ([templates/description-and-credits.md](../templates/description-and-credits.md)). **This is where all citations live — no source cards on screen.**
-- **Case-file device:** every episode's context opens with `EXPEDIENTE: CASO 00XX …` in Courier Prime ([brain/03](03-brand-identity.md)). The reflection may use the interview-transcript style.
-- **Bumper** (§0b): the only brand moment in the body — presenter line + `Exodo` wordmark on black, 3–6 s, after the cold open. No loud pre-roll intro anywhere.
+All set in [brain/03](03-brand-identity.md): title pattern (`<Gancho> | <Sujeto> | Documental`, [brain/13](13-hook-naming.md)), thumbnail system, palette/grade/typography, the `EXPEDIENTE: CASO 00XX` case-file device, the wordmark. Two that this format depends on:
+
+- **"Fuentes principales" description block** — required every episode ([templates/description-and-credits.md](../templates/description-and-credits.md)). All citations live there; no source cards on screen.
+- **Bumper** (§0b) — the only brand moment in the body. No loud pre-roll intro anywhere.

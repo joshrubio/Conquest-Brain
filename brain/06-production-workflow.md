@@ -38,7 +38,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - Protocol: [brain/14-fact-check-protocol.md](14-fact-check-protocol.md). Three layers:
   - **L1 deterministic:** `python tools/factcheck.py 05-script.md 03-source-log.csv` → must PASS.
   - **L2 LLM-assisted:** run [templates/fact-check-auto-prompt.md](../templates/fact-check-auto-prompt.md); resolve every flag against the real source.
-  - **L3 human:** **Usuario 002** (did not write it — Usuario 001 always does) completes [templates/fact-check-sheet.md](../templates/fact-check-sheet.md) + the legal/ethics ([brain/04](04-legal-and-ethics.md)) and independence/COI ([brain/05](05-separation-policy.md)) passes, and signs.
+  - **L3 human:** **Usuario 002** (did not write it — Usuario 001 always does) completes [templates/fact-check-sheet.md](../templates/fact-check-sheet.md) + the legal/ethics ([brain/04](04-legal-and-ethics.md)) and independence/COI ([brain/05](05-independence-and-coi.md)) passes, and signs.
 - **Gate (hard):** L1 PASS; all L2 flags resolved; `04-fact-check.md` signed by Usuario 002; legal + COI clear.
 
 ## Stage 6 — Shotlist / B-roll  → `06-shotlist.md`
@@ -48,21 +48,15 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 ## Stage 7 — Asset selection + style pass  → `07-assets.md` (+ `07b-ai-prompts.md`)
 
-**`07-style-pass.html` is the hub of this stage** — every asset decision (per beat, the AI images, and the cold-open intro) is made in that one page and exported as `07-picks.txt`; `--download` turns the picks into files + `07-selection.md`. Nothing enters the edit that didn't go through it.
+**`07-style-pass.html` is the hub** — every asset decision (per beat, AI images, cold-open intro, music) is made in that one page and exported as `07-picks.txt`; `--download` turns picks into files + `07-selection.md`. Nothing enters the edit that didn't go through it. Detail: [brain/12](12-available-material-protocol.md), [brain/15](15-ai-illustration-protocol.md), `documentación/pipeline/5`.
 
-- Template: [templates/asset-manifest.md](../templates/asset-manifest.md). Search feasibility already done in `material-search.md`; here it gets specific.
-- **1. Candidate pull (`tools/pull_assets.py`):** write `07-pull.tsv` (one row per beat that needs an image/clip: beat, kind `stock|stock-img|video|archive|intro`, source, query, opts; `n=3` per beat). `stock` beats return **video first** (Pexels/Pixabay); `INTRO1…` rows with kind `intro` search high-impact cold-open footage. Run `build_ai_prompts.py` first so the AI prompts show in the pass. `python tools/pull_assets.py E0XX-slug` hits the free APIs (Met, Wikimedia Commons, AIC, Pexels, Pixabay, Unsplash, Openverse) → **`07-style-pass.md`** (git record) + **`07-style-pass.html`**.
-- **2. Style pass (Usuario 001, manual) — in `07-style-pass.html`:**
-  - **Intro row (top):** the cold open (brain/02 §0). Up to 5 inputs for your own paths/links + the suggested `intro` clips + an "intro" checkbox on any card below. Export order = own (1–5) → suggested → cards.
-  - **Left column:** the pulled candidates per beat. Judge each thumbnail on resolution (vs. the template standard) / condition / colour / crop / sequence coherence against the series look ([brain/03](03-brand-identity.md) §Visual identity); tick the keepers.
-  - **Right column:** the `07b-ai-prompts.md` prompts. For a beat the pull didn't cover: copy the prompt, generate, paste the image path/URL into that prompt's input.
-  - **Music section (bottom):** the pool from `tools/find_music.py` (ominous-ambient beds, CC-BY/BY-SA/CC0). Audition inline, tick the ones to keep — early on, all of them; the channel settles on 3–5 (`brain/16` move 4).
-  - **Exportar 07-picks.txt** (saves into the episode folder) writes all of it. Then `python tools/pull_assets.py E0XX-slug --download` pulls into `assets/{intro,stock,video,archive}/`, copies AI images into `assets/ai/`, downloads ticked music into `brand/assets/music/` + `LICENSES.md`, verifies resolution, appends `assets/CREDITS.md`, writes **`07-selection.md`**, prints manifest rows. (No browser? tick `- [x]` in `07-style-pass.md` for beats; intro/AI/music need the picker.)
-- **3. Own-graphics** beats → design brief, not the manifest.
-- **4. AI-illustration** ([brain/15](15-ai-illustration-protocol.md)): for the beats left ❌ (no real image, no own-graphic), `tools/build_ai_prompts.py` → `07b-ai-prompts.md` *before* the pull. Pick the episode style (photoreal allowed); Claude writes the scenes; Usuario 001 generates and pastes paths in the picker. On-screen label always; never a photoreal face of a real person; never a fake document.
-- **5. Manifest:** fold `07-selection.md` into `07-assets.md` — one row per **accepted** asset (intro / beat / AI), with the Uso + Pase columns filled by Usuario 001.
-- **Gate:** every beat covered (accepted image / graphic / AI); cold open has 2–5 intro assets; every asset a clear licence + resolution for its use; colour/condition checked by sequence; AI images stylised, labelled, no real-person face; courtesy credits logged for `09-description.md`.
-- Runs in parallel with Stage 8 (recording doesn't depend on it).
+1. **AI prompts first** (if needed) — `build_ai_prompts.py E0XX-slug <slug>…` for beats with no real image and no own-graphic, so they render in the pass ([brain/15](15-ai-illustration-protocol.md)).
+2. **Pull** — write `07-pull.tsv` (one row per beat: kind `stock|stock-img|video|archive|intro`, query, `n=3`; `stock` = video-first; `INTRO1…` = cold-open footage). `python tools/pull_assets.py E0XX-slug` → `07-style-pass.md` (git record) + `.html`.
+3. **Style pass** (Usuario 001, in the page) — intro row (5 own slots + suggested + card checkboxes), per-beat candidates judged on resolution / condition / colour / sequence fit vs. [brain/03](03-brand-identity.md), AI prompt paste-ins, music pool. **Exportar 07-picks.txt**.
+4. **Download** — `pull_assets.py E0XX-slug --download` → `assets/{intro,stock,video,archive,ai}/` + music + `LICENSES.md`, verifies resolution, appends `CREDITS.md`, writes `07-selection.md`.
+5. **Manifest** — fold `07-selection.md` into `07-assets.md` (one row per accepted asset).
+- **Gate:** every beat covered; cold open 2–5 intro assets; every asset a clear licence + resolution for its use; AI stylised + labelled + no real-person face; credits logged for `09-description.md`.
+- Runs in parallel with Stage 8.
 
 ## Stage 8 — Record
 - The episode's assigned narrator (Usuario 001 or Usuario 002) does VO + on-camera per shotlist. Clean audio pass.
@@ -76,9 +70,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
   4. **B-roll assembly** — only after step 3 is all-green. Lay each beat's asset on the VO per `06-shotlist.md` + `07-selection.md`. Cold open = 2–5 `assets/intro/` clips + bumper on black.
   5. **Background music** — one ominous-ambient bed from `brand/assets/music/`, ducked under the VO. No music in the bumper.
   6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
-- Assembly (4–5) with Claude + ffmpeg for now; **DaVinci Resolve MCP** an option later if that's too fiddly.
-- **4K** output; a shot that can't fill it drops to its best, timeline stays 4K. House grade from `brain/03` applied whole (dark/warm/desaturated + grain + vignette). **No source cards** — citations in the description. AI + reenactment labelled every appearance.
-- Export −14 LUFS, `E0XX-<slug>-vN.mp4`.
+- Assembly (4–5) with Claude + ffmpeg for now; **DaVinci Resolve MCP** an option later. Output 4K, house grade, −14 LUFS, `E0XX-<slug>-vN.mp4` — all per [brain/16](16-edit-and-delivery.md).
 - **Gate:** every KB clip + trimmed take APROBADO; only the listed moves; every beat covered; music ducked + licences logged; AI/reenactment labelled; `.srt` corrected; 4K (or best common); picture lock signed by **Usuario 002** in `07c-edit.md`.
 
 ## Stage 10 — Package  → `08-thumbnail-title.md`, `09-description.md`
@@ -89,7 +81,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 ## Stage 11 — Publish  → `10-publish-checklist.md`
 - Template: [templates/publish-checklist.md](../templates/publish-checklist.md).
-- Final legal/separation tick by Usuario 001 + Usuario 002. Upload, subtitles, chapters, end screen, pinned comment (sources / any caveat). Schedule.
+- Final legal + independence/COI tick by Usuario 001 + Usuario 002. Upload, subtitles, chapters, end screen, pinned comment (sources / any caveat). Schedule.
 
 ## Stage 12 — Retro  → `11-retro.md`
 - Template: [templates/episode-retro.md](../templates/episode-retro.md).
@@ -98,9 +90,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 ## Roles
 
-- **Usuario 001 writes every script.** Also: T02 ideation, shotlist, edit, publishing, tech, `tools/`.
-- **Usuario 002:** editorial lead, T01 ideation, research direction, fact-check sign-off (Layer 3), on-camera/narration (share).
-- **Narrator** assigned per episode (Usuario 001 or Usuario 002) — usually follows the track owner; keep a rough balance.
+Slots and the responsibility split: [brain/00](00-project-charter.md) + [brain/USERS.md](USERS.md). Per stage:
 
 | Stage | Lead | Support |
 |-------|------|---------|

@@ -22,7 +22,7 @@ Used across the reference set and adopted: the narrator is visibly the person wh
 
 ## 3. Language
 
-- **Spanish neutral-international.** No Rotterdam / Netherlands in-jokes, no strong regionalisms, no slang that dates fast. Understandable from Monterrey to Madrid to Buenos Aires. (The reference channel is Mexican-inflected; we stay more neutral.)
+- **Spanish neutral-international.** No local in-jokes, no strong regionalisms, no slang that dates fast. Understandable from Monterrey to Madrid to Buenos Aires. (The reference channel is Mexican-inflected; we stay more neutral.)
 - Concrete nouns and verbs. Cut adjectives that only add heat ("escalofriante", "brutal", "increíble").
 - Numbers said in a way the ear can hold ("casi ocho veces su valor", not "un 782%").
 - Foreign terms and names: pronounce consistently; gloss on first use if needed.
@@ -50,15 +50,14 @@ Plant and pay off 3–6 per episode ([02-content-format.md](02-content-format.md
 - In the close: form A/B may address the viewer directly and gently ("si estás construyendo algo…", "cuando te toque decidir con prisa…"); form C ends on a real question to the audience.
 - Direct address is never used to flatter ("tú que eres inteligente…") or to sell.
 
-## 8. What we never do
+## 8. What we never do (voice-specific)
 
-- Clickbait the intro with a promise the body doesn't pay off.
+- Clickbait the intro with a promise the body doesn't pay off ([13-hook-naming.md](13-hook-naming.md)).
 - Invent a subject's inner thoughts and state them as fact ("pensó que…"). Use "es posible que pensara…", attribute it ("según su hermano…"), or cut.
-- Sensationalize violence, death, illness, or abuse. Sober, non-graphic, help-resource note where relevant.
-- Reproduce song lyrics; quote long verbatim passages of copyrighted text.
-- Use a dramatized film as if it were the historical record ([01-editorial-and-sourcing.md](01-editorial-and-sourcing.md)).
-- Pitch anything external. Soft channel CTA only.
 - Contempt-by-editing: music stings, sarcastic pauses, "y entonces, cómo no…".
+- Heat-only adjectives ("escalofriante", "brutal", "increíble").
+
+The legal/ethical don'ts — sensationalizing death/illness/abuse, song lyrics, long verbatim quotes, dramatized film as record, external pitches — are in [04-legal-and-ethics.md](04-legal-and-ethics.md) and apply here too.
 
 ## 9. Narrator notes
 

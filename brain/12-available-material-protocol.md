@@ -29,14 +29,14 @@ An idea is not approved until someone has confirmed, against real archive listin
 **Free stock (generic illustrative b-roll only)** — a modern lab, hands typing, waves, a city at night: **not** the specific real place/event (that's archival). Free/CC0/permissive only, no paid stock:
 - Images: Pexels, Pixabay, Unsplash, Openverse
 - Video: Pexels Videos, Coverr, Mixkit
-- All have free APIs → `tools/pull_assets.py` hits them at Stage 7 (see `brain/06` Stage 7), ~3 candidates/beat, and writes **`07-style-pass.html`** — the central Stage-7 artifact (per-beat candidates + AI prompts + cold-open intro). Keys (Pexels, Pixabay, Unsplash) go in `tools/.env` (gitignored); Openverse / Met / Wikimedia Commons / AIC need no key.
-- **Prefer video.** A `stock` beat searches Pexels/Pixabay **video first**; images only fill what video didn't. A usable clip found here is inserted directly in the edit instead of hand-building a b-roll move over a still.
-- Archive sources: **Met**, **Wikimedia Commons** (often higher-res than Met, cleaner artist metadata), **AIC**. Known limits: **Pixabay** free API caps images at ~1280 px (inset only); **AIC** IIIF CDN can block `--download` from some networks (its page + Download button always works). Pexels/Unsplash/Met/Commons deliver full resolution.
-- Stock is illustrative, not evidentiary — use it where a viewer reads it as a cutaway, not as "here is the real thing". If in doubt, a discreet label or an own-graphic is safer.
-- Attribution: Pexels + Unsplash require crediting the platform and the author in `09-description.md`; `--download` logs every pulled item to `assets/CREDITS.md`.
+- All have free APIs → `tools/pull_assets.py` hits them at Stage 7 (`brain/06`), ~3 candidates/beat, into `07-style-pass.html`. Keys + per-source quirks (resolution caps, CDN blocks): `tools/README.md`.
+- **Prefer video.** A `stock` beat searches Pexels/Pixabay **video first**; images fill what video didn't. A usable clip goes straight into the edit instead of a hand-built move over a still.
+- Archive sources: **Met**, **Wikimedia Commons**, **AIC**.
+- Stock is illustrative, not evidentiary — use it where a viewer reads it as a cutaway, not "here is the real thing". If in doubt, label it or use an own-graphic.
+- Attribution: Pexels + Unsplash need platform + author credited in `09-description.md`; `--download` logs every item to `assets/CREDITS.md`.
 
 **Audio / music** — a monetised video is **commercial** use + a sync/derivative. Usable: **CC0 / PD**, **CC-BY** (credit required), **CC-BY-SA** (credit + share-alike). **Not** anything with **NC** or **ND**.
-- **YouTube Audio Library** (in Studio) and **Pixabay Music** — free, commercial-cleared, mostly no attribution. Browse-only, no API. Best for the channel's fixed 3–5 beds (`brain/16` move 4).
+- **YouTube Audio Library** (in Studio) and **Pixabay Music** — free, commercial-cleared, mostly no attribution. Browse-only, no API. Good for the channel's fixed 3–5 beds.
 - Jamendo — per-track CC (many are BY-NC → unusable); `tools/find_music.py` filters to BY / BY-SA / CC0. Its paid "Jamendo Licensing" is **not** needed for CC-BY.
 - Musopen (PD classical) · Free Music Archive / ccMixter — CC, log the exact licence.
 - Every track: exact licence + attribution in `brand/assets/music/LICENSES.md` and the video description.
@@ -73,9 +73,7 @@ Common for T01/T02 (Semmelweis, Hokusai, Tulipmania, Radium-era…). Layered app
 4. **Light 2.5D parallax** on portrait stills (layer separation, subtle motion, no face manipulation). Gives life without crossing into reenactment.
 5. **A recurring stylised illustration** of the subject for journey / timeline / abstract sequences — clearly an illustration, labelled once. Needs an illustrator.
 
-**Not as a primary device:** photoreal AI "bringing a portrait to life". Tone risk for a rigor channel, needs a prominent on-screen label ([04-legal-and-ethics.md](04-legal-and-ethics.md) §8), often uncanny. At most one deliberate moment, labelled.
-
-Any AI-generated, AI-animated, or colourised visual carries an on-screen label — always.
+**Not as a primary device:** photoreal AI "bringing a portrait to life". At most one deliberate, labelled moment — full rules in [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md).
 
 ## Sign-off
 
@@ -83,6 +81,5 @@ The idea's track owner (Usuario 002 for T01, Usuario 001 for T02) ticks the work
 
 ## Per-episode artifacts
 
-- `material-search.md` — this protocol's output at ideation / Stage 2: does enough PD material exist, what's weak, the video question, how to depict a subject with no photograph, and any fact-check findings the search turned up. **Feasibility, not selection.**
-- `07-assets.md` — **Stage 7**, after fact-check + shotlist. The per-image manifest: a direct download link per archival beat + Usuario 001's **style pass** (resolution / condition / colour / series fit). See [06-production-workflow.md](06-production-workflow.md) Stage 7 and [templates/asset-manifest.md](../templates/asset-manifest.md).
-- `07b-ai-prompts.md` — **Stage 7**, only if the style pass leaves beats with no PD image and no own-graphic. Copy-paste AI-illustration prompts. See [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md).
+- `material-search.md` — this protocol's output at ideation / Stage 2. **Feasibility, not selection:** does enough PD material exist, what's weak, the video question, how to depict a subject with no photograph.
+- `07-assets.md` / `07b-ai-prompts.md` — Stage 7 selection + AI prompts. See [06-production-workflow.md](06-production-workflow.md) Stage 7.

@@ -1,6 +1,6 @@
 # 11 — Visual Rhythm & Shot Planning
 
-> **Status: v1 — method set, not yet video-calibrated.** Built from: process A (shot planning inferred from the E000 script, see `episodes/E000-EXAMPLE-ejemplo/06-shotlist.md`) + standard documentary-edit craft. Process B (direct observation of a reference video) could not be run in the automated browser — YouTube playback freezes the renderer (see §5). Refine to v2 after a manual calibration pass (§4).
+> **Status: v1 — method set, not yet video-calibrated.** Built from shot planning inferred from the E000 script + standard edit craft. Direct observation of a reference video (§4) is still pending — bump to v2 after it.
 
 ## 1. The method in one line
 
@@ -52,8 +52,7 @@ For a 20-minute episode that's roughly **150–180 distinct visual beats**. Not 
 
 - Stills: slow Ken Burns (push-in or lateral). Hard cuts between beats; fades only at section breaks.
 - Documents: start wide, push to the cited line.
-- **No source captions on screen** — citations go in the description (`brain/03`, `brain/16`). The case-file device (`EXPEDIENTE: CASO 00XX`) and chapter cards are the only recurring text.
-- Grade/grain/letterbox: the house look from `brain/03` §Visual identity — dark, warm, desaturated, fine grain, subtle vignette; applied uniformly so archival and graphics read as one piece.
+- On-screen text, grade, letterbox, no-source-cards: per `brain/16` §On-screen text + §Look, which apply `brain/03`.
 
 ### 2.5 Rights gate (unchanged from `templates/shotlist-broll.md`)
 
@@ -93,9 +92,7 @@ Automated browser tools can't do this reliably (§5). Usuario 001 runs it by han
 
 ## 5. Why not automated
 
-Tried (2026-08-28): in-app browser subagent (crashed the session twice) and Claude-in-Chrome MCP (YouTube renderer froze on play; paused frames never buffered; black player). Not pursued further — the value is calibration only, and a human watching 3 minutes is more reliable than screenshot sampling anyway.
-
-**If hard numbers are ever needed** (exact cuts/min, shot-length distribution): `yt-dlp` the file locally + run **PySceneDetect** for a cut list, then cross-reference with the transcript timestamps. Video files stay local/gitignored, same as the transcripts.
+Browser tools can't watch YouTube reliably here (renderer freezes on play — tried 2026-08-28). A human watching 3 minutes with a stopwatch is more reliable anyway. **If hard numbers are ever needed:** `yt-dlp` the file locally + **PySceneDetect** for a cut list, cross-referenced with transcript timestamps (video stays local/gitignored).
 
 ## 6. Output
 

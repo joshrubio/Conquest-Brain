@@ -11,7 +11,7 @@
 
 ## 1. Reinicio de fuentes (si aplica)
 
-Si la idea surgió de la vida privada de Usuario 001 o Usuario 002 (un tip, una conversación): **describir cómo se ha re-obtenido todo desde material público** y confirmar que no se usa nada de fuente privada. Ver `brain/05-separation-policy.md`.
+Si la idea surgió de la vida privada de Usuario 001 o Usuario 002 (un tip, una conversación): **describir cómo se ha re-obtenido todo desde material público** y confirmar que no se usa nada de fuente privada. Ver `brain/05-independence-and-coi.md`.
 
 > …
 

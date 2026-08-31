@@ -137,4 +137,4 @@ Elegiac ending:
 
 > "Para ti que llegaste hasta el final, muchísimas gracias por ver el video completo. Quiero agradecerte también por todo tu apoyo y recordarte que si no te has suscrito a mi canal, lo hagas en este momento. La verdad me apoyarías bastante y así también te aseguras de no perderte ninguno de mis videos. Sin más, tú y yo nos vemos en el próximo video."
 
-**Our version:** shorter, brand-separate, no over-familiar tone. See `templates/description-and-credits.md` and `brain/05-separation-policy.md`. Draft: *"Si estas historias te sirven, suscríbete — así no te pierdes el próximo episodio. Las fuentes están en la descripción."*
+**Our version:** shorter, brand-separate, no over-familiar tone. See `templates/description-and-credits.md` and `brain/05-independence-and-coi.md`. Draft: *"Si estas historias te sirven, suscríbete — así no te pierdes el próximo episodio. Las fuentes están en la descripción."*

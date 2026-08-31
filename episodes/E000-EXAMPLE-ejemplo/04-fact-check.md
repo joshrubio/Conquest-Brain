@@ -54,7 +54,7 @@ Veredictos usados: **verificada** · **corregir** (texto/estado) · **marcar com
 - [x] Sin letras de canciones; sin pasajes largos verbatim
 - [x] Sin reenactment ni material generado por IA
 
-## 6. Pase de separación (`brain/05-separation-policy.md`)
+## 6. Pase de separación (`brain/05-independence-and-coi.md`)
 
 - [x] "¿Contable íntegra desde documentación pública por alguien ajeno?" → Sí (caso histórico público)
 - [x] Cero datos/tips/casos del negocio

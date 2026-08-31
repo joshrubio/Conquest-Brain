@@ -70,20 +70,8 @@ Stills only (video already moves). The move is chosen from the image's **real as
 ## 5. Background music — `tools/find_music.py`
 
 - **Brief: ominous ambient.** Atmosphere, not dread, not a mystery stinger. Instrumental, low, slow, minimal or no melody, no vocals, no percussion spikes, loops cleanly.
-### Licence — a monetised YouTube video is **commercial** use
-
-A track only works for us if its licence allows **commercial use** *and* using it as a video soundtrack (a sync / derivative). That means:
-- **OK:** CC0 / public domain (no strings) · **CC-BY** (must credit the artist + licence in `09-description.md`) · **CC-BY-SA** (credit + the "share-alike" ask).
-- **NOT OK:** anything with **NC** (non-commercial) or **ND** (no-derivatives).
-- **Jamendo:** its free catalogue is per-track CC — many are BY-NC (unusable). `find_music.py` filters to BY / BY-SA / CC0 only. Jamendo's paid "Jamendo Licensing" is a separate product and is **not** required for CC-BY tracks.
-- **Zero-hassle, no attribution:** **YouTube Audio Library** (inside Studio) and **Pixabay Music** (`pixabay.com/music`) — both browse-only, no API. For a channel that reuses 3–5 beds forever, picking them by hand here is fine.
-
-### The tool
-
-- `find_music.py` queries **Jamendo** (free `JAMENDO_CLIENT_ID` in `tools/.env`; no key → Openverse fallback), keeping only BY / BY-SA / CC0. `python tools/find_music.py "dark ambient drone cinematic"` **appends** to `brand/assets/music/candidates.md` (an accumulating pool — run several queries).
-- The pool then shows as the **Music section at the bottom of `07-style-pass.html`** — audition inline, tick what to keep. Early on, keep them all; the channel settles on 3–5. `--download` (or `find_music.py --get <id> ...`) pulls the ticked tracks → `brand/assets/music/` + `LICENSES.md` (exact licence + required attribution per track).
-- **Per episode:** one bed under the whole piece, sitting ~20–24 dB under the VO peak; duck −4 to −6 dB under speech. A second, slightly warmer track may enter at the close (M3, `brain/02` §3). **No music in the bumper.**
-- The same 3–5 tracks every episode until a retro (`brain/06` Stage 12) says to refresh them.
+- **Licence:** CC0 / CC-BY / CC-BY-SA only — a monetised video is commercial + sync use; NC/ND are out. Full rule + sources in [brain/12](12-available-material-protocol.md) §Audio. `find_music.py` (Jamendo, key in `tools/.env`) filters to those and **appends** to `brand/assets/music/candidates.md`; the pool then shows in the **Music section of `07-style-pass.html`**. `--download` pulls ticked tracks → `brand/assets/music/` + `LICENSES.md` (exact licence + attribution).
+- **Per episode:** one bed under the whole piece, ~20–24 dB under the VO peak; duck −4 to −6 dB under speech. A second, warmer track may enter at the close (M3, `brain/02` §3). **No music in the bumper.** Same 3–5 beds every episode until a retro says to refresh.
 
 ## 6. Subtitles
 
@@ -94,16 +82,15 @@ A track only works for us if its licence allows **commercial use** *and* using i
 
 ## On-screen text — minimal
 
-- **No source cards.** Every citation lives in `09-description.md` «Fuentes principales» + the pinned comment. Nothing on screen says "fuente: …".
-- On screen only: the **case-file device** (`EXPEDIENTE: CASO 00XX …`, Courier Prime — `brain/03`), **chapter / section cards** (Playfair), and the **AI / reenactment label** — `Ilustración — Exodo` or `Recreación`, permanent, every appearance (`brain/15`, `brain/04` §8).
+On screen only: the **case-file device** (`EXPEDIENTE: CASO 00XX …`, Courier Prime), **chapter / section cards** (Playfair), and the **AI / reenactment label** (`Ilustración — Exodo` or `Recreación`, permanent, every appearance — `brain/15`, `brain/04` §8). **No source cards** (`brain/03`).
 
-## Look / grade — from `brain/03` §Visual identity
+## Look / grade
 
-Apply the house grade to the whole timeline: **dark, warm, desaturated ~15–20%**, blacks lifted slightly warm; fine constant **film grain** at low opacity; subtle **spotlight vignette**. Documents on an aged-paper / newspaper underlay. Palette and typography per `brain/03`. No letterbox unless a source clip forces it (pad to frame on `#100D09`, never stretch).
+The house grade from [brain/03](03-brand-identity.md) §Grade, applied to the whole timeline so archival and graphics read as one piece.
 
 ## Export
 
-- **4K (3840×2160)** target; drop to the highest resolution all sources actually support if 4K would mean upscaling most of the timeline. fps 24 or 30 — lock at brand.
+- **4K** target (see §Resolution); fps 24 or 30 — lock at brand.
 - H.264 or H.265, high bitrate; stereo AAC 320 kbps.
 - Loudness **−14 LUFS** integrated (YouTube target), true peak ≤ −1 dBTP.
 - Filename `E0XX-<slug>-vN.mp4`.

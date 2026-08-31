@@ -6,7 +6,7 @@ Not legal advice. This is the working standard; escalate anything uncertain to a
 
 - [ ] Subject is a **public figure**, a **historical case**, or a **company/practice** — not a private individual.
 - [ ] There is a **public documentary record**.
-- [ ] No one Usuario 001 or Usuario 002 personally know is involved, named, or identifiable — even anonymized ([brain/05](05-separation-policy.md) §2). (Non-negotiable. If in doubt, drop it.)
+- [ ] Passes the independence/COI gate ([brain/05](05-independence-and-coi.md)): no one the founders know, no private tip, tellable from public documentation. (Non-negotiable.)
 - [ ] The story is not sub judice in a way that makes commentary risky (check for active proceedings).
 
 ## 2. Defamation / reputation
@@ -49,11 +49,11 @@ Higher care for **living people** and **recent events**.
 - [ ] Description always carries the "Fuentes principales" list.
 - [ ] Any sponsorship or paid element disclosed (none expected).
 
-## 9. Independence & conflict of interest (see [05-separation-policy.md](05-separation-policy.md))
+## 9. Independence & conflict of interest
 
-- [ ] Subject is not someone Usuario 001 or Usuario 002 personally know; story is not from a private tip.
+- [ ] Independence/COI gate clear ([05-independence-and-coi.md](05-independence-and-coi.md)) — checked in full at fact-check Layer 3.
 - [ ] No third-party link or pitch in the video. Soft channel CTA only.
 
 ## 10. Pre-publish sign-off
 
-Both Usuario 001 and Usuario 002 tick this file (or its copy in the episode folder) before upload. Recorded in `09-publish-checklist.md`.
+Both Usuario 001 and Usuario 002 tick this file (or its copy in the episode folder) before upload. Recorded in `10-publish-checklist.md`.

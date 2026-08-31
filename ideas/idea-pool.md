@@ -1,6 +1,6 @@
 # Pool de ideas — videos individuales
 
-> Nivel 2. Cada idea pertenece a un **track** (`tracks.md`). Se evalúa con [idea-rubric.md](idea-rubric.md). Se genera aquí desde material público; no importa de ninguna otra planificación (`brain/05-separation-policy.md`).
+> Nivel 2. Cada idea pertenece a un **track** (`tracks.md`). Se evalúa con [idea-rubric.md](idea-rubric.md). Se genera aquí desde material público; no importa de ninguna otra planificación (`brain/05-independence-and-coi.md`).
 >
 > **Estado de la puntuación:** provisional (ideación). Eliminatorios E1–E5 confirmados para todas (ninguna toca a personas que conozcamos, todas son registro público, todas tienen ≥3 Tier A/B localizables). E6–E8 y el /21 son estimación — se cierran en el brief. Citas y cifras se verifican en Stage 5 (`brain/14`).
 >

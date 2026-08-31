@@ -10,15 +10,13 @@ At Stage 7, after the style pass, some `07-assets.md` rows are ❌ (no PD source
 
 ## Hard rules
 
-1. **Style is chosen per episode** — decided at Stage 7, written into `07b-ai-prompts.md`, and **consistent within the episode** (one style block, every image). It can be a period-illustration register (e.g. ukiyo-e for Hokusai, so the AI sits next to the real prints), a painterly look, or a **photorealistic cinematic recreation**. Pick the one that serves the story and matches the episode's real material and the channel look ([brain/03](03-brand-identity.md) §Visual identity).
-2. **On-screen label, every time it appears** — `Ilustración — Exodo` or `Recreación`, discreet but legible. **More important when the style is photoreal**, not less — the viewer must never mistake it for archival footage or a real photograph. Same rule as reenactments / colourised visuals ([04-legal-and-ethics.md](04-legal-and-ethics.md) §8).
+1. **One style per episode.** Decided at Stage 7, written into `07b-ai-prompts.md` as a single style block merged into every prompt, so the set reads as one system. It can be a period-illustration register (ukiyo-e for Hokusai, so the AI sits next to the real prints), a painterly look, or **photorealistic cinematic recreation** — whichever serves the story and matches the episode's real material and the channel look ([brain/03](03-brand-identity.md) §Visual identity). A **register**, never "in the style of [living artist/studio]".
+2. **On-screen label, every appearance** — `Ilustración — Exodo` or `Recreación`, discreet but legible. **More important when photoreal**, not less. Same rule as reenactments / colourised visuals ([04-legal-and-ethics.md](04-legal-and-ethics.md) §8).
 3. **Invents nothing that reads as fact.**
-   - **Scenes, places, events, atmosphere, abstract/metaphor shots:** allowed, photoreal or not, with the label.
-   - **The face of an identifiable real person, rendered photoreal and presented as their likeness:** not allowed. There is no photo, so it is pure invention of how someone looked — deepfake-adjacent, and corrosive for a channel whose value is verified fact. Use: the figure from behind / in silhouette / at distance, OR a clearly non-photoreal artist's impression labelled as such, OR a real portrait if one exists (then it's not AI).
-   - **Documents, records, newspapers, photographs-of-record:** never fabricated by AI. A photoreal "1721 report page" or "1930s clipping" is a forgery.
-4. **Only where no real image exists** and no own-graphic works. The real archival material stays the base — an episode is mostly real prints/photos/graphics with a *few* AI beats, never the reverse.
-5. **One consistent style across the episode's set** — same style block for every AI image so they read as one system.
-6. **Style is a register, not a copy of a living artist.** Public-domain traditions (ukiyo-e, chiaroscuro, etc.) or generic descriptors ("cinematic photoreal, muted", "charcoal illustration") — never "in the style of [living artist/studio]".
+   - **Scenes, places, events, atmosphere, abstract shots:** allowed, photoreal or not, with the label.
+   - **The photoreal face of an identifiable real person, as their likeness:** not allowed — pure invention of how someone looked, deepfake-adjacent. Use the figure from behind / in silhouette / at distance, a clearly non-photoreal impression labelled as such, or a real portrait (then it's not AI).
+   - **Documents, records, newspapers, photographs-of-record:** never fabricated. A photoreal "1721 report page" is a forgery.
+4. **Only where no real image exists** and no own-graphic works. Real archival stays the base — an episode is mostly real material with a *few* AI beats, never the reverse.
 
 ## How the count is set
 
@@ -40,12 +38,10 @@ Scaffolded by `tools/build_ai_prompts.py`, then the **episode style** and the sc
 
 ## Round trip
 
-1. Stage 7 style pass flags the ❌ beats.
-2. `python tools/build_ai_prompts.py E0XX-<slug> <slug1> <slug2> …` → creates `assets/ai/` and scaffolds `07b-ai-prompts.md`. **Do this before `pull_assets.py`** so the prompts render in the right column of `07-style-pass.html`.
-3. Claude writes the scene text for each prompt (framing, what's depicted, face-avoidance).
-4. In `07-style-pass.html` (right column), Usuario 001 copies each prompt, makes 3–4 variants in the generator, picks the one that best matches the set, saves it, and **pastes the file path/URL into that prompt's input**.
-5. **Exportar 07-picks.txt** → `python tools/pull_assets.py E0XX-<slug> --download` copies each AI image into `assets/ai/` under its `E0XX_aiNN_<slug>` name, verifies it, and prints the manifest row (licence = «ilustración propia (IA) — rótulo en pantalla»). `build_ai_prompts.py --check` still works for a manual audit.
-6. Claude folds the AI rows into `07-assets.md` and notes the label in `09-description.md` credits.
+1. Style pass flags the ❌ beats → `python tools/build_ai_prompts.py E0XX-<slug> <slug1> …` scaffolds `07b-ai-prompts.md` (**before `pull_assets.py`**, so the prompts render in the picker's right column).
+2. Claude writes each scene (framing, what's depicted, face-avoidance).
+3. In `07-style-pass.html`, Usuario 001 generates 3–4 variants per prompt, picks the best match for the set, pastes the path into that prompt's input.
+4. **Exportar** → `pull_assets.py --download` copies each into `assets/ai/` as `E0XX_aiNN_<slug>`, prints the manifest row. Claude folds the rows into `07-assets.md` + notes the label in `09-description.md`.
 
 ## Gate (part of Stage 7)
 

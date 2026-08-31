@@ -6,7 +6,7 @@ The project lives **locally + GitHub**. This repo (`D:\Exodo`) is the single sou
 
 - Local path: `D:\Exodo` (renamed from `D:\Youtube` on 2026-08-31)
 - Default branch: `main`
-- Remote: **`https://github.com/joshrubio/Exodo-Brain.git`** (account: `joshrubio`). **Private** (set 2026-08-29). Keep it private — it holds unpublished scripts, editorial internals and the separation policy.
+- Remote: **`https://github.com/joshrubio/Exodo-Brain.git`** (account: `joshrubio`). **Private** (set 2026-08-29). Keep it private — it holds unpublished scripts, editorial internals, real names.
 - First push done 2026-08-29 (`main` tracks `origin/main`).
 
 ### Day-to-day
@@ -38,7 +38,7 @@ Lightweight:
 English, imperative, scoped:
 
 ```
-docs: tighten reflection sourcing rule
+brain: tighten reflection sourcing rule
 E007: add research dossier + source log
 ideas: approve theme T03 (speculative manias)
 status: E004 -> stage 8 (edit)
@@ -52,7 +52,7 @@ status: E004 -> stage 8 (edit)
 ## Access
 
 - Usuario 001 + Usuario 002: write access.
-- No third-party collaborators without a separation-policy review (`brain/05-separation-policy.md`) — scripts name real people before publication.
+- No third-party collaborators without an independence/COI review ([brain/05](05-independence-and-coi.md)) — scripts name real people before publication.
 
 ## Backups
 

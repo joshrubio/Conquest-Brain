@@ -54,5 +54,5 @@
 ## 6. Post-publicación
 
 - [ ] `episodes/_STATUS.md` actualizado a «Publicado»
-- [ ] Retro programada (48 h y 30 d) — `10-retro.md`
+- [ ] Retro programada (48 h y 30 d) — `11-retro.md`
 - [ ] KPI log de `brain/07-publishing-seo-metrics.md` con fila del episodio

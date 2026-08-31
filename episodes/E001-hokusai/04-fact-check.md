@@ -55,7 +55,7 @@ Veredictos: **verificada** · **corregir** (texto exacto propuesto) · **cortar*
 - [ ] Reenactments / IA / colorizado marcados en pantalla
 - [ ] Temas sensibles tratados con sobriedad; nota de recursos de ayuda si aplica
 
-## 6. Pase de separación (`brain/05-separation-policy.md`)
+## 6. Pase de separación (`brain/05-independence-and-coi.md`)
 
 - [ ] «¿Sería contable íntegra desde documentación pública por alguien que no conoce a nadie implicado?» → Sí
 - [ ] Cero datos/tips/casos del negocio

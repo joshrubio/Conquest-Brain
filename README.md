@@ -31,7 +31,7 @@ Documentation, templates, per-episode folders, and the `tools/` that run the pip
 ## Core non-negotiables (full text in [brain/00-project-charter.md](brain/00-project-charter.md))
 
 1. **Subjects are public** — public figure, historical case, or company/practice with verifiable public documentation. Never private individuals, never unrecorded cases.
-2. **No episode subject drawn from people Usuario 001 or Usuario 002 personally know** — not even anonymized ([brain/05](brain/05-separation-policy.md)).
+2. **No episode subject drawn from people Usuario 001 or Usuario 002 personally know** — not even anonymized ([brain/05](brain/05-independence-and-coi.md)).
 3. **No factual claim without a cited source.** No invented data or quotes.
 4. The channel stays **independent in brand, folder, and workflow** — no co-branding or shared identity with any other channel or venture.
 

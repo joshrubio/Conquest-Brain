@@ -31,7 +31,7 @@
 - [x] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)
 - [x] Nadie que Usuario 001 o Usuario 002 conozcan personalmente involucrado / identificable
 - [x] La historia se sostiene por sí misma (el cierre no es el motivo de elegir el caso)
-- [x] Pasa la política de separación (`brain/05-separation-policy.md`)
+- [x] Pasa la política de separación (`brain/05-independence-and-coi.md`)
 
 ## Tesis de trabajo
 
