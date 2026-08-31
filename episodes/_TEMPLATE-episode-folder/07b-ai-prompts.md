@@ -10,7 +10,7 @@
 | Carpeta destino | `episodes/E0XX-<slug>/assets/ai/` |
 | Nomenclatura | `E0XX_aiNN_<slug>.png` |
 | Salida | ≥ 4K si el generador lo permite; si no, upscale |
-| Rótulo en pantalla | `Ilustración — Exodo` (o «recreación»), discreto, legible |
+| Rótulo en pantalla | `Ilustración — Conquest` (o «recreación»), discreto, legible |
 | Fecha | AAAA-MM-DD |
 
 ## Estilo de ESTE episodio (compartido — ya está dentro de cada prompt)

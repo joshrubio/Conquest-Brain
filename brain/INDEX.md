@@ -8,7 +8,7 @@ authority: index
 
 # brain/ — index
 
-The **standing rules** for Exodo Channel. English, terse. Each file has YAML
+The **standing rules** for Conquest-Oficial. English, terse. Each file has YAML
 frontmatter (`summary`, `stage`, `read_when`, `pairs_with`, `tools`) — grep it to
 find the right doc. **Don't read all 18.** Use the routing table.
 

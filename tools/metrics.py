@@ -54,7 +54,7 @@ def build(slug, title):
         '<label class="opt" style="margin-top:.6rem"><input type="checkbox" id="ok"> '
         'Retro cerrada (30 d) — episodio archivado</label></section>')
     script = f"""
-const LS="exodo-metrics-{slug}", $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const LS="conquest-metrics-{slug}", $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 function save(){{const o={{}};$$('[data-k]').forEach(i=>o[i.dataset.k]=i.value);
   o._f=$('#firma').value;o._d=$('#fecha').value;o._ok=$('#ok').checked;
   localStorage.setItem(LS,JSON.stringify(o));}}

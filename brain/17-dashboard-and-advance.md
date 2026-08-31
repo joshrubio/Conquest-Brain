@@ -4,7 +4,7 @@ summary: "The dashboard (dash.py), the local server (serve.py), and the gate eng
 stage: all
 read_when: "running the pipeline day to day; a gate won't close; setting up the /loop"
 pairs_with: [06-production-workflow, 07-publishing-seo-metrics]
-tools: [dash.py, serve.py, advance.py, pipeline.py, metrics.py]
+tools: [dash.py, serve.py, advance.py, pipeline.py, metrics.py, theme.py]
 authority: canonical
 ---
 
@@ -18,11 +18,12 @@ One screen for every chapter, and a one-click hand-off between stages.
 | File | What |
 |------|------|
 | `tools/pipeline.py` | the stage manifest (produces / review page / fold kind / next / what to read to *generate* each stage) + readers/writers for `_STATUS.md` and `_queue.json`. Not a CLI. |
-| `tools/dash.py` | regenerates `dashboard.html` from `_STATUS.md` + the folders + the KPI log. Pure python, cheap. |
+| `tools/theme.py` | **the whole design system** — every CSS token, component and the HTML wrapper, in one file. Presentation only, no logic or data. `dash.py` + the review tools import `CSS` / `HELPERS` / `shell` from here. Read it *only* to restyle pages; folding gates and draining the queue never touches it. |
+| `tools/dash.py` | regenerates `dashboard.html` + `cost.html` from `_STATUS.md` + the folders + the KPI log. Structure only — look comes from `theme.py`. Pure python, cheap. |
 | `tools/serve.py` | `127.0.0.1:8765`. Serves the dashboard + every review page + episode files. Turns each review page's finish button into: stash decisions → fold the gate → regenerate the dashboard. |
 | `tools/advance.py` | the gate engine — `fold` (apply a stage's decisions) and `next` (bump to the next stage). Mechanical only; anything needing an agent goes on `_queue.json`. |
 | `tools/metrics.py` | Stage 12 review page — paste YouTube numbers → KPI-log row + retro block. |
-| `Exodo-Dashboard.bat` | double-click: starts `serve.py` + opens the browser. |
+| `Conquest-Dashboard.bat` | double-click: starts `serve.py` + opens the browser. |
 
 ## State — `episodes/_STATUS.md`
 
@@ -78,7 +79,9 @@ El **server** (`serve.py`) es aparte y no gasta tokens; ciérralo cuando quieras
 
 ## Ahorro de tokens
 
-El dashboard incluye la burbuja «Cómo no gastar tokens» y, por card, el **manifiesto de contexto** (los `reads` + `rules` del stage — lo único que el agente debe abrir). El reporte vive en `research/system-cost.md` (tracked) → botón «Consumo» del dashboard abre su render `cost.html`. Dentro, el botón **«Actualizar»** (con tooltip) corre `tools/cost_update.py`: bumpea la fecha, marca como *revisar* las filas > 90 días, añade una fila al Historial con el commit actual y un hueco para el `/usage` real, y re-renderiza. No inventa cifras.
+El dashboard incluye la burbuja «Cómo no gastar tokens» y, por card, el **manifiesto de contexto** (los `reads` + `rules` del stage — lo único que el agente debe abrir).
+
+**El diseño está en cuarentena.** Todo el CSS/HTML vive en `tools/theme.py` y en ningún otro sitio. Los datos que consume el agente (`_STATUS.md`, `_queue.json`, `_exports/*.json`, `*.txt`) son texto plano sin marcado, y `dashboard.html`/`cost.html` están gitignored. Plegar un gate o drenar la cola nunca abre un fichero con estilos → el rediseño no entra en el contexto. `theme.py` solo se abre para "cambiar cómo se ven las páginas". El reporte vive en `research/system-cost.md` (tracked) → botón «Consumo» del dashboard abre su render `cost.html`. Dentro, el botón **«Actualizar»** (con tooltip) corre `tools/cost_update.py`: bumpea la fecha, marca como *revisar* las filas > 90 días, añade una fila al Historial con el commit actual y un hueco para el `/usage` real, y re-renderiza. No inventa cifras.
 
 ## The `/loop` (optional layer)
 

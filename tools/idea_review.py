@@ -100,11 +100,11 @@ def build(ideas):
         f'<span>({total})</span></h2>'
         '<p class="hint">Por idea: elige el hook-title más fuerte, pon veredicto (aprobar / incubar / descartar), tu /21, y comenta. '
         '<b>«Aplicar cambios»</b> escribe los estados en <code>idea-pool.md</code> al momento — descartar e incubar se aplican solos; '
-        'las «aprobar» quedan listadas para crear su episodio. <b>«＋ Generar 3 ideas»</b> pone a Claude a añadir ideas nuevas al pool, '
+        'las «aprobar» quedan listadas para crear su episodio. <b>«Generar 3 ideas»</b> pone a Claude a añadir ideas nuevas al pool, '
         'sin avanzar de stage.</p>'
         '<div class="grid">' + "\n".join(cards) + '</div></section>')
     script = f"""
-const LS="exodo-ideareview";
+const LS="conquest-ideareview";
 const cards=[...document.querySelectorAll('.card')];
 const cnt=document.querySelector('.count');
 function state(){{
@@ -157,13 +157,11 @@ const nb=document.getElementById('newideas');
 if(nb)nb.onclick=()=>srv('/ideas-new',{{n:3}},'3 ideas en cola.');
 document.getElementById('clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
 """
-    header = ('<h1>Pool de ideas · revisión editorial</h1><span class="count"></span>'
+    header = ('<h1>Pool de ideas</h1><span class="count"></span>'
               f'<button class="primary" id="exp">Aplicar cambios</button>'
-              '<button id="newideas">＋ Generar 3 ideas</button>'
+              '<button id="newideas">Generar 3 ideas</button>'
               '<button id="clr">Limpiar</button>'
-              '<a class="btn" href="http://localhost:8765/" style="margin-left:auto;padding:.5rem 1rem;'
-              'border:1px solid var(--line);border-radius:9px;background:var(--surface-2);color:var(--fg);'
-              'text-decoration:none">← dashboard</a>')
+              '<a class="btn ghost spacer" href="http://localhost:8765/">Volver al panel</a>')
     return page(f"Revisión de ideas", header, body, script)
 
 

@@ -50,7 +50,7 @@ These shots are chosen in the **Intro row of `07-style-pass.html`** (Stage 7): `
 **Always end the narrative hook by naming what the video will do**: "en este episodio reconstruimos…", "aquí van las tres versiones del caso…", "para entenderlo, primero el contexto". **Sourced** — the hook may not overstate what the record supports.
 
 ### 0b. Bumper — 3–6 s, on black
-The reset beat between hook and story (Dieck does this — the brand moment lands *after* the hook, never before). Cut to **black**. Presenter says one line — "Soy [nombre]." — the **`Exodo`** wordmark appears, one low tone or a beat of silence, out. No logo animation, no music sting longer than the beat. This is also the narrative's "chapter 1" line — the context pivot starts on the next shot. Everything up to here (hook + bumper) is **≤ 50 s**, target ~35 s; the context pivot is running by **0:45–0:50**.
+The reset beat between hook and story (Dieck does this — the brand moment lands *after* the hook, never before). Cut to **black**. Presenter says one line — "Soy [nombre]." — the **`Conquest`** wordmark appears, one low tone or a beat of silence, out. No logo animation, no music sting longer than the beat. This is also the narrative's "chapter 1" line — the context pivot starts on the next shot. Everything up to here (hook + bumper) is **≤ 50 s**, target ~35 s; the context pivot is running by **0:45–0:50**.
 
 ### 1. Context pivot + era setup — 10–20%
 An explicit hinge line out of the hook: "pero para ver si esto es cierto, necesitamos algo de contexto" / "quiero que imagines que estás en…". Then the background the story needs: the era, the institution, the people, the stakes. This is where the first **explainer interlude** usually sits.

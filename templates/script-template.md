@@ -83,7 +83,7 @@ Ritmo de narración objetivo: **~155 palabras/min**. Elegir columna según durac
 
 El beat de reinicio entre hook e historia (Dieck lo hace así — la marca aparece **después** del hook, nunca antes).
 
-[EN PANTALLA] Corte a **negro**. Aparece la marca **`Exodo`**.
+[EN PANTALLA] Corte a **negro**. Aparece la marca **`Conquest`**.
 
 [NARRACIÓN] Una línea del presentador: «Soy [nombre].»
 

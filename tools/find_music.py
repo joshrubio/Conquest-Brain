@@ -42,7 +42,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ENV = Path(__file__).resolve().parent / ".env"
 MUS = ROOT / "brand" / "assets" / "music"
 CAND = MUS / "candidates.md"
-UA = "ExodoOficial/1.0 (educational documentary; contact joshuerubio@gmail.com)"
+UA = "ConquestOficial/1.0 (educational documentary; contact joshuerubio@gmail.com)"
 DEFAULT_Q = "dark ambient drone cinematic underscore atmospheric"
 
 

@@ -21,7 +21,7 @@ At Stage 7, after the style pass, some `07-assets.md` rows are ❌ (no PD source
 ## Hard rules
 
 1. **One style per episode.** Decided at Stage 7, written into `07b-ai-prompts.md` as a single style block merged into every prompt, so the set reads as one system. It can be a period-illustration register (ukiyo-e for Hokusai, so the AI sits next to the real prints), a painterly look, or **photorealistic cinematic recreation** — whichever serves the story and matches the episode's real material and the channel look ([brain/03](03-brand-identity.md) §Visual identity). A **register**, never "in the style of [living artist/studio]".
-2. **On-screen label, every appearance** — `Ilustración — Exodo` or `Recreación`, discreet but legible. **More important when photoreal**, not less. Same rule as reenactments / colourised visuals ([04-legal-and-ethics.md](04-legal-and-ethics.md) §8).
+2. **On-screen label, every appearance** — `Ilustración — Conquest` or `Recreación`, discreet but legible. **More important when photoreal**, not less. Same rule as reenactments / colourised visuals ([04-legal-and-ethics.md](04-legal-and-ethics.md) §8).
 3. **Invents nothing that reads as fact.**
    - **Scenes, places, events, atmosphere, abstract shots:** allowed, photoreal or not, with the label.
    - **The photoreal face of an identifiable real person, as their likeness:** not allowed — pure invention of how someone looked, deepfake-adjacent. Use the figure from behind / in silhouette / at distance, a clearly non-photoreal impression labelled as such, or a real portrait (then it's not AI).

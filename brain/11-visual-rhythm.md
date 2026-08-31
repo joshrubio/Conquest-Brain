@@ -24,7 +24,7 @@ This is Stage 6 of the workflow. Input: locked `05-script.md`. Output: `06-shotl
 
 1. **One visual beat every ~2–3 sentences of narration**, or wherever the *subject* of the sentence changes (new person, place, year, object).
 2. Every `[EN PANTALLA]` cue in the script → a beat, kept verbatim.
-2b. **Cold open** → the `[HOOK VISUAL]` list in the script is 2–5 beats, hard-cut on the narration beat, **stock video preferred** over a push-in on a still. The last is the "turn" shot. **Bumper (§0b)** = one beat: black + `Exodo` wordmark, 3–6 s, no motion.
+2b. **Cold open** → the `[HOOK VISUAL]` list in the script is 2–5 beats, hard-cut on the narration beat, **stock video preferred** over a push-in on a still. The last is the "turn" shot. **Bumper (§0b)** = one beat: black + `Conquest` wordmark, 3–6 s, no motion.
 3. Every **named** person / place / document / institution / number → its own archival image or graphic.
 4. `[EXPLICADOR]` interlude → one motion-graphic / diagram sequence. **No talking head.** Budget it as the single longest visual block (~60–140 s).
 5. `[PLANT]` and its `[PAY]` → **the same shot both times** (visual rhyme; the viewer recognizes the image and the callback lands).

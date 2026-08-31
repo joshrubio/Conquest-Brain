@@ -55,7 +55,7 @@ NOTES = {
 }
 SECTIONS = {
     "COLD OPEN": "Los primeros 20–40 s. Empieza DENTRO de la historia, sin intro de canal. Termina anunciando qué hará el vídeo. Es el momento de más cortes del episodio.",
-    "BUMPER": "3–6 s en negro: wordmark 'Exodo' + 'Soy [nombre]'. El único momento de marca dentro del vídeo, y va DESPUÉS del hook, nunca antes.",
+    "BUMPER": "3–6 s en negro: wordmark 'Conquest' + 'Soy [nombre]'. El único momento de marca dentro del vídeo, y va DESPUÉS del hook, nunca antes.",
     "PIVOTE": "La frase bisagra que sale del hook hacia el trasfondo. Aquí suele ir el primer explicador. 10–20% del metraje.",
     "CONTEXTO": "El mundo en el que pasa la historia: época, institución, personas, lo que estaba en juego.",
     "NARRATIVA": "La espina dorsal, 55–70%. Cronológica. Personas: nacimiento → detalle que prefigura → ascenso → cima → giro/caída → desenlace.",
@@ -192,7 +192,7 @@ def build(slug, header, beats):
     header_ver = json.dumps(header.get("Versión", header.get("Version", "?")))
     script = f"""
 const EPID={slug[:4]!r}; const STAGE=4;
-const LS="exodo-scriptpass-{slug}";
+const LS="conquest-scriptpass-{slug}";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const cnt=$('.count');
 const inp=$$('.ck,.nt');

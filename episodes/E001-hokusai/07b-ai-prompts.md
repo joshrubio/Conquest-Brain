@@ -10,7 +10,7 @@
 | Carpeta destino | `episodes/E001-hokusai/assets/ai/` |
 | Nomenclatura | `E001_aiNN_<slug>.png` |
 | Salida | ≥ 4K si el generador lo permite; si no, upscale a ~4800 px |
-| Rótulo en pantalla | `Ilustración — Exodo` (esquina inferior, discreto, legible) |
+| Rótulo en pantalla | `Ilustración — Conquest` (esquina inferior, discreto, legible) |
 | Fecha | 2026-08-30 |
 
 ## Estilo de ESTE episodio: ukiyo-e / xilografía

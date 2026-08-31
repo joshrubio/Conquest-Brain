@@ -6,7 +6,7 @@
 
 ## Qué mide
 
-Cuántos **tokens de Claude** consume producir un episodio de Exodo-brain, y qué fracción de una suscripción **Claude Pro** representa. No cuenta el tiempo de la persona (grabar, subir) ni el cómputo local (los scripts de `tools/` son llamadas Bash de coste ~0 en tokens).
+Cuántos **tokens de Claude** consume producir un episodio de Conquest-Brain, y qué fracción de una suscripción **Claude Pro** representa. No cuenta el tiempo de la persona (grabar, subir) ni el cómputo local (los scripts de `tools/` son llamadas Bash de coste ~0 en tokens).
 
 ## Modelo de coste por etapa (por episodio, un pase sin iteración)
 
@@ -39,7 +39,20 @@ Cuántos **tokens de Claude** consume producir un episodio de Exodo-brain, y qu�
 | **Total ahorrado por episodio** | | | **~110–260 k (~10–20 %)** |
 | Coste nuevo — `/loop` en reposo | — | tick = leer `_queue.json` (~0.2 k) + respuesta corta; el grueso (system prompt + defs de tools) va **cacheado** (TTL 1 h). ~2–6 k/tick de coste marginal; sleep 20 min ⇒ ~3 ticks/h ⇒ **~10–20 k/h en reposo** | −(depende de horas con el loop abierto) |
 
-**Neto:** el dashboard **ahorra ~10–20 % por episodio** en el flujo activo. El `/loop` solo cuesta si lo dejas abierto sin trabajar; con sleeps largos y caché, el reposo es del orden de un fact-check por cada 4–8 h ociosas. Recomendación: en pausas largas, **⏹ Cerrar sesión** (o dime «para el loop»); pausar no basta.
+**Neto:** el dashboard **ahorra ~10–20 % por episodio** en el flujo activo. El `/loop` solo cuesta si lo dejas abierto sin trabajar; con sleeps largos y caché, el reposo es del orden de un fact-check por cada 4–8 h ociosas. Recomendación: en pausas largas, **Cerrar sesión** (o dime «para el loop»); pausar no basta.
+
+## El diseño no toca el gasto de tokens
+
+Todo el CSS/HTML de todas las páginas generadas (dashboard, consumo, review pages, vistas de fichero) vive en **un** fichero, `tools/theme.py` — presentación pura, sin lógica ni datos. `dash.py`, `pipeline.py` y las review tools solo construyen estructura e importan el aspecto de ahí.
+
+| | Antes | Ahora |
+|---|---|---|
+| Sistema de diseño | fragmentado en 7 sitios (`review_ui`, `dash._VIEW_CSS`, `dash.extra` ~50 líneas, `build_cost`, y `edit_review`/`pull_assets` redefiniendo `:root` a mano) | un fichero, `tools/theme.py` |
+| Editar la lógica del pipeline | abrir `dash.py` = ~400 líneas de CSS en el contexto | `dash.py` es data→DOM; el CSS ya no está |
+| Un rediseño (como este) | tocaba 8 ficheros que también llevan lógica | toca `theme.py` y punto |
+| Drenar la cola / plegar un gate | los datos (`_STATUS.md`, `_queue.json`, `_exports/*.json`, `*.txt`) son texto plano sin marcado; `dashboard.html`/`cost.html` gitignored | igual — **el rediseño nunca entra en el contexto de una decisión** |
+
+Barrera de lectura explícita: `theme.py` abre con un banner *PRESENTATION ONLY*; `AGENTS.md`, `brain/17` y `.claude/commands/atiende.md` dicen que solo se abre para "cambiar cómo se ven las páginas". Coste de un rediseño en tokens del flujo de producción: **cero**.
 
 ## Contra el plan Claude Pro (rangos 2026-08 — verificar)
 
@@ -50,7 +63,7 @@ Claude Pro (~20 USD/mes) usa un límite móvil que **se reinicia cada 5 h** más
 | Sesión de 5 h | ~2–4 M tokens efectivos (con caché) | ~1.1 M | **~2–3** trozos de episodio, o **~1 episodio completo si cae en una sola ventana** |
 | Semana | ~15–30 M tokens efectivos | ~1.1 M/episodio | **~10–20 episodios/semana** de techo teórico |
 
-**Lectura práctica:** a cadencia real (1 episodio / 2–3 semanas, `brain/07`), Exodo-brain consume **una fracción pequeña** de un plan Pro semanal — el cuello de botella es research + guion en una sola sesión de 5 h, que puede rozar el límite de esa ventana si haces todo el episodio de una tirada. Repartir research y guion en sesiones distintas lo mantiene holgado.
+**Lectura práctica:** a cadencia real (1 episodio / 2–3 semanas, `brain/07`), Conquest-Brain consume **una fracción pequeña** de un plan Pro semanal — el cuello de botella es research + guion en una sola sesión de 5 h, que puede rozar el límite de esa ventana si haces todo el episodio de una tirada. Repartir research y guion en sesiones distintas lo mantiene holgado.
 
 **Para un adoptante futuro:** si produce 1 episodio/semana con iteración pesada (~2 M/episodio), sigue dentro de Pro, pero con menos margen para otro trabajo en paralelo. 2+ episodios/semana → considerar un plan superior.
 
@@ -65,6 +78,7 @@ Claude Pro (~20 USD/mes) usa un límite móvil que **se reinicia cada 5 h** más
 
 | Fecha | Versión (commit) | Episodio | Tokens estimados | Tokens reales | Notas |
 |-------|------------------|----------|------------------|---------------|-------|
+| 2026-08-31 | rename + theme.py | — | ~1.1 M/episodio (modelo) | — | sin cambio de coste: rename Éxodo→Conquest y consolidación de diseño no tocan el flujo de producción |
 | 2026-08 | 044d753 (dashboard) | — | ~1.1 M/episodio (modelo) | — | primera línea base; sin medición real todavía |
 | — | pre-044d753 | — | ~1.25 M/episodio (modelo) | — | +10–20 % por folds manuales |
 

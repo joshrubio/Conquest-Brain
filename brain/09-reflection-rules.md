@@ -26,14 +26,14 @@ The channel's reflection is not "psychology + a life hack". A case can genuinely
 | **Psychological** | a human mechanism — why people behaved as they did | prueba social, coste hundido, disonancia, indefensión aprendida, identidad y pertenencia, la esperanza como sesgo | name the concept; a specific study/theorist → `[S..]` (§A6) |
 | **Practical** | one usable idea the viewer can act on | "distingue la decisión reversible de la irreversible", "el coste de mantener la coherencia" | must follow from the case — the surgical test (§A10) |
 | **Philosophical** | an idea about meaning, value, virtue, freedom, mortality, the good life | Aristóteles (la virtud como término medio — y su reverso: la virtud llevada al extremo, T07); los estoicos (lo que depende de ti); Frankl (sentido); Arendt (la banalidad del mal); Sandel (lo que el dinero no debería comprar, T05); Camus (lo absurdo) | **name the thinker + the work; `[S..]` like any claim.** Present as *an idea*, not a verdict: "hay una lectura estoica de esto…" |
-| **Religious / spiritual** | how a faith tradition or a religious thinker has framed the same human question | la parábola de los talentos; Eclesiastés ("vanidad de vanidades"); Kierkegaard (la desesperación); Simone Weil (la atención); el desapego budista; **el propio Éxodo** (dejar atrás la versión oficial falsa) | **name the tradition + the text; `[S..]`.** Present as *an idea people have held*: "el cristianismo lo formula como…", "una tradición… lo expresa así" |
+| **Religious / spiritual** | how a faith tradition or a religious thinker has framed the same human question | la parábola de los talentos; Eclesiastés ("vanidad de vanidades"); Kierkegaard (la desesperación); Simone Weil (la atención); el desapego budista; **el arco Éxodo → Conquista** (Josué: no basta con salir de la versión falsa — hay que tomar y sostener la verdadera) | **name the tradition + the text; `[S..]`.** Present as *an idea people have held*: "el cristianismo lo formula como…", "una tradición… lo expresa así" |
 
 ### Rules for the philosophical & religious registers
 
 1. **Attribute and source, always.** A philosophical or religious idea stated in the narrator's own voice, unattributed, is the T07 failure ("el éxito externo no llena el vacío interior" — true or not, it needs a name behind it). Name the thinker / school / text; log it in `03-source-log.csv` with `[S..]`.
 2. **The channel endorses no religion and no philosophy.** Frame every idea as *an idea*: "para un existencialista…", "la tradición estoica sostiene que…", "el budismo lo llama…". Never "la verdad es que…", never a call to believe.
 3. **Respect a plural audience.** The charter audience includes people of faith *and* secular viewers ([00-project-charter.md](00-project-charter.md)). A religious idea is offered as one lens among several — often alongside a secular one on the same question. Never proselytize; never mock; never treat a believer or a non-believer as naïve.
-4. **The `Éxodo` lens is allowed, as motive not doctrine.** The founders' own frame — leaving because the official version was a lie — can recur as a *reading* of a case about truth, exile, or starting over. It is never used to push a religious interpretation onto a secular case.
+4. **The `Conquest` lens is allowed, as motive not doctrine.** The founders' own frame — you don't just leave the false official version, you do the evidentiary work of establishing the true one and building on it — can recur as a *reading* of a case about truth, exile, starting over, or rebuilding. It is never used to push a religious interpretation onto a secular case, and never to valorise conquest/colonisation as a historical act.
 5. **Still no preaching** ([08-tone-of-voice.md](08-tone-of-voice.md) §1). A philosophical close *names the tension* and stops. It does not resolve the viewer's life, and it does not end on "deberíamos, como sociedad…".
 6. **Registers combine.** The strongest closes hold two: a mechanism *and* the philosophical question it raises (T07: narcissism *and* "virtues taken to the extreme become poisons"). Two is the ceiling — a close that touches all four is a sermon.
 
@@ -138,7 +138,7 @@ The reference set sometimes ends on a human vignette instead of/after the analys
 | Philosophical or religious idea in the narrator's own voice, unattributed (the T07 failure) | Attribute it to a thinker / school / text + `[S..]` |
 | A religious or philosophical idea framed as *the truth* rather than *an idea someone holds* | Reframe: "para X…", "la tradición Y sostiene…" |
 | Proselytising, or treating belief / non-belief as naïve | Cut; offer the lens alongside another |
-| The `Éxodo` frame pushed onto a secular case | Cut — it is motive/voice, not a lens for every episode |
+| The `Conquest` frame pushed onto a secular case, or used to valorise historical conquest | Cut — it is motive/voice, not a lens for every episode |
 | Takeaway needs the facts bent | Rewrite the takeaway |
 | Takeaway = disguised business pitch | Cut |
 | Moralizing closer ("y esto nos enseña que…", "deberíamos como sociedad…") | Rewrite observational |

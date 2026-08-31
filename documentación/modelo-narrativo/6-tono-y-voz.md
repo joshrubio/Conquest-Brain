@@ -1,6 +1,6 @@
 ---
 doc: modelo-narrativo/6-tono-y-voz
-summary: "Cómo suena Exodo: registro, primera persona investigadora, español neutro, atribución e incertidumbre, el 'tú', lista de nunca."
+summary: "Cómo suena Conquest: registro, primera persona investigadora, español neutro, atribución e incertidumbre, el 'tú', lista de nunca."
 audience: "guionista, narrador"
 mirrors: [brain/08]
 authority: guide

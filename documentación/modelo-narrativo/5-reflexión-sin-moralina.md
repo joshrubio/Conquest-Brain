@@ -8,7 +8,7 @@ authority: guide
 
 # Reflexión sin moralina
 
-Esta guía es un zoom sobre el punto más difícil del cierre: entregar una idea que valga la pena **sin predicar**. Es lo que separa a Exodo de un canal de "lecciones de vida" — y, cuando el cierre toca terreno filosófico o religioso, de un canal de púlpito.
+Esta guía es un zoom sobre el punto más difícil del cierre: entregar una idea que valga la pena **sin predicar**. Es lo que separa a Conquest de un canal de "lecciones de vida" — y, cuando el cierre toca terreno filosófico o religioso, de un canal de púlpito.
 
 Complementa a [4-el-cierre](4-el-cierre.md) (formas y los **cuatro registros**). Base: `brain/09`, `brain/08` §1.
 
@@ -92,7 +92,7 @@ Enuncia tu para llevar a alguien que se sabe el caso al dedillo:
 - "en el fondo todos buscamos…" (universaliza una creencia)
 - una idea de Frankl, Eclesiastés o los estoicos **sin nombrarlos** — si vale la pena decirla, vale la pena atribuirla
 
-## Frases que suenan a Exodo
+## Frases que suenan a Conquest
 
 - "una lectura posible es…"
 - "el caso no dice X — pero sí deja claro Y"

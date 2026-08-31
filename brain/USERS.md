@@ -26,7 +26,7 @@ those slots to real people, and it is the file a new deployment edits first.
   and [../documentación/configuración-usuarios.md](../documentación/configuración-usuarios.md)
   carry real names.
 
-## This deployment — "Exodo Channel"
+## This deployment — "Conquest-Oficial"
 
 | Slot | Person | Contact |
 |------|--------|---------|
@@ -34,7 +34,8 @@ those slots to real people, and it is the file a new deployment edits first.
 | Usuario 002 | Carmen | — |
 
 Both are Venezuelan journalists, part of the Venezuelan exodus — the fact that
-gives the channel its name and its thesis (`brain/03`). Usuario 002 is also an
+grounds the channel's thesis and its name (*Conquest* = what comes after the
+leaving: the work of establishing what's true — `brain/03`). Usuario 002 is also an
 ex-university lecturer.
 
 ### Responsibility split (this iteration)
@@ -59,7 +60,7 @@ ex-university lecturer.
   history of a real repo. Not templated.
 - **On-camera bumper line** — scripts and the narrative model write it as
   `«Soy [nombre].»`; whoever records fills in their own name.
-- **Brand** — `Exodo`, `@exodochannel`, palette, fonts (`brain/03`). The channel
+- **Brand** — `Conquest`, `@conquestoficial`, palette, fonts (`brain/03`). The channel
   identity is not a per-user setting.
 
 ## Reconfiguring for a new deployment

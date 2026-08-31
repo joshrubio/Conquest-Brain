@@ -27,7 +27,7 @@ Este documento y su gemelo técnico [`brain/USERS.md`](../brain/USERS.md) son lo
   «revisión editorial», «aprobación editorial», «editor». El nombre real solo
   vive aquí.
 
-## Este canal — "Exodo Channel"
+## Este canal — "Conquest-Oficial"
 
 | Slot | Persona |
 |------|---------|
@@ -35,7 +35,8 @@ Este documento y su gemelo técnico [`brain/USERS.md`](../brain/USERS.md) son lo
 | Usuario 002 | Carmen — lead editorial, dirección de investigación, ideación T01. |
 
 Los dos son **periodistas venezolanos**, parte del éxodo venezolano —el hecho que
-le da nombre y tesis al canal (`brain/03`)—. Usuario 002 fue además profesora
+sostiene la tesis y el nombre del canal (*Conquest* = lo que viene después de
+irse: el trabajo de establecer lo que es cierto — `brain/03`)—. Usuario 002 fue además profesora
 universitaria.
 
 ### Reparto de responsabilidades (esta iteración)
@@ -60,7 +61,7 @@ universitaria.
   son el historial real de un repo real. No se plantillea.
 - **Línea del bumper en cámara** — los guiones y el modelo narrativo la escriben
   como `«Soy [nombre].»`; quien graba pone su propio nombre.
-- **La marca** — `Exodo`, `@exodochannel`, la paleta, las tipografías
+- **La marca** — `Conquest`, `@conquestoficial`, la paleta, las tipografías
   (`brain/03`). La identidad del canal no es un ajuste por usuario.
 
 ## Clonar el sistema para otro canal

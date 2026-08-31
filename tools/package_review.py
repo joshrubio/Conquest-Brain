@@ -157,7 +157,7 @@ def build(ep, slug):
 
     script = f"""
 const EPID={slug[:4]!r}; const STAGE=10;
-const LS="exodo-package:{e(slug)}";
+const LS="conquest-package:{e(slug)}";
 const $=s=>document.querySelector(s);
 function state(){{
   return {{

@@ -2,7 +2,7 @@
 description: Drena la cola del dashboard (episodes/_queue.json) — hazlo pendiente, avanza gates, respeta el techo de auto-avance. Úsalo con /loop.
 ---
 
-Atiende el dashboard de Exodo. **Lee SOLO `episodes/_loop.json` y `episodes/_queue.json`** — no explores el repo.
+Atiende el dashboard de Conquest. **Lee SOLO `episodes/_loop.json` y `episodes/_queue.json`** — no explores el repo.
 
 0. Lee `episodes/_loop.json`:
    - `{"state":"stop"}` → responde «loop cerrado» y **NO reprogrames** (el loop termina aquí).
@@ -10,7 +10,7 @@ Atiende el dashboard de Exodo. **Lee SOLO `episodes/_loop.json` y `episodes/_que
    - `{"state":"run"}` o ausente → continúa.
 1. Si la cola está vacía: dilo en una línea y programa el próximo tick largo (~20 min).
 2. Por cada entrada `{ep, stage, action, reads, rules, produces, note}`:
-   - Lee **únicamente** los ficheros de `reads` + los docs de `rules`. Nada más.
+   - Lee **únicamente** los ficheros de `reads` + los docs de `rules`. Nada más. Nunca abras `tools/*.py` (y menos `tools/theme.py`, que es solo CSS) — no los necesitas para generar ni plegar.
    - `action: "generate"` → escribe `produces` para ese episodio siguiendo `rules`.
    - `action: "ideas"` (ep = `POOL`) → añade las ideas nuevas a `ideas/idea-pool.md` siguiendo la `note` (no crees carpetas, no avances stages). Luego `python tools/idea_review.py` para regenerar la página, y borra la entrada de la cola.
    - `action: "fold"` → aplica las decisiones de `<ep>/_exports/stage<NN>.json` (o el `.txt` canónico) al fichero fuente del stage.

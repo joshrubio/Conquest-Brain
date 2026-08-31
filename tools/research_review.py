@@ -146,7 +146,7 @@ def build(slug, sections, sources, tier_counts):
 
     script = f"""
 const EPID={slug[:4]!r}; const STAGE=2;
-const LS="exodo-research-{slug}";
+const LS="conquest-research-{slug}";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const cnt=$('.count');
 const inp=$$('.st,.nt,.ck');

@@ -66,7 +66,7 @@ El beat de reinicio entre el gancho y la historia. **Dieck lo hace así: la marc
 
 - Corte a **negro**.
 - El narrador dice una línea: «Soy [nombre].»
-- Aparece la marca **Exodo** (wordmark).
+- Aparece la marca **Conquest** (wordmark).
 - Un tono grave bajo, o un beat de silencio.
 - Sin animación de logo, sin sting de música larga.
 - Es también el "capítulo 1": el pivote a contexto empieza en el plano siguiente.

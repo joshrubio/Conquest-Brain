@@ -13,7 +13,7 @@ authority: canonical
 
 Produce Spanish-language journalistic documentary episodes that (1) narrate a verifiable real case, (2) reflect on what it reveals about human psychology and behavior, and (3) connect — surgically, at the end, never forced — to an applicable lesson for entrepreneurs, dreamers, workers, people of faith, immigrants, and similar audiences.
 
-**Exodo Channel is a standalone YouTube channel** run by Usuario 001 and Usuario 002. It is not a phase of, funnel for, or sub-brand of any other venture. It succeeds or fails on its own terms: audience that returns because the work is rigorous and worth their time. **Source rigor and credibility matter as much as entertainment value.**
+**Conquest-Oficial is a standalone YouTube channel** run by Usuario 001 and Usuario 002. It is not a phase of, funnel for, or sub-brand of any other venture. It succeeds or fails on its own terms: audience that returns because the work is rigorous and worth their time. **Source rigor and credibility matter as much as entertainment value.**
 
 ## Team
 

@@ -1,6 +1,6 @@
 # AGENTS.md — start here
 
-You're in the **Exodo Channel** repo: a Spanish-language journalistic-documentary
+You're in the **Conquest-Oficial** repo: a Spanish-language journalistic-documentary
 YouTube pipeline (planning, rules, templates, per-episode folders, and the
 `tools/` that run it). Reference format: Farid Dieck's *Dieck Docs*.
 
@@ -19,6 +19,19 @@ points you to.
 | run a pipeline script | `tools/README.md` |
 | judge/score an idea | `ideas/README.md` + `ideas/idea-rubric.md` |
 | know who Usuario 001 / 002 are | `brain/USERS.md` |
+| change how the dashboard / pages **look** | `tools/theme.py` — and only that |
+
+## The dashboard's design is quarantined
+
+All CSS/HTML chrome for every generated page lives in **one** file,
+`tools/theme.py` (presentation only — no pipeline logic, no data). Everything
+else — `dash.py`, `pipeline.py`, the review tools — builds *structure* and
+imports the look from there.
+
+**Consequence for you:** when you read the dashboard's output (`_STATUS.md`,
+`episodes/_queue.json`, `_exports/*.json`, the `*.txt` exports) or fold a gate,
+you never open a styled file and the design never enters your context. Only open
+`tools/theme.py` if the task is literally "restyle the pages".
 
 ## Layout
 

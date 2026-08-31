@@ -74,7 +74,7 @@ Stills only (video already moves). The move is chosen from the image's **real as
 - `06-shotlist.md` marks which beats are archival / stock / AI; `07-selection.md` names the file (a KB clip for stills, the stock/intro clip for video). Lay each on its beat, over the VO.
 - **Video clips:** cut to length. No speed ramp, no filter, no zoom. Loop only if the clip is shorter than the beat *and* the loop point is invisible.
 - **Cold open (§0):** 2–5 clips from `assets/intro/` in numbered order, hard-cut on the narration beat (`brain/02` §0). Last shot holds ½ s → cut to black.
-- **Bumper (§0b):** 3–6 s black + `Exodo` wordmark + presenter line. No music.
+- **Bumper (§0b):** 3–6 s black + `Conquest` wordmark + presenter line. No music.
 - Reused beats (`[PLANT]` / `[PAY]`): the **same** clip/frame both times.
 
 ## 5. Background music — `tools/find_music.py`
@@ -92,7 +92,7 @@ Stills only (video already moves). The move is chosen from the image's **real as
 
 ## On-screen text — minimal
 
-On screen only: the **case-file device** (`EXPEDIENTE: CASO 00XX …`, Courier Prime), **chapter / section cards** (Playfair), and the **AI / reenactment label** (`Ilustración — Exodo` or `Recreación`, permanent, every appearance — `brain/15`, `brain/04` §8). **No source cards** (`brain/03`).
+On screen only: the **case-file device** (`EXPEDIENTE: CASO 00XX …`, Courier Prime), **chapter / section cards** (Playfair), and the **AI / reenactment label** (`Ilustración — Conquest` or `Recreación`, permanent, every appearance — `brain/15`, `brain/04` §8). **No source cards** (`brain/03`).
 
 ## Look / grade
 

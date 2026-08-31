@@ -8,7 +8,7 @@ authority: guide
 
 # Empieza aquí
 
-Esta carpeta son **guías para leer y aprender**. No son reglas —las reglas viven en `brain/`, escritas en corto y en inglés—. Aquí explicamos, con ejemplos y en español, *cómo se piensa y se hace* un episodio de Exodo Channel y cómo funcionan las herramientas.
+Esta carpeta son **guías para leer y aprender**. No son reglas —las reglas viven en `brain/`, escritas en corto y en inglés—. Aquí explicamos, con ejemplos y en español, *cómo se piensa y se hace* un episodio de Conquest-Oficial y cómo funcionan las herramientas.
 
 Cuando aparezca un término técnico que también existe en `brain/`, lo dejamos con su nombre original entre paréntesis la primera vez —así puedes saltar a la regla exacta si la necesitas—.
 
@@ -27,7 +27,7 @@ Cuando aparezca un término técnico que también existe en `brain/`, lo dejamos
 
 ## El proyecto en cinco frases
 
-1. Exodo Channel es un canal de YouTube en español: **documentales narrados de casos reales** que cierran con una reflexión psicológica y una idea aplicable.
+1. Conquest-Oficial es un canal de YouTube en español: **documentales narrados de casos reales** que cierran con una reflexión psicológica y una idea aplicable.
 2. Referencia de formato: **Dieck Docs** (Farid Dieck). Adoptamos su *estructura*, no su nivel de fuentes —el nuestro es más alto—.
 3. **Usuario 001 escribe todos los guiones.** El fact-check es 100% automático: L1 (`factcheck.py`) + L2 (una pasada del agente que aplica las correcciones al guion). Usuario 002 dirige la línea editorial y la investigación. Ambos narran (se asigna por episodio).
 4. Los sujetos son **públicos**: figuras públicas, casos históricos, empresas con documentación pública verificable. Nunca individuos privados, nunca gente que conozcamos.
@@ -44,14 +44,14 @@ Cuando aparezca un término técnico que también existe en `brain/`, lo dejamos
 | 3 | [modelo-narrativo/3-la-espina-narrativa](modelo-narrativo/3-la-espina-narrativa.md) | Cronología, actos, foreshadowing, interludios |
 | 4 | [modelo-narrativo/4-el-cierre](modelo-narrativo/4-el-cierre.md) | Las tres formas de cerrar (A / B / C) |
 | 5 | [modelo-narrativo/5-reflexión-sin-moralina](modelo-narrativo/5-reflexión-sin-moralina.md) | Aterrizar una idea sin predicar |
-| 6 | [modelo-narrativo/6-tono-y-voz](modelo-narrativo/6-tono-y-voz.md) | Cómo suena Exodo |
+| 6 | [modelo-narrativo/6-tono-y-voz](modelo-narrativo/6-tono-y-voz.md) | Cómo suena Conquest |
 | 7 | [modelo-narrativo/7-titular-con-gancho](modelo-narrativo/7-titular-con-gancho.md) | Nombrar el episodio para que se vea |
 | 8 | [modelo-narrativo/8-rigor-y-fuentes](modelo-narrativo/8-rigor-y-fuentes.md) | Tiers, `[S..]`, verdad vs. leyenda pulida |
 
 **Si vas a producir o editar**, sigue con:
 
 - [pipeline/1-las-12-etapas](pipeline/1-las-12-etapas.md) — el recorrido completo, quién hace qué, dónde están los "gates". El **script pass** (Stage 4): `tools/script_review.py` → `05-script.html`, un beat por card con explicador de cada nota técnica — el sitio para aprender el modelo mientras corriges.
-- **El dashboard** (`brain/17`): doble clic en `Exodo-Dashboard.bat` → una pantalla con todos los capítulos y su estado. El botón «Finalizar Stage N» de cada review page cierra el gate y prepara el siguiente. Con `/loop atiende el dashboard`, los cruces de gate son automáticos.
+- **El dashboard** (`brain/17`): doble clic en `Conquest-Dashboard.bat` → una pantalla con todos los capítulos, su tira de 12 fases y su estado. Cada tarjeta abre la review page de su fase; su botón «Finalizar» cierra el gate y prepara el siguiente. Arriba: el estado de la sesión (una píldora) y **Cerrar sesión** — nada gasta tokens hasta que Claude trabaja. Con `/loop atiende el dashboard`, los cruces de gate son automáticos. Todo el aspecto (dashboard + review pages) vive en `tools/theme.py`; tocarlo no afecta al flujo de producción.
 - [pipeline/2-de-idea-a-episodio](pipeline/2-de-idea-a-episodio.md) · [pipeline/3-los-3-protocolos](pipeline/3-los-3-protocolos.md) · [pipeline/4-fact-check](pipeline/4-fact-check.md)
 - [pipeline/5-pase-de-estilo](pipeline/5-pase-de-estilo.md) · [pipeline/6-la-edición](pipeline/6-la-edición.md) · [pipeline/7-empaquetado-y-publicación](pipeline/7-empaquetado-y-publicación.md) · [pipeline/8-retro-y-métricas](pipeline/8-retro-y-métricas.md)
 - [herramientas/0-instalación-y-claves](herramientas/0-instalación-y-claves.md) — qué instalar y cómo conseguir las claves de API. *(2ª pasada)*
@@ -60,7 +60,7 @@ Cuando aparezca un término técnico que también existe en `brain/`, lo dejamos
 ## Mapa del repositorio
 
 ```
-Exodo-brain/  (carpeta local; repo github.com/joshrubio/Exodo-Brain)
+Conquest-Brain/  (carpeta local; repo github.com/joshrubio/Conquest-Brain)
   AGENTS.md         empieza aquí — el ruteo para cualquiera (humano o agente)
   brain/            reglas permanentes, 00–16 + USERS.md + INDEX.md (inglés, en corto)
   documentación/   ESTO — guías para aprender (español) · 00-empieza-aquí · configuración-usuarios

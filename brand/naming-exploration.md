@@ -1,8 +1,8 @@
-# Exploración de nombre — canal Exodo
+# Exploración de nombre — canal Conquest
 
-> **DEFINITIVO (2026-08):** nombre **Exodo** (sin tilde, siempre) · canal **Exodo Channel** · handle **`@exodochannel`** (`@exodoofficial` estaba tomado en YouTube) · **canal propio nuevo** (no segmento). Especificación de marca en `brain/03-brand-identity.md`. Este archivo conserva el recorrido histórico.
+> **DEFINITIVO (2026-08-31):** nombre **Conquest** (grafía inglesa, siempre — nunca «Conquista») · canal **Conquest-Oficial** · handle **`@conquestoficial`** (`@conquest` y `@conquestdocs` tomados en YouTube → de ahí «Oficial») · **canal propio nuevo** (no segmento). Especificación de marca en `brain/03-brand-identity.md`. Renombrado desde **«Éxodo»** el 2026-08-31 — la lógica se mantiene, la conclusión cambia (ver **Ronda 4** al final). Este archivo conserva todo el recorrido histórico.
 >
-> **Recorrido:** R1 (palabras de archivo en español) → no. R2 (palabra inventada + Docs) → no. R3 (anglicismo + Docs) → «Top Docs» descartado (choque con *Doc Tops*, 16M subs). Familia "verificar" en español (*Contraste*, *Contrapunto*, *Cotejo*) → saturada (*Cotejo.info* = fact-checker de referencia en Venezuela). **Cross Check** llegó a "definitivo" y luego se descartó. **Decisión final: «Éxodo».** Trade-offs asumidos conscientemente: (1) el nombre escora a temática migración/exilio aunque el contenido es amplio → se abraza, la historia de los fundadores (periodistas venezolanos, parte del éxodo de ~7,7M) *es* la marca; (2) término saturado (*Exodus* wallet cripto — clase 36 distinta; banda; disco de Marley; documentales bíblicos; uso en periodismo sobre migración venezolana — Radio Ambulante, Revista 5W); (3) ningún **canal** de documentales en español lo tiene → lane libre; (4) ruido en búsqueda por nombre asumido (el descubrimiento en YouTube va por miniatura/título/sugeridos). Handles limpios (`@exodo`, `@canal_exodo`) tomados → de ahí «Official». Verificar marca en clase 41.
+> **Recorrido:** R1 (palabras de archivo en español) → no. R2 (palabra inventada + Docs) → no. R3 (anglicismo + Docs) → «Top Docs» descartado (choque con *Doc Tops*, 16M subs). Familia "verificar" en español (*Contraste*, *Contrapunto*, *Cotejo*) → saturada (*Cotejo.info* = fact-checker de referencia en Venezuela). **Cross Check** llegó a "definitivo" y luego se descartó. **«Éxodo»** fue la decisión de 2026-08-28 y el nombre de lanzamiento; a los tres días se giró a **«Conquest»** (Ronda 4). Trade-offs que asumía «Éxodo» y que heredan la decisión: (1) el nombre escora a temática migración/exilio aunque el contenido es amplio; (2) término saturado; (3) ningún **canal** de documentales en español lo tenía → lane libre; (4) el descubrimiento en YouTube va por miniatura/título/sugeridos, no por búsqueda de nombre.
 
 ## Decisiones ya tomadas (2026-08-28)
 
@@ -179,3 +179,57 @@ Suplente: **Cold Docs** si el canal quiere apoyarse en el ángulo "caso sin reso
 | Ronda 1 — palabra de archivo en español | *Legajo*, *Constancia* | Significado rico, muy "nuestro" | Menos catchy, puede sonar árido |
 | Ronda 2 — palabra inventada + Docs | *Verax Docs*, *Nexo Docs* | Molde *Dieck Docs* exacto, distintivo, libre | Palabra inventada = 0 reconocimiento inicial |
 | Ronda 3 — anglicismo + Docs | *Deep Docs*, *True Docs* | Reconocible al instante en cualquier idioma | Construcción obvia → colisión/genérico probable |
+
+---
+
+# Ronda 4 — el giro: de «Éxodo» a «Conquest»
+
+> 2026-08-31. «Éxodo» se lanzó y funcionó como identidad de trabajo tres días.
+> El problema no era de colisión — era de **dirección**. «Éxodo» nombra la
+> salida: el momento de dejar atrás la versión oficial falsa. Pero el trabajo
+> del canal no termina ahí; empieza ahí. Reconstruir un caso fuente por fuente y
+> decir qué queda en pie es la **segunda mitad** del gesto.
+
+## La lógica (se mantiene) y la conclusión (cambia)
+
+| | «Éxodo» (2026-08-28) | «Conquest» (2026-08-31) |
+|---|---|---|
+| Raíz | los fundadores son parte del éxodo venezolano (~7,7M) | igual — sin cambios |
+| Tesis | la brecha entre la versión oficial y lo que pasó de verdad | igual — sin cambios |
+| Arco bíblico | el Éxodo: la huida de Egipto | la Conquista (Libro de Josué): tomar y construir la tierra prometida — **lo que viene después del Éxodo** |
+| Conclusión de marca | "nos fuimos de la mentira" | "tomamos el terreno" — no basta con irse; hay que establecer lo que es cierto y construir sobre ello |
+| Promesa doble | *esto está documentado* + *esto te sirve* | igual — sin cambios |
+
+El nombre pasa de describir un estado (haberse ido) a describir un trabajo
+(tomar terreno, verificar, construir). Encaja mejor con un canal que **hace**
+algo cada episodio, no que lamenta algo.
+
+## Riesgos asumidos con «Conquest»
+
+1. **Palabra de diccionario inglesa, muy colonizada.** Chevrolet Conquest (coche, discontinuado), *Conquest* (revista de Warhammer / coleccionable), incontables títulos de videojuego y juego de mesa, *1492: Conquest of Paradise* (Vangelis), sellos y libros. → Una marca **denominativa** amplia sobre "Conquest" no está disponible y no se busca. Lo registrable es la **marca figurativa** (el lockup del wordmark) en clase 41.
+2. **Está en inglés; el canal es en español.** «Éxodo» era español. Se asume: "Conquest" lo entiende cualquier hispanohablante (conquista), suena a marca-estudio internacional, y el handle mixto `@conquestoficial` lo deja claro. Grafía **siempre inglesa** para no chocar con el uso corriente de "conquista".
+3. **Connotación histórica (conquista/colonización).** Riesgo real para un canal que trata casos históricos. Mitigación en `brain/03` y `brain/05`: el nombre se usa como **motivo/voz** (el trabajo evidenciario de construir lo cierto), **nunca** para valorar la conquista como hecho histórico, y **nunca** como lente sobre un episodio colonial. La regla del cierre lo acota (ver abajo).
+4. **Ruido de búsqueda por nombre.** Igual que con «Éxodo» — asumido; el descubrimiento va por miniatura/título/sugeridos.
+
+## Chequeo de disponibilidad (2026-08-31, web check — no sustituye al abogado)
+
+| Ítem | Estado |
+|------|--------|
+| Handle YouTube `@conquestoficial` | **libre** (verificar en el momento de asegurar) · `@conquest`, `@conquestdocs` tomados |
+| Canal / podcast / medio **en español** de documentales o periodismo llamado "Conquest" en esta lane | **ninguno encontrado** — lane libre |
+| Marca figurativa clase 41 (entretenimiento / educación / producción audiovisual), ámbito ES/EU, para un canal documental | **sin registro directo encontrado**; "Conquest" sí figura en otras clases (juguetes 28, vehículos 12, software 9) — distintas, no bloquean cl. 41 audiovisual salvo notoriedad |
+| `.com` | tomado (genérico) → usar `@` sociales + `conquestoficial.*` / `.tv` / `.co` si hace falta web |
+| Colisión con el negocio de membresía y otros canales del equipo | sin solapamiento (igual que «Éxodo») |
+| Nota Nice | la clase aplicable a un canal de YouTube documental/educativo es la **41**, no la 44 (44 = servicios médicos/veterinarios/agricultura/belleza). El chequeo se corre en **clase 41**. |
+
+**Veredicto:** riesgo de lanzamiento **bajo**. Registro de marca = solo el lockup
+figurativo, en clase 41, vía abogado (EUIPO + nacional + WIPO), antes de
+registrar y no antes de lanzar. Sin cambios respecto a la política de «Éxodo».
+
+## Efecto en el cierre (reflexión)
+
+La antigua "lente `Éxodo`" (motivo de los fundadores: irse porque la versión
+oficial era mentira) se amplía a la **lente `Conquest`**: no solo dejar atrás la
+versión falsa, sino hacer el trabajo de establecer y sostener la verdadera.
+Sigue siendo **motivo/voz, no doctrina, no lente para cada episodio**. Detalle en
+`brain/09` §4 y `documentación/modelo-narrativo/4-el-cierre.md`.

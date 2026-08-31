@@ -67,7 +67,7 @@ python tools/edit_review.py E0XX-slug            # -> 07c-edit.html
 
 - [ ] Cada beat de `06-shotlist.md` (archivo/stock/IA) con su asset de `07-selection.md` sobre el VO
 - [ ] Cold open: 2–5 clips de `assets/intro/` en orden, corte seco; último aguanta ½ s → negro
-- [ ] Bumper: 3–6 s negro + marca `Exodo` + «Soy <narrador>». Sin música.
+- [ ] Bumper: 3–6 s negro + marca `Conquest` + «Soy <narrador>». Sin música.
 - [ ] Clips de vídeo a duración, sin rampa ni filtro; loop solo si el punto es invisible
 - [ ] `[PLANT]`/`[PAY]`: mismo plano las dos veces
 
@@ -88,7 +88,7 @@ python tools/edit_review.py E0XX-slug            # -> 07c-edit.html
 
 - [ ] **Sin source cards.** Toda cita → `09-description.md` «Fuentes principales» + comentario fijado
 - [ ] En pantalla solo: dispositivo de expediente (`EXPEDIENTE: CASO 00XX`, Courier Prime — `brain/03`) · tarjetas de capítulo (Playfair) · rótulo IA/recreación
-- [ ] IA / recreación / colorizado: rótulo en **cada** aparición (`Ilustración — Exodo` / `Recreación`)
+- [ ] IA / recreación / colorizado: rótulo en **cada** aparición (`Ilustración — Conquest` / `Recreación`)
 - [ ] Grade de casa aplicado a todo el timeline (oscuro/cálido/desaturado + grano + viñeta — `brain/03`)
 
 ## Export

@@ -30,6 +30,9 @@ try:
 except Exception:
     pass
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import theme as T  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 REVIEW_HTML = "07c-edit.html"
@@ -107,41 +110,17 @@ def build(slug, kb, trims):
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Edit review — {e(slug)}</title>
+{T.CSS}
 <style>
- :root{{color-scheme:dark;--bg:#141310;--surface:#1e1c17;--surface-2:#29261e;
-   --line:#3b362b;--fg:#f1ead7;--muted:#a89e83;--gold:#c9a24a;--gold-soft:#c9a24a1f;--bone:#e9e1cb}}
- *{{box-sizing:border-box}}
- body{{font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;margin:0;
-   background:var(--bg);color:var(--fg)}}
- a{{color:var(--gold)}}
- header{{position:sticky;top:0;z-index:9;display:flex;gap:1.25rem;align-items:center;
-   flex-wrap:wrap;padding:1rem 1.75rem;background:var(--bg);border-bottom:1px solid var(--line)}}
- header h1{{font-size:1rem;margin:0;font-weight:700;color:var(--bone)}}
- #cnt{{color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}}
- button{{font:inherit;padding:.5rem 1rem;border:1px solid var(--line);border-radius:9px;
-   background:var(--surface-2);color:var(--fg);cursor:pointer}}
- button.primary{{background:var(--gold);color:#1a1610;border-color:var(--gold);font-weight:600}}
- main{{max-width:1700px;margin:0 auto;padding:1.75rem}}
- section{{margin:0 0 2.75rem}}
- h2{{font-size:.95rem;font-weight:700;color:var(--bone);border-bottom:1px solid var(--line);
-   padding-bottom:.45rem;margin:0 0 .5rem}}
- .hint{{color:var(--muted);font-size:.82rem;margin:.3rem 0 1.25rem;max-width:80ch}}
- .grid{{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}}
- .clip{{border:1px solid var(--line);border-radius:12px;background:var(--surface);
-   padding:.85rem;display:flex;flex-direction:column;gap:.55rem}}
- .clip:has(.approve:checked){{border-color:var(--gold);background:var(--gold-soft)}}
- .clip:has(.fb:not(:placeholder-shown)){{border-color:#b4884a}}
- video{{width:100%;border-radius:8px;background:#000;aspect-ratio:16/9}}
- .meta{{font-size:.78rem;color:var(--muted)}}
- .ok{{display:flex;align-items:center;gap:.4rem;font-size:.82rem}}
- .ok input{{width:18px;height:18px;accent-color:var(--gold)}}
- textarea.fb{{width:100%;min-height:2.4rem;font:inherit;font-size:.8rem;padding:.5rem;
-   border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--fg);resize:vertical}}
- textarea.fb:focus{{outline:none;border-color:var(--gold)}}
- details{{font-size:.75rem;color:var(--muted)}}
- details pre{{white-space:pre-wrap;background:var(--surface-2);padding:.6rem;border-radius:7px;
-   max-height:14rem;overflow:auto;color:var(--fg);font-size:.72rem}}
- .empty{{color:var(--muted);font-style:italic}}
+ .clip{{border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface);
+   padding:.85rem;display:flex;flex-direction:column;gap:.55rem;box-shadow:var(--shadow)}}
+ .clip:has(.approve:checked){{border-color:var(--lime-line);background:var(--lime-soft)}}
+ .clip:has(.fb:not(:placeholder-shown)){{border-color:var(--gold-line)}}
+ video{{width:100%;border-radius:var(--r-sm);background:#000;aspect-ratio:16/9}}
+ .ok{{display:flex;align-items:center;gap:.45rem;font-size:.82rem}}
+ .ok input{{width:18px;height:18px}}
+ textarea.fb{{min-height:2.4rem;font-size:.8rem}}
+ #cnt{{color:var(--muted);font-size:.82rem;font-variant-numeric:tabular-nums}}
 </style></head><body>
 <header>
  <h1>Edit review · {e(slug)}</h1>
@@ -165,7 +144,7 @@ def build(slug, kb, trims):
  </section>
 </main>
 <script>
-const SLUG="{e(slug)}", LS="exodo-edit:"+SLUG;
+const SLUG="{e(slug)}", LS="conquest-edit:"+SLUG;
 const clips=[...document.querySelectorAll('.clip')];
 const cnt=document.getElementById('cnt');
 function jget(k,d){{try{{return JSON.parse(localStorage.getItem(k))??d}}catch(e){{return d}}}}
@@ -180,7 +159,7 @@ function sync(){{
   localStorage.setItem(LS,JSON.stringify(st));
   const n=clips.length;
   cnt.textContent=ok+' / '+n+' aprobados'+(fb?('  ·  '+fb+' con feedback'):'')
-    +(ok===n&&n?'  ✓ listo para b-roll':'');
+    +(ok===n&&n?'  ·  listo para b-roll':'');
 }}
 const init=jget(LS,{{}});
 clips.forEach(c=>{{

@@ -8,7 +8,7 @@ authority: guide
 
 # Anatomía de un episodio
 
-Todo episodio de Exodo tiene la misma forma. No es una camisa de fuerza —la duración y el número de escenas varían—, pero **el orden es fijo** y cada sección hace un trabajo concreto.
+Todo episodio de Conquest tiene la misma forma. No es una camisa de fuerza —la duración y el número de escenas varían—, pero **el orden es fijo** y cada sección hace un trabajo concreto.
 
 Esta estructura no la inventamos: sale de analizar seis documentales de **Dieck Docs** (`research/dieck-docs/structure-analysis.md`). La regla completa está en `brain/02-content-format.md`.
 
@@ -16,7 +16,7 @@ Esta estructura no la inventamos: sale de analizar seis documentales de **Dieck 
 
 ```
 0.  COLD OPEN (cold open / hook)      20–40 s     el gancho: hook narrativo + 2–5 planos
-0b. BUMPER                            3–6 s       negro + "Exodo" + "Soy [nombre]"
+0b. BUMPER                            3–6 s       negro + "Conquest" + "Soy [nombre]"
 1.  PIVOTE A CONTEXTO + ÉPOCA         10–20%      el mundo en el que pasa la historia
 2.  NARRATIVA CRONOLÓGICA             55–70%      la historia, acto por acto
 3.  CIERRE (forma A / B / C)          8–20%       la reflexión y —a veces— el "para llevar"
@@ -37,9 +37,9 @@ Dos capas a la vez:
 
 Detalle completo en [2-cold-open-y-bumper](2-cold-open-y-bumper.md).
 
-### 0b · Bumper — *"esto es Exodo"*
+### 0b · Bumper — *"esto es Conquest"*
 
-Corte a **negro**. El narrador dice una línea ("Soy [nombre]."), aparece la marca **Exodo**, un tono grave o un beat de silencio. 3–6 segundos. Es el **único momento de marca dentro del vídeo** y va **después** del gancho, nunca antes (Dieck lo hace así). También es el "capítulo 1": el contexto empieza en el plano siguiente.
+Corte a **negro**. El narrador dice una línea ("Soy [nombre]."), aparece la marca **Conquest**, un tono grave o un beat de silencio. 3–6 segundos. Es el **único momento de marca dentro del vídeo** y va **después** del gancho, nunca antes (Dieck lo hace así). También es el "capítulo 1": el contexto empieza en el plano siguiente.
 
 ### 1 · Pivote a contexto — *"para entenderlo, primero…"*
 

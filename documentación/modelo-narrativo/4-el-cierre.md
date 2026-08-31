@@ -19,21 +19,21 @@ Regla completa: `brain/09-reflection-rules.md`.
 
 ## Los cuatro registros
 
-El cierre de Exodo no es "psicología + un truco de vida". Un caso puede abrir genuinamente a cuatro tipos de idea. Elige el que el caso **de verdad plantea** — nunca lo atornilles.
+El cierre de Conquest no es "psicología + un truco de vida". Un caso puede abrir genuinamente a cuatro tipos de idea. Elige el que el caso **de verdad plantea** — nunca lo atornilles.
 
 | Registro | Aterriza en | Anclas de ejemplo | Fuente |
 |----------|-------------|-------------------|--------|
 | **Psicológico** | un mecanismo humano — por qué la gente actuó así | prueba social, coste hundido, disonancia, indefensión aprendida, identidad y pertenencia | nombra el concepto; un estudio/teórico concreto → `[S..]` |
 | **Práctico** | una idea usable que el espectador puede aplicar | "distingue la decisión reversible de la irreversible" | debe deducirse del caso — el test quirúrgico |
 | **Filosófico** | una idea sobre el sentido, el valor, la virtud, la libertad, la muerte, la buena vida | Aristóteles (la virtud como término medio — y su reverso, llevada al extremo, T07); los estoicos (lo que depende de ti); Frankl (el sentido); Arendt (la banalidad del mal); Sandel (lo que el dinero no debería comprar, T05); Camus (lo absurdo) | **nombra al pensador + la obra; `[S..]` como cualquier claim.** Preséntala como *una idea*: "hay una lectura estoica de esto…" |
-| **Religioso / espiritual** | cómo una tradición de fe o un pensador religioso enmarcó la misma pregunta humana | la parábola de los talentos; Eclesiastés ("vanidad de vanidades"); Kierkegaard (la desesperación); Simone Weil (la atención); el desapego budista; **el propio Éxodo** (dejar atrás la versión oficial falsa) | **nombra la tradición + el texto; `[S..]`.** Preséntala como *una idea que alguien sostiene*: "el cristianismo lo formula como…" |
+| **Religioso / espiritual** | cómo una tradición de fe o un pensador religioso enmarcó la misma pregunta humana | la parábola de los talentos; Eclesiastés ("vanidad de vanidades"); Kierkegaard (la desesperación); Simone Weil (la atención); el desapego budista; **el arco Éxodo → Conquista** (Josué: no basta con salir de la versión falsa — hay que tomar y sostener la verdadera) | **nombra la tradición + el texto; `[S..]`.** Preséntala como *una idea que alguien sostiene*: "el cristianismo lo formula como…" |
 
 **Reglas de los registros filosófico y religioso:**
 
 1. **Atribuye y cita, siempre.** Una idea filosófica o religiosa dicha en la voz del narrador, sin atribuir, es el fallo de T07 ("el éxito externo no llena el vacío" — necesita un nombre detrás). Nombra al pensador / escuela / texto; regístralo con `[S..]`.
 2. **El canal no respalda ninguna religión ni ninguna filosofía.** Enmarca toda idea como *una idea*: "para un existencialista…", "la tradición estoica sostiene…", "el budismo lo llama…". Nunca "la verdad es que…", nunca una llamada a creer.
 3. **Respeta a una audiencia plural.** El público del canal incluye personas de fe *y* espectadores seculares. Una idea religiosa se ofrece como una lente entre varias — a menudo junto a una secular sobre la misma pregunta. Nunca proselitismo; nunca mofa; nunca tratar al creyente o al no creyente como ingenuo.
-4. **La lente `Éxodo` vale, como motivo no como doctrina.** El marco de los fundadores —irse porque la versión oficial era mentira— puede reaparecer como *lectura* de un caso sobre verdad, exilio o empezar de cero. Nunca para empujar una interpretación religiosa sobre un caso secular.
+4. **La lente `Conquest` vale, como motivo no como doctrina.** El marco de los fundadores —no basta con irse de la versión oficial falsa: hay que hacer el trabajo de establecer la verdadera y construir sobre ella— puede reaparecer como *lectura* de un caso sobre verdad, exilio, empezar de cero o reconstruir. Nunca para empujar una interpretación religiosa sobre un caso secular, ni para enaltecer la conquista/colonización como hecho histórico.
 5. **Sigue sin haber sermón** (`brain/08` §1). Un cierre filosófico *nombra la tensión* y para. No resuelve la vida del espectador, y no termina en "deberíamos, como sociedad…".
 6. **Los registros se combinan.** Los cierres más fuertes sostienen dos: un mecanismo *y* la pregunta filosófica que abre (T07: narcisismo *y* "las virtudes al extremo se vuelven venenos"). Dos es el techo — un cierre que toca los cuatro es un sermón.
 
@@ -125,6 +125,6 @@ A veces el episodio cierra con una viñeta humana en vez de / después del anál
 | Idea filosófica o religiosa en la voz del narrador, sin atribuir (el fallo de T07) | Atribuirla a un pensador / escuela / texto + `[S..]` |
 | Idea religiosa o filosófica enmarcada como *la verdad* y no como *una idea que alguien sostiene* | Reencuadrar: "para X…", "la tradición Y sostiene…" |
 | Proselitismo, o tratar la fe / la no-fe como ingenuas | Cortar; ofrecer la lente junto a otra |
-| La lente `Éxodo` empujada sobre un caso secular | Cortar — es motivo/voz, no una lente para cada episodio |
+| La lente `Conquest` empujada sobre un caso secular, o usada para enaltecer una conquista histórica | Cortar — es motivo/voz, no una lente para cada episodio |
 | El para llevar necesita torcer los hechos | Reescribir el para llevar |
 | Cierre con moralina ("y esto nos enseña que…", "deberíamos como sociedad…") | Reescribir observacional |

@@ -9,7 +9,7 @@ Serves the dashboard + every review page + the episode files, and turns
 each review page's "Finalizar" button into: stash decisions -> fold the
 gate (advance.py) -> regenerate the dashboard. No copy-paste, no chat.
 
-Started by Exodo-Dashboard.bat, or by Claude in the background, or by you
+Started by Conquest-Dashboard.bat, or by Claude in the background, or by you
 in its own terminal (survives across sessions).
 """
 import html as _h
@@ -26,19 +26,19 @@ import pipeline as P  # noqa: E402
 
 
 def _dir_html(d):
+    import theme as T
     rel = d.relative_to(P.ROOT).as_posix()
     rows = []
     for p in sorted(d.iterdir(), key=lambda x: (x.is_file(), x.name.lower())):
         name = p.name + ("/" if p.is_dir() else "")
         size = f"{p.stat().st_size:,} B" if p.is_file() else ""
-        rows.append(f'<tr><td><a href="/{rel}/{p.name}">{name}</a></td><td>{size}</td></tr>')
-    body = ("<table style='width:100%;border-collapse:collapse;font-size:.85rem'>"
-            + ("".join(rows) or "<tr><td style='color:#a89e83'>carpeta vacía</td></tr>")
-            + "</table>")
-    return ("<!doctype html><meta charset=utf-8><title>" + rel + "</title>"
-            "<style>body{background:#141310;color:#f1ead7;font:14px system-ui;margin:0;padding:1.5rem;max-width:800px}"
-            "a{color:#c9a24a}td{border-top:1px solid #3b362b;padding:.4rem .5rem}h1{font-size:1rem}</style>"
-            f"<h1>📁 {rel}</h1>" + body).encode("utf-8")
+        rows.append(f'<tr><td><a href="/{rel}/{p.name}">{name}</a></td>'
+                    f'<td class="muted">{size}</td></tr>')
+    body = ('<div class="doc"><table>'
+            + ("".join(rows) or '<tr><td class="muted">carpeta vacía</td></tr>')
+            + "</table></div>")
+    header = f'<h1>{rel}</h1><a class="btn ghost spacer" href="/">Volver al panel</a>'
+    return T.shell(rel, header, body).encode("utf-8")
 
 TOOLS = Path(__file__).resolve().parent
 MIME = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript",
@@ -189,7 +189,7 @@ if __name__ == "__main__":
         print(f"El puerto {P.PORT} ya está en uso — probablemente el server ya corre. "
               f"Abre  http://localhost:{P.PORT}")
         sys.exit(0)
-    print(f"Exodo dashboard  ->  http://localhost:{P.PORT}   (Ctrl+C para parar)")
+    print(f"Conquest dashboard  ->  http://localhost:{P.PORT}   (Ctrl+C para parar)")
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

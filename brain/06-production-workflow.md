@@ -35,10 +35,12 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **Review:** `python tools/research_review.py E0XX-slug` → **`02-research.html`** — dossier sections + the full source-log table (tier / rights / 2nd-source per row) + per-section OK box + notes. **Exportar 02-research.txt** → folded back.
 - **Gate:** every load-bearing claim has ≥1 Tier A/B source; contested points identified; no reliance on Tier C/D; `02-research.txt` signed (either user).
 
-## Stage 3 — Outline
-- Beat sheet against [brain/02-content-format.md](02-content-format.md): cold open → context pivot → narrative acts (mark explainer interludes + foreshadowing plants/pays) → close.
-- Confirm the close form (A/B/C) chosen in the brief still fits the material.
-- **Gate:** structure holds without stretching facts; close is honest to the case.
+## Stage 3 — Outline  → `03-outline.md`
+- Template: [templates/outline-template.md](../templates/outline-template.md). Beat sheet against [brain/02-content-format.md](02-content-format.md): cold open → context pivot → narrative acts (mark explainer interludes + foreshadowing plants/pays) → close.
+- One row per beat: section, beat, ~duration, planned `[S..]` tag, craft note (HOOK / PLANT n/N / PAY n/N / EXPLICADOR n). Foreshadowing + explainer registers as their own tables.
+- Confirm the close form (A/B/C) and register(s) chosen in the brief still fit the material (`brain/09`).
+- Claude drafts it from `02-research-dossier.md` + `01-brief.md`; queued automatically on entering the stage.
+- **Gate:** every beat in order; HOOK paid in the close; all plants planted **and** paid; structure holds without stretching facts; close honest to the case.
 
 ## Stage 4 — Script  → `05-script.md`
 - Template: [templates/script-template.md](../templates/script-template.md). Craft: all of `documentación/modelo-narrativo/`; rules `brain/02`, `08`, `09`, `13`.

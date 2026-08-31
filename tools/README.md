@@ -22,7 +22,8 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 | `script_review.py` | 4 | `E0XX/05-script.html` — every script beat as a card to approve/comment, with an inline explainer per narrative note → `05-script-pass.txt`. |
 | `research_review.py` | 2 | `E0XX/02-research.html` — walk the source-log + dossier, tick OK/revisar + notes, approve → `02-research.txt`. |
 | `package_review.py` | 10 | `E0XX/10-package.html` — pick title, pick thumbnail, review description → `10-package.txt`. `--init` scaffolds `08` + `09`. |
-| `review_ui.py` | — | shared dark-theme HTML shell + `finishStage` (one-click gate) — not a CLI. |
+| `theme.py` | — | **the design system** (CSS tokens + components + HTML wrapper) for every generated page, in one file. Presentation only. Open only to restyle pages — never for pipeline/data work. Not a CLI. |
+| `review_ui.py` | — | thin shim re-exporting `theme.py` as `STYLE` / `HELPERS` / `page` for older callers — not a CLI. |
 | `pipeline.py` | — | the 12-stage manifest + `_STATUS.md` / `_queue.json` I/O — not a CLI. |
 | `dash.py` | — | regenerate `dashboard.html` from `_STATUS.md` + folders + KPI log. |
 | `serve.py` | — | `127.0.0.1:8765` — serves the dashboard + review pages; the finish buttons POST here. |

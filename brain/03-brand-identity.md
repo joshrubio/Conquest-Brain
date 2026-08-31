@@ -9,17 +9,19 @@ authority: canonical
 
 # 03 — Brand Identity
 
-**Name: Exodo** — no accent, ever (prose, subtitles, wordmark, handles).
-**Channel: Exodo Channel** · handle **`@exodochannel`** (`@exodoofficial` is taken on YouTube).
-Chosen 2026-08-28. Full option trail + rationale + trademark notes: [brand/naming-exploration.md](../brand/naming-exploration.md).
+**Name: Conquest** — English spelling, always (prose, subtitles, wordmark, handles). Never "Conquista".
+**Channel: Conquest-Oficial** · handle **`@conquestoficial`** (`@conquest` and `@conquestdocs` are taken on YouTube).
+Chosen 2026-08-28, renamed from *Éxodo* on 2026-08-31. Full option trail + rationale + trademark notes: [brand/naming-exploration.md](../brand/naming-exploration.md).
 
 ## Name & founder story
 
-*Éxodo* = a mass departure. For the two founders it is literal — they are **Venezuelan journalists**, part of the ~7.7M-person Venezuelan exodus (real names in [USERS.md](USERS.md)). The name carries the thesis: the gap between the official version and what actually happened, told by people who left because the official version was a lie.
+The two founders are **Venezuelan journalists**, part of the ~7.7M-person Venezuelan exodus (real names in [USERS.md](USERS.md)). The first name — *Éxodo* — named the departure: leaving because the official version was a lie.
 
-The founder story is **voice and motive** — channel About, a pinned intro video, the reflection — **never an episode subject** (see [05-independence-and-coi.md](05-independence-and-coi.md) §1). "Exodo" must never be used to tell a private migration story.
+**Conquest** names what comes next. In the biblical arc, the Exodus is only the leaving; the Conquest (the Book of Joshua) is the taking and building of the promised land. The channel's work is the second act: not just documenting the gap between the official version and what happened, but doing the harder thing — establishing, source by source, what is true, and what to build on it. The thesis is unchanged; the conclusion moved from *"we left the lie"* to *"we take the ground"*.
 
-**Trademark:** a 2026-08 web check found no registered class-41 mark for a Spanish documentary channel. Launching is low risk; *registering* the mark waits for a lawyer (EUIPO + national + WIPO).
+The founder story is **voice and motive** — channel About, a pinned intro video, the reflection — **never an episode subject** (see [05-independence-and-coi.md](05-independence-and-coi.md) §1). "Conquest" must never be used to tell a private migration story, and never to valorise conquest/colonisation as historical events — the word here means the personal, evidentiary work of building what's true.
+
+**Trademark:** "Conquest" is a common English dictionary word, heavily used across games, vehicles, and media, so a broad mark is not available and not the goal. A 2026-08-31 web check found **no Spanish-language documentary channel or podcast** trading as "Conquest" in that lane — see [brand/naming-exploration.md](../brand/naming-exploration.md) §"Ronda 4". Launch risk is low (discovery is by thumbnail/title/suggested, not name search); *registering* a class-41 figurative mark (the wordmark lockup, not the bare word) waits for a lawyer (EUIPO + national + WIPO).
 
 ## Decisions
 
@@ -32,7 +34,7 @@ The founder story is **voice and motive** — channel About, a pinned intro vide
 
 ## Visual identity
 
-Derived from the launch assets ([brand/assets/exodo-avatar.png](../brand/assets/exodo-avatar.png), [exodo-banner.png](../brand/assets/exodo-banner.png)).
+Derived from the launch assets ([brand/assets/conquest-avatar.png](../brand/assets/conquest-avatar.png), [conquest-banner.png](../brand/assets/conquest-banner.png)).
 
 ### Palette
 
@@ -83,7 +85,7 @@ Rare — only the applied-takeaway moment (`brain/02` §3, form A). When used: *
 
 ### Wordmark
 
-"EXODO" in the Playfair-style Didone serif, the **X** stretched into the pivot letter. Optional "— CHANNEL —" underneath in letter-spaced Montserrat / gold. On bone or on ground; never on a busy photo without a scrim.
+"CONQUEST" in the Playfair-style Didone serif; the **Q**'s tail extended into a long gold underline that runs beneath the word (the line = the ground taken, the archival rule). Optional "— OFICIAL —" underneath in letter-spaced Montserrat / gold. On bone or on ground; never on a busy photo without a scrim.
 
 ### Tagline
 
@@ -93,8 +95,8 @@ Rare — only the applied-takeaway moment (`brain/02` §3, form A). When used: *
 
 | File | State |
 |------|-------|
-| `exodo-avatar.png` | 1254×1254 — YouTube avatar (export 800×800 for upload) |
-| `exodo-banner.png` | 1672×941 — **re-export at 2560×1440** (safe area 1546×423) |
+| `conquest-avatar.png` | 1254×1254 — YouTube avatar (export 800×800 for upload) |
+| `conquest-banner.png` | 1672×941 — **re-export at 2560×1440** (safe area 1546×423) |
 | logo (svg + png, transparent) | to produce — vectorise the wordmark |
 | `end-card.png` / lower-third template | to produce — minimal, per this doc |
 | thumbnail template | to produce — see below |
@@ -108,6 +110,6 @@ One layout, every episode: subject image (archival or a still) + the house grade
 - [x] Name / channel type / spelling / category — decided
 - [x] Avatar + banner in `brand/assets/` (banner needs a 2560×1440 re-export)
 - [x] Palette / grade / typography / case-file device — set (this doc)
-- [ ] Handle `@exodochannel` secured on YouTube + IG + TikTok
+- [ ] Handle `@conquestoficial` secured on YouTube + IG + TikTok
 - [ ] Logo SVG + minimal lower-third + thumbnail template produced
 - [ ] Trademark clearance (class 41) via a lawyer — before registering, not before launching

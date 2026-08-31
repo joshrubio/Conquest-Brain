@@ -68,7 +68,7 @@ Escanea `assets/kb/*.mp4` y `assets/*.trimmed.mp4` (+ `*.cuts.md`). Por clip:
 - `06-shotlist.md` marca qué beats son archivo / stock / IA; `07-selection.md` nombra el archivo (un clip KB para fijas, el clip stock/intro para vídeo). Cada uno sobre su beat, encima de la voz.
 - **Clips de vídeo:** cortados a duración. Sin speed ramp, sin filtro, sin zoom. Loop solo si el clip es más corto que el beat *y* el punto de loop es invisible.
 - **Cold open (§0):** 2–5 clips de `assets/intro/` en orden numerado, corte seco al beat de narración. El último plano aguanta ½ s → corte a negro.
-- **Bumper (§0b):** 3–6 s negro + wordmark `Exodo` + la línea del presentador. Sin música.
+- **Bumper (§0b):** 3–6 s negro + wordmark `Conquest` + la línea del presentador. Sin música.
 - Beats reusados (`[PLANT]` / `[PAY]`): el **mismo** clip/fotograma las dos veces.
 
 ## 5 · Música — `find_music.py`
@@ -93,7 +93,7 @@ Pasos 1–3 son las herramientas de arriba. Pasos 4–5 (montaje + mezcla) se in
 ## Texto en pantalla — mínimo
 
 - **Sin source cards.** Toda cita vive en `09-description.md` «Fuentes principales» + el comentario fijado.
-- En pantalla solo: el **dispositivo de expediente** (`EXPEDIENTE: CASO 00XX`, Courier Prime — `brain/03`), las **tarjetas de capítulo/sección** (Playfair), y el **rótulo de IA / recreación** — `Ilustración — Exodo` o `Recreación`, permanente, cada aparición.
+- En pantalla solo: el **dispositivo de expediente** (`EXPEDIENTE: CASO 00XX`, Courier Prime — `brain/03`), las **tarjetas de capítulo/sección** (Playfair), y el **rótulo de IA / recreación** — `Ilustración — Conquest` o `Recreación`, permanente, cada aparición.
 
 ## Grade de casa
 

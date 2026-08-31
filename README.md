@@ -1,8 +1,8 @@
-# Exodo Channel
+# Conquest-Oficial
 
-> **Exodo** (no accent, ever) · channel **Exodo Channel** · handle **`@exodochannel`** · own new YouTube channel, category *Education*. Brand spec: [brain/03-brand-identity.md](brain/03-brand-identity.md).
+> **Conquest** (English spelling, always — never "Conquista") · channel **Conquest-Oficial** · handle **`@conquestoficial`** · own new YouTube channel, category *Education*. Renamed from *Éxodo* on 2026-08-31. Brand spec: [brain/03-brand-identity.md](brain/03-brand-identity.md).
 
-A Spanish-language journalistic-documentary YouTube channel — narrated real cases that close on a psychological/human reflection and a surgical, applicable takeaway. Run by two people — **Usuario 001** (writes every script, production, tech, T02 ideation) and **Usuario 002** (editorial lead, T01 ideation, research direction). Roles are assignable items, not identities; real names and the split live in [brain/USERS.md](brain/USERS.md). Both founders are Venezuelan journalists; the *exodus* is their voice and motive, never an episode subject. Narration is assigned per episode.
+A Spanish-language journalistic-documentary YouTube channel — narrated real cases that close on a psychological/human reflection and a surgical, applicable takeaway. Run by two people — **Usuario 001** (writes every script, production, tech, T02 ideation) and **Usuario 002** (editorial lead, T01 ideation, research direction). Roles are assignable items, not identities; real names and the split live in [brain/USERS.md](brain/USERS.md). Both founders are Venezuelan journalists, part of the Venezuelan exodus; the name says what comes after the leaving — *the conquest* is the evidentiary work of establishing what's true. It is voice and motive, never an episode subject. Narration is assigned per episode.
 
 Reference format: **Dieck Docs** (Farid Dieck). Standalone project — not a phase of, or funnel for, anything.
 
@@ -48,7 +48,7 @@ Documentation, templates, per-episode folders, and the `tools/` that run the pip
 
 ## Status
 
-- **Brand:** decided (name, channel type, spelling, category, palette, grade, typography, case-file device, 4K). To do: secure `@exodochannel` on IG/TikTok, produce logo SVG + thumbnail template, re-export banner at 2560×1440, trademark clearance (class 41, lawyer, before registering).
+- **Brand:** decided (name, channel type, spelling, category, palette, grade, typography, case-file device, 4K). To do: secure `@conquestoficial` on IG/TikTok, produce logo SVG + thumbnail template, re-export banner at 2560×1440, trademark clearance (class 41, lawyer, before registering).
 - **Format specs (`brain/02`, `08`, `09`) are v1** — validated against 6 Dieck Docs transcripts.
 - **Idea pool:** 21 ideas. `python tools/idea_review.py` → `ideas/idea-review.html` for Usuario 002 to score + pick hook-titles.
 - **E001 Hokusai** in production — at Stage 5 — apply the L2 corrections + close S15/S19/S20.

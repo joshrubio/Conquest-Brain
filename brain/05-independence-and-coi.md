@@ -23,7 +23,7 @@ Keeps the founders' other roles and private lives out of the episodes. Checked a
 
 > *Would this story be tellable entirely from public documentation by a journalist who has never met anyone involved?*
 
-If **no** → it is not an Exodo episode. This is the operative COI gate; the rubric's E4/E5 and the fact-check sheet both apply it.
+If **no** → it is not an Conquest episode. This is the operative COI gate; the rubric's E4/E5 and the fact-check sheet both apply it.
 
 ## 3. If an idea surfaces from private life
 

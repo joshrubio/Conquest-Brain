@@ -48,10 +48,13 @@ try:
 except Exception:
     pass
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import theme as T  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 ENV = Path(__file__).resolve().parent / ".env"
-UA = "ExodoOficial/1.0 (educational documentary; contact joshuerubio@gmail.com)"
+UA = "ConquestOficial/1.0 (educational documentary; contact joshuerubio@gmail.com)"
 TIMEOUT = 30
 
 SPEC_F = "07-pull.tsv"
@@ -425,7 +428,7 @@ def parse_ai_prompts(slug):
 def _card_html(esc, c, beat, intro_only=False):
     badges = [f'<b>{esc(c.dim())}</b>']
     if c.dur:
-        badges.append(f'<b class="vid">▶ {c.dur}s</b>')
+        badges.append(f'<b class="vid">vídeo {c.dur}s</b>')
     if c.w and max(c.w, c.h) < 1920:
         badges.append('<b class="warn">baja-res</b>')
     if "1280" in c.lic:
@@ -576,90 +579,57 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Style pass — {esc(slug)}</title>
+{T.CSS}
 <style>
- :root{{
-   color-scheme:dark;
-   --bg:#141310; --surface:#1e1c17; --surface-2:#29261e; --line:#3b362b;
-   --fg:#f1ead7; --muted:#a89e83; --gold:#c9a24a; --gold-soft:#c9a24a1f;
-   --bone:#e9e1cb;
- }}
- *{{box-sizing:border-box}}
- body{{font:14px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-   margin:0;background:var(--bg);color:var(--fg)}}
- a{{color:var(--gold)}}
- ::selection{{background:var(--gold);color:#1a1610}}
- header{{position:sticky;top:0;z-index:9;display:flex;gap:1.25rem;align-items:center;
-   flex-wrap:wrap;padding:1rem 1.75rem;background:var(--bg);
-   border-bottom:1px solid var(--line);min-height:3.6rem}}
- header h1{{font-size:1rem;margin:0;font-weight:700;letter-spacing:.02em;color:var(--bone)}}
- #cnt,#introcnt,#aicnt{{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.85rem}}
- button{{font:inherit;padding:.5rem 1rem;border:1px solid var(--line);border-radius:9px;
-   background:var(--surface-2);color:var(--fg);cursor:pointer;transition:.12s}}
- button:hover{{border-color:var(--muted)}}
- button.primary{{background:var(--gold);color:#1a1610;border-color:var(--gold);font-weight:600}}
- button.primary:hover{{filter:brightness(1.08)}}
- .introbox{{max-width:1980px;margin:1rem auto 0;padding:2rem 2.25rem 1.75rem;
-   background:var(--surface);border:1px solid var(--line);border-radius:14px}}
- .introbox>h2{{margin-top:0}}
- .introbox .hint{{color:var(--muted);font-size:.8rem;margin:.4rem 0 1.25rem;max-width:74ch}}
+ #cnt,#introcnt,#aicnt{{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.82rem}}
+ .introbox,.musicbox{{max-width:1980px;margin:1rem auto 0;padding:1.75rem 2rem;
+   background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--shadow)}}
+ .musicbox{{margin:0 auto 3rem}}
+ .introbox>h2,.musicbox>h2{{margin-top:0}}
  .slots{{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
    gap:.6rem;margin-bottom:1.5rem}}
  .slot{{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted)}}
  .slot>span{{width:1rem;text-align:right;flex:none}}
- input[type=text],.slot input,.ai input,.bcust{{flex:1;width:100%;font:inherit;
-   border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--fg)}}
  .slot input{{font-size:.76rem;padding:.4rem .55rem}}
- .ai input,.bcust{{font-size:.78rem;padding:.5rem .65rem}}
- input:focus{{outline:none;border-color:var(--gold)}}
+ .ai input,.bcust{{font-size:.78rem}}
  .slot input:not(:placeholder-shown),
- .bcust:not(:placeholder-shown){{border-color:var(--gold);background:var(--gold-soft)}}
+ .bcust:not(:placeholder-shown){{border-color:var(--lime-line);background:var(--lime-soft)}}
  .beatcustom{{display:block;margin-top:1rem;font-size:.76rem;color:var(--muted)}}
  .beatcustom>span{{opacity:.8}}
  .beatcustom .bcust,.beatcustom input{{margin-top:.35rem}}
  section:has(.bcust:not(:placeholder-shown)) .grid{{opacity:.4}}
- .musicbox{{max-width:1980px;margin:0 auto 3rem;padding:2rem 2.25rem;
-   background:var(--surface);border:1px solid var(--line);border-radius:14px}}
- .musicbox>h2{{margin-top:0}}
- .musicbox .hint{{color:var(--muted);font-size:.8rem;margin:.4rem 0 1.25rem;max-width:78ch}}
  .mtrk{{display:grid;grid-template-columns:20px minmax(180px,1fr) auto 320px auto;
    gap:.9rem;align-items:center;padding:.55rem .3rem;border-bottom:1px solid var(--line);
    font-size:.82rem;cursor:pointer}}
  .mtrk:last-child{{border-bottom:0}}
- .mtrk:has(.mtrack:checked){{background:var(--gold-soft)}}
- .mtrk input[type=checkbox]{{width:18px;height:18px;accent-color:var(--gold)}}
+ .mtrk:has(.mtrack:checked){{background:var(--lime-soft)}}
+ .mtrk input[type=checkbox]{{width:18px;height:18px}}
  .mtrk .mm{{color:var(--muted);font-size:.75rem}}
  .mtrk audio{{height:34px;width:320px}}
  @media(max-width:900px){{.mtrk{{grid-template-columns:20px 1fr;grid-auto-flow:row}}
    .mtrk audio{{width:100%}}}}
  .wrap{{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:2.25rem;
-   max-width:1980px;margin:0 auto;padding:1.75rem}}
+   max-width:1980px;margin:0 auto;padding:1.75rem 1.5rem}}
  main{{min-width:0}}
  aside{{position:sticky;top:4.4rem;align-self:start;max-height:calc(100vh - 5.6rem);
    overflow:auto;border-left:1px solid var(--line);padding-left:1.5rem}}
  @media(max-width:1100px){{.wrap{{grid-template-columns:1fr;gap:1.5rem}}
    aside{{position:static;max-height:none;border-left:0;border-top:1px solid var(--line);
    padding-left:0;padding-top:1.5rem}}}}
- section{{margin:0 0 2.75rem}}
- h2{{font-size:.95rem;font-weight:700;color:var(--bone);border-bottom:1px solid var(--line);
-   padding-bottom:.45rem;margin:0 0 1rem}}
  h2 .q{{font-weight:400;color:var(--muted)}}
  h2 .k{{float:right;font-weight:400;color:var(--muted);font-size:.8rem}}
- h3{{font-size:.86rem;color:var(--bone);margin:1.5rem 0 .8rem}}
  h3 span{{font-weight:400;color:var(--muted)}}
- .empty{{color:var(--muted);font-style:italic}}
- .grid{{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fill,minmax(235px,1fr))}}
- .card{{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;
-   background:var(--surface);cursor:pointer;display:flex;flex-direction:column;transition:.12s}}
- .card:hover{{border-color:var(--muted)}}
- .card:has(.pick:checked){{border-color:var(--gold);
-   box-shadow:inset 0 0 0 1px var(--gold);background:var(--gold-soft)}}
+ .grid{{gap:1.1rem;grid-template-columns:repeat(auto-fill,minmax(235px,1fr))}}
+ .card{{position:relative;padding:0;overflow:hidden;cursor:pointer;gap:0}}
+ .card:has(.pick:checked){{border-color:var(--lime-line);
+   box-shadow:inset 0 0 0 1px var(--lime-line);background:var(--lime-soft)}}
  .card:has(.ick:checked){{outline:2px dashed var(--bone);outline-offset:2px}}
  .card>input,.card .itog{{position:absolute;z-index:2;margin:8px}}
- .card>input{{left:0;width:20px;height:20px;accent-color:var(--gold);cursor:pointer}}
+ .card>input{{left:0;width:20px;height:20px;cursor:pointer}}
  .card .itog{{right:0;display:flex;align-items:center;gap:.25rem;font-size:.66rem;
    background:#0c0a07d9;color:var(--bone);padding:.15rem .4rem;border-radius:6px;
-   border:1px solid var(--line)}}
- .card .itog input{{width:13px;height:13px;accent-color:var(--bone)}}
+   border:1px solid var(--line-2)}}
+ .card .itog input{{width:13px;height:13px}}
  .card img,.card .noimg{{width:100%;aspect-ratio:4/3;object-fit:cover;
    background:#0d0c09;display:block}}
  .noimg{{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.8rem}}
@@ -667,22 +637,20 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
  .badges{{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.1rem}}
  .badges b{{font-weight:600;background:var(--surface-2);color:var(--muted);
    padding:.08rem .4rem;border-radius:5px;font-size:.72rem}}
- .badges b.warn{{background:#5c4318;color:#e8c67a}}
- .badges b.vid{{background:var(--gold-soft);color:var(--gold)}}
- code{{font-size:.74rem;color:var(--muted);font-family:ui-monospace,monospace}}
+ .badges b.warn{{background:var(--gold-soft);color:var(--gold)}}
+ .badges b.vid{{background:var(--lime-soft);color:var(--lime)}}
  .who{{color:var(--fg)}} .lic{{color:var(--muted);font-size:.72rem}}
  .lnk{{font-size:.75rem;margin-top:.1rem}}
  .aih span{{font-weight:400;color:var(--muted);font-size:.75rem}}
  details.neg{{font-size:.74rem;margin:.8rem 0;color:var(--muted)}}
- details.neg pre,.ai pre{{white-space:pre-wrap;font-size:.68rem;background:var(--surface-2);
-   color:var(--fg);padding:.65rem;border-radius:8px;max-height:9.5rem;overflow:auto;margin:.4rem 0}}
- .ai{{border:1px solid var(--line);border-radius:12px;padding:.95rem;margin-bottom:1.25rem;
+ details.neg pre,.ai pre{{font-size:.68rem;max-height:9.5rem}}
+ .ai{{border:1px solid var(--line-2);border-radius:var(--r);padding:.95rem;margin-bottom:1.25rem;
    background:var(--surface)}}
- .ai.done{{border-color:var(--gold);background:var(--gold-soft)}}
+ .ai.done{{border-color:var(--lime-line);background:var(--lime-soft)}}
  .ai h3{{font-size:.82rem;margin:.1rem 0 .4rem;font-weight:600}}
  .ai .beat{{background:var(--surface-2);color:var(--muted);padding:.08rem .4rem;
    border-radius:5px;font-size:.7rem}}
- .ai.done .beat{{background:var(--gold-soft);color:var(--gold)}}
+ .ai.done .beat{{background:var(--lime-soft);color:var(--lime)}}
  .ai .para{{color:var(--muted);font-size:.77rem;margin:.25rem 0 .35rem}}
  .ai .fn{{font-size:.73rem;color:var(--muted);margin:.45rem 0 .3rem}}
  .cp{{font-size:.7rem;padding:.3rem .6rem;margin-top:.15rem}}
@@ -694,9 +662,8 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
  <span id="aicnt"></span>
  <button class="primary" id="exp">Exportar {PICKS_F}</button>
  <button id="clr">Limpiar</button>
- <a id="assets" href="http://localhost:8765/episodes/{slug}/assets/" target="_blank"
-    style="font-size:.8rem;padding:.35rem .7rem;border:1px solid #3b362b;border-radius:8px;color:#c9a24a;text-decoration:none">📁 Carpeta de recursos</a>
- <span style="opacity:.6;font-size:.8rem">al Exportar se descargan los recursos elegidos ahí</span>
+ <a class="btn ghost" id="assets" href="http://localhost:8765/episodes/{slug}/assets/" target="_blank">Carpeta de recursos</a>
+ <span class="small" style="opacity:.7">al Exportar se descargan los recursos elegidos ahí</span>
 </header>
 {introbox}
 <div class="wrap">
@@ -710,7 +677,7 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
 {musicbox}
 <script>
 const SLUG="{esc(slug)}", HAS_AI={has_ai};
-const LS="exodo-pass:"+SLUG, LSA=LS+":ai", LSI=LS+":intro";
+const LS="conquest-pass:"+SLUG, LSA=LS+":ai", LSI=LS+":intro";
 const cards=[...document.querySelectorAll('.card')];
 const slots=[...document.querySelectorAll('.intropath')];
 const bcust=[...document.querySelectorAll('.bcust')];
@@ -774,7 +741,7 @@ aip.forEach(i=>{{if(initA[i.dataset.ai])i.value=initA[i.dataset.ai];
 sync(); syncA();
 document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{{
   navigator.clipboard.writeText(b.previousElementSibling.textContent.trim());
-  const t=b.textContent; b.textContent='copiado ✓'; setTimeout(()=>b.textContent=t,1200);
+  const t=b.textContent; b.textContent='copiado'; setTimeout(()=>b.textContent=t,1200);
 }});
 document.getElementById('clr').onclick=()=>{{
   cards.forEach(c=>c.querySelectorAll('input').forEach(i=>i.checked=false));
@@ -1006,7 +973,7 @@ def _dl_ai(ep, beat, aid, src, fname, rows, credits):
     rel = f"assets/ai/{dst.name}"
     print(f"  OK  {dst.name}  {dim}  (IA)")
     rows.append((beat, f"ai:{aid}", "(propia)", dim, rel))
-    credits.append(f"- {beat}: {aid} — ilustración propia (IA), rótulo «Ilustración — Exodo» en pantalla")
+    credits.append(f"- {beat}: {aid} — ilustración propia (IA), rótulo «Ilustración — Conquest» en pantalla")
 
 
 def _fetch(url, src):
@@ -1169,7 +1136,7 @@ def _write_selection(ep, slug, intro_rows, beat_rows, ai_rows):
         L += [f"| {b} | {s} | {d or '—'} | `{p}` |" for b, s, _u, d, p in beat_rows]
         L += [""]
     if ai_rows:
-        L += ["## Ilustración IA (rótulo «Ilustración — Exodo» en pantalla)", "",
+        L += ["## Ilustración IA (rótulo «Ilustración — Conquest» en pantalla)", "",
               "| Beat | id | Res. | Archivo |", "|------|----|------|---------|"]
         L += [f"| {b} | {s.split(':', 1)[1]} | {d} | `{p}` |" for b, s, _u, d, p in ai_rows]
         L += [""]
