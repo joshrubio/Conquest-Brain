@@ -34,7 +34,7 @@ beat  kind  source  query  opts
 - `stock-img` — solo imágenes
 - `video` — solo vídeo
 - `intro` — vídeo de impacto para el cold open; nombra el beat `INTRO1`, `INTRO2`…
-- `archive` — la pieza real: Met, Wikimedia Commons, AIC
+- `archive` — la pieza real: Met, Wikimedia Commons
 
 ### 2 · Corre `build_ai_prompts.py` (si hace falta)
 
@@ -46,7 +46,7 @@ beat  kind  source  query  opts
 python tools/pull_assets.py E0XX-slug
 ```
 
-Pega las APIs gratis (Met, Wikimedia Commons, AIC, Pexels, Pixabay, Unsplash, Openverse) → `07-style-pass.md` (registro que se sube) + `07-style-pass.html` (la superficie).
+Pega las APIs gratis (Met, Wikimedia Commons, Pexels, Pixabay, Unsplash, Openverse) → `07-style-pass.md` (registro que se sube) + `07-style-pass.html` (la superficie).
 
 ### 4 · El pase (Usuario 001, en el navegador)
 
@@ -96,7 +96,7 @@ Se pliega `07-selection.md` en `07-assets.md` — una fila por asset **aceptado*
 
 ## Reglas de fuente
 
-- **Solo descarga directa, sin captcha.** Museos con Open Access (Met, Wikimedia Commons, AIC), stock libre.
+- **Solo descarga directa, sin captcha.** Museos con Open Access (Met, Wikimedia Commons), stock libre.
 - **NO como fuente de descarga:** agregadores (para localizar, no bajar), sitios con captcha/temporizador, blogs, tiendas de prints, **stock de pago** (fuera por regla actual).
 - **Stock ≠ la pieza real.** El stock es b-roll genérico ilustrativo (una ola, un laboratorio moderno) — solo donde el espectador lo lee como *cutaway*, nunca como "esto es lo real".
 - **IA:** solo donde no existe imagen real; estilo elegido por episodio (fotorrealista permitido); rótulo en pantalla **siempre**; nunca cara fotorrealista de persona real identificable; nunca documento/periódico falso (`brain/15`).

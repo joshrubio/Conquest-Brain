@@ -63,7 +63,7 @@ Run `build_ai_prompts.py` **before** the pull so the prompts appear in the pass.
   - `video` — pexels + pixabay video only.
   - `intro` — pexels + pixabay video; name the beat `INTRO1`, `INTRO2`… — results go to
     the Intro row of the pass, not a beat. High-impact cold-open footage on the topic.
-  - `archive` — the real artifact: met, commons, aic.
+  - `archive` — the real artifact: met, commons.
 - `source`: usually just repeat the kind keyword; or a comma list of specific sources
   (`commons,met` · `pexels-video,unsplash` · …).
 - `opts`: `n=3` (total per beat) · `motion=no|only` · `orientation=landscape` ·
@@ -71,7 +71,7 @@ Run `build_ai_prompts.py` **before** the pull so the prompts appear in the pass.
   `license=cc0,by` (openverse) · `must=hokusai,fuji` (archive only).
 
 **Keys** go in `tools/.env` (gitignored — copy `tools/.env.example`). Without it, only the
-keyless sources run (Openverse, Met, AIC). Get them: Pexels `pexels.com/api`, Pixabay
+keyless sources run (Openverse, Met, Wikimedia Commons). Get them: Pexels `pexels.com/api`, Pixabay
 `pixabay.com/api/docs`, Unsplash `unsplash.com/developers` (use the Access Key).
 
 **Known limits**
@@ -79,9 +79,6 @@ keyless sources run (Openverse, Met, AIC). Get them: Pexels `pexels.com/api`, Pi
 - Wikimedia Commons often carries the same PD scans at higher resolution than Met
   (Great Wave: 8242 px) with cleaner artist metadata — good for isolating a
   specific artist (e.g. Katsushika Ōi vs. Hokusai).
-- AIC's IIIF CDN can 403 `--download` from some networks/CI. The candidate URL is
-  still correct — it downloads fine from a normal browser; if the tool fails on an
-  `aic` pick, open its page and use the Download button.
 - Archive keyword search is filtered for relevance. Search ranks loosely, so add
   `must=<name>` to force the subject (e.g. `must=hokusai`). A too-narrow query can
   return zero — broaden the query, keep `must`.

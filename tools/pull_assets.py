@@ -12,9 +12,9 @@ and --download turns every choice into files + 07-selection.md.
 
 APIs
   stock   pexels  pixabay  unsplash  openverse   (video: pexels, pixabay)
-  archive met  commons (Wikimedia Commons)  aic (Art Institute of Chicago)
+  archive met  commons (Wikimedia Commons)
 Keys live in tools/.env (gitignored). No .env -> only keyless sources run
-(openverse, met, commons, aic).
+(openverse, met, commons).
 
 Usage
   python tools/pull_assets.py E0XX-slug --init
@@ -66,10 +66,8 @@ STOCK_IMG = ["pexels", "pixabay", "unsplash", "openverse"]         # kind: stock
 STOCK_MOTION = ["pexelsv", "pixabayv", "pexels", "unsplash",       # kind: stock
                 "pixabay", "openverse"]                            # video sources first
 VIDEO_SRCS = {"pexelsv", "pixabayv"}
-ARCHIVE_ALL = ["met", "commons", "aic"]   # the `archive` group keyword
+ARCHIVE_ALL = ["met", "commons"]          # the `archive` group keyword
 ARCHIVE_SRCS = set(ARCHIVE_ALL)           # for assets/ folder routing
-# note: AIC's IIIF CDN 403s direct downloads from some networks/CI (works from a
-# normal browser). If --download fails on an aic pick, open its page + Download.
 
 SPEC_HEADER = """# 07-pull.tsv — Stage 7 candidate-pull spec for this episode.
 # Tab-separated. Lines starting with # are ignored. One row per shotlist beat
@@ -86,7 +84,7 @@ SPEC_HEADER = """# 07-pull.tsv — Stage 7 candidate-pull spec for this episode.
 #             stock-img = images only (pexels,pixabay,unsplash,openverse)
 #             video     = pexels,pixabay video only
 #             intro     = pexels,pixabay video — high-impact cold-open footage
-#             archive   = met,commons,aic
+#             archive   = met,commons
 #   query   search terms
 #   opts    key=value;key=value  (all optional)
 #             n=3               total candidates for the beat (default 3)
@@ -125,7 +123,7 @@ def check_keys():
     for name in ("PEXELS_API_KEY", "PIXABAY_API_KEY", "UNSPLASH_ACCESS_KEY"):
         v = k.get(name, "")
         print(f"  {'OK ' if v else '  ·'} {name:22s} {'set' if v else '(not set)'}")
-    print("\n  OK  openverse / met / aic  — no key needed")
+    print("\n  OK  openverse / met / commons  — no key needed")
 
 
 # --------------------------------------------------------------------------- model
@@ -303,43 +301,6 @@ def q_met(query, key, n, opts, video=False):
     return out[:n]
 
 
-def q_aic(query, key, n, opts, video=False):
-    if video:
-        return []
-    must = [x.strip() for x in opts.get("must", "").split(",") if x.strip()]
-    fields = ("id,title,image_id,artist_display,date_display,is_public_domain,"
-              "term_titles,classification_titles")
-    r = _get("https://api.artic.edu/api/v1/artworks/search",
-             headers={"AIC-User-Agent": UA},
-             params={"q": query, "fields": fields, "limit": n * 4,
-                     "query[term][is_public_domain]": "true"})
-    out = []
-    for a in r.json().get("data", []):
-        if len(out) >= n:
-            break
-        iid = a.get("image_id")
-        if not iid or not a.get("is_public_domain"):
-            continue
-        terms = " ".join(a.get("term_titles") or []) + " " + " ".join(a.get("classification_titles") or [])
-        if not relevant(query, (a.get("title", ""), a.get("artist_display", ""), terms), must):
-            continue
-        url = f"https://www.artic.edu/iiif/2/{iid}/full/full/0/default.jpg"
-        w = h = 0
-        try:
-            info = _get(f"https://www.artic.edu/iiif/2/{iid}/info.json",
-                        headers={"AIC-User-Agent": UA}).json()
-            w, h = info.get("width", 0), info.get("height", 0)
-        except Exception:
-            pass
-        who = (a.get("artist_display") or "").split("\n")[0]
-        out.append(Cand("aic", a["id"], url, w, h,
-                        f"{who} — {a.get('title', '')}".strip(" —"),
-                        "CC0 (Art Institute of Chicago)",
-                        f"https://www.artic.edu/artworks/{a['id']}",
-                        thumb=f"https://www.artic.edu/iiif/2/{iid}/full/400,/0/default.jpg"))
-    return out
-
-
 def q_commons(query, key, n, opts, video=False):
     if video:
         return []
@@ -379,7 +340,7 @@ def q_commons(query, key, n, opts, video=False):
 
 
 DISPATCH = {"pexels": q_pexels, "pixabay": q_pixabay, "unsplash": q_unsplash,
-            "openverse": q_openverse, "met": q_met, "commons": q_commons, "aic": q_aic,
+            "openverse": q_openverse, "met": q_met, "commons": q_commons,
             "pexelsv": q_pexels, "pixabayv": q_pixabay}
 KEY_FOR = {"pexels": "PEXELS_API_KEY", "pixabay": "PIXABAY_API_KEY",
            "unsplash": "UNSPLASH_ACCESS_KEY",
@@ -1042,11 +1003,6 @@ def _fetch(url, src):
                 return cand.read_bytes(), cand.as_posix()
         return None, f"no existe la ruta: {url}"
     tries, hdr = [url], {"User-Agent": UA}
-    if src == "aic":
-        hdr = {"User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                              "(KHTML, like Gecko) Chrome/124 Safari/537.36"),
-               "Referer": "https://www.artic.edu/"}
-        tries += [url.replace("/full/full/", f"/full/{w},/") for w in (3840, 1686, 843)]
     last = "?"
     for u in tries:
         try:
@@ -1227,7 +1183,7 @@ def init(slug):
     if f.exists():
         sys.exit(f"ya existe {f.relative_to(ROOT)}")
     sample = ("INTRO1\tintro\tintro\t<tema> cinematic aerial\torientation=landscape;min=1920;n=3\n"
-              "1\tarchive\tmet,commons,aic\t<sujeto>\tmust=<sujeto>;n=3\n"
+              "1\tarchive\tmet,commons\t<sujeto>\tmust=<sujeto>;n=3\n"
               "7\tstock\tstock\tocean wave breaking slow motion\tmin=1920;n=3\n"
               "12\tstock-img\tstock-img\tworn rice paper texture\tmin=2500;n=3\n")
     f.write_text(SPEC_HEADER + sample, encoding="utf-8")

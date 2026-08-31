@@ -23,24 +23,24 @@ Si no llega: usar como inserto, cortar un **detalle** (un detalle a 2000 px sirv
 
 ## Fuentes: descarga directa, sin captcha
 
-- **Sí:** The Met (*Download*, JPEG ~4000 px), **Art Institute of Chicago** (IIIF `.../full/full/0/default.jpg` = nativo, ~6000–10000 px — **la mejor para 4K**), Library of Congress (TIFF), Smithsonian Open Access (CC0), Wikimedia Commons (ficheros *Google Art Project* = 7000–20000 px).
+- **Sí:** The Met (*Download*, JPEG ~4000 px), Wikimedia Commons (ficheros *Google Art Project* = 7000–20000 px — **la mejor para 4K**), Library of Congress (TIFF), Smithsonian Open Access (CC0).
 - **No para descargar:** ukiyo-e.org y Google Arts & Culture (solo para **localizar** en qué museo está); IMSLP y similares (captcha / temporizador); blogs, tiendas de prints, artículos.
 
 ## Manifiesto
 
 | # | Beat(s) | Qué es | Descarga directa | Museo / nº | Lic. | Res. esperada | Uso | Pase |
 |---|---------|--------|------------------|------------|------|---------------|-----|------|
-| 1 | 2, 27–28, 41, +G | **«La gran ola»** | AIC IIIF (nativo, ~7000 px): abrir https://www.artic.edu/artworks/89503 → botón *Download* / IIIF · alt Met https://www.metmuseum.org/art/collection/search/36491 (*Download*, ~4000 px) | AIC 1925.3245 / Met JP1847 | CC0 | AIC ~7000 px (4K OK) · Met ~4000 px (4K justo para push-in) | full-frame + push-in → **usar la de AIC** | |
-| 2 | 26 | **«Fuji rojo» (*Gaifū kaisei*)** | https://www.artic.edu/artworks/77328 → *Download* / IIIF | AIC | CC0 | ~7000 px | full-frame | |
-| 3 | 26 | **Fuji en el barril del tonelero** | https://www.metmuseum.org/art/collection/search/36500 → *Download* · alt AIC IIIF si tiene otra impresión | Met | CC0 | ~4000 px | full-frame (poco movimiento) | |
-| 4 | 26 | **Fuji desde un camino** (*Tōkaidō Hodogaya*) | https://www.artic.edu/artworks/86999 → *Download* / IIIF | AIC | CC0 | ~7000 px | full-frame | |
-| 5 | 25, 26 | 2–3 vistas más del Fuji | https://www.artic.edu/collection?artist_ids=Katsushika+Hokusai — elegir 2–3 de la serie, descargar IIIF nativo de cada una | AIC | CC0 | ~7000 px | cuadrícula (insertos) — **cualquier res sirve** | |
+| 1 | 2, 27–28, 41, +G | **«La gran ola»** | Met https://www.metmuseum.org/art/collection/search/36491 → *Download* (~4000 px) · alt Wikimedia Commons *Google Art Project* (mayor res) | Met JP1847 / Commons | CC0 / PD | Met ~4000 px (4K justo para push-in) · Commons GAP mayor | full-frame + push-in → **preferir la de Commons si supera 4800 px** | |
+| 2 | 26 | **«Fuji rojo» (*Gaifū kaisei*)** | TODO: localizar en Met o Wikimedia Commons (*Fine Wind, Clear Morning* / *South Wind, Clear Sky*) | Met / Commons | CC0 / PD | por confirmar | full-frame | |
+| 3 | 26 | **Fuji en el barril del tonelero** | https://www.metmuseum.org/art/collection/search/36500 → *Download* | Met | CC0 | ~4000 px | full-frame (poco movimiento) | |
+| 4 | 26 | **Fuji desde un camino** (*Tōkaidō Hodogaya*) | TODO: localizar en Met o Wikimedia Commons | Met / Commons | CC0 / PD | por confirmar | full-frame | |
+| 5 | 25, 26 | 2–3 vistas más del Fuji | Met Open Access: https://www.metmuseum.org/art/collection/search?q=Thirty-six+Views+of+Mount+Fuji+Hokusai&showOnly=openAccess — elegir 2–3 de la serie, *Download* · alt Wikimedia Commons | Met / Commons | CC0 / PD | ~4000 px | cuadrícula (insertos) — **cualquier res sirve** | |
 | 6b | 4, 24, 36 (una vez) | **Retrato de Hokusai por Keisai Eisen** — "la única cara real" | Commons: https://commons.wikimedia.org/wiki/File:Portrait_of_Hokusai_by_Keisai_Eisen.jpg | Commons | PD | por confirmar (verificar px del fichero) | inserto / uso puntual | |
 | ai01 | 1 (cold open) | **Ilustración IA** — 1849, el cuarto, el hombre que se muere (de espaldas) | `07b-ai-prompts.md` §ai01 → generar | — | ilustración propia (IA) · **rótulo en pantalla** | ≥4800 px (upscale) | full-frame + push-in | ⧗ generar |
 | ai02 | +B, +C (Acto 1) | **Ilustración IA** — el Daruma gigante de Nagoya (1817), figura de espaldas | `07b-ai-prompts.md` §ai02 | — | ilustración propia (IA) · rótulo | ≥4800 px | full-frame, zoom out | ⧗ generar |
 | ai03 | 33 (Acto 4) | **Ilustración IA** — el incendio del taller, noche, ~1839, figura pequeña de espaldas | `07b-ai-prompts.md` §ai03 | — | ilustración propia (IA) · rótulo | ≥4800 px | full-frame | ⧗ generar |
 | ai04 | 39 (cierre) | **Ilustración IA** — la metáfora del camino sin final (sustituye a G5) | `07b-ai-prompts.md` §ai04 | — | ilustración propia (IA) · rótulo | ≥4800 px | full-frame, ritmo lento | ⧗ generar |
-| 9 | 34–35 · self-depiction | **«Autorretrato como pescador»** (1835) | https://www.artic.edu/artworks/81212/self-portrait-as-a-fisherman → *Download* / IIIF | AIC | CC0 | ~5000 px | full-frame | |
+| 9 | 34–35 · self-depiction | **«Autorretrato como pescador»** (1835) | TODO: localizar en Met o Wikimedia Commons (dibujo de Hokusai + inscripción de Ōi) | Met / Commons | CC0 / PD | por confirmar | full-frame | |
 | 10 | 11–12 · [PLANT 1] | **Obra temprana firmada "Shunrō"** (actor kabuki, *hosoban*, 1780s) | Met Open Access: https://www.metmuseum.org/art/collection/search?q=Shunro&showOnly=openAccess — elegir una con **firma legible**, *Download* | Met | CC0 | ~4000 px | inserto + zoom a la firma → basta | |
 | 11 | 10 | Actor de la **escuela Katsukawa (Shunshō)** | https://www.metmuseum.org/art/collection/search?q=Katsukawa+Shunsho&showOnly=openAccess → *Download* | Met | CC0 | ~4000 px | full-frame | |
 | 12 | 21–22 · +A | **Páginas de los *Hokusai Manga*** | Met tiene **hojas sueltas** como objeto (CC0, ~4000 px): https://www.metmuseum.org/art/collection/search?q=Hokusai+Manga&showOnly=openAccess · alt Smithsonian Libraries (JPEG-2000) | Met / Smithsonian | PD/CC0 | Met ~4000 px OK · scans de libro ~2000 px → **usar recorte de detalle** (una figura, no la página) | insertos rápidos → cualquier res | |
@@ -51,7 +51,7 @@ Si no llega: usar como inserto, cortar un **detalle** (un detalle a 2000 px sirv
 | 17 | 34–35 | **Obra de Katsushika Ōi** | **HUECO** — MFA Boston (open access, TIFF) y Freer/Smithsonian: buscar «Katsushika Oi» en https://collections.mfa.org y https://asia.si.edu . «Night Scene in the Yoshiwara» (Ōta Memorial, Tokio) **NO es open access**. Plan B: solo #9 + tarjeta de texto | MFA / Freer / ⚠️ Ōta | CC0 (MFA/Freer) | por confirmar | full-frame o inserto | ⚠️ |
 | 18 | 6–7 | Mapa / vista de Edo s. XVIII–XIX | LOC https://www.loc.gov/collections/japanese-fine-prints-pre-1915/ (TIFF) · Commons *Old maps of Edo* (varios GAP, alta res) | LOC / Commons | PD | alta | full-frame | |
 | 19 | 8 · G1 | Referencia del proceso ukiyo-e | Commons *Woodblock printing in Japan* | Commons | PD | — | solo referencia; el beat es motion-graphic propio | |
-| 20 | +D | Tirada azul (*aizuri-e*) de una vista del Fuji | localizar en ukiyo-e.org («Kajikazawa aizuri» / estados de «Kanagawa») → ir al **museo que la tenga** y descargar IIIF/Download; muchos están en AIC/Met | AIC / Met | CC0 | ~5000 px | comparativa, insertos | |
+| 20 | +D | Tirada azul (*aizuri-e*) de una vista del Fuji | localizar en ukiyo-e.org («Kajikazawa aizuri» / estados de «Kanagawa») → ir al **museo que la tenga** y descargar IIIF/Download; muchos están en Met / Wikimedia Commons | Met / Commons | CC0 / PD | ~5000 px | comparativa, insertos | |
 | 21 | +F | **Portada de *La Mer*** (1905, Durand) | **IMSLP tiene captcha → no.** Opción real: BnF **Gallica** (IIIF, sin captcha) buscar «Debussy La Mer Durand 1905» · si no hay res buena → **plan B: mostrar la Ola real (#1) y decir en la narración que fue a la portada**, o la portada como inserto de baja res durante 2 s | Gallica / — | PD (1905) | Gallica variable | inserto breve → baja res tolerable | ⚠️ |
 | 22 | +F | **Van Gogh copiando a Hiroshige** (1887) | Commons *Google Art Project* (alta res): https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_Brug_in_de_regen-_naar_Hiroshige_-_Google_Art_Project.jpg | Commons / VG Museum | PD (†1890) | ~10000 px | full-frame | ✅ res |
 | 23 | +E, +F | Interior de Giverny (Monet) | **sin fuente PD** — foto con licencia. **Recomendación: cortar el plano.** La línea "Monet las coleccionaba" se cubre con #22. | — | ❌ | — | — | ❌ manifiesto PD |
@@ -91,6 +91,6 @@ Método elegido: **ilustración estilizada por IA** (opción C, vía IA en vez d
 - [ ] Toda imagen con descarga directa sin captcha y licencia clara
 - [ ] Cada imagen llega a la resolución de su uso (o se reasigna a inserto/detalle)
 - [ ] Color/estado revisados por tramo (las 36 vistas juntas; los retratos juntos)
-- [ ] Créditos de cortesía para `09-description.md` (AIC, Met, LOC, Commons…)
-- [ ] Descargas a `assets/` — `E001_beat27_greatwave_aic.tif`
+- [ ] Créditos de cortesía para `09-description.md` (Met, LOC, Commons…)
+- [ ] Descargas a `assets/` — `E001_beat27_greatwave_met.tif`
 - [ ] `brain/03` §Visual direction + salida del canal cerrados

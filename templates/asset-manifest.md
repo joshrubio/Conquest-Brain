@@ -26,7 +26,7 @@ Si una imagen no llega, la opción es: usarla más pequeña (inserto), cortar un
 
 ## Fuentes: solo descarga directa, sin captcha
 
-- **Archivo (la pieza real):** museos con Open Access de descarga directa — **The Met** (JPEG ~4000 px, botón *Download* / API), **Art Institute of Chicago** (IIIF `.../full/full/0/default.jpg` = nativo, 6000–10000 px), **Library of Congress** (TIFF), **Smithsonian Open Access** (CC0), **Rijksmuseum** (RM API), **Wikimedia Commons** (*Google Art Project* = 7000–20000 px).
+- **Archivo (la pieza real):** museos con Open Access de descarga directa — **The Met** (JPEG ~4000 px, botón *Download* / API), **Library of Congress** (TIFF), **Smithsonian Open Access** (CC0), **Rijksmuseum** (RM API), **Wikimedia Commons** (*Google Art Project* = 7000–20000 px).
 - **Stock libre (b-roll genérico ilustrativo, no la pieza real):** Pexels, Pixabay, Unsplash, Openverse (imagen) · Pexels Videos, Coverr, Mixkit (vídeo). APIs gratis. Solo donde el espectador lo lee como *cutaway*, no como "esto es lo real".
 - **No como fuente de descarga:** agregadores (ukiyo-e.org, Google Arts & Culture) — para **localizar**, no bajar. Sitios con captcha/temporizador (IMSLP y similares). Blogs, tiendas de prints, artículos. **Stock de pago** (Getty, Shutterstock, Storyblocks…) — fuera por regla actual.
 - Si el único sitio que la tiene es de acceso restringido → **hueco**: misma pieza en otro museo, o plan B (gráfico propio / recorte / AI / se corta).

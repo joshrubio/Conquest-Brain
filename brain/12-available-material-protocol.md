@@ -31,7 +31,7 @@ An idea is not approved until someone has confirmed, against real archive listin
 - Video: Pexels Videos, Coverr, Mixkit
 - All have free APIs → `tools/pull_assets.py` hits them at Stage 7 (`brain/06`), ~3 candidates/beat, into `07-style-pass.html`. Keys + per-source quirks (resolution caps, CDN blocks): `tools/README.md`.
 - **Prefer video.** A `stock` beat searches Pexels/Pixabay **video first**; images fill what video didn't. A usable clip goes straight into the edit instead of a hand-built move over a still.
-- Archive sources: **Met**, **Wikimedia Commons**, **AIC**.
+- Archive sources: **Met**, **Wikimedia Commons**.
 - Stock is illustrative, not evidentiary — use it where a viewer reads it as a cutaway, not "here is the real thing". If in doubt, label it or use an own-graphic.
 - Attribution: Pexels + Unsplash need platform + author credited in `09-description.md`; `--download` logs every item to `assets/CREDITS.md`.
 

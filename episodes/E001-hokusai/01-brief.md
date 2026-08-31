@@ -60,10 +60,10 @@ Sujeto **reconocible** ("La gran ola" es una de las imágenes más difundidas de
 
 | Necesidad | ¿Hay? | Archivo + ref | Derechos | Si no hay |
 |-----------|-------|---------------|----------|-----------|
-| Obra de Hokusai (grabados, ilustraciones, *La gran ola*, las 36 vistas, los *Manga*) | Sí, abundante | The Met Open Access (CC0), Art Institute of Chicago (CC0), British Museum, Rijksmuseum, Library of Congress, Wikimedia Commons | dominio público / CC0 | — |
+| Obra de Hokusai (grabados, ilustraciones, *La gran ola*, las 36 vistas, los *Manga*) | Sí, abundante | The Met Open Access (CC0), British Museum, Rijksmuseum, Library of Congress, Wikimedia Commons | dominio público / CC0 | — |
 | Retratos de Hokusai (el de su hija Ōi; autorretratos; el de Keisai Eisen) | Sí | Wikimedia, museos | dominio público | — |
 | Vistas de Edo del s. XVIII–XIX (mapas, grabados de la ciudad) | Sí | Library of Congress, colecciones ukiyo-e | dominio público | — |
-| Obra de Katsushika Ōi (su hija) | Sí, poca | Art Institute of Chicago y otros (CC0/PD) | dominio público | — |
+| Obra de Katsushika Ōi (su hija) | Sí, poca | Wikimedia Commons, museos japoneses y otros (CC0/PD) | dominio público | — |
 | El prefacio de 1834 (imagen del texto original) | Sí | ediciones digitalizadas de *Fugaku Hyakkei* (Internet Archive, museos) | dominio público | traducción propia en rótulo |
 | Datos para cualquier gráfico (línea de tiempo de nombres, mapa de mudanzas) | — | elaboración propia | propio | — |
 

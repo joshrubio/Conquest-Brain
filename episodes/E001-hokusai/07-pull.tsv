@@ -6,7 +6,7 @@
 #   kind:   stock     -> video (pexels+pixabay) FIRST, then images. Prefer motion.
 #           stock-img -> images only
 #           video     -> pexels+pixabay video only
-#           archive   -> the real artifact (met,commons,aic)
+#           archive   -> the real artifact (met,commons)
 #   opts:   n=3  motion=no|only  orientation=landscape  min=1920  must=hokusai
 #
 # stock = generic illustrative b-roll only, never "the real thing" (brain/12).
@@ -18,23 +18,23 @@ beat	kind	source	query	opts
 INTRO1	intro	intro	japan aerial cinematic landscape mountains	orientation=landscape;min=1920;n=3
 INTRO2	intro	intro	ukiyo-e woodblock print ink brush closeup	orientation=landscape;min=1920;n=3
 INTRO3	intro	intro	rough sea waves japan dramatic	orientation=landscape;min=1920;n=2
-2	archive	commons,aic,met	great wave off kanagawa	must=hokusai,kanagawa;n=3
-4	archive	commons,aic,met	hokusai portrait self portrait old	must=hokusai;n=3
-7	archive	commons,aic,met	edo japan busy street ukiyo-e	must=street;n=3
-9	archive	commons,aic,met	ukiyo-e illustrated book ehon album	must=book;n=3
-10	archive	commons,aic,met	katsukawa shunsho kabuki actor	must=shunsho;n=3
-11	archive	commons,aic,met	hokusai shunro early surimono	must=hokusai;n=3
-14	archive	commons,aic,met	nagasaki harbour dutch ship view	must=nagasaki;n=3
-17	archive	commons,aic,met	katsushika hokusai	must=hokusai;n=4
-21	archive	commons,aic,met	hokusai manga sketches figures	must=manga;n=3
-25	archive	commons,aic,met	thirty-six views of mount fuji	must=hokusai,fuji;n=3
-26	archive	commons,aic,met	fine wind clear morning south wind red fuji	must=hokusai,fuji;n=3
-30	archive	commons,aic,met	one hundred views of mount fuji	must=hokusai,fuji;n=3
-32	archive	commons,aic,met	hokusai painting old age	must=hokusai;n=3
-33	archive	commons,aic,met	fire conflagration edo city	must=fire;n=3
-34	archive	commons,aic,met	katsushika oi painting	must=katsushika;n=3
-36	archive	commons,aic,met	hokusai portrait	must=hokusai;n=3
-FG	archive	commons,aic,met	van gogh japonaiserie	must=gogh;n=3
+2	archive	commons,met	great wave off kanagawa	must=hokusai,kanagawa;n=3
+4	archive	commons,met	hokusai portrait self portrait old	must=hokusai;n=3
+7	archive	commons,met	edo japan busy street ukiyo-e	must=street;n=3
+9	archive	commons,met	ukiyo-e illustrated book ehon album	must=book;n=3
+10	archive	commons,met	katsukawa shunsho kabuki actor	must=shunsho;n=3
+11	archive	commons,met	hokusai shunro early surimono	must=hokusai;n=3
+14	archive	commons,met	nagasaki harbour dutch ship view	must=nagasaki;n=3
+17	archive	commons,met	katsushika hokusai	must=hokusai;n=4
+21	archive	commons,met	hokusai manga sketches figures	must=manga;n=3
+25	archive	commons,met	thirty-six views of mount fuji	must=hokusai,fuji;n=3
+26	archive	commons,met	fine wind clear morning south wind red fuji	must=hokusai,fuji;n=3
+30	archive	commons,met	one hundred views of mount fuji	must=hokusai,fuji;n=3
+32	archive	commons,met	hokusai painting old age	must=hokusai;n=3
+33	archive	commons,met	fire conflagration edo city	must=fire;n=3
+34	archive	commons,met	katsushika oi painting	must=katsushika;n=3
+36	archive	commons,met	hokusai portrait	must=hokusai;n=3
+FG	archive	commons,met	van gogh japonaiserie	must=gogh;n=3
 # --- cold-open hook (brain/02 §0): 2-5 planos, vídeo preferido ---
 HOOK1	stock	stock	dim traditional japanese tatami room candle dawn	orientation=landscape;min=1920;n=3
 HOOK2	stock	stock	old hands calligraphy brush ink paper close up	orientation=landscape;min=1920;n=3

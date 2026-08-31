@@ -13,7 +13,7 @@
 
 1 beat cada ~2–3 frases o cambio de sujeto · todo `[EN PANTALLA]` literal · `[EXPLICADOR]` = secuencia motion sin talking-head · `[PLANT]`/`[PAY]` = mismo plano · cierre reusa imágenes ya vistas · cifras dudosas → rótulo de salvedad.
 
-**Ritmo objetivo:** cold open 10–12 b/min · contexto 6–8 · narrativa 7–9 · cierre 4–6. Casi todo el material es **dominio público / CC0** (The Met, Art Institute of Chicago, British Museum, Rijksmuseum, LOC, Wikimedia).
+**Ritmo objetivo:** cold open 10–12 b/min · contexto 6–8 · narrativa 7–9 · cierre 4–6. Casi todo el material es **dominio público / CC0** (The Met, British Museum, Rijksmuseum, LOC, Wikimedia).
 
 ## A cámara (narrador: Usuario 002)
 
@@ -51,9 +51,9 @@
 | 22 | 6:25 | "un éxito de ventas… se reimprimieron durante décadas" | Varias ediciones/portadas de los *Manga* | (PD) | dominio público | — | apilado |
 | 23 | 6:45 | "un nieto… contrajo deudas y Hokusai las asumió" | Documento/pagaré de época (genérico) + rótulo | elaboración propia | propio | «década de 1830» | — |
 | 24 | 7:00 · `[PLANT 2]` | "llega a los setenta años arruinado… y es entonces… cuando hace la obra por la que hoy lo conocemos" | Retrato de Hokusai anciano (plano que se repite en el `[PAY]`) | S16 | dominio público | — | congelado + leve push-in |
-| 25 | Acto 3 · 7:20 | "*Treinta y seis vistas del monte Fuji*" | Cuadrícula con varias de las 36 vistas | S09 (CC0, The Met / AIC) | CC0 | «c. 1830–1832» | la cuadrícula se llena |
+| 25 | Acto 3 · 7:20 | "*Treinta y seis vistas del monte Fuji*" | Cuadrícula con varias de las 36 vistas | S09 (CC0, The Met / Wikimedia Commons) | CC0 | «c. 1830–1832» | la cuadrícula se llena |
 | 25b | 7:35 | "acabaron siendo cuarenta y seis… no cambió el título" | Contador: "36" tachado → "46"; se añaden láminas a la cuadrícula | elaboración propia | propio | «36 → 46» | animación |
-| 26 | 7:45 | "el Fuji desde un campo de arroz… entre los andamios de un tonelero… el Fuji rojo contra un cielo despejado" | Tres láminas concretas: "Tōkaidō Hodogaya" (campo/pinos), "Fujimigahara" (Fuji dentro del barril del tonelero), **"Gaifū kaisei" / "Fine Wind, Clear Morning"** (el "Fuji rojo" — NO *Sanka hakuu*, que es la del rayo) | S09 | CC0 (AIC / Met) | título de cada lámina | corte por lámina |
+| 26 | 7:45 | "el Fuji desde un campo de arroz… entre los andamios de un tonelero… el Fuji rojo contra un cielo despejado" | Tres láminas concretas: "Tōkaidō Hodogaya" (campo/pinos), "Fujimigahara" (Fuji dentro del barril del tonelero), **"Gaifū kaisei" / "Fine Wind, Clear Morning"** (el "Fuji rojo" — NO *Sanka hakuu*, que es la del rayo) | S09 | CC0 (Met / Wikimedia Commons) | título de cada lámina | corte por lámina |
 | 27 | 8:10 | "lo que llena la imagen es una ola gigante… tres barcas de pescadores" | «La gran ola», recorrido: garra de espuma → barcas → Fuji al fondo | S09 | CC0 | — | paneo dentro de la imagen |
 | 28 | 8:35 | "Hokusai tenía unos setenta años cuando la hizo" | «La gran ola» completa + rótulo de edad | S09 | CC0 | «~70 años» | estático |
 | 29 | 8:45 · `[PAY 2]` | "El hombre arruinado por las deudas del nieto… hizo eso a los setenta" | **Mismo plano que el beat 24** (retrato anciano) → disolvencia a «La gran ola» | S16 → S09 | dominio público / CC0 | — | idéntico al 24, luego disolvencia |
@@ -61,7 +61,7 @@
 | 31 | 9:30 | la escala de edades (73 → 80 → 90 → 100) | **Tarjeta de texto animada** con la escala (traducción propia), línea a línea | S01 | propio (traducción propia) | «traducción propia» | cada línea aparece |
 | 32 | 10:10 · `[EXPLICADOR 2]` | "Firmaba… *Gakyō Rōjin Manji*… «el viejo loco por la pintura»" | Firma tardía + traducción en rótulo | S13 | dominio público / traducción propia | «Gakyō Rōjin Manji — "el viejo loco por la pintura"» | zoom a la firma |
 | 33 | 10:35 | "Hacia 1839, un incendio destruyó su casa-taller" | Grabado de incendio urbano en Edo (los incendios eran frecuentes) | (PD) | dominio público | «c. 1839» (salvedad si no cierra) | resplandor / push-in |
-| 34 | 11:00 | "vivió con su hija, Katsushika Ōi, que también era pintora" | Obra de Katsushika Ōi (p. ej. escena nocturna) | S11 — obra de Ōi (CC0/PD, AIC) | CC0 / dominio público | «Katsushika Ōi» | push-in |
+| 34 | 11:00 | "vivió con su hija, Katsushika Ōi, que también era pintora" | Obra de Katsushika Ōi (p. ej. escena nocturna) | S11 — obra de Ōi (CC0/PD) · TODO: localizar holding con imagen libre (Met / Wikimedia Commons / museo japonés) | CC0 / dominio público | «Katsushika Ōi» | push-in |
 | 35 | 11:25 | "hoy los especialistas discuten cuánto… es en realidad de Ōi" | Split: dos obras tardías, una atribución dudosa | S11 | CC0 / PD | «atribución discutida» | comparación |
 | 36 | 11:40 · `[PLANT 3]` | "un hombre de más de ochenta años… sentado a dibujar junto a su hija" | Ilustración/retrato de Hokusai y Ōi trabajando (o composición de sus retratos) | S16 + S11 | dominio público | — | estático, cálido |
 | 37 | Desenlace · 12:00 | "Hokusai murió en Edo en 1849, con unos ochenta y ocho años" | Retrato anciano + rótulo «1849 · ~88 años» | S16 | dominio público | «1849» | fade a negro parcial |
@@ -93,7 +93,7 @@
 
 ## Faltantes / a conseguir
 
-- [ ] Ficha exacta de «La gran ola» a usar (The Met vs Art Institute of Chicago — ambos CC0) — S09
+- [ ] Ficha exacta de «La gran ola» a usar (The Met vs Wikimedia Commons — ambos CC0/PD) — S09
 - [ ] Retrato de Hokusai anciano: confirmar autor y ficha (¿el de Ōi? ¿el de Keisai Eisen?) — S16
 - [ ] Edición digitalizada del colofón de *Fugaku Hyakkei* 1834 — S01
 - [ ] Obra concreta de Katsushika Ōi con derechos claros — S11
