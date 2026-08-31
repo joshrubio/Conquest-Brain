@@ -25,7 +25,7 @@ Documentation, templates, per-episode folders, and the `tools/` that run the pip
 | `episodes/` | One folder per episode. `_TEMPLATE-episode-folder/` to copy; `E000-EXAMPLE-*` worked reference; `_STATUS.md` master index. |
 | `ideas/` | Two **tracks** (`tracks.md`): T01 Historias Inspiradoras (Carmen), T02 Exploración (Josh) → **idea pool** (`idea-pool.md`), scored with `idea-rubric.md`. |
 | `research/` | Reverse-engineering the Dieck Docs format from transcripts (kept local — copyright). |
-| `tools/` | `factcheck.py` · `build_ai_prompts.py` · `pull_assets.py` (Stage 7 hub) · `build_idea_pitch.py` · `kenburns.py` · `trim_talk.py` · `edit_review.py` · `find_music.py`. Keys in `tools/.env` (gitignored). |
+| `tools/` | `factcheck.py` · `build_ai_prompts.py` · `pull_assets.py` (Stage 7 hub) · `kenburns.py` · `trim_talk.py` · `edit_review.py` · `find_music.py` · `idea_review.py` · `package_review.py` · `review_ui.py`. Keys in `tools/.env` (gitignored). |
 | `brand/` | `naming-exploration.md`; `assets/` — avatar, banner, music. |
 
 ## Core non-negotiables (full text in [docs/00-project-charter.md](docs/00-project-charter.md))
@@ -48,6 +48,6 @@ Documentation, templates, per-episode folders, and the `tools/` that run the pip
 
 - **Brand:** decided (name, channel type, spelling, category, palette, grade, typography, case-file device, 4K). To do: secure `@exodochannel` on IG/TikTok, produce logo SVG + thumbnail template, re-export banner at 2560×1440, trademark clearance (class 41, lawyer, before registering).
 - **Format specs (`docs/02`, `08`, `09`) are v1** — validated against 6 Dieck Docs transcripts.
-- **Idea pool:** 21 ideas + a pitch PDF (`ideas/idea-pool.pdf`, gitignored).
+- **Idea pool:** 21 ideas. `python tools/idea_review.py` → `ideas/idea-review.html` for Carmen to score + pick hook-titles.
 - **E001 Hokusai** in production — stuck at Stage 5 (Carmen's Layer 3 sign-off + closing S15/S19/S20).
 - **Music:** Jamendo pool built; pick 3–5 beds from the Music section of the photography pass.

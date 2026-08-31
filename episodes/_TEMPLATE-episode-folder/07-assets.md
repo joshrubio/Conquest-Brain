@@ -1,14 +1,14 @@
 # Manifiesto de recursos — E0XX «<título>»
 
 > **Stage 7.** Resuelve cada beat archivístico del shotlist a **una imagen concreta**, con enlace directo, y registra el **pase de fotografía** (¿encaja con la estética del vídeo?). Los beats de gráfico propio no van aquí — van al brief de diseño.
-> Depende de: `06-shotlist.md` (los beats) · `docs/03` §Visual direction (el look/grade de la serie) · `material-search.md` (qué existe).
+> Depende de: `06-shotlist.md` (los beats) · `docs/03` §Visual identity (grade, paleta, tipografía) · `material-search.md` (qué existe).
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E0XX |
 | Responsable | Josh |
 | Look de referencia | (grade / grano / letterbox / tratamiento de la serie — de `docs/03`) |
-| Salida del canal | (1080p o 4K — de `docs/03`) |
+| Salida del canal | 4K (3840×2160) — `docs/03` |
 | Fecha | AAAA-MM-DD |
 
 ## Estándar de resolución
@@ -83,4 +83,4 @@ Marca cada candidato:
 - [ ] Coherencia de color/estado revisada por tramos, no solo por imagen
 - [ ] Créditos de cortesía anotados para el bloque de descripción (`09-description.md`)
 - [ ] Descargas hechas a `assets/` con nombres consistentes
-- [ ] `docs/03` §Visual direction cerrado — sin el look de la serie el pase no es definitivo
+- [ ] `docs/03` §Visual identity (grade, tipografía, dispositivo de expediente) — ya cerrado

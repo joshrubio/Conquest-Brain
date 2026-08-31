@@ -2,6 +2,8 @@
 
 Pipeline for one episode. Stages are gated: do not start a stage until the previous gate is signed. Files live in `episodes/E0XX-<slug>/`, numbered to match the stages.
 
+**Review pages.** Four stages hand off to a generated dark-theme HTML instead of a markdown table — Carmen or Josh works in the browser, hits *Exportar*, and Claude folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 7 `07-photography-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record.
+
 ## Stage 0 — Ideation
 - Track owner proposes the idea: **T01 Historias Inspiradoras** (Carmen) or **T02 Exploración** (Josh) — see [ideas/tracks.md](../ideas/tracks.md).
 - **Protocol 2 — Hook Naming** ([docs/13](13-hook-naming.md)): 3 hook-title variants, Dieck register.
@@ -36,8 +38,8 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - Protocol: [docs/14-fact-check-protocol.md](14-fact-check-protocol.md). Three layers:
   - **L1 deterministic:** `python tools/factcheck.py 05-script.md 03-source-log.csv` → must PASS.
   - **L2 LLM-assisted:** run [templates/fact-check-auto-prompt.md](../templates/fact-check-auto-prompt.md); resolve every flag against the real source.
-  - **L3 human:** **Carmen** (did not write it — Josh always does) completes [templates/fact-check-sheet.md](../templates/fact-check-sheet.md) + the legal/ethics ([docs/04](04-legal-and-ethics.md)) and separation ([docs/05](05-separation-policy.md)) passes, and signs.
-- **Gate (hard):** L1 PASS; all L2 flags resolved; `04-fact-check.md` signed by Carmen; legal + separation clear.
+  - **L3 human:** **Carmen** (did not write it — Josh always does) completes [templates/fact-check-sheet.md](../templates/fact-check-sheet.md) + the legal/ethics ([docs/04](04-legal-and-ethics.md)) and independence/COI ([docs/05](05-separation-policy.md)) passes, and signs.
+- **Gate (hard):** L1 PASS; all L2 flags resolved; `04-fact-check.md` signed by Carmen; legal + COI clear.
 
 ## Stage 6 — Shotlist / B-roll  → `06-shotlist.md`
 - Template: [templates/shotlist-broll.md](../templates/shotlist-broll.md). Method: [docs/11-visual-rhythm.md](11-visual-rhythm.md).
@@ -52,7 +54,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **1. Candidate pull (`tools/pull_assets.py`):** write `07-pull.tsv` (one row per beat that needs an image/clip: beat, kind `stock|stock-img|video|archive|intro`, source, query, opts; `n=3` per beat). `stock` beats return **video first** (Pexels/Pixabay); `INTRO1…` rows with kind `intro` search high-impact cold-open footage. Run `build_ai_prompts.py` first so the AI prompts show in the pass. `python tools/pull_assets.py E0XX-slug` hits the free APIs (Met, Wikimedia Commons, AIC, Pexels, Pixabay, Unsplash, Openverse) → **`07-photography-pass.md`** (git record) + **`07-photography-pass.html`**.
 - **2. Photography pass (Josh, manual) — in `07-photography-pass.html`:**
   - **Intro row (top):** the cold open (docs/02 §0). Up to 5 inputs for your own paths/links + the suggested `intro` clips + an "intro" checkbox on any card below. Export order = own (1–5) → suggested → cards.
-  - **Left column:** the pulled candidates per beat. Judge each thumbnail on resolution (vs. the template standard) / condition / colour / crop / sequence coherence against the series look ([docs/03](03-brand-identity.md) §Visual direction); tick the keepers.
+  - **Left column:** the pulled candidates per beat. Judge each thumbnail on resolution (vs. the template standard) / condition / colour / crop / sequence coherence against the series look ([docs/03](03-brand-identity.md) §Visual identity); tick the keepers.
   - **Right column:** the `07b-ai-prompts.md` prompts. For a beat the pull didn't cover: copy the prompt, generate, paste the image path/URL into that prompt's input.
   - **Music section (bottom):** the pool from `tools/find_music.py` (ominous-ambient beds, CC-BY/BY-SA/CC0). Audition inline, tick the ones to keep — early on, all of them; the channel settles on 3–5 (`docs/16` move 4).
   - **Exportar 07-picks.txt** (saves into the episode folder) writes all of it. Then `python tools/pull_assets.py E0XX-slug --download` pulls into `assets/{intro,stock,video,archive}/`, copies AI images into `assets/ai/`, downloads ticked music into `brand/assets/music/` + `LICENSES.md`, verifies resolution, appends `assets/CREDITS.md`, writes **`07-selection.md`**, prints manifest rows. (No browser? tick `- [x]` in `07-photography-pass.md` for beats; intro/AI/music need the picker.)

@@ -37,7 +37,7 @@ Desktop.ini
 .vscode/
 .idea/
 
-# Generated pitch PDFs (regenerate with tools/build_idea_pitch.py)
+# Generated PDFs
 ideas/*.pdf
 
 # API keys for tools/pull_assets.py
