@@ -2,8 +2,12 @@
 description: Drena la cola del dashboard (episodes/_queue.json) — hazlo pendiente, avanza gates, respeta el techo de auto-avance. Úsalo con /loop.
 ---
 
-Atiende el dashboard de Exodo. **Lee SOLO `episodes/_queue.json`** — no explores el repo.
+Atiende el dashboard de Exodo. **Lee SOLO `episodes/_loop.json` y `episodes/_queue.json`** — no explores el repo.
 
+0. Lee `episodes/_loop.json`:
+   - `{"state":"stop"}` → responde «loop cerrado» y **NO reprogrames** (el loop termina aquí).
+   - `{"state":"pause"}` → responde «pausado» en una línea, marca noop, y programa el próximo tick largo (20 min). No hagas trabajo.
+   - `{"state":"run"}` o ausente → continúa.
 1. Si la cola está vacía: dilo en una línea y termina (el /loop dormirá).
 2. Por cada entrada `{ep, stage, action, reads, rules, produces, note}`:
    - Lee **únicamente** los ficheros de `reads` + los docs de `rules`. Nada más.

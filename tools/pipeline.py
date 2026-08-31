@@ -17,7 +17,21 @@ ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 STATUS_F = EP_DIR / "_STATUS.md"
 QUEUE_F = EP_DIR / "_queue.json"          # gitignored — the loop's to-do list
+LOOP_F = EP_DIR / "_loop.json"            # gitignored — the loop's run/pause/stop signal
 PORT = 8765
+
+
+def read_loop():
+    if LOOP_F.exists():
+        try:
+            return json.loads(LOOP_F.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            pass
+    return {"state": "run"}
+
+
+def write_loop(state, note=""):
+    LOOP_F.write_text(json.dumps({"state": state, "note": note}, ensure_ascii=False), encoding="utf-8")
 
 # fold kinds:
 #   mech   — advance.py folds it in python, no agent

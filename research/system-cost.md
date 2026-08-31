@@ -1,6 +1,6 @@
 # Consumo del sistema — tokens vs. plan Claude Pro
 
-> **Estimación, no medición.** Cifras Fermi por etapa, marcadas con su incertidumbre. Recalíbralo con datos reales tras cada episodio (ver §Calibración). Los límites del plan Pro no los publica Anthropic con exactitud y cambian — los rangos de abajo son a fecha **2026-09**; actualízalos.
+> **Estimación, no medición.** Cifras Fermi por etapa, marcadas con su incertidumbre. Recalíbralo con datos reales tras cada episodio (ver §Calibración). Los límites del plan Pro no los publica Anthropic con exactitud y cambian — los rangos de abajo son a fecha **2026-08**; actualízalos.
 >
 > Se abre desde el botón **«Consumo»** del dashboard (`tools/dash.py` → `cost.html`).
 
@@ -41,7 +41,7 @@ Cuántos **tokens de Claude** consume producir un episodio de Exodo-brain, y qu�
 
 **Neto:** el dashboard **ahorra ~10–20 % por episodio** en el flujo activo. El `/loop` solo cuesta si lo dejas abierto sin trabajar; con sleeps largos y caché, el reposo es del orden de un fact-check por cada 4–8 h ociosas. Recomendación: cerrar el `/loop` en pausas largas.
 
-## Contra el plan Claude Pro (rangos 2026-09 — verificar)
+## Contra el plan Claude Pro (rangos 2026-08 — verificar)
 
 Claude Pro (~20 USD/mes) usa un límite móvil que **se reinicia cada 5 h** más un **tope semanal**. Anthropic no publica el número exacto de tokens; en uso tipo Claude Code, estimaciones de comunidad y observación propia:
 
@@ -65,7 +65,7 @@ Claude Pro (~20 USD/mes) usa un límite móvil que **se reinicia cada 5 h** más
 
 | Fecha | Versión (commit) | Episodio | Tokens estimados | Tokens reales | Notas |
 |-------|------------------|----------|------------------|---------------|-------|
-| 2026-09 | 044d753 (dashboard) | — | ~1.1 M/episodio (modelo) | — | primera línea base; sin medición real todavía |
+| 2026-08 | 044d753 (dashboard) | — | ~1.1 M/episodio (modelo) | — | primera línea base; sin medición real todavía |
 | — | pre-044d753 | — | ~1.25 M/episodio (modelo) | — | +10–20 % por folds manuales |
 
 ## Cómo se actualiza

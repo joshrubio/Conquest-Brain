@@ -125,6 +125,13 @@ def build():
             btns.append(f'<button class="btn primary" data-adv="{epid}">▶ Avanzar a Stage {sm.get("next","?")}</button>')
         elif d["gate"] == "exportado":
             btns.append('<span class="tag warn">exportado — falta plegar</span>')
+        reads = sm.get("reads", [])
+        rules = sm.get("rules", [])
+        manifest = ""
+        if sm.get("fold") == "claude" and (reads or rules):
+            manifest = ('<details class="man"><summary>Contexto que leerá Claude en este stage</summary>'
+                        + "<div>" + " · ".join(f"<code>{e(x)}</code>" for x in reads + rules)
+                        + " — <b>y nada más</b></div></details>")
         cards.append(
             f'<div class="epc">'
             f'<div class="epch"><b>{e(epid)}</b> · {e(d["title"] or d["slug"])} '
@@ -135,6 +142,7 @@ def build():
             + (f' · auto-avance hasta {d["auto"]}' if d["auto"] < 12 else "")
             + '</div>'
             + (f'<div class="notes">{e(d["notes"])}</div>' if d["notes"] else "")
+            + manifest
             + f'<div class="btns">{"".join(btns)}</div>'
             '</div>')
 
@@ -157,9 +165,25 @@ async function post(path,body){{
 document.querySelectorAll('[data-adv]').forEach(b=>b.onclick=()=>post('/advance',{{ep:b.dataset.adv}}));
 document.querySelectorAll('[data-human]').forEach(b=>b.onclick=()=>{{
   const [ep,st]=b.dataset.human.split(':'); post('/human',{{ep,stage:+st}});}});
+document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
+  await post('/loop',{{state:b.dataset.loop}});}});
+const cu=document.getElementById('costupd'); if(cu)cu.onclick=()=>post('/cost-update',{{}});
 """
+    loop_state = P.read_loop().get("state", "run")
+    lbadge = {"run": "▶ activo", "pause": "⏸ pausado", "stop": "⏹ cerrado"}.get(loop_state, loop_state)
+    tips = (
+        '<details class="tips"><summary>💡 Cómo no gastar tokens</summary><ul>'
+        '<li><b>Reparte</b> research (Stage 2) y guion (Stage 4) en sesiones distintas de 5 h — juntas rozan el límite de la ventana.</li>'
+        '<li>Para ahorro <b>real</b>: cierra el <code>/loop</code> con <b>Ctrl+C</b> o cerrando la sesión. «Pausar» detiene el trabajo pero cada tick sigue costando algo.</li>'
+        '<li>Deja que el server plegue los gates <b>mecánicos</b> (0·2·7·9·10) — no le pidas a Claude que lo haga.</li>'
+        '<li>Una frase corta basta: «sigue». No repitas el contexto ni el estado — ya está en <code>_STATUS.md</code> y <code>_queue.json</code>.</li>'
+        '<li><b>Nunca</b> «revisa el proyecto» / «lee los docs». El manifiesto de cada card dice exactamente qué se lee.</li>'
+        '<li>Un episodio de una sola tirada roza el tope de 5 h — <b>párate tras el guion</b> y retoma en otra sesión.</li>'
+        '<li>Fija el <b>auto-avance</b> en <code>_STATUS.md</code> bajo el stage donde quieres revisar, para que el loop pare ahí.</li>'
+        '</ul></details>')
     body = (
-        '<section><h2>En producción</h2>'
+        tips
+        + '<section><h2>En producción</h2>'
         + ("".join(cards) if cards else '<p class="muted">Ningún capítulo en producción. '
            'Añade una fila a <code>episodes/_STATUS.md</code> o aprueba una idea.</p>')
         + '</section>'
@@ -184,10 +208,21 @@ document.querySelectorAll('[data-human]').forEach(b=>b.onclick=()=>{{
              'table.kpi{width:100%;border-collapse:collapse;font-size:.82rem}'
              'table.kpi td,table.kpi th{border-top:1px solid var(--line);padding:.4rem .55rem;text-align:left}'
              'table.kpi th{color:var(--muted)}'
+             'details.tips{border:1px solid var(--gold);border-radius:10px;background:var(--gold-soft);'
+             'padding:.6rem .9rem;margin:0 0 1.5rem}'
+             'details.tips summary{cursor:pointer;font-weight:600;color:var(--bone)}'
+             'details.tips ul{margin:.6rem 0 .2rem;font-size:.85rem}details.tips li{margin:.35rem 0}'
+             'details.man{font-size:.78rem;color:var(--muted);margin:.4rem 0}'
+             'details.man summary{cursor:pointer}details.man code{font-size:.72rem}'
+             'header .btn{font-size:.78rem;padding:.35rem .6rem}'
              '</style>')
     hd = ('<h1>Exodo · dashboard</h1>'
-          '<span class="count">estado de cada capítulo · se regenera al cerrar cada gate</span>'
-          + ('<a class="btn" href="cost.html" style="margin-left:auto">Consumo del sistema</a>'
+          f'<span class="count">loop: <b>{lbadge}</b></span>'
+          '<button class="btn" data-loop="pause">⏸</button>'
+          '<button class="btn" data-loop="run">▶</button>'
+          '<button class="btn" data-loop="stop">⏹ cerrar loop</button>'
+          + ('<a class="btn" href="cost.html" style="margin-left:auto">Consumo</a>'
+             '<button class="btn" id="costupd">Actualizar plan</button>'
              if COST_MD.exists() else ''))
     return ("<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\">"
             "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"

@@ -97,12 +97,29 @@ class H(BaseHTTPRequestHandler):
             _run(["dash.py"])
             return self._send(200, json.dumps({"ok": True, "msg": _run(["advance.py", "next", ep])}))
 
+        if path == "/loop":
+            state = data.get("state", "run")
+            P.write_loop(state, data.get("note", ""))
+            _run(["dash.py"])
+            hint = {"run": "el loop trabajará en el próximo tick",
+                    "pause": "el loop no hará nada hasta reanudar (sigue gastando algo por tick — Ctrl+C para ahorro real)",
+                    "stop": "el loop terminará en su próximo tick"}.get(state, "")
+            return self._send(200, json.dumps({"ok": True, "msg": hint}))
+
+        if path == "/cost-update":
+            return self._send(200, json.dumps({"ok": True, "msg": _run(["cost_update.py"])}))
+
         self._send(404, json.dumps({"error": "unknown endpoint", "path": path}))
 
 
 if __name__ == "__main__":
     _run(["dash.py"])
-    srv = ThreadingHTTPServer(("127.0.0.1", P.PORT), H)
+    try:
+        srv = ThreadingHTTPServer(("127.0.0.1", P.PORT), H)
+    except OSError:
+        print(f"El puerto {P.PORT} ya está en uso — probablemente el server ya corre. "
+              f"Abre  http://localhost:{P.PORT}")
+        sys.exit(0)
     print(f"Exodo dashboard  ->  http://localhost:{P.PORT}   (Ctrl+C para parar)")
     try:
         srv.serve_forever()

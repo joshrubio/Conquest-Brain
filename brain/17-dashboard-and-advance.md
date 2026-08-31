@@ -62,6 +62,20 @@ agent finishes it. Simple ones (idea → creates the folder; assets → runs
 Without the server: the finish button downloads the `.txt`; run
 `python tools/advance.py fold E0XX` then `python tools/advance.py next E0XX`.
 
+## Controlar el loop
+
+El navegador no puede matar un `/loop` de Claude Code — solo señalarlo. `episodes/_loop.json` (`{state: run|pause|stop}`) lo escriben los botones ⏸ ▶ ⏹ del dashboard; `atiende` lo lee **antes que nada** cada tick:
+
+- `stop` → el tick reporta y no reprograma → el loop dinámico termina.
+- `pause` → noop + sleep largo. **Ojo:** cada tick sigue costando el overhead (cacheado). Para ahorro real, `Ctrl+C` o cerrar la sesión.
+- `run` → trabaja.
+
+Reanudar de verdad = volver a lanzar `/loop atiende el dashboard`.
+
+## Ahorro de tokens
+
+El dashboard incluye la burbuja «Cómo no gastar tokens» y, por card, el **manifiesto de contexto** (los `reads` + `rules` del stage — lo único que el agente debe abrir). El reporte vive en `research/system-cost.md` → botón «Consumo»; el botón «Actualizar plan» corre `tools/cost_update.py` (bumpea fecha, marca filas viejas, añade una fila de Historial con hueco para el `/usage` real).
+
 ## The `/loop` (optional layer)
 
 `/loop atiende el dashboard` — each tick reads **only** `episodes/_queue.json`:
