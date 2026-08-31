@@ -13,9 +13,9 @@ The project lives **locally + GitHub**. This repo (`D:\Conquest-Brain` locally) 
 
 ## Repo
 
-- Local path: `D:\Conquest-Brain` (was `D:\Exodo-brain`; before that `D:\Youtube`). **Rename the folder on disk to match** — nothing in the repo hard-codes the path except this line.
+- Local path: currently `D:\Exodo-brain` on disk. **Rename the folder to `D:\Conquest-Brain`** (close editors/terminals first) — nothing in the repo hard-codes the path except this line.
 - Default branch: `main`
-- Remote: **`https://github.com/joshrubio/Conquest-Brain.git`** (account: `joshrubio`). Rename the GitHub repo `Exodo-Brain → Conquest-Brain`, then `git remote set-url origin https://github.com/joshrubio/Conquest-Brain.git` (GitHub redirects the old URL, but update it). **Private** (set 2026-08-29) — it holds unpublished scripts, editorial internals, real names.
+- Remote: **`https://github.com/joshrubio/Conquest-Brain.git`** (account: `joshrubio`). Renamed from `Exodo-Brain` on 2026-08-31 (`gh repo rename`); the local `origin` URL was updated the same day. GitHub redirects the old URL. **Private** (set 2026-08-29) — it holds unpublished scripts, editorial internals, real names.
 - First push done 2026-08-29 (`main` tracks `origin/main`).
 
 ### Day-to-day
