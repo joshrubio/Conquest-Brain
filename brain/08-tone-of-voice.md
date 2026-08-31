@@ -9,7 +9,7 @@ authority: canonical
 
 # 08 — Tone of Voice
 
-> **Status: v1 — validated against 6 Dieck Docs transcripts (2026-08-27)** (`research/dieck-docs/structure-analysis.md`). v0 → v1 changes: **direct "tú" is now used throughout the episode**, not only in the takeaway (that was wrong in v0); added the first-person investigator voice; verbal uncertainty markers are now a required habit; clarified where we deliberately diverge from Dieck (he moralizes lightly in his closes — we keep ours lighter, for the journalism brand).
+> **Status: v1 — validated against 6 Dieck Docs transcripts (2026-08-27)** (`research/dieck-docs/structure-analysis.md`). v0 → v1 changes: **direct "tú" is now used throughout the episode**, not only in the takeaway (that was wrong in v0); added the first-person investigator voice; verbal uncertainty markers are now a required habit; clarified where we deliberately diverge from Dieck (he moralizes lightly in his closes — we keep ours lighter). v1.1 (2026-09): the reflection has four registers, incl. philosophical/religious, always attributed — see `brain/09`.
 
 Applies to every script regardless of narrator. Two narrators (Usuario 002, Usuario 001) — the **channel voice is one**; personal delivery differs, the writing standard does not.
 
@@ -19,7 +19,7 @@ Applies to every script regardless of narrator. Two narrators (Usuario 002, Usua
 - **Curiosity over verdict.** We investigate, we don't prosecute. The audience reaches the judgment; we lay out the record.
 - **Teacherly, not lecturing.** Dieck's voice is a knowledgeable friend explaining something interesting. Warm, direct, patient with the audience — but never preachy.
 - **Respect for the subject**, including subjects who did wrong. No contempt, no mockery, no gloating at a downfall.
-- **Light hand on the moral.** Dieck often ends with "sería genial que como sociedad aprendiéramos a…". We may state what the case suggests, but keep it shorter and more observational than exhortative. State the mechanism; let the viewer draw the ought.
+- **Light hand on the moral.** Dieck often ends with "sería genial que como sociedad aprendiéramos a…" or "que esto nos sirva de advertencia" (T05, T07). We may state what the case suggests — including a philosophical or religious reading, attributed — but keep it shorter and more observational than exhortative. Name the mechanism or the tension; let the viewer draw the ought. Never a call to believe or to "be better as a society".
 - **Restraint in the payoff.** The insight lands harder when the delivery is quiet.
 
 ## 2. First-person investigator voice

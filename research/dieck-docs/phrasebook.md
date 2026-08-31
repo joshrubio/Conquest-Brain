@@ -93,6 +93,12 @@ Legend: which transcript each came from in (parens).
 - "…la neurociencia formalizó el término resonancia límbica…" (T01)
 - "…lo que los hindúes llamaban el archivo akásico, lo que Carl Jung describió como el inconsciente colectivo, o lo que Platón denominó el mundo de las ideas." (T01)
 
+### 11b. Registro filosófico / religioso (T07 — a corregir)
+
+- Mini-cátedra sobre un concepto religioso, en tono neutro: "…la iglesia de Eli se llama la tercera revelación. Algunos creyentes piensan que la primera revelación fueron los mandamientos dados a Moisés, la segunda la llegada y enseñanzas de Jesús, y la tercera podría ser cualquier persona llena del espíritu santo que clame tener poderes divinos." (T07) — *expone la idea, ni predica ni se burla.*
+- Mecanismo moral rastreado: "un retrato desgarrador de cómo las virtudes, cuando se desvían hacia el extremo, se convierten en venenos." (T07)
+- Nota existencial **sin atribuir** (lo que NO hacemos): "el éxito externo no puede llenar un vacío interior." (T07) → nosotros lo atribuiríamos a una tradición o pensador y le pondríamos `[S..]`.
+
 ## 12. Directed question to the viewer (mid-episode and at close)
 
 - "¿Qué piensas tú? ¿Es Dick ingenuo al rechazar el patrocinio, especialmente cuando se trata de dinero fácil? ¿O crees que hay cosas más valiosas que no deberían comprometerse por dinero?" (T05)
@@ -116,6 +122,7 @@ Closing each option honestly:
 - "Creo que todos podemos aprender algo de esta historia. Sea cierta o no la teoría… lo que sí podemos hacer es manipular nuestra forma de entender y comportarnos en el mundo. Ser más conscientes de por qué hacemos lo que hacemos podría ser el primer paso…" (T01)
 - "Pero en realidad, yo creo que ni Rey ni Ethel estaban equivocados, simplemente tenían visiones radicalmente diferentes de lo que significa la felicidad." (T05)
 - "La verdadera riqueza no solo se mide en billetes. Yo creo que sería genial que como sociedad aprendiéramos a valorar y admirar más a personas como los hermanos McDonald…" (T05) — *note: this is the "light moralizing" we keep shorter (brain/08 §1)*
+- "Que la historia de Daniel nos sirva de advertencia sobre el riesgo de permitir que los peores aspectos de nosotros mismos controlen nuestras vidas, que nos impulse a reflexionar sobre nuestras propias metas… buscar un equilibrio que nos permita avanzar sin perder nuestra humanidad." (T07) — ***el cierre predicador que NO hacemos.*** El mecanismo ("las virtudes desviadas se vuelven venenos", "los logros no llenan un vacío interior") es bueno; la coda de sermón sobra.
 
 ## 15. Close — Form B (distributed lesson)
 

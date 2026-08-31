@@ -22,7 +22,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | research a case / build the source-log | `01`, `05`, `12` |
 | outline an episode | `02`, `09` |
 | write the script | `02`, `08`, `09`, `01` |
-| write the close / reflection | `09`, `08` |
+| write the close / reflection (any register) | `09`, `08`, `01` |
 | fact-check a script | `14`, `01`, `04` |
 | build the shotlist | `11`, `02`, `06` (Stage 6) |
 | pick assets / images / music | `12`, `15`, `03` |
@@ -47,7 +47,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | 06 | production-workflow | all | the 12 gated stages, the 5 review pages, per-stage roles, Definition of Done |
 | 07 | publishing-seo-metrics | 10·11·12 | cadence, title/thumbnail rules, description blocks, KPIs + KPI log |
 | 08 | tone-of-voice | 4 | register, first-person investigator, neutral Spanish, uncertainty phrasing, never-do list |
-| 09 | reflection-rules | 1·3·4 | the close in forms A/B/C, the surgical test, failure modes |
+| 09 | reflection-rules | 1·3·4 | the close in forms A/B/C × four registers (psych / practical / philosophical / religious), the surgical test, failure modes |
 | 10 | repo-and-git-workflow | all | repo layout, what's versioned, branching, commit-message convention |
 | 11 | visual-rhythm | 4·6·9 | shots planned from the locked script; beat rates; visual-type menu |
 | 12 | available-material-protocol | 0·2·7 | PD archives list, per-idea worksheet, stock rules, music licensing, subject-with-no-photo |

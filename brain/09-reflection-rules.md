@@ -1,19 +1,43 @@
 ---
 doc: 09-reflection-rules
-summary: "The close in its three forms (A reflection+takeaway / B distributed lesson / C open question), the surgical test, failure modes."
+summary: "The close in three forms (A takeaway / B distributed / C open question), across four registers (psychological, practical, philosophical, religious — the last two attributed + sourced), the surgical test, failure modes."
 stage: [1, 3, 4]
-read_when: "choosing the close form in the brief; writing or checking the close"
+read_when: "choosing the close form + register in the brief; writing or checking the close"
 pairs_with: [02-content-format, 08-tone-of-voice, 01-editorial-and-sourcing]
 authority: canonical
 ---
 
 # 09 — Reflection & Takeaway Rules
 
-> **Status: v1 — validated against 6 Dieck Docs transcripts (2026-08-27)** (`research/dieck-docs/structure-analysis.md`). Major v0 → v1 change: the reflection is **not always a discrete final block**. The reference set uses three forms — a final reflection+takeaway, a lesson distributed through the last third, and an open question to the audience. All three are legitimate. Also: the close is smaller than v0 assumed (8–20% of runtime, not 20–30%), and Dieck plants the reflection's mechanism via foreshadowing long before the close.
+> **Status: v1.1 — v1 validated against 6 Dieck transcripts (2026-08-27); v1.1 adds the four registers of the reflection (2026-09, from T07 *Petróleo sangriento*).** The reflection is **not always a discrete final block** — three forms (A/B/C), all legitimate. The close is 8–20% of runtime; its anchor is planted via foreshadowing long before it lands. **New in v1.1:** the reflection draws on four registers, not one — psychology, practicality, philosophy, and religion/spirituality — and any specific philosophical or religious idea is **attributed to a thinker / school / tradition and sourced `[S..]`**, same standard as a fact.
 
 Covers the **close** (section 3 in [02-content-format.md](02-content-format.md)) in all three of its forms.
 
-## 0. Choose the form in the brief
+## 0. Choose the form — and the register(s) — in the brief
+
+The **form** (A/B/C, §below) is *how* the reflection is delivered. The **register** is *what kind of idea* it lands on. Both are Stage-1 decisions, revisited after the research dossier. Don't discover either in the edit.
+
+## The four registers
+
+The channel's reflection is not "psychology + a life hack". A case can genuinely open onto any of four kinds of idea. Pick the one(s) the case **actually raises** — never bolt a register on.
+
+| Register | What it lands on | Example anchors | Sourcing |
+|----------|------------------|-----------------|----------|
+| **Psychological** | a human mechanism — why people behaved as they did | prueba social, coste hundido, disonancia, indefensión aprendida, identidad y pertenencia, la esperanza como sesgo | name the concept; a specific study/theorist → `[S..]` (§A6) |
+| **Practical** | one usable idea the viewer can act on | "distingue la decisión reversible de la irreversible", "el coste de mantener la coherencia" | must follow from the case — the surgical test (§A10) |
+| **Philosophical** | an idea about meaning, value, virtue, freedom, mortality, the good life | Aristóteles (la virtud como término medio — y su reverso: la virtud llevada al extremo, T07); los estoicos (lo que depende de ti); Frankl (sentido); Arendt (la banalidad del mal); Sandel (lo que el dinero no debería comprar, T05); Camus (lo absurdo) | **name the thinker + the work; `[S..]` like any claim.** Present as *an idea*, not a verdict: "hay una lectura estoica de esto…" |
+| **Religious / spiritual** | how a faith tradition or a religious thinker has framed the same human question | la parábola de los talentos; Eclesiastés ("vanidad de vanidades"); Kierkegaard (la desesperación); Simone Weil (la atención); el desapego budista; **el propio Éxodo** (dejar atrás la versión oficial falsa) | **name the tradition + the text; `[S..]`.** Present as *an idea people have held*: "el cristianismo lo formula como…", "una tradición… lo expresa así" |
+
+### Rules for the philosophical & religious registers
+
+1. **Attribute and source, always.** A philosophical or religious idea stated in the narrator's own voice, unattributed, is the T07 failure ("el éxito externo no llena el vacío interior" — true or not, it needs a name behind it). Name the thinker / school / text; log it in `03-source-log.csv` with `[S..]`.
+2. **The channel endorses no religion and no philosophy.** Frame every idea as *an idea*: "para un existencialista…", "la tradición estoica sostiene que…", "el budismo lo llama…". Never "la verdad es que…", never a call to believe.
+3. **Respect a plural audience.** The charter audience includes people of faith *and* secular viewers ([00-project-charter.md](00-project-charter.md)). A religious idea is offered as one lens among several — often alongside a secular one on the same question. Never proselytize; never mock; never treat a believer or a non-believer as naïve.
+4. **The `Éxodo` lens is allowed, as motive not doctrine.** The founders' own frame — leaving because the official version was a lie — can recur as a *reading* of a case about truth, exile, or starting over. It is never used to push a religious interpretation onto a secular case.
+5. **Still no preaching** ([08-tone-of-voice.md](08-tone-of-voice.md) §1). A philosophical close *names the tension* and stops. It does not resolve the viewer's life, and it does not end on "deberíamos, como sociedad…".
+6. **Registers combine.** The strongest closes hold two: a mechanism *and* the philosophical question it raises (T07: narcissism *and* "virtues taken to the extreme become poisons"). Two is the ceiling — a close that touches all four is a sermon.
+
+## 1. Choose the form in the brief
 
 | Form | When it fits | Reference |
 |------|--------------|-----------|
@@ -28,10 +52,12 @@ The form is a Stage-1 decision, revisited after the research dossier. Don't disc
 ## A. Form A — Reflection + applied takeaway
 
 ### A1. Purpose
-Turn the case from "a thing that happened" into "a thing about how people work". One central human mechanism, not a list.
+Turn the case from "a thing that happened" into "a thing about how people work — or about what it means". One central anchor, not a list.
 
-### A2. Pick ONE mechanism
-Name it precisely: prueba social, sesgo de confirmación, coste hundido, disonancia cognitiva, indefensión aprendida, pensamiento de grupo, identidad y pertenencia, la necesidad de una narrativa coherente, autoridad, la esperanza como sesgo. If two compete, the weaker one is a single supporting sentence.
+### A2. Pick ONE anchor
+Usually a **psychological mechanism**, named precisely: prueba social, sesgo de confirmación, coste hundido, disonancia cognitiva, indefensión aprendida, pensamiento de grupo, identidad y pertenencia, la necesidad de una narrativa coherente, autoridad, la esperanza como sesgo.
+
+It can instead — or also — be a **philosophical or religious idea** the case genuinely raises (see *The four registers*): virtue-as-a-mean, what money shouldn't buy, meaning under suffering, "vanity of vanities". Then it is attributed and sourced (§A6). If two anchors compete, the weaker one is a single supporting sentence; **two is the ceiling** (a mechanism + the question it opens), never more.
 
 ### A3. Plant it early, pay it at the close
 Dieck foreshadows the mechanism during the narrative ("recuerda este rasgo, será importante"). Do the same: seed 2–3 moments in Part 2 that the close will name. The close then *collects* what the viewer already saw.
@@ -43,7 +69,10 @@ Every claim in the close points back to a specific scene. **No new facts in the 
 "esto sugiere…", "una lectura posible es…", "los estudios sobre X apuntan a…". Never state interpretation as established fact.
 
 ### A6. Name an external authority when you invoke a concept
-The reference set does this consistently: Michael Sandel + *Lo que el dinero no puede comprar* (McDonald's); Stanislavski + "actuación de método" (Ledger); "resonancia límbica" as a real neuroscience term (Grinberg). Any specific theory / study / thinker / statistic → full source in `03-source-log.csv` with a `[S..]` tag, same standard as the narrative. Naming a bias in general terms needs no citation; popular-psychology claims ("usamos el 10% del cerebro", "la regla de las 10.000 horas") are checked or cut.
+The reference set does this consistently: Michael Sandel + *Lo que el dinero no puede comprar* (McDonald's); Stanislavski + "actuación de método" (Ledger); "resonancia límbica" as a real neuroscience term (Grinberg). **Any specific theory, study, thinker, statistic, philosophical school, or religious text → full source in `03-source-log.csv` with a `[S..]` tag, same standard as the narrative.**
+- Naming a bias in general terms needs no citation; popular-psychology claims ("usamos el 10% del cerebro", "la regla de las 10.000 horas") are checked or cut.
+- A philosophical or religious idea always names its source ("Frankl, en *El hombre en busca de sentido*…", "Eclesiastés lo dice así…") — the T07 failure is stating one flat in the narrator's voice. For a scripture or a classical text, cite the passage; for a translation, flag it (`brain/01` §4).
+- Attribution is not endorsement: "para los estoicos…", "una lectura cristiana sería…" — the frame stays *this is an idea someone holds*, never *this is the truth*.
 
 ### A7. Don't flatter the audience
 Skip "las personas inteligentes también caen". If the historiography says the actors were rational given their information, say that — it's more interesting and more honest.
@@ -103,10 +132,14 @@ The reference set sometimes ends on a human vignette instead of/after the analys
 | Form B but the reflection isn't actually anywhere | Identify the 2–3 beats it should live in; write them |
 | Form C used to avoid a conclusion the evidence supports | Switch to A/B and state the conclusion |
 | Form C but one position is strawmanned | Give every position its strongest case |
-| Two+ mechanisms, none developed (form A) | Pick one; demote the rest |
+| Two+ anchors, none developed (form A) | Pick one; demote the rest (ceiling is two) |
 | Interpretation stated as fact | Add "una lectura posible…" |
-| Concept invoked with no named authority / `[S..]` | Name and source it, or drop the specificity |
+| Concept / thinker / scripture invoked with no name + `[S..]` | Name and source it, or drop the specificity |
+| Philosophical or religious idea in the narrator's own voice, unattributed (the T07 failure) | Attribute it to a thinker / school / text + `[S..]` |
+| A religious or philosophical idea framed as *the truth* rather than *an idea someone holds* | Reframe: "para X…", "la tradición Y sostiene…" |
+| Proselytising, or treating belief / non-belief as naïve | Cut; offer the lens alongside another |
+| The `Éxodo` frame pushed onto a secular case | Cut — it is motive/voice, not a lens for every episode |
 | Takeaway needs the facts bent | Rewrite the takeaway |
 | Takeaway = disguised business pitch | Cut |
-| Moralizing closer ("y esto nos enseña que…") | Rewrite observational |
+| Moralizing closer ("y esto nos enseña que…", "deberíamos como sociedad…") | Rewrite observational |
 | Emotional coda distorts or outweighs the documented case | Trim or cut |

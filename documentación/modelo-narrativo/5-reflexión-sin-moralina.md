@@ -1,6 +1,6 @@
 ---
 doc: modelo-narrativo/5-reflexión-sin-moralina
-summary: "Zoom en el cierre A: aterrizar una idea sin predicar. Ejemplos buenos/malos, el test quirúrgico, frases delatoras."
+summary: "Zoom en el cierre: aterrizar una idea (psicológica, práctica, filosófica o religiosa) sin predicar. Ejemplos buenos/malos, el test quirúrgico, frases delatoras."
 audience: "guionista"
 mirrors: [brain/09, brain/08]
 authority: guide
@@ -8,9 +8,9 @@ authority: guide
 
 # Reflexión sin moralina
 
-Esta guía es un zoom sobre el punto más difícil del cierre: entregar una idea que valga la pena **sin predicar**. Es lo que separa a Exodo de un canal de "lecciones de vida".
+Esta guía es un zoom sobre el punto más difícil del cierre: entregar una idea que valga la pena **sin predicar**. Es lo que separa a Exodo de un canal de "lecciones de vida" — y, cuando el cierre toca terreno filosófico o religioso, de un canal de púlpito.
 
-Complementa a [4-el-cierre](4-el-cierre.md). Base: `brain/09` A5–A8, `brain/08` §1.
+Complementa a [4-el-cierre](4-el-cierre.md) (formas y los **cuatro registros**). Base: `brain/09`, `brain/08` §1.
 
 ## La diferencia en una frase
 
@@ -40,6 +40,27 @@ La segunda no te dice qué hacer. Te da una distinción —"éxito" no es una so
 
 De nuevo: una distinción (llegada vs. dirección), una consecuencia observable (una se agota, la otra no), y un hecho del caso (Hokusai vivió en la segunda). Sin "no te rindas".
 
+### Caso «There Will Be Blood» / T07 (registro filosófico: la virtud llevada al extremo)
+
+Dieck cierra con el mecanismo bueno y una coda de sermón:
+
+❌ **Como lo hace T07:**
+> Que la historia de Daniel nos sirva de advertencia sobre el riesgo de permitir que los peores aspectos de nosotros mismos controlen nuestras vidas… buscar un equilibrio que nos permita avanzar sin perder nuestra humanidad. Y recuerda: el éxito externo no puede llenar un vacío interior.
+
+Dos problemas: la coda ("que nos sirva de advertencia") predica, y "el éxito externo no llena el vacío" es una afirmación filosófica **soltada sin dueño**.
+
+✅ **Registro filosófico, atribuido, sin sermón:**
+> Aristóteles describió la virtud como un término medio: el valor entre la cobardía y la temeridad, la generosidad entre la tacañería y el derroche [S..]. Daniel invierte esa idea. Su tenacidad, llevada al extremo, se vuelve avaricia; su deseo de superarse, narcisismo. No es que le faltara una virtud — es que tenía una, y no supo dónde parar. Si esa lectura sirve de algo, es como pregunta, no como consejo: ¿cuál de mis fortalezas es la que menos vigilo?
+
+Nombra al pensador y la obra (con `[S..]`), presenta la idea como *una lectura* ("si esa lectura sirve de algo"), y termina en una pregunta que el espectador se hace a sí mismo — no en un "deberías".
+
+### Caso migración / registro religioso (una lente entre varias)
+
+✅ **Ofrecida, no impuesta:**
+> Hay quien lee estas salidas como un Éxodo: dejar atrás no una tierra, sino una versión oficial de las cosas que ya no se sostiene [S..]. Para otros es simple cálculo — te vas cuando quedarte cuesta más que irse. El caso encaja con las dos lecturas. Lo que ninguna de las dos discute es que la persona que se va casi nunca lo cuenta como la contó el que la vio irse.
+
+La lente religiosa se nombra ("hay quien lee…"), se pone **al lado** de una secular ("para otros…"), y el cierre aterriza en un hecho del caso, no en una creencia.
+
 ## Cómo se construye el bloque (forma A)
 
 1. **Transición fuera de la narrativa.** "Hay una lectura posible de todo esto." / "Cuando junto las piezas, veo un patrón."
@@ -60,8 +81,16 @@ Enuncia tu para llevar a alguien que se sabe el caso al dedillo:
 - "la lección es que…"
 - "deberíamos / tenemos que / hay que…"
 - "como sociedad…"
+- "que esto nos sirva de advertencia / de ejemplo…"
 - "nunca te rindas / persigue tus sueños / cree en ti mismo"
 - "lo que Hokusai nos quiere decir es…" (los muertos no nos quieren decir nada)
+
+**Y las que delatan púlpito** (registro filosófico/religioso):
+
+- "la verdad es que…" (sobre una idea filosófica — es *una* lectura, no la verdad)
+- "Dios nos enseña que… / la fe nos dice que…" (sin dueño: ¿qué tradición, qué texto?)
+- "en el fondo todos buscamos…" (universaliza una creencia)
+- una idea de Frankl, Eclesiastés o los estoicos **sin nombrarlos** — si vale la pena decirla, vale la pena atribuirla
 
 ## Frases que suenan a Exodo
 
@@ -74,4 +103,9 @@ Enuncia tu para llevar a alguien que se sabe el caso al dedillo:
 
 ## Y la autoridad externa
 
-Cuando invocas un concepto **específico** (una teoría con nombre, un estudio, un pensador), lo nombras y lo citas como cualquier otro dato: `[S..]` → `03-source-log.csv`, Tier A/B. Nombrar un sesgo en términos generales ("la gente tiende a buscar información que confirma lo que ya cree") no necesita cita. Afirmar "el estudio de Festinger de 1957 demostró que…" sí.
+Cuando invocas un concepto **específico** —una teoría con nombre, un estudio, un pensador, una escuela filosófica, un texto religioso—, lo nombras y lo citas como cualquier otro dato: `[S..]` → `03-source-log.csv`, Tier A/B.
+
+- Nombrar un sesgo en general ("la gente tiende a buscar información que confirma lo que ya cree") no necesita cita. "El estudio de Festinger de 1957 demostró que…" sí.
+- "Hay quien piensa que el sentido se construye, no se encuentra" no necesita cita. "Frankl, en *El hombre en busca de sentido*, sostiene que…" sí — y es mejor, porque le da un dueño a la idea.
+- Para una escritura o un texto clásico: cita el pasaje (Eclesiastés 1:2; *Ética a Nicómaco* II). Si traduces, márcalo (`brain/01` §4).
+- **Atribuir no es respaldar.** "Para los estoicos, lo único tuyo es tu juicio" no dice que tengan razón — dice que esa es su posición.

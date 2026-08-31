@@ -9,7 +9,7 @@ authority: canonical
 
 # 02 — Content Format Spec
 
-> **Status: v1 — validated against 6 Dieck Docs transcripts (2026-08-27).** Basis: `research/dieck-docs/structure-analysis.md` (T01 Grinberg, T02 Titanic, T03 Chernobyl, T04 Heath Ledger, T05 McDonald's, T06 Steve Jobs). Companion files: tone in [08-tone-of-voice.md](08-tone-of-voice.md), reflection craft in [09-reflection-rules.md](09-reflection-rules.md).
+> **Status: v1 (6 Dieck transcripts, 2026-08-27) + v1.1 close registers (T07, 2026-09).** Basis: `research/dieck-docs/structure-analysis.md` (T01 Grinberg · T02 Titanic · T03 Chernobyl · T04 Heath Ledger · T05 McDonald's · T06 Steve Jobs · T07 *Petróleo sangriento* — craft only, film analysis). Companion files: tone in [08-tone-of-voice.md](08-tone-of-voice.md), reflection craft in [09-reflection-rules.md](09-reflection-rules.md).
 >
 > **We adopt Dieck's structure; we do NOT adopt his sourcing.** Several of the analyzed episodes lean on dramatized films as narrative scaffolding (e.g. *The Founder* for McDonald's) and carry a high density of "se dice / según la leyenda" without support. Our episodes keep this shape but meet the bar in [01-editorial-and-sourcing.md](01-editorial-and-sourcing.md): every load-bearing claim ≥1 Tier A/B source.
 
@@ -71,13 +71,16 @@ Two recurring devices, both **required**:
 **Optional module — "las N teorías / los N responsables."** When the case is genuinely contested (Titanic: 3 theories; Grinberg: 4 hypotheses; Chernobyl: 3 responsible parties): present each, weigh it, and close each with an honest verdict ("no hay pruebas concluyentes" / "las fuentes sostienen esto"). Use only when the contest is real, never manufactured.
 
 ### 3. The close — 8–20%
-**Three legitimate forms** (all in the reference set — pick per episode in the brief; rules in [09-reflection-rules.md](09-reflection-rules.md)):
+**Three forms × four registers** — pick both per episode in the brief; full rules in [09-reflection-rules.md](09-reflection-rules.md).
 
-- **(A) Reflection + applied takeaway.** Step back, name one human mechanism, "yo creo que…", widen to one usable idea loosely addressed to the viewer. (Grinberg, McDonald's.)
-- **(B) Distributed lesson.** The reflection is threaded through the last third, tied to specific beats; the ending is elegiac, not a "para ti". Works for biographies where the subject's own words or fate carry the meaning. (Steve Jobs, Heath Ledger.)
-- **(C) Open question.** Hand the judgment to the viewer — "¿tú qué opinas? Te leo en los comentarios" — after laying out the evidence fairly. Only for genuinely contested accountability/conspiracy cases. (Titanic, Chernobyl.)
+Forms (how it's delivered):
+- **(A) Reflection + applied takeaway.** Step back, name one anchor, "yo creo que…", widen to one usable idea loosely addressed to the viewer. (Grinberg, McDonald's.)
+- **(B) Distributed lesson.** Threaded through the last third, tied to specific beats; elegiac ending, not a "para ti". (Steve Jobs, Heath Ledger.)
+- **(C) Open question.** Hand the judgment to the viewer after laying out the evidence fairly. Only for genuinely contested cases. (Titanic, Chernobyl.)
 
-No form is an excuse to skip the sourcing or to moralize. The takeaway/lesson is **never** the reason a case was chosen ([01-editorial-and-sourcing.md](01-editorial-and-sourcing.md) §6).
+Registers (what it lands on): **psychological** (a human mechanism), **practical** (one usable idea), **philosophical** (meaning, virtue, mortality — attributed to a thinker/school + `[S..]`), **religious/spiritual** (how a faith tradition framed the same question — attributed to the tradition/text + `[S..]`, offered as *an idea*, never doctrine). Ceiling is two registers per close.
+
+No form or register is an excuse to skip the sourcing or to moralize. The takeaway/lesson is **never** the reason a case was chosen ([01-editorial-and-sourcing.md](01-editorial-and-sourcing.md) §6).
 
 ### 4. CTA coda — ~10 s
 A distinct beat **after** the close has fully landed. Soft channel CTA only (subscribe / next episode). **No third-party pitch or link** ([05-independence-and-coi.md](05-independence-and-coi.md)). Sources always credited in the description — no on-screen source card.
@@ -87,7 +90,7 @@ A distinct beat **after** the close has fully landed. Soft channel CTA only (sub
 - Every episode answers, by the end: *what happened, why it matters about people, and — for forms A/B — what I can do with it* (form C leaves the "what I can do" as the viewer's to form).
 - Cold open (narrative + visual hook) → bumper on black → context pivot → chronological narrative → close → CTA. This order is fixed.
 - Explainer interludes and foreshadowing hooks appear in every episode.
-- Any psychological concept invoked is **named and, where a specific theory/study/thinker is used, sourced** ([09-reflection-rules.md](09-reflection-rules.md)).
+- Any concept invoked in the reflection — psychological, philosophical, or religious — is **named and, where a specific theory / study / thinker / school / text is used, sourced `[S..]`** ([09-reflection-rules.md](09-reflection-rules.md)).
 
 ## Series identity elements
 

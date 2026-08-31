@@ -18,9 +18,10 @@ authority: template
 | ID episodio | E0XX |
 | Versión | v__ |
 | Fecha | AAAA-MM-DD |
-| Guionista | Usuario 002 / Usuario 001 |
+| Guionista | Usuario 001 |
 | Narrador | Usuario 002 / Usuario 001 |
 | **Forma del cierre** | A / B / C — fijada en el brief |
+| **Registro(s) del cierre** | psicológico / práctico / filosófico / religioso — máx. 2, fijados en el brief (`brain/09`) |
 | Recuento de palabras | … |
 | Duración estimada | … min |
 
@@ -155,12 +156,13 @@ Cada posición: se presenta, se pesa, se cierra honestamente — "no hay pruebas
 
 ### Si FORMA A — Reflexión + para llevar (`phrasebook.md §14`)
 [NARRACIÓN]
-Transición fuera de la narrativa → nombrar UN mecanismo humano → 2-3 observaciones ancladas a escenas ya vistas → ensanchar a lo general → UNA idea aplicable.
-- Marco interpretativo obligatorio: "una lectura posible…".
-- Autoridad externa nombrada + [S..] si se cita teoría/estudio/pensador (`phrasebook.md §11`).
-- Arranque tipo: "creo que hay algo que aprender aquí…", "yo creo que ni <A> ni <B> estaban equivocados…".
-- Para llevar: una sola idea, ≤ 90 s, pasa el test quirúrgico (se deduce del caso tal como se contó).
-- **Menos moralina que Dieck**: enunciar el mecanismo, no predicar el deber (`brain/08 §1`).
+Transición fuera de la narrativa → nombrar UN ancla → 2-3 observaciones ancladas a escenas ya vistas → ensanchar a lo general → UNA idea aplicable.
+- **El ancla** = un mecanismo psicológico, o una idea filosófica/religiosa que el caso plantea (registro fijado en el brief; máx. 2). `brain/09` §"The four registers".
+- Marco interpretativo obligatorio: "una lectura posible…", "para los estoicos…".
+- Autoridad externa nombrada + [S..] si se cita teoría / estudio / pensador / escuela / texto religioso (`phrasebook.md §11` / §11b).
+- Idea filosófica o religiosa: **siempre con dueño** ("Frankl sostiene…", "Eclesiastés lo dice así…"); presentada como *una idea*, nunca como la verdad ni como llamada a creer.
+- Para llevar: una sola idea, ≤ 90 s, pasa el test quirúrgico.
+- **Menos moralina que Dieck**: enunciar el mecanismo o la tensión, no predicar el deber ni la fe (`brain/08 §1`).
 
 ### Si FORMA B — Lección distribuida (`phrasebook.md §15`)
 [NOTA] La reflexión ya se entregó en 2-3 piezas dentro de la narrativa (Acto __, __, __).
@@ -216,7 +218,8 @@ Borrador: «Si estas historias te sirven, suscríbete — así no te pierdes el 
 - [ ] El hook se paga en el cuerpo
 - [ ] 3-6 foreshadowings, todos pagados (tabla arriba)
 - [ ] 2-4 interludios explicadores, señalizados entrada y salida (tabla arriba)
-- [ ] Cierre en la forma fijada (A/B/C); si B, las 2-3 piezas están identificadas
+- [ ] Cierre en la forma fijada (A/B/C) y el/los registro(s) fijados (máx. 2); si B, las 2-3 piezas están identificadas
+- [ ] Toda idea filosófica/religiosa lleva dueño + [S..]; presentada como idea, no como verdad; sin sermón ni llamada a creer
 - [ ] Sin película dramatizada usada como registro histórico
 - [ ] Sin moralina, sin desprecio al sujeto, sin clickbait
 - [ ] Cumple `brain/08` y `brain/09`

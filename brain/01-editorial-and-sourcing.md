@@ -43,7 +43,7 @@ If any answer is no → not eligible. No exceptions for "great story".
 
 ## 5. Reflection & interpretation
 
-The psychological/human reflection is **interpretation, and must sound like it** — "esto sugiere", "una lectura posible", "los estudios sobre X apuntan a". Psychological concepts invoked (e.g. sunk cost, learned helplessness, in-group bias) are named accurately and, where a specific study or theorist is cited, sourced like any other claim.
+The reflection is **interpretation, and must sound like it** — "esto sugiere", "una lectura posible", "los estudios sobre X apuntan a", "para los estoicos…". It runs on four registers (psychological / practical / philosophical / religious — [09-reflection-rules.md](09-reflection-rules.md)). Concepts invoked — a bias, a philosophical idea, a religious text — are named accurately and, where a specific study, theorist, school, or scripture is cited, **sourced `[S..]` like any other claim**. A philosophical or religious idea is framed as *an idea someone holds*, never as the truth; the channel endorses no philosophy and no religion.
 
 ## 6. The applied takeaway
 

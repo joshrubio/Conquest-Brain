@@ -1,12 +1,13 @@
 # Dieck Docs — Análisis de estructura
 
-Analizadas 6 transcripciones (`transcripts/T01`–`T06`) el 2026-08-27. Fuente: auto-ASR (TurboScribe / NoteGPT). Timestamps solo en T04–T06; en T01–T03 las proporciones son estimadas por volumen de texto. **Verificar cualquier cita textual contra el video.**
+Analizadas 7 transcripciones (`transcripts/T01`–`T07`). T01–T06 el 2026-08-27, T07 el 2026-09. Fuente: auto-ASR (TurboScribe / NoteGPT). Timestamps en T04–T07; en T01–T03 las proporciones son estimadas por volumen de texto. **Verificar cualquier cita textual contra el video.**
 
 ## Estado
 
-- Transcripciones listas: 6 / 6
-- Videos analizados: 6 / 6
-- Síntesis → `brain/`: hecha (v1). Última actualización 2026-08-27.
+- Transcripciones listas: 7 / 7
+- Videos analizados: 7 / 7
+- Síntesis → `brain/`: v1 hecha 2026-08-27. **v1.1 (reflexión: registros + citas del pensamiento) 2026-09** a partir de T07.
+- **T07 es análisis de una película dramatizada** (*There Will Be Blood*). Referencia **solo de artesanía de la reflexión** — nunca de fuentes ni de selección de sujeto (`brain/01`, `brain/02` §status).
 
 ---
 
@@ -100,6 +101,23 @@ Notas: reflexión **totalmente distribuida** y explícitamente diferida ("yo te 
 
 ---
 
+## T07 — Petróleo sangriento / *There Will Be Blood* (~29:30, timestamps) — **análisis de film, solo artesanía de reflexión**
+
+Dieck disecciona la película escena por escena. **No es modelo de fuentes** (`brain/01`): un personaje de ficción tratado como caso de estudio psicológico. Lo que sí enseña bien:
+
+| Rasgo | Qué hace |
+|-------|----------|
+| **Reflexión como interludio constante** | Tras casi cada secuencia, el narrador para y analiza la psicología del personaje: "esto muestra su fuerte Independencia", "su individualismo le costó la lesión", "como persona con un narcisismo pronunciado, le resulta intolerable ser abandonado". Mucha más densidad de mini-análisis que T01–T06 — está entre Forma A y Forma B. |
+| **Un solo mecanismo, rastreado de principio a fin** | *Las virtudes, desviadas al extremo, se vuelven venenos.* Tenacidad → avaricia; deseo de superación → narcisismo despiadado. Se planta al inicio ("empezó como un personaje admirable") y se paga en el cierre. |
+| **Dúo de espejos** | Daniel (petróleo) y Eli (religión) como "reflejos distorsionados el uno del otro": ambos narcisistas que usan una **plataforma** —la fe para uno, el petróleo para el otro— para manipular y construir una imagen pública que oculta sus motivaciones. |
+| **Mini-cátedra sobre un concepto religioso, en tono neutro** | Explica "la tercera revelación" (mandamientos a Moisés → Jesús → cualquiera lleno del espíritu santo que clame poderes divinos) como contexto de lo que la película invoca. Ni predica ni se burla: expone la idea. |
+| **Nota existencial explícita** | "el éxito externo no puede llenar un vacío interior"; "logros casi inimaginables… y a la vez un profundo vacío emocional". Es una afirmación **filosófica**, dicha en plano, **sin atribuir a ningún pensador**. |
+| **Cierre (28:33–29:36): Forma A muy moralizante** | "que la historia de Daniel nos sirva de advertencia… que nos impulse a reflexionar sobre nuestras propias metas… buscar un equilibrio que nos permita avanzar sin perder nuestra humanidad." Este es exactamente el registro predicador que nuestro `brain/08` §1 dial-down. |
+
+**Para nosotros:** T07 confirma que la reflexión puede (a) ir en dosis a lo largo del episodio y (b) tocar terreno **filosófico y religioso**, no solo psicológico/práctico — pero muestra dos cosas a corregir: la nota existencial **sin fuente** ("el éxito externo no llena el vacío" debería atribuirse a una tradición o pensador y llevar `[S..]`), y el cierre **predicador** ("que nos sirva de advertencia").
+
+---
+
 ## Síntesis
 
 ### Constante en los 6 → REGLA
@@ -129,9 +147,11 @@ Notas: reflexión **totalmente distribuida** y explícitamente diferida ("yo te 
 
 11. **CTA boilerplate separado.** En los episodios recientes: "para ti que llegaste hasta el final… suscríbete… nos vemos en el próximo video". Siempre **después** de que la reflexión aterrice, como coda distinta. En los más antiguos a veces no hay CTA.
 
-12. **Autoridad externa nombrada para el material psicológico/conceptual.** Michael Sandel + título del libro; Stanislavski + "actuación de método"; "resonancia límbica" como término neurocientífico real; Jung / Platón. Cuando se invoca un concepto, se nombra y a menudo se atribuye.
+12. **Autoridad externa nombrada para el material psicológico/conceptual.** Michael Sandel + título del libro; Stanislavski + "actuación de método"; "resonancia límbica" como término neurocientífico real; Jung / Platón. Cuando se invoca un concepto, se nombra y a menudo se atribuye. **T07 lo hace peor:** suelta afirmaciones filosóficas ("el éxito externo no llena el vacío interior") sin nombre ni fuente — nosotros las atribuimos siempre.
 
 13. **Reparto de metraje típico:** hook 3–6% · contexto 10–20% · narrativa con interludios 55–70% · reflexión/cierre 8–20% (menos de lo que asumía `brain/02` v0) · CTA ~1%.
+
+14. **La reflexión tiene cuatro registros, no uno** (síntesis v1.1, tras T07). Además de lo **psicológico** (mecanismo humano) y lo **práctico** (idea aplicable), Dieck toca lo **filosófico** (T05 Sandel sobre el valor y el dinero; T07 "las virtudes desviadas se vuelven venenos", el vacío interior) y lo **religioso/espiritual** (T07 la "tercera revelación", la fe como plataforma; T06 "la muerte es el mejor invento de la vida"). Nuestra versión: los cuatro registros están permitidos, y cualquier idea filosófica o religiosa concreta se **atribuye a un pensador / autor / tradición** y lleva `[S..]` igual que un dato — ver `brain/09`.
 
 ### Varía → ELECCIÓN por episodio
 
@@ -147,9 +167,11 @@ Notas: reflexión **totalmente distribuida** y explícitamente diferida ("yo te 
 **Adoptamos (estructura):** cold open in medias res + anuncio; pivote a contexto; espina cronológica; interludios explicadores señalizados; foreshadowing explícito; voz de investigador en 1ª persona; "tú" didáctico; incertidumbre marcada verbalmente; autoridad externa nombrada; las tres formas de cierre como opciones legítimas (incluida la pregunta abierta); CTA como coda separada.
 
 **NO adoptamos (fuentes — nuestro estándar es más alto que el de Dieck):**
-- Usar una película dramatizada como andamiaje narrativo (*The Founder* en McDonald's). Prohibido por `brain/01` (Tier C/D).
+- Usar una película dramatizada como andamiaje narrativo (*The Founder* en McDonald's) o como caso de estudio (*There Will Be Blood* en T07). Prohibido por `brain/01` (Tier C/D) y `brain/02` §status.
 - Densidad alta de "se dice / según la leyenda" sin respaldo (Grinberg). Nuestro mínimo: toda afirmación de carga con ≥1 Tier A/B.
 - Especular sobre el estado mental interno de una persona real y presentarlo como narración.
 - Reconstrucción a partir de una sola obra.
+- Soltar una idea filosófica o religiosa sin nombre ni fuente (T07). Nosotros la atribuimos.
+- Cerrar predicando ("que nos sirva de advertencia", "deberíamos como sociedad…" — T07, T05). Nuestro cierre enuncia el mecanismo; el espectador saca el deber (`brain/08` §1).
 
-Nuestra versión = **la estructura de Dieck + el aparato de fuentes de `brain/01` + `templates/fact-check-sheet.md`.**
+Nuestra versión = **la estructura de Dieck + los cuatro registros de reflexión (`brain/09`) + el aparato de fuentes de `brain/01` + el fact-check automático de `brain/14`.**
