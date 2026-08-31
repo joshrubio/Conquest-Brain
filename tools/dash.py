@@ -23,6 +23,51 @@ except Exception:
 
 OUT = P.ROOT / "dashboard.html"
 KPI_DOC = P.ROOT / "brain" / "07-publishing-seo-metrics.md"
+COST_MD = P.ROOT / "research" / "system-cost.md"
+COST_HTML = P.ROOT / "cost.html"
+
+
+def md_to_html(md):
+    e = _h.escape
+    out, i, lines = [], 0, md.splitlines()
+    while i < len(lines):
+        ln = lines[i]
+        if ln.startswith("|"):
+            tbl = []
+            while i < len(lines) and lines[i].startswith("|"):
+                tbl.append(lines[i]); i += 1
+            rows = [[c.strip() for c in r.strip("|").split("|")] for r in tbl]
+            rows = [r for r in rows if not set("".join(r)) <= set("-: ")]
+            if rows:
+                th = "".join(f"<th>{fmt(c)}</th>" for c in rows[0])
+                tb = "".join("<tr>" + "".join(f"<td>{fmt(c)}</td>" for c in r) + "</tr>" for r in rows[1:])
+                out.append(f'<table class="kpi"><tr>{th}</tr>{tb}</table>')
+            continue
+        if ln.startswith("### "):
+            out.append(f"<h3>{fmt(ln[4:])}</h3>")
+        elif ln.startswith("## "):
+            out.append(f"<h2>{fmt(ln[3:])}</h2>")
+        elif ln.startswith("# "):
+            out.append(f"<h1>{fmt(ln[2:])}</h1>")
+        elif ln.startswith("> "):
+            out.append(f'<blockquote>{fmt(ln[2:])}</blockquote>')
+        elif ln.strip().startswith(("- ", "* ")):
+            items = []
+            while i < len(lines) and lines[i].strip().startswith(("- ", "* ")):
+                items.append(f"<li>{fmt(lines[i].strip()[2:])}</li>"); i += 1
+            out.append("<ul>" + "".join(items) + "</ul>")
+            continue
+        elif ln.strip():
+            out.append(f"<p>{fmt(ln)}</p>")
+        i += 1
+    return "".join(out)
+
+
+def fmt(s):
+    s = _h.escape(s)
+    s = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", s)
+    s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
+    return s
 
 
 def kpi_rows():
@@ -141,7 +186,9 @@ document.querySelectorAll('[data-human]').forEach(b=>b.onclick=()=>{{
              'table.kpi th{color:var(--muted)}'
              '</style>')
     hd = ('<h1>Exodo · dashboard</h1>'
-          '<span class="count">estado de cada capítulo · se regenera al cerrar cada gate</span>')
+          '<span class="count">estado de cada capítulo · se regenera al cerrar cada gate</span>'
+          + ('<a class="btn" href="cost.html" style="margin-left:auto">Consumo del sistema</a>'
+             if COST_MD.exists() else ''))
     return ("<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\">"
             "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
             "<title>Exodo · dashboard</title>" + STYLE + extra + "</head><body>\n"
@@ -149,7 +196,29 @@ document.querySelectorAll('[data-human]').forEach(b=>b.onclick=()=>{{
             "<script>" + script + "</script>\n</body></html>\n")
 
 
+def build_cost():
+    inner = md_to_html(COST_MD.read_text(encoding="utf-8"))
+    return ("<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\">"
+            "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+            "<title>Exodo · consumo</title>" + STYLE +
+            "<style>main{max-width:900px}blockquote{border-left:2px solid var(--gold);"
+            "margin:1rem 0;padding:.5rem .9rem;color:var(--muted);font-size:.85rem}"
+            "h1,h2,h3{border:0}h2{margin-top:2rem}"
+            "table.kpi{width:100%;border-collapse:collapse;font-size:.8rem;margin:.6rem 0}"
+            "table.kpi td,table.kpi th{border-top:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}"
+            "table.kpi th{color:var(--muted)}li{margin:.2rem 0}</style></head><body>"
+            "<header><h1>Consumo del sistema</h1>"
+            "<a class=\"btn\" href=\"dashboard.html\" style=\"font-size:.8rem;padding:.4rem .8rem;"
+            "border:1px solid var(--line);border-radius:8px;background:var(--surface-2);"
+            "color:var(--fg);text-decoration:none\">← dashboard</a></header>"
+            "<main>" + inner + "</main></body></html>\n")
+
+
 if __name__ == "__main__":
     OUT.write_text(build(), encoding="utf-8")
+    msg = ""
+    if COST_MD.exists():
+        COST_HTML.write_text(build_cost(), encoding="utf-8")
+        msg = " + cost.html"
     n = len(P.read_status())
-    print(f"escrito  dashboard.html  ({n} episodios en _STATUS.md)")
+    print(f"escrito  dashboard.html{msg}  ({n} episodios en _STATUS.md)")
