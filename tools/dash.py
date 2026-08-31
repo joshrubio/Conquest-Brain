@@ -117,7 +117,7 @@ def strip(epid, slug, cur, gate):
     e = _h.escape
     epp = P.EP_DIR / slug
     cards = []
-    for n in range(13):
+    for n in range(1, 13):
         sm = P.STAGE[n]
         cls = "sc"
         if n < cur:
@@ -268,14 +268,15 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
     extra = ('<style>'
              '.epc{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:1.1rem;margin:0 0 1.1rem}'
              '.epch{font-size:.95rem;margin-bottom:.7rem}'
-             '.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));'
-             'gap:.4rem;margin:.5rem 0 .8rem}'
+             '.strip{display:grid;grid-template-columns:repeat(6,1fr);'
+             'gap:.5rem;margin:.5rem 0 .8rem}'
+             '@media (max-width:720px){.strip{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}'
              '.sc{display:block;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);'
-             'padding:.45rem .55rem;font-size:.72rem;line-height:1.3;color:var(--muted);text-decoration:none}'
-             '.sc b{color:var(--fg);font-size:.76rem;font-weight:600}'
-             '.sc .scn{display:inline-block;min-width:1.2rem;color:var(--muted);font-variant-numeric:tabular-nums}'
-             '.sc .scd{display:block;margin-top:.15rem;font-size:.68rem}'
-             '.sc .scx{display:block;margin-top:.1rem;font-size:.65rem;opacity:.6}'
+             'padding:.7rem .8rem;font-size:.78rem;line-height:1.35;color:var(--muted);text-decoration:none}'
+             '.sc b{color:var(--fg);font-size:.85rem;font-weight:600}'
+             '.sc .scn{display:inline-block;min-width:1.3rem;color:var(--muted);font-variant-numeric:tabular-nums}'
+             '.sc .scd{display:block;margin-top:.25rem;font-size:.75rem;line-height:1.35}'
+             '.sc .scx{display:block;margin-top:.2rem;font-size:.7rem;opacity:.6}'
              'a.sc{cursor:pointer}a.sc:hover{border-color:var(--bone)}'
              '.sc.done{border-color:var(--gold);background:var(--gold-soft)}.sc.done b{color:var(--gold)}'
              '.sc.cur{border-color:var(--bone);border-width:2px}.sc.cur b{color:var(--bone)}'
