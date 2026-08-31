@@ -21,7 +21,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | name an idea / pick a title | `13`, `07` |
 | research a case / build the source-log | `01`, `05`, `12` |
 | outline an episode | `02`, `09` |
-| write the script | `02`, `08`, `09`, `01` |
+| write the script | `02`, `08`, `09`, `01` · pass: `tools/script_review.py` → `05-script.html` |
 | write the close / reflection (any register) | `09`, `08`, `01` |
 | fact-check a script | `14`, `01`, `04` |
 | build the shotlist | `11`, `02`, `06` (Stage 6) |

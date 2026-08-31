@@ -20,7 +20,7 @@ Regla completa: `brain/06-production-workflow.md`. Cada etapa tiene su plantilla
 | 1 | Brief | `01-brief.md` | Usuario 001 | vale la pena la investigación; narrador asignado |
 | 2 | Dossier de investigación | `02-research-dossier.md` + `03-source-log.csv` | Usuario 001 | toda claim de carga con ≥1 Tier A/B |
 | 3 | Outline | (beat sheet) | Usuario 001 | la estructura se sostiene sin torcer hechos |
-| 4 | Guion | `05-script.md` | Usuario 001 | autorrevisión hecha; toda `[S..]` resuelve |
+| 4 | Guion | `05-script.md` | Usuario 001 | autorrevisión + script pass hechos; toda `[S..]` resuelve |
 | 5 | Fact-check | `04-factcheck-auto.md` | 100% automático (L1 + L2 agente) | L1 PASS; changelog L2 escrito |
 | 6 | Shotlist | `06-shotlist.md` | Usuario 001 | cada beat clasificado; cifras con rótulo de fuente |
 | 7 | Recursos + pase de estilo | `07-assets.md` (+ `07b-ai-prompts.md`, `07-selection.md`) | Usuario 001 | cada beat cubierto; cold open 2–5; licencias claras |
@@ -30,7 +30,7 @@ Regla completa: `brain/06-production-workflow.md`. Cada etapa tiene su plantilla
 | 11 | Publicación | `10-publish-checklist.md` | Usuario 001 | tick legal/COI (un usuario); subido y programado |
 | 12 | Retro | `11-retro.md` | ambos | métricas a 48h + 30d; fixes de proceso |
 
-## Las cinco "review pages"
+## Las seis "review pages"
 
 Cinco etapas entregan el trabajo a una **página HTML generada** en vez de a una tabla markdown. Un usuario (001 o 002) trabaja en el navegador, pulsa "Exportar", y Claude pliega el `.txt` de vuelta al doc fuente:
 
@@ -38,6 +38,7 @@ Cinco etapas entregan el trabajo a una **página HTML generada** en vez de a una
 |-------|--------|--------|
 | 0 | `ideas/idea-review.html` | `idea_review.py` |
 | 2 | `02-research.html` | `research_review.py` |
+| 4 | `05-script.html` | `script_review.py` |
 | 7 | `07-style-pass.html` | `pull_assets.py` |
 | 9 | `07c-edit.html` | `edit_review.py` |
 | 10 | `10-package.html` | `package_review.py` |

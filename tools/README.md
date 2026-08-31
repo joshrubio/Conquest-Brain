@@ -19,6 +19,7 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 | `edit_review.py` | 9 | Build `07c-edit.html` — watch every KB clip + trimmed take, approve or feedback → `07c-review.txt`. `... E0XX-slug`. |
 | `find_music.py` | 9 | Ominous-ambient music beds. `... "query"` appends to the pool; ticks in the pass's Music section (or `... --get <id>...`) → `brand/assets/music/`. Jamendo (`JAMENDO_CLIENT_ID`). |
 | `idea_review.py` | 0 | `ideas/idea-review.html` — score + pick a hook-title + comment per idea → `idea-review.txt`. |
+| `script_review.py` | 4 | `E0XX/05-script.html` — every script beat as a card to approve/comment, with an inline explainer per narrative note → `05-script-pass.txt`. |
 | `research_review.py` | 2 | `E0XX/02-research.html` — walk the source-log + dossier, tick OK/revisar + notes, approve → `02-research.txt`. |
 | `package_review.py` | 10 | `E0XX/10-package.html` — pick title, pick thumbnail, review description → `10-package.txt`. `--init` scaffolds `08` + `09`. |
 | `review_ui.py` | — | shared dark-theme HTML shell for the review pages (not a CLI). |

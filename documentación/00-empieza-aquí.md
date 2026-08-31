@@ -50,7 +50,7 @@ Cuando aparezca un término técnico que también existe en `brain/`, lo dejamos
 
 **Si vas a producir o editar**, sigue con:
 
-- [pipeline/1-las-12-etapas](pipeline/1-las-12-etapas.md) — el recorrido completo, quién hace qué, dónde están los "gates".
+- [pipeline/1-las-12-etapas](pipeline/1-las-12-etapas.md) — el recorrido completo, quién hace qué, dónde están los "gates". El **script pass** (Stage 4): `tools/script_review.py` → `05-script.html`, un beat por card con explicador de cada nota técnica — el sitio para aprender el modelo mientras corriges.
 - [pipeline/2-de-idea-a-episodio](pipeline/2-de-idea-a-episodio.md) · [pipeline/3-los-3-protocolos](pipeline/3-los-3-protocolos.md) · [pipeline/4-fact-check](pipeline/4-fact-check.md)
 - [pipeline/5-pase-de-estilo](pipeline/5-pase-de-estilo.md) · [pipeline/6-la-edición](pipeline/6-la-edición.md) · [pipeline/7-empaquetado-y-publicación](pipeline/7-empaquetado-y-publicación.md) · [pipeline/8-retro-y-métricas](pipeline/8-retro-y-métricas.md)
 - [herramientas/0-instalación-y-claves](herramientas/0-instalación-y-claves.md) — qué instalar y cómo conseguir las claves de API. *(2ª pasada)*

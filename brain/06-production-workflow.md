@@ -12,7 +12,7 @@ authority: canonical
 
 Pipeline for one episode. Stages are gated: do not start a stage until the previous gate is signed. Files live in `episodes/E0XX-<slug>/`, numbered to match the stages.
 
-**Review pages.** Five stages hand off to a generated dark-theme HTML instead of a markdown table — either user works in the browser, hits *Exportar*, and Claude folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 2 `02-research.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record. **Any gate can be signed by one person.**
+**Review pages.** Six stages hand off to a generated dark-theme HTML instead of a markdown table — either user works in the browser, hits *Exportar*, and Claude folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 2 `02-research.html` · Stage 4 `05-script.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record. **Any gate can be signed by one person.**
 
 ## Stage 0 — Ideation
 - Track owner proposes the idea: **T01 Historias Inspiradoras** (Usuario 002) or **T02 Exploración** (Usuario 001) — see [ideas/tracks.md](../ideas/tracks.md).
@@ -41,9 +41,10 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **Gate:** structure holds without stretching facts; close is honest to the case.
 
 ## Stage 4 — Script  → `05-script.md`
-- Template: [templates/script-template.md](../templates/script-template.md).
-- Full narration + on-screen cues + inline source tags `[S12]` linking to the source log.
-- **Gate:** self-review complete; every `[S..]` resolves.
+- Template: [templates/script-template.md](../templates/script-template.md). Craft: all of `documentación/modelo-narrativo/`; rules `brain/02`, `08`, `09`, `13`.
+- Full narration + on-screen cues + inline source tags `[S12]` linking to the source log. Close: form (A/B/C) + register(s) per the brief (`brain/09`).
+- **The script pass:** `python tools/script_review.py E0XX-slug` → **`05-script.html`** — every beat as a card to approve or comment on, with an inline explainer for each narrative note (`[EXPLICADOR]`, `[PLANT]`, `[S..]`, the close forms/registers…). **Exportar 05-script-pass.txt** → Claude folds the edits into `05-script.md`.
+- **Gate:** self-review complete; script pass done; every `[S..]` resolves.
 
 ## Stage 5 — Fact-check  → `04-factcheck-auto.md`  *(fully automated, no human step)*
 - Protocol: [brain/14-fact-check-protocol.md](14-fact-check-protocol.md).
