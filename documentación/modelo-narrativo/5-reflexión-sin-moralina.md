@@ -1,3 +1,11 @@
+---
+doc: modelo-narrativo/5-reflexión-sin-moralina
+summary: "Zoom en el cierre A: aterrizar una idea sin predicar. Ejemplos buenos/malos, el test quirúrgico, frases delatoras."
+audience: "guionista"
+mirrors: [brain/09, brain/08]
+authority: guide
+---
+
 # Reflexión sin moralina
 
 Esta guía es un zoom sobre el punto más difícil del cierre: entregar una idea que valga la pena **sin predicar**. Es lo que separa a Exodo de un canal de "lecciones de vida".

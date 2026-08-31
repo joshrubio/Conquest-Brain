@@ -1,3 +1,12 @@
+---
+doc: 10-repo-and-git-workflow
+summary: "Repo layout, what is / isn't versioned, branching, commit-message convention, cadence, backups."
+stage: all
+read_when: "committing; unsure what belongs in git; setting up the repo"
+pairs_with: [06-production-workflow]
+authority: canonical
+---
+
 # 10 — Repo & Git Workflow
 
 The project lives **locally + GitHub**. This repo (`D:\Exodo`) is the single source of truth for the channel's planning, docs, templates, scripts, and research. No Obsidian, no other tracker.

@@ -1,3 +1,13 @@
+---
+doc: 11-visual-rhythm
+summary: "Shots are planned from the locked script (not from watching video). Beat-placement rules, beat-rate targets, visual-type menu, calibration pass."
+stage: [4, 6, 9]
+read_when: "marking the script for shots; building the shotlist; setting cut rate in the edit"
+pairs_with: [02-content-format, 16-edit-and-delivery, 06-production-workflow]
+tools: [shotlist-broll.md]
+authority: canonical
+---
+
 # 11 — Visual Rhythm & Shot Planning
 
 > **Status: v1 — method set, not yet video-calibrated.** Built from shot planning inferred from the E000 script + standard edit craft. Direct observation of a reference video (§4) is still pending — bump to v2 after it.

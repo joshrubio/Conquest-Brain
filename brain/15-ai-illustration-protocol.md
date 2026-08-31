@@ -1,3 +1,13 @@
+---
+doc: 15-ai-illustration-protocol
+summary: "AI images only where nothing real exists. One style per episode, on-screen label every time, never a photoreal real-person face, never a fabricated document."
+stage: [7]
+read_when: "a shotlist beat has no real image and no own-graphic; writing AI prompts"
+pairs_with: [12-available-material-protocol, 04-legal-and-ethics, 03-brand-identity]
+tools: [build_ai_prompts.py, pull_assets.py]
+authority: canonical
+---
+
 # 15 — AI Illustration Protocol
 
 Runs **inside Stage 7** ([06-production-workflow.md](06-production-workflow.md)), only when the style pass concludes a beat has **no viable public-domain image and no own-graphic plan**. It produces a copy-paste prompt document so Usuario 001 can generate the images and drop them back in.

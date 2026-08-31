@@ -1,3 +1,12 @@
+---
+doc: research-dossier
+summary: "Timeline, key figures, every load-bearing claim with source+tier, contested points, rights status."
+stage: [2]
+fills: "02-research-dossier.md"
+rule: [01, 12]
+authority: template
+---
+
 # Dossier de investigación — E0XX «<título provisional>»
 
 > Stage 2. Acompaña a `03-source-log.csv`. No se pasa a guion hasta que cada afirmación de carga tenga ≥1 fuente Tier A/B.

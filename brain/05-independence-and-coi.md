@@ -1,3 +1,12 @@
+---
+doc: 05-independence-and-coi
+summary: "Off-limits subjects (anyone you know, private tips, the founders' own story), the public-documentation test, research hygiene."
+stage: [0, 5, 11]
+read_when: "judging an idea; anything that touches the founders' circle or a private tip"
+pairs_with: [00-project-charter, 04-legal-and-ethics, 01-editorial-and-sourcing]
+authority: canonical
+---
+
 # 05 — Independence & Conflict of Interest
 
 Keeps the founders' other roles and private lives out of the episodes. Checked at idea intake (rubric), flagged by the L2 fact-check pass, and ticked at Stage 11 publish. Any breach → pull the episode.

@@ -1,3 +1,12 @@
+---
+doc: ai-prompts
+summary: "Copy-paste AI-image prompts (episode style block already merged) + the exact filename to save each as."
+stage: [7]
+fills: "07b-ai-prompts.md"
+rule: [15]
+authority: template
+---
+
 # Prompts de ilustración IA — E0XX «<título>»
 
 > **Stage 7 · sub-parte.** Protocolo: `brain/15-ai-illustration-protocol.md`. Solo para beats del shotlist marcados ❌ en `07-assets.md` (sin imagen PD y sin gráfico propio).

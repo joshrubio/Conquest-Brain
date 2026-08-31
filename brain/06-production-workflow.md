@@ -1,3 +1,13 @@
+---
+doc: 06-production-workflow
+summary: "The 12 gated stages, what each produces, the five review pages, per-stage roles, Definition of Done."
+stage: all
+read_when: "moving an episode between stages; unsure what a stage produces or what its gate is"
+pairs_with: [00-project-charter, 14-fact-check-protocol, 12-available-material-protocol]
+tools: [idea_review.py, research_review.py, pull_assets.py, edit_review.py, package_review.py]
+authority: canonical
+---
+
 # 06 — Production Workflow
 
 Pipeline for one episode. Stages are gated: do not start a stage until the previous gate is signed. Files live in `episodes/E0XX-<slug>/`, numbered to match the stages.
@@ -76,7 +86,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 ## Stage 10 — Package  → `08-thumbnail-title.md`, `09-description.md`
 - Templates: [templates/thumbnail-title-brief.md](../templates/thumbnail-title-brief.md), [templates/description-and-credits.md](../templates/description-and-credits.md).
-- `python tools/package_review.py E0XX-slug --init` scaffolds `08` + `09` (pulls the 3 hook-titles from `idea-pool.md`). Fill them, then `python tools/package_review.py E0XX-slug` → **`10-package.html`**: pick the title, pick the thumbnail variant, edit the description (Fuentes principales auto-built from `03-source-log.csv` Tier A/B), ticks the 3 approvals. Exports `10-package.txt` → folded into `08` + `09`.
+- `python tools/package_review.py E0XX-slug --init` scaffolds `08` + `09` (pulls the 3 hook-titles from `idea-pool.md`). Fill them, then `python tools/package_review.py E0XX-slug` → **`10-package.html`**: pick the title, pick the thumbnail variant, edit the description (Fuentes principales auto-built from `03-source-log.csv` Tier A/B), tick the 3 approvals. Exports `10-package.txt` → folded into `08` + `09`.
 - Description = 2–3 sentence summary + chapters + **Fuentes principales** + courtesy credits + soft CTA. No source cards on screen — this is where citations live.
 - **Gate:** title/thumbnail honest to the content (no clickbait the body doesn't pay off); the 3 approvals ticked in `10-package.txt`.
 

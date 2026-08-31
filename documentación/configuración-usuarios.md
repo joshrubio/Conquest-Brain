@@ -1,3 +1,11 @@
+---
+doc: configuración-usuarios
+summary: "El mapeo Usuario 001/002 -> personas reales en español. Reparto de responsabilidades, qué no se abstrae, cómo clonar el sistema."
+audience: "quien configure el equipo"
+mirrors: [brain/USERS]
+authority: guide
+---
+
 # Configuración de usuarios
 
 Todo el sistema —reglas (`brain/`), plantillas, guías, archivos de episodio, la

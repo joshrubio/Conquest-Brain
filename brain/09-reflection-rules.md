@@ -1,3 +1,12 @@
+---
+doc: 09-reflection-rules
+summary: "The close in its three forms (A reflection+takeaway / B distributed lesson / C open question), the surgical test, failure modes."
+stage: [1, 3, 4]
+read_when: "choosing the close form in the brief; writing or checking the close"
+pairs_with: [02-content-format, 08-tone-of-voice, 01-editorial-and-sourcing]
+authority: canonical
+---
+
 # 09 — Reflection & Takeaway Rules
 
 > **Status: v1 — validated against 6 Dieck Docs transcripts (2026-08-27)** (`research/dieck-docs/structure-analysis.md`). Major v0 → v1 change: the reflection is **not always a discrete final block**. The reference set uses three forms — a final reflection+takeaway, a lesson distributed through the last third, and an open question to the audience. All three are legitimate. Also: the close is smaller than v0 assumed (8–20% of runtime, not 20–30%), and Dieck plants the reflection's mechanism via foreshadowing long before the close.

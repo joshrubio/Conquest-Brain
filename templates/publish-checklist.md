@@ -1,6 +1,15 @@
+---
+doc: publish-checklist
+summary: "Pre-upload: fact-check done, legal + independence/COI tick, upload/subs/chapters/pinned comment, schedule."
+stage: [11]
+fills: "10-publish-checklist.md"
+rule: [04, 05]
+authority: template
+---
+
 # Checklist de publicación — E0XX «<título>»
 
-> Stage 11. Nada se sube sin el visto de Usuario 002 **y** Usuario 001 en las secciones legal y de separación.
+> Stage 11. Nada se sube sin el visto (un usuario) en las secciones legal y de independencia/COI.
 
 | Campo | Valor |
 |-------|-------|

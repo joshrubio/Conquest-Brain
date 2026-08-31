@@ -1,3 +1,12 @@
+---
+doc: episode-retro
+summary: "48h + 30d: metrics, what worked, corrections issued, process fixes -> brain/ edits."
+stage: [12]
+fills: "11-retro.md"
+rule: [07]
+authority: template
+---
+
 # Retrospectiva — E0XX «<título>»
 
 > Stage 12. Dos pasadas: 48 h y 30 días tras la publicación.

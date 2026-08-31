@@ -1,3 +1,11 @@
+---
+doc: pipeline/4-fact-check
+summary: "Stage 5: L1 determinista + L2 LLM (6 tablas de banderas). Sin firma humana. Cómo se resuelve cada bandera. Ejemplo E001."
+audience: "guionista"
+mirrors: [brain/14]
+authority: guide
+---
+
 # Fact-check (Stage 5)
 
 **Dos capas, las dos automáticas. No hay firma humana.** La pasada L2 es el último control antes de grabar; el guionista resuelve cada bandera en el guion.

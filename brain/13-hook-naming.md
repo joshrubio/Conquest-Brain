@@ -1,3 +1,13 @@
+---
+doc: 13-hook-naming
+summary: "The Dieck title anatomy, hook types, our ethical rules, fill-in templates, worked examples. Every idea gets 3 hook-titles from ideation."
+stage: [0, 10]
+read_when: "naming an idea; picking the published title; A/B thumbnail text"
+pairs_with: [07-publishing-seo-metrics, 02-content-format]
+tools: [idea_review.py]
+authority: canonical
+---
+
 # 13 — Hook Naming (Protocol 2)
 
 Every idea is presented, **from ideation**, with a **hook-title** — a working title built to earn the click, in the register Farid Dieck uses for *Dieck Docs*. Without a strong hook in the name, the video has no audience. The final published title (Stage 10) is chosen from the hook-title variants; see also [07-publishing-seo-metrics.md](07-publishing-seo-metrics.md).

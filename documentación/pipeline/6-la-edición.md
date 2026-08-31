@@ -1,3 +1,11 @@
+---
+doc: pipeline/6-la-edición
+summary: "Stage 9 paso a paso: Ken Burns -> trim -> revisión -> b-roll -> música -> subtítulos. 4K, grade de casa, -14 LUFS."
+audience: "editor"
+mirrors: [brain/16]
+authority: guide
+---
+
 # La edición (Stage 9)
 
 Regla: `brain/16-edit-and-delivery.md`. Producto: `07c-edit.md` (checklist) + `07c-edit.html` (superficie de revisión, generada) + `07c-review.txt` (aprobaciones + feedback).

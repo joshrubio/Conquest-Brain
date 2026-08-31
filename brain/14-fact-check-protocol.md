@@ -1,3 +1,13 @@
+---
+doc: 14-fact-check-protocol
+summary: "Stage 5. L1 deterministic (factcheck.py) + L2 LLM-assisted (prompt). The writer resolves every flag. No human sign-off layer."
+stage: [5]
+read_when: "fact-checking a script; setting up or running the fact-check tools"
+pairs_with: [01-editorial-and-sourcing, 04-legal-and-ethics, 06-production-workflow]
+tools: [factcheck.py, fact-check-auto-prompt.md]
+authority: canonical
+---
+
 # 14 — Fact-Check Protocol
 
 Stage 5. **Two layers, both automated. No human sign-off layer** — the L2 pass is the last check before record.

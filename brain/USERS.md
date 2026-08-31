@@ -1,3 +1,12 @@
+---
+doc: USERS
+summary: "The only file that maps Usuario 001 / Usuario 002 to real people. Slots are fixed; responsibilities are assignable items. What never gets abstracted."
+stage: all
+read_when: "you need a real name; configuring the system for a different team"
+pairs_with: [00-project-charter, 06-production-workflow]
+authority: canonical
+---
+
 # USERS — slot ↔ person mapping
 
 The rest of `brain/`, `templates/`, `documentación/`, the episode files and the

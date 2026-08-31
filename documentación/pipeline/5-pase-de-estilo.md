@@ -1,3 +1,11 @@
+---
+doc: pipeline/5-pase-de-estilo
+summary: "Stage 7: la página 07-style-pass.html (intro / candidatos por beat / prompts IA / música), el flujo de pull -> pase -> descarga -> manifiesto."
+audience: "producción"
+mirrors: [brain/12, brain/15]
+authority: guide
+---
+
 # El pase de estilo (Stage 7)
 
 *(Antes lo llamábamos "pase de fotografía". Ahora "pase de estilo" / style pass, porque evalúa toda la estética —imagen, vídeo, IA, música—, no solo fotografía.)*

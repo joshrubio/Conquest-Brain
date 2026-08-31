@@ -1,3 +1,12 @@
+---
+doc: thumbnail-title-brief
+summary: "3 hook-title candidates + thumbnail direction. Title/thumbnail honest to the body."
+stage: [10]
+fills: "08-thumbnail-title.md"
+rule: [13, 07]
+authority: template
+---
+
 # Brief de título y miniatura — E0XX «<título>»
 
 > Stage 10. El título y la miniatura deben ser honestos con el cuerpo del vídeo. Sin clickbait que el episodio no pague.

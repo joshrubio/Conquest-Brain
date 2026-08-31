@@ -1,3 +1,12 @@
+---
+doc: 04-legal-and-ethics
+summary: "Subject eligibility, defamation, deceased persons, archival/copyright, minors, sensitive topics, disclosure — a checklist."
+stage: [5, 11]
+read_when: "fact-checking; before publishing; covering a living person or a sensitive topic"
+pairs_with: [01-editorial-and-sourcing, 05-independence-and-coi, 15-ai-illustration-protocol]
+authority: canonical
+---
+
 # 04 — Legal & Ethics Checklist
 
 Not legal advice. This is the working standard; escalate anything uncertain to a lawyer before publishing.

@@ -1,3 +1,11 @@
+---
+doc: pipeline/7-empaquetado-y-publicación
+summary: "Stages 10-11: título (patrón Dieck), miniatura, bloques obligatorios de la descripción, el tick legal/COI, la subida, cadencia."
+audience: "producción"
+mirrors: [brain/07, brain/13]
+authority: guide
+---
+
 # Empaquetado y publicación (Stages 10–11)
 
 El episodio está bloqueado (picture lock). Falta el envoltorio: título, miniatura, descripción, y la subida.

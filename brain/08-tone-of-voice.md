@@ -1,3 +1,12 @@
+---
+doc: 08-tone-of-voice
+summary: "Register, first-person investigator voice, neutral Spanish, sentence rhythm, uncertainty phrasing, foreshadowing toolkit, never-do list."
+stage: [4]
+read_when: "writing or editing narration; the script self-review"
+pairs_with: [02-content-format, 09-reflection-rules, 01-editorial-and-sourcing]
+authority: canonical
+---
+
 # 08 — Tone of Voice
 
 > **Status: v1 — validated against 6 Dieck Docs transcripts (2026-08-27)** (`research/dieck-docs/structure-analysis.md`). v0 → v1 changes: **direct "tú" is now used throughout the episode**, not only in the takeaway (that was wrong in v0); added the first-person investigator voice; verbal uncertainty markers are now a required habit; clarified where we deliberately diverge from Dieck (he moralizes lightly in his closes — we keep ours lighter, for the journalism brand).

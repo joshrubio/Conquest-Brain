@@ -1,3 +1,12 @@
+---
+doc: shotlist-broll
+summary: "One row per visual beat, inferred from the locked script. Need / archival-vs-graphic / on-screen text / motion / rights."
+stage: [6]
+fills: "06-shotlist.md"
+rule: [11]
+authority: template
+---
+
 # Shotlist / B-roll — E0XX «<título>»
 
 > Stage 6. Se **infiere del guion bloqueado** (`brain/11-visual-rhythm.md`). Una fila por beat visual. Ningún visual pasa a edición sin estado de derechos.

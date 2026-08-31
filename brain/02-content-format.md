@@ -1,3 +1,12 @@
+---
+doc: 02-content-format
+summary: "Episode anatomy (cold open -> bumper -> context pivot -> chronological narrative -> close -> CTA), length, required devices."
+stage: [3, 4]
+read_when: "outlining or writing a script; laying out the beat sheet"
+pairs_with: [08-tone-of-voice, 09-reflection-rules, 11-visual-rhythm]
+authority: canonical
+---
+
 # 02 — Content Format Spec
 
 > **Status: v1 — validated against 6 Dieck Docs transcripts (2026-08-27).** Basis: `research/dieck-docs/structure-analysis.md` (T01 Grinberg, T02 Titanic, T03 Chernobyl, T04 Heath Ledger, T05 McDonald's, T06 Steve Jobs). Companion files: tone in [08-tone-of-voice.md](08-tone-of-voice.md), reflection craft in [09-reflection-rules.md](09-reflection-rules.md).

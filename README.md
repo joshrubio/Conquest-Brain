@@ -2,9 +2,11 @@
 
 > **Exodo** (no accent, ever) · channel **Exodo Channel** · handle **`@exodochannel`** · own new YouTube channel, category *Education*. Brand spec: [brain/03-brand-identity.md](brain/03-brand-identity.md).
 
-A Spanish-language journalistic-documentary YouTube channel — narrated real cases that close on a psychological/human reflection and a surgical, applicable takeaway. Run by two people — **Usuario 001** (writes every script, production, tech, T02 ideation) and **Usuario 002** (editorial lead, T01 ideation, fact-check sign-off). Roles are assignable items, not identities; real names and the split live in [brain/USERS.md](brain/USERS.md). Both founders are Venezuelan journalists; the *exodus* is their voice and motive, never an episode subject. Narration is assigned per episode.
+A Spanish-language journalistic-documentary YouTube channel — narrated real cases that close on a psychological/human reflection and a surgical, applicable takeaway. Run by two people — **Usuario 001** (writes every script, production, tech, T02 ideation) and **Usuario 002** (editorial lead, T01 ideation, research direction). Roles are assignable items, not identities; real names and the split live in [brain/USERS.md](brain/USERS.md). Both founders are Venezuelan journalists; the *exodus* is their voice and motive, never an episode subject. Narration is assigned per episode.
 
 Reference format: **Dieck Docs** (Farid Dieck). Standalone project — not a phase of, or funnel for, anything.
+
+**Working here (human or agent)? Start with [AGENTS.md](AGENTS.md)** → it routes you to `brain/INDEX.md` and the rest. Every doc has YAML frontmatter (`summary`, `stage`, `read_when`) so you can find the right file without reading all of them.
 
 ## What this repo is
 

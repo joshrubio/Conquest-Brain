@@ -1,3 +1,11 @@
+---
+doc: pipeline/3-los-3-protocolos
+summary: "Protocolo 1 material disponible · Protocolo 2 hook naming · Protocolo 3 fact-check. Cuándo corre cada uno."
+audience: "producción"
+mirrors: [brain/12, brain/13, brain/14]
+authority: guide
+---
+
 # Los tres protocolos
 
 Tres protocolos corren en momentos concretos del pipeline. Dos en la ideación (Stage 0), uno en el fact-check (Stage 5).

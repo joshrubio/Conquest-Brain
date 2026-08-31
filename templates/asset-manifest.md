@@ -1,3 +1,12 @@
+---
+doc: asset-manifest
+summary: "Resolves each archival beat to one concrete image with a direct link + the style-pass judgement."
+stage: [7]
+fills: "07-assets.md"
+rule: [12, 03]
+authority: template
+---
+
 # Manifiesto de recursos — E0XX «<título>»
 
 > **Stage 7.** Resuelve cada beat archivístico del shotlist a **una imagen concreta**, con enlace directo, y registra el **pase de estilo** (¿encaja con la estética del vídeo?). Los beats de gráfico propio no van aquí — van al brief de diseño.

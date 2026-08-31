@@ -1,3 +1,12 @@
+---
+doc: description-and-credits
+summary: "YouTube description: summary + Fuentes principales + chapters + soft CTA + credits + correction log."
+stage: [10]
+fills: "09-description.md"
+rule: [07]
+authority: template
+---
+
 # Descripción de YouTube y créditos — E0XX «<título>»
 
 > Stage 10. El bloque «Fuentes principales» es obligatorio en todos los episodios. Sin enlace ni pitch de terceros.

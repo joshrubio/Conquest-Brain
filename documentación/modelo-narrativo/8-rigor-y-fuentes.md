@@ -1,3 +1,11 @@
+---
+doc: modelo-narrativo/8-rigor-y-fuentes
+summary: "Ninguna afirmación sin fuente. Tiers A-D, etiquetas [S..], citas, elegibilidad, verdad vs. leyenda pulida, correcciones."
+audience: "guionista, investigación"
+mirrors: [brain/01]
+authority: guide
+---
+
 # Rigor y fuentes
 
 El valor entero del canal es este: **ninguna afirmación sin fuente**. Un espectador tiene que poder verificar cualquier dato y encontrarlo firme. Trata cada episodio como periodismo publicable, no como "contenido".

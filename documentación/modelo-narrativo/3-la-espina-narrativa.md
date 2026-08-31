@@ -1,3 +1,11 @@
+---
+doc: modelo-narrativo/3-la-espina-narrativa
+summary: "El 55-70% central: pivote a contexto, forma de la historia, interludios explicadores, foreshadowing, módulo N teorías."
+audience: "guionista"
+mirrors: [brain/02, brain/11]
+authority: guide
+---
+
 # La espina narrativa
 
 Es el 55–70% del episodio: la historia contada en orden. Aquí viven dos dispositivos obligatorios —los **interludios explicadores** y el **foreshadowing**— y, opcionalmente, el módulo "las N teorías".

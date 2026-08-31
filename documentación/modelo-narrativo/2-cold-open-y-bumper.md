@@ -1,3 +1,11 @@
+---
+doc: modelo-narrativo/2-cold-open-y-bumper
+summary: "Los primeros 45 s: hook narrativo (4 aperturas) + hook visual (2-5 planos) + el bumper de marca."
+audience: "guionista"
+mirrors: [brain/02]
+authority: guide
+---
+
 # El cold open y el bumper
 
 Los primeros 45 segundos deciden si alguien se queda. No hay presentación de canal, no hay "hola, bienvenidos". Empiezas **dentro de la historia**.

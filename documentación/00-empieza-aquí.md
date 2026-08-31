@@ -1,3 +1,11 @@
+---
+doc: 00-empieza-aquí
+summary: "Orientación: qué es el proyecto en 5 frases, en qué orden leer las guías, mapa del repo, reglas de oro."
+audience: "cualquiera que se sume al equipo"
+mirrors: [brain/INDEX, brain/06]
+authority: guide
+---
+
 # Empieza aquí
 
 Esta carpeta son **guías para leer y aprender**. No son reglas —las reglas viven en `brain/`, escritas en corto y en inglés—. Aquí explicamos, con ejemplos y en español, *cómo se piensa y se hace* un episodio de Exodo Channel y cómo funcionan las herramientas.

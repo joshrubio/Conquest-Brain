@@ -1,3 +1,13 @@
+---
+doc: 12-available-material-protocol
+summary: "Never write for a story you can't illustrate. Public-domain archives list, the per-idea worksheet, stock rules, music licensing, subject-with-no-photograph."
+stage: [0, 2, 7]
+read_when: "judging an idea's feasibility; planning assets; licensing music; a subject with no surviving likeness"
+pairs_with: [06-production-workflow, 15-ai-illustration-protocol, 03-brand-identity]
+tools: [pull_assets.py, find_music.py]
+authority: canonical
+---
+
 # 12 — Available-Material Protocol (Protocol 1)
 
 Runs **during ideation**, before an idea can be approved. Purpose: never write a script for a story we can't illustrate. "Available" means **public domain** (or our own graphics) — no paid archives for now.

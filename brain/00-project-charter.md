@@ -1,3 +1,12 @@
+---
+doc: 00-project-charter
+summary: "Mission, audience, the four non-negotiables, what the project is and isn't, change control."
+stage: all
+read_when: "starting on the project; questioning whether an idea or choice fits the channel"
+pairs_with: [01-editorial-and-sourcing, 05-independence-and-coi, 06-production-workflow, USERS]
+authority: canonical
+---
+
 # 00 — Project Charter
 
 ## Mission

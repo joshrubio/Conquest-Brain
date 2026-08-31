@@ -1,3 +1,11 @@
+---
+doc: pipeline/2-de-idea-a-episodio
+summary: "Stage 0: los 2 tracks, propuesta, cross-check de material, 3 requisitos + 8 eliminatorios + /21, decisión, cuándo matar una idea."
+audience: "dueño del track"
+mirrors: [brain/06, ideas/idea-rubric]
+authority: guide
+---
+
 # De idea a episodio (Stage 0)
 
 Cómo nace un episodio: alguien propone, se nombra con gancho, se comprueba que hay material, se puntúa, y —si pasa— se convierte en carpeta.

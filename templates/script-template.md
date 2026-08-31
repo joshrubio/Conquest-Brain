@@ -1,3 +1,12 @@
+---
+doc: script-template
+summary: "Full narration + on-screen cues + inline [S..] tags. Header for close form / narrator / version."
+stage: [4]
+fills: "05-script.md"
+rule: [02, 08, 09]
+authority: template
+---
+
 # Guion — E0XX «<título provisional>»
 
 > Stage 4. Estructura: cold open → pivote a contexto → narrativa cronológica (con interludios explicadores + foreshadowing) → cierre → CTA. Ver `brain/02-content-format.md` (v1).

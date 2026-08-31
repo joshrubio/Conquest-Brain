@@ -1,3 +1,11 @@
+---
+doc: modelo-narrativo/1-anatomía-de-un-episodio
+summary: "Las 6 secciones de un episodio en orden, sus tiempos, qué trabajo hace cada una. Ejemplos E000/E001."
+audience: "guionista"
+mirrors: [brain/02]
+authority: guide
+---
+
 # Anatomía de un episodio
 
 Todo episodio de Exodo tiene la misma forma. No es una camisa de fuerza —la duración y el número de escenas varían—, pero **el orden es fijo** y cada sección hace un trabajo concreto.

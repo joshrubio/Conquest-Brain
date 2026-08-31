@@ -1,3 +1,11 @@
+---
+doc: modelo-narrativo/7-titular-con-gancho
+summary: "Anatomía del título Dieck, tipos de gancho, reglas éticas, plantillas, ejemplos con sujetos propios."
+audience: "dueño del track"
+mirrors: [brain/13]
+authority: guide
+---
+
 # Titular con gancho
 
 Sin un gancho fuerte en el nombre, el vídeo no tiene audiencia. Cada idea se presenta **desde la ideación** con 3 hook-titles en el registro de Farid Dieck. El título publicado (Stage 10) sale de esas 3 variantes.

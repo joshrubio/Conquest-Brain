@@ -1,3 +1,12 @@
+---
+doc: fact-check-auto-prompt
+summary: "The paste-in LLM prompt for Layer 2 — six flag tables (claims, interpretation, quotes, hedging, pop-psych, legal/COI)."
+stage: [5]
+fills: "04-factcheck-auto.md (L2)"
+rule: [14]
+authority: template
+---
+
 # Fact-check — Layer 2 prompt (LLM-assisted)
 
 > `brain/14-fact-check-protocol.md` Layer 2 — the last check before record (there is no Layer 3). Usuario 001 pastes the script + the source-log into an LLM using the prompt below; the output goes into `04-factcheck-auto.md` and **every flag is resolved in the script** (correction applied, or dismissed with a one-line reason). **The LLM is not a source** — a flag is a to-do to check against the real source, not a verdict.

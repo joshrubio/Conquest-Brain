@@ -1,3 +1,13 @@
+---
+doc: 07-publishing-seo-metrics
+summary: "Cadence, title/thumbnail rules (pointers), description blocks, chapters, tags, KPIs + the KPI log."
+stage: [10, 11, 12]
+read_when: "packaging, publishing, or running a retro; setting cadence"
+pairs_with: [13-hook-naming, 03-brand-identity, 06-production-workflow]
+tools: [package_review.py]
+authority: canonical
+---
+
 # 07 — Publishing, SEO & Metrics
 
 ## Cadence (proposed, not locked)

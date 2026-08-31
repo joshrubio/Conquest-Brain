@@ -1,3 +1,11 @@
+---
+doc: pipeline/8-retro-y-métricas
+summary: "Stage 12: cuándo (48h + 30d), los KPI, el KPI log, qué produce el retro (fixes de proceso), revisiones cada ~5 episodios."
+audience: "ambos"
+mirrors: [brain/07]
+authority: guide
+---
+
 # Retro y métricas (Stage 12)
 
 La última etapa cierra el bucle: qué funcionó, qué se corrige en el *proceso* (no solo en el episodio), y qué dicen los números.

@@ -1,3 +1,11 @@
+---
+doc: modelo-narrativo/6-tono-y-voz
+summary: "Cómo suena Exodo: registro, primera persona investigadora, español neutro, atribución e incertidumbre, el 'tú', lista de nunca."
+audience: "guionista, narrador"
+mirrors: [brain/08]
+authority: guide
+---
+
 # Tono y voz
 
 Hay dos narradores —Usuario 001 y Usuario 002— pero **la voz del canal es una**. La entrega personal cambia; el estándar de escritura no.

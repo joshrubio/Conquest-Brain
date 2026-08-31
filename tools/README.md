@@ -1,3 +1,10 @@
+---
+doc: tools/README
+summary: "The pipeline scripts, ~one per stage. The table below is the index; each script's module docstring has the detail."
+stage: all
+authority: index
+---
+
 # tools/
 
 Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportlab`, `pillow`, `PyYAML`.

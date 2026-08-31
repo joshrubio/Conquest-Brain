@@ -1,3 +1,12 @@
+---
+doc: 01-editorial-and-sourcing
+summary: "The uncited-claim rule, source tiers A-D, quotes, reflection-as-interpretation, corrections, AI-not-a-source."
+stage: [2, 4, 5]
+read_when: "researching, writing, or fact-checking a script; deciding if a source is good enough"
+pairs_with: [02-content-format, 04-legal-and-ethics, 14-fact-check-protocol]
+authority: canonical
+---
+
 # 01 — Editorial Standard & Sourcing
 
 Treat every episode as publishable journalism, not "content". A viewer should be able to check any claim and find it holds.

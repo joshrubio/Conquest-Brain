@@ -1,3 +1,12 @@
+---
+doc: episode-brief
+summary: "Working thesis, why now, close form, top-3 sources, risks. Fill before investing research time."
+stage: [1]
+fills: "01-brief.md"
+rule: [06]
+authority: template
+---
+
 # Brief de episodio — E0XX «<título provisional>»
 
 > Stage 1 del flujo. Rellenar antes de invertir tiempo en investigación. Ver `brain/06-production-workflow.md`.

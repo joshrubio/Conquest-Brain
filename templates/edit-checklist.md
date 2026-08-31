@@ -1,3 +1,12 @@
+---
+doc: edit-checklist
+summary: "The Stage-9 run: Ken Burns, trim, review, b-roll, music, subs, grade, export, picture lock."
+stage: [9]
+fills: "07c-edit.md"
+rule: [16]
+authority: template
+---
+
 # Edición — E0XX «<título>»
 
 > Stage 9. Protocolo: `brain/16-edit-and-delivery.md`. **Solo lo que está en brain/16.**

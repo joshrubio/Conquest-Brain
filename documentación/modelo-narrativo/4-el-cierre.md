@@ -1,3 +1,11 @@
+---
+doc: modelo-narrativo/4-el-cierre
+summary: "Las 3 formas de cerrar (A reflexión+takeaway / B lección distribuida / C pregunta abierta), reglas, modos de fallo."
+audience: "guionista"
+mirrors: [brain/09]
+authority: guide
+---
+
 # El cierre
 
 El cierre convierte "una cosa que pasó" en "una cosa sobre cómo funcionan las personas". Ocupa el 8–20% del metraje —menos de lo que parece— y **se elige la forma en el brief (Stage 1)**, no en el montaje.

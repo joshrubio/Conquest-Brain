@@ -1,3 +1,13 @@
+---
+doc: 16-edit-and-delivery
+summary: "Stage 9, deliberately minimal. Ken Burns -> trim -> review -> b-roll -> music -> subtitles. 4K, house grade, export -14 LUFS. If an effect isn't in this doc it doesn't go in."
+stage: [9]
+read_when: "editing the video; assembling b-roll; the music bed; export settings"
+pairs_with: [03-brand-identity, 11-visual-rhythm, 06-production-workflow]
+tools: [kenburns.py, trim_talk.py, edit_review.py, find_music.py]
+authority: canonical
+---
+
 # 16 — Edit & Delivery (Stage 9)
 
 Deliberately minimal. **If an effect isn't in this doc, it doesn't go in the episode.** No lower-thirds system, no source cards, no transitions beyond a hard cut and a section fade. One house grade (`brain/03`), applied whole. The rigor is in the script and the sourcing, not in the motion graphics.

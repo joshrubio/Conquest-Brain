@@ -1,3 +1,12 @@
+---
+doc: 03-brand-identity
+summary: "Name, palette, grade, typography, case-file device, wordmark, 4K rule, no-source-cards rule, thumbnail system."
+stage: [3, 7, 9, 10]
+read_when: "designing anything on screen; the grade; thumbnails; titles/wordmark"
+pairs_with: [02-content-format, 16-edit-and-delivery, 07-publishing-seo-metrics]
+authority: canonical
+---
+
 # 03 — Brand Identity
 
 **Name: Exodo** — no accent, ever (prose, subtitles, wordmark, handles).
