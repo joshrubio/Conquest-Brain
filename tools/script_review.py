@@ -191,6 +191,7 @@ def build(slug, header, beats):
 
     header_ver = json.dumps(header.get("Versión", header.get("Version", "?")))
     script = f"""
+const EPID={slug[:4]!r}; const STAGE=4;
 const LS="exodo-scriptpass-{slug}";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const cnt=$('.count');
@@ -233,7 +234,7 @@ $('#exp').onclick=()=>{{
   }});
   const g=$('#global').value.trim();
   if(g)L.push('','---GLOBAL---',g);
-  saveTxt('{REVIEW_TXT}', L.join('\\n')+'\\n',
+  finishStage('{REVIEW_TXT}', L.join('\\n')+'\\n', EPID, STAGE,
     'Guardado en la carpeta del episodio. Pásaselo a Claude para aplicar las notas a 05-script.md.');
 }};
 $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};

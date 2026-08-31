@@ -30,6 +30,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | edit the video | `16`, `11`, `03` |
 | thumbnail / description / publish | `07`, `03`, `13`, `04` |
 | run a retro | `07`, `06` (Stage 12) |
+| run the pipeline day to day / a gate won't close | `17` |
 | commit / git question | `10` |
 | who is Usuario 001/002 | `USERS.md` |
 | anything legal / a living person / a sensitive topic | `04`, `05` |
@@ -55,6 +56,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | 14 | fact-check-protocol | 5 | fully automated — L1 deterministic + L2 agent edit-pass that applies the fixes; no human step |
 | 15 | ai-illustration-protocol | 7 | AI only where nothing real exists; one style/episode; label always; no real faces, no fake docs |
 | 16 | edit-and-delivery | 9 | Ken Burns→trim→review→b-roll→music→subs; 4K; house grade; export −14 LUFS |
+| 17 | dashboard-and-advance | all | dashboard.html + serve.py + advance.py — one-click gate hand-off; the /loop; _STATUS.md |
 | — | USERS | all | the only slot→person map; slots fixed, responsibilities assignable |
 
 ## Canonical homes (where a rule lives once, everyone else points)

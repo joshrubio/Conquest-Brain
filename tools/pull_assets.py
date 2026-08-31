@@ -801,11 +801,23 @@ document.getElementById('exp').onclick=async()=>{{
     mus.push('music\\t'+t.dataset.key+'\\t'+t.dataset.url)}});
   if(mus.length){{L.push('# --- MÚSICA (consideración; brand/assets/music/) ---'); L.push(...mus);}}
   const txt=L.join('\\n')+'\\n';
+  // 1: write 07-picks.txt via the server, then let advance.py run --download
+  try{{
+    const w=await fetch('http://localhost:8765/'+
+      'episodes/'+SLUG+'/{PICKS_F}',{{method:'GET'}}); // probe server up
+  }}catch(e){{}}
+  try{{
+    const r=await fetch('http://localhost:8765/finish',{{method:'POST',
+      headers:{{'content-type':'application/json'}},
+      body:JSON.stringify({{ep:SLUG.slice(0,4),stage:7,payload:{{txt:txt,picks:txt}}}})}});
+    if(r.ok){{const j=await r.json();
+      alert('Stage 7 cerrado — descargando recursos.\\n'+(j.msg||'')+'\\nDashboard actualizado.');return;}}
+  }}catch(e){{}}
   try{{
     const fh=await window.showSaveFilePicker({{suggestedName:'{PICKS_F}',
       types:[{{description:'texto',accept:{{'text/plain':['.txt']}}}}]}});
     const w=await fh.createWritable(); await w.write(txt); await w.close();
-    alert('Guardado. Corre:  python tools/pull_assets.py '+SLUG+' --download');
+    alert('Guardado (server no detectado). Corre:  python tools/pull_assets.py '+SLUG+' --download');
     return;
   }}catch(e){{if(e&&e.name==='AbortError')return;}}
   navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{{}});

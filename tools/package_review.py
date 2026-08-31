@@ -156,6 +156,7 @@ def build(ep, slug):
     )
 
     script = f"""
+const EPID={slug[:4]!r}; const STAGE=10;
 const LS="exodo-package:{e(slug)}";
 const $=s=>document.querySelector(s);
 function state(){{
@@ -191,7 +192,7 @@ $('#exp').onclick=()=>{{
            'aprobado\\t'+s.ok.join(','),
            'nota\\t'+s.n.replace(/\\n/g,' '),
            '---DESCRIPCION---', s.d];
-  saveTxt('10-package.txt', L.join('\\n')+'\\n',
+  finishStage('10-package.txt', L.join('\\n')+'\\n', EPID, STAGE,
     'Guardado en la carpeta del episodio. Pásaselo a Claude para cerrar 08 + 09.');
 }};
 $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};

@@ -1,0 +1,158 @@
+# -*- coding: utf-8 -*-
+"""
+pipeline.py — the single source of truth for the 12-stage pipeline.
+
+The stage manifest (what each stage produces, its review page, how its
+gate is folded, what an agent must read to *generate* that stage), plus
+readers/writers for episodes/_STATUS.md and episodes/_queue.json.
+
+Imported by dash.py, advance.py, serve.py and the review tools.
+Not a CLI.
+"""
+import json
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+EP_DIR = ROOT / "episodes"
+STATUS_F = EP_DIR / "_STATUS.md"
+QUEUE_F = EP_DIR / "_queue.json"          # gitignored — the loop's to-do list
+PORT = 8765
+
+# fold kinds:
+#   mech   — advance.py folds it in python, no agent
+#   verify — advance.py only checks an artifact exists + marks the gate
+#   claude — an agent must generate/apply content; advance.py queues it
+#   human  — offline (record, upload); the user marks it done in the dashboard
+STAGES = [
+    # n  key         name(ES)                     produces                                   review_html                export                fold      nxt  reads_to_generate                                                   rules
+    (0,  "idea",     "Ideación",                  "fila en ideas/idea-pool.md",              "ideas/idea-review.html",  "idea-review.txt",    "mech",   1,   ["ideas/idea-pool.md"],                                              ["brain/12", "brain/13", "brain/05"]),
+    (1,  "brief",    "Brief",                     "01-brief.md",                             None,                      None,                 "claude", 2,   ["ideas/idea-pool.md"],                                              ["brain/06", "brain/13", "brain/09"]),
+    (2,  "research", "Dossier de investigación",  "02-research-dossier.md + 03-source-log.csv", "02-research.html",      "02-research.txt",     "mech",   3,   ["01-brief.md"],                                                     ["brain/01", "brain/05", "brain/12"]),
+    (3,  "outline",  "Outline",                   "03-outline.md (beat sheet)",              None,                      None,                 "claude", 4,   ["02-research-dossier.md", "01-brief.md"],                            ["brain/02", "brain/09"]),
+    (4,  "script",   "Guion",                     "05-script.md",                            "05-script.html",          "05-script-pass.txt", "claude", 5,   ["03-outline.md", "02-research-dossier.md", "03-source-log.csv", "01-brief.md"], ["brain/02", "brain/08", "brain/09", "brain/13"]),
+    (5,  "factcheck","Fact-check",                "04-factcheck-auto.md",                    None,                      None,                 "claude", 6,   ["05-script.md", "03-source-log.csv"],                                ["brain/14", "brain/01", "brain/04"]),
+    (6,  "shotlist", "Shotlist",                  "06-shotlist.md",                          None,                      None,                 "claude", 7,   ["05-script.md"],                                                    ["brain/11", "brain/06"]),
+    (7,  "assets",   "Recursos + pase de estilo", "07-assets.md (+ 07b-ai-prompts.md)",      "07-style-pass.html",      "07-picks.txt",       "mech",   8,   ["06-shotlist.md", "material-search.md"],                             ["brain/12", "brain/15", "brain/03"]),
+    (8,  "record",   "Grabación",                 "tomas en assets/",                        None,                      None,                 "human",  9,   [],                                                                  []),
+    (9,  "edit",     "Edición",                   "07c-edit.md",                            "07c-edit.html",           "07c-review.txt",     "mech",   10,  [],                                                                  ["brain/16"]),
+    (10, "package",  "Paquete",                   "08-thumbnail-title.md + 09-description.md", "10-package.html",       "10-package.txt",     "mech",   11,  ["03-source-log.csv", "ideas/idea-pool.md"],                          ["brain/07", "brain/13", "brain/03"]),
+    (11, "publish",  "Publicación",               "10-publish-checklist.md",                 None,                      None,                 "human",  12,  [],                                                                  ["brain/04", "brain/05"]),
+    (12, "retro",    "Retro",                     "11-retro.md",                            "12-metrics.html",         "12-metrics.txt",     "mech",   None, [],                                                                  ["brain/07"]),
+]
+
+_KEYS = ("n", "key", "name", "produces", "review_html", "export", "fold", "next", "reads", "rules")
+STAGE = {s[0]: dict(zip(_KEYS, s)) for s in STAGES}
+GATES = ("abierto", "exportado", "firmado")   # firmado = passed, ready to advance
+
+
+# ---------- episodes/_STATUS.md ----------
+
+_ROW = re.compile(r"^\|\s*(E\d{3})\s*\|(.+)\|\s*$")
+
+
+def read_status():
+    """-> {epid: {slug,title,track,narrator,stage,gate,auto,notes}}"""
+    out = {}
+    if not STATUS_F.exists():
+        return out
+    for line in STATUS_F.read_text(encoding="utf-8").splitlines():
+        m = _ROW.match(line)
+        if not m:
+            continue
+        cells = [c.strip() for c in (m.group(1) + "|" + m.group(2)).split("|")]
+        # ID | Slug | Título | Track | Narrador | Stage | Gate | Auto-avance | Notas
+        if len(cells) < 9:
+            continue
+        epid = cells[0]
+        try:
+            stage = int(re.sub(r"\D", "", cells[5]) or -1)
+        except ValueError:
+            stage = -1
+        try:
+            auto = int(re.sub(r"\D", "", cells[7]))
+        except ValueError:
+            auto = 12
+        out[epid] = {
+            "slug": cells[1], "title": cells[2], "track": cells[3], "narrator": cells[4],
+            "stage": stage, "gate": cells[6].lower() if cells[6] in GATES or cells[6].lower() in GATES else "abierto",
+            "auto": auto, "notes": cells[8],
+        }
+    return out
+
+
+def write_status(data):
+    hdr = ("# Índice maestro de episodios\n\n"
+           "> Fuente única de verdad del estado de cada episodio. La escriben `tools/advance.py` y `tools/serve.py`; edítala a mano solo para las notas o el techo de auto-avance.\n\n"
+           "## Leyenda\n\n"
+           "**Stage** 0 idea · 1 brief · 2 investigación · 3 outline · 4 guion · 5 fact-check · 6 shotlist · 7 recursos+estilo · 8 grabación · 9 edición · 10 paquete · 11 publicación · 12 retro\n"
+           "**Gate** `abierto` (en curso) · `exportado` (decisiones tomadas, falta plegar) · `firmado` (gate pasado, listo para avanzar)\n"
+           "**Auto-avance** el stage máximo hasta el que el loop avanza sin pedirte permiso.\n\n"
+           "## Episodios\n\n"
+           "| ID | Slug | Título | Track | Narrador | Stage | Gate | Auto-avance | Notas |\n"
+           "|----|------|--------|-------|----------|-------|------|-------------|-------|\n")
+    rows = []
+    for epid in sorted(data):
+        d = data[epid]
+        rows.append(f"| {epid} | {d['slug']} | {d['title']} | {d.get('track','—')} | "
+                    f"{d.get('narrator','—')} | {d['stage']} | {d['gate']} | {d.get('auto',12)} | {d.get('notes','')} |")
+    tail = ("\n\n## Reglas\n\n"
+            "- Un episodio no avanza de stage sin `Gate = firmado` (`brain/06`, `brain/17`).\n"
+            "- Máx. 2 episodios en stages 2–5 a la vez.\n"
+            "- Al publicar: `advance.py` mueve la fila al KPI log de `brain/07`.\n")
+    STATUS_F.write_text(hdr + "\n".join(rows) + tail, encoding="utf-8")
+
+
+def set_ep(epid, **fields):
+    data = read_status()
+    data.setdefault(epid, {"slug": "", "title": "", "track": "—", "narrator": "—",
+                           "stage": 0, "gate": "abierto", "auto": 12, "notes": ""})
+    data[epid].update(fields)
+    write_status(data)
+    return data[epid]
+
+
+# ---------- episodes/_queue.json ----------
+
+def read_queue():
+    if QUEUE_F.exists():
+        try:
+            return json.loads(QUEUE_F.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return []
+    return []
+
+
+def write_queue(items):
+    QUEUE_F.write_text(json.dumps(items, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def enqueue(epid, stage, action, note=""):
+    """Add a task for the agent (the /loop) to pick up."""
+    st = STAGE.get(stage, {})
+    try:
+        epdir = ep_path(epid).relative_to(ROOT).as_posix()
+    except ValueError:
+        epdir = f"episodes/{epid}"
+    q = [x for x in read_queue() if not (x["ep"] == epid and x["stage"] == stage)]
+    q.append({
+        "ep": epid, "stage": stage, "name": st.get("name", "?"), "action": action,
+        "reads": [r if r.startswith(("ideas/", "brain/")) else f"{epdir}/{r}"
+                  for r in st.get("reads", [])],
+        "rules": st.get("rules", []),
+        "produces": st.get("produces", ""),
+        "note": note,
+    })
+    write_queue(q)
+    return q
+
+
+def dequeue(epid, stage):
+    write_queue([x for x in read_queue() if not (x["ep"] == epid and x["stage"] == stage)])
+
+
+def ep_path(epid):
+    d = read_status().get(epid, {})
+    slug = d.get("slug") or epid
+    p = EP_DIR / (slug if slug.startswith(epid) else f"{epid}-{slug}")
+    return p if p.exists() else EP_DIR / slug

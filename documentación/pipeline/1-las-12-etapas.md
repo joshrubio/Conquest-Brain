@@ -39,6 +39,7 @@ Cinco etapas entregan el trabajo a una **página HTML generada** en vez de a una
 | 0 | `ideas/idea-review.html` | `idea_review.py` |
 | 2 | `02-research.html` | `research_review.py` |
 | 4 | `05-script.html` | `script_review.py` |
+| 12 | `12-metrics.html` | `metrics.py` |
 | 7 | `07-style-pass.html` | `pull_assets.py` |
 | 9 | `07c-edit.html` | `edit_review.py` |
 | 10 | `10-package.html` | `package_review.py` |

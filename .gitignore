@@ -58,3 +58,10 @@ ideas/idea-review.html
 episodes/**/02-research.html
 episodes/**/05-script.html
 episodes/**/10-package.html
+episodes/**/12-metrics.html
+
+# Dashboard — generated / transient (tools/dash.py, tools/serve.py)
+dashboard.html
+episodes/_queue.json
+episodes/**/_exports/
+episodes/**/_folds/

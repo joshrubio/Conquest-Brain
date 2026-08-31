@@ -12,7 +12,7 @@ authority: canonical
 
 Pipeline for one episode. Stages are gated: do not start a stage until the previous gate is signed. Files live in `episodes/E0XX-<slug>/`, numbered to match the stages.
 
-**Review pages.** Six stages hand off to a generated dark-theme HTML instead of a markdown table — either user works in the browser, hits *Exportar*, and Claude folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 2 `02-research.html` · Stage 4 `05-script.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record. **Any gate can be signed by one person.**
+**The dashboard** ([brain/17](17-dashboard-and-advance.md)) — `dashboard.html` (from `tools/dash.py`) is one screen for every chapter; `tools/serve.py` + `tools/advance.py` close each gate with one click and regenerate it. **Review pages.** Six stages hand off to a generated dark-theme HTML instead of a markdown table — either user works in the browser, hits *Exportar*, and Claude folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 2 `02-research.html` · Stage 4 `05-script.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record. **Any gate can be signed by one person.**
 
 ## Stage 0 — Ideation
 - Track owner proposes the idea: **T01 Historias Inspiradoras** (Usuario 002) or **T02 Exploración** (Usuario 001) — see [ideas/tracks.md](../ideas/tracks.md).

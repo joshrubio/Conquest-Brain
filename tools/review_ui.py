@@ -61,6 +61,7 @@ STYLE = """<style>
 </style>"""
 
 HELPERS = """
+const DASH="http://localhost:8765";
 function jget(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}}
 async function saveTxt(name,txt,doneMsg){
   try{
@@ -73,6 +74,21 @@ async function saveTxt(name,txt,doneMsg){
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));
   a.download=name; a.click();
+}
+// finishStage: try the local dashboard server (1-click gate). Fall back to
+// a plain download if it isn't running. epid/stage identify the episode.
+async function finishStage(name,txt,epid,stage,doneMsg,payload){
+  if(epid&&stage!=null){
+    try{
+      const r=await fetch(DASH+"/finish",{method:"POST",
+        headers:{"content-type":"application/json"},
+        body:JSON.stringify({ep:epid,stage:stage,payload:Object.assign({txt:txt},payload||{})})});
+      if(r.ok){const j=await r.json();
+        alert("Stage "+stage+" cerrado.\\n"+(j.msg||"")+"\\n\\nEl dashboard se ha actualizado.");
+        return;}
+    }catch(e){/* server off -> fall through to download */}
+  }
+  return saveTxt(name,txt,doneMsg+"\\n\\n(server no detectado — descarga; luego: python tools/advance.py "+(epid||"E0XX")+")");
 }
 """
 

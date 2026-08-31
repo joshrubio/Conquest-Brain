@@ -145,6 +145,7 @@ def build(slug, sections, sources, tier_counts):
         '</section>')
 
     script = f"""
+const EPID={slug[:4]!r}; const STAGE=2;
 const LS="exodo-research-{slug}";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const cnt=$('.count');
@@ -194,7 +195,7 @@ $('#exp').onclick=()=>{{
   $$('.ck[data-k^="gate:"]').forEach(c=>L.push(c.dataset.k.slice(5)+'\\t'+(c.checked?'ok':'NO')));
   const nf=$('.nt[data-k="firma:nota"]');
   if(nf&&nf.value.trim())L.push('','---NOTA---',nf.value.trim());
-  saveTxt('{REVIEW_TXT}', L.join('\\n')+'\\n',
+  finishStage('{REVIEW_TXT}', L.join('\\n')+'\\n', EPID, STAGE,
     'Guardado en la carpeta del episodio. Pásaselo a Claude para plegar en 02-research-dossier.md.');
 }};
 $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};

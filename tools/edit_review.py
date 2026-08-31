@@ -204,10 +204,17 @@ document.getElementById('exp').onclick=async()=>{{
   }}
   const txt=L.join('\\n')+'\\n';
   try{{
+    const r=await fetch('http://localhost:8765/finish',{{method:'POST',
+      headers:{{'content-type':'application/json'}},
+      body:JSON.stringify({{ep:'{slug}'.slice(0,4),stage:9,payload:{{txt:txt}}}})}});
+    if(r.ok){{const j=await r.json();
+      alert('Stage 9 cerrado.\\n'+(j.msg||'')+'\\nDashboard actualizado.');return;}}
+  }}catch(e){{}}
+  try{{
     const fh=await window.showSaveFilePicker({{suggestedName:'{REVIEW_TXT}',
       types:[{{description:'texto',accept:{{'text/plain':['.txt']}}}}]}});
     const w=await fh.createWritable(); await w.write(txt); await w.close();
-    alert('Guardado. Pásaselo a Claude para re-generar los clips con feedback.');
+    alert('Guardado (server no detectado). Corre: python tools/advance.py fold {slug[:4]}');
     return;
   }}catch(e){{if(e&&e.name==='AbortError')return;}}
   navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{{}});
