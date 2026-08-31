@@ -8,7 +8,7 @@ Atiende el dashboard de Exodo. **Lee SOLO `episodes/_loop.json` y `episodes/_que
    - `{"state":"stop"}` → responde «loop cerrado» y **NO reprogrames** (el loop termina aquí).
    - `{"state":"pause"}` → responde «pausado» en una línea, marca noop, y programa el próximo tick largo (20 min). No hagas trabajo.
    - `{"state":"run"}` o ausente → continúa.
-1. Si la cola está vacía: dilo en una línea y termina (el /loop dormirá).
+1. Si la cola está vacía: dilo en una línea y programa el próximo tick largo (~20 min).
 2. Por cada entrada `{ep, stage, action, reads, rules, produces, note}`:
    - Lee **únicamente** los ficheros de `reads` + los docs de `rules`. Nada más.
    - `action: "generate"` → escribe `produces` para ese episodio siguiendo `rules`.

@@ -113,6 +113,7 @@ class H(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    P.write_loop("run")          # fresh server = fresh session
     _run(["dash.py"])
     try:
         srv = ThreadingHTTPServer(("127.0.0.1", P.PORT), H)

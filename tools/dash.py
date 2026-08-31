@@ -170,13 +170,23 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
 const cu=document.getElementById('costupd'); if(cu)cu.onclick=()=>post('/cost-update',{{}});
 """
     loop_state = P.read_loop().get("state", "run")
-    lbadge = {"run": "▶ activo", "pause": "⏸ pausado", "stop": "⏹ cerrado"}.get(loop_state, loop_state)
+    lbadge = {"run": "activa", "pause": "pausada", "stop": "cerrada"}.get(loop_state, loop_state)
     tips = (
-        '<details class="tips"><summary>💡 Cómo no gastar tokens</summary><ul>'
+        '<details class="tips"><summary>💡 Cómo no gastar tokens</summary>'
+        '<h4>El <code>/loop</code> y la sesión</h4>'
+        '<p>El <code>/loop atiende el dashboard</code> son turnos míos recurrentes en tu terminal de Claude Code. '
+        'Cada tick cuesta algo (poco, va cacheado) aunque no haya trabajo. Para cerrarlo:</p>'
+        '<ul>'
+        '<li><b>⏹ Cerrar sesión</b> (arriba) — la forma limpia: el loop termina en su próximo tick y no se reprograma.</li>'
+        '<li>o <b>dime</b> «para el loop».  o <b>Esc</b> en la terminal del chat (más brusco).</li>'
+        '<li><b>⏸ Pausar</b> detiene el trabajo pero el tick sigue costando — úsalo para pausas cortas, no largas.</li>'
+        '<li>El estado (<code>_STATUS.md</code>, <code>_queue.json</code>) <b>no se pierde</b> al cerrar. Al retomar: reabre el dashboard, y para re-automatizar vuelve a lanzar <code>/loop atiende el dashboard</code>.</li>'
+        '<li>El <b>server</b> (<code>serve.py</code>) es python puro — <b>no gasta tokens</b>. Ciérralo cuando quieras (su ventana «Exodo server»).</li>'
+        '</ul>'
+        '<h4>Flujo eficiente</h4><ul>'
         '<li><b>Reparte</b> research (Stage 2) y guion (Stage 4) en sesiones distintas de 5 h — juntas rozan el límite de la ventana.</li>'
-        '<li>Para ahorro <b>real</b>: cierra el <code>/loop</code> con <b>Ctrl+C</b> o cerrando la sesión. «Pausar» detiene el trabajo pero cada tick sigue costando algo.</li>'
         '<li>Deja que el server plegue los gates <b>mecánicos</b> (0·2·7·9·10) — no le pidas a Claude que lo haga.</li>'
-        '<li>Una frase corta basta: «sigue». No repitas el contexto ni el estado — ya está en <code>_STATUS.md</code> y <code>_queue.json</code>.</li>'
+        '<li>Una frase corta basta: «sigue». No repitas el contexto ni el estado — ya está en los ficheros.</li>'
         '<li><b>Nunca</b> «revisa el proyecto» / «lee los docs». El manifiesto de cada card dice exactamente qué se lee.</li>'
         '<li>Un episodio de una sola tirada roza el tope de 5 h — <b>párate tras el guion</b> y retoma en otra sesión.</li>'
         '<li>Fija el <b>auto-avance</b> en <code>_STATUS.md</code> bajo el stage donde quieres revisar, para que el loop pare ahí.</li>'
@@ -211,16 +221,18 @@ const cu=document.getElementById('costupd'); if(cu)cu.onclick=()=>post('/cost-up
              'details.tips{border:1px solid var(--gold);border-radius:10px;background:var(--gold-soft);'
              'padding:.6rem .9rem;margin:0 0 1.5rem}'
              'details.tips summary{cursor:pointer;font-weight:600;color:var(--bone)}'
-             'details.tips ul{margin:.6rem 0 .2rem;font-size:.85rem}details.tips li{margin:.35rem 0}'
+             'details.tips ul{margin:.4rem 0 .6rem;font-size:.85rem}details.tips li{margin:.35rem 0}'
+             'details.tips h4{margin:.9rem 0 .2rem;font-size:.82rem;color:var(--gold)}'
+             'details.tips p{font-size:.83rem;margin:.3rem 0}'
              'details.man{font-size:.78rem;color:var(--muted);margin:.4rem 0}'
              'details.man summary{cursor:pointer}details.man code{font-size:.72rem}'
              'header .btn{font-size:.78rem;padding:.35rem .6rem}'
              '</style>')
     hd = ('<h1>Exodo · dashboard</h1>'
-          f'<span class="count">loop: <b>{lbadge}</b></span>'
-          '<button class="btn" data-loop="pause">⏸</button>'
-          '<button class="btn" data-loop="run">▶</button>'
-          '<button class="btn" data-loop="stop">⏹ cerrar loop</button>'
+          f'<span class="count">sesión: <b>{lbadge}</b></span>'
+          '<button class="btn" data-loop="pause">⏸ Pausar</button>'
+          '<button class="btn" data-loop="run">▶ Reanudar</button>'
+          '<button class="btn" data-loop="stop">⏹ Cerrar sesión</button>'
           + ('<a class="btn" href="cost.html" style="margin-left:auto">Consumo</a>'
              '<button class="btn" id="costupd">Actualizar plan</button>'
              if COST_MD.exists() else ''))

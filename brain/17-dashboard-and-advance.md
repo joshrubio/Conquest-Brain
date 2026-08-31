@@ -62,15 +62,19 @@ agent finishes it. Simple ones (idea → creates the folder; assets → runs
 Without the server: the finish button downloads the `.txt`; run
 `python tools/advance.py fold E0XX` then `python tools/advance.py next E0XX`.
 
-## Controlar el loop
+## Controlar la sesión (el `/loop`)
 
-El navegador no puede matar un `/loop` de Claude Code — solo señalarlo. `episodes/_loop.json` (`{state: run|pause|stop}`) lo escriben los botones ⏸ ▶ ⏹ del dashboard; `atiende` lo lee **antes que nada** cada tick:
+Un **tick** = una iteración del `/loop`: despierto, leo `_loop.json` + `_queue.json`, hago lo pendiente (o nada), reporto, programo el siguiente. En modo auto-pausado los ticks son ~1 min si hay trabajo y ~20 min en reposo (rango 60–3600 s). **No** coinciden con los cambios de stage — son un temporizador; el botón escribe un fichero y el siguiente tick lo ve.
 
-- `stop` → el tick reporta y no reprograma → el loop dinámico termina.
-- `pause` → noop + sleep largo. **Ojo:** cada tick sigue costando el overhead (cacheado). Para ahorro real, `Ctrl+C` o cerrar la sesión.
-- `run` → trabaja.
+El navegador no puede matar un `/loop` — solo señalarlo. `episodes/_loop.json` (`{state: run|pause|stop}`) lo escriben los botones del dashboard; `atiende` lo lee **antes que nada** cada tick:
 
-Reanudar de verdad = volver a lanzar `/loop atiende el dashboard`.
+- **⏹ Cerrar sesión** → `stop` → el tick reporta y no reprograma → el loop termina. Para pararlo **ya**: dímelo ("para el loop") o **Esc** en la terminal del chat.
+- **⏸ Pausar** → noop + sleep largo. Cada tick sigue costando el overhead (cacheado) → solo para pausas cortas.
+- **▶ Reanudar** → `run`.
+
+`serve.py` pone `run` al arrancar (server nuevo = sesión nueva). Retomar la automatización tras cerrar = reabrir el dashboard + volver a lanzar `/loop atiende el dashboard`; el estado (`_STATUS.md`, `_queue.json`) no se pierde.
+
+El **server** (`serve.py`) es aparte y no gasta tokens; ciérralo cuando quieras.
 
 ## Ahorro de tokens
 

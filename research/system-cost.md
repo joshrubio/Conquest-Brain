@@ -39,7 +39,7 @@ Cuántos **tokens de Claude** consume producir un episodio de Exodo-brain, y qu�
 | **Total ahorrado por episodio** | | | **~110–260 k (~10–20 %)** |
 | Coste nuevo — `/loop` en reposo | — | tick = leer `_queue.json` (~0.2 k) + respuesta corta; el grueso (system prompt + defs de tools) va **cacheado** (TTL 1 h). ~2–6 k/tick de coste marginal; sleep 20 min ⇒ ~3 ticks/h ⇒ **~10–20 k/h en reposo** | −(depende de horas con el loop abierto) |
 
-**Neto:** el dashboard **ahorra ~10–20 % por episodio** en el flujo activo. El `/loop` solo cuesta si lo dejas abierto sin trabajar; con sleeps largos y caché, el reposo es del orden de un fact-check por cada 4–8 h ociosas. Recomendación: cerrar el `/loop` en pausas largas.
+**Neto:** el dashboard **ahorra ~10–20 % por episodio** en el flujo activo. El `/loop` solo cuesta si lo dejas abierto sin trabajar; con sleeps largos y caché, el reposo es del orden de un fact-check por cada 4–8 h ociosas. Recomendación: en pausas largas, **⏹ Cerrar sesión** (o dime «para el loop»); pausar no basta.
 
 ## Contra el plan Claude Pro (rangos 2026-08 — verificar)
 
