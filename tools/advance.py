@@ -46,6 +46,7 @@ def fold_idea(epid, d, payload):
     ep = P.EP_DIR / f"{epid}-{d['slug']}" if not d["slug"].startswith(epid) else P.EP_DIR / d["slug"]
     if not ep.exists():
         shutil.copytree(TEMPLATE, ep)
+    P.ensure_assets(epid)
     pool = P.ROOT / "ideas" / "idea-pool.md"
     if pool.exists() and payload.get("idea_id"):
         t = pool.read_text(encoding="utf-8")
@@ -144,6 +145,8 @@ def do_next(epid, force=False):
     if nxt is None:
         return f"{epid}: stage {st} es el último"
     nm = P.STAGE[nxt]
+    if nxt >= 6:
+        P.ensure_assets(epid)
     d = P.set_ep(epid, stage=nxt, gate="abierto")
     if nm["fold"] == "claude":
         P.enqueue(epid, nxt, "generate",

@@ -694,7 +694,9 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
  <span id="aicnt"></span>
  <button class="primary" id="exp">Exportar {PICKS_F}</button>
  <button id="clr">Limpiar</button>
- <span style="opacity:.6;font-size:.8rem">guárdalo en la carpeta del episodio, luego <code>--download</code></span>
+ <a id="assets" href="http://localhost:8765/episodes/{slug}/assets/" target="_blank"
+    style="font-size:.8rem;padding:.35rem .7rem;border:1px solid #3b362b;border-radius:8px;color:#c9a24a;text-decoration:none">📁 Carpeta de recursos</a>
+ <span style="opacity:.6;font-size:.8rem">al Exportar se descargan los recursos elegidos ahí</span>
 </header>
 {introbox}
 <div class="wrap">

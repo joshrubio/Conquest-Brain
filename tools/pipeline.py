@@ -19,6 +19,7 @@ STATUS_F = EP_DIR / "_STATUS.md"
 QUEUE_F = EP_DIR / "_queue.json"          # gitignored — the loop's to-do list
 LOOP_F = EP_DIR / "_loop.json"            # gitignored — the loop's run/pause/stop signal
 PORT = 8765
+SERVED = f"http://localhost:{PORT}/"
 
 
 def read_loop():
@@ -58,6 +59,46 @@ STAGES = [
 _KEYS = ("n", "key", "name", "produces", "review_html", "export", "fold", "next", "reads", "rules")
 STAGE = {s[0]: dict(zip(_KEYS, s)) for s in STAGES}
 GATES = ("abierto", "exportado", "firmado")   # firmado = passed, ready to advance
+
+# what clicking a stage's card opens (relative to the episode folder).
+# a review .html if it has one; otherwise the file it produced; stage 8 -> the shotlist.
+OPEN = {
+    0: "ideas/idea-review.html", 1: "01-brief.md", 2: "02-research.html",
+    3: "03-outline.md", 4: "05-script.html", 5: "04-factcheck-auto.md",
+    6: "06-shotlist.md", 7: "07-style-pass.html", 8: "06-shotlist.md",
+    9: "07c-edit.html", 10: "10-package.html", 11: "10-publish-checklist.md",
+    12: "12-metrics.html",
+}
+
+# human-friendly, non-developer explanation shown on hover / in the card
+HELP = {
+    0: "La idea. Se le busca un buen título con gancho, se comprueba que hay material para ilustrarla y se puntúa. Si pasa, se convierte en carpeta de episodio.",
+    1: "El brief: en una frase cada cosa — de qué va, por qué ahora, cómo cierra, las 3 mejores fuentes ya encontradas, los riesgos. Antes de invertir tiempo en investigar.",
+    2: "La investigación. Claude busca en fuentes reales y arma el dossier + el registro de fuentes: cronología, personas clave, cada dato con su fuente y su nivel de fiabilidad.",
+    3: "El outline: la lista de beats en orden — cold open, contexto, actos, cierre — antes de escribir el guion entero.",
+    4: "El guion completo: la narración palabra por palabra, con las notas técnicas y las etiquetas de fuente. Se revisa beat a beat en el 'script pass'.",
+    5: "El fact-check. Automático: un script comprueba que cada fuente resuelve, y Claude re-lee cada afirmación contra su fuente y aplica las correcciones al guion.",
+    6: "El shotlist: qué se ve en cada momento — un plano por cambio de sujeto, por explicador, por foreshadowing. Se infiere del guion ya bloqueado.",
+    7: "El pase de estilo: eliges las imágenes y clips reales de cada beat, los del cold open, y la música. El sistema los descarga a la carpeta de recursos.",
+    8: "Grabación. Grabas la voz y lo que vaya a cámara siguiendo el shotlist. Es offline — cuando termines, marca 'hecho'.",
+    9: "La edición: Ken Burns sobre las fijas, recorte de la voz, montaje del b-roll, música, subtítulos. Apruebas cada clip antes de integrarlo.",
+    10: "El paquete: eliges el título publicado, la miniatura y repasas la descripción. Las 3 aprobaciones cierran el gate.",
+    11: "Publicación. El tick legal/COI final, subir el vídeo, subtítulos, capítulos, comentario fijado, programar.",
+    12: "El retro: a las 48 h y a los 30 d pegas las métricas de YouTube. Qué funcionó, qué se corrige en el proceso.",
+}
+
+
+def ensure_assets(epid):
+    """Make sure <ep>/assets/ exists with its standard subfolders + README."""
+    ep = ep_path(epid)
+    ad = ep / "assets"
+    for sub in ("", "intro", "stock", "video", "archive", "ai", "kb", "thumb"):
+        (ad / sub).mkdir(parents=True, exist_ok=True)
+    rd = ad / "README.md"
+    tmpl = EP_DIR / "_TEMPLATE-episode-folder" / "assets" / "README.md"
+    if not rd.exists() and tmpl.exists():
+        rd.write_text(tmpl.read_text(encoding="utf-8"), encoding="utf-8")
+    return ad
 
 
 # ---------- episodes/_STATUS.md ----------

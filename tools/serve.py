@@ -17,10 +17,26 @@ import subprocess
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote
+from urllib.parse import parse_qs, unquote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import pipeline as P  # noqa: E402
+
+
+def _dir_html(d):
+    rel = d.relative_to(P.ROOT).as_posix()
+    rows = []
+    for p in sorted(d.iterdir(), key=lambda x: (x.is_file(), x.name.lower())):
+        name = p.name + ("/" if p.is_dir() else "")
+        size = f"{p.stat().st_size:,} B" if p.is_file() else ""
+        rows.append(f'<tr><td><a href="/{rel}/{p.name}">{name}</a></td><td>{size}</td></tr>')
+    body = ("<table style='width:100%;border-collapse:collapse;font-size:.85rem'>"
+            + ("".join(rows) or "<tr><td style='color:#a89e83'>carpeta vacía</td></tr>")
+            + "</table>")
+    return ("<!doctype html><meta charset=utf-8><title>" + rel + "</title>"
+            "<style>body{background:#141310;color:#f1ead7;font:14px system-ui;margin:0;padding:1.5rem;max-width:800px}"
+            "a{color:#c9a24a}td{border-top:1px solid #3b362b;padding:.4rem .5rem}h1{font-size:1rem}</style>"
+            f"<h1>📁 {rel}</h1>" + body).encode("utf-8")
 
 TOOLS = Path(__file__).resolve().parent
 MIME = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript",
@@ -52,17 +68,38 @@ class H(BaseHTTPRequestHandler):
         self._send(204, b"", "text/plain")
 
     def do_GET(self):
-        path = unquote(self.path.split("?")[0])
+        raw = self.path
+        path = unquote(raw.split("?")[0])
+        qs = parse_qs(raw.split("?")[1]) if "?" in raw else {}
         if path in ("/", "/dashboard.html"):
             _run(["dash.py"])
             f = P.ROOT / "dashboard.html"
             return self._send(200, f.read_bytes(), MIME[".html"])
         if path == "/state":
             return self._send(200, json.dumps(P.read_queue(), ensure_ascii=False))
+        if path == "/view":
+            return self._view(qs.get("ep", [""])[0], qs.get("f", [""])[0])
         f = (P.ROOT / path.lstrip("/")).resolve()
-        if P.ROOT in f.parents and f.is_file():
-            return self._send(200, f.read_bytes(), MIME.get(f.suffix, "application/octet-stream"))
+        if P.ROOT in f.parents:
+            if f.is_dir():
+                return self._send(200, _dir_html(f), MIME[".html"])
+            if f.is_file():
+                return self._send(200, f.read_bytes(), MIME.get(f.suffix, "application/octet-stream"))
         self._send(404, json.dumps({"error": "not found", "path": path}))
+
+    def _view(self, epid, fname):
+        import dash
+        ep = P.ep_path(epid)
+        # allow the episode folder, plus repo-level files like ideas/idea-pool.md
+        target = (ep / fname) if not fname.startswith(("ideas/", "brain/")) else (P.ROOT / fname)
+        target = target.resolve()
+        if P.ROOT not in target.parents or not target.is_file():
+            return self._send(404, json.dumps({"error": "no file", "f": fname}))
+        md = target.read_text(encoding="utf-8")
+        P.ensure_assets(epid)
+        assets_url = f"/episodes/{ep.name}/assets/"
+        html = dash.view_page(f"{epid} · {fname}", dash.md_to_html(md), assets_url)
+        self._send(200, html, MIME[".html"])
 
     def do_POST(self):
         n = int(self.headers.get("Content-Length", 0))

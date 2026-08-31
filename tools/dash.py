@@ -70,6 +70,29 @@ def fmt(s):
     return s
 
 
+_VIEW_CSS = (
+    "<style>main{max-width:880px;margin:0 auto;padding:1.5rem}"
+    "blockquote{border-left:2px solid var(--gold);margin:1rem 0;padding:.5rem .9rem;color:var(--muted);font-size:.85rem}"
+    "h1,h2,h3{border:0}h2{margin-top:1.8rem}li{margin:.2rem 0}"
+    "table.kpi{width:100%;border-collapse:collapse;font-size:.8rem;margin:.6rem 0}"
+    "table.kpi td,table.kpi th{border-top:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}"
+    "table.kpi th{color:var(--muted)}"
+    ".hbtn{font:inherit;font-size:.8rem;padding:.4rem .8rem;border:1px solid var(--line);border-radius:8px;"
+    "background:var(--surface-2);color:var(--fg);text-decoration:none;cursor:pointer;display:inline-block}"
+    "</style>")
+
+
+def view_page(title, inner, assets_url=None, extra_head="", extra_script=""):
+    e = _h.escape
+    ab = (f'<a class="hbtn" href="{e(assets_url)}" target="_blank">📁 Recursos</a>' if assets_url else "")
+    return ("<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\">"
+            "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+            f"<title>{e(title)}</title>" + STYLE + _VIEW_CSS + extra_head + "</head><body>"
+            f"<header><h1>{e(title)}</h1>{ab}"
+            "<a class=\"hbtn\" href=\"/\" style=\"margin-left:auto\">← dashboard</a></header>"
+            "<main>" + inner + "</main>" + extra_script + "</body></html>\n")
+
+
 def kpi_rows():
     if not KPI_DOC.exists():
         return []
@@ -90,15 +113,29 @@ def kpi_rows():
     return rows
 
 
-def strip(ep, cur, gate, auto):
+def strip(epid, slug, cur, gate):
+    e = _h.escape
     dots = []
     for n in range(13):
+        sm = P.STAGE[n]
         cls = "d"
         if n < cur:
             cls = "d done"
         elif n == cur:
             cls = "d cur " + gate
-        dots.append(f'<span class="{cls}" title="Stage {n} · {_h.escape(P.STAGE[n]["name"])}">{n}</span>')
+        tgt = P.OPEN.get(n, "")
+        href = ""
+        if n <= cur and tgt:
+            if tgt.endswith(".html"):
+                href = (P.SERVED + tgt) if tgt.startswith("ideas/") else f"{P.SERVED}episodes/{slug}/{tgt}"
+                # only link if the html plausibly exists (review pages are per-episode / ideas)
+            else:
+                href = f"{P.SERVED}view?ep={epid}&f={tgt}"
+        tip = f"Stage {n} · {e(sm['name'])} — {e(P.HELP.get(n, ''))}"
+        if href:
+            dots.append(f'<a class="{cls}" href="{href}" target="_blank" data-tip="{tip}">{n}</a>')
+        else:
+            dots.append(f'<span class="{cls}" data-tip="{tip}">{n}</span>')
     return f'<div class="strip">{"".join(dots)}</div>'
 
 
@@ -113,18 +150,35 @@ def build():
         if d["slug"].startswith(epid) and "EXAMPLE" in d["slug"]:
             continue
         cur = max(d["stage"], 0)
+        if cur >= 2:
+            try: P.ensure_assets(epid)
+            except Exception: pass
         sm = P.STAGE.get(cur, {})
         rev = sm.get("review_html")
+        slug = d["slug"]
         btns = []
         if rev:
-            href = (served + rev) if not rev.startswith("ideas/") else (served + rev)
-            btns.append(f'<a class="btn" href="{e(href)}" target="_blank">Abrir revisión · Stage {cur}</a>')
+            href = served + rev if rev.startswith("ideas/") else f"{served}episodes/{slug}/{rev}"
+            btns.append(f'<a class="btn" href="{e(href)}" target="_blank" '
+                        f'data-tip="Abre la página de revisión de este stage: repasas lo generado, apruebas o dejas notas, y el botón Finalizar cierra el gate.">'
+                        f'Abrir revisión · Stage {cur}</a>')
+        elif cur in (1, 3, 5, 6):
+            btns.append(f'<a class="btn" href="{served}view?ep={epid}&f={e(P.OPEN[cur])}" target="_blank" '
+                        f'data-tip="Abre lo que Claude escribió en este stage para que lo leas.">Ver lo generado</a>')
+        assets_btn = (f'<a class="btn" href="{served}episodes/{slug}/assets/" target="_blank" '
+                      f'data-tip="La carpeta donde viven las imágenes, clips, música y tomas de este episodio.">📁 Recursos</a>')
+        if cur >= 6:
+            btns.append(assets_btn)
         if sm.get("fold") == "human":
-            btns.append(f'<button class="btn" data-human="{epid}:{cur}">Marcar Stage {cur} hecho</button>')
+            btns.append(f'<button class="btn" data-human="{epid}:{cur}" '
+                        f'data-tip="Marca este stage offline como terminado (grabación, subida). Cierra el gate y pasa al siguiente.">'
+                        f'Marcar Stage {cur} hecho</button>')
         if d["gate"] == "firmado":
-            btns.append(f'<button class="btn primary" data-adv="{epid}">▶ Avanzar a Stage {sm.get("next","?")}</button>')
+            btns.append(f'<button class="btn primary" data-adv="{epid}" '
+                        f'data-tip="El gate está cerrado. Este botón mueve el episodio al siguiente stage y prepara lo que haga falta.">'
+                        f'▶ Avanzar a Stage {sm.get("next","?")}</button>')
         elif d["gate"] == "exportado":
-            btns.append('<span class="tag warn">exportado — falta plegar</span>')
+            btns.append('<span class="tag warn" data-tip="Tomaste las decisiones pero falta aplicarlas al fichero. El server o Claude lo harán.">exportado — falta plegar</span>')
         reads = sm.get("reads", [])
         rules = sm.get("rules", [])
         manifest = ""
@@ -137,7 +191,7 @@ def build():
             f'<div class="epch"><b>{e(epid)}</b> · {e(d["title"] or d["slug"])} '
             f'<span class="tag">{e(d["track"])}</span> '
             f'<span class="tag">narra {e(d["narrator"])}</span></div>'
-            + strip(epid, cur, d["gate"], d["auto"])
+            + strip(epid, d["slug"], cur, d["gate"])
             + f'<div class="now">Stage <b>{cur} · {e(sm.get("name","?"))}</b> — gate <b>{e(d["gate"])}</b>'
             + (f' · auto-avance hasta {d["auto"]}' if d["auto"] < 12 else "")
             + '</div>'
@@ -170,6 +224,15 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
 """
     loop_state = P.read_loop().get("state", "run")
     lbadge = {"run": "activa", "pause": "pausada", "stop": "cerrada"}.get(loop_state, loop_state)
+    if loop_state == "run":
+        loopbtns = ('<button class="btn" data-loop="pause" data-tip="Detiene el trabajo automático un rato, sin cerrar la sesión. Para pausas cortas — cada rato sigue costando un poco.">⏸ Pausar</button>'
+                    '<button class="btn" data-loop="stop" data-tip="Termina la sesión automática. Claude deja de trabajar solo. El progreso NO se pierde. Para retomar hay que relanzar el /loop en la terminal.">⏹ Cerrar sesión</button>')
+    elif loop_state == "pause":
+        loopbtns = ('<button class="btn" data-loop="run" data-tip="Vuelve a activar el trabajo automático.">▶ Reanudar</button>'
+                    '<button class="btn" data-loop="stop" data-tip="Termina la sesión automática. El progreso NO se pierde.">⏹ Cerrar sesión</button>')
+    else:  # stop
+        loopbtns = ('<button class="btn" data-loop="run" data-tip="Reactiva la señal. Después, relanza  /loop atiende el dashboard  en la terminal del chat.">▶ Reanudar sesión</button>'
+                    '<span class="count" style="opacity:.7">sesión cerrada — relanza <code>/loop</code> en la terminal</span>')
     tips = (
         '<details class="tips"><summary>💡 Cómo no gastar tokens</summary>'
         '<h4>El <code>/loop</code> y la sesión</h4>'
@@ -200,13 +263,25 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
     extra = ('<style>'
              '.epc{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:1.1rem;margin:0 0 1.1rem}'
              '.epch{font-size:.95rem;margin-bottom:.7rem}'
-             '.strip{display:flex;gap:.25rem;margin:.4rem 0 .7rem}'
-             '.d{width:1.7rem;height:1.7rem;display:grid;place-items:center;border-radius:6px;'
-             'font-size:.7rem;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}'
+             '.strip{display:flex;gap:.3rem;margin:.4rem 0 .7rem;flex-wrap:wrap}'
+             '.d{width:1.8rem;height:1.8rem;display:grid;place-items:center;border-radius:6px;'
+             'font-size:.72rem;background:var(--surface-2);color:var(--muted);border:1px solid var(--line);'
+             'text-decoration:none}'
+             'a.d{cursor:pointer}a.d:hover{border-color:var(--bone);transform:translateY(-1px)}'
              '.d.done{background:var(--gold-soft);color:var(--gold);border-color:var(--gold)}'
              '.d.cur{border-color:var(--bone);color:var(--bone);font-weight:700}'
              '.d.cur.firmado{background:var(--gold);color:#1a1610}'
              '.d.cur.exportado{background:#6b5a2a;color:var(--bone)}'
+             # themed hover tooltip (replaces native title=)
+             '[data-tip]{position:relative}'
+             '[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 6px);'
+             'z-index:50;width:max-content;max-width:22rem;white-space:normal;'
+             'background:var(--surface-2);color:var(--fg);border:1px solid var(--gold);border-radius:8px;'
+             'padding:.5rem .7rem;font-size:.78rem;line-height:1.4;font-weight:400;'
+             'box-shadow:0 8px 24px #0008;pointer-events:none}'
+             '[data-tip]:hover::before{content:"";position:absolute;left:10px;top:calc(100% + 1px);'
+             'border:5px solid transparent;border-bottom-color:var(--gold);z-index:51}'
+             'header [data-tip]:hover::after{max-width:26rem}'
              '.now{font-size:.85rem}.notes{font-size:.8rem;color:var(--muted);margin:.4rem 0}'
              '.btns{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}'
              '.btn{font:inherit;font-size:.8rem;padding:.4rem .8rem;border:1px solid var(--line);border-radius:8px;'
@@ -229,10 +304,9 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
              '</style>')
     hd = ('<h1>Exodo · dashboard</h1>'
           f'<span class="count">sesión: <b>{lbadge}</b></span>'
-          '<button class="btn" data-loop="pause">⏸ Pausar</button>'
-          '<button class="btn" data-loop="run">▶ Reanudar</button>'
-          '<button class="btn" data-loop="stop">⏹ Cerrar sesión</button>'
-          + ('<a class="btn" href="cost.html" style="margin-left:auto">Consumo</a>'
+          + loopbtns
+          + ('<a class="btn" href="cost.html" style="margin-left:auto" '
+             'data-tip="Cuántos tokens consume el sistema y qué fracción de tu plan. Con consejos para no gastar de más.">Consumo</a>'
              if COST_MD.exists() else ''))
     return ("<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\">"
             "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
@@ -243,31 +317,25 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
 
 def build_cost():
     inner = md_to_html(COST_MD.read_text(encoding="utf-8"))
-    return ("<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\">"
-            "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
-            "<title>Exodo · consumo</title>" + STYLE +
-            "<style>main{max-width:900px}blockquote{border-left:2px solid var(--gold);"
-            "margin:1rem 0;padding:.5rem .9rem;color:var(--muted);font-size:.85rem}"
-            "h1,h2,h3{border:0}h2{margin-top:2rem}"
-            "table.kpi{width:100%;border-collapse:collapse;font-size:.8rem;margin:.6rem 0}"
-            "table.kpi td,table.kpi th{border-top:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}"
-            "table.kpi th{color:var(--muted)}li{margin:.2rem 0}"
-            ".hbtn{font:inherit;font-size:.8rem;padding:.4rem .8rem;border:1px solid var(--line);"
-            "border-radius:8px;background:var(--surface-2);color:var(--fg);text-decoration:none;cursor:pointer}"
-            "#upd{border-color:var(--gold);color:var(--gold)}</style></head><body>"
-            "<header><h1>Consumo del sistema</h1>"
-            "<button class=\"hbtn\" id=\"upd\" title=\"Corre tools/cost_update.py: pone la fecha de hoy en las marcas «a fecha de», "
-            "marca como (revisar) las filas de la tabla por etapa con más de 90 días, añade una fila al Historial con el commit "
-            "actual y un hueco para el dato real de /usage, y regenera esta página. No inventa cifras.\">Actualizar</button>"
-            "<a class=\"hbtn\" href=\"dashboard.html\" style=\"margin-left:auto\">← dashboard</a></header>"
-            "<main>" + inner + "</main>"
-            "<script>document.getElementById('upd').onclick=async()=>{"
-            "try{const r=await fetch('http://localhost:8765/cost-update',{method:'POST',"
-            "headers:{'content-type':'application/json'},body:'{}'});"
-            "if(r.ok){const j=await r.json();alert(j.msg||'actualizado');location.reload();}"
-            "else alert('server respondió '+r.status);}"
-            "catch(e){alert('El server no está corriendo. Abre Exodo-Dashboard.bat, o corre  python tools/cost_update.py');}};"
-            "</script></body></html>\n")
+    head = ("<style>#upd{border-color:var(--gold);color:var(--gold)}"
+            "[data-tip]{position:relative}"
+            "[data-tip]:hover::after{content:attr(data-tip);position:absolute;right:0;top:calc(100% + 6px);"
+            "z-index:50;width:max-content;max-width:24rem;white-space:normal;background:var(--surface-2);"
+            "color:var(--fg);border:1px solid var(--gold);border-radius:8px;padding:.5rem .7rem;font-size:.78rem;"
+            "line-height:1.4;box-shadow:0 8px 24px #0008;pointer-events:none}</style>")
+    updbtn = ('<button class="hbtn" id="upd" data-tip="Pone la fecha de hoy, marca las filas con más de 3 meses para revisar, '
+              'añade una línea al historial con la versión actual y un hueco para el dato real de consumo, y refresca esta página. '
+              'No se inventa ningún número.">Actualizar</button>')
+    script = ("<script>document.getElementById('upd').onclick=async()=>{"
+              "try{const r=await fetch('http://localhost:8765/cost-update',{method:'POST',"
+              "headers:{'content-type':'application/json'},body:'{}'});"
+              "if(r.ok){const j=await r.json();alert(j.msg||'actualizado');location.reload();}"
+              "else alert('server respondió '+r.status);}"
+              "catch(e){alert('El server no está corriendo. Abre Exodo-Dashboard.bat, o corre  python tools/cost_update.py');}};"
+              "</script>")
+    p = view_page("Consumo del sistema", inner, None, head, script)
+    return p.replace('<a class="hbtn" href="/" style="margin-left:auto">← dashboard</a>',
+                     updbtn + '<a class="hbtn" href="/" style="margin-left:auto">← dashboard</a>')
 
 
 if __name__ == "__main__":

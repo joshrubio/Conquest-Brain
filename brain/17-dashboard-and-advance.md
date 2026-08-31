@@ -68,7 +68,7 @@ Un **tick** = una iteración del `/loop`: despierto, leo `_loop.json` + `_queue.
 
 El navegador no puede matar un `/loop` — solo señalarlo. `episodes/_loop.json` (`{state: run|pause|stop}`) lo escriben los botones del dashboard; `atiende` lo lee **antes que nada** cada tick:
 
-- **⏹ Cerrar sesión** → `stop` → el tick reporta y no reprograma → el loop termina. Para pararlo **ya**: dímelo ("para el loop") o **Esc** en la terminal del chat.
+- **⏹ Cerrar sesión** → `stop` → el tick reporta y no reprograma → el loop termina. El botón **solo aparece mientras la sesión está activa o pausada**; tras cerrar, queda «▶ Reanudar sesión». Para pararlo **ya**: dímelo ("para el loop") o **Esc** en la terminal.
 - **⏸ Pausar** → noop + sleep largo. Cada tick sigue costando el overhead (cacheado) → solo para pausas cortas.
 - **▶ Reanudar** → `run`.
 
@@ -93,6 +93,19 @@ Respects `Auto-avance`: the loop pauses at that stage and waits for your explici
 
 **Token discipline:** the loop tick is one small file read when idle. A working
 tick reads only what the queue entry names. Never scan the repo.
+
+## La tira de stages (dashboard)
+
+Cada card de episodio tiene una tira de 13 chips (0–12). Al hover, cada uno explica su stage en lenguaje llano. Clic → abre lo que ese stage produjo:
+
+- stage con review page → su `.html`
+- stage sin review page (brief · outline · fact-check · shotlist · publicación) → su `.md` **renderizado** (`serve.py /view` lo convierte al vuelo, con el estilo del dashboard)
+- stage 8 grabación → el shotlist renderizado, con botón **📁 Recursos**
+- stage futuro (aún sin fichero) → solo el tooltip
+
+Todos los botones del dashboard y de `cost.html` llevan tooltip temático (no el nativo) en lenguaje no-técnico.
+
+**Carpeta de recursos:** `pipeline.ensure_assets(epid)` crea `<ep>/assets/` con sus subcarpetas (`intro stock video archive ai kb thumb`) + README — al crear el episodio, al entrar en stage ≥ 6, y defensivamente en `dash.py`. El server lista la carpeta en `/episodes/<slug>/assets/`. El HTML del pase de estilo y la vista del shotlist enlazan a ella.
 
 ## Adding an episode
 
