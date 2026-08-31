@@ -1,67 +1,70 @@
 ---
 doc: fact-check-auto-prompt
-summary: "The paste-in LLM prompt for Layer 2 — six flag tables (claims, interpretation, quotes, hedging, pop-psych, legal/COI)."
+summary: "The Layer-2 prompt. Analyses the script (six tables) AND produces exact corrections the agent applies to 05-script.md."
 stage: [5]
-fills: "04-factcheck-auto.md (L2)"
+fills: "04-factcheck-auto.md (L2) + edits to 05-script.md"
 rule: [14]
 authority: template
 ---
 
-# Fact-check — Layer 2 prompt (LLM-assisted)
+# Fact-check — Layer 2 prompt (agent edit-pass)
 
-> `brain/14-fact-check-protocol.md` Layer 2 — the last check before record (there is no Layer 3). Usuario 001 pastes the script + the source-log into an LLM using the prompt below; the output goes into `04-factcheck-auto.md` and **every flag is resolved in the script** (correction applied, or dismissed with a one-line reason). **The LLM is not a source** — a flag is a to-do to check against the real source, not a verdict.
+> `brain/14` Layer 2 — the whole fact-check, no human step after it. The agent runs the prompt below, pastes the tables into `04-factcheck-auto.md`, **applies the corrections to `05-script.md`**, and writes the Changelog. **The LLM is not a source** — a correction may only tighten the script to what the cited source supports, add a hedge/attribution, or cut a line. Never add a fact.
 
 ---
 
 ## PROMPT (paste everything below, then the two documents)
 
 ```
-Eres un verificador de datos para un canal de documentales periodísticos. NO eres una fuente: tu trabajo es señalar qué revisar, no dar por buena ninguna afirmación.
+Eres el verificador de datos de un canal de documentales periodísticos, y también quien aplica las correcciones. NO eres una fuente. Una corrección solo puede: ajustar el texto a lo que la fuente citada realmente respalda, añadir un matiz ("se dice…", "según algunas fuentes…"), añadir una atribución ("según X…"), marcar algo como en disputa, o cortar una frase. NUNCA añadas un dato nuevo.
 
 Te doy dos documentos:
 1. Un GUION en markdown. Cada frase factual debería llevar un tag [S..] (p. ej. [S03]).
 2. Un SOURCE-LOG en CSV: id, claim_or_use, source_title, author, publisher, date, tier (A/B/C/D), url_or_reference, exact_location, rights_status, notes.
 
-Produce SOLO estas tablas, en español, sin preámbulo:
+### PARTE A — Análisis (produce estas tablas, en español)
 
-### 1. Afirmaciones factuales
-Una fila por afirmación factual del guion (fechas, cifras, "dijo", "hizo", relaciones causales, "la empresa…", "el tribunal…").
-| # | Línea/sección | Afirmación (resumida) | [S..] citado | ¿La fuente citada (por su descripción en el source-log) respalda plausiblemente la afirmación? | Veredicto |
-Veredicto: `respalda` / `desajuste` (la fuente no encaja con la afirmación) / `no se puede saber por la descripción` / `sin tag` (afirmación factual sin [S..]).
+#### 1. Afirmaciones factuales
+Una fila por afirmación factual (fechas, cifras, "dijo", "hizo", relaciones causales, "la empresa…", "el tribunal…").
+| # | Línea/sección | Afirmación (resumida) | [S..] | ¿La fuente respalda la afirmación? | Veredicto |
+Veredicto: `respalda` / `desajuste` / `no se puede saber por la descripción` / `sin tag`.
 
-### 2. Interpretación presentada como hecho
-Frases de la reflexión/cierre (o de la narrativa) que afirman una interpretación como si fuera un hecho establecido, sin marco tipo "una lectura posible…", "esto sugiere…".
-| # | Línea | Frase | Reescritura sugerida (con marco interpretativo) |
+#### 2. Interpretación presentada como hecho
+| # | Línea | Frase | Reescritura con marco ("una lectura posible…", "esto sugiere…") |
 
-### 3. Citas textuales
-| # | Cita en el guion | ¿Marcada como traducción si procede? | ¿Atribución + fecha presentes? | Riesgo de cita apócrifa (sí/no + por qué) |
+#### 3. Citas textuales
+| # | Cita | ¿Traducción marcada? | ¿Atribución + fecha? | Riesgo de apócrifa (sí/no + por qué) |
 
-### 4. Afirmaciones que deberían ir matizadas
-Cosas dichas con seguridad que probablemente merecen "se dice…", "según algunas fuentes…", "no hay pruebas concluyentes de…".
+#### 4. Afirmaciones que deberían ir matizadas
 | # | Línea | Afirmación | Matiz sugerido |
 
-### 5. Psicología popular / conceptos
-Cualquier concepto psicológico, estadística llamativa o "dato curioso" que suene a mito o a divulgación sin respaldo (p. ej. "usamos el 10% del cerebro", "la regla de las 10.000 horas").
+#### 5. Psicología popular / conceptos
 | # | Línea | Afirmación | Nota |
 
-### 6. Legal / ético / independencia (banderas, no dictamen)
-Señala riesgos evidentes para revisión humana antes de publicar (`brain/04`, `brain/05`):
+#### 6. Legal / ético / independencia
 | # | Línea | Riesgo | Tipo |
-Tipo: `difamación` (afirmación negativa sobre persona viva sin fuente fuerte / sin atribuir) · `alegación-sin-desenlace` (se acusa, no se dice cómo acabó) · `menor-identificable` · `tema-sensible` (suicidio/abuso/violencia sin sobriedad o sin nota de ayuda) · `sujeto-privado` (parece persona privada, no figura pública) · `pitch-externo` · `dignidad` (mofa, monólogo interior inventado como hecho).
+Tipo: `difamación` · `alegación-sin-desenlace` · `menor-identificable` · `tema-sensible` · `sujeto-privado` · `pitch-externo` · `dignidad`.
 
-### 7. Resumen
-- Nº de afirmaciones factuales: __
-- `desajuste`: __ · `no se puede saber`: __ · `sin tag`: __
-- Banderas en tablas 2–6: __
-- Lo más urgente de revisar (máx. 5 puntos):
+### PARTE B — Correcciones a aplicar
 
-No inventes fuentes. No des una afirmación por verificada. Si algo no se puede evaluar con la descripción del source-log, dilo.
+Para CADA fila de las tablas 1–5 que no sea `respalda` limpio, da la edición exacta:
+| # | Texto actual (verbatim, una frase) | Texto nuevo | Motivo (1 línea) |
+- Si no hay forma de sostener ni matizar la afirmación → Texto nuevo = "[CORTAR]".
+- Para la tabla 6: NO propongas edición. Lístalas aparte bajo "PARA REVISIÓN HUMANA (Stage 11)" con línea y riesgo — son juicios que no te toca resolver.
+
+### PARTE C — Resumen
+- Afirmaciones factuales: __ · `desajuste`/`sin tag`/`no se puede saber`: __ / __ / __
+- Correcciones a aplicar: __ · Cortes: __ · Ítems para revisión humana: __
+
+No inventes fuentes. Si algo no se puede evaluar con la descripción del source-log, dilo y márcalo para revisión humana.
 ```
 
 ---
 
 ## Después de correr el prompt
 
-1. Pega la salida en `04-factcheck-auto.md` bajo `## Layer 2 — LLM`.
-2. Resuelve **cada bandera** contra la fuente real (no contra el modelo): aplica la corrección en `05-script.md`, o descártala con una línea de motivo, y anótalo en la columna **Resolución**.
-3. Gate: L1 `PASS` + cero banderas sin resolver. No hay más pasadas — el guion pasa a grabación.
+1. Pega PARTE A + C en `04-factcheck-auto.md` bajo `## Layer 2`.
+2. Aplica cada fila de PARTE B a `05-script.md` (verbatim → nuevo, o corta la frase).
+3. Rellena el **Changelog** de `04-factcheck-auto.md`: qué cambió, por qué, línea.
+4. Copia "PARA REVISIÓN HUMANA (Stage 11)" al final de `04-factcheck-auto.md` y a `10-publish-checklist.md`.
+5. Gate: L1 `PASS` + Changelog escrito → Stage 6. Sin firma.

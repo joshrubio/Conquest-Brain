@@ -1,8 +1,8 @@
 ---
 doc: 14-fact-check-protocol
-summary: "Stage 5. L1 deterministic (factcheck.py) + L2 LLM-assisted (prompt). The writer resolves every flag. No human sign-off layer."
+summary: "Stage 5, fully automated. L1 deterministic (factcheck.py) + L2 agent edit-pass that applies the fixes. No human step, no sign-off."
 stage: [5]
-read_when: "fact-checking a script; setting up or running the fact-check tools"
+read_when: "fact-checking a script; running the L2 pass; setting up the fact-check tools"
 pairs_with: [01-editorial-and-sourcing, 04-legal-and-ethics, 06-production-workflow]
 tools: [factcheck.py, fact-check-auto-prompt.md]
 authority: canonical
@@ -10,13 +10,14 @@ authority: canonical
 
 # 14 — Fact-Check Protocol
 
-Stage 5. **Two layers, both automated. No human sign-off layer** — the L2 pass is the last check before record.
+Stage 5. **Fully automated. No human step.** Two passes:
 
-- **L1 deterministic** — a script. Consistency only.
-- **L2 LLM-assisted** — a prompt. Flags claims, interpretation-as-fact, quotes, hedging, pop-psych, and obvious legal/ethics/COI risks.
-- Then the writer **resolves every L2 flag in the script** and records what was done.
+- **L1 deterministic** — `tools/factcheck.py`. Consistency only. Must `PASS`.
+- **L2 agent edit-pass** — an LLM reads the script + the source-log and **applies the corrections directly to `05-script.md`**, logging every change.
 
-The script does not go to record until L1 is `PASS` and no L2 flag is left unresolved.
+The script goes to record when L1 is `PASS` and the L2 pass has run and written its changelog. No sign-off, no manual flag-resolution.
+
+**Accepted trade-off:** no second pair of human eyes on factual accuracy. The safeguards are (a) every load-bearing claim already carries a `[S..]` to a Tier A/B source from Stage 2, (b) L1 catches every broken/missing tag mechanically, (c) L2 re-reads every claim against its source and rewrites what doesn't hold, (d) the legal/ethics + independence/COI checklist is still ticked by a human once, at Stage 11, before upload.
 
 ## Layer 1 — Deterministic pass
 
@@ -25,44 +26,36 @@ The script does not go to record until L1 is `PASS` and no L2 flag is left unres
 1. Every `[S..]` tag resolves to a row in `03-source-log.csv`.
 2. Every source-log row has a `tier` (A/B/C/D) and a `rights_status`.
 3. **Orphan-claim heuristic:** sentences with a number, date, proper noun, or quotation marks but **no `[S..]`** → candidate unsourced claims.
-4. **Tier check:** every claim whose only `[S..]` is Tier C/D → upgrade or reframe as disputed.
+4. **Tier check:** every claim whose only `[S..]` is Tier C/D → must be upgraded or reframed as disputed.
 5. Reports counts.
 
 Output: `04-factcheck-auto.md` (Layer 1 section), `PASS` / `FAIL`.
 
-**Gate:** `PASS` — zero unresolved tag/tier errors; every orphan candidate either tagged in the script or confirmed non-factual.
+**Gate:** `PASS` — zero unresolved tag/tier errors; every orphan candidate either tagged in the script or confirmed non-factual by L2.
 
-## Layer 2 — LLM-assisted pass
+## Layer 2 — Agent edit-pass
 
-[templates/fact-check-auto-prompt.md](../templates/fact-check-auto-prompt.md): script + source-log in, six flag tables out (pasted into `04-factcheck-auto.md`):
+Run by the agent (this session, or a subagent): `templates/fact-check-auto-prompt.md` — script + source-log in. The model:
 
-1. **Factual claims** — each with its `[S..]`; `respalda` / `desajuste` / `no se puede saber` / `sin tag`.
-2. **Interpretation stated as fact** — + a suggested interpretive rewrite.
-3. **Quotes** — translation marked? attribution + date? apocryphal risk?
-4. **Claims that should be hedged.**
-5. **Pop-psychology / mythy stats.**
-6. **Legal / ethics / independence risks** — defamation, allegation with no outcome, identifiable minor, sensitive-topic handling, private subject, external pitch, dignity ([brain/04](04-legal-and-ethics.md), [brain/05](05-independence-and-coi.md)).
+1. **Analyses** every claim against its `[S..]` source, plus interpretation-as-fact, quotes, hedging, pop-psychology, and legal/ethics/COI risk (six tables → `04-factcheck-auto.md`).
+2. **Produces exact corrections** — for every `desajuste`, `sin tag`, missing hedge, over-stated claim, unmarked translation, or interpretation-as-fact: the precise old text → new text.
+3. The agent **applies each correction to `05-script.md`** and writes the **Changelog** table in `04-factcheck-auto.md` (what changed, why, which line).
 
-**The LLM is not a source** ([01](01-editorial-and-sourcing.md) §9). A flag is a to-do to check against the real source, not a verdict.
+Rules the L2 pass follows:
+- **The LLM is not a source** ([01](01-editorial-and-sourcing.md) §9). A correction can only tighten the script to what the *cited source* supports, add a hedge, add an attribution, or cut a line — **never add a new fact**.
+- A claim the source can't support and that can't be hedged or attributed → **cut it or mark it disputed on screen**, don't guess.
+- Legal/ethics/COI flags that need a judgement call (a defamation risk, a sensitive-topic handling question) → **leave the line, flag it loudly in the Changelog** for the Stage 11 human tick. Don't silently "fix" those.
 
-## Resolving the flags
-
-Usuario 001 (the writer) goes through every flag and either:
-- **applies the fix** in `05-script.md` (correct a date, add a hedge, reframe an interpretation, cut an unsourced line, add an on-screen attribution), or
-- **dismisses it** with a one-line reason (e.g. "el guion ya lo marca como tradición").
-
-Recorded in the **Resolución** table of `04-factcheck-auto.md`.
-
-**Gate:** L1 `PASS` + zero unresolved L2 flags. The legal/ethics + independence/COI **checklist** is ticked once more at Stage 11 ([templates/publish-checklist.md](../templates/publish-checklist.md)) before upload.
+**Gate:** L1 `PASS` + L2 pass run + Changelog written → Stage 6.
 
 ## Files
 
-| File | Layer |
-|------|-------|
+| File | Pass |
+|------|------|
 | `tools/factcheck.py` → `04-factcheck-auto.md` (L1) | 1 |
-| `templates/fact-check-auto-prompt.md` → `04-factcheck-auto.md` (L2 + Resolución) | 2 |
+| `templates/fact-check-auto-prompt.md` → `04-factcheck-auto.md` (L2 tables + Changelog) + edits to `05-script.md` | 2 |
 
 ## Roadmap
 
-- Now: L1 script; L2 prompt run by hand + manual resolution.
-- Next: wrap L2 in a script that calls an LLM API and writes the L2 section in one command; `[S..]` contiguity check; source-URL link-rot check.
+- Now: L1 script; L2 run by the agent from the prompt, edits applied hand-in-loop.
+- Next: `tools/factcheck.py --l2` calls an LLM API, writes the L2 tables + a machine-readable diff, and with `--apply` patches `05-script.md` in one command. `[S..]` contiguity check. Source-URL link-rot check.

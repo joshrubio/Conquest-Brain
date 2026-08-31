@@ -8,7 +8,7 @@ authority: guide
 
 # Los tres protocolos
 
-Tres protocolos corren en momentos concretos del pipeline. Dos en la ideación (Stage 0), uno en el fact-check (Stage 5).
+Tres protocolos corren en momentos concretos del pipeline. Dos en la ideación (Stage 0), uno en el fact-check (Stage 5) — este último, 100% automático.
 
 | # | Protocolo | Cuándo | Doc |
 |---|-----------|--------|-----|
@@ -75,6 +75,6 @@ Detalle completo, tipos de gancho, plantillas y ejemplos en [modelo-narrativo/7-
 
 ## Protocolo 3 — Fact-check
 
-Dos capas automáticas en Stage 5: L1 determinista (`tools/factcheck.py`) y L2 asistida por LLM (un prompt de 6 tablas de banderas). No hay firma humana. El guionista resuelve cada bandera en el guion. Ningún guion pasa a grabación hasta que L1 = PASS y cero banderas sin resolver.
+Stage 5, **100% automático**: L1 determinista (`tools/factcheck.py`) + L2 (el agente analiza y **aplica** las correcciones a `05-script.md`). Sin firma, sin paso humano. Ningún guion pasa a grabación hasta que L1 = PASS y el changelog de L2 está escrito. Los riesgos legales/éticos que L2 no puede resolver van al tick humano de Stage 11.
 
 Detalle completo en [4-fact-check](4-fact-check.md).

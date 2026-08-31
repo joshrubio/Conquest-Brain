@@ -52,7 +52,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | 11 | visual-rhythm | 4·6·9 | shots planned from the locked script; beat rates; visual-type menu |
 | 12 | available-material-protocol | 0·2·7 | PD archives list, per-idea worksheet, stock rules, music licensing, subject-with-no-photo |
 | 13 | hook-naming | 0·10 | Dieck title anatomy, hook types, templates, ethical rules |
-| 14 | fact-check-protocol | 5 | L1 deterministic + L2 LLM; the writer resolves every flag; no human sign-off |
+| 14 | fact-check-protocol | 5 | fully automated — L1 deterministic + L2 agent edit-pass that applies the fixes; no human step |
 | 15 | ai-illustration-protocol | 7 | AI only where nothing real exists; one style/episode; label always; no real faces, no fake docs |
 | 16 | edit-and-delivery | 9 | Ken Burns→trim→review→b-roll→music→subs; 4K; house grade; export −14 LUFS |
 | — | USERS | all | the only slot→person map; slots fixed, responsibilities assignable |

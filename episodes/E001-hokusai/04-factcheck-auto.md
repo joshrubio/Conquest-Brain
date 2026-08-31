@@ -114,20 +114,23 @@
 - Banderas de matiz (tabla 4): 4 · Interpretación como hecho (tabla 2): 4
 - **Cita abierta crítica:** S15 (concepto de la reflexión) y S19 (japonismo, cada ejemplo por separado)
 
-**Lo más urgente (Usuario 001 aplica en el guion):**
-1. Corregir #30 — la escala del prefacio: "cada punto y línea vivos" = 110 años.
-2. Alinear #23 — fechas de las *Treinta y seis vistas* entre guion y source-log.
-3. Cerrar S15 con una referencia real (metas de maestría vs. rendimiento).
-4. Matizar #3/#20/#36 y añadir la nota de edad 88/90.
-5. Verificar S19 ejemplo por ejemplo (Giverny, Van Gogh, *La Mer* 1905).
+**Correcciones a aplicar (L2 Parte B — pendiente de correr la pasada de edición):**
+1. #30 — la escala del prefacio: "cada punto y línea vivos" = **110** años, no 100.
+2. #23 — alinear las fechas de las *Treinta y seis vistas* entre guion y source-log.
+3. #3 / #20 / #36 — matizar; añadir una vez la nota de edad 88/90.
+4. S15 — cerrar con una referencia real (metas de maestría vs. rendimiento).
+5. S19 — verificar ejemplo por ejemplo (Giverny, Van Gogh, *La Mer* 1905).
 
 ---
 
-## Resolución de banderas
+## Changelog — correcciones aplicadas a 05-script.md
 
-Pendiente. Resolver **cada bandera de arriba** contra la fuente real (no contra este informe): aplicar la corrección en `05-script.md` o descartarla con un motivo. Anotar aquí.
+Pendiente: correr la pasada L2 de edición (`templates/fact-check-auto-prompt.md` Parte B) y aplicar cada corrección al guion.
 
-| Bandera | Qué se hizo | Guion actualizado |
-|---------|-------------|-------------------|
-| #30 | | |
-| #23 | | |
+| # | Antes (verbatim) | Después | Motivo |
+|---|------------------|---------|--------|
+| | | | |
+
+## Para revisión humana (Stage 11)
+
+(sin banderas legales/éticas/COI abiertas en esta pasada)

@@ -78,7 +78,7 @@ La IA ayuda con navegación de investigación, estructura, transcripción y borr
 
 ## 8. El gate de fact-check
 
-Ningún guion pasa a grabación hasta que el fact-check de Stage 5 despeje: **L1** (`factcheck.py`, determinista) = PASS y **L2** (un prompt LLM de 6 tablas de banderas) con **cada bandera resuelta en el guion**. Sin firma humana — el guionista resuelve. El pase legal/COI se vuelve a marcar en Stage 11.
+Ningún guion pasa a grabación hasta que el fact-check de Stage 5 despeje: **L1** (`factcheck.py`, determinista) = PASS y **L2**, una pasada del agente que analiza cada afirmación contra su fuente y **aplica las correcciones al guion** (ajustar a lo que la fuente respalda, matizar, atribuir, o cortar — nunca añadir un dato). 100% automático, sin firma. El pase legal/COI se marca una vez en Stage 11.
 
 Detalle del proceso en [pipeline/4-fact-check](../pipeline/4-fact-check.md).
 

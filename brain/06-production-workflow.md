@@ -45,12 +45,11 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - Full narration + on-screen cues + inline source tags `[S12]` linking to the source log.
 - **Gate:** self-review complete; every `[S..]` resolves.
 
-## Stage 5 — Fact-check  → `04-factcheck-auto.md`
-- Protocol: [brain/14-fact-check-protocol.md](14-fact-check-protocol.md). **Two layers, both automated — no human sign-off layer.**
+## Stage 5 — Fact-check  → `04-factcheck-auto.md`  *(fully automated, no human step)*
+- Protocol: [brain/14-fact-check-protocol.md](14-fact-check-protocol.md).
   - **L1 deterministic:** `python tools/factcheck.py 05-script.md 03-source-log.csv` → must PASS.
-  - **L2 LLM-assisted:** run [templates/fact-check-auto-prompt.md](../templates/fact-check-auto-prompt.md) → six flag tables (claims, interpretation, quotes, hedging, pop-psych, legal/ethics/COI) in `04-factcheck-auto.md`.
-  - Usuario 001 **resolves every L2 flag in `05-script.md`** (fix applied or dismissed with a reason) and logs it in the Resolución table.
-- **Gate (hard):** L1 PASS; zero unresolved L2 flags. (Legal/COI checklist ticked again at Stage 11.)
+  - **L2 agent edit-pass:** run [templates/fact-check-auto-prompt.md](../templates/fact-check-auto-prompt.md) → six analysis tables + exact corrections; the agent **applies the corrections to `05-script.md`** and writes the Changelog in `04-factcheck-auto.md`. Legal/ethics/COI items it can't resolve go to the "Para revisión humana" list → `10-publish-checklist.md`.
+- **Gate:** L1 PASS + L2 Changelog written. No sign-off. (The legal/COI checklist is the one human tick, at Stage 11.)
 
 ## Stage 6 — Shotlist / B-roll  → `06-shotlist.md`
 - Template: [templates/shotlist-broll.md](../templates/shotlist-broll.md). Method: [brain/11-visual-rhythm.md](11-visual-rhythm.md).

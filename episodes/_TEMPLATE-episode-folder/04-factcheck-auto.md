@@ -1,24 +1,30 @@
 # Fact-check — E0XX
 
-> `brain/14`. Two layers, both automated; there is **no Layer 3 human sign-off**.
+> `brain/14`. **Fully automated, no human step.**
 >
 > - **L1** — `python tools/factcheck.py 05-script.md 03-source-log.csv > 04-factcheck-auto.md`
-> - **L2** — run `templates/fact-check-auto-prompt.md`, paste the output below.
+> - **L2** — the agent runs `templates/fact-check-auto-prompt.md`, pastes Part A + C below, **applies Part B to `05-script.md`**, fills the Changelog.
 >
-> Then resolve **every** L2 flag: apply the fix in `05-script.md`, or dismiss it with a one-line reason. Record it in the Resolución column / list.
->
-> **Gate:** L1 `PASS` + zero unresolved flags → the script goes to record.
+> **Gate:** L1 `PASS` + Changelog written → Stage 6.
 
 ## Layer 1 — deterministic
 
 (salida de factcheck.py)
 
-## Layer 2 — LLM
+## Layer 2 — analysis (Parts A + C of the prompt)
 
-(salida del prompt)
+(tablas 1–6 + resumen)
 
-## Resolución de banderas
+## Changelog — corrections applied to 05-script.md
 
-| Bandera (tabla · #) | Qué se hizo | Guion actualizado |
-|---------------------|-------------|-------------------|
+| # | Antes (verbatim) | Después | Motivo |
+|---|------------------|---------|--------|
+| | | | |
+
+## Para revisión humana (Stage 11)
+
+Riesgos legales/éticos/COI que L2 no puede resolver — se marcan también en `10-publish-checklist.md`.
+
+| Línea | Riesgo | Tipo |
+|-------|--------|------|
 | | | |

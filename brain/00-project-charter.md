@@ -24,7 +24,7 @@ Produce Spanish-language journalistic documentary episodes that (1) narrate a ve
 
 Roles are independent and responsibilities are assignable items — the split above is the current assignment, not a fixed identity. Real people behind each slot: see [USERS.md](USERS.md).
 
-**Two content tracks**, one owner each — see [ideas/tracks.md](../ideas/tracks.md). **Usuario 001 writes all scripts.** Fact-check is two automated passes — L1 deterministic + L2 LLM-assisted ([14-fact-check-protocol.md](14-fact-check-protocol.md)); the writer resolves every flag. No second-reviewer requirement; every gate can be signed by one person. **Narration is per-episode**, recorded in `episodes/_STATUS.md`.
+**Two content tracks**, one owner each — see [ideas/tracks.md](../ideas/tracks.md). **Usuario 001 writes all scripts.** Fact-check is fully automated — L1 deterministic + an L2 agent edit-pass that applies the corrections ([14-fact-check-protocol.md](14-fact-check-protocol.md)). No human step there. Every other gate can be signed by one person. **Narration is per-episode**, recorded in `episodes/_STATUS.md`.
 
 ## Audience
 

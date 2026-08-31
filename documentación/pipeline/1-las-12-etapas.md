@@ -21,7 +21,7 @@ Regla completa: `brain/06-production-workflow.md`. Cada etapa tiene su plantilla
 | 2 | Dossier de investigación | `02-research-dossier.md` + `03-source-log.csv` | Usuario 001 | toda claim de carga con ≥1 Tier A/B |
 | 3 | Outline | (beat sheet) | Usuario 001 | la estructura se sostiene sin torcer hechos |
 | 4 | Guion | `05-script.md` | Usuario 001 | autorrevisión hecha; toda `[S..]` resuelve |
-| 5 | Fact-check | `04-factcheck-auto.md` | L1+L2 automáticas · Usuario 001 resuelve | L1 PASS; cero banderas L2 sin resolver |
+| 5 | Fact-check | `04-factcheck-auto.md` | 100% automático (L1 + L2 agente) | L1 PASS; changelog L2 escrito |
 | 6 | Shotlist | `06-shotlist.md` | Usuario 001 | cada beat clasificado; cifras con rótulo de fuente |
 | 7 | Recursos + pase de estilo | `07-assets.md` (+ `07b-ai-prompts.md`, `07-selection.md`) | Usuario 001 | cada beat cubierto; cold open 2–5; licencias claras |
 | 8 | Grabación | tomas en `assets/` | narrador (Usuario 001 o Usuario 002) | toma completa contra guion bloqueado |
@@ -58,7 +58,7 @@ El `.html` es regenerable (gitignored); el `.txt` exportado es el registro que s
 | 0 ideación | dueño del track | el otro |
 | 1–3 investigación | Usuario 001 | — |
 | 4 guion | Usuario 001 | — |
-| 5 fact-check | L1+L2 automáticas · Usuario 001 resuelve banderas | — |
+| 5 fact-check | 100% automático (L1 + L2 agente aplica correcciones) | — |
 | 6 shotlist | Usuario 001 | — |
 | 7 recursos + pase de estilo | Usuario 001 | — |
 | 8 grabación | narrador | el otro |

@@ -1,16 +1,29 @@
 ---
 doc: pipeline/4-fact-check
-summary: "Stage 5: L1 determinista + L2 LLM (6 tablas de banderas). Sin firma humana. Cómo se resuelve cada bandera. Ejemplo E001."
-audience: "guionista"
+summary: "Stage 5, 100% automático. L1 determinista + L2 (el agente analiza y aplica las correcciones al guion). Sin firma, sin paso humano."
+audience: "guionista, agente"
 mirrors: [brain/14]
 authority: guide
 ---
 
 # Fact-check (Stage 5)
 
-**Dos capas, las dos automáticas. No hay firma humana.** La pasada L2 es el último control antes de grabar; el guionista resuelve cada bandera en el guion.
+**100% automático. No hay paso humano en esta fase.** Dos pasadas:
 
-Regla: `brain/14-fact-check-protocol.md`. Producto: `04-factcheck-auto.md` (L1 + L2 + tabla de Resolución).
+- **L1** — `tools/factcheck.py`, determinista, pura consistencia. Debe dar `PASS`.
+- **L2** — el agente lee el guion + el source-log y **aplica las correcciones directamente a `05-script.md`**, dejando un changelog.
+
+El guion pasa a grabación cuando L1 = `PASS` y la pasada L2 ha corrido y escrito su changelog. Sin firma.
+
+Regla: `brain/14`. Producto: `04-factcheck-auto.md` (L1 + L2 + changelog + lista para revisión humana).
+
+## El trade-off aceptado
+
+No hay un segundo par de ojos humanos sobre la exactitud factual. Los seguros son:
+- cada afirmación de carga ya lleva `[S..]` a una fuente Tier A/B desde el Stage 2;
+- L1 caza mecánicamente toda etiqueta rota o ausente;
+- L2 re-lee cada afirmación contra su fuente y reescribe lo que no encaja;
+- el pase legal/ético + independencia/COI lo sigue marcando un humano una vez, en Stage 11, antes de subir.
 
 ---
 
@@ -18,56 +31,36 @@ Regla: `brain/14-fact-check-protocol.md`. Producto: `04-factcheck-auto.md` (L1 +
 
 `python tools/factcheck.py 05-script.md 03-source-log.csv`
 
-Sin juicio — pura consistencia:
+1. Toda `[S..]` del guion resuelve a una fila del source-log.
+2. Toda fila tiene `tier` (A/B/C/D) y `rights_status`.
+3. **Heurística de huérfana:** frases con número / fecha / nombre / comillas **sin `[S..]`**.
+4. **Chequeo de tier:** claim cuya única `[S..]` es C/D → subir de tier o marcar disputada.
+5. Conteos.
 
-1. **Toda `[S..]` del guion resuelve** a una fila de `03-source-log.csv`.
-2. Toda fila del source-log tiene `tier` (A/B/C/D) y `rights_status`.
-3. **Heurística de huérfana:** marca frases con número / fecha / nombre propio / comillas **sin `[S..]`** → candidatas a claim sin fuente.
-4. **Chequeo de tier:** toda claim cuya única `[S..]` es Tier C/D → subir de tier o reformular como disputada.
-5. Reporta conteos.
-
-**Gate:** `PASS` — cero errores de etiqueta/tier; cada huérfana etiquetada en el guion o confirmada como no-factual.
+**Gate:** `PASS`.
 
 ---
 
-## Layer 2 — Pasada asistida por LLM
+## Layer 2 — Pasada del agente que edita
 
-`templates/fact-check-auto-prompt.md`: pega guion + source-log, devuelve **seis tablas de banderas**:
+El agente (esta sesión o un subagente) corre `templates/fact-check-auto-prompt.md`:
 
-1. **Afirmaciones factuales** — cada una con su `[S..]`; `respalda` / `desajuste` / `no se puede saber` / `sin tag`.
-2. **Interpretación como hecho** — + reescritura sugerida con marco ("una lectura posible…").
-3. **Citas textuales** — ¿traducción marcada? ¿atribución + fecha? ¿riesgo apócrifa?
-4. **Afirmaciones que deberían ir matizadas.**
-5. **Psicología popular / datos-mito.**
-6. **Riesgos legales / éticos / de independencia** — difamación, alegación sin desenlace, menor identificable, tema sensible, sujeto privado, pitch externo, dignidad (`brain/04`, `brain/05`).
+**Parte A — análisis** (6 tablas → `04-factcheck-auto.md`): afirmaciones factuales, interpretación como hecho, citas, matices, psicología popular, riesgos legales/éticos/COI.
 
-**El LLM no es una fuente** (`brain/01` §9). Una bandera es una tarea de comprobar contra la fuente real, no un veredicto.
+**Parte B — correcciones exactas:** por cada fila que no sea `respalda` limpio, el texto verbatim actual → el texto nuevo. Reglas:
+- una corrección solo puede **ajustar el texto a lo que la fuente respalda**, añadir un matiz, añadir una atribución, o **cortar** la frase — nunca añadir un dato;
+- lo que no se puede sostener ni matizar → `[CORTAR]` o marcar disputado en pantalla;
+- los riesgos legales/éticos/COI que piden un juicio → **no los toca**; van a la lista "Para revisión humana (Stage 11)".
 
----
+**El agente aplica** cada corrección a `05-script.md` y rellena el **Changelog** de `04-factcheck-auto.md`.
 
-## Resolver las banderas
-
-Usuario 001 (quien escribió) recorre cada bandera y:
-- **aplica la corrección** en `05-script.md` (arregla una fecha, añade un matiz, reencuadra una interpretación, corta una línea sin fuente, añade una atribución en pantalla), o
-- **la descarta** con una línea de motivo ("el guion ya lo marca como tradición").
-
-Se anota en la **tabla de Resolución** de `04-factcheck-auto.md`.
-
-**Gate:** L1 `PASS` + cero banderas sin resolver → el guion pasa a grabación. El pase legal/COI se vuelve a marcar en Stage 11 (`templates/publish-checklist.md`).
+**Gate:** L1 `PASS` + changelog escrito → Stage 6.
 
 ### Lo que L2 encontró en E001 (ejemplo real)
 
-L2 marcó 39 afirmaciones y encontró:
-- **2 errores reales:** la escala de edades del prefacio decía "a los 100" cuando el original dice "a los 110"; y una inconsistencia interna de fechas de la serie del Fuji.
-- **3 claims poco sostenidas:** "Japón cerrado", la población de Edo, la anécdota del papel de embalar.
-
-Los errores se corrigen en el guion; la anécdota se enmarca como lo que es ("se cuenta —y puede que la historia esté algo pulida—").
-
----
-
-## Qué significa "automatizado" aquí
-
-L1 y L2 convierten una revisión de página en blanco en un triaje de banderas ya encontradas, en minutos. No hay tercera capa: el criterio del canal es que un guion que pasa L1 limpio y con cada bandera de L2 resuelta está listo. El riesgo legal/ético fuerte se vuelve a mirar en el checklist de publicación.
+L2 analizó 39 afirmaciones:
+- **2 errores reales** → corrección aplicada: la escala de edades del prefacio decía "a los 100" cuando el original dice "a los 110"; e inconsistencia de fechas de las 36 vistas del Fuji.
+- **3 claims poco sostenidas** → matizadas: "Japón cerrado", la población de Edo, la anécdota del papel de embalar ("se cuenta que…").
 
 ## Si aparece un error después de publicar
 
