@@ -20,6 +20,13 @@ authority: canonical
 
 This is Stage 6 of the workflow. Input: locked `05-script.md`. Output: `06-shotlist.md`.
 
+The shotlist's **"Timeline — la espina"** table is the machine-readable spine —
+one row per beat (`#`, `in`, `dur`, `sección`, `tipo`, `asset`, `rótulo`,
+`motion` `push/pan-h/pan-v/static/zoom/cut`, `marcador` `HOOK/PLANT n/PAY n/EXPLICADOR n`).
+`tools/assemble.py` parses it at Stage 9 to build the first-cut timeline, so it
+has to be complete and clean (see the template). The prose tables below it are
+for the human.
+
 ### 2.1 Rules for placing a visual beat
 
 1. **One visual beat every ~2–3 sentences of narration**, or wherever the *subject* of the sentence changes (new person, place, year, object).

@@ -39,17 +39,36 @@ authority: template
 |----------------|----------|-------------|--------------------|-------|
 | (Opción) Para llevar | Plano medio | Fondo neutro de serie | Sección 3 | Único momento a cámara; refuerza que es idea propia |
 
-## B-roll / archivo
+## Timeline — la espina (una fila por beat, en orden de emisión)
 
-| # | Beat | Sección / tiempo aprox. | Visual necesario | Fuente / origen | Fuente [ID source-log] | Estado de derechos | Rótulo en pantalla | Motion |
-|---|------|-------------------------|------------------|-----------------|------------------------|--------------------|--------------------|--------|
-| 1 | | | | | | dominio público / CC-__ / licencia / cita | | Ken Burns / corte |
-| 2 | | | | | | | | |
+**Esta tabla la parsea `tools/assemble.py` y `tools/edit_timeline.py`. Formato fijo:**
 
-## Gráficos / motion
+- **`#`** — número de beat, de corrido desde 1.
+- **`in`** — inicio previsto, `m:ss` (una estimación; en Stage 9 `assemble.py` lo re-alinea a la voz real).
+- **`dur`** — duración objetivo en segundos (entero).
+- **`sección`** — una de: `cold open` · `bumper` · `pivote` · `contexto` · `acto N` · `explicador` · `teorías` · `cierre` · `cta`.
+- **`tipo`** — `archivo` (foto/escaneo real) · `stock` (b-roll de vídeo genérico) · `kb` (Ken Burns sobre una fija) · `ia` (ilustración IA — lleva rótulo) · `gráfico` (motion propio) · `negro` (bumper / corte a negro).
+- **`asset`** — el id que resuelve contra `07-selection.md` / `07-assets.md` (`E0XX_ai01_…`, `INTRO2`, `S09`, `G1`…). `—` si aún no elegido.
+- **`rótulo`** — texto en pantalla, o `—`. `Ilustración — Conquest` obligatorio para `ia`; salvedad para cifras dudosas.
+- **`motion`** — token canónico: `push` (empuje 1.00→1.10) · `pan-h` · `pan-v` · `static` · `zoom` (a un detalle) · `cut` (clip de vídeo, sin move).
+- **`marcador`** — `HOOK` · `PLANT n` · `PAY n` · `EXPLICADOR n` · `—`. `PLANT n` y su `PAY n` **usan el mismo `asset` y el mismo `motion`**.
 
-| # | Beat | Qué muestra | Datos (fuente [ID]) | Rótulo de fuente/salvedad | Notas de estilo |
-|---|------|-------------|---------------------|---------------------------|-----------------|
+| # | in | dur | sección | tipo | asset | rótulo | motion | marcador | guion (frag.) |
+|---|----|-----|---------|------|-------|--------|--------|----------|---------------|
+| 1 | 0:00 | 12 | cold open | ia | E0XX_ai01_… | Ilustración — Conquest | static | HOOK | «…» |
+| 2 | 0:12 | 10 | cold open | stock | INTRO2 | — | cut | — | «…» |
+| … | | | | | | | | | |
+
+## Detalle por beat (para el humano — no se parsea)
+
+| # | Visual necesario | Fuente / origen | Fuente [ID source-log] | Estado de derechos | Notas |
+|---|------------------|-----------------|------------------------|--------------------|-------|
+| 1 | | | | dominio público / CC-__ / licencia / cita | |
+
+## Gráficos / motion — guion de cada uno
+
+| id | Beat # | Qué muestra | Datos (fuente [ID]) | Rótulo de fuente/salvedad | Notas de estilo |
+|----|--------|-------------|---------------------|---------------------------|-----------------|
 | G1 | | | | | |
 
 ## Música / sonido
@@ -66,10 +85,11 @@ authority: template
 
 ## Gate Stage 6
 
+- [ ] La tabla **Timeline — la espina** está completa: toda fila con `#`, `in`, `dur`, `sección`, `tipo`, `motion`, `marcador` (parsea sin errores)
 - [ ] Todo visual con estado de derechos en `03-source-log.csv`
 - [ ] Todo dato en gráfico con fuente [ID] y, si aplica, rótulo de salvedad
-- [ ] `[PLANT]` y `[PAY]` usan el mismo plano
+- [ ] `PLANT n` y `PAY n` usan el mismo `asset` y el mismo `motion`
 - [ ] Sin clip de película dramatizada como registro histórico
-- [ ] Reenactments / IA / colorizado marcados para rótulo en pantalla
+- [ ] Reenactments / IA / colorizado con `rótulo` en pantalla
 - [ ] Cold open: 2–5 planos de hook (vídeo preferido) + bumper en negro; hook+bumper ≤ 50 s
 - [ ] Nº de beats coherente con el ritmo objetivo para la duración

@@ -21,7 +21,7 @@ Cuántos **tokens de Claude** consume producir un episodio de Conquest-Brain, y 
 | 5 fact-check L2 | lee guion + source-log + `brain/14`; analiza cada claim, produce correcciones | ~25 k | ~5 k | **40–90 k** | |
 | 6 shotlist | lee guion bloqueado + `brain/11`; infiere `06-shotlist.md` | ~20 k | ~4 k | **30–55 k** | |
 | 7 prompts IA | lee beats del shotlist + `brain/15`; escribe el texto de escena | ~12 k | ~3 k | **15–35 k** | solo si hay beats sin imagen real |
-| 9 b-roll | Claude + ffmpeg, iterativo | 30–80 k | ~8 k | **40–110 k** | |
+| 9 edición | `assemble.py` monta el primer corte y `edit_timeline.py` la timeline (python, 0 tokens); tú ajustas en el navegador (0 tokens); Claude solo aplica los FIX de KB como flags + lanza el render | ~12 k | ~5 k | **20–45 k** | antes «Claude + ffmpeg iterativo, 40–110 k, sin tope» — la timeline lo acota |
 | 10 descripción | lee source-log + pool + `brain/07`; `09-description.md` | ~12 k | ~3 k | **15–35 k** | |
 | 12 retro | lee KPI + `brain/07`; fixes de proceso | ~8 k | ~3 k | **10–25 k** | |
 | **Suma, un pase** | | | | **~410–1 100 k** | |
@@ -53,6 +53,23 @@ Todo el CSS/HTML de todas las páginas generadas (dashboard, consumo, review pag
 | Drenar la cola / plegar un gate | los datos (`_STATUS.md`, `_queue.json`, `_exports/*.json`, `*.txt`) son texto plano sin marcado; `dashboard.html`/`cost.html` gitignored | igual — **el rediseño nunca entra en el contexto de una decisión** |
 
 Barrera de lectura explícita: `theme.py` abre con un banner *PRESENTATION ONLY*; `AGENTS.md`, `brain/17` y `.claude/commands/atiende.md` dicen que solo se abre para "cambiar cómo se ven las páginas". Coste de un rediseño en tokens del flujo de producción: **cero**.
+
+## La sala de montaje (Stage 9) — coste
+
+**Construirla (una vez):** `assemble.py` + `edit_timeline.py` + CSS + wiring ≈ **el coste de ~1 episodio** de tokens, repartido en varias sesiones. La varianza está en el grafo `filter_complex` de `assemble.py` (cada ciclo de debug de render de vídeo cuesta).
+
+**Por episodio, después:** Stage 9 pasa de **40–110 k** (Claude iterando ffmpeg, sin tope) a **20–45 k** (acotado):
+
+| Paso | Tokens |
+|------|--------|
+| Primer corte + timeline (`assemble.py` → `edit_timeline.py`) | 0 — python |
+| Arrastrar / trim / swap / previsualizar (en el navegador) | 0 — como el dashboard |
+| Render 4K (`assemble.py --final`) | 0 — python/ffmpeg |
+| Claude: aplicar los FIX de KB como flags + revisar el render | ~20–45 k |
+
+**Contexto:** `09-edit.html` lo genera python; su CSS vive en `theme.py` (cuarentena); Claude solo lee `09-timeline.json` / `09-decisions.txt` (texto plano). Cero carga añadida por decisión.
+
+**Fork DaVinci:** si un episodio necesita pulido a frame, se lleva `09-timeline.json` a Resolve — la colocación ya está hecha, Claude no re-coloca 45 clips vía MCP (eso serían ~60–150 k/episodio). La timeline propia se amortiza vs. ese fork a los **~10–15 episodios**.
 
 ## Contra el plan Claude Pro (rangos 2026-08 — verificar)
 

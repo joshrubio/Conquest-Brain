@@ -12,6 +12,8 @@ under 0.40 s is never cut, and an 8 ms audio fade sits at each join.
 
 Outputs:
   <take>.cuts.md      transcript with every cut marked + a summary
+  <take>.words.json   [{w, t}] every surviving word on the *trimmed* timeline
+                      (tools/assemble.py aligns the shotlist beats against this)
   <take>.trimmed.mp4  the cut take (re-encoded H.264 / AAC 320k)
 
 Review loop: read <take>.cuts.md, protect any bad cut with --keep MM:SS, re-run.
@@ -135,6 +137,30 @@ def write_cuts_md(take, words, cuts, spans, total):
     print(f"  escrito  {take.with_suffix('.cuts.md').name}")
 
 
+def remap(t, spans):
+    """Original-timeline second -> trimmed-timeline second, or None if it fell in a cut."""
+    acc = 0.0
+    for s0, s1 in spans:
+        if t < s0:
+            return None
+        if t <= s1:
+            return acc + (t - s0)
+        acc += s1 - s0
+    return acc
+
+
+def write_words_json(take, words, spans):
+    import json
+    out = []
+    for s, _e, w in words:
+        ts = remap(s, spans)
+        if ts is not None:
+            out.append({"w": w.strip(), "t": round(ts, 3)})
+    take.with_suffix(".words.json").write_text(
+        json.dumps(out, ensure_ascii=False), encoding="utf-8")
+    print(f"  escrito  {take.with_suffix('.words.json').name}  ({len(out)} palabras)")
+
+
 def render(take, spans, out_path):
     parts, maps = [], []
     for i, (s, e) in enumerate(spans):
@@ -190,6 +216,7 @@ if __name__ == "__main__":
     spans = keep_spans(cuts, total)
     print(f"\n{take.name}: {len(cuts)} cortes, quita {sum(e - s for s, e, _ in cuts):.1f} s\n")
     write_cuts_md(take, words, cuts, spans, total)
+    write_words_json(take, words, spans)
     if "--dry" in a:
         print("  --dry: no se renderiza. Revisa el .cuts.md y re-corre sin --dry.")
         sys.exit(0)

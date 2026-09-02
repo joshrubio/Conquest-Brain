@@ -4,7 +4,7 @@ summary: "Stage 9, deliberately minimal. Ken Burns -> trim -> review -> b-roll -
 stage: [9]
 read_when: "editing the video; assembling b-roll; the music bed; export settings"
 pairs_with: [03-brand-identity, 11-visual-rhythm, 06-production-workflow]
-tools: [kenburns.py, trim_talk.py, edit_review.py, find_music.py]
+tools: [kenburns.py, trim_talk.py, edit_review.py, assemble.py, edit_timeline.py, find_music.py]
 authority: canonical
 ---
 
@@ -12,24 +12,34 @@ authority: canonical
 
 Deliberately minimal. **If an effect isn't in this doc, it doesn't go in the episode.** No lower-thirds system, no source cards, no transitions beyond a hard cut and a section fade. One house grade (`brain/03`), applied whole. The rigor is in the script and the sourcing, not in the motion graphics.
 
-Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`) · `07c-edit.html` (review surface, generated) · `07c-review.txt` (Usuario 001's approvals + feedback).
+Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`) · `07c-edit.html` (raw-clip review, generated) · `07c-review.txt` (raw-clip approvals) · **`09-edit.html`** (the timeline, generated) · **`09-timeline.json`** (the edit — tracked) · `09-decisions.txt` (changelog — tracked).
 
 ## The run
 
 Stage 7 assets are chosen; Stage 8 footage is in. Then:
 
 1. **Ken Burns clips** — `tools/kenburns.py --all` turns the Stage 7 stills (+ AI images) into moving clips → `assets/kb/`.
-2. **Trim** — `tools/trim_talk.py` cuts silences + fillers from each Stage 8 take → `<take>.trimmed.mp4`.
-3. **Review** — `tools/edit_review.py` builds **`07c-edit.html`**: every KB clip and every trimmed take with a `<video>` preview, an *aprobado* checkbox and a feedback box. Usuario 001 approves each or writes what to fix; **Finalizar Stage 9** (writes `07c-review.txt`) → Claude re-runs the tool per the feedback → regenerate the page → repeat until **all approved**.
-4. **B-roll assembly** — only once step 3 is all-green. Lay each beat's asset on the VO timeline per `06-shotlist.md` + `07-selection.md`. Cold open = `assets/intro/` clips + bumper.
-5. **Background music** — one ominous-ambient bed under the whole thing, ducked under the VO.
+2. **Trim** — `tools/trim_talk.py` cuts silences + fillers from each Stage 8 take → `<take>.trimmed.mp4` + `<take>.words.json` (word timings on the trimmed timeline).
+3. **Raw-clip review** *(optional but recommended)* — `tools/edit_review.py` → `07c-edit.html`: watch every KB clip + trimmed take on its own, tick OK or write a fix. Catches a bad KB move before it hits the timeline.
+4. **First cut + timeline** — `tools/assemble.py E0XX-slug` (auto, no agent):
+   - parses the **"Timeline — la espina"** table in `06-shotlist.md`
+   - resolves each beat's `asset` id to a file via `07-selection.md` + the `assets/` folders
+   - if a trimmed VO exists, **aligns every beat to real VO time** (fuzzy-matches its script fragment against `*.words.json`); otherwise uses the shotlist's planned times
+   - writes `09-timeline.json` + a 720p proxy (`09-rough.mp4`) + a waveform
+   Then **`tools/edit_timeline.py`** renders **`09-edit.html`** — the cutting-room timeline: the waveform spine, a block per beat, a scrubbable proxy, and a per-beat inspector (swap asset · trim · nudge · Ken Burns motion · regen note · approve). Usuario 001 works it in the browser — drag, trim, preview a region — **no tokens**. **Finalizar Stage 9** POSTs `09-timeline.json`; Claude applies the regen notes (`kenburns.py` per fix) and `assemble.py --final` renders the 4K master.
+5. **Background music** — one ominous-ambient bed under the whole thing, ducked −5 dB under the VO (`assemble.py` mixes it on `--final`).
 6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
 
-Then: house grade, export, picture-lock review.
+Then: house grade (applied by `assemble.py --final`), export, picture-lock review.
 
-## Tooling — Claude first, DaVinci later if needed
+## Tooling — the timeline is ours; DaVinci is the escape hatch
 
-Steps 1–3 are the tools above. Steps 4–5 (assembly + mix) we try to do with **Claude driving ffmpeg**. If timing b-roll to the VO proves too fiddly that way, we integrate the **DaVinci Resolve MCP** and move the assembly there — the review tools (`kenburns` / `trim_talk` / `edit_review`) don't change.
+Steps 1–4 are the tools above; the assembly + duck + grade + −14 LUFS all live in
+`assemble.py`'s ffmpeg graph. If a given episode needs frame-level craft the
+timeline can't give (a J-cut, a montage, motion graphics), take `09-timeline.json`
+into **DaVinci Resolve** (via its MCP) as a starting point — the placement is
+already done, so Claude doesn't re-place 45 clips by hand. Most episodes never
+need it; the format is hard-cuts-in-script-order with one grade.
 
 ## Resolution — 4K target, graceful fallback
 
@@ -58,24 +68,35 @@ Stills only (video already moves). The move is chosen from the image's **real as
 - `faster-whisper` transcribes each → word-level timestamps.
 - Cuts: **silence** gaps longer than `--gap` (default 0.6 s) → trimmed to ~0.15 s of room; **filler** words from a Spanish list (`eh`, `este`, `o sea`, `pues` at a phrase start, false starts) — conservative, standalone only.
 - **Smooth, not aggressive:** 120–180 ms of padding kept around every retained span; a pause under 0.4 s is never cut; an 8 ms audio fade at each join kills clicks.
-- Output per take: `<take>.trimmed.mp4` + `<take>.cuts.md` (transcript with every cut marked). Corrections from the review re-run it with `--keep MM:SS`.
-- Multi-take: trim each, then assemble in script order.
+- Output per take: `<take>.trimmed.mp4` + `<take>.cuts.md` (transcript, cuts marked) + `<take>.words.json` (surviving words with their time on the trimmed timeline — `assemble.py` aligns beats against this). Corrections re-run it with `--keep MM:SS`.
+- Multi-take: trim each; `assemble.py` concatenates in script order and offsets each take's word times.
 
-## 3. Review — `tools/edit_review.py` → `07c-edit.html`
+## 3. Raw-clip review — `tools/edit_review.py` → `07c-edit.html`  *(optional)*
 
-- Scans `assets/kb/*.mp4` and `assets/*.trimmed.mp4` (+ `*.cuts.md`).
-- Per clip: `<video>` preview · `aprobado` checkbox · free-text feedback (KB: «más lento» / «empieza a la izquierda» / «dir arriba» / «déjalo estático» / «dura 4 s»; trim: «mantener la pausa en 00:12» / «cortar antes en 02:03» / «no cortes el "eh" de 03:04»).
-- **Finalizar Stage 9** → `07c-review.txt`, each line `kb|trim  <id>  APROBADO | FIX: <texto>`.
-- Claude reads it, re-runs `kenburns.py` (per-clip flags) / `trim_talk.py` (`--keep …`) for every FIX, regenerates the page. Loop until every row is APROBADO.
-- Only then does step 4 (b-roll) start.
+- Scans `assets/kb/*.mp4` and `assets/*.trimmed.mp4`. Per clip: `<video>` preview · `aprobado` · free-text fix.
+- Use it to catch a bad KB move or a bad trim **before** the timeline. Its FIX lines feed the same `kenburns.py` / `trim_talk.py --keep` re-runs.
+- Skippable — the timeline's inspector (step 4) has the same approve/fix per clip, in context. Keep it for a fast first pass over many raw clips.
 
-## 4. B-roll assembly
+## 4. First cut + timeline — `assemble.py` → `edit_timeline.py` → `09-edit.html`
 
-- `06-shotlist.md` marks which beats are archival / stock / AI; `07-selection.md` names the file (a KB clip for stills, the stock/intro clip for video). Lay each on its beat, over the VO.
-- **Video clips:** cut to length. No speed ramp, no filter, no zoom. Loop only if the clip is shorter than the beat *and* the loop point is invisible.
-- **Cold open (§0):** 2–5 clips from `assets/intro/` in numbered order, hard-cut on the narration beat (`brain/02` §0). Last shot holds ½ s → cut to black.
+**`assemble.py E0XX-slug`** (python, no agent):
+- parses the **"Timeline — la espina"** table in `06-shotlist.md` (one row per beat: `#`, `in`, `dur`, `sección`, `tipo`, `asset`, `rótulo`, `motion`, `marcador`, guion frag.)
+- resolves `asset` ids to files via `07-selection.md` + `assets/{kb,stock,video,intro,archive,ai,graphic}/`
+- **aligns to the VO** when a trimmed take exists (fuzzy-matches each beat's frag against `*.words.json`); makes the timeline monotonic (each beat runs until the next begins)
+- writes **`09-timeline.json`** + `09-rough.mp4` (720p proxy) + `09-wave.b64` (waveform PNG)
+
+**`edit_timeline.py E0XX-slug`** renders **`09-edit.html`** — the cutting room:
+- VO waveform (fixed) + section bands + one block per beat, width ∝ duration, coloured by kind; `PLANT`/`PAY` + `EXPLICADOR` marked; uncovered beats flagged
+- a scrubbable 720p proxy; a per-beat **inspector**: swap asset · trim (drag edge or ±) · nudge ±frames · Ken Burns motion (`push`/`pan-h`/`pan-v`/`static`/`zoom`/`cut`) · a regen note for Claude · approve
+- drag a block to reposition (snaps to a word boundary); wheel = scroll, Ctrl+wheel = zoom, Shift+wheel = fast scroll; minimap to navigate
+- **Previsualizar región** re-renders that stretch of the proxy (`assemble.py --preview`) — seconds, not a full render
+- **Finalizar Stage 9** → POSTs `09-timeline.json` (+ a `09-decisions.txt` changelog). Claude applies the regen notes (`kenburns.py` per beat) and runs `assemble.py --final` for the 4K master. Beats still `sin cubrir` block the final render.
+
+**Rules that don't move** (`assemble.py` enforces or the human keeps):
+- **Video clips:** cut to length. No speed ramp, no filter. Loop only if shorter than the beat *and* the loop point is invisible.
+- **Cold open (§0):** the `intro` clips in numbered order, hard-cut on the narration beat. Last shot holds ½ s → cut to black.
 - **Bumper (§0b):** 3–6 s black + `Conquest` wordmark + presenter line. No music.
-- Reused beats (`[PLANT]` / `[PAY]`): the **same** clip/frame both times.
+- Reused beats (`PLANT n` / `PAY n`): the **same** `asset` and `motion` both times (the shotlist spine sets this; the timeline keeps it).
 
 ## 5. Background music — `tools/find_music.py`
 
@@ -107,15 +128,19 @@ The house grade from [brain/03](03-brand-identity.md) §Grade, applied to the wh
 
 ## Review loop
 
-KB + trim signed off in `07c-edit.html` → b-roll + music assembled → **picture lock** (no further timing changes) → Usuario 002 watches once, end to end, against `05-script.md` and `brain/04` (labels present, claims accurate, dignity) → signs in `07c-edit.md` → sound + `.srt` finalised → Stage 10.
+Timeline finalised in `09-edit.html` (every beat covered + approved) → Claude
+applies regen notes + `assemble.py --final` → **picture lock** (no further timing
+changes) → Usuario 002 watches once, end to end, against `05-script.md` and
+`brain/04` (labels present, claims accurate, dignity) → signs in `07c-edit.md` →
+`.srt` finalised → Stage 10.
 
 ## Gate (Stage 9)
 
-- [ ] Every KB clip and every trimmed take **APROBADO** in `07c-review.txt`
+- [ ] Every beat in `09-timeline.json` has an `asset`/`file` (0 `sin cubrir`) and is `approved`
 - [ ] Only the moves in this doc — no other effects, transitions, or grade
-- [ ] Every shotlist beat has its asset on screen; cold open 2–5 shots + bumper on black
-- [ ] Ken Burns move matches each image's orientation; `[PLANT]`/`[PAY]` identical
+- [ ] Cold open = `intro` clips in order + bumper on black
+- [ ] Ken Burns `motion` matches each image's orientation; `PLANT n`/`PAY n` share `asset` + `motion`
 - [ ] One music bed, ducked under the VO; no music in the bumper; track licences logged
-- [ ] AI / reenactment / colourised labelled on every appearance
-- [ ] `.srt` generated and hand-corrected against `05-script.md`
+- [ ] AI / reenactment / colourised labelled on every appearance (`rótulo` set in the spine)
+- [ ] 4K master rendered; `.srt` generated and hand-corrected against `05-script.md`
 - [ ] −14 LUFS integrated; 4K (or best common resolution); picture lock signed by Usuario 002 in `07c-edit.md`

@@ -30,17 +30,33 @@
 |----------------|----------|-------------|--------------------|-------|
 | (Opción) Para llevar | Plano medio | Fondo neutro de serie | Sección 3 | Único momento a cámara; refuerza que es idea propia |
 
-## B-roll / archivo
+## Timeline — la espina (una fila por beat, en orden de emisión)
 
-| # | Beat | Sección / tiempo aprox. | Visual necesario | Fuente / origen | Fuente [ID source-log] | Estado de derechos | Rótulo en pantalla | Motion |
-|---|------|-------------------------|------------------|-----------------|------------------------|--------------------|--------------------|--------|
-| 1 | | | | | | dominio público / CC-__ / licencia / cita | | Ken Burns / corte |
-| 2 | | | | | | | | |
+**Esta tabla la parsean `tools/assemble.py` y `tools/edit_timeline.py`. Formato fijo** (ver `templates/shotlist-broll.md` para la definición de cada columna):
 
-## Gráficos / motion
+- `#` de corrido · `in` `m:ss` (estimación; se re-alinea en Stage 9) · `dur` segundos enteros
+- `sección`: `cold open`·`bumper`·`pivote`·`contexto`·`acto N`·`explicador`·`teorías`·`cierre`·`cta`
+- `tipo`: `archivo`·`stock`·`kb`·`ia`·`gráfico`·`negro`
+- `asset`: id que resuelve contra `07-selection.md` (`—` si aún no elegido)
+- `motion`: `push`·`pan-h`·`pan-v`·`static`·`zoom`·`cut`
+- `marcador`: `HOOK`·`PLANT n`·`PAY n`·`EXPLICADOR n`·`—` (PLANT n y PAY n → mismo `asset` y `motion`)
 
-| # | Beat | Qué muestra | Datos (fuente [ID]) | Rótulo de fuente/salvedad | Notas de estilo |
-|---|------|-------------|---------------------|---------------------------|-----------------|
+| # | in | dur | sección | tipo | asset | rótulo | motion | marcador | guion (frag.) |
+|---|----|-----|---------|------|-------|--------|--------|----------|---------------|
+| 1 | 0:00 | 12 | cold open | ia | E0XX_ai01_… | Ilustración — Conquest | static | HOOK | «…» |
+| 2 | 0:12 | 10 | cold open | stock | INTRO2 | — | cut | — | «…» |
+| … | | | | | | | | | |
+
+## Detalle por beat (para el humano — no se parsea)
+
+| # | Visual necesario | Fuente / origen | Fuente [ID source-log] | Estado de derechos | Notas |
+|---|------------------|-----------------|------------------------|--------------------|-------|
+| 1 | | | | dominio público / CC-__ / licencia / cita | |
+
+## Gráficos / motion — guion de cada uno
+
+| id | Beat # | Qué muestra | Datos (fuente [ID]) | Rótulo de fuente/salvedad | Notas de estilo |
+|----|--------|-------------|---------------------|---------------------------|-----------------|
 | G1 | | | | | |
 
 ## Música / sonido
@@ -57,9 +73,10 @@
 
 ## Gate Stage 6
 
+- [ ] La tabla **Timeline — la espina** está completa y parsea sin errores
 - [ ] Todo visual con estado de derechos en `03-source-log.csv`
 - [ ] Todo dato en gráfico con fuente [ID] y, si aplica, rótulo de salvedad
-- [ ] `[PLANT]` y `[PAY]` usan el mismo plano
+- [ ] `PLANT n` y `PAY n` usan el mismo `asset` y el mismo `motion`
 - [ ] Sin clip de película dramatizada como registro histórico
 - [ ] Reenactments / IA / colorizado marcados para rótulo en pantalla
 - [ ] Cold open: 2–5 planos de hook (vídeo preferido) + bumper en negro; hook+bumper ≤ 50 s

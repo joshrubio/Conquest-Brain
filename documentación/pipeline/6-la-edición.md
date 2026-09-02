@@ -20,14 +20,14 @@ Los recursos del Stage 7 están elegidos; el metraje del Stage 8 está grabado. 
 |---|------|-------------|
 | 1 | **Ken Burns** sobre las imágenes fijas (+ imágenes IA) → clips con movimiento | `tools/kenburns.py --all` |
 | 2 | **Trim**: quitar silencios y muletillas de cada toma | `tools/trim_talk.py` |
-| 3 | **Revisión** de 1 y 2 en una página, aprobar clip a clip | `tools/edit_review.py` → `07c-edit.html` |
-| 4 | **Montaje de b-roll**: cada beat sobre la voz, según el shotlist | Claude + ffmpeg |
-| 5 | **Lecho de música** ominoso, ducking bajo la voz | — |
+| 3 | **Revisión rápida** de clips crudos (opcional) | `tools/edit_review.py` → `07c-edit.html` |
+| 4 | **Primer corte + timeline**: cada beat sobre la voz | `tools/assemble.py` → `tools/edit_timeline.py` → `09-edit.html` |
+| 5 | **Lecho de música** ominoso, ducking bajo la voz | `assemble.py --final` |
 | 6 | **Subtítulos** `.srt` desde la voz ya trimmeada, corregidos a mano | — |
 
-Luego: house grade → export → picture lock.
+Luego: house grade (lo aplica `assemble.py --final`) → export → picture lock.
 
-**Los pasos 1–3 pasan antes que el 4 a propósito:** se evalúa que el efecto Ken Burns y los cortes se ven bien *antes* de integrarlos al vídeo grande.
+**El montaje sigue el guion.** El formato es cortes secos en orden de guion, un solo grade. La timeline es para **colocar, sincronizar y ajustar**, no para componer libremente.
 
 ## 1 · Ken Burns — `kenburns.py`
 
@@ -53,23 +53,33 @@ python tools/kenburns.py E0XX-slug --all
 - **Suave, no agresivo:** 120–180 ms de padding alrededor de cada tramo que se queda; una pausa < 0.4 s nunca se corta; fundido de 8 ms en cada empalme para matar clics.
 - Salida: `<toma>.trimmed.mp4` + `<toma>.cuts.md` (transcripción con cada corte marcado). Las correcciones de la revisión lo re-corren con `--keep MM:SS`.
 
-## 3 · Revisión — `edit_review.py` → `07c-edit.html`
+## 3 · Revisión rápida de clips crudos — `edit_review.py` (opcional)
 
-Escanea `assets/kb/*.mp4` y `assets/*.trimmed.mp4` (+ `*.cuts.md`). Por clip:
+Escanea `assets/kb/*.mp4` y `assets/*.trimmed.mp4`. Por clip: preview `<video>` · *aprobado* · feedback. Sirve para pillar un Ken Burns malo **antes** de la timeline. Se puede saltar — el inspector de la timeline (paso 4) tiene el mismo aprobar/corregir por clip, y en contexto.
 
-- preview `<video>` · checkbox *aprobado* · caja de feedback.
-- KB: «más lento» / «empieza a la izquierda» / «dir arriba» / «déjalo estático» / «dura 4 s».
-- trim: «mantener la pausa en 00:12» / «cortar antes en 02:03» / «no cortes el "eh" de 03:04».
+## 4 · Primer corte + timeline
 
-**«Finalizar Stage 9»** → `07c-review.txt`, cada línea `kb|trim  <id>  APROBADO | FIX: <texto>`. Claude lo lee, re-corre `kenburns.py` / `trim_talk.py` por cada FIX, regenera la página. Bucle hasta que **toda fila esté APROBADO**. Solo entonces empieza el paso 4.
+**`python tools/assemble.py E0XX-slug`** — automático, sin tokens:
 
-## 4 · Montaje de b-roll
+1. parsea la tabla **«Timeline — la espina»** de `06-shotlist.md` (una fila por beat: `#`, `in`, `dur`, `sección`, `tipo`, `asset`, `rótulo`, `motion`, `marcador`, frag. de guion)
+2. resuelve cada `asset` a un fichero real vía `07-selection.md` + las carpetas `assets/`
+3. si hay una toma trimmeada, **alinea cada beat a la voz real** (cruza su frag. de guion con `*.words.json`); si no, usa los tiempos del shotlist
+4. escribe `09-timeline.json` + `09-rough.mp4` (proxy 720p) + la waveform
 
-- `06-shotlist.md` marca qué beats son archivo / stock / IA; `07-selection.md` nombra el archivo (un clip KB para fijas, el clip stock/intro para vídeo). Cada uno sobre su beat, encima de la voz.
-- **Clips de vídeo:** cortados a duración. Sin speed ramp, sin filtro, sin zoom. Loop solo si el clip es más corto que el beat *y* el punto de loop es invisible.
-- **Cold open (§0):** 2–5 clips de `assets/intro/` en orden numerado, corte seco al beat de narración. El último plano aguanta ½ s → corte a negro.
-- **Bumper (§0b):** 3–6 s negro + wordmark `Conquest` + la línea del presentador. Sin música.
-- Beats reusados (`[PLANT]` / `[PAY]`): el **mismo** clip/fotograma las dos veces.
+**`edit_timeline.py`** genera **`09-edit.html`** — la sala de montaje:
+
+- la waveform de la voz (fija) + bandas de sección + un bloque por beat, ancho ∝ duración, color por tipo; `PLANT`/`PAY` y `EXPLICADOR` marcados; los beats sin asset se ven en rojo hatch
+- reproductor proxy con playhead arrastrable
+- **inspector** por beat: cambiar asset · trim (arrastrar el borde o ±) · nudge ±frames · movimiento Ken Burns · nota para regenerar · aprobar
+- **arrastra un bloque** para reubicarlo (imanta al límite de palabra); **rueda** = scroll, **Ctrl+rueda** = zoom, **Shift+rueda** = scroll rápido; minimapa para navegar
+- **Previsualizar región** → re-renderiza ese tramo del proxy en segundos
+- **Finalizar Stage 9** → guarda `09-timeline.json` + `09-decisions.txt`. Claude aplica las notas de regen (`kenburns.py` por beat) y corre `assemble.py --final` para el máster 4K. Los beats sin cubrir bloquean el render final.
+
+**Reglas que no se mueven:**
+- **Clips de vídeo:** cortados a duración, sin speed ramp, sin filtro. Loop solo si el clip es más corto que el beat *y* el punto de loop es invisible.
+- **Cold open:** los clips `intro` en orden numerado, corte seco. El último aguanta ½ s → negro.
+- **Bumper:** 3–6 s negro + wordmark `Conquest` + presentador. Sin música.
+- `PLANT n` / `PAY n`: el **mismo** `asset` y `motion` (lo fija la espina del shotlist).
 
 ## 5 · Música — `find_music.py`
 
@@ -82,9 +92,9 @@ Escanea `assets/kb/*.mp4` y `assets/*.trimmed.mp4` (+ `*.cuts.md`). Por clip:
 
 `.srt` desde la voz **ya trimmeada**, corregido **a mano contra `05-script.md`** — cada número, nombre y claim con `[S..]` debe leerse exactamente como está escrito. 1–2 líneas, ≤ 42 caracteres/línea, mínimo 1 s en pantalla. Español. No-negociable cada episodio.
 
-## Herramientas — Claude primero, DaVinci después si hace falta
+## Herramientas — la timeline es nuestra; DaVinci es la salida de emergencia
 
-Pasos 1–3 son las herramientas de arriba. Pasos 4–5 (montaje + mezcla) se intentan con **Claude manejando ffmpeg**. Si cuadrar el b-roll a la voz se vuelve demasiado fino así, se integra el **MCP de DaVinci Resolve** y el montaje se muda ahí — las herramientas de revisión no cambian.
+El montaje, el ducking, el grade y el −14 LUFS viven todos en el grafo `filter_complex` de `assemble.py`. Si un episodio concreto necesita artesanía a nivel de frame que la timeline no da (un J-cut, un montaje, motion graphics), te llevas `09-timeline.json` a **DaVinci Resolve** (vía su MCP) como punto de partida — la colocación ya está hecha, Claude no re-coloca 45 clips a mano. La mayoría de episodios no lo necesitan.
 
 ## Resolución — objetivo 4K, caída elegante
 
@@ -108,18 +118,18 @@ Aplicado a toda la timeline: **oscuro, cálido, desaturado ~15–20%**, negros l
 
 ## El picture lock
 
-KB + trim firmados en `07c-edit.html` → b-roll + música montados → **picture lock** (no más cambios de timing) → un usuario (001 o 002) lo ve una vez, de principio a fin, contra `05-script.md` y `brain/04` (rótulos presentes, claims exactos, dignidad) → firma en `07c-edit.md` → sonido + `.srt` finales → Stage 10.
+Timeline finalizada en `09-edit.html` (todo beat cubierto + aprobado) → Claude aplica las regen + `assemble.py --final` → **picture lock** (no más cambios de timing) → Usuario 002 lo ve una vez, de principio a fin, contra `05-script.md` y `brain/04` (rótulos presentes, claims exactos, dignidad) → firma en `07c-edit.md` → `.srt` final → Stage 10.
 
 ## El gate de Stage 9
 
-- [ ] Cada clip KB y cada toma trimmeada **APROBADO** en `07c-review.txt`
+- [ ] Todo beat de `09-timeline.json` tiene asset (0 «sin cubrir») y está aprobado
 - [ ] Solo los movimientos de `brain/16` — ningún otro efecto, transición o grade
-- [ ] Cada beat del shotlist tiene su asset en pantalla; cold open 2–5 planos + bumper en negro
-- [ ] El movimiento Ken Burns casa con la orientación de cada imagen; `[PLANT]`/`[PAY]` idénticos
+- [ ] Cold open = clips `intro` en orden + bumper en negro
+- [ ] El `motion` Ken Burns casa con la orientación de cada imagen; `PLANT n`/`PAY n` comparten `asset` y `motion`
 - [ ] Un lecho de música, con ducking bajo la voz; sin música en el bumper; licencias registradas
-- [ ] IA / recreación / coloreado rotulado en cada aparición
-- [ ] `.srt` generado y corregido a mano contra `05-script.md`
-- [ ] −14 LUFS integrado; 4K (o la mejor resolución común); picture lock firmado (un usuario) en `07c-edit.md`
+- [ ] IA / recreación / coloreado con `rótulo` en cada aparición
+- [ ] Máster 4K renderizado; `.srt` generado y corregido a mano contra `05-script.md`
+- [ ] −14 LUFS integrado; picture lock firmado por Usuario 002 en `07c-edit.md`
 
 ---
 

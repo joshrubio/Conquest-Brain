@@ -82,15 +82,37 @@ def fold_retro(epid, d, payload):
 
 
 def fold_stash(epid, d, payload):
-    """Formats that vary (research / edit / package): stash the export, queue the fold for the agent."""
+    """Formats that vary (research / package): stash the export, queue the fold for the agent."""
     st = d["stage"]
     P.enqueue(epid, st, "fold", note=f"aplicar las decisiones de {P.STAGE[st]['name']} "
               f"(en {_exp(epid, st).relative_to(P.ROOT)}) al fichero fuente")
     return "queued", "decisiones en cola para plegar"
 
 
+def fold_edit(epid, d, payload):
+    """Stage 9: the timeline is saved as 09-timeline.json. Queue: apply the FIX
+    notes (regen KB clips) then assemble.py --final for the 4K master."""
+    epp = P.ep_path(epid)
+    tj = epp / "09-timeline.json"
+    fixes = []
+    if tj.exists():
+        try:
+            for b in json.loads(tj.read_text(encoding="utf-8")).get("beats", []):
+                if b.get("fix"):
+                    fixes.append(f"beat {b['n']} ({b.get('asset') or 'sin asset'}): {b['fix']}")
+        except json.JSONDecodeError:
+            pass
+    note = ("Stage 9 — la timeline está en 09-timeline.json. "
+            + (f"Aplica las {len(fixes)} correcciones re-corriendo kenburns.py por beat:\n  - "
+               + "\n  - ".join(fixes) + "\n" if fixes else "Sin correcciones pendientes. ")
+            + "Luego: `python tools/assemble.py " + (d.get("slug") or epid)
+            + " --final` para el render 4K. No toques 09-timeline.json a mano salvo para el asset de un beat sin cubrir.")
+    P.enqueue(epid, 9, "fold", note=note)
+    return "queued", f"timeline guardada · {len(fixes)} correcciones + render 4K en cola"
+
+
 FOLDS = {"idea": fold_idea, "assets": fold_assets, "retro": fold_retro,
-         "research": fold_stash, "edit": fold_stash, "package": fold_stash}
+         "research": fold_stash, "edit": fold_edit, "package": fold_stash}
 
 
 def do_fold(epid):
@@ -148,7 +170,15 @@ def do_next(epid, force=False):
     if nxt >= 6:
         P.ensure_assets(epid)
     d = P.set_ep(epid, stage=nxt, gate="abierto")
-    if nm["fold"] == "claude":
+    if nxt == 9:
+        # Stage 9: build the first-cut timeline + its page (python, no agent)
+        slug = d["slug"] if d["slug"].startswith(epid) else f"{epid}-{d['slug']}"
+        r1 = subprocess.run([sys.executable, str(Path(__file__).parent / "assemble.py"), slug],
+                            capture_output=True, text=True)
+        subprocess.run([sys.executable, str(Path(__file__).parent / "edit_timeline.py"), slug],
+                       capture_output=True, text=True)
+        tail = " · timeline montada (" + (r1.stdout or r1.stderr).strip().splitlines()[-1][:80] + ")"
+    elif nm["fold"] == "claude":
         P.enqueue(epid, nxt, "generate",
                   note=f"escribir {nm['produces']} para {epid}")
         tail = f" · en cola: escribir {nm['produces']}"

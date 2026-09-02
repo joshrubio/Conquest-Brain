@@ -4,7 +4,7 @@ summary: "The dashboard (dash.py), the local server (serve.py), and the gate eng
 stage: all
 read_when: "running the pipeline day to day; a gate won't close; setting up the /loop"
 pairs_with: [06-production-workflow, 07-publishing-seo-metrics]
-tools: [dash.py, serve.py, advance.py, pipeline.py, metrics.py, theme.py]
+tools: [dash.py, serve.py, advance.py, pipeline.py, metrics.py, theme.py, assemble.py, edit_timeline.py]
 authority: canonical
 ---
 
@@ -47,6 +47,11 @@ For `mech` stages whose export format varies (research, edit, package), `advance
 stashes the export to `<ep>/_exports/stageNN.json` and queues a `fold` task — an
 agent finishes it. Simple ones (idea → creates the folder; assets → runs
 `pull_assets --download`; retro → appends the KPI row) fold fully in python.
+
+**Stage 9 (edit)** is special: entering it, `advance.py` runs `assemble.py` +
+`edit_timeline.py` (python — builds the first-cut timeline + `09-edit.html`).
+Finalising it POSTs `09-timeline.json`; the fold queues one agent task: apply the
+per-beat regen notes (`kenburns.py`) then `assemble.py --final` for the 4K master.
 
 ## The flow
 
@@ -103,7 +108,8 @@ Cada card de episodio tiene una tira de 13 chips (0–12). Al hover, cada uno ex
 
 - stage con review page → su `.html`
 - stage sin review page (brief · outline · fact-check · shotlist · publicación) → su `.md` **renderizado** (`serve.py /view` lo convierte al vuelo, con el estilo del dashboard)
-- stage 8 grabación → el shotlist renderizado, con botón **📁 Recursos**
+- stage 8 grabación → el shotlist renderizado, con botón **Recursos**
+- stage 9 edición → **`09-edit.html`**, la timeline (waveform + un bloque por beat + inspector)
 - stage futuro (aún sin fichero) → solo el tooltip
 
 Todos los botones del dashboard y de `cost.html` llevan tooltip temático (no el nativo) en lenguaje no-técnico.

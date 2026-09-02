@@ -136,6 +136,36 @@ class H(BaseHTTPRequestHandler):
         if path == "/advance":
             return self._send(200, json.dumps({"ok": True, "msg": _run(["advance.py", "next", ep])}))
 
+        if path == "/timeline":                       # Stage 9 — save the cutting-room timeline
+            slug = data.get("slug") or ep
+            tl = data.get("timeline") or {}
+            epp = P.ep_path(ep)
+            (epp / "09-timeline.json").write_text(
+                json.dumps(tl, ensure_ascii=False, indent=1), encoding="utf-8")
+            beats = tl.get("beats", [])
+            dec = ["# 09-decisions.txt — desde 09-edit.html", ""]
+            for b in beats:
+                bits = []
+                if b.get("fix"):
+                    bits.append("FIX: " + b["fix"])
+                if b.get("approved"):
+                    bits.append("APROBADO")
+                if b.get("nudge"):
+                    bits.append(f"nudge {b['nudge']:+d}f")
+                if bits:
+                    dec.append(f"beat {b['n']:>2}  {b.get('asset') or '—'}  " + " · ".join(bits))
+            (epp / "09-decisions.txt").write_text("\n".join(dec) + "\n", encoding="utf-8")
+            P.set_ep(ep, stage=9, gate="exportado")
+            _run(["edit_timeline.py", slug])          # re-render the page with saved state
+            msg = _run(["advance.py", "fold", ep])
+            return self._send(200, json.dumps({"ok": True, "msg": msg}))
+
+        if path == "/tl-preview":                     # Stage 9 — re-render a region of the proxy
+            slug = data.get("slug") or ep
+            t0, t1 = str(int(float(data.get("t0", 0)))), str(int(float(data.get("t1", 30))) + 1)
+            msg = _run(["assemble.py", slug, "--preview", t0, t1])
+            return self._send(200, json.dumps({"ok": True, "msg": msg.splitlines()[-1] if msg else "ok"}))
+
         if path == "/human":
             P.set_ep(ep, gate="firmado")
             _run(["dash.py"])

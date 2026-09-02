@@ -48,15 +48,21 @@ tools/.env
 episodes/**/07-style-pass.html
 
 # Stage 9 edit — generated / transient (media already covered above)
-# (07c-edit.md, 07c-review.txt, brand/assets/music/LICENSES.md ARE tracked)
+# (07c-edit.md, 07c-review.txt, 09-timeline.json, 09-decisions.txt ARE tracked — the edit record)
 brand/assets/music/candidates.md
 episodes/**/*.cuts.md
+episodes/**/*.words.json
 episodes/**/07c-edit.html
+episodes/**/09-edit.html
+episodes/**/09-rough.mp4
+episodes/**/09-wave.b64
+episodes/**/_wave.png
 
 # Review pages — generated (the exported *.txt records ARE tracked)
 ideas/idea-review.html
 episodes/**/02-research.html
 episodes/**/05-script.html
+episodes/**/09-edit.html
 episodes/**/10-package.html
 episodes/**/12-metrics.html
 

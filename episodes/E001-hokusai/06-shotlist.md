@@ -15,6 +15,57 @@
 
 **Ritmo objetivo:** cold open 10–12 b/min · contexto 6–8 · narrativa 7–9 · cierre 4–6. Casi todo el material es **dominio público / CC0** (The Met, British Museum, Rijksmuseum, LOC, Wikimedia).
 
+
+## Timeline — la espina (v1, back-fill del outline · re-alineada a la voz en Stage 9)
+
+| # | in | dur | sección | tipo | asset | rótulo | motion | marcador | guion (frag.) |
+|---|----|-----|---------|------|-------|--------|--------|----------|---------------|
+| 1 | 0:00 | 12 | cold open | ia | E001_ai01_deathbed-room | Ilustración — Conquest | static | HOOK | «en un cuarto de alquiler de Edo se estaba muriendo» |
+| 2 | 0:12 | 12 | cold open | archivo | great_wave_detail_met | — | zoom | — | «llevaba más de setenta años dibujando» |
+| 3 | 0:24 | 10 | cold open | archivo | hokusai_portrait_old | — | zoom | — | «lo último que pidió no fue despedirse. Pidió tiempo» |
+| 4 | 0:34 | 4 | cold open | stock | INTRO4 | — | cut | — | «para entender esa frase hay que ver la vida entera» |
+| 5 | 0:38 | 5 | bumper | negro | bumper_conquest | «Conquest» | static | — | «negro. Aparece la marca Conquest. Soy [nombre]» |
+| 6 | 0:43 | 37 | pivote | archivo | katsushika_edo_map | — | pan-h | — | «Hokusai nace hacia 1760 en el distrito de Katsushika» |
+| 7 | 1:20 | 30 | pivote | archivo | edo_panorama_1809 | — | pan-h | — | «Edo es probablemente la ciudad más grande del mundo» |
+| 8 | 1:50 | 50 | pivote | kb | G1_ukiyoe_pipeline | — | static | EXPLICADOR 1 | «se llaman ukiyo-e, imágenes del mundo flotante» |
+| 9 | 2:40 | 25 | pivote | archivo | shunsho_actor_print | — | push | — | «entra como aprendiz en el taller de Katsukawa Shunshō» |
+| 10 | 3:05 | 10 | pivote | stock | woodblock_carving_cu | — | zoom | PLANT 1 | «el nombre no es suyo. Es de la casa» |
+| 11 | 3:15 | 15 | pivote | archivo | nagasaki_dutch_print | — | push | — | «cuando Shunshō muere en 1793 deja la escuela Katsukawa» |
+| 12 | 3:30 | 25 | acto 1 | kb | G2_names_timeline | — | static | — | «usó alrededor de treinta nombres artísticos» |
+| 13 | 3:55 | 25 | acto 1 | archivo | name_ledger_edo | — | push | — | «un nombre acreditado tenía valor de mercado» |
+| 14 | 4:20 | 35 | acto 1 | kb | G3_style_shift | — | static | — | «cada cambio de nombre coincidía con un cambio de rumbo» |
+| 15 | 4:55 | 45 | acto 1 | archivo | hokusai_manga_vol6 | — | pan-v | — | «en 1814 empieza a publicar los Hokusai Manga» |
+| 16 | 5:40 | 35 | acto 1 | stock | daruma_paint_reenact | — | cut | — | «en 1817 en Nagoya monta un espectáculo, un Daruma gigante» |
+| 17 | 6:15 | 10 | acto 1 | stock | woodblock_carving_cu | — | zoom | PLANT 2 | «le gustaba que lo vieran trabajar y le gustaba lo grande» |
+| 18 | 6:25 | 30 | acto 2 | archivo | hokusai_self_portrait | — | push | — | «no fue un genio ignorado. Tuvo nombre, público y encargos» |
+| 19 | 6:55 | 20 | acto 2 | archivo | edo_tenement_street | — | pan-h | — | «fue pobre de no saber si comería» |
+| 20 | 7:15 | 40 | acto 2 | kb | G4_moves_map | «~93 mudanzas — cifra tradicional» | static | — | «se mudó unas noventa y tres veces» |
+| 21 | 7:55 | 30 | acto 2 | archivo | grandson_debt_scroll | — | push | — | «un nieto contrajo deudas y Hokusai las pagó» |
+| 22 | 8:25 | 15 | acto 2 | stock | woodblock_carving_cu | — | zoom | PLANT 3 | «llega a los setenta años arruinado por las deudas de un nieto» |
+| 23 | 8:40 | 35 | acto 3 | archivo | fuji36_grid_met | — | static | — | «publica la serie Treinta y seis vistas del monte Fuji» |
+| 24 | 9:15 | 40 | acto 3 | archivo | fuji_plates_pan | — | pan-h | — | «el Fuji desde un campo de arroz, entre los andamios de un tonelero» |
+| 25 | 9:55 | 15 | acto 3 | archivo | great_wave_full_met | — | push | — | «La gran ola frente a Kanagawa. Tenía unos setenta años» |
+| 26 | 10:10 | 40 | acto 3 | kb | G5_prussian_blue | — | static | EXPLICADOR 2 | «justo entonces llega a Japón un pigmento azul sintético» |
+| 27 | 10:50 | 15 | acto 3 | stock | hokusai_desk_reenact | — | cut | PAY 3 | «el hombre arruinado por las deudas del nieto hizo eso a los setenta» |
+| 28 | 11:05 | 20 | acto 4 | archivo | cien_vistas_preface | — | zoom | — | «en 1834 publica Cien vistas del monte Fuji y añade una nota» |
+| 29 | 11:25 | 40 | acto 4 | kb | G6_age_scale | — | static | — | «a los setenta y tres empezaba a entender; a los ciento diez cada línea viva» |
+| 30 | 12:05 | 20 | acto 4 | archivo | preface_signature_cu | — | zoom | — | «lo escribe a los setenta y cuatro. Ya había hecho La gran ola» |
+| 31 | 12:25 | 20 | acto 4 | kb | G7_gakyo_rojin | — | static | EXPLICADOR 3 | «firmaba como Gakyō Rōjin Manji, el viejo loco por la pintura» |
+| 32 | 12:45 | 20 | acto 4 | stock | edo_fire_reenact | — | cut | — | «hacia 1839 un incendio destruyó su casa-taller. Volvió a empezar» |
+| 33 | 13:05 | 20 | acto 4 | archivo | katsushika_oi_night | — | push | — | «vivió y trabajó con su hija, Katsushika Ōi, que también era pintora» |
+| 34 | 13:25 | 10 | acto 4 | archivo | oi_hokusai_desk | — | static | PLANT 4 | «un hombre de más de ochenta años sentado a dibujar junto a su hija» |
+| 35 | 13:35 | 15 | acto 5 | archivo | hokusai_death_notice | — | push | — | «Hokusai murió en Edo en 1849 con unos ochenta y ocho años» |
+| 36 | 13:50 | 15 | acto 5 | kb | G2_names_timeline | — | static | PAY 1 | «se había cambiado el nombre unas treinta veces. Y murió pidiendo tiempo» |
+| 37 | 14:05 | 40 | acto 5 | archivo | japonisme_monet_vg | — | pan-h | — | «sus estampas llegaron a Europa. Monet, Van Gogh, la portada de La Mer» |
+| 38 | 14:45 | 15 | acto 5 | kb | great_wave_debussy | — | static | PAY 2 | «acabó siendo visto por más gente y en más países, cuando ya no estaba» |
+| 39 | 15:00 | 25 | cierre | stock | narrator_waistup | — | static | — | «es fácil leer esto como una historia triste. Yo creo que es lo contrario» |
+| 40 | 15:25 | 40 | cierre | kb | G8_goal_question | — | static | — | «hay dos maneras. Preguntarte ya llegué, o preguntarte me estoy acercando» |
+| 41 | 16:05 | 45 | cierre | kb | G9_mastery_perf | — | static | — | «la psicología de la motivación distingue demostrar de aprender» |
+| 42 | 16:50 | 15 | cierre | archivo | great_wave_full_met | — | push | — | «puso la meta tan lejos que sabía que no iba a alcanzarla» |
+| 43 | 17:05 | 25 | cierre | kb | G10_takeaway | — | static | — | «quédate con una pregunta: es un trabajo del que querría tener diez años más» |
+| 44 | 17:30 | 5 | cierre | stock | INTRO4 | — | cut | — | «a los ochenta y ocho todavía tenía a dónde ir. Se parece a la suerte» |
+| 45 | 17:35 | 10 | cta | negro | cta_card | — | static | — | «si estas historias te sirven, suscríbete. Las fuentes están en la descripción» |
+
 ## A cámara (narrador: Usuario 002)
 
 | Beat / sección | Encuadre | Fondo / luz | Guion (ref) | Notas |

@@ -15,8 +15,10 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 | `build_ai_prompts.py` | 7 | Scaffolds `07b-ai-prompts.md` for AI-illustration beats (brain/15). `... E0XX-slug <img-slug> ...` / `... --check`. |
 | `pull_assets.py` | 7 | **The Stage-7 hub.** Pulls candidates from free APIs → `07-style-pass.html` (per-beat candidates + AI prompts + intro). See below. |
 | `kenburns.py` | 9 | Orientation-aware Ken Burns on stills, **4K by default**. `... IMAGE --dur 6` or `... E0XX-slug --all`. ffmpeg. |
-| `trim_talk.py` | 9 | Trim silences + fillers from a take. `python tools/trim_talk.py TAKE.mp4` → `TAKE.trimmed.mp4` + `TAKE.cuts.md`. faster-whisper. |
-| `edit_review.py` | 9 | Build `07c-edit.html` — watch every KB clip + trimmed take, approve or feedback → `07c-review.txt`. `... E0XX-slug`. |
+| `trim_talk.py` | 9 | Trim silences + fillers from a take. `python tools/trim_talk.py TAKE.mp4` → `TAKE.trimmed.mp4` + `TAKE.cuts.md` + `TAKE.words.json`. faster-whisper. |
+| `edit_review.py` | 9 | `07c-edit.html` — quick pass over raw KB clips + trimmed takes, approve or feedback → `07c-review.txt`. Optional. `... E0XX-slug`. |
+| `assemble.py` | 9 | First cut + render engine. Parses the shotlist spine, resolves assets, aligns beats to the VO → `09-timeline.json` + `09-rough.mp4`. `--preview T0 T1` re-renders a region; `--final` → 4K master. ffmpeg. |
+| `edit_timeline.py` | 9 | `09-edit.html` — the cutting-room timeline: waveform + a block per beat + inspector (swap/trim/nudge/motion/approve). Renders `09-timeline.json`. `... E0XX-slug`. |
 | `find_music.py` | 9 | Ominous-ambient music beds. `... "query"` appends to the pool; ticks in the pass's Music section (or `... --get <id>...`) → `brand/assets/music/`. Jamendo (`JAMENDO_CLIENT_ID`). |
 | `idea_review.py` | 0 | `ideas/idea-review.html` — score + pick a hook-title + comment per idea → `idea-review.txt`. |
 | `script_review.py` | 4 | `E0XX/05-script.html` — every script beat as a card to approve/comment, with an inline explainer per narrative note → `05-script-pass.txt`. |
