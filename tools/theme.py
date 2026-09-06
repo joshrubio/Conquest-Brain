@@ -11,8 +11,8 @@ pages look". Any agent draining the dashboard queue or folding a gate never
 needs to open this file.
 ──────────────────────────────────────────────────────────────────────────────
 
-Consumers import three names and nothing else:
-    from theme import CSS, HELPERS, shell
+Consumers import four names and nothing else:
+    from theme import CSS, HELPERS, FAVICON, shell
 `review_ui.py` re-exports them as STYLE / HELPERS / page for older callers.
 
 Design brief: modern fintech/crypto dashboard (Revolut-ish) — bold, clean,
@@ -468,6 +468,11 @@ textarea.fixnote{width:100%;min-height:2.6rem;resize:vertical;font:inherit;font-
 @media(prefers-reduced-motion:reduce){.tl *{transition:none!important}}
 </style>"""
 
+# ── favicon — the channel avatar, downscaled (brand/assets/, tracked binaries) ─
+FAVICON = ('<link rel="icon" href="/brand/assets/favicon.ico" sizes="any">'
+           '<link rel="icon" type="image/png" href="/brand/assets/favicon-32.png">'
+           '<link rel="apple-touch-icon" href="/brand/assets/apple-touch-icon.png">')
+
 # ── shared browser JS ────────────────────────────────────────────────────────
 HELPERS = """
 const DASH="http://localhost:8765";
@@ -486,12 +491,25 @@ async function saveTxt(name,txt,doneMsg){
 }
 // finishStage: try the local dashboard server (1-click gate). Fall back to
 // a plain download if it isn't running. epid/stage identify the episode.
+// If the server reports this stage is behind where the episode already is
+// (an old review page reopened after later stages ran), it asks to confirm
+// before regressing _STATUS.md — the content itself is saved either way.
 async function finishStage(name,txt,epid,stage,doneMsg,payload){
   if(epid&&stage!=null){
     try{
-      const r=await fetch(DASH+"/finish",{method:"POST",
+      const post=extra=>fetch(DASH+"/finish",{method:"POST",
         headers:{"content-type":"application/json"},
-        body:JSON.stringify({ep:epid,stage:stage,payload:Object.assign({txt:txt},payload||{})})});
+        body:JSON.stringify({ep:epid,stage:stage,payload:Object.assign({txt:txt},payload||{},extra||{})})});
+      let r=await post();
+      if(r.status===409){
+        const j=await r.json().catch(()=>({}));
+        if(j.error==="stage_behind"&&confirm(j.msg||"Este episodio ya avanzó más allá de este stage. ¿Reabrirlo igualmente?")){
+          r=await post({reopen:true});
+        } else {
+          alert("Guardado — el contenido se escribió, pero el estado del episodio no se tocó (seguía en un stage más adelantado).");
+          return;
+        }
+      }
       if(r.ok){const j=await r.json();
         alert("Stage "+stage+" cerrado.\\n"+(j.msg||"")+"\\n\\nEl panel se ha actualizado.");
         return;}
@@ -507,7 +525,7 @@ def shell(title, header_html="", body_html="", script_html="", extra_css="", hea
     """Full document. extra_css is a raw <style>…</style> string of page-specific rules."""
     head = ('<!doctype html><html lang="es"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
-            f"<title>{title}</title>{CSS}{extra_css}{head_extra}</head><body>\n")
+            f"<title>{title}</title>{FAVICON}{CSS}{extra_css}{head_extra}</head><body>\n")
     hdr = f"<header>{header_html}</header>\n" if header_html else ""
     scr = f"<script>{HELPERS}{script_html}</script>\n" if (script_html or header_html) else ""
     return head + hdr + f"<main>{body_html}</main>\n" + scr + "</body></html>\n"

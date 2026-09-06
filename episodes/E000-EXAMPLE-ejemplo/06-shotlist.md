@@ -16,7 +16,7 @@
 2. Todo `[EN PANTALLA]` del guion = plano explícito, se conserva.
 3. Toda persona / lugar / documento / cifra nombrada → imagen de archivo o gráfico correspondiente.
 4. `[EXPLICADOR]` → motion-graphic / diagrama simple. Sin talking-head.
-5. `[PLANT]` y `[PAY]` → **mismo plano** las dos veces (rima visual: el espectador reconoce la imagen).
+5. `[PROMISE]` y `[PAY]` → **mismo plano** las dos veces (rima visual: el espectador reconoce la imagen).
 6. Cierre / reflexión → volver a imágenes ya mostradas; opción narrador a cámara. Sin archivo nuevo.
 7. Cifras → gráfico propio con rótulo de fuente en pantalla.
 8. Afirmación disputada o aproximada → rótulo de salvedad en pantalla.
@@ -44,7 +44,7 @@ Ritmo estimado por este método: **~7–9 beats/min** en narrativa, **~10–12 b
 | 9 | Sección 1 | "el Tratado de Utrecht reparte los despojos" | Documento/grabado de Utrecht 1713 | colección pública | dominio público | «Tratado de Utrecht, 1713» | Corte |
 | 10 | Sección 1 | "el permiso para llevar esclavos… y un barco al año" | Mapa de rutas del Atlántico con 1 sola línea | elaboración propia | propio | «1 navío al año» (del guion) | Trazado de la ruta |
 | 11 | Acto 1 | "convertir una porción mucho mayor de la deuda nacional en acciones" | Vuelve el diagrama del beat 7, ampliado | elaboración propia | propio | «1719–1720» | Escala arriba |
-| 12 | Acto 1 · `[PLANT]` | "casi nadie… podía explicar de dónde saldría el dinero" | Grabado de multitud en Exchange Alley (plano guardado para el `[PAY]`) | S10 / colección | dominio público | — | Congelado + leve push-in |
+| 12 | Acto 1 · `[PROMISE]` | "casi nadie… podía explicar de dónde saldría el dinero" | Grabado de multitud en Exchange Alley (plano guardado para el `[PAY]`) | S10 / colección | dominio público | — | Congelado + leve push-in |
 | 13 | Acto 2 | "pasa de rondar las 128 libras… a acercarse a las 1.000" | Gráfico propio de la cotización 1720 | S04 | propio | «cifras aproximadas — las fuentes varían» (salvedad) | Línea que se dibuja |
 | 14 | Acto 2 | "decenas de promotores lanzan sus propias compañías" | Titulares/panfletos de compañías de 1720 en collage | colección pública | dominio público | — | Apilado rápido (beat corto) |
 | 15 | Acto 2 | "la 'Bubble Act'… dificulta crear este tipo de sociedades" | Texto del estatuto de 1720 | S05 | dominio público | «‘Bubble Act’, 1720» | Zoom al título |
@@ -90,5 +90,5 @@ Ritmo estimado por este método: **~7–9 beats/min** en narrativa, **~10–12 b
 
 - [ ] Todo visual con estado de derechos (varios "a definir" en este ejemplo)
 - [x] Todo dato en gráfico con fuente [ID] y, si aplica, rótulo de salvedad
-- [x] `[PLANT]` y `[PAY]` usan el mismo plano (beats 12 y 20)
+- [x] `[PROMISE]` y `[PAY]` usan el mismo plano (beats 12 y 20)
 - [x] Reenactments / IA: ninguno

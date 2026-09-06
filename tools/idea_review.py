@@ -47,7 +47,7 @@ def parse_pool(txt):
             "close": m.group(4).strip(), "material": m.group(5).strip(),
             "score": re.sub(r"\D", "", m.group(6)) or "?",
             "status": m.group(7).strip(),
-            "hooks": [], "note": "", "cierre": "",
+            "hooks": [], "note": "", "cierre": "", "cpm": "", "audience": "",
         }
     # detail sections:  ### T01-01 · Coca-Cola
     for m in re.finditer(r"^### (T0[12]-\d+)[^\n]*\n(.*?)(?=^### |\Z)", txt, re.M | re.S):
@@ -57,8 +57,11 @@ def parse_pool(txt):
         ideas[iid]["hooks"] = re.findall(r"^-\s+`([^`]+)`", block, re.M)
         cm = re.search(r"\*\*Cierre[^.]*\.\*\*\s*(.+)", block)
         nm = re.search(r"\*\*Notas:\*\*\s*(.+)", block)
+        mm = re.search(r"\*\*Monetización:\*\*\s*Categoría\s+([ABC])\s*·\s*Audiencia\s+(.+)", block)
         ideas[iid]["cierre"] = re.sub(r"\s+", " ", cm.group(1)).strip() if cm else ""
         ideas[iid]["note"] = re.sub(r"\s+", " ", nm.group(1)).strip() if nm else ""
+        ideas[iid]["cpm"] = mm.group(1) if mm else ""
+        ideas[iid]["audience"] = re.sub(r"\s+", " ", mm.group(2)).strip() if mm else ""
     return [ideas[k] for k in ideas]
 
 
@@ -71,12 +74,15 @@ def build(ideas):
             f'<label class="opt"><input type="radio" name="hk_{e(i["id"])}" value="{n}">'
             f'<span><code>{n}</code> {e(hk)}</span></label>'
             for n, hk in enumerate(i["hooks"], 1)) or '<p class="empty">sin hook-titles en el detalle</p>'
+        cpm_lab = {"A": "CPM alta", "B": "CPM media", "C": "CPM baja"}.get(i["cpm"], "")
+        mon = (f'<span class="tag mon mon-{e(i["cpm"].lower())}">{e(cpm_lab)}</span> '
+               f'<span class="tag mon">{e(i["audience"])}</span>') if i["cpm"] else ""
         cards.append(
             f'<div class="card" data-id="{e(i["id"])}">'
             f'<h3>{e(i["id"])} · {e(i["title"])} '
             f'<span class="tag">{e(i["track"])}</span> '
             f'<span class="tag">est. {e(i["score"])}/21</span> '
-            f'<span class="tag">{e(i["status"])}</span></h3>'
+            f'<span class="tag">{e(i["status"])}</span> {mon}</h3>'
             f'<div class="meta"><b>Ángulo:</b> {e(i["angle"])}<br>'
             f'<b>Cierre:</b> {e(i["close"])}'
             + (f' — {e(i["cierre"])}' if i["cierre"] else "")
@@ -102,7 +108,12 @@ def build(ideas):
         '<b>«Aplicar cambios»</b> escribe los estados en <code>idea-pool.md</code> al momento — descartar e incubar se aplican solos; '
         'las «aprobar» quedan listadas para crear su episodio. <b>«Generar 3 ideas»</b> pone a Claude a añadir ideas nuevas al pool, '
         'sin avanzar de stage.</p>'
-        '<div class="grid">' + "\n".join(cards) + '</div></section>')
+        '<div class="grid">' + "\n".join(cards) + '</div></section>'
+        '<style>'
+        '.tag.mon-a{background:var(--lime-soft);color:var(--lime);border-color:var(--lime-line)}'
+        '.tag.mon-b{background:var(--gold-soft);color:var(--gold);border-color:var(--gold-line)}'
+        '.tag.mon-c{background:var(--surface-2);color:var(--muted)}'
+        '</style>')
     script = f"""
 const LS="conquest-ideareview";
 const cards=[...document.querySelectorAll('.card')];

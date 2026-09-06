@@ -44,7 +44,7 @@ Solo sobre fijas (el vídeo ya se mueve). El movimiento se elige de la **proporc
 python tools/kenburns.py E0XX-slug --all
 ```
 
-→ `assets/kb/beatNN_<slug>.mp4` a 4K. Duración 5 s por defecto; overrides `--dur` / `--move` / `--dir` salen del feedback de la revisión. Un `[PLANT]` y su `[PAY]`: el **mismo** movimiento las dos veces.
+→ `assets/kb/beatNN_<slug>.mp4` a 4K. Duración 5 s por defecto; overrides `--dur` / `--move` / `--dir` salen del feedback de la revisión. Un `[PROMISE]` y su `[PAY]`: el **mismo** movimiento las dos veces.
 
 ## 2 · Trim — `trim_talk.py`
 
@@ -68,7 +68,7 @@ Escanea `assets/kb/*.mp4` y `assets/*.trimmed.mp4`. Por clip: preview `<video>` 
 
 **`edit_timeline.py`** genera **`09-edit.html`** — la sala de montaje:
 
-- la waveform de la voz (fija) + bandas de sección + un bloque por beat, ancho ∝ duración, color por tipo; `PLANT`/`PAY` y `EXPLICADOR` marcados; los beats sin asset se ven en rojo hatch
+- la waveform de la voz (fija) + bandas de sección + un bloque por beat, ancho ∝ duración, color por tipo; `PROMISE`/`PAY` y `EXPLICADOR` marcados; los beats sin asset se ven en rojo hatch
 - reproductor proxy con playhead arrastrable
 - **inspector** por beat: cambiar asset · trim (arrastrar el borde o ±) · nudge ±frames · movimiento Ken Burns · nota para regenerar · aprobar
 - **arrastra un bloque** para reubicarlo (imanta al límite de palabra); **rueda** = scroll, **Ctrl+rueda** = zoom, **Shift+rueda** = scroll rápido; minimapa para navegar
@@ -79,7 +79,7 @@ Escanea `assets/kb/*.mp4` y `assets/*.trimmed.mp4`. Por clip: preview `<video>` 
 - **Clips de vídeo:** cortados a duración, sin speed ramp, sin filtro. Loop solo si el clip es más corto que el beat *y* el punto de loop es invisible.
 - **Cold open:** los clips `intro` en orden numerado, corte seco. El último aguanta ½ s → negro.
 - **Bumper:** 3–6 s negro + wordmark `Conquest` + presentador. Sin música.
-- `PLANT n` / `PAY n`: el **mismo** `asset` y `motion` (lo fija la espina del shotlist).
+- `PROMISE n` / `PAY n`: el **mismo** `asset` y `motion` (lo fija la espina del shotlist).
 
 ## 5 · Música — `find_music.py`
 
@@ -125,7 +125,7 @@ Timeline finalizada en `09-edit.html` (todo beat cubierto + aprobado) → Claude
 - [ ] Todo beat de `09-timeline.json` tiene asset (0 «sin cubrir») y está aprobado
 - [ ] Solo los movimientos de `brain/16` — ningún otro efecto, transición o grade
 - [ ] Cold open = clips `intro` en orden + bumper en negro
-- [ ] El `motion` Ken Burns casa con la orientación de cada imagen; `PLANT n`/`PAY n` comparten `asset` y `motion`
+- [ ] El `motion` Ken Burns casa con la orientación de cada imagen; `PROMISE n`/`PAY n` comparten `asset` y `motion`
 - [ ] Un lecho de música, con ducking bajo la voz; sin música en el bumper; licencias registradas
 - [ ] IA / recreación / coloreado con `rótulo` en cada aparición
 - [ ] Máster 4K renderizado; `.srt` generado y corregido a mano contra `05-script.md`

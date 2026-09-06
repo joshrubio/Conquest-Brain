@@ -15,7 +15,7 @@ Carpeta de referencia: muestra **cómo se rellenan los archivos de un episodio**
 | `02-research-dossier.md` | Cronología, afirmaciones de carga con tier, puntos disputados, la cita apócrifa marcada. |
 | `03-source-log.csv` | Registro de fuentes con tier y estado de derechos. Fuentes reales; localización exacta marcada como *a completar*. |
 | `04-factcheck-auto.md` | Salida de Layer 1 (`tools/factcheck.py`) + hueco de Layer 2 (`brain/14`). |
-| `05-script.md` | Guion de ejemplo en estructura v1: cold open → pivote a contexto → narrativa con explicador y foreshadowing plant/pay → cierre forma A → CTA. Anotado. |
+| `05-script.md` | Guion de ejemplo en estructura v1: cold open → pivote a contexto → narrativa con explicador y foreshadowing promise/pay → cierre forma A → CTA. Anotado. |
 | `06-shotlist.md` | Shotlist inferida del guion (26 beats), con la heurística documentada. |
 
 ## Aviso

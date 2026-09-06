@@ -21,7 +21,7 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 | `edit_timeline.py` | 9 | `09-edit.html` — the cutting-room timeline: waveform + a block per beat + inspector (swap/trim/nudge/motion/approve). Renders `09-timeline.json`. `... E0XX-slug`. |
 | `find_music.py` | 9 | Ominous-ambient music beds. `... "query"` appends to the pool; ticks in the pass's Music section (or `... --get <id>...`) → `brand/assets/music/`. Jamendo (`JAMENDO_CLIENT_ID`). |
 | `idea_review.py` | 0 | `ideas/idea-review.html` — score + pick a hook-title + comment per idea → `idea-review.txt`. |
-| `script_review.py` | 4 | `E0XX/05-script.html` — every script beat as a card to approve/comment, with an inline explainer per narrative note → `05-script-pass.txt`. |
+| `script_review.py` | 4 | `E0XX/05-script.html` — the script as a two-column editor: narration/explicador/promise-pay in the main column, production notes (`EN PANTALLA`/`NOTA`/`HOOK VISUAL`) + editable section durations in a sidebar, reference material (source-log, registers) read-only and collapsed. **Finalizar Stage 4 writes straight to `05-script.md`** — no Claude fold, the only review page that works this way. |
 | `research_review.py` | 2 | `E0XX/02-research.html` — walk the source-log + dossier, tick OK/revisar + notes, approve → `02-research.txt`. |
 | `package_review.py` | 10 | `E0XX/10-package.html` — pick title, pick thumbnail, review description → `10-package.txt`. `--init` scaffolds `08` + `09`. |
 | `theme.py` | — | **the design system** (CSS tokens + components + HTML wrapper) for every generated page, in one file. Presentation only. Open only to restyle pages — never for pipeline/data work. Not a CLI. |
@@ -34,7 +34,7 @@ Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportl
 
 Stage 9 deps: `ffmpeg` on PATH, `faster-whisper`, `pillow`. See [brain/16-edit-and-delivery.md](../brain/16-edit-and-delivery.md).
 
-**Review pages** (`*-review.html` / `10-package.html`, `07-style-pass.html`, `07c-edit.html`) all follow the same pattern: a dark browser page with per-item controls, "Finalizar Stage N" → a small `.txt` Claude folds back into the source doc. The `.html` is gitignored; the exported `.txt` is tracked.
+**Review pages** (`*-review.html` / `10-package.html`, `07-style-pass.html`, `07c-edit.html`) mostly follow the same pattern: a dark browser page with per-item controls, "Finalizar Stage N" → a small `.txt` Claude (or `advance.py`, for the mechanical gates) folds back into the source doc. **`05-script.html` (Stage 4) is the exception** — it writes the edited script straight into `05-script.md` itself, no fold step. The `.html` is gitignored; the exported `.txt` (where one exists) is tracked.
 
 ## pull_assets.py
 

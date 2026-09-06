@@ -38,7 +38,7 @@ el cierre no puede ser el motivo de haber elegido el caso.
 ## Beats
 
 Un beat = una unidad de sentido (≈ 10–45 s). En orden de emisión. Marca en la columna
-de nota: **HOOK**, **PLANT n/N**, **PAY n/N**, **EXPLICADOR n**, y los rótulos de salvedad.
+de nota: **HOOK**, **PROMISE n/N**, **PAY n/N**, **EXPLICADOR n**, y los rótulos de salvedad.
 
 | # | Sección | Beat | ~min | Fuente | Nota de artesanía |
 |---|---------|------|------|--------|-------------------|
@@ -50,9 +50,9 @@ de nota: **HOOK**, **PLANT n/N**, **PAY n/N**, **EXPLICADOR n**, y los rótulos 
 | 6 | 1 · Pivote | Nace / empieza — sitúa a la persona en el tiempo y el lugar | | [S..] | «Para situarnos.» |
 | 7 | 1 · Pivote | La época: qué hay que saber del mundo para entender la historia | | [S..] | |
 | 8 | 1 · Pivote | **EXPLICADOR 1** — el concepto que hace falta antes de seguir | | [S..] | ~120–160 palabras. Entrada/salida señalizadas. |
-| … | 1 · Pivote | … | | [S..] | **PLANT 1/N** — se paga en beat … |
+| … | 1 · Pivote | … | | [S..] | **PROMISE 1/N** — se paga en beat … |
 | … | 2 · Acto 1 — <título del acto> | … | | [S..] | |
-| … | 2 · Acto 2 — <título del acto> | … | | [S..] | **PLANT 2/N** |
+| … | 2 · Acto 2 — <título del acto> | … | | [S..] | **PROMISE 2/N** |
 | … | 2 · Acto 3 — <título del acto> | … | | [S..] | **PAY 1/N** |
 | … | 2 · Acto N — lo que pasó después | … | | [S..] | |
 | … | 3 · Cierre <A/B/C> | Contra-tesis / bisagra al significado | | — | Marco interpretativo obligatorio. |
@@ -66,12 +66,12 @@ de nota: **HOOK**, **PLANT n/N**, **PAY n/N**, **EXPLICADOR n**, y los rótulos 
 
 ## Foreshadowing — registro
 
-| # | Se planta en | Se paga en | Idea |
-|---|--------------|-----------|------|
+| # | Se promete en | Se paga en | Idea |
+|---|---------------|-----------|------|
 | 1 | beat … | beat … | … |
 | 2 | beat … | beat … | … |
 
-3–4 plants es lo normal para 18–20 min. Cada uno se paga una vez, explícitamente.
+3–4 promises es lo normal para 18–20 min. Cada uno se paga una vez, explícitamente.
 
 ## Interludios explicadores — registro
 
@@ -86,7 +86,7 @@ Presupuesto total de explicadores < ~15% de las palabras del episodio.
 
 - [ ] Orden: cold open → contexto → narrativa → cierre → CTA (`brain/02`)
 - [ ] El HOOK del cold open se retoma y se paga en el cierre
-- [ ] Todos los foreshadowings plantados **y** pagados (tabla arriba)
+- [ ] Todos los foreshadowings prometidos **y** pagados (tabla arriba)
 - [ ] Explicadores señalizados; presupuesto < 15% del total
 - [ ] La forma del cierre elegida en el brief sigue encajando con el material
 - [ ] Cierre: mecanismo nombrado en general + fuente de la literatura, no un estudio único (`brain/09` A6)

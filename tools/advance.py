@@ -67,6 +67,15 @@ def fold_assets(epid, d, payload):
     return (r.returncode == 0), (r.stdout or r.stderr).strip().splitlines()[-1:][0] if (r.stdout or r.stderr) else "descargado"
 
 
+def fold_script(epid, d, payload):
+    """Stage 4: 05-script.html's editor already POSTed the edited script and
+    serve.py wrote it straight into 05-script.md. Nothing to fold — the gate
+    just needs the reviewer's tick + name before it can firm."""
+    if not (payload.get("ok") and str(payload.get("firma", "")).strip()):
+        return False, "guion guardado en 05-script.md, falta aprobar + firmar en 05-script.html"
+    return True, "guion actualizado directamente en 05-script.md"
+
+
 def fold_retro(epid, d, payload):
     """Stage 12: append a KPI-log row to brain/07."""
     doc = P.ROOT / "brain" / "07-publishing-seo-metrics.md"
@@ -112,7 +121,8 @@ def fold_edit(epid, d, payload):
 
 
 FOLDS = {"idea": fold_idea, "assets": fold_assets, "retro": fold_retro,
-         "research": fold_stash, "edit": fold_edit, "package": fold_stash}
+         "research": fold_stash, "edit": fold_edit, "package": fold_stash,
+         "script": fold_script}
 
 
 def do_fold(epid):
@@ -178,6 +188,12 @@ def do_next(epid, force=False):
         subprocess.run([sys.executable, str(Path(__file__).parent / "edit_timeline.py"), slug],
                        capture_output=True, text=True)
         tail = " · timeline montada (" + (r1.stdout or r1.stderr).strip().splitlines()[-1][:80] + ")"
+    elif nxt == 4 and not (P.ep_path(epid) / "05-script.md").exists():
+        # Stage 4's fold is mechanical (05-script.html saves straight to
+        # 05-script.md), but the *first* draft still has to come from
+        # somewhere — queue it same as any claude-fold stage would.
+        P.enqueue(epid, nxt, "generate", note=f"escribir {nm['produces']} para {epid}")
+        tail = f" · en cola: escribir {nm['produces']}"
     elif nm["fold"] == "claude":
         P.enqueue(epid, nxt, "generate",
                   note=f"escribir {nm['produces']} para {epid}")

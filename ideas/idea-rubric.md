@@ -43,4 +43,19 @@
 - **10–13** → incubar: falta hook, material o ángulo.
 - **< 10** → descartada.
 
+## Monetización (informativo — no suma al /21, no es eliminatorio)
+
+Cada idea lleva dos etiquetas más, tomadas de [brain/18-monetization-and-audience.md](../brain/18-monetization-and-audience.md):
+
+| Etiqueta | Valores | Qué mide |
+|----------|---------|----------|
+| **Categoría CPM** | A (alta) · B (media) · C (baja) | fraude/dinero/institucional (A) vs. historia/arte/biografía pura (C) |
+| **Audiencia esperada** | Tier 1 (España/hispanos EE.UU.) · mixta · Tier 3 (LATAM) | de dónde es probable que venga la mayoría de las vistas |
+
+Sirven **solo como desempate**: entre dos ideas con puntaje similar, o al elegir cuál
+incubando promover primero, se prefiere la de categoría/audiencia más alta. Nunca
+justifican forzar un ángulo financiero/criminal que el caso no tiene (rompe E7),
+ni elegir un sujeto fuera de E1–E2 por alcance, ni torcer el hook-title (`brain/13`)
+hacia una relevancia internacional que no es honesta.
+
 Registrar en [idea-pool.md](idea-pool.md).

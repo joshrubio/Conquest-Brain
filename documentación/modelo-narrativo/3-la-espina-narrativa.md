@@ -52,21 +52,21 @@ Paras la historia para enseñar un concepto que la audiencia necesita: cómo fun
 
 > [EXPLICADOR] Conviene explicar qué son esas estampas, porque es el oficio de Hokusai. Se llaman *ukiyo-e*: «imágenes del mundo flotante». No son cuadros únicos. Son grabados hechos para venderse baratos y en cantidad. […] El artista entrega un dibujo; un tallador lo copia sobre planchas de madera, una por cada color; un impresor estampa esas planchas […]
 
-## 4. Foreshadowing (plants / pays)
+## 4. Foreshadowing (promises / pays)
 
-El principal mecanismo de retención. Plantas "recuerda esto porque va a importar" y **pagas cada una** después. 3 a 6 por episodio, todas pagadas.
+El principal mecanismo de retención. Prometes "recuerda esto porque va a importar" y **pagas cada una** después. 3 a 6 por episodio, todas pagadas.
 
-Frases de plantado (`brain/08` §6): "quiero que recuerdes esto porque será importante más adelante", "pon atención, porque esto es importante", "recuerda este detalle", "en un momento te digo por qué".
+Frases de promesa (`brain/08` §6): "quiero que recuerdes esto porque será importante más adelante", "pon atención, porque esto es importante", "recuerda este detalle", "en un momento te digo por qué".
 
-**Ejemplo — E001, PLANT 1 (Acto 1) → PAY (desenlace):**
+**Ejemplo — E001, PROMISE 1 (Acto 1) → PAY (desenlace):**
 
-> [PLANT] Fíjate en ese detalle, porque va a repetirse toda su vida: el nombre no es suyo. Es de la casa. Y Hokusai se va a pasar setenta años cambiándoselo.
+> [PROMISE] Fíjate en ese detalle, porque va a repetirse toda su vida: el nombre no es suyo. Es de la casa. Y Hokusai se va a pasar setenta años cambiándoselo.
 
 Se paga al final, cuando la línea de tiempo de nombres se recorre entera y se queda en negro.
 
-**En el montaje:** el plano del PLANT y el del PAY son **el mismo plano** las dos veces (rima visual — `brain/11` §2.1).
+**En el montaje:** el plano del PROMISE y el del PAY son **el mismo plano** las dos veces (rima visual — `brain/11` §2.1).
 
-Además, cuando el cierre es forma A, uno de los "plants" es el **mecanismo humano** de la reflexión (`brain/09` A3): siembras 2–3 momentos en la narrativa que el cierre luego *nombra*.
+Además, cuando el cierre es forma A, uno de los "promises" es el **mecanismo humano** de la reflexión (`brain/09` A3): siembras 2–3 momentos en la narrativa que el cierre luego *nombra*.
 
 ## 5. Módulo opcional — "las N teorías / los N responsables"
 
@@ -76,7 +76,7 @@ Ocupa 10–20% del metraje cuando se usa; sustituye parte del bloque de investig
 
 ## 6. Ritmo visual (para el shotlist, Stage 6)
 
-El shotlist se **infiere del guion bloqueado** (`brain/11`): un beat por cambio de sujeto, por `[EN PANTALLA]`, por `[EXPLICADOR]`, por `[PLANT]`/`[PAY]`. Ritmo objetivo por sección:
+El shotlist se **infiere del guion bloqueado** (`brain/11`): un beat por cambio de sujeto, por `[EN PANTALLA]`, por `[EXPLICADOR]`, por `[PROMISE]`/`[PAY]`. Ritmo objetivo por sección:
 
 | Sección | Beats/min |
 |---------|-----------|

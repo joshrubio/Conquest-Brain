@@ -29,7 +29,7 @@ Template: [templates/description-and-credits.md](../templates/description-and-cr
 1. 2–3 sentence summary.
 2. **Fuentes principales** — bulleted, from `03-source-log.csv` (Tier A/B). Always present. **All citations live here** — no source cards on screen.
 3. Chapters (timestamps) — map to the format: Hook / Narrative acts / Reflexión / Para llevar. Helps per-section retention analysis.
-4. Soft channel CTA. **No third-party link or pitch.**
+4. Soft channel CTA. A disclosed sponsor/product link is allowed here too, labeled as such (`brain/02` §4b, `brain/05` §0) — never an undisclosed third-party link or pitch.
 5. Credits (music licence, archival, research).
 6. Correction log line if any.
 

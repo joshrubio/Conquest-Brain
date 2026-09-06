@@ -56,7 +56,7 @@ Higher care for **living people** and **recent events**.
 - [ ] Reenactments / AI-generated / colorized visuals labeled on screen, every appearance. **AI illustration follows [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md):** per-episode style (photoreal allowed), only where no real image exists, **never a photoreal face of an identifiable real person**, never a fabricated document/record/photograph.
 - [ ] Speculation labeled.
 - [ ] Description always carries the "Fuentes principales" list.
-- [ ] Any sponsorship or paid element disclosed (none expected).
+- [ ] Any sponsorship or paid/product element **verbally disclosed** ("esto lo hace posible…" / "publicidad") **and** on-screen labeled (rótulo «Publicidad» or «Producto propio») the moment it starts. Rules for what's allowed at all: [02-content-format.md](02-content-format.md) §4, [05-independence-and-coi.md](05-independence-and-coi.md) §"Sponsorship line".
 
 ## 9. Independence & conflict of interest
 

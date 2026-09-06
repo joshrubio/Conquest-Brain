@@ -12,7 +12,7 @@ authority: canonical
 
 Pipeline for one episode. Stages are gated: do not start a stage until the previous gate is signed. Files live in `episodes/E0XX-<slug>/`, numbered to match the stages.
 
-**The dashboard** ([brain/17](17-dashboard-and-advance.md)) — `dashboard.html` (from `tools/dash.py`) is one screen for every chapter; `tools/serve.py` + `tools/advance.py` close each gate with one click and regenerate it. **Review pages.** Six stages hand off to a generated dark-theme HTML instead of a markdown table — either user works in the browser, hits **Finalizar Stage N**, and the server (or Claude) folds the small `.txt` back into the source doc: Stage 0 `ideas/idea-review.html` · Stage 2 `02-research.html` · Stage 4 `05-script.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record. **Any gate can be signed by one person.**
+**The dashboard** ([brain/17](17-dashboard-and-advance.md)) — `dashboard.html` (from `tools/dash.py`) is one screen for every chapter; `tools/serve.py` + `tools/advance.py` close each gate with one click and regenerate it. **Review pages.** Six stages hand off to a generated dark-theme HTML instead of a markdown table — either user works in the browser and hits **Finalizar Stage N**: Stage 0 `ideas/idea-review.html` · Stage 2 `02-research.html` · Stage 4 `05-script.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. Most fold a small `.txt` of decisions back into the source doc (the server does the mechanical ones, Claude the rest). **Stage 4 is the exception** — its page is a direct editor, not a decisions form: the server writes what's in the editor straight into `05-script.md`, no folding step. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record. **Any gate can be signed by one person.**
 
 ## Stage 0 — Ideation
 - Track owner proposes the idea: **T01 Historias Inspiradoras** (Usuario 002) or **T02 Exploración** (Usuario 001) — see [ideas/tracks.md](../ideas/tracks.md).
@@ -36,17 +36,17 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 - **Gate:** every load-bearing claim has ≥1 Tier A/B source; contested points identified; no reliance on Tier C/D; `02-research.txt` signed (either user).
 
 ## Stage 3 — Outline  → `03-outline.md`
-- Template: [templates/outline-template.md](../templates/outline-template.md). Beat sheet against [brain/02-content-format.md](02-content-format.md): cold open → context pivot → narrative acts (mark explainer interludes + foreshadowing plants/pays) → close.
-- One row per beat: section, beat, ~duration, planned `[S..]` tag, craft note (HOOK / PLANT n/N / PAY n/N / EXPLICADOR n). Foreshadowing + explainer registers as their own tables.
+- Template: [templates/outline-template.md](../templates/outline-template.md). Beat sheet against [brain/02-content-format.md](02-content-format.md): cold open → context pivot → narrative acts (mark explainer interludes + foreshadowing promises/pays) → close.
+- One row per beat: section, beat, ~duration, planned `[S..]` tag, craft note (HOOK / PROMISE n/N / PAY n/N / EXPLICADOR n). Foreshadowing + explainer registers as their own tables.
 - Confirm the close form (A/B/C) and register(s) chosen in the brief still fit the material (`brain/09`).
 - Claude drafts it from `02-research-dossier.md` + `01-brief.md`; queued automatically on entering the stage.
-- **Gate:** every beat in order; HOOK paid in the close; all plants planted **and** paid; structure holds without stretching facts; close honest to the case.
+- **Gate:** every beat in order; HOOK paid in the close; all promises made **and** paid; structure holds without stretching facts; close honest to the case.
 
 ## Stage 4 — Script  → `05-script.md`
 - Template: [templates/script-template.md](../templates/script-template.md). Craft: all of `documentación/modelo-narrativo/`; rules `brain/02`, `08`, `09`, `13`.
 - Full narration + on-screen cues + inline source tags `[S12]` linking to the source log. Close: form (A/B/C) + register(s) per the brief (`brain/09`).
-- **The script pass:** `python tools/script_review.py E0XX-slug` → **`05-script.html`** — every beat as a card to approve or comment on, with an inline explainer for each narrative note (`[EXPLICADOR]`, `[PLANT]`, `[S..]`, the close forms/registers…). **Finalizar Stage 4** (writes `05-script-pass.txt`) → Claude folds the edits into `05-script.md`.
-- **Gate:** self-review complete; script pass done; every `[S..]` resolves.
+- **The script pass:** `python tools/script_review.py E0XX-slug` → **`05-script.html`** — the guion rendered as one continuous editable document: each beat is a text box you type into directly, with its cue/PROMISE/PAY/source stamps as pills right above it (click a cue pill for its explainer) and a "revisado" toggle. **Finalizar Stage 4** saves the edited script straight into `05-script.md` every time it's pressed; the gate to Stage 5 only firms once "aprobado" is ticked with a reviewer name.
+- **Gate:** self-review complete; script pass done (aprobado + firmado); every `[S..]` resolves.
 
 ## Stage 5 — Fact-check  → `04-factcheck-auto.md`  *(fully automated, no human step)*
 - Protocol: [brain/14-fact-check-protocol.md](14-fact-check-protocol.md).
@@ -56,7 +56,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 ## Stage 6 — Shotlist / B-roll  → `06-shotlist.md`
 - Template: [templates/shotlist-broll.md](../templates/shotlist-broll.md). Method: [brain/11-visual-rhythm.md](11-visual-rhythm.md).
-- **Inferred from the locked script** — one beat per subject change / `[EN PANTALLA]` / `[EXPLICADOR]` / `[PLANT]`/`[PAY]`. Per beat: visual **need**, archival vs own-graphic, on-screen text, motion.
+- **Inferred from the locked script** — one beat per subject change / `[EN PANTALLA]` / `[EXPLICADOR]` / `[PROMISE]`/`[PAY]`. Per beat: visual **need**, archival vs own-graphic, on-screen text, motion.
 - **Gate:** every beat classified; every graphed number has a source label; beat count matches the target rhythm.
 
 ## Stage 7 — Asset selection + style pass  → `07-assets.md` (+ `07b-ai-prompts.md`)

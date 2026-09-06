@@ -11,7 +11,18 @@ authority: canonical
 
 Keeps the founders' other roles and private lives out of the episodes. Checked at idea intake (rubric), flagged by the L2 fact-check pass, and ticked at Stage 11 publish. Any breach → pull the episode.
 
-*(Brand/identity independence — own channel, no co-branding, no third-party pitch — lives in [03-brand-identity.md](03-brand-identity.md).)*
+*(Brand/identity independence — own channel, no co-branding — lives in [03-brand-identity.md](03-brand-identity.md). Sponsor/product CTAs are allowed under the line below, not a co-branding exception.)*
+
+## 0. The sponsorship line
+
+A disclosed sponsor segment or a Conquest-owned product CTA (`02-content-format.md` §4) never counts as a breach of independence, **provided**:
+
+- The sponsor/product has **zero input** on which case is chosen, its angle, or a single word of the script. Editorial and commercial are separate conversations, always.
+- It's **disclosed** — verbally + on-screen label, the moment it starts (`brain/04` §8).
+- It never appears **inside** the narrative — it's its own beat, clearly bounded, never blended into the case being told.
+- If a sponsor's business is even tangentially related to an episode's subject, that episode doesn't carry their spot (obvious conflict — skip it, use a different episode).
+
+Any sponsor who asks for editorial input, a specific case, or a script change is refused — that request itself is the breach, not the money.
 
 ## 1. Off-limits as an episode subject — always
 

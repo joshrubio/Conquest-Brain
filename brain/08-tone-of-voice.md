@@ -51,7 +51,7 @@ Uncertainty — say it out loud, the way Dieck does: "las fuentes discrepan sobr
 
 ## 6. Foreshadowing phrases (toolkit)
 
-Plant and pay off 3–6 per episode ([02-content-format.md](02-content-format.md) §2): "quiero que recuerdes esto porque será importante más adelante", "pon atención, porque esto es importante", "recuerda este detalle", "en un momento te digo por qué". Every plant must be paid.
+Promise and pay off 3–6 per episode ([02-content-format.md](02-content-format.md) §2): "quiero que recuerdes esto porque será importante más adelante", "pon atención, porque esto es importante", "recuerda este detalle", "en un momento te digo por qué". Every promise must be paid.
 
 ## 7. Direct address
 
@@ -81,6 +81,6 @@ The legal/ethical don'ts — sensationalizing death/illness/abuse, song lyrics, 
 - [ ] No heat-only adjectives
 - [ ] Every factual sentence attributable; every "descubrí" maps to a real source
 - [ ] Uncertainty stated in words where it exists
-- [ ] 3–6 foreshadowing plants, all paid off
+- [ ] 3–6 foreshadowing promises, all paid off
 - [ ] Neutral-international Spanish
 - [ ] Close states the mechanism without preaching the moral

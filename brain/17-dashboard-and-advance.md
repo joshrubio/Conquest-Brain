@@ -18,12 +18,13 @@ One screen for every chapter, and a one-click hand-off between stages.
 | File | What |
 |------|------|
 | `tools/pipeline.py` | the stage manifest (produces / review page / fold kind / next / what to read to *generate* each stage) + readers/writers for `_STATUS.md` and `_queue.json`. Not a CLI. |
-| `tools/theme.py` | **the whole design system** — every CSS token, component and the HTML wrapper, in one file. Presentation only, no logic or data. `dash.py` + the review tools import `CSS` / `HELPERS` / `shell` from here. Read it *only* to restyle pages; folding gates and draining the queue never touches it. |
+| `tools/theme.py` | **the whole design system** — every CSS token, component and the HTML wrapper, in one file. Presentation only, no logic or data. `dash.py` + the review tools import `CSS` / `HELPERS` / `FAVICON` / `shell` from here — `FAVICON` (the channel avatar, `brand/assets/favicon.ico` + `-32.png`) is baked into every page's `<head>` via `shell()`. Read it *only* to restyle pages; folding gates and draining the queue never touches it. |
 | `tools/dash.py` | regenerates `dashboard.html` + `cost.html` from `_STATUS.md` + the folders + the KPI log. Structure only — look comes from `theme.py`. Pure python, cheap. |
 | `tools/serve.py` | `127.0.0.1:8765`. Serves the dashboard + every review page + episode files. Turns each review page's finish button into: stash decisions → fold the gate → regenerate the dashboard. |
 | `tools/advance.py` | the gate engine — `fold` (apply a stage's decisions) and `next` (bump to the next stage). Mechanical only; anything needing an agent goes on `_queue.json`. |
 | `tools/metrics.py` | Stage 12 review page — paste YouTube numbers → KPI-log row + retro block. |
 | `Conquest-Dashboard.bat` | double-click: starts `serve.py` + opens the browser. |
+| `Conquest-Dashboard.lnk` | a Windows shortcut to the `.bat` with the channel avatar as its icon (a `.bat` can't carry an icon itself) — gitignored, machine-local; copy/pin it to the Desktop or taskbar. Regenerate with PowerShell if it's ever missing: `$s=(New-Object -COM WScript.Shell).CreateShortcut("Conquest-Dashboard.lnk"); $s.TargetPath="Conquest-Dashboard.bat"; $s.IconLocation="brand\assets\favicon.ico"; $s.Save()` (run from the repo root). |
 
 ## State — `episodes/_STATUS.md`
 

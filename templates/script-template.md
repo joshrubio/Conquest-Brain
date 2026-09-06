@@ -42,7 +42,7 @@ Ritmo de narración objetivo: **~155 palabras/min**. Elegir columna según durac
 
 **Dentro de la narrativa:**
 - **Interludios explicadores:** 2–4 por episodio · ~150–350 palabras cada uno (60–140 s). Cuentan dentro del % de narrativa.
-- **Foreshadowing:** 3–6 plants · ~1 frase cada uno · todos pagados.
+- **Foreshadowing:** 3–6 promises · ~1 frase cada uno · todos pagados.
 - **Módulo «las N teorías» (opcional):** 10–20% del metraje cuando se usa; sustituye parte del bloque de cierre/investigación.
 
 ---
@@ -54,7 +54,7 @@ Ritmo de narración objetivo: **~155 palabras/min**. Elegir columna según durac
 [EN PANTALLA] Documento / foto / dato / rótulo. Fuente [S..] + estado de derechos.
 [NOTA]       Indicaciones de tono, pausa, música, edición.
 [EXPLICADOR] Interludio didáctico. Señalizar entrada y salida. Todo dato con [S..].
-[PLANT] / [PAY]  Foreshadowing: marca dónde se planta y dónde se paga.
+[PROMISE] / [PAY]  Foreshadowing: marca dónde se promete y dónde se paga.
 [S..]        Tag de fuente al final de la frase factual.
 ```
 
@@ -118,7 +118,7 @@ El beat de reinicio entre hook e historia (Dieck lo hace así — la marca apare
 [NARRACIÓN]
 … con atribución sobre la marcha («según los registros…», «en su declaración…»). [S..]
 
-[PLANT] (`phrasebook.md §6`) "quiero que recuerdes este detalle porque va a importar" — plantar aquí, pagar en Acto __.
+[PROMISE] (`phrasebook.md §6`) "quiero que recuerdes este detalle porque va a importar" — prometer aquí, pagar en Acto __.
 
 ### Acto 2 — …
 
@@ -180,13 +180,29 @@ Recapitular qué SÍ está establecido → entregar el juicio al espectador con 
 
 ---
 
-## 4. CTA CODA  (~10 s)
+## 4. CTA CODA  (~10–20 s) — el closing ask, siempre presente (`brain/02` §4a)
+
+> **Máximo dos CTA por episodio — nunca más.** Este de aquí (el closing ask) va siempre. El segundo, opcional, es el *mid-episode nudge* (§4b más abajo) — solo si el episodio tiene un punto que lo gane, cada capítulo es distinto. Revisa el tag `Tipo de CTA:` del closing ask del episodio anterior: no repitas tipo en ese slot dos veces seguidas, y no copies la frase — varía el fraseo.
+
+[NOTA] Tipo de CTA: <like|suscribete|compartir|comentar|notificaciones|whatsapp>
 
 [NARRACIÓN]
-Después de que el cierre aterrice. CTA suave del canal, separado de la idea. Sin pitch ni enlace de terceros (`brain/05`).
-Borrador: «Si estas historias te sirven, suscríbete — así no te pierdes el próximo episodio. Las fuentes están en la descripción.»
+Después de que el cierre aterrice. CTA suave del canal, separado de la idea, ligado a lo que este episodio concreto acaba de entregar — no genérico. Tiende a `suscribete`/`notificaciones`/`whatsapp` (el ask de "sigue viendo este canal"), pero cualquier tipo vale si el caso lo justifica.
+Ejemplo (tipo `comentar`, ligado al caso): «Si tú te dieras diez años más para algo — ¿para qué serían? Cuéntamelo en los comentarios, los leo todos.»
 
 [EN PANTALLA] Rótulo opcional «Fuentes principales».
+
+<!-- Mid-episode nudge (opcional, va DENTRO de un Acto de la narrativa, no aquí) — brain/02 §4b:
+Justo tras un [PAY] o la salida señalizada de un [EXPLICADOR]. Tipo más ligero que el closing ask (like/comentar), nunca el mismo tipo que el closing ask de este episodio.
+[NOTA] Tipo de CTA: <like|comentar>
+[NARRACIÓN] Una frase, atada a lo que se acaba de decir — no genérica.
+-->
+
+<!-- Plug de producto/patrocinio — ocupa el slot del mid-episode nudge, no se suma — brain/02 §4c, brain/05 §0:
+[NOTA] Tipo de CTA: producto-propio  (o: patrocinio (<marca>))
+[NARRACIÓN] Disclosure hablado primero — "esto lo hace posible…" / "esto es publicidad" — nunca disfrazado de contenido editorial.
+-->
+
 
 ---
 
@@ -199,8 +215,8 @@ Borrador: «Si estas historias te sirven, suscríbete — así no te pierdes el 
 
 ## Foreshadowing — registro
 
-| # | Se planta en | Se paga en | Idea |
-|---|--------------|-----------|------|
+| # | Se promete en | Se paga en | Idea |
+|---|---------------|-----------|------|
 | 1 | | | |
 
 ## Interludios explicadores — registro

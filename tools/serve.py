@@ -44,7 +44,8 @@ TOOLS = Path(__file__).resolve().parent
 MIME = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript",
         ".json": "application/json", ".txt": "text/plain; charset=utf-8",
         ".md": "text/plain; charset=utf-8", ".csv": "text/plain; charset=utf-8",
-        ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp", ".mp4": "video/mp4"}
+        ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp", ".mp4": "video/mp4",
+        ".ico": "image/x-icon"}
 
 
 def _run(args):
@@ -125,11 +126,30 @@ class H(BaseHTTPRequestHandler):
             edir.mkdir(parents=True, exist_ok=True)
             (edir / f"stage{stage:02d}.json").write_text(
                 json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
-            # also drop the canonical .txt so the existing fold/download paths work
+            # content is always saved, even if the stage/gate bump below gets
+            # blocked — an edit is never lost just because this review page
+            # turned out to be stale.
             canon = P.STAGE.get(stage, {}).get("export")
             if canon and payload.get("txt"):
                 (epp / canon).write_text(payload["txt"], encoding="utf-8")
-            P.set_ep(ep, stage=stage, gate="exportado")
+            if stage == 4 and payload.get("script_md"):
+                (epp / "05-script.md").write_text(payload["script_md"], encoding="utf-8")
+
+            # guard against reopening a stage the episode already moved past
+            # (e.g. an old 05-script.html tab still open after Stage 5 ran) —
+            # that would silently regress _STATUS.md. Require an explicit
+            # confirmation (payload.reopen) first; the content above is still
+            # saved either way.
+            cur_stage = P.read_status().get(ep, {}).get("stage", stage)
+            if stage < cur_stage and not payload.get("reopen"):
+                return self._send(409, json.dumps({
+                    "error": "stage_behind", "cur_stage": cur_stage, "stage": stage,
+                    "msg": (f"Guardado. Pero este episodio ya está en Stage {cur_stage} — "
+                            f"cerrar el gate aquí reabre el Stage {stage} y falta revisar de nuevo "
+                            f"los Stages {stage + 1}–{cur_stage}. ¿Reabrir de todas formas?")}))
+            notes = (f"⚠ Stage {stage} reabierto — revisar de nuevo Stage {stage + 1}–{cur_stage}"
+                     if stage < cur_stage else None)
+            P.set_ep(ep, stage=stage, gate="exportado", **({"notes": notes} if notes else {}))
             msg = _run(["advance.py", "fold", ep])
             return self._send(200, json.dumps({"ok": True, "msg": msg}))
 

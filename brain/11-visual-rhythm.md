@@ -14,7 +14,7 @@ authority: canonical
 
 ## 1. The method in one line
 
-**Shots are planned from the locked script, not from watching references.** The script already encodes the visual plan — every subject change, every `[EN PANTALLA]`, every `[EXPLICADOR]`, every `[PLANT]`/`[PAY]` is a visual beat. Process B is only used once, to calibrate the numbers.
+**Shots are planned from the locked script, not from watching references.** The script already encodes the visual plan — every subject change, every `[EN PANTALLA]`, every `[EXPLICADOR]`, every `[PROMISE]`/`[PAY]` is a visual beat. Process B is only used once, to calibrate the numbers.
 
 ## 2. Process A — infer the shotlist from the script (primary, every episode)
 
@@ -22,7 +22,7 @@ This is Stage 6 of the workflow. Input: locked `05-script.md`. Output: `06-shotl
 
 The shotlist's **"Timeline — la espina"** table is the machine-readable spine —
 one row per beat (`#`, `in`, `dur`, `sección`, `tipo`, `asset`, `rótulo`,
-`motion` `push/pan-h/pan-v/static/zoom/cut`, `marcador` `HOOK/PLANT n/PAY n/EXPLICADOR n`).
+`motion` `push/pan-h/pan-v/static/zoom/cut`, `marcador` `HOOK/PROMISE n/PAY n/EXPLICADOR n`).
 `tools/assemble.py` parses it at Stage 9 to build the first-cut timeline, so it
 has to be complete and clean (see the template). The prose tables below it are
 for the human.
@@ -34,7 +34,7 @@ for the human.
 2b. **Cold open** → the `[HOOK VISUAL]` list in the script is 2–5 beats, hard-cut on the narration beat, **stock video preferred** over a push-in on a still. The last is the "turn" shot. **Bumper (§0b)** = one beat: black + `Conquest` wordmark, 3–6 s, no motion.
 3. Every **named** person / place / document / institution / number → its own archival image or graphic.
 4. `[EXPLICADOR]` interlude → one motion-graphic / diagram sequence. **No talking head.** Budget it as the single longest visual block (~60–140 s).
-5. `[PLANT]` and its `[PAY]` → **the same shot both times** (visual rhyme; the viewer recognizes the image and the callback lands).
+5. `[PROMISE]` and its `[PAY]` → **the same shot both times** (visual rhyme; the viewer recognizes the image and the callback lands).
 6. **Close / reflection** → reuse images already shown; no new archival. Optional: the episode's only narrator-on-camera moment, on the applied takeaway.
 7. Every **number** → an own-made graphic with an on-screen source label.
 8. Every **disputed or approximate** claim → an on-screen caveat caption ("cifras aproximadas — las fuentes varían").
@@ -80,7 +80,7 @@ No visual enters the edit without a rights status in `03-source-log.csv`. Every 
 The writer can pre-mark the script so Stage 6 is fast:
 - Put an `[EN PANTALLA]` line at every subject change, not only the dramatic ones.
 - Note "‹dato → gráfico›" next to every number.
-- Note "‹mismo plano que PLANT›" at every `[PAY]`.
+- Note "‹mismo plano que PROMISE›" at every `[PAY]`.
 A script marked this way *is* 80% of the shotlist.
 
 ## 4. Process B — video calibration pass (manual, run ONCE, then per major style change)

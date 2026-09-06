@@ -64,7 +64,7 @@ Si el negocio comercial no daba dinero, ¿de dónde iba a salir el valor de la c
 
 En 1719 y 1720, la South Sea Company propone al Parlamento convertir una porción mucho mayor de la deuda nacional en acciones suyas [S03]. Y aquí está el detalle que lo explica casi todo: cuanto más alto estuviera el precio de la acción, mejor le salían las cuentas a la compañía en esa conversión. Así que la compañía tenía un incentivo directo para que su propia acción subiera [S03].
 
-[PLANT]  ‹foreshadowing 1 de 2›
+[PROMISE]  ‹foreshadowing 1 de 2›
 Quiero que retengas este dato, porque al final del vídeo vamos a volver a él: en la práctica, casi nadie de los que compraban acciones en 1720 podía explicar de dónde saldría el dinero para justificar ese precio.
 
 ### Acto 2 — La subida
@@ -122,6 +122,8 @@ Y una prueba sencilla: intenta explicar de dónde sale ese valor con tus propias
 
 ## 4. CTA CODA  (~10 s)
 
+[NOTA] Tipo de CTA: suscribete
+
 [NARRACIÓN]
 Si estas historias te sirven, suscríbete — así no te pierdes el próximo episodio. Las fuentes están en la descripción.
 
@@ -146,7 +148,7 @@ Si estas historias te sirven, suscríbete — así no te pierdes el próximo epi
 
 ## Foreshadowing — registro
 
-| # | Se planta en | Se paga en | Idea |
+| # | Se promete en | Se paga en | Idea |
 |---|--------------|-----------|------|
 | 1 | Acto 1 | Acto 4 ([PAY]) | "casi nadie podía explicar de dónde saldría el valor" → por eso bastó con que unos dudaran |
 
@@ -161,7 +163,7 @@ Si estas historias te sirven, suscríbete — así no te pierdes el próximo epi
 - [ ] Recuento de palabras dentro del presupuesto (este ejemplo está abreviado)
 - [x] Orden: cold open → contexto → narrativa → cierre → CTA
 - [x] El hook (la teoría del complot) se retoma en el cuerpo y se matiza
-- [x] 1 foreshadowing plantado y pagado (un episodio real: 3–6)
+- [x] 1 foreshadowing prometido y pagado (un episodio real: 3–6)
 - [x] 1 interludio explicador señalizado (un episodio real: 2–4)
 - [x] Cierre en forma A; mecanismo nombrado + autoridad citada
 - [x] Sin película dramatizada usada como registro histórico

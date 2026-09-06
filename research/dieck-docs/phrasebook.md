@@ -47,7 +47,7 @@ Legend: which transcript each came from in (parens).
 - "Ahora sí, volviendo a la historia…" (T04)
 - "Siguiendo con la historia, …" (T01)
 
-## 6. Foreshadowing — PLANT
+## 6. Foreshadowing — PROMISE
 
 - "Esta mujer es extremadamente importante en la historia, así que pon atención." (T01)
 - "Necesito que recuerdes su nombre, porque puede que sea uno de nuestros primeros sospechosos para el desastre." (T03)

@@ -9,7 +9,7 @@ authority: canonical
 
 # 09 — Reflection & Takeaway Rules
 
-> **Status: v1.1 — v1 validated against 6 Dieck transcripts (2026-08-27); v1.1 adds the four registers of the reflection (2026-09, from T07 *Petróleo sangriento*).** The reflection is **not always a discrete final block** — three forms (A/B/C), all legitimate. The close is 8–20% of runtime; its anchor is planted via foreshadowing long before it lands. **New in v1.1:** the reflection draws on four registers, not one — psychology, practicality, philosophy, and religion/spirituality — and any specific philosophical or religious idea is **attributed to a thinker / school / tradition and sourced `[S..]`**, same standard as a fact.
+> **Status: v1.1 — v1 validated against 6 Dieck transcripts (2026-08-27); v1.1 adds the four registers of the reflection (2026-09, from T07 *Petróleo sangriento*).** The reflection is **not always a discrete final block** — three forms (A/B/C), all legitimate. The close is 8–20% of runtime; its anchor is promised via foreshadowing long before it lands. **New in v1.1:** the reflection draws on four registers, not one — psychology, practicality, philosophy, and religion/spirituality — and any specific philosophical or religious idea is **attributed to a thinker / school / tradition and sourced `[S..]`**, same standard as a fact.
 
 Covers the **close** (section 3 in [02-content-format.md](02-content-format.md)) in all three of its forms.
 
@@ -59,7 +59,7 @@ Usually a **psychological mechanism**, named precisely: prueba social, sesgo de 
 
 It can instead — or also — be a **philosophical or religious idea** the case genuinely raises (see *The four registers*): virtue-as-a-mean, what money shouldn't buy, meaning under suffering, "vanity of vanities". Then it is attributed and sourced (§A6). If two anchors compete, the weaker one is a single supporting sentence; **two is the ceiling** (a mechanism + the question it opens), never more.
 
-### A3. Plant it early, pay it at the close
+### A3. Promise it early, pay it at the close
 Dieck foreshadows the mechanism during the narrative ("recuerda este rasgo, será importante"). Do the same: seed 2–3 moments in Part 2 that the close will name. The close then *collects* what the viewer already saw.
 
 ### A4. Anchor to moments already shown
@@ -94,7 +94,7 @@ Quiet, humane, curious. State the mechanism; let the viewer draw the "should". D
 ## B. Form B — Distributed lesson
 
 ### B1. How it works
-The reflection is broken into 2–3 pieces, each delivered at the biographical beat that earns it, not saved for the end. Steve Jobs: "unir los puntos" after the dropout arc, "amor y pérdida" after the firing, "la muerte" after the diagnosis. Heath Ledger: the method-acting mechanism is planted 4–5 times and pays off in the final act.
+The reflection is broken into 2–3 pieces, each delivered at the biographical beat that earns it, not saved for the end. Steve Jobs: "unir los puntos" after the dropout arc, "amor y pérdida" after the firing, "la muerte" after the diagnosis. Heath Ledger: the method-acting mechanism is promised 4–5 times and pays off in the final act.
 
 ### B2. Rules
 - Announce the deferral ("de esto te hablo más adelante, cuando el momento sea el indicado") and keep the promise.

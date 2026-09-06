@@ -128,6 +128,7 @@ def build(slug, kb, trims):
  <button class="primary" id="exp">Finalizar Stage 9</button>
  <button id="clr">Limpiar</button>
  <span style="color:var(--muted);font-size:.8rem">guárdalo en la carpeta del episodio</span>
+ <a class="btn ghost spacer" href="http://localhost:8765/">Volver al panel</a>
 </header>
 <main>
  <section><h2>Ken Burns — {len(kb)} clips</h2>

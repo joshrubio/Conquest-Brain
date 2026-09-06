@@ -75,7 +75,8 @@ $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
 """
     hd = (f'<h1>Métricas · {e(slug)}</h1><span class="count"></span>'
           '<button class="primary" id="exp">Finalizar Stage 12</button>'
-          '<button id="clr">Limpiar</button>')
+          '<button id="clr">Limpiar</button>'
+          '<a class="btn ghost spacer" href="http://localhost:8765/">Volver al panel</a>')
     return page(f"Métricas · {slug}", hd, body, script)
 
 

@@ -19,7 +19,7 @@ Regla completa: `brain/06-production-workflow.md`. Cada etapa tiene su plantilla
 | 0 | Ideación | fila en `idea-pool.md` | dueño del track | hook-title + material + rúbrica ≥14 + visto en idea-pool |
 | 1 | Brief | `01-brief.md` | Usuario 001 | vale la pena la investigación; narrador asignado |
 | 2 | Dossier de investigación | `02-research-dossier.md` + `03-source-log.csv` | Usuario 001 | toda claim de carga con ≥1 Tier A/B |
-| 3 | Outline | `03-outline.md` (beat sheet, plantilla `templates/outline-template.md`) | Usuario 001 | la estructura se sostiene sin torcer hechos; hook pagado en el cierre; foreshadowings plantados y pagados |
+| 3 | Outline | `03-outline.md` (beat sheet, plantilla `templates/outline-template.md`) | Usuario 001 | la estructura se sostiene sin torcer hechos; hook pagado en el cierre; foreshadowings prometidos y pagados |
 | 4 | Guion | `05-script.md` | Usuario 001 | autorrevisión + script pass hechos; toda `[S..]` resuelve |
 | 5 | Fact-check | `04-factcheck-auto.md` | 100% automático (L1 + L2 agente) | L1 PASS; changelog L2 escrito |
 | 6 | Shotlist | `06-shotlist.md` | Usuario 001 | cada beat clasificado; cifras con rótulo de fuente |

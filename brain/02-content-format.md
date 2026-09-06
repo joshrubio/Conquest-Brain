@@ -66,7 +66,7 @@ The spine.
 Two recurring devices, both **required**:
 
 - **Explainer interludes ("mini-cátedras").** Pause the story to teach a concept the audience needs (how nuclear fission works, Ford's assembly line, method acting, where the school system came from). **Signpost on the way in** ("por si aún no sabes qué es…") **and on the way out** ("ahora que tienes esto, volvamos a la historia"). Every fact inside an interlude is sourced like any other.
-- **Foreshadowing hooks.** Plant 3–6 per episode and pay every one off — the main retention mechanism in the reference set. Phrase toolkit: [08-tone-of-voice.md](08-tone-of-voice.md) §6.
+- **Foreshadowing hooks (`[PROMISE]`/`[PAY]`).** Promise 3–6 per episode and pay every one off — the main retention mechanism in the reference set. Phrase toolkit: [08-tone-of-voice.md](08-tone-of-voice.md) §6.
 
 **Optional module — "las N teorías / los N responsables."** When the case is genuinely contested (Titanic: 3 theories; Grinberg: 4 hypotheses; Chernobyl: 3 responsible parties): present each, weigh it, and close each with an honest verdict ("no hay pruebas concluyentes" / "las fuentes sostienen esto"). Use only when the contest is real, never manufactured.
 
@@ -82,8 +82,46 @@ Registers (what it lands on): **psychological** (a human mechanism), **practical
 
 No form or register is an excuse to skip the sourcing or to moralize. The takeaway/lesson is **never** the reason a case was chosen ([01-editorial-and-sourcing.md](01-editorial-and-sourcing.md) §6).
 
-### 4. CTA coda — ~10 s
-A distinct beat **after** the close has fully landed. Soft channel CTA only (subscribe / next episode). **No third-party pitch or link** ([05-independence-and-coi.md](05-independence-and-coi.md)). Sources always credited in the description — no on-screen source card.
+### 4. CTAs — up to two per episode, placed where the episode earns them
+**Max two CTA moments, never more** — one **mid-episode nudge** (optional — only if the episode actually has a spot that earns it, §4b) and the **closing ask** (always, after the close has fully landed, ~10–20 s, §4a). Two well-separated, well-earned asks beat one crammed coda; three or more is an ad break, not a channel. Sources always credited in the description — no on-screen source card.
+
+**Every episode is different — judge the mid-episode slot per case**, not by formula. A biography with a clean act break may earn one; a tight 15-minute case might not, and that's fine: the closing ask alone is never wrong.
+
+**Tag every CTA beat** with a `[NOTA] Tipo de CTA: <tipo>` line right above it, wherever it sits in the script — cheap to write, and it's what lets the review page show every type used in the cabecera and what the rotation rule checks against, instead of re-reading prose.
+
+#### 4a. The closing ask (every episode, always)
+
+**One ask, never the stack.** Research on creator CTAs is consistent: asking for like + subscribe + share + follow all at once reads as desperate and viewers tune it out; a single, varied, brief ask converts better than a checklist ([SocialBee](https://socialbee.com/blog/cta-youtube/), [Ventress](https://ventress.app/blog/youtube-call-to-action-strategy-convert-viewers-subscribers/)). This is the "keep watching this channel" ask — it leans toward `suscribete` / `notificaciones` / `whatsapp`, the types tied to *coming back*, but any type from the menu fits if the case earns it.
+
+- **Menu** (rotate, don't stack), one per occasion:
+  - `like` — el ask más ligero, el que va por defecto si nada más encaja.
+  - `suscribete` — ligado a *lo que viene*, no a "más vídeos" a secas.
+  - `compartir` — "envíaselo a quien le haga falta oír esto", no compartir genérico.
+  - `comentar` — una pregunta real ligada al tema del episodio, cuando el caso invita genuinamente a una opinión o un eco personal ("¿tú qué opinas de X?", "¿te ha pasado…?"). Saca más que un like cuando el cierre es realmente reflexivo.
+  - `notificaciones` — la campana, distinta de suscribirse; úsala poco, es el ask más "de algoritmo".
+  - `whatsapp` — canal de WhatsApp, solo cuando exista.
+- **Rotation rule:** before writing it, check the **previous episode's** closing-ask tag (`Tipo de CTA: …` in its `05-script.md`) — never repeat the same type in the closing slot two episodes in a row.
+- **Phrasing varies every time** even for the same type — never copy-paste the previous episode's line.
+- Keep it ~10 s, one sentence, tied to what the episode just delivered (not generic) — a closing remark earned by the case, not an ad break.
+
+#### 4b. Mid-episode nudge (optional — only when the episode earns it)
+
+A second, lighter ask dropped **inline** at a natural pause the narrative already has — right after a `[PAY]` lands, or right after an `[EXPLICADOR]`'s signposted exit. No new heading, no interruption of the Hook, Bumper, or the Cierre itself (never during the reflection). Just the two tagged beats sitting where the pacing already breathes.
+
+- Prefer the **lighter** asks here: `like` or `comentar` fit a mid-episode beat far better than `suscríbete` (save that for the close, where "keep watching" actually makes sense).
+- **Different type from whatever the closing ask uses in this same episode** — never both `like`, never both `comentar`.
+- One sentence, immediately relevant to what was *just* said — "si esto te sorprendió tanto como a mí, dale like" right after a payoff, not a generic aside.
+- If nothing in the episode's pacing earns it, skip it. Forcing one in is worse than not having it.
+
+#### 4c. Product / sponsor plug (occasional — takes the mid-episode slot, doesn't add a third)
+
+Allowed — a Conquest-owned product (book, course, merch) or a paid sponsor segment — under the independence line in [05-independence-and-coi.md](05-independence-and-coi.md) §0: **zero editorial input from the sponsor, always disclosed** (`brain/04` §8).
+
+- When an episode carries a sponsor/product plug, it **replaces** the mid-episode nudge (§4b) rather than adding a third interruption — the closing ask (§4a) still always runs. Two CTA moments max, same as any other episode.
+- Its own beat, clearly bounded — never blended into the case's narration.
+- Tag it the same way: `[NOTA] Tipo de CTA: producto-propio` or `Tipo de CTA: patrocinio (<marca>)`.
+- Doesn't enter the 4a/4b rotation or type-variety check — it's tracked separately, just disclosed and capped at one per episode.
+- Opens with the disclosure, spoken plainly: "esto lo hace posible…" / "un momento — esto es publicidad." Never disguised as editorial content.
 
 ## Recurring structural rules
 

@@ -169,7 +169,7 @@ def _episode_card(epid, d):
     reads = sm.get("reads", [])
     rules = sm.get("rules", [])
     manifest = ""
-    if sm.get("fold") == "claude" and (reads or rules):
+    if (sm.get("fold") == "claude" or sm.get("key") == "script") and (reads or rules):
         manifest = ('<details class="man"><summary>Contexto que leerá Claude en este stage</summary>'
                     + "<div>" + " · ".join(f"<code>{e(x)}</code>" for x in reads + rules)
                     + " — <b>y nada más</b></div></details>")

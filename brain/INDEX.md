@@ -17,13 +17,13 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | Task | Read (in order) |
 |------|-----------------|
 | understand the whole project | `00`, `06` |
-| judge / score an idea | `../ideas/idea-rubric.md`, `12`, `13`, `05` |
+| judge / score an idea | `../ideas/idea-rubric.md`, `12`, `13`, `05`, `18` |
 | name an idea / pick a title | `13`, `07` |
 | research a case / build the source-log | `01`, `05`, `12` |
-| outline an episode | `02`, `09` |
-| write the script | `02`, `08`, `09`, `01` · pass: `tools/script_review.py` → `05-script.html` |
+| outline an episode | `02`, `09`, `19` |
+| write the script | `02`, `08`, `09`, `01`, `19` · pass: `tools/script_review.py` → `05-script.html` |
 | write the close / reflection (any register) | `09`, `08`, `01` |
-| fact-check a script | `14`, `01`, `04` |
+| fact-check a script | `14`, `01`, `04`, `19` (log a recurring gap, or graduate one) |
 | build the shotlist | `11`, `02`, `06` (Stage 6) |
 | pick assets / images / music | `12`, `15`, `03` |
 | write AI-image prompts | `15`, `03` |
@@ -57,6 +57,8 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | 15 | ai-illustration-protocol | 7 | AI only where nothing real exists; one style/episode; label always; no real faces, no fake docs |
 | 16 | edit-and-delivery | 9 | Ken Burns→trim→review→b-roll→music→subs; 4K; house grade; export −14 LUFS |
 | 17 | dashboard-and-advance | all | dashboard.html + serve.py + advance.py — one-click gate hand-off; the /loop; _STATUS.md |
+| 18 | monetization-and-audience | 0 | CPM/RPM by category + Spanish-language audience geography — non-blocking tiebreaker at ideation |
+| 19 | lessons | 3·4·5 | capped, working log of recurring correction patterns — graduates to a real rule (and gets deleted) once it repeats |
 | — | USERS | all | the only slot→person map; slots fixed, responsibilities assignable |
 
 ## Canonical homes (where a rule lives once, everyone else points)

@@ -5,7 +5,7 @@ edit_timeline.py — Stage 9 review surface: the cutting-room timeline (brain/16
 
 Renders 09-timeline.json (built by tools/assemble.py) as one page:
   - the VO waveform (fixed spine) with the section bands
-  - a block per beat, width ∝ duration, coloured by kind, PLANT/PAY + EXPLICADOR
+  - a block per beat, width ∝ duration, coloured by kind, PROMISE/PAY + EXPLICADOR
     marked, uncovered beats flagged
   - a 720p proxy preview with a scrubbable playhead
   - per-beat inspector: swap asset · trim · nudge · Ken Burns motion · a note for
@@ -65,6 +65,7 @@ def build(slug):
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sala de montaje · {e(slug)}</title>
+{T.FAVICON}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap">
 {T.CSS}
 {T.TIMELINE_CSS}
@@ -78,6 +79,7 @@ def build(slug):
  <span class="spacer"></span>
  <button class="btn" id="prev">Previsualizar región</button>
  <button class="btn primary" id="fin">Finalizar Stage&nbsp;9</button>
+ <a class="btn ghost" href="http://localhost:8765/">Volver al panel</a>
 </header>
 
 <div class="work">

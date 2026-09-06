@@ -73,7 +73,7 @@ python tools/edit_timeline.py E0XX-slug          # -> 09-edit.html
 - [ ] Beats **sin cubrir**: elegir asset en `07-selection.md` (bloquean el render final)
 - [ ] Cold open: clips `intro` en orden, corte seco; último aguanta ½ s → negro
 - [ ] Bumper: 3–6 s negro + marca `Conquest` + «Soy <narrador>». Sin música.
-- [ ] `PLANT n`/`PAY n`: mismo `asset` y `motion` las dos veces
+- [ ] `PROMISE n`/`PAY n`: mismo `asset` y `motion` las dos veces
 - [ ] **Finalizar Stage 9** → guarda `09-timeline.json` → Claude aplica las regen + `assemble.py --final` (máster 4K)
 
 ## 5. Música de fondo
@@ -114,7 +114,7 @@ python tools/edit_timeline.py E0XX-slug          # -> 09-edit.html
 - [ ] Todo beat de `09-timeline.json` cubierto (0 «sin cubrir») y aprobado
 - [ ] Solo los movimientos de `brain/16`; grade de casa aplicado; sin source cards; sin letterbox salvo que un clip lo fuerce
 - [ ] Cold open = clips `intro` en orden + bumper en negro
-- [ ] `motion` Ken Burns coherente con orientación; `PLANT n`/`PAY n` comparten `asset` y `motion`
+- [ ] `motion` Ken Burns coherente con orientación; `PROMISE n`/`PAY n` comparten `asset` y `motion`
 - [ ] Un lecho de música, ducked; sin música en el bumper; licencias anotadas
 - [ ] IA/recreación con `rótulo` en cada aparición
 - [ ] `.srt` corregido contra el guion

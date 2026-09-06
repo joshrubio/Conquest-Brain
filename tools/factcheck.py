@@ -31,7 +31,7 @@ except Exception:
 TAG_RE = re.compile(r"\[S(\d{1,3}[a-z]?)\]")
 # lines that are structural, not narration
 SKIP_PREFIXES = ("#", "|", ">", "```", "[EN PANTALLA]", "[NOTA]", "[EXPLICADOR]",
-                 "[PLANT]", "[PAY]", "[NARRACIÓN]", "---", "[S", "- [ ]", "- [x]",
+                 "[PLANT]", "[PROMISE]", "[PAY]", "[NARRACIÓN]", "---", "[S", "- [ ]", "- [x]",
                  "‹", "**")
 SKIP_AFTER_HEADING = ("autorrevisión", "índice de tags", "foreshadowing", "interludios explicadores")
 NUMBERISH = re.compile(r"\d")

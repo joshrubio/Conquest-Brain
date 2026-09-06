@@ -51,7 +51,7 @@ La historia contada en orden. Para personas: nacimiento → un detalle de infanc
 
 Dentro llevan **dos dispositivos obligatorios**:
 - **Interludios explicadores** ("mini-cátedras"): paras la historia para enseñar un concepto necesario, señalizando la entrada y la salida.
-- **Foreshadowing** (plants/pays): plantas "recuerda esto porque va a importar" 3–6 veces y **pagas cada una** después. Es el principal mecanismo de retención.
+- **Foreshadowing** (promises/pays): prometes "recuerda esto porque va a importar" 3–6 veces y **pagas cada una** después. Es el principal mecanismo de retención.
 
 Detalle en [3-la-espina-narrativa](3-la-espina-narrativa.md).
 

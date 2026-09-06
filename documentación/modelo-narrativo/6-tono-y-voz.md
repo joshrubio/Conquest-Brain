@@ -53,7 +53,7 @@ Mantiene la pieza honesta sobre de dónde viene el conocimiento y cuán firme es
 
 ## 6. Foreshadowing (banco de frases)
 
-Planta y paga 3–6 por episodio: "quiero que recuerdes esto porque será importante más adelante", "pon atención, porque esto es importante", "recuerda este detalle", "en un momento te digo por qué". **Toda semilla se paga.**
+Promete y paga 3–6 por episodio: "quiero que recuerdes esto porque será importante más adelante", "pon atención, porque esto es importante", "recuerda este detalle", "en un momento te digo por qué". **Toda promesa se paga.**
 
 ## 7. Trato directo — el "tú"
 

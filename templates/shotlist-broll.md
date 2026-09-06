@@ -26,7 +26,7 @@ authority: template
 2b. **Cold open:** el bloque `[HOOK VISUAL]` del guion = 2–5 beats, corte seco, **vídeo stock preferido**; el último es el «giro». **Bumper:** 1 beat = negro + marca `Conquest`, 3–6 s, sin motion.
 3. Toda persona / lugar / documento / institución / cifra nombrada → imagen o gráfico propio.
 4. `[EXPLICADOR]` → una secuencia motion-graphic / diagrama. Sin talking-head. Es el bloque visual más largo (~60–140 s).
-5. `[PLANT]` y `[PAY]` → **mismo plano** las dos veces (rima visual).
+5. `[PROMISE]` y `[PAY]` → **mismo plano** las dos veces (rima visual).
 6. Cierre / reflexión → reusar imágenes ya vistas; sin archivo nuevo. Opción: único plano de narrador a cámara, en el "para llevar".
 7. Toda cifra → gráfico propio con rótulo de fuente en pantalla.
 8. Afirmación disputada o aproximada → rótulo de salvedad en pantalla.
@@ -51,7 +51,7 @@ authority: template
 - **`asset`** — el id que resuelve contra `07-selection.md` / `07-assets.md` (`E0XX_ai01_…`, `INTRO2`, `S09`, `G1`…). `—` si aún no elegido.
 - **`rótulo`** — texto en pantalla, o `—`. `Ilustración — Conquest` obligatorio para `ia`; salvedad para cifras dudosas.
 - **`motion`** — token canónico: `push` (empuje 1.00→1.10) · `pan-h` · `pan-v` · `static` · `zoom` (a un detalle) · `cut` (clip de vídeo, sin move).
-- **`marcador`** — `HOOK` · `PLANT n` · `PAY n` · `EXPLICADOR n` · `—`. `PLANT n` y su `PAY n` **usan el mismo `asset` y el mismo `motion`**.
+- **`marcador`** — `HOOK` · `PROMISE n` · `PAY n` · `EXPLICADOR n` · `—`. `PROMISE n` y su `PAY n` **usan el mismo `asset` y el mismo `motion`**.
 
 | # | in | dur | sección | tipo | asset | rótulo | motion | marcador | guion (frag.) |
 |---|----|-----|---------|------|-------|--------|--------|----------|---------------|
@@ -88,7 +88,7 @@ authority: template
 - [ ] La tabla **Timeline — la espina** está completa: toda fila con `#`, `in`, `dur`, `sección`, `tipo`, `motion`, `marcador` (parsea sin errores)
 - [ ] Todo visual con estado de derechos en `03-source-log.csv`
 - [ ] Todo dato en gráfico con fuente [ID] y, si aplica, rótulo de salvedad
-- [ ] `PLANT n` y `PAY n` usan el mismo `asset` y el mismo `motion`
+- [ ] `PROMISE n` y `PAY n` usan el mismo `asset` y el mismo `motion`
 - [ ] Sin clip de película dramatizada como registro histórico
 - [ ] Reenactments / IA / colorizado con `rótulo` en pantalla
 - [ ] Cold open: 2–5 planos de hook (vídeo preferido) + bumper en negro; hook+bumper ≤ 50 s

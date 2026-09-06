@@ -60,7 +60,7 @@ Stills only (video already moves). The move is chosen from the image's **real as
 
 - `python tools/kenburns.py E0XX-slug --all` → every still in `assets/{archive,stock,ai}/` named `beatNN_*` → `assets/kb/beatNN_<slug>.mp4` at 4K.
 - Duration defaults to 5 s; per-clip `--dur` / `--move` / `--dir` overrides come from Usuario 001's review feedback.
-- `[PLANT]` / `[PAY]`: identical move both times.
+- `[PROMISE]` / `[PAY]`: identical move both times.
 
 ## 2. Trim — `tools/trim_talk.py`
 
@@ -86,7 +86,7 @@ Stills only (video already moves). The move is chosen from the image's **real as
 - writes **`09-timeline.json`** + `09-rough.mp4` (720p proxy) + `09-wave.b64` (waveform PNG)
 
 **`edit_timeline.py E0XX-slug`** renders **`09-edit.html`** — the cutting room:
-- VO waveform (fixed) + section bands + one block per beat, width ∝ duration, coloured by kind; `PLANT`/`PAY` + `EXPLICADOR` marked; uncovered beats flagged
+- VO waveform (fixed) + section bands + one block per beat, width ∝ duration, coloured by kind; `PROMISE`/`PAY` + `EXPLICADOR` marked; uncovered beats flagged
 - a scrubbable 720p proxy; a per-beat **inspector**: swap asset · trim (drag edge or ±) · nudge ±frames · Ken Burns motion (`push`/`pan-h`/`pan-v`/`static`/`zoom`/`cut`) · a regen note for Claude · approve
 - drag a block to reposition (snaps to a word boundary); wheel = scroll, Ctrl+wheel = zoom, Shift+wheel = fast scroll; minimap to navigate
 - **Previsualizar región** re-renders that stretch of the proxy (`assemble.py --preview`) — seconds, not a full render
@@ -96,7 +96,7 @@ Stills only (video already moves). The move is chosen from the image's **real as
 - **Video clips:** cut to length. No speed ramp, no filter. Loop only if shorter than the beat *and* the loop point is invisible.
 - **Cold open (§0):** the `intro` clips in numbered order, hard-cut on the narration beat. Last shot holds ½ s → cut to black.
 - **Bumper (§0b):** 3–6 s black + `Conquest` wordmark + presenter line. No music.
-- Reused beats (`PLANT n` / `PAY n`): the **same** `asset` and `motion` both times (the shotlist spine sets this; the timeline keeps it).
+- Reused beats (`PROMISE n` / `PAY n`): the **same** `asset` and `motion` both times (the shotlist spine sets this; the timeline keeps it).
 
 ## 5. Background music — `tools/find_music.py`
 
@@ -139,7 +139,7 @@ changes) → Usuario 002 watches once, end to end, against `05-script.md` and
 - [ ] Every beat in `09-timeline.json` has an `asset`/`file` (0 `sin cubrir`) and is `approved`
 - [ ] Only the moves in this doc — no other effects, transitions, or grade
 - [ ] Cold open = `intro` clips in order + bumper on black
-- [ ] Ken Burns `motion` matches each image's orientation; `PLANT n`/`PAY n` share `asset` + `motion`
+- [ ] Ken Burns `motion` matches each image's orientation; `PROMISE n`/`PAY n` share `asset` + `motion`
 - [ ] One music bed, ducked under the VO; no music in the bumper; track licences logged
 - [ ] AI / reenactment / colourised labelled on every appearance (`rótulo` set in the spine)
 - [ ] 4K master rendered; `.srt` generated and hand-corrected against `05-script.md`

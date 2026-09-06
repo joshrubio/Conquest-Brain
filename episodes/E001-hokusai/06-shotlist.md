@@ -11,7 +11,7 @@
 
 ## Heurística aplicada (`brain/11 §2.1`)
 
-1 beat cada ~2–3 frases o cambio de sujeto · todo `[EN PANTALLA]` literal · `[EXPLICADOR]` = secuencia motion sin talking-head · `[PLANT]`/`[PAY]` = mismo plano · cierre reusa imágenes ya vistas · cifras dudosas → rótulo de salvedad.
+1 beat cada ~2–3 frases o cambio de sujeto · todo `[EN PANTALLA]` literal · `[EXPLICADOR]` = secuencia motion sin talking-head · `[PROMISE]`/`[PAY]` = mismo plano · cierre reusa imágenes ya vistas · cifras dudosas → rótulo de salvedad.
 
 **Ritmo objetivo:** cold open 10–12 b/min · contexto 6–8 · narrativa 7–9 · cierre 4–6. Casi todo el material es **dominio público / CC0** (The Met, British Museum, Rijksmuseum, LOC, Wikimedia).
 
@@ -29,19 +29,19 @@
 | 7 | 1:20 | 30 | pivote | archivo | edo_panorama_1809 | — | pan-h | — | «Edo es probablemente la ciudad más grande del mundo» |
 | 8 | 1:50 | 50 | pivote | kb | G1_ukiyoe_pipeline | — | static | EXPLICADOR 1 | «se llaman ukiyo-e, imágenes del mundo flotante» |
 | 9 | 2:40 | 25 | pivote | archivo | shunsho_actor_print | — | push | — | «entra como aprendiz en el taller de Katsukawa Shunshō» |
-| 10 | 3:05 | 10 | pivote | stock | woodblock_carving_cu | — | zoom | PLANT 1 | «el nombre no es suyo. Es de la casa» |
+| 10 | 3:05 | 10 | pivote | stock | woodblock_carving_cu | — | zoom | PROMISE 1 | «el nombre no es suyo. Es de la casa» |
 | 11 | 3:15 | 15 | pivote | archivo | nagasaki_dutch_print | — | push | — | «cuando Shunshō muere en 1793 deja la escuela Katsukawa» |
 | 12 | 3:30 | 25 | acto 1 | kb | G2_names_timeline | — | static | — | «usó alrededor de treinta nombres artísticos» |
 | 13 | 3:55 | 25 | acto 1 | archivo | name_ledger_edo | — | push | — | «un nombre acreditado tenía valor de mercado» |
 | 14 | 4:20 | 35 | acto 1 | kb | G3_style_shift | — | static | — | «cada cambio de nombre coincidía con un cambio de rumbo» |
 | 15 | 4:55 | 45 | acto 1 | archivo | hokusai_manga_vol6 | — | pan-v | — | «en 1814 empieza a publicar los Hokusai Manga» |
 | 16 | 5:40 | 35 | acto 1 | stock | daruma_paint_reenact | — | cut | — | «en 1817 en Nagoya monta un espectáculo, un Daruma gigante» |
-| 17 | 6:15 | 10 | acto 1 | stock | woodblock_carving_cu | — | zoom | PLANT 2 | «le gustaba que lo vieran trabajar y le gustaba lo grande» |
+| 17 | 6:15 | 10 | acto 1 | stock | woodblock_carving_cu | — | zoom | PROMISE 2 | «le gustaba que lo vieran trabajar y le gustaba lo grande» |
 | 18 | 6:25 | 30 | acto 2 | archivo | hokusai_self_portrait | — | push | — | «no fue un genio ignorado. Tuvo nombre, público y encargos» |
 | 19 | 6:55 | 20 | acto 2 | archivo | edo_tenement_street | — | pan-h | — | «fue pobre de no saber si comería» |
 | 20 | 7:15 | 40 | acto 2 | kb | G4_moves_map | «~93 mudanzas — cifra tradicional» | static | — | «se mudó unas noventa y tres veces» |
 | 21 | 7:55 | 30 | acto 2 | archivo | grandson_debt_scroll | — | push | — | «un nieto contrajo deudas y Hokusai las pagó» |
-| 22 | 8:25 | 15 | acto 2 | stock | woodblock_carving_cu | — | zoom | PLANT 3 | «llega a los setenta años arruinado por las deudas de un nieto» |
+| 22 | 8:25 | 15 | acto 2 | stock | woodblock_carving_cu | — | zoom | PROMISE 3 | «llega a los setenta años arruinado por las deudas de un nieto» |
 | 23 | 8:40 | 35 | acto 3 | archivo | fuji36_grid_met | — | static | — | «publica la serie Treinta y seis vistas del monte Fuji» |
 | 24 | 9:15 | 40 | acto 3 | archivo | fuji_plates_pan | — | pan-h | — | «el Fuji desde un campo de arroz, entre los andamios de un tonelero» |
 | 25 | 9:55 | 15 | acto 3 | archivo | great_wave_full_met | — | push | — | «La gran ola frente a Kanagawa. Tenía unos setenta años» |
@@ -53,7 +53,7 @@
 | 31 | 12:25 | 20 | acto 4 | kb | G7_gakyo_rojin | — | static | EXPLICADOR 3 | «firmaba como Gakyō Rōjin Manji, el viejo loco por la pintura» |
 | 32 | 12:45 | 20 | acto 4 | stock | edo_fire_reenact | — | cut | — | «hacia 1839 un incendio destruyó su casa-taller. Volvió a empezar» |
 | 33 | 13:05 | 20 | acto 4 | archivo | katsushika_oi_night | — | push | — | «vivió y trabajó con su hija, Katsushika Ōi, que también era pintora» |
-| 34 | 13:25 | 10 | acto 4 | archivo | oi_hokusai_desk | — | static | PLANT 4 | «un hombre de más de ochenta años sentado a dibujar junto a su hija» |
+| 34 | 13:25 | 10 | acto 4 | archivo | oi_hokusai_desk | — | static | PROMISE 4 | «un hombre de más de ochenta años sentado a dibujar junto a su hija» |
 | 35 | 13:35 | 15 | acto 5 | archivo | hokusai_death_notice | — | push | — | «Hokusai murió en Edo en 1849 con unos ochenta y ocho años» |
 | 36 | 13:50 | 15 | acto 5 | kb | G2_names_timeline | — | static | PAY 1 | «se había cambiado el nombre unas treinta veces. Y murió pidiendo tiempo» |
 | 37 | 14:05 | 40 | acto 5 | archivo | japonisme_monet_vg | — | pan-h | — | «sus estampas llegaron a Europa. Monet, Van Gogh, la portada de La Mer» |
@@ -89,7 +89,7 @@
 | 9 | 2:10 | "hecho para venderse baratos y en cantidad" | Página de un libro ilustrado ukiyo-e / puesto de estampas | (colección, PD) | dominio público | — | corte |
 | 10 | 2:30 | "aprendiz en el taller de Katsukawa Shunshō… retratos de actores" | Grabado de actor de teatro de la escuela Katsukawa | (Shunshō, PD) | dominio público | «Escuela Katsukawa» | push-in |
 | 11 | 2:45 | "firma sus primeros grabados… Shunrō" | Grabado temprano firmado "Shunrō" + zoom a la firma | (obra temprana, PD) | dominio público | «firma: Shunrō» | zoom a la firma |
-| 12 | 2:55 · `[PLANT 1]` | "el nombre no es suyo. Es de la casa." | **Congelar** el zoom a la firma "Shunrō" (plano que se repite en el desenlace) | (misma obra) | dominio público | — | congelado |
+| 12 | 2:55 · `[PROMISE 1]` | "el nombre no es suyo. Es de la casa." | **Congelar** el zoom a la firma "Shunrō" (plano que se repite en el desenlace) | (misma obra) | dominio público | — | congelado |
 | 13 | 3:05 | "Cuando Shunshō muere, en 1793… deja la escuela Katsukawa" | Rótulo «1793» sobre grabado de la época | — | propio | «1793» (salvedad si la fecha no cierra) | — |
 | 14 | 3:20 | "pintura china, grabado europeo… por el puerto de Nagasaki" | Grabado europeo de la época + vista de Nagasaki | (PD) | dominio público | — | cortes |
 | 15 | Acto 1 · 3:40 | "usó alrededor de treinta nombres artísticos" | **Línea de tiempo animada de nombres**, con una obra bajo cada uno | S05 + obras (PD/CC0) | propio + PD | «~30 nombres — recuento aprox.» | la línea se dibuja |
@@ -101,7 +101,7 @@
 | 21 | 5:55 | "En 1814 empieza a publicar los *Hokusai Manga*" | Páginas de los *Manga*: figuras, animales, olas, fantasmas | S10 — Manga (PD, LOC/Met) | dominio público | «Hokusai Manga, desde 1814» | pase de páginas rápido |
 | 22 | 6:25 | "un éxito de ventas… se reimprimieron durante décadas" | Varias ediciones/portadas de los *Manga* | (PD) | dominio público | — | apilado |
 | 23 | 6:45 | "un nieto… contrajo deudas y Hokusai las asumió" | Documento/pagaré de época (genérico) + rótulo | elaboración propia | propio | «década de 1830» | — |
-| 24 | 7:00 · `[PLANT 2]` | "llega a los setenta años arruinado… y es entonces… cuando hace la obra por la que hoy lo conocemos" | Retrato de Hokusai anciano (plano que se repite en el `[PAY]`) | S16 | dominio público | — | congelado + leve push-in |
+| 24 | 7:00 · `[PROMISE 2]` | "llega a los setenta años arruinado… y es entonces… cuando hace la obra por la que hoy lo conocemos" | Retrato de Hokusai anciano (plano que se repite en el `[PAY]`) | S16 | dominio público | — | congelado + leve push-in |
 | 25 | Acto 3 · 7:20 | "*Treinta y seis vistas del monte Fuji*" | Cuadrícula con varias de las 36 vistas | S09 (CC0, The Met / Wikimedia Commons) | CC0 | «c. 1830–1832» | la cuadrícula se llena |
 | 25b | 7:35 | "acabaron siendo cuarenta y seis… no cambió el título" | Contador: "36" tachado → "46"; se añaden láminas a la cuadrícula | elaboración propia | propio | «36 → 46» | animación |
 | 26 | 7:45 | "el Fuji desde un campo de arroz… entre los andamios de un tonelero… el Fuji rojo contra un cielo despejado" | Tres láminas concretas: "Tōkaidō Hodogaya" (campo/pinos), "Fujimigahara" (Fuji dentro del barril del tonelero), **"Gaifū kaisei" / "Fine Wind, Clear Morning"** (el "Fuji rojo" — NO *Sanka hakuu*, que es la del rayo) | S09 | CC0 (Met / Wikimedia Commons) | título de cada lámina | corte por lámina |
@@ -114,7 +114,7 @@
 | 33 | 10:35 | "Hacia 1839, un incendio destruyó su casa-taller" | Grabado de incendio urbano en Edo (los incendios eran frecuentes) | (PD) | dominio público | «c. 1839» (salvedad si no cierra) | resplandor / push-in |
 | 34 | 11:00 | "vivió con su hija, Katsushika Ōi, que también era pintora" | Obra de Katsushika Ōi (p. ej. escena nocturna) | S11 — obra de Ōi (CC0/PD) · TODO: localizar holding con imagen libre (Met / Wikimedia Commons / museo japonés) | CC0 / dominio público | «Katsushika Ōi» | push-in |
 | 35 | 11:25 | "hoy los especialistas discuten cuánto… es en realidad de Ōi" | Split: dos obras tardías, una atribución dudosa | S11 | CC0 / PD | «atribución discutida» | comparación |
-| 36 | 11:40 · `[PLANT 3]` | "un hombre de más de ochenta años… sentado a dibujar junto a su hija" | Ilustración/retrato de Hokusai y Ōi trabajando (o composición de sus retratos) | S16 + S11 | dominio público | — | estático, cálido |
+| 36 | 11:40 · `[PROMISE 3]` | "un hombre de más de ochenta años… sentado a dibujar junto a su hija" | Ilustración/retrato de Hokusai y Ōi trabajando (o composición de sus retratos) | S16 + S11 | dominio público | — | estático, cálido |
 | 37 | Desenlace · 12:00 | "Hokusai murió en Edo en 1849, con unos ochenta y ocho años" | Retrato anciano + rótulo «1849 · ~88 años» | S16 | dominio público | «1849» | fade a negro parcial |
 | 38 | 12:10 · `[PAY 1 y 3]` | "Se había cambiado el nombre unas treinta veces… murió pidiendo diez años más" | **Línea de tiempo de nombres (beat 15) recorrida rápido hasta el final** → se queda en negro | S05 + obras | propio + PD | — | barrido rápido |
 | 39 | Cierre 12:30 | "¿ya llegué?" vs "¿me estoy acercando?" | **Motion-graphic simple:** dos caminos, uno con final, otro sin final | elaboración propia | propio | — | bucle corto |
@@ -157,7 +157,7 @@
 |------|-----------------|--------|-------------|----------|--------|--------|
 | +A | Acto 1 · "En 1814… los *Hokusai Manga*" | Páginas de los *Manga* (figuras, animales, muecas) | S10 (LOC/Met, PD) | dominio público | «Hokusai Manga, desde 1814» | pase rápido de páginas |
 | +B | Acto 1 · "en 1817, en Nagoya… un retrato gigante de Daruma" | Ilustración/grabado del acto público del Daroma; escala humana al lado | S17 + reconstrucción propia | PD + propio | «Nagoya, 1817» + salvedad de dimensiones | zoom out para revelar el tamaño |
-| +C | Acto 1 · `[PLANT 2]` "le gustaba que lo vieran… le gustaba lo grande" | Congelar el plano del Daruma (se repite en Acto 5) | S17 | PD/propio | — | congelado |
+| +C | Acto 1 · `[PROMISE 2]` "le gustaba que lo vieran… le gustaba lo grande" | Congelar el plano del Daruma (se repite en Acto 5) | S17 | PD/propio | — | congelado |
 | +D | Acto 3 · `[EXPLICADOR 2]` "el azul… pigmento sintético importado de Europa" | Comparativa: azul vegetal apagado vs. azul de Prusia intenso en dos láminas; mapa de la ruta de importación | S18 + elaboración propia | CC0 + propio | «azul de Prusia (bero-ai)» | split + trazado de ruta |
 | +E | Acto 5 · "sus estampas llegaron a Europa… como papel de embalar" | Estampa arrugada usada como envoltorio de cerámica (reconstrucción) | elaboración propia | propio | — | — |
 | +F | Acto 5 · "Monet colgó estampas… Van Gogh copió… la portada de *La Mer*" | Interior de Giverny con estampas japonesas; una copia de Van Gogh de ukiyo-e; portada de la 1ª ed. de *La Mer* (1905) | S19 (verificar cada uno) | Van Gogh y *La Mer* 1905 = dominio público; Giverny = confirmar | «japonismo» | cortes |
@@ -167,6 +167,6 @@
 
 - [ ] Todo visual con estado de derechos en `03-source-log.csv` (varios "a definir")
 - [x] Todo dato en gráfico con fuente [ID] y, si aplica, rótulo de salvedad
-- [x] `[PLANT]` y `[PAY]` usan el mismo plano (beats 12/38, 24/29, 36/38)
+- [x] `[PROMISE]` y `[PAY]` usan el mismo plano (beats 12/38, 24/29, 36/38)
 - [x] Sin película dramatizada como registro histórico; sin IA
 - [x] Nº de beats coherente con el ritmo objetivo (v0 parcial — completar intermedios)

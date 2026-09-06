@@ -17,7 +17,7 @@
 2b. **Cold open:** el bloque `[HOOK VISUAL]` del guion = 2–5 beats, corte seco, **vídeo stock preferido**; el último es el «giro». **Bumper:** 1 beat = negro + marca `Conquest`, 3–6 s, sin motion.
 3. Toda persona / lugar / documento / institución / cifra nombrada → imagen o gráfico propio.
 4. `[EXPLICADOR]` → una secuencia motion-graphic / diagrama. Sin talking-head. Es el bloque visual más largo (~60–140 s).
-5. `[PLANT]` y `[PAY]` → **mismo plano** las dos veces (rima visual).
+5. `[PROMISE]` y `[PAY]` → **mismo plano** las dos veces (rima visual).
 6. Cierre / reflexión → reusar imágenes ya vistas; sin archivo nuevo. Opción: único plano de narrador a cámara, en el "para llevar".
 7. Toda cifra → gráfico propio con rótulo de fuente en pantalla.
 8. Afirmación disputada o aproximada → rótulo de salvedad en pantalla.
@@ -39,7 +39,7 @@
 - `tipo`: `archivo`·`stock`·`kb`·`ia`·`gráfico`·`negro`
 - `asset`: id que resuelve contra `07-selection.md` (`—` si aún no elegido)
 - `motion`: `push`·`pan-h`·`pan-v`·`static`·`zoom`·`cut`
-- `marcador`: `HOOK`·`PLANT n`·`PAY n`·`EXPLICADOR n`·`—` (PLANT n y PAY n → mismo `asset` y `motion`)
+- `marcador`: `HOOK`·`PROMISE n`·`PAY n`·`EXPLICADOR n`·`—` (PROMISE n y PAY n → mismo `asset` y `motion`)
 
 | # | in | dur | sección | tipo | asset | rótulo | motion | marcador | guion (frag.) |
 |---|----|-----|---------|------|-------|--------|--------|----------|---------------|
@@ -76,7 +76,7 @@
 - [ ] La tabla **Timeline — la espina** está completa y parsea sin errores
 - [ ] Todo visual con estado de derechos en `03-source-log.csv`
 - [ ] Todo dato en gráfico con fuente [ID] y, si aplica, rótulo de salvedad
-- [ ] `PLANT n` y `PAY n` usan el mismo `asset` y el mismo `motion`
+- [ ] `PROMISE n` y `PAY n` usan el mismo `asset` y el mismo `motion`
 - [ ] Sin clip de película dramatizada como registro histórico
 - [ ] Reenactments / IA / colorizado marcados para rótulo en pantalla
 - [ ] Cold open: 2–5 planos de hook (vídeo preferido) + bumper en negro; hook+bumper ≤ 50 s

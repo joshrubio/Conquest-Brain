@@ -81,7 +81,7 @@ El cierre de Conquest no es "psicología + un truco de vida". Un caso puede abri
 La reflexión va en 2–3 piezas, cada una entregada en el beat biográfico que la gana, **no guardada para el final**.
 
 - **Steve Jobs:** "unir los puntos" tras el arco del abandono, "amor y pérdida" tras el despido, "la muerte" tras el diagnóstico.
-- **Heath Ledger:** el mecanismo de la actuación de método se planta 4–5 veces y se paga en el acto final.
+- **Heath Ledger:** el mecanismo de la actuación de método se promete 4–5 veces y se paga en el acto final.
 
 **Reglas:**
 - Anuncia el aplazamiento ("de esto te hablo más adelante, cuando el momento sea el indicado") y **cumple la promesa**.

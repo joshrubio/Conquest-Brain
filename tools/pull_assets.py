@@ -579,6 +579,7 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Style pass — {esc(slug)}</title>
+{T.FAVICON}
 {T.CSS}
 <style>
  #cnt,#introcnt,#aicnt{{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.82rem}}
@@ -664,6 +665,7 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None):
  <button id="clr">Limpiar</button>
  <a class="btn ghost" id="assets" href="http://localhost:8765/episodes/{slug}/assets/" target="_blank">Carpeta de recursos</a>
  <span class="small" style="opacity:.7">al finalizar se descargan los recursos elegidos ahí</span>
+ <a class="btn ghost spacer" href="http://localhost:8765/">Volver al panel</a>
 </header>
 {introbox}
 <div class="wrap">

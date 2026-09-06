@@ -28,6 +28,9 @@ research/dieck-docs/transcripts/*
 __pycache__/
 *.pyc
 
+# Claude Code local settings (per-machine tool permissions, not project config)
+.claude/settings.local.json
+
 # OS / editor
 Thumbs.db
 Desktop.ini
@@ -73,3 +76,6 @@ episodes/_queue.json
 episodes/_loop.json
 episodes/**/_exports/
 episodes/**/_folds/
+
+# Desktop launcher shortcut — bakes in an absolute local path, not portable
+*.lnk

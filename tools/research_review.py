@@ -202,7 +202,8 @@ $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
 """
     header = (f'<h1>Research · {e(slug)}</h1><span class="count"></span>'
               f'<button class="primary" id="exp">Finalizar Stage 2</button>'
-              '<button id="clr">Limpiar</button>')
+              '<button id="clr">Limpiar</button>'
+              '<a class="btn ghost spacer" href="http://localhost:8765/">Volver al panel</a>')
     extra = ('<style>'
              '.card.need{border-color:var(--gold)}'
              '.grid.wide{grid-template-columns:1fr}'

@@ -16,27 +16,25 @@ Cuántos **tokens de Claude** consume producir un episodio de Conquest-Brain, y 
 | 1 brief | lee fila del pool + `brain/06,13,09`; redacta `01-brief.md` | ~10 k | ~2 k | **15–30 k** | |
 | 2 research | **WebSearch/WebFetch** (5–15 consultas), lee páginas, sintetiza dossier + source-log | 80–300 k | ~5 k | **120–400 k** | la etapa más cara, con mucha varianza |
 | 3 outline | lee dossier + brief + `brain/02,09`; beat sheet | ~25 k | ~2 k | **30–55 k** | |
-| 4 script | lee outline + dossier + source-log + brief + `brain/02,08,09,13`; guion ~3 000 palabras | ~40 k | ~6 k | **60–120 k** | |
-| 4 script-pass fold | lee las notas del pase + el guion; aplica | ~15 k | ~4 k | **20–45 k** | único fold que sigue siendo Claude |
+| 4 script | lee outline + dossier + source-log + brief + `brain/02,08,09,13,19`; guion ~3 000 palabras | ~40 k | ~6 k | **60–120 k** | el script pass ya no es un fold de Claude — `05-script.html` escribe `05-script.md` directo, 0 tokens |
 | 5 fact-check L2 | lee guion + source-log + `brain/14`; analiza cada claim, produce correcciones | ~25 k | ~5 k | **40–90 k** | |
 | 6 shotlist | lee guion bloqueado + `brain/11`; infiere `06-shotlist.md` | ~20 k | ~4 k | **30–55 k** | |
 | 7 prompts IA | lee beats del shotlist + `brain/15`; escribe el texto de escena | ~12 k | ~3 k | **15–35 k** | solo si hay beats sin imagen real |
 | 9 edición | `assemble.py` monta el primer corte y `edit_timeline.py` la timeline (python, 0 tokens); tú ajustas en el navegador (0 tokens); Claude solo aplica los FIX de KB como flags + lanza el render | ~12 k | ~5 k | **20–45 k** | antes «Claude + ffmpeg iterativo, 40–110 k, sin tope» — la timeline lo acota |
 | 10 descripción | lee source-log + pool + `brain/07`; `09-description.md` | ~12 k | ~3 k | **15–35 k** | |
 | 12 retro | lee KPI + `brain/07`; fixes de proceso | ~8 k | ~3 k | **10–25 k** | |
-| **Suma, un pase** | | | | **~410–1 100 k** | |
-| **× iteración real** (feedback → revisión, ×1.5–2) | | | | **~600 k – 2.2 M** | |
+| **Suma, un pase** | | | | **~390–1 055 k** | |
+| **× iteración real** (feedback → revisión, ×1.5–2) | | | | **~585 k – 2.1 M** | |
 
-**Punto medio de trabajo:** **~1.1 M tokens por episodio.** Dominado por research (Stage 2) y guion (Stage 4).
+**Punto medio de trabajo:** **~1.05 M tokens por episodio.** Dominado por research (Stage 2) y guion (Stage 4).
 
 ## Efecto del dashboard centralizado
 
 | | Sin dashboard (antes de 044d753) | Con dashboard | Ahorro |
 |---|---|---|---|
-| Cruce de gate mecánico (0·2·7·9·10 + fact-check fold) | Claude lee el `.txt` de revisión (~1–3 k) + el `.md` destino (~2–8 k) + edita (~3–5 k) + responde. **~10–25 k/gate × ~6 gates = 80–200 k/episodio** | lo hace `advance.py` en python — **Claude no participa** | **~80–200 k/episodio** |
-| Cruce de gate con Claude (Stage 4 fold) | igual | igual (~20–45 k) | 0 |
+| Cruce de gate mecánico (0·2·4·7·9·10 + fact-check fold) | Claude lee el `.txt`/notas de revisión (~1–3 k) + el `.md` destino (~2–8 k) + edita (~3–5 k) + responde. **~10–25 k/gate × ~7 gates = 90–220 k/episodio** | lo hace `advance.py`/`serve.py` en python — **Claude no participa**. Stage 4 (guion) se sumó a esta fila cuando el script pass pasó a guardado directo (`05-script.html` → `05-script.md`, sin fold de Claude) | **~90–220 k/episodio** |
 | Sincronización de estado (`_STATUS.md`) | Claude lo edita a mano cada cambio (~3–6 k × ~10) | `advance.py` lo escribe | **~30–60 k/episodio** |
-| **Total ahorrado por episodio** | | | **~110–260 k (~10–20 %)** |
+| **Total ahorrado por episodio** | | | **~120–280 k (~12–27 %)** |
 | Coste nuevo — `/loop` en reposo | — | tick = leer `_queue.json` (~0.2 k) + respuesta corta; el grueso (system prompt + defs de tools) va **cacheado** (TTL 1 h). ~2–6 k/tick de coste marginal; sleep 20 min ⇒ ~3 ticks/h ⇒ **~10–20 k/h en reposo** | −(depende de horas con el loop abierto) |
 
 **Neto:** el dashboard **ahorra ~10–20 % por episodio** en el flujo activo. El `/loop` solo cuesta si lo dejas abierto sin trabajar; con sleeps largos y caché, el reposo es del orden de un fact-check por cada 4–8 h ociosas. Recomendación: en pausas largas, **Cerrar sesión** (o dime «para el loop»); pausar no basta.
@@ -95,6 +93,7 @@ Claude Pro (~20 USD/mes) usa un límite móvil que **se reinicia cada 5 h** más
 
 | Fecha | Versión (commit) | Episodio | Tokens estimados | Tokens reales | Notas |
 |-------|------------------|----------|------------------|---------------|-------|
+| 2026-09-06 | editor de guion (script pass v2) | — | ~1.05 M/episodio (modelo) | — | Stage 4 pasa de "Claude pliega las notas" a guardado directo (`05-script.html` → `05-script.md`) — el fold que quedaba con coste de Claude pasa a 0; −20–45 k/episodio |
 | 2026-08-31 | rename + theme.py | — | ~1.1 M/episodio (modelo) | — | sin cambio de coste: rename Éxodo→Conquest y consolidación de diseño no tocan el flujo de producción |
 | 2026-08 | 044d753 (dashboard) | — | ~1.1 M/episodio (modelo) | — | primera línea base; sin medición real todavía |
 | — | pre-044d753 | — | ~1.25 M/episodio (modelo) | — | +10–20 % por folds manuales |

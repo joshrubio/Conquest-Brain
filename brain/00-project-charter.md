@@ -41,7 +41,7 @@ Broad Spanish-speaking audience — Monterrey to Madrid to Buenos Aires. Not tie
 1. **Subjects are public.** Every episode is about a **public figure, a historical case, or a company/practice with verifiable public documentation** — not private individuals, not cases without a public record. This is the channel's value proposition, not an administrative rule.
 2. **No episode subject drawn from people Usuario 001 or Usuario 002 personally know** — not even anonymized. Privacy, consent, and conflict of interest. The founders' own migration story is *voice and motive* (About page, the reflection), never an episode subject.
 3. **No factual claim without a cited source.** No invented data or quotes, ever.
-4. The channel stays **independent in brand, folder, and workflow** — no co-branding, cross-posting, or shared identity with any other channel or venture.
+4. The channel stays **independent in brand, folder, and workflow** — no co-branding, cross-posting, or shared identity with any other channel or venture. *(This is about identity, not money: a disclosed sponsor or a Conquest-owned product CTA is allowed under [02-content-format.md](02-content-format.md) §4 as long as the sponsor has zero say over subject, angle, or script — see [05-independence-and-coi.md](05-independence-and-coi.md).)*
 
 ## Success criteria
 
