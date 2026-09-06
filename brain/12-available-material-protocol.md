@@ -1,6 +1,6 @@
 ---
 doc: 12-available-material-protocol
-summary: "Never write for a story you can't illustrate. Public-domain archives list, the per-idea worksheet, stock rules, music licensing, subject-with-no-photograph."
+summary: "Never write for a story you can't illustrate. Public-domain archives list, a fair-use tier for contemporary figures with no PD alternative, the per-idea worksheet, stock rules, music licensing, subject-with-no-photograph."
 stage: [0, 2, 7]
 read_when: "judging an idea's feasibility; planning assets; licensing music; a subject with no surviving likeness"
 pairs_with: [06-production-workflow, 15-ai-illustration-protocol, 03-brand-identity]
@@ -14,7 +14,18 @@ Runs **during ideation**, before an idea can be approved. Purpose: never write a
 
 ## The rule
 
-An idea is not approved until someone has confirmed, against real archive listings, that there is enough **public-domain** visual material — or a workable own-graphics plan — to carry the episode.
+An idea is not approved until someone has confirmed, against real archive listings, that there is enough **public-domain** visual material — or a workable own-graphics plan, or the fair-use tier below — to carry the episode.
+
+## Protocol 1b — fair use for contemporary figures (no PD alternative exists)
+
+PD-first stays the default whenever it's available — most subjects have it. This tier exists only for the case PD genuinely can't cover: a **living public figure or active company from roughly the digital era**, where every likeness is under someone's copyright by default. What most creators do informally (grab a press photo, drop it in), the channel does deliberately, with rules:
+
+- **Allowed:** brief, transformative use of copyrighted press photography, official corporate images, and video clips (interviews, testimony, press conferences) — for identification and commentary, never as a substitute for the whole visual track. Fits squarely in fair-use commentary/news-reporting doctrine (US); the practical risk on YouTube is a Content ID flag, not a legal claim — expect the odd flag, dispute it if it's clearly fair use.
+- **Preference order:** (1) the subject's own self-published material — official press kit, company blog images, their own social posts (least risk, least ambiguity); (2) our own screen recordings of a publicly accessible product/website — that's our footage, not reuse of anyone else's; (3) brief press photography/video under fair use; (4) motion graphics / own illustration as the fallback that's always available.
+- **Always transformative:** graded into the house look, cut into the case-file device, cropped/motion-treated — never a raw, unedited slideshow of someone else's photos carrying a beat on its own.
+- **Still absolute, no exception:** never reproduce anything that could pass as a fabricated document or record; never a photoreal AI-generated stand-in for a real identifiable person (`brain/15` governs AI illustration regardless of this tier).
+- **Video specifically:** government-produced recordings (a federal photographer, an official congressional feed) are often PD outright — check per clip; a private broadcaster's feed of the same event usually isn't PD but is squarely fair-use territory for brief, commentated excerpts.
+- **Log it like anything else:** the worksheet below still gets filled — mark `Rights` as `fair use — breve/transformador` instead of PD/CC, one line on the rationale (commentary/news reporting on a public figure) in `07-selection.md` / `CREDITS.md`, same as any other asset.
 
 ## Archives we check (public domain / open)
 

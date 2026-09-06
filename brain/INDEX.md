@@ -51,7 +51,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | 09 | reflection-rules | 1·3·4 | the close in forms A/B/C × four registers (psych / practical / philosophical / religious), the surgical test, failure modes |
 | 10 | repo-and-git-workflow | all | repo layout, what's versioned, branching, commit-message convention |
 | 11 | visual-rhythm | 4·6·9 | shots planned from the locked script; beat rates; visual-type menu |
-| 12 | available-material-protocol | 0·2·7 | PD archives list, per-idea worksheet, stock rules, music licensing, subject-with-no-photo |
+| 12 | available-material-protocol | 0·2·7 | PD archives list, fair-use tier for contemporary figures with no PD alternative, per-idea worksheet, stock rules, music licensing, subject-with-no-photo |
 | 13 | hook-naming | 0·10 | Dieck title anatomy, hook types, templates, ethical rules |
 | 14 | fact-check-protocol | 5 | fully automated — L1 deterministic + L2 agent edit-pass that applies the fixes; no human step |
 | 15 | ai-illustration-protocol | 7 | AI only where nothing real exists; one style/episode; label always; no real faces, no fake docs |

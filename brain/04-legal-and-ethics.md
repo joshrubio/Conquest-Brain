@@ -16,7 +16,7 @@ Not legal advice. This is the working standard; escalate anything uncertain to a
 - [ ] Subject is a **public figure**, a **historical case**, or a **company/practice** — not a private individual.
 - [ ] There is a **public documentary record**.
 - [ ] Passes the independence/COI gate ([brain/05](05-independence-and-coi.md)): no one the founders know, no private tip, tellable from public documentation. (Non-negotiable.)
-- [ ] The story is not sub judice in a way that makes commentary risky (check for active proceedings).
+- [ ] Active proceedings checked. Not a bar to covering the story — court filings are Tier A primary sources — but every disputed claim is attributed ("según la demanda de X", "Y respondió que…"), never asserted as settled fact while it's still contested.
 
 ## 2. Defamation / reputation
 

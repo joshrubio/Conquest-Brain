@@ -31,6 +31,7 @@
 | T01-13 | Garrett Morgan | Inventor negro; tuvo que fingir ser blanco para vender su invento | A/C | medio | 18 | aprobada |
 | T01-14 | Toyota / Taiichi Ohno | Demasiado pobres para copiar a EE.UU. → inventaron algo mejor y vencieron a Detroit | A | medio-bajo | 16 | incubando (material + narrativa) |
 | T01-15 | Wilma Rudolph | Polio de niña, no caminaba sin aparato → 3 oros olímpicos (1960) | A | medio | 18 | aprobada |
+| T01-16 | Anthropic | Dejaron la empresa de IA más famosa del mundo porque creían que iba demasiado rápido — y fundaron a su competencia | A | medio | 17 | incubando (falta cross-check real de Protocolo 1/1b) |
 
 **Cola T01 (material flojo):** Tetris (URSS lo inventa, guerra de derechos), Marvel (quiebra 1996, hipoteca de personajes para Iron Man).
 
@@ -44,13 +45,16 @@
 | T02-04 | La plaga del baile de 1518 | Dinámica de grupo, Estrasburgo | A/C | medio-bajo | 16 | incubando (registro fino) |
 | T02-05 | Talidomida | Empresa que mintió + regulación, 1957–1962 | A/B | medio | 18 | aprobada |
 | T02-06 | El gran engaño lunar de 1835 | Fraude mediático, Nueva York | A/C | alto | 19 | aprobada |
+| T02-07 | El golpe de 5 días en OpenAI | Junta directiva vs. CEO, San Francisco, nov. 2023 | A/C | medio | 18 | incubando (falta cross-check real de Protocolo 1/1b) |
+| T02-08 | El científico que votó para frenarlo | Arrepentimiento público, San Francisco, 2023–24 | A/C | medio | 17 | incubando (falta cross-check real de Protocolo 1/1b) |
+| T02-09 | Musk vs. OpenAI | Demanda por "traición a la misión", 2024–26 (litigio activo) | A/C | medio | 16 | incubando (falta cross-check + seguir el juicio) |
 
 ## En espera (no en esta ronda)
 
 | Idea | Track | Motivo |
 |------|-------|--------|
 | Colonia Dignidad (Chile, 1961–2005) | T02 | Riesgo legal alto (víctimas y responsables vivos), litigio; pase legal serio antes de aprobar |
-| Katalin Karikó (mRNA, Nobel 2023) | T01 | Persona viva; material casi todo con derechos → P7 bajo. Reevaluar con plan de gráficos propios |
+| Katalin Karikó (mRNA, Nobel 2023) | T01 | Persona viva; material casi todo con derechos. Ya no bloqueada por P7 — `brain/12` Protocolo 1b (fair use) la cubre; falta hacer el cross-check real antes de moverla al pool principal |
 | La "Guerra del Emu" (Australia, 1932) | T02 | Descartada por ahora — el hook es cómico y la reflexión no sostiene un episodio (mejor un short) |
 
 ---
@@ -185,6 +189,15 @@ Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Pr
 - **Cierre A.** Polio, segregación (se negó a un desfile segregado en su honor), la familia (20 hermanos), el obstáculo visceral.
 - **Monetización:** Categoría C · Audiencia mixta (biografía deportiva, sin gancho de dinero/fraude).
 
+### T01-16 · Anthropic  *(incubando — falta cross-check)*
+- `Dejaron la empresa de IA más caliente del mundo porque iba DEMASIADO rápido | Anthropic | Documental`
+- `Dos hermanos renunciaron a OpenAI para construir la IA que les daba menos miedo | Documental`
+- `¿Por qué el rival de ChatGPT lo fundó gente que YA trabajaba en ChatGPT? | Anthropic | Documental`
+- **Material:** medio — fundadores vivos (2020s), sin fotografía en dominio público; cubierto por `brain/12` Protocolo 1b (fair use breve/transformador: fotos de prensa oficiales, capturas propias de los productos) + gráficos propios (línea de tiempo, motion graphics). Falta el cross-check real por beat antes de aprobar (R3/E8).
+- **Cierre A.** Diciembre 2020: un grupo de investigadores de OpenAI (los hermanos Dario y Daniela Amodei entre ellos) concluye que la empresa está sub-priorizando la seguridad frente a la velocidad de despliegue. Se van, funda Anthropic en 2021 como *public benefit corporation* con la tesis contradictoria de "construir la IA más potente del mundo Y hacerla segura a la vez" [fuentes: cobertura de Anthropic/OpenAI 2020-2021].
+- **Notas:** ángulo inspirador (T01) porque es gente que se va de la jugada más grande del momento por principio, no por fracaso. **Conflicto de interés declarado:** quien redacta/investiga este episodio (Claude) es un producto de Anthropic — recomendado que Usuario 002 revise el guion con escrutinio extra por esa razón, más allá del fact-check habitual.
+- **Monetización:** Categoría B · Audiencia Tier 1/mixta (historia de la industria IA, alto interés global e hispanohablante).
+
 ---
 
 ## Detalle — T02
@@ -237,6 +250,33 @@ Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Pr
 - **Material:** alto — los artículos originales del *New York Sun* y las litografías de 1835 son PD (Internet Archive, LOC).
 - **Cierre A/C.** Credibilidad prestada (se atribuyó a un astrónomo real, John Herschel) + el deseo de creer = aceptación masiva. Nunca se retractó del todo. Meta-relevante para un canal sobre "versión real vs. versión oficial".
 - **Monetización:** Categoría B · Audiencia mixta (fraude mediático/histórico — institucional, no financiero directo).
+
+### T02-07 · El golpe de 5 días en OpenAI  *(incubando — falta cross-check)*
+- `La empresa de IA más valiosa del mundo despidió a su CEO — y lo readmitió 5 días después | OpenAI | Documental`
+- `El día que su propio cofundador intentó hundirlo | Sam Altman | Documental`
+- `¿Por qué 700 empleados amenazaron con renunciar en un solo fin de semana? | OpenAI | Documental`
+- **Material:** medio — noviembre de 2023, personas vivas, sin fotografía en dominio público; cubierto por `brain/12` Protocolo 1b (fotos/clips de prensa breves y transformadores, capturas propias de publicaciones/productos) + gráficos propios (línea de tiempo hora a hora). El registro escrito es abundante y Tier A/B (comunicados oficiales de la junta y de OpenAI, la carta firmada por ~700 empleados, hilos públicos de los propios protagonistas). Falta el cross-check real por beat antes de aprobar.
+- **Cierre A o C.** 17 de noviembre de 2023: la junta directiva de OpenAI destituye a Sam Altman como CEO alegando falta de franqueza con la junta. El científico jefe y cofundador Ilya Sutskever vota a favor. En 5 días: casi toda la plantilla firma una carta amenazando con irse a Microsoft si Altman no vuelve, Sutskever se retracta públicamente, y Altman es reinstaurado con una junta nueva [fuentes: comunicados de OpenAI, cobertura contemporánea extensa]. Pregunta que deja abierta: ¿quién controla de verdad una empresa que dice construir algo más grande que sí misma?
+- **Notas:** sin litigio activo conocido sobre este episodio específico (distinto de la demanda de Musk, T02-09). Vigilar que no haya desarrollado ninguno para cuando se produzca.
+- **Monetización:** Categoría A · Audiencia Tier 1/mixta (pugna de poder corporativo de altísimo valor — arquetipo de alto CPM — cobertura tech global e hispanohablante).
+
+### T02-08 · El científico que votó para frenarlo  *(incubando — falta cross-check)*
+- `Votó para despedir a su jefe — y tres días después se arrepintió en público | Ilya Sutskever | Documental`
+- `Ayudó a crear la IA más potente del mundo — luego intentó pararla | Documental`
+- `¿Por qué el cofundador de OpenAI se fue a construir OTRA IA, en secreto? | Documental`
+- **Material:** medio — mismo perfil que T02-07: persona viva, sin fotografía en dominio público; Protocolo 1b (fair use) + gráficos propios + registro escrito abundante (sus propias publicaciones públicas, comunicados de las empresas que fundó).
+- **Cierre A/C.** Sutskever, cofundador y científico jefe de OpenAI, vota para destituir a Altman por temor a que la empresa priorice la velocidad sobre la seguridad. Tres días después se retracta públicamente y firma la carta pidiendo su regreso. Meses más tarde deja OpenAI y funda una empresa dedicada explícitamente a la seguridad de la IA. Pregunta abierta, muy de la casa: ¿qué haces cuando crees que lo que ayudaste a construir se está moviendo más rápido de lo que puedes controlar?
+- **Notas:** ángulo complementario a T01-16 (Anthropic) pero protagonista distinto y desenlace más personal/ambiguo — no fusionar los dos episodios, cada uno se sostiene solo.
+- **Monetización:** Categoría B · Audiencia Tier 1/mixta (historia personal dentro de la industria IA, alto interés global e hispanohablante).
+
+### T02-09 · Musk vs. OpenAI  *(incubando — litigio activo, seguir de cerca)*
+- `Fundó OpenAI para que la IA fuera de todos — ahora la demanda por traicionarlo | Elon Musk | Documental`
+- `¿Puedes reclamar de vuelta una empresa que ayudaste a fundar y abandonaste? | Musk vs. OpenAI | Documental`
+- `La demanda de 150.000 millones que pregunta: ¿de quién es la IA? | Documental`
+- **Material:** medio — mismo perfil que T02-07/08 (Protocolo 1b + gráficos propios). Fuente adicional de altísima calidad: los propios documentos judiciales (Tier A, texto íntegro público).
+- **Cierre A o C.** Musk cofinancia OpenAI en 2015 como organización sin ánimo de lucro con la condición explícita de liberar la tecnología para el bien público. En 2018 se va tras perder una pugna interna de liderazgo. En 2024 demanda a OpenAI y a Altman alegando que el giro hacia una estructura con ánimo de lucro (y la alianza con Microsoft) traiciona el acuerdo fundacional. Retira la demanda, la vuelve a presentar en tribunal federal. El juicio está en curso [fuentes: TechCrunch, escritos judiciales]. **Cada afirmación disputada se atribuye** ("según la demanda de Musk", "OpenAI respondió que…") — nunca se presenta como hecho resuelto mientras el caso siga abierto (`brain/04` §1).
+- **Notas:** litigio **activo** — no bloquea la idea (`brain/04`: comprobar y atribuir, no evitar), pero exige seguir el caso hasta cerca de producción y actualizar el guion con el desenlace si lo hay antes de publicar. Revisar fecha de corte antes de escribir el guion.
+- **Monetización:** Categoría A · Audiencia Tier 1/mixta (disputa legal de altísimo perfil sobre control de una empresa de cientos de miles de millones — arquetipo de alto CPM).
 
 ---
 
