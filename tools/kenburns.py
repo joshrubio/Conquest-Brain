@@ -31,6 +31,9 @@ try:
 except Exception:
     pass
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from mediabin import FFMPEG  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 RES = {"1080": (1920, 1080), "4k": (3840, 2160)}
@@ -84,7 +87,7 @@ def render(img, out, dur, res, move, direction, fps):
         move = pick_move(w, h, max(ow, oh))
     chain = vf(move, direction, ow, oh, dur, fps)
     out.parent.mkdir(parents=True, exist_ok=True)
-    cmd = ["ffmpeg", "-y", "-loop", "1", "-i", str(img), "-t", f"{dur}",
+    cmd = [FFMPEG, "-y", "-loop", "1", "-i", str(img), "-t", f"{dur}",
            "-vf", chain, "-r", str(fps), "-c:v", "libx264", "-crf", "18",
            "-preset", "medium", "-pix_fmt", "yuv420p", "-an", str(out)]
     r = subprocess.run(cmd, capture_output=True, text=True)

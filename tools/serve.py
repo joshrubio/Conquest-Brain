@@ -54,6 +54,57 @@ def _run(args):
     return (r.stdout or r.stderr).strip()
 
 
+def _spawn_chain(steps, done_flag=None):
+    """Run a list of [tool.py, *args] in sequence, detached — the HTTP response
+    returns now, the work (a multi-minute render) continues in the background.
+    Writes `done_flag` (a Path) when finished so the UI can poll."""
+    py = (
+        "import subprocess,sys,pathlib\n"
+        f"S={steps!r}\n"
+        f"T={str(TOOLS)!r}\n"
+        "for s in S: subprocess.run([sys.executable, str(pathlib.Path(T)/s[0]), *s[1:]])\n"
+        + (f"pathlib.Path({str(done_flag)!r}).write_text('ok')\n" if done_flag else "")
+    )
+    subprocess.Popen([sys.executable, "-c", py], cwd=str(TOOLS.parent))
+
+
+def _pool_detail(txt, iid):
+    """The `### T0X-YY …` detail block for an idea, or ''."""
+    m = re.search(rf"(?sm)^### {re.escape(iid)}\b.*?(?=^### |\Z)", txt)
+    return m.group(0) if m else ""
+
+
+def _pool_hooks(txt, iid):
+    return re.findall(r"^-\s+`([^`]+)`", _pool_detail(txt, iid), re.M)
+
+
+def _pool_set_status(txt, iid, new):
+    """Rewrite the Estado cell of the summary-table row for iid."""
+    return re.sub(rf"(\|\s*{re.escape(iid)}\s*\|(?:[^|\n]*\|){{5}})\s*[^|\n]*(\|)",
+                  rf"\1 {new} \2", txt, count=1)
+
+
+def _pool_set_hook(txt, iid, idx):
+    """Record the chosen hook-title as a `- **Hook elegido:** ...` line in the detail block."""
+    try:
+        chosen = _pool_hooks(txt, iid)[int(idx) - 1]
+    except (ValueError, IndexError, TypeError):
+        return txt
+    block = _pool_detail(txt, iid)
+    if not block:
+        return txt
+    line = f"- **Hook elegido:** `{chosen}`"
+    if re.search(r"(?m)^-\s+\*\*Hook elegido:\*\*.*$", block):
+        nb = re.sub(r"(?m)^-\s+\*\*Hook elegido:\*\*.*$", line, block, count=1)
+    else:
+        hk = list(re.finditer(r"(?m)^-\s+`[^`]+`[^\n]*$", block))
+        if not hk:
+            return txt
+        pos = hk[-1].end()
+        nb = block[:pos] + "\n" + line + block[pos:]
+    return txt.replace(block, nb, 1)
+
+
 class H(BaseHTTPRequestHandler):
     def log_message(self, *a):
         pass
@@ -71,7 +122,12 @@ class H(BaseHTTPRequestHandler):
         self.wfile.write(b)
 
     def do_OPTIONS(self):
-        self._send(204, b"", "text/plain")
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "content-type")
+        self.send_header("Content-Length", "0")
+        self.end_headers()
 
     def do_GET(self):
         raw = self.path
@@ -90,8 +146,43 @@ class H(BaseHTTPRequestHandler):
             if f.is_dir():
                 return self._send(200, _dir_html(f), MIME[".html"])
             if f.is_file():
-                return self._send(200, f.read_bytes(), MIME.get(f.suffix, "application/octet-stream"))
+                return self._send_file(f)
         self._send(404, json.dumps({"error": "not found", "path": path}))
+
+    def _send_file(self, f):
+        """Serve a file, honouring a Range request — <audio>/<video> need
+        Accept-Ranges + 206 or the browser makes them unseekable."""
+        ctype = MIME.get(f.suffix, "application/octet-stream")
+        size = f.stat().st_size
+        rng = self.headers.get("Range", "")
+        m = re.match(r"bytes=(\d*)-(\d*)", rng) if rng else None
+        if m and (m.group(1) or m.group(2)):
+            a = int(m.group(1)) if m.group(1) else max(0, size - int(m.group(2)))
+            b = int(m.group(2)) if m.group(1) and m.group(2) else size - 1
+            b = min(b, size - 1)
+            a = min(a, b)
+            with open(f, "rb") as fh:
+                fh.seek(a)
+                chunk = fh.read(b - a + 1)
+            self.send_response(206)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Content-Range", f"bytes {a}-{b}/{size}")
+            self.send_header("Accept-Ranges", "bytes")
+            self.send_header("Content-Length", str(len(chunk)))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(chunk)
+            return
+        b = f.read_bytes()
+        self.send_response(200)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(b)))
+        self.send_header("Accept-Ranges", "bytes")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Cache-Control", "no-store, must-revalidate")
+        self.end_headers()
+        self.wfile.write(b)
 
     def _view(self, epid, fname):
         import dash
@@ -117,6 +208,21 @@ class H(BaseHTTPRequestHandler):
             return self._send(400, json.dumps({"error": "bad json"}))
         path = self.path.split("?")[0]
         ep = data.get("ep")
+
+        if path == "/picks":
+            # Stage 7 asset picks aren't a pipeline gate — they're inputs Stage 9
+            # consumes. Write 07-picks.txt + run --download, whatever stage the
+            # episode is at (re-picking after advancing is normal).
+            epp = P.ep_path(ep)
+            txt = (data.get("payload") or {}).get("txt") or data.get("txt", "")
+            if not txt:
+                return self._send(400, json.dumps({"error": "sin picks"}))
+            (epp / "07-picks.txt").write_text(txt, encoding="utf-8")
+            slug = P.read_status().get(ep, {}).get("slug") or ep
+            msg = _run(["pull_assets.py", slug, "--download"])
+            _run(["dash.py"])
+            return self._send(200, json.dumps({"ok": True,
+                "msg": "07-picks.txt guardado · " + (msg.splitlines()[-1] if msg else "descarga hecha")}))
 
         if path == "/finish":
             stage = int(data.get("stage"))
@@ -153,8 +259,45 @@ class H(BaseHTTPRequestHandler):
             msg = _run(["advance.py", "fold", ep])
             return self._send(200, json.dumps({"ok": True, "msg": msg}))
 
+        if path == "/trim-save":
+            # autosave from the trim room — write <take>.cuts.json, render nothing.
+            epp = P.ep_path(ep)
+            take = epp / "assets" / data.get("take", "")
+            if not take.is_file():
+                return self._send(404, json.dumps({"error": "toma no encontrada"}))
+            take.with_suffix(".cuts.json").write_text(
+                json.dumps({"cuts": data.get("cuts", [])}, ensure_ascii=False), encoding="utf-8")
+            return self._send(200, json.dumps({"ok": True}))
+
+        if path == "/trim":
+            # <take>.review.html «Aplicar corte»: write the approved cut list,
+            # render the trimmed take, then re-align the Stage-9 timeline.
+            epp = P.ep_path(ep)
+            take_name = data.get("take", "")
+            take = epp / "assets" / take_name
+            if not take.is_file():
+                return self._send(404, json.dumps({"error": f"no existe la toma {take_name}"}))
+            cuts = data.get("cuts", [])
+            take.with_suffix(".cuts.json").write_text(
+                json.dumps({"cuts": cuts}, ensure_ascii=False), encoding="utf-8")
+            slug = P.read_status().get(ep, {}).get("slug") or ep
+            flag = take.with_suffix(".apply.done")
+            flag.unlink(missing_ok=True)
+            # the --apply render is minutes long — run it detached, poll the flag
+            _spawn_chain([["trim_talk.py", str(take), "--apply"],
+                          ["assemble.py", slug], ["edit_timeline.py", slug],
+                          ["dash.py"]], done_flag=flag)
+            return self._send(200, json.dumps({"ok": True,
+                "msg": f"{len(cuts)} cortes → recortando la toma y re-alineando en segundo plano "
+                       f"(unos minutos). El panel se actualiza al terminar."}))
+
         if path == "/advance":
             return self._send(200, json.dumps({"ok": True, "msg": _run(["advance.py", "next", ep])}))
+
+        if path == "/stage-done":
+            # a claude/draft stage with no review page (brief, outline, fact-check):
+            # confirm its content is written -> fold the gate + advance in one go.
+            return self._send(200, json.dumps({"ok": True, "msg": _run(["advance.py", ep])}))
 
         if path == "/timeline":                       # Stage 9 — save the cutting-room timeline
             slug = data.get("slug") or ep
@@ -200,6 +343,20 @@ class H(BaseHTTPRequestHandler):
                     "stop": "el loop terminará en su próximo tick"}.get(state, "")
             return self._send(200, json.dumps({"ok": True, "msg": hint}))
 
+        if path == "/nudge":
+            # the panel can't run Claude (no tokens by design). This raises a flag
+            # the /loop honours on its next tick (it paces down to ~1 min when
+            # there's queued work), un-pauses it, and tells the user the instant path.
+            import time
+            P.touch_loop(state="run", wake=True, wake_ts=int(time.time()))
+            _run(["dash.py"])
+            lp = P.read_loop()
+            fresh = lp.get("last_tick_ts") and (time.time() - lp["last_tick_ts"] < 300)
+            msg = ("Marcado. El /loop lo coge en ≤1–2 min." if fresh else
+                   "Marcado — pero el /loop no parece estar corriendo (sin ticks recientes).")
+            return self._send(200, json.dumps({"ok": True, "msg":
+                msg + "\nInstantáneo: escribe «sigue» en la terminal del /loop, o pídemelo en el chat de Claude Code."}))
+
         if path == "/cost-update":
             return self._send(200, json.dumps({"ok": True, "msg": _run(["cost_update.py"])}))
 
@@ -216,25 +373,69 @@ class H(BaseHTTPRequestHandler):
         if path == "/ideas":
             pool = P.ROOT / "ideas" / "idea-pool.md"
             approved, t = [], (pool.read_text(encoding="utf-8") if pool.exists() else "")
+            STATUS = {"aprobar": "aprobada", "descartar": "descartada", "incubar": "incubando"}
             for iid, x in (data.get("verdicts") or {}).items():
-                v = x.get("v")
-                if v == "aprobar":
+                if x.get("hook"):
+                    t = _pool_set_hook(t, iid, x["hook"])
+                new = STATUS.get(x.get("v"))
+                if new:
+                    t = _pool_set_status(t, iid, new)
+                if x.get("v") == "aprobar":
                     approved.append(iid)
-                elif v in ("descartar", "incubar"):
-                    new = "descartada" if v == "descartar" else "incubando"
-                    t = re.sub(rf"(\|\s*{re.escape(iid)}\s*\|(?:[^|\n]*\|){{5}})\s*[^|\n]*(\|)",
-                               rf"\1 {new} \2", t, count=1)
             if pool.exists():
                 pool.write_text(t, encoding="utf-8")
             _run(["idea_review.py"]); _run(["dash.py"])
-            tail = (f" · aprobadas (crea episodio): {', '.join(approved)}" if approved else "")
+            tail = (f" · aprobadas (pulsa «Crear episodio»): {', '.join(approved)}" if approved else "")
             return self._send(200, json.dumps({"ok": True, "msg": "Pool actualizado" + tail}))
+
+        if path == "/idea-produce":
+            iid = (data.get("id") or "").strip()
+            pool = P.ROOT / "ideas" / "idea-pool.md"
+            if not iid or not pool.exists():
+                return self._send(400, json.dumps({"error": "falta id o ideas/idea-pool.md"}))
+            t = pool.read_text(encoding="utf-8")
+            row = re.search(
+                rf"^\|\s*{re.escape(iid)}\s*\|\s*([^|\n]*?)\s*\|(?:[^|\n]*\|){{4}}\s*([^|\n]*?)\s*\|",
+                t, re.M)
+            if not row:
+                return self._send(404, json.dumps({"error": f"{iid} no está en el pool"}))
+            work_title, status = row.group(1), row.group(2)
+            if status.startswith(("en producción", "en produccion", "publicada")):
+                return self._send(409, json.dumps({"error": f"{iid} ya está en «{status}»"}))
+            if status != "aprobada":
+                return self._send(409, json.dumps({
+                    "error": f"{iid} está «{status}» — apruébala primero (veredicto «aprobar» + «Aplicar cambios»)."}))
+            hooks = _pool_hooks(t, iid)
+            hook = ""
+            if data.get("hook"):
+                try:
+                    hook = hooks[int(data["hook"]) - 1]
+                except (ValueError, IndexError):
+                    hook = ""
+            if not hook:
+                hm = re.search(r"(?m)^-\s+\*\*Hook elegido:\*\*\s*`([^`]+)`", _pool_detail(t, iid))
+                hook = hm.group(1) if hm else (hooks[0] if hooks else work_title)
+            track = "T01" if iid.startswith("T01") else "T02"
+            narrator = "Usuario 002" if track == "T01" else "Usuario 001"
+            epid = P.next_epid()
+            slug = f"{epid}-{P.slugify(work_title)}"
+            P.set_ep(epid, slug=slug, title=f"«{work_title}»", track=track, narrator=narrator,
+                     stage=0, gate="exportado", notes=f"desde {iid} · hook: {hook}")
+            exp = P.EP_DIR / slug / "_exports"
+            exp.mkdir(parents=True, exist_ok=True)
+            (exp / "stage00.json").write_text(
+                json.dumps({"idea_id": iid, "hook": hook, "working_title": work_title},
+                           ensure_ascii=False, indent=1), encoding="utf-8")
+            msg = _run(["advance.py", "fold", epid])
+            _run(["idea_review.py"]); _run(["dash.py"])
+            return self._send(200, json.dumps({"ok": True,
+                "msg": f"{iid} → {epid} · {slug}\n{msg}"}))
 
         self._send(404, json.dumps({"error": "unknown endpoint", "path": path}))
 
 
 if __name__ == "__main__":
-    P.write_loop("run")          # fresh server = fresh session
+    P.write_loop("run", wake=False)   # fresh server = fresh session (keep last_tick_ts if a loop is live)
     _run(["dash.py"])
     try:
         srv = ThreadingHTTPServer(("127.0.0.1", P.PORT), H)

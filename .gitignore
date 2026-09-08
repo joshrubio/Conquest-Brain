@@ -24,6 +24,10 @@ episodes/**/assets/*
 research/dieck-docs/transcripts/*
 !research/dieck-docs/transcripts/README.txt
 
+# Reference books (PDFs + markitdown conversions) — copyright, research use only, keep local
+research/_books/*
+!research/_books/README.md
+
 # Python
 __pycache__/
 *.pyc

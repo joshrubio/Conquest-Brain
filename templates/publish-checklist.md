@@ -23,7 +23,7 @@ authority: template
 - [ ] Mezcla de audio final
 - [ ] Subtítulos ES .srt corregidos a mano
 - [ ] Rótulos de reenactment / IA / colorizado presentes donde corresponde
-- [ ] Tarjetas de fuente en pantalla (si se usan) correctas
+- [ ] Sin source cards en pantalla — citas solo en la descripción («Fuentes principales») + comentario fijado (`brain/03`); los gráficos de cifras sí llevan su rótulo «Fuente: …»
 
 ## 2. Verificación y legal (gate duro)
 

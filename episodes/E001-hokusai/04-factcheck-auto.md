@@ -2,135 +2,86 @@
 
 - Script: `episodes/E001-hokusai/05-script.md`
 - Source-log: `episodes/E001-hokusai/03-source-log.csv`
-- Tags used: 44 (20 unique)
-- Sources: 20 — A:3, B:17
-- Orphan-claim candidates: 9
+- Última corrida L1: 2026-09-08 (sobre la revisión del guionista del guion v2.0)
+- Verdict: **PASS** (consistencia — cada `[S..]` resuelve; todas las fuentes con tier + derechos)
 
-## Orphan-claim candidates (human: tag or confirm non-factual)
-
-- L29: Para entender esa frase hay que ver la vida entera. Esta es la historia de Katsushika Hokusai.
-- L87: Lo que no tuvo nunca fue estabilidad. Durante la mayor parte de su vida fue pobre —pobre de no saber si comería, no pobre de artista con …
-- L122: Lo escribe a los setenta y cuatro años. Ya había hecho «La gran ola». Y su propio balance es: todavía no sé nada —pero voy en la direcció…
-- L159: Hay dos maneras de hacerlo. Una es preguntarte: «¿ya llegué?». La otra: «¿me estoy acercando?».
-- L172: No «¿esto me haría llegar?». Sino: «¿este es un trabajo del que querría tener diez años más?».
-- L174: Porque el que se define por «ya está» y el que se define por «casi lo tengo» envejecen de forma muy distinta. Hokusai nunca llegó a donde…
-- L254: - Cerrar S15 (DOI/ISBN), S19 (cada ejemplo por separado), S20 (fuente de población de Edo)
-- L255: - Verificar: fecha de ruptura con Katsukawa (1793), año del incendio (~1839), parentesco exacto del nieto, datación de "La gran ola" con …
-- L256: - Recuento de nombres (~30) y mudanzas (~93) contra la fuente
-
-## Verdict: **PASS**
-
-(PASS on consistency, but the orphan candidates above still need a human pass.)
-
-> Script v1.2 (hallazgos de la búsqueda de recursos aplicados).
-
-## Layer 2 — LLM
-
-> Corrido 2026-08-29 sobre el guion v1 + `03-source-log.csv`. **El modelo no es fuente.** Cada bandera se re-verifica contra la fuente real (libro/ficha) por un humano antes de Layer 3. "¿Respalda?" = juicio del modelo sobre si la *descripción* del source-log encaja con la afirmación, no verificación.
-
-### 1. Afirmaciones factuales
-
-| # | Sección | Afirmación (resumida) | [S..] | ¿Respalda la descripción? | Veredicto |
-|---|---------|-----------------------|-------|---------------------------|-----------|
-| 1 | Cold open | Muere en 1849 a los ~88 | S12 | sí | respalda — *pero* la edad varía según el cómputo (88 occidental / 90 japonés). Añadir matiz o nota |
-| 2 | Cold open | "Más de setenta años dibujando" | (deriva de S03) | parcial | sin tag propio; se deduce (aprendiz ~1778 → 1849). Aceptable si se tagea S03 |
-| 3 | Cold open | "Una de las imágenes más reproducidas del planeta" | S14 | parcial | S14 dice "muy reproducida / japonismo", no cuantifica "del planeta". **Matizar** → "una de las imágenes japonesas más reconocibles" o atribuir |
-| 4 | Cold open | Frase del lecho de muerte (5 o 10 años, "pintor de verdad") | S12 | sí (como relato) | respalda-como-matizado — el guion ya dice "según cuentan / dicen unas versiones" |
-| 5 | Contexto | Nace ~1760 en Katsushika, Edo | S02 | sí | respalda |
-| 6 | Contexto | Japón "más de un siglo prácticamente cerrado… shogun" | — | — | **sin tag** — contexto histórico establecido (sakoku). Tagear a una fuente general o aceptar como conocimiento común; "prácticamente" cubre Dejima |
-| 7 | Contexto | Edo "ronda el millón de habitantes" | — | no | **sin tag y S02 no lo cubre.** Añadir fuente de población de Edo (~1780–1800) o suavizar a "una de las ciudades más grandes del mundo" |
-| 8 | Explicador | Proceso ukiyo-e (dibujante/tallador/impresor/editor) | S02 | sí (plausible) | respalda — el catálogo del British Museum cubre esto; confirmar al abrir |
-| 9 | Aprendizaje | Aprendiz de Shunshō ~1778; Shunshō hacía retratos de actores; nombre "Shunrō" | S03 | sí | respalda; **verificar el año exacto** (S03 lo pide) |
-| 10 | Aprendizaje | Deja la escuela Katsukawa tras la muerte de Shunshō en 1793 | S04 | sí | respalda el hecho; **verificar 1793** (algunas fuentes dan 1792/1794 para la salida) |
-| 11 | Aprendizaje | Motivo de la ruptura = estudiar escuelas rivales | S04 | sí (como tradición) | respalda-como-matizado — el guion dice "según se cuenta / no hay documento" |
-| 12 | Acto 1 | "Alrededor de treinta" nombres artísticos | S05 | sí (con reserva) | respalda-como-matizado; **verificar el recuento de S05** |
-| 13 | Acto 1 | Lista de nombres (Shunrō, Sōri, Hokusai, Taito, Iitsu, Manji) | S05 | sí | respalda — son gō reales de Hokusai |
-| 14 | Acto 1 | Traspasó nombres a discípulos con clientela | S05 | sí | respalda (p. ej. "Taito" pasó a un discípulo) |
-| 15 | Acto 1 | Cada cambio de nombre ↔ cambio de rumbo | S05 | sí (interpretación estándar) | respalda como lectura académica; ver tabla 2 |
-| 16 | Acto 1 | *Hokusai Manga* desde 1814; miles de bocetos; material de estudio; éxito de ventas décadas | S10 | sí | respalda |
-| 17 | Acto 1 | Daruma gigante ante público, Nagoya, 1817, "varios pisos" | S17 | sí (general) | respalda-como-general; **verificar fecha y dimensiones** (S17 lo pide) |
-| 18 | Acto 1 | Miniaturas "sobre un grano de arroz" | S17 | sí (como tradición) | respalda-como-matizado — el guion dice "cuentan / se le atribuyen" |
-| 19 | Acto 2 | "No fue un genio ignorado; tuvo nombre, público y encargos" | S10 | sí | respalda (myth-bust legítimo) |
-| 20 | Acto 2 | Pobreza "de no saber si comería" | S06 | parcial | S06 dice "pobreza"; la severidad concreta ("no saber si comería") es dramatización. **Matizar** o sostener con cita |
-| 21 | Acto 2 | "~93 mudanzas" | S06 | sí (con reserva) | respalda-como-matizado — guion + rótulo lo tratan como cifra tradicional. Opcional: nombrar el origen (biografía de Iijima, 1893) si se verifica |
-| 22 | Acto 2 | Nieto endeudado en los 1830; Hokusai paga y se arruina | S08 | sí | respalda; **verificar parentesco y fechas** (S08 lo pide). El guion suaviza a "hijo de una de sus hijas" (bien) |
-| 23 | Acto 3 | 36 vistas del Fuji "entre 1830 y 1833" | S09 | **desajuste interno** | S09 dice "1830-1832". **Alinear guion y source-log.** Recomendado: "principios de la década de 1830" y, para la Ola, "hacia 1831" |
-| 24 | Acto 3 | Descripción de láminas concretas (campo de arroz, tonelero, Fuji rojo) | S09 | sí | respalda — son láminas reales de la serie |
-| 25 | Acto 3 | "La gran ola": Fuji al fondo, ola en garras, tres barcas | S09 | sí | respalda; nota menor: las barcas son *oshiokuri-bune* (transporte rápido), no estrictamente "de pescadores" — común pero impreciso |
-| 26 | Acto 3 | Hizo la Ola "a los unos setenta años" | S09 | sí | respalda (~70–71 si es de ~1831) |
-| 27 | Acto 3 | Azul de Prusia importado, más intenso/estable que los azules vegetales, se abarata y se usa "a manta" | S18 | sí (general) | respalda-como-general; **confirmar fechas de disponibilidad del pigmento** (S18 lo pide) |
-| 28 | Acto 3 | Buena parte de las 36 vistas construidas sobre ese azul | S18 | sí | respalda (primeras láminas en estilo aizuri-e) |
-| 29 | Acto 4 | *Cien vistas del monte Fuji*, vol. con la nota firmada, 1834 | S01 | sí | respalda (vol. 1: 1834) |
-| 30 | Acto 4 | La "escala de edades" del prefacio | S01 | **parcial — error** | el "cada punto y cada línea estarían vivos" es la afirmación de Hokusai **para los 110 años**, no los 100. El guion lo atribuye a los 100. **Corregir** (añadir "a los ciento diez" o reestructurar) |
-| 31 | Acto 4 | Lo escribe a los 74 | S01 | sí | respalda (1834, nac. 1760) |
-| 32 | Acto 4 | Firma tardía "Gakyō Rōjin Manji" | S13 | sí | respalda |
-| 33 | Acto 4 | Incendio del taller ~1839 | S07 | sí | respalda-como-matizado; **verificar año** |
-| 34 | Acto 4 | Últimos años con Katsushika Ōi, pintora, lo cuidaba | S11 | sí | respalda |
-| 35 | Acto 4 | Atribuciones discutidas (Ōi ↔ obras tardías "de Hokusai") | S11 | sí | respalda; bien framedo como cuestión abierta |
-| 36 | Acto 5 | Estampas a Europa "como papel de embalar de cerámica" | S19 | no | S19 no cubre esto. Es una anécdota semi-legendaria (Bracquemond, ~1856). **Matizar** ("se cuenta que…") o dar fuente propia |
-| 37 | Acto 5 | Monet colgó estampas de Hokusai en Giverny | S14/S19 | parcial | verificable (colección de Giverny). **Confirmar Hokusai en concreto** (la colección tiene Hiroshige/Utamaro/Hokusai) |
-| 38 | Acto 5 | Van Gogh "copió composiciones japonesas" | S19 | parcial | cierto en general (copió a Hiroshige, 1887); en un episodio de Hokusai el espectador infiere que copió a Hokusai. Aclarar o dejar genérico |
-| 39 | Acto 5 | *La Mer* de Debussy (1905): la portada de la 1ª ed. llevaba una versión de "La gran ola" | S14/S19 | sí (alta confianza) | respalda — 1ª ed. Durand 1905. **Confirmar edición** |
-
-### 2. Interpretación presentada como hecho
-
-| # | Sección | Frase | Reescritura sugerida |
-|---|---------|-------|---------------------|
-| A | Acto 1 | "Cada cambio de nombre coincidía… con un cambio de rumbo en el trabajo" | ya lleva "más o menos"; opcional añadir "según los estudios de su obra" |
-| B | Acto 3 | "La imagen más japonesa que conoces está hecha, en parte, con tecnología europea recién llegada" | retórico; un pigmento no es "tecnología" en sentido fuerte — o se asume como licencia, o "con un pigmento europeo recién llegado" |
-| C | Acto 4 | Ōi "tenía un don propio, sobre todo para la luz y la noche" | juicio crítico como hecho → "en su obra conservada destacan las escenas nocturnas y los efectos de luz" |
-| D | Cierre | Hokusai "eligió, a conciencia, la segunda [forma de medirse]" | reclama intención → "si nos guiamos por lo que escribió, se medía con la segunda" |
-
-### 3. Citas textuales
-
-| # | Cita en el guion | ¿Traducción marcada? | ¿Atribución + fecha? | Riesgo apócrifa |
-|---|------------------|----------------------|----------------------|-----------------|
-| 1 | Prefacio de 1834 (parafraseado) | sí ("esto es traducción nuestra") | sí (1834) | bajo — texto primario PD; **pero** revisar la asignación 100 vs 110 (tabla 1 #30) |
-| 2 | "podría llegar a ser un pintor de verdad" (lecho de muerte) | sí (traducción propia) | como relato tradicional, sin fecha exacta | medio — relato tradicional; el guion ya lo marca ("según cuentan", "dicen unas versiones") |
-| 3 | "el viejo loco por la pintura" (Gakyō Rōjin Manji) | sí (traducción propia) | sí | bajo |
-
-### 4. Afirmaciones que deberían ir matizadas
-
-| # | Sección | Afirmación | Matiz sugerido |
-|---|---------|-----------|----------------|
-| 1 | Cold open | "una de las imágenes más reproducidas del planeta" | "una de las imágenes japonesas más reconocibles del mundo" o atribuir la afirmación |
-| 2 | Acto 2 | "pobre de no saber si comería" | "pobre de verdad, con estrecheces reales" (o sostener la severidad con cita) |
-| 3 | Acto 5 | "sus estampas llegaron a Europa… como papel de embalar" | "se cuenta que algunas llegaron como papel de embalar" |
-| 4 | Cold open / Acto 5 | edad "~88" | añadir una vez la nota del doble cómputo (88/90) |
-
-### 5. Psicología popular / conceptos
-
-| # | Sección | Afirmación | Nota |
-|---|---------|-----------|------|
-| 1 | Cierre | "La psicología de la motivación lo describe… demostrar lo que vale vs. mejorar sin punto final" [S15] | **NO es psicología pop** — es una distinción real (metas de rendimiento vs. de maestría; Nicholls, Dweck, Elliot). **Pero S15 sigue sin cerrar.** Es la cita abierta más importante del guion. Cerrar con una referencia concreta (p. ej. Dweck *Mindset*; o Elliot & McGregor 2001) |
-| 2 | — | (sin "usamos el 10% del cerebro", "10.000 horas", etc.) | limpio |
-
-### 6. Resumen
-
-- **Afirmaciones factuales revisadas:** 39
-- `desajuste` / error: **2** — #23 (fechas 36 vistas, guion ≠ source-log) · #30 (escala de edades: "punto y línea vivos" es a los 110, no 100)
-- `sin tag` / fuente insuficiente: **3** — #6 (Japón cerrado), #7 (población de Edo), #36 (papel de embalar)
-- `respalda-como-matizado`: 8 (ya bien tratadas en el guion)
-- Banderas de matiz (tabla 4): 4 · Interpretación como hecho (tabla 2): 4
-- **Cita abierta crítica:** S15 (concepto de la reflexión) y S19 (japonismo, cada ejemplo por separado)
-
-**Correcciones a aplicar (L2 Parte B — pendiente de correr la pasada de edición):**
-1. #30 — la escala del prefacio: "cada punto y línea vivos" = **110** años, no 100.
-2. #23 — alinear las fechas de las *Treinta y seis vistas* entre guion y source-log.
-3. #3 / #20 / #36 — matizar; añadir una vez la nota de edad 88/90.
-4. S15 — cerrar con una referencia real (metas de maestría vs. rendimiento).
-5. S19 — verificar ejemplo por ejemplo (Giverny, Van Gogh, *La Mer* 1905).
+Los "orphan-claim candidates" que reporta L1 son, tras revisión: líneas del cold open/cierre que son **interpretación o retórica**, no afirmaciones factuales (marco «yo creo» / «me parece», preguntas al espectador), más las líneas del apéndice/changelog del propio `.md`. Ninguna necesita `[S..]`.
 
 ---
 
-## Changelog — correcciones aplicadas a 05-script.md
+## Layer 2 — pasada de edición · 2026-09-08
 
-Pendiente: correr la pasada L2 de edición (`templates/fact-check-auto-prompt.md` Parte B) y aplicar cada corrección al guion.
+> Corrida sobre la **revisión del guionista** del guion v2.0 (el usuario reescribió el cierre, el CTA y varias frases de la narrativa). **El modelo no es fuente** (`brain/01` §9): cada corrección solo aprieta el guion a lo que la fuente citada respalda, añade una salvedad o una atribución, o recorta — nunca añade un hecho.
+>
+> La pasada anterior (2026-08-29, sobre v1) ya revisó las 39 afirmaciones factuales de la narrativa; esas siguen igual salvo lo indicado. Esta pasada se centra en **lo que cambió** + los ítems que seguían abiertos.
+
+### 1. Afirmaciones factuales — cambios y pendientes
+
+| # | Sección | Afirmación | [S..] | Veredicto | Acción |
+|---|---------|-----------|-------|-----------|--------|
+| 1 | Cold open | «una de las imágenes **más reproducidas del planeta**» | S14 | **sobrepasa la fuente** — S14 dice «muy reproducida / japonismo», no cuantifica | ✅ corregido → «una de las imágenes **japonesas** más reproducidas **del mundo**» |
+| 2 | Narrativa | «pobre de **no saber si comería**» | S06 | **dramatización** — S06 dice «vivió en la pobreza», no la severidad concreta | ✅ corregido → «pobre de verdad, con estrecheces reales — no la pobreza de pose del genio incomprendido, porque incomprendido no fue» (alinea S06 + S10) |
+| 3 | Narrativa (final) | muerte «con unos ochenta y ocho años» | S12 | falta la salvedad del doble cómputo (estaba en v1.2, se perdió en v2) | ✅ corregido → «…o noventa, según cómo se cuenten los años en Japón, donde uno nace con un año» |
+| 4 | Narrativa (nuevo beat del guionista) | «ese momento de **Eureka**, donde **sin planearlo ni esperarlo** … algo hace click» (sobre cómo salió «La gran ola») | — (sin tag) | **interpretación como hecho + contradice la narrativa fuenteada**: el guion entero sostiene que la Ola es fruto de 50 años de trabajo + la ruina a los 70 ([S09][S10], y el PAY inmediatamente anterior: «no fue el premio a una vida ordenada, fue lo que le salió estando otra vez en el suelo») | ✅ reencuadrado → «no es que a Hokusai se le ocurriera "La gran ola" de la nada. Es que medio siglo de trabajo, y una mala racha que lo dejó otra vez sin nada, cuajaron ahí — y eso muchas veces ocurre cuando menos lo esperas». Mantiene el beat y el CTA; quita el «chispazo de la nada». **Revísalo — es prosa tuya, la toqué solo por el choque factual.** |
+| 5 | Explicador (azul) | «un precio que permite usarlo **para la producción en masa**» | S18 | aceptable — el propio explicador establece que el ukiyo-e *es* producción en serie; S18 dice que el pigmento «se abarató» | sin cambio; verificar fechas de disponibilidad del pigmento (S18) en shotlist |
+| 6 | Cierre | concepto metas de maestría vs. rendimiento | S15 | **S15 estaba sin cerrar** — era la cita abierta más importante | ✅ **S15 cerrada**: Nicholls 1984 (*Psychological Review* 91(3):328–346, DOI 10.1037/0033-295X.91.3.328) + Dweck, *Mindset* (Random House 2006, ISBN 978-1-4000-6275-1) |
+
+Sin cambios respecto a la pasada de 2026-08-29 (siguen bien tratadas): la escala de edades a los 110 (ya corregido en v1.2), fechas de las *36 vistas* («principios de la década de 1830», alineado con S09), papel de embalar («se cuenta —y puede que la historia esté algo pulida—»), ~30 nombres y ~93 mudanzas (con rótulo de salvedad), Daruma de 1817 (atribuido), miniaturas «sobre granos de arroz» («cuentan»).
+
+### 2. Interpretación presentada como hecho
+
+| # | Frase | Estado |
+|---|-------|--------|
+| A | Cierre: «me parece que él se medía más bien con la segunda» | ✅ bien — el guionista añadió «me parece», marco interpretativo explícito |
+| B | Explicador: «tecnología europea recién llegada» (un pigmento) | licencia retórica; el guionista la mantuvo. Aceptable |
+| C | «Ōi tenía un don propio, sobre todo para la luz y la noche» | juicio crítico como hecho — leve. Opción: «en su obra conservada destacan las escenas nocturnas». No aplicado (menor, el guionista lo dejó) |
+| D | Beat del «Eureka» | ✅ ver tabla 1 #4 |
+
+### 3. Citas textuales
+
+| Cita | ¿Traducción marcada? | ¿Atribución? | Riesgo |
+|------|----------------------|--------------|--------|
+| Prefacio de 1834 (parafraseado) | sí («esto es traducción nuestra») | sí (1834); escala a los 110 correcta | bajo |
+| «podría llegar a ser un pintor de verdad» (lecho de muerte) | sí | como relato tradicional («según cuentan», «dicen unas versiones») | medio — bien marcado |
+| «el viejo loco por la pintura» | sí | sí | bajo |
+
+### 4. Afirmaciones que van matizadas — estado
+
+| Afirmación | Estado |
+|-----------|--------|
+| «del planeta» → | ✅ corregido (tabla 1 #1) |
+| «pobre de no saber si comería» → | ✅ corregido (tabla 1 #2) |
+| edad 88/90 → | ✅ nota añadida (tabla 1 #3) |
+| «papel de embalar» → | ✅ ya llevaba «se cuenta» |
+
+### 5. Psicología popular / conceptos
+
+| Afirmación | Nota |
+|-----------|------|
+| Cierre: metas de maestría vs. rendimiento [S15] | **No es psicología pop** — distinción académica real (task/ego, Nicholls; mindset, Dweck). **S15 ya cerrada.** En pantalla se nombra en general, sin atribuir un estudio único (`brain/09` A6). Limpio. |
+| — | Sin «10% del cerebro», «10.000 horas», etc. Limpio. |
+
+### 6. Resumen
+
+- **Correcciones aplicadas al guion: 4** (tabla 1 #1–#4).
+- **Citas cerradas: 1** — S15 (la crítica).
+- **Sin banderas legales / éticas / COI** en esta pasada.
+- **Pendiente (Stage 5 / shotlist, no bloqueante):**
+  - **S19** — Monet coleccionaba Hokusai *en concreto* en Giverny (confirmar, no solo Hiroshige/Utamaro); Van Gogh: el guion dice «composiciones japonesas» (genérico, OK). *La Mer* 1905: cerrado.
+  - **S20** — cerrar con una fuente concreta de población de Edo (~1780–1800). El guion mantiene «probablemente».
+  - Verificaciones de detalle: ruptura con Katsukawa 1793, incendio ~1839, parentesco del nieto, 2ª ficha de museo para «La gran ola», dimensiones del Daruma, recuento de nombres/mudanzas.
+
+---
+
+## Changelog — correcciones aplicadas a 05-script.md (2026-09-08)
 
 | # | Antes (verbatim) | Después | Motivo |
 |---|------------------|---------|--------|
-| | | | |
+| 1 | «…en una de las imágenes más reproducidas del planeta [S14].» | «…en una de las imágenes japonesas más reproducidas del mundo [S14].» | S14 no cuantifica «del planeta»; se aprieta a lo que la fuente respalda |
+| 2 | «…fue pobre —pobre de no saber si comería, no pobre de artista sin mucho reconocimiento.» | «…fue pobre de verdad, con estrecheces reales — no la pobreza de pose del genio incomprendido, porque incomprendido no fue.» | S06 = «pobreza», sin la severidad concreta; y se alinea el myth-bust con S10 (tuvo éxito) |
+| 3 | «Hokusai muere en Edo en 1849, con unos ochenta y ocho años [S12].» | «…con unos ochenta y ocho años — o noventa, según cómo se cuenten los años en Japón, donde uno nace con un año [S12].» | Salvedad del doble cómputo (estaba en v1.2, se perdió en la reescritura); S12 la pide |
+| 4 | «…ese maravilloso momento de genialidad, ese momento de Eureka, donde sin planearlo ni esperarlo, ni estar en las mejores condiciones, algo hace click. / Alguna vez te ha sucedido? si es así, dejamelo saber en los comentarios.» | «…No es que a Hokusai se le ocurriera «La gran ola» de la nada. Es que medio siglo de trabajo, y una mala racha que lo dejó otra vez sin nada, cuajaron ahí — y eso muchas veces ocurre cuando menos lo esperas, y casi nunca en las mejores condiciones. / ¿Alguna vez te ha pasado algo así? Si es así, déjamelo saber en los comentarios.» | Interpretación como hecho + **contradice la narrativa fuenteada** ([S09][S10] y el PAY anterior): la Ola no fue un chispazo, fue el fruto de décadas de trabajo + la ruina. Se conserva el beat y el CTA, se quita el «Eureka de la nada» |
 
 ## Para revisión humana (Stage 11)
 
-(sin banderas legales/éticas/COI abiertas en esta pasada)
+(sin banderas legales / éticas / COI abiertas en esta pasada)

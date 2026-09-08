@@ -216,6 +216,12 @@ COMPONENTS = """
 .now b{color:var(--fg)}
 .notes{font-size:.82rem;color:var(--muted);margin:.6rem 0 0;padding-left:.7rem;
   border-left:2px solid var(--gold-line)}
+.qline{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--gold);
+  margin:.7rem 0 0;padding:.45rem .65rem;background:var(--gold-soft);
+  border:1px solid var(--gold-line);border-radius:var(--r-sm)}
+.qline .dot{width:.5rem;height:.5rem;border-radius:50%;background:currentColor;flex:0 0 auto;
+  animation:qpulse 1.6s ease-in-out infinite}
+@keyframes qpulse{0%,100%{opacity:.35}50%{opacity:1}}
 .btns{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:auto;padding-top:1rem}
 
 /* stage strip — 2 rows of 6 tiles. state = full-colour fill, no side bar */

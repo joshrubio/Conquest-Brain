@@ -1,6 +1,6 @@
 ---
 doc: 12-available-material-protocol
-summary: "Never write for a story you can't illustrate. Public-domain archives list, a fair-use tier for contemporary figures with no PD alternative, the per-idea worksheet, stock rules, music licensing, subject-with-no-photograph."
+summary: "Never write for a story you can't illustrate. Public-domain archives list, a fair-use tier for rights-managed subjects with no PD alternative (digital-era figures AND 20th-century company histories), a citation tier for copyrighted film/TV, the per-idea worksheet, stock rules, music licensing, subject-with-no-photograph."
 stage: [0, 2, 7]
 read_when: "judging an idea's feasibility; planning assets; licensing music; a subject with no surviving likeness"
 pairs_with: [06-production-workflow, 15-ai-illustration-protocol, 03-brand-identity]
@@ -16,16 +16,41 @@ Runs **during ideation**, before an idea can be approved. Purpose: never write a
 
 An idea is not approved until someone has confirmed, against real archive listings, that there is enough **public-domain** visual material — or a workable own-graphics plan, or the fair-use tier below — to carry the episode.
 
-## Protocol 1b — fair use for contemporary figures (no PD alternative exists)
+## Protocol 1b — fair use where the only images are rights-managed (no PD alternative)
 
-PD-first stays the default whenever it's available — most subjects have it. This tier exists only for the case PD genuinely can't cover: a **living public figure or active company from roughly the digital era**, where every likeness is under someone's copyright by default. What most creators do informally (grab a press photo, drop it in), the channel does deliberately, with rules:
+PD-first stays the default whenever it's available — most subjects have it. This tier is for the case PD genuinely can't cover: **the images exist but every one of them is under someone's copyright by default.** Two shapes of that:
+
+- **1b-i — digital-era living figure / active company** (Anthropic, OpenAI, Musk): every likeness is a rights-managed press photo, an official corporate image, or a broadcast clip.
+- **1b-ii — 20th-century company / institution history** (Toyota/Ohno, LEGO, Nintendo pre-console, Adidas vs Puma): the founder, the factory, the early product were photographed, but the images sit in a corporate archive or a press agency (Getty, AP, Kyodo…) and aren't public domain **yet**. Check PD-by-age **first, per jurisdiction** — it varies a lot (Japan: photographs published before 1957 are PD; US: works published before 1930, and many 1930–1963 works whose copyright was never renewed; UK: 70 years). A real archive check often turns up more PD than expected. What's left after that check is 1b.
+
+What most creators do informally (grab a press photo, drop it in), the channel does deliberately, with rules:
 
 - **Allowed:** brief, transformative use of copyrighted press photography, official corporate images, and video clips (interviews, testimony, press conferences) — for identification and commentary, never as a substitute for the whole visual track. Fits squarely in fair-use commentary/news-reporting doctrine (US); the practical risk on YouTube is a Content ID flag, not a legal claim — expect the odd flag, dispute it if it's clearly fair use.
-- **Preference order:** (1) the subject's own self-published material — official press kit, company blog images, their own social posts (least risk, least ambiguity); (2) our own screen recordings of a publicly accessible product/website — that's our footage, not reuse of anyone else's; (3) brief press photography/video under fair use; (4) motion graphics / own illustration as the fallback that's always available.
+- **Preference order:** (1) the subject's **own published material** — for a living company: press kit, blog images, social posts; **for a company history: the company's own anniversary/heritage book, museum, and press-room archive** — they publish those images precisely so the story gets retold (least risk, least ambiguity); (2) our own screen recordings of a publicly accessible product/website — that's our footage, not reuse of anyone else's; (3) brief press photography/video under fair use; (4) motion graphics / own illustration / light 2.5D on the few stills that exist — the fallback that's always available.
+- **Context and contrast are often PD even when the subject isn't:** the competitor's mass-production line, the era, the place, government-documented events around the story. Illustrate the *contrast* from PD; reserve fair use for what's specifically about the subject.
+- **Fair use does not fix volume.** Rights-managed stills held under fair use count toward the **~30% "unlicensed images" ceiling** in the Minimum bar below — past that it's substitution, not commentary, and it draws a stream of Content ID claims that demonetise the video (which also kills any `brain/18` CPM case for it). Score **P7 low** for these subjects and lean the plan on own graphics + the company's own published imagery.
 - **Always transformative:** graded into the house look, cut into the case-file device, cropped/motion-treated — never a raw, unedited slideshow of someone else's photos carrying a beat on its own.
 - **Still absolute, no exception:** never reproduce anything that could pass as a fabricated document or record; never a photoreal AI-generated stand-in for a real identifiable person (`brain/15` governs AI illustration regardless of this tier).
 - **Video specifically:** government-produced recordings (a federal photographer, an official congressional feed) are often PD outright — check per clip; a private broadcaster's feed of the same event usually isn't PD but is squarely fair-use territory for brief, commentated excerpts.
-- **Log it like anything else:** the worksheet below still gets filled — mark `Rights` as `fair use — breve/transformador` instead of PD/CC, one line on the rationale (commentary/news reporting on a public figure) in `07-selection.md` / `CREDITS.md`, same as any other asset.
+- **Log it like anything else:** the worksheet below still gets filled — mark `Rights` as `fair use — breve/transformador` instead of PD/CC, one line on the rationale (commentary / news reporting on a public figure or a documented company history) in `07-selection.md` / `CREDITS.md`, same as any other asset.
+
+## Protocol 1c — citation tier for copyrighted film / TV
+
+For the case a beat is **commentary on a specific film, series, or scene itself** — we are analysing that work, not borrowing its footage to illustrate an unrelated story. Using a *Wall Street* clip to dress a real fraud we're narrating is pure illustrative use: weakest fair-use footing and a near-certain Content ID claim. Don't. This tier is only for "here is the scene we're actually talking about".
+
+**PD-first still applies.** Films with lapsed or non-renewed copyright (large corpus on Internet Archive / archive.org — pre-1929 outright, plus much of pre-1964 US film that was never renewed) carry **no claim at all** and can be used like any archival source. Check copyright status per title before reaching for anything under studio rights.
+
+When the work genuinely is under copyright:
+
+- **Allowed:** brief excerpts of a copyrighted film/series **for criticism and commentary on that work** — US fair-use criticism/commentary doctrine, the strongest category there is. Never as a substitute for our own visual track.
+- **Brief means brief:** a few seconds per clip; as a rule no single excerpt over ~10s and no episode more than ~60s of copyrighted film footage in total. If the edit needs more than that, the beat is leaning on someone else's work — rebuild it.
+- **Never load-bearing:** a copyrighted clip never carries a beat on its own. Narration runs over it, original audio ducked hard or replaced, cut into the case-file device, graded into the house look. A raw, unedited excerpt playing clean is out — same transformation bar as 1b.
+- **Monetisation is not assumed on that episode.** Expect a Content ID claim on any recognisable studio clip; the realistic outcome is revenue on that video redirected to the claimant, not a strike. Dispute where the commentary case is clear. Any episode using this tier is flagged in `01-brief.md` and scored assuming **its AdSense may be zero** — see [brain/18](18-monetization-and-audience.md). If the case only works financially with AdSense, don't build it on studio clips.
+- **Discovery ≠ rights.** clip.cafe (paid API), PlayPhrase, YARN, OpenSubtitles etc. are research tools for *finding* a scene or line — they grant no licence and are never wired into `pull_assets.py` as an asset source the way stock is. What we publish is our own excerpt of a work we can point to, logged below.
+- **Still absolute, no exception:** never anything that could pass as a fabricated document or record; never a photoreal AI stand-in for a real identifiable person (`brain/15` governs regardless).
+- **Log it like anything else:** worksheet row filled, `Rights` marked `cita — crítica/comentario (fair use)`, with the title, distributor, and scene identified; one line on the rationale (commentary/criticism on that specific work) in `07-assets.md` / `CREDITS.md`.
+
+**Sign-off:** because this tier trades away an episode's ad revenue, **both** Usuario 001 and Usuario 002 tick it — recorded in the idea-pool row and `01-brief.md`, same as the other protocols.
 
 ## Archives we check (public domain / open)
 
@@ -60,6 +85,7 @@ PD-first stays the default whenever it's available — most subjects have it. Th
 - **YouTube Audio Library** (in Studio) and **Pixabay Music** — free, commercial-cleared, mostly no attribution. Browse-only, no API. Good for the channel's fixed 3–5 beds.
 - Jamendo — per-track CC (many are BY-NC → unusable); `tools/find_music.py` filters to BY / BY-SA / CC0. Its paid "Jamendo Licensing" is **not** needed for CC-BY.
 - Musopen (PD classical) · Free Music Archive / ccMixter — CC, log the exact licence.
+- **A track you found yourself** goes in via the *«Recursos propios»* rows of the Music section of `07-style-pass.html` — path/URL + `título · autor` + licence (`CC0` / `CC-BY` / `CC-BY-SA` only). `--download` refuses anything else. Same standard as the Jamendo pool: exact licence + attribution logged in `brand/assets/music/LICENSES.md`, credited in the description.
 - Every track: exact licence + attribution in `brand/assets/music/LICENSES.md` and the video description.
 
 **Our own**
@@ -77,12 +103,12 @@ PD-first stays the default whenever it's available — most subjects have it. Th
 | Moving image of the era | | | | stills + motion graphics |
 | Data for any chart | | | | own graphic, cite source |
 
-**Minimum bar:** every load-bearing beat of the likely narrative has at least one real PD visual OR an own-made graphic that fully covers it. If more than ~30% of the episode would be "narrator over a black screen" or unlicensed images, the idea fails E8.
+**Minimum bar:** every load-bearing beat of the likely narrative has at least one real PD visual OR an own-made graphic that fully covers it. If more than ~30% of the episode would be "narrator over a black screen" or not-cleared images (unlicensed **or** held under Protocol 1b fair use), the idea fails E8.
 
 ## Practical consequences (this shapes what we can make now)
 
 - **Favours:** pre-~1930 subjects (photos frequently PD by age), government-documented cases, historical corporate/engineering cases, anything with court records or archives.
-- **Harder right now:** recent events, living people whose only images are rights-managed, anything that needs modern broadcast footage. Possible, but leans heavily on own graphics — score P7 low.
+- **Harder — leans on Protocol 1b + own graphics, score P7 low:** recent events and living people whose only images are rights-managed (1b-i); **mid-20th-century company histories** whose imagery sits in a corporate/agency archive and isn't PD yet (1b-ii — Toyota, LEGO, Nintendo pre-console, Adidas/Puma); anything needing modern broadcast footage.
 
 ## Subject with no photograph (pre-photography or no likeness survives)
 

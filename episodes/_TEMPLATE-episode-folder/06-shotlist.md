@@ -14,11 +14,12 @@
 
 1. Un beat visual cada ~2–3 frases, o cuando cambia el sujeto de la frase.
 2. Todo `[EN PANTALLA]` del guion = beat, literal.
-2b. **Cold open:** el bloque `[HOOK VISUAL]` del guion = 2–5 beats, corte seco, **vídeo stock preferido**; el último es el «giro». **Bumper:** 1 beat = negro + marca `Conquest`, 3–6 s, sin motion.
-3. Toda persona / lugar / documento / institución / cifra nombrada → imagen o gráfico propio.
+2b. **Cold open:** narración **a cámara** (`acamara`); `[HOOK VISUAL]` = 2–5 beats de B-roll cortados encima, **vídeo stock preferido**, el último es el «giro». **Bumper:** 1 beat `acamara`, wordmark `Conquest` + presentador, 3–6 s.
+2c. **A-roll vs B-roll** (`brain/11 §1b`): `acamara` en cold open · bumper · bisagras/pivotes · beats de opinión y 1ª persona · **todo el cierre** · CTA. B-roll en los tramos de archivo y en cada `[EXPLICADOR]`. ~30–45 % a cámara.
+3. Toda persona / lugar / documento / institución / cifra nombrada → imagen o gráfico propio (B-roll).
 4. `[EXPLICADOR]` → una secuencia motion-graphic / diagrama. Sin talking-head. Es el bloque visual más largo (~60–140 s).
-5. `[PROMISE]` y `[PAY]` → **mismo plano** las dos veces (rima visual).
-6. Cierre / reflexión → reusar imágenes ya vistas; sin archivo nuevo. Opción: único plano de narrador a cámara, en el "para llevar".
+5. `[PROMISE]` y `[PAY]` → **mismo plano** las dos veces (B-roll, aunque caigan en un tramo a cámara).
+6. Cierre / reflexión → **a cámara**, cortando a imágenes ya vistas; sin archivo nuevo.
 7. Toda cifra → gráfico propio con rótulo de fuente en pantalla.
 8. Afirmación disputada o aproximada → rótulo de salvedad en pantalla.
 
@@ -36,7 +37,7 @@
 
 - `#` de corrido · `in` `m:ss` (estimación; se re-alinea en Stage 9) · `dur` segundos enteros
 - `sección`: `cold open`·`bumper`·`pivote`·`contexto`·`acto N`·`explicador`·`teorías`·`cierre`·`cta`
-- `tipo`: `archivo`·`stock`·`kb`·`ia`·`gráfico`·`negro`
+- `tipo`: `acamara` (A-roll: la toma del narrador, `asset` = `—`)·`archivo`·`stock`·`kb`·`ia`·`gráfico`·`negro`
 - `asset`: id que resuelve contra `07-selection.md` (`—` si aún no elegido)
 - `motion`: `push`·`pan-h`·`pan-v`·`static`·`zoom`·`cut`
 - `marcador`: `HOOK`·`PROMISE n`·`PAY n`·`EXPLICADOR n`·`—` (PROMISE n y PAY n → mismo `asset` y `motion`)

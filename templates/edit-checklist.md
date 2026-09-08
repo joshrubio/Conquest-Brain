@@ -42,15 +42,18 @@ python tools/kenburns.py E0XX-slug --all        # 07-selection stills -> assets/
 ## 2. Trim  (`tools/trim_talk.py`)
 
 ```
-python tools/trim_talk.py assets/T1.mp4          # -> T1.trimmed.mp4 + T1.cuts.md
+python tools/trim_talk.py assets/T1.mp4 --script episodes/E0XX-slug/05-script.md
+#   -> T1.trimmed.mp4 + T1.cuts.md + T1.words.json
 ```
 
-- [ ] Una pasada por toma
+- [ ] Una pasada por toma (silencios + muletillas + **retomas / falsos arranques** en la misma pasada)
 - [ ] Cortes suaves (padding 120–180 ms; nada por debajo de 0.4 s)
+- [ ] Revisado el `T1.cuts.md`: ningún corte de retoma se ha comido una toma buena → si sí, `--keep MM:SS` y re-correr
+- [ ] Revisada la lista **«Líneas del guion sin cobertura clara»** del pie del `.cuts.md` → recuperar con `--keep` o grabar el pickup
 
-| Toma | Cortes | Duración final |
-|------|--------|----------------|
-| T1 | | |
+| Toma | Cortes (retomas) | Duración final | Líneas sin cobertura |
+|------|------------------|----------------|----------------------|
+| T1 | | | |
 
 ## 3. Revisión rápida de clips crudos  (`tools/edit_review.py` — opcional)
 

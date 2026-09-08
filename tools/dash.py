@@ -133,7 +133,7 @@ def strip(epid, slug, cur, gate):
     return f'<div class="strip">{"".join(cards)}</div>'
 
 
-def _episode_card(epid, d):
+def _episode_card(epid, d, qentry=None):
     e = _h.escape
     cur = max(d["stage"], 0)
     if cur >= 2:
@@ -155,10 +155,41 @@ def _episode_card(epid, d):
     if cur >= 6:
         btns.append(f'<a class="btn ghost" href="{served}episodes/{slug}/assets/" target="_blank" '
                     'data-tip="La carpeta donde viven las imágenes, clips, música y tomas de este episodio.">Recursos</a>')
+    if cur in (8, 9):
+        try:
+            revs = sorted((P.ep_path(epid) / "assets").glob("*.review.html"))
+        except Exception:
+            revs = []
+        for rv in revs:
+            done = (rv.parent / (rv.name.split(".")[0] + ".trimmed.mp4")).exists()
+            btns.append(
+                f'<a class="btn{"" if done else " primary"}" target="_blank" '
+                f'href="{served}episodes/{slug}/assets/{e(rv.name)}" '
+                'data-tip="Sala de recorte: la forma de onda de la toma con cada silencio/retoma como un bloque '
+                'que arrastras. «Aplicar corte» recorta la toma y re-alinea el timeline.">'
+                f'{"✓ " if done else ""}Recortar la voz · {e(rv.name.split(".")[0])}</a>')
     if sm.get("fold") == "human":
         btns.append(f'<button class="btn" data-human="{epid}:{cur}" '
                     'data-tip="Marca este stage offline como terminado (grabación, subida). Cierra el gate y pasa al siguiente.">'
                     f'Marcar hecho</button>')
+    # stages Claude writes that have NO review page (brief, outline, fact-check,
+    # shotlist) — one button to fold + advance. Stages with a review page
+    # (research, script) go through «Revisar», not this shortcut.
+    is_draft_stage = (sm.get("fold") == "claude" or cur in P.DRAFT_STAGES) and not rev
+    if d["gate"] == "abierto" and is_draft_stage and cur > 0:
+        doc = P.PRIMARY_DOC.get(cur, "")
+        written = doc and not P.pristine(epid, doc)
+        nxt = sm.get("next", "?")
+        if written:
+            btns.append(f'<button class="btn accent" data-done="{epid}" '
+                        f'data-tip="Confirmas que {e(doc)} está escrito y aprobado. Cierra el gate y avanza a Stage {nxt} '
+                        f'(equivale a: python tools/advance.py {epid}).">'
+                        f'{e(sm.get("name","?"))} listo → avanzar a Stage {nxt}</button>')
+        else:
+            btns.append(f'<button class="btn" data-nudge="{epid}" '
+                        'data-tip="Este stage lo escribe Claude, no el panel (que no gasta tokens). Marca prioridad para el '
+                        '/loop (baja su cadencia a ~1 min con trabajo en cola). Instantáneo: «sigue» en la terminal del /loop, '
+                        'o pídemelo en el chat.">▶ Pedir generación del ' + e(sm.get("name","?")).lower() + '</button>')
     if d["gate"] == "firmado":
         btns.append(f'<button class="btn accent" data-adv="{epid}" '
                     'data-tip="El gate está cerrado. Mueve el episodio al siguiente stage y prepara lo que haga falta.">'
@@ -174,6 +205,14 @@ def _episode_card(epid, d):
                     + "<div>" + " · ".join(f"<code>{e(x)}</code>" for x in reads + rules)
                     + " — <b>y nada más</b></div></details>")
 
+    qline = ""
+    if qentry:
+        act = "escribir" if qentry.get("action") == "generate" else "plegar"
+        qline = ('<div class="qline" data-tip="Esta fase la trabaja Claude, no el panel (que no gasta tokens). '
+                 'La recoge el /loop en su próximo tick, o pídesela en el chat: «haz la tarea en cola de '
+                 f'{e(epid)}»."><span class="dot"></span>En cola para Claude · '
+                 f'{e(act)} {e(qentry.get("produces") or P.STAGE.get(qentry.get("stage",cur),{}).get("name","?"))}</div>')
+
     gate_cls = {"abierto": "", "exportado": "warn", "firmado": "on"}.get(d["gate"], "")
     auto = f' · auto-avance hasta Stage {d["auto"]}' if d["auto"] < 12 else ""
     return (
@@ -185,6 +224,7 @@ def _episode_card(epid, d):
         + f'<div class="now">Stage <b>{cur} · {e(sm.get("name","?"))}</b> '
           f'<span class="pill {gate_cls}"><span class="dot"></span>{e(d["gate"])}</span>{auto}</div>'
         + (f'<div class="notes">{e(d["notes"])}</div>' if d["notes"] else "")
+        + qline
         + manifest
         + f'<div class="btns">{"".join(btns)}</div>'
         '</div>')
@@ -193,9 +233,20 @@ def _episode_card(epid, d):
 def _header():
     e = _h.escape
     served = P.SERVED
-    loop_state = P.read_loop().get("state", "run")
+    import time
+    lp = P.read_loop()
+    loop_state = lp.get("state", "run")
     badge = {"run": ('on', 'Sesión activa'), "pause": ('warn', 'Sesión pausada'),
              "stop": ('off', 'Sesión cerrada')}.get(loop_state, ('off', loop_state))
+    hb_tip = ('data-tip="Cuándo trabajó por última vez el /loop. Si está viejo o no aparece, el /loop no está '
+              'corriendo: lánzalo con  /loop atiende  en la terminal del chat, o pide el trabajo directamente en el chat."')
+    if lp.get("last_tick_ts"):
+        m = int((time.time() - lp["last_tick_ts"]) / 60)
+        cls = "on" if m < 5 else "warn"
+        label = "/loop: tick ahora" if m < 1 else f"/loop: tick hace {m} min"
+        heartbeat = f'<span class="pill {cls}" {hb_tip}><span class="dot"></span>{label}</span>'
+    else:
+        heartbeat = f'<span class="pill off" {hb_tip}><span class="dot"></span>/loop sin señal</span>'
     if loop_state == "run":
         loopbtns = ('<button class="btn ghost" data-loop="pause" data-tip="Detiene el trabajo automático un rato, sin cerrar la sesión. Para pausas cortas — cada rato sigue costando un poco.">Pausar</button>'
                     '<button class="btn ghost" data-loop="stop" data-tip="Termina la sesión automática. Claude deja de trabajar solo. El progreso NO se pierde. Para retomar hay que relanzar el /loop en la terminal.">Cerrar sesión</button>')
@@ -210,9 +261,10 @@ def _header():
     return ('<h1 class="brand">Conquest<span class="of">Oficial</span></h1>'
             '<span class="count">panel de producción</span>'
             f'<span class="pill {badge[0]}"><span class="dot"></span>{badge[1]}</span>'
+            + heartbeat
             + loopbtns
             + f'<a class="btn ghost" href="{served}ideas/idea-review.html" target="_blank" '
-              'data-tip="El pool de ideas: puntúa, aprueba o descarta, y pide ideas nuevas. No avanza ningún episodio.">Ideas</a>'
+              'data-tip="El pool de ideas: puntúa, aprueba o descarta, pide ideas nuevas, y en una idea aprobada crea su episodio (Stage 0).">Ideas</a>'
             + cost)
 
 
@@ -242,7 +294,11 @@ def _tips():
 def build():
     e = _h.escape
     st = P.read_status()
-    cards = [_episode_card(epid, d) for epid, d in sorted(st.items())
+    q = {}
+    for x in P.read_queue():
+        q.setdefault(x["ep"], {})[x["stage"]] = x
+    cards = [_episode_card(epid, d, q.get(epid, {}).get(max(d["stage"], 0)))
+             for epid, d in sorted(st.items())
              if not (d["slug"].startswith(epid) and "EXAMPLE" in d["slug"])]
 
     krows = kpi_rows()
@@ -262,6 +318,14 @@ async function post(path,body){{
   catch(e){{alert('El server no está corriendo. Abre Conquest-Dashboard.bat, o corre  python tools/serve.py');}}
 }}
 document.querySelectorAll('[data-adv]').forEach(b=>b.onclick=()=>post('/advance',{{ep:b.dataset.adv}}));
+document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>{{
+  if(confirm('¿El contenido de este stage está escrito y aprobado?\\n\\nCierra el gate y avanza al siguiente stage.'))
+    post('/stage-done',{{ep:b.dataset.done}});}});
+document.querySelectorAll('[data-nudge]').forEach(b=>b.onclick=async()=>{{
+  try{{const r=await fetch('http://localhost:{P.PORT}/nudge',{{method:'POST',
+    headers:{{'content-type':'application/json'}},body:JSON.stringify({{ep:b.dataset.nudge}})}});
+    const j=await r.json(); alert(j.msg||'marcado');}}
+  catch(e){{alert('El server no está corriendo.');}}}});
 document.querySelectorAll('[data-human]').forEach(b=>b.onclick=()=>{{
   const [ep,st]=b.dataset.human.split(':'); post('/human',{{ep,stage:+st}});}});
 document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{

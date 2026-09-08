@@ -24,12 +24,12 @@
 | T01-06 | El bolígrafo (László Bíró) | Periodista húngaro huyendo de los nazis; inventa el boli en Argentina | A/B | medio | 18 | aprobada |
 | T01-07 | Colonel Sanders / KFC | Empezó a los 65 con el cheque de la pensión, durmiendo en el coche | A | medio | 17 | aprobada |
 | T01-08 | Rolex | El sumergible, probado cruzando el Canal de la Mancha a nado (1927) | A | alto | 19 | aprobada |
-| T01-09 | Hokusai | Lo perdió todo 3 veces; "La gran ola" a los 70 | A/B | alto | 19 | aprobada |
+| T01-09 | Hokusai | Lo perdió todo 3 veces; "La gran ola" a los 70 | A/B | alto | 19 | en producción (E001) |
 | T01-10 | LEGO | Casi desaparece en 2004; el taller ardió 3 veces | A | medio-bajo | 15 | incubando (material + hagiografía) |
 | T01-11 | Stanislav Petrov | 1983: evitó la guerra nuclear con una corazonada — lo apartaron | A/C | medio-bajo | 17 | incubando (material) |
 | T01-12 | Madam C.J. Walker | Hija de esclavos, huérfana a los 7 → primera millonaria hecha a sí misma de EE.UU. | A | medio-alto | 19 | aprobada |
 | T01-13 | Garrett Morgan | Inventor negro; tuvo que fingir ser blanco para vender su invento | A/C | medio | 18 | aprobada |
-| T01-14 | Toyota / Taiichi Ohno | Demasiado pobres para copiar a EE.UU. → inventaron algo mejor y vencieron a Detroit | A | medio-bajo | 16 | incubando (material + narrativa) |
+| T01-14 | Toyota / Taiichi Ohno | Demasiado pobres para copiar a EE.UU. → inventaron algo mejor y vencieron a Detroit | A | medio-bajo | 16 | en producción (E002) |
 | T01-15 | Wilma Rudolph | Polio de niña, no caminaba sin aparato → 3 oros olímpicos (1960) | A | medio | 18 | aprobada |
 | T01-16 | Anthropic | Dejaron la empresa de IA más famosa del mundo porque creían que iba demasiado rápido — y fundaron a su competencia | A | medio | 17 | incubando (falta cross-check real de Protocolo 1/1b) |
 
@@ -47,7 +47,7 @@
 | T02-06 | El gran engaño lunar de 1835 | Fraude mediático, Nueva York | A/C | alto | 19 | aprobada |
 | T02-07 | El golpe de 5 días en OpenAI | Junta directiva vs. CEO, San Francisco, nov. 2023 | A/C | medio | 18 | incubando (falta cross-check real de Protocolo 1/1b) |
 | T02-08 | El científico que votó para frenarlo | Arrepentimiento público, San Francisco, 2023–24 | A/C | medio | 17 | incubando (falta cross-check real de Protocolo 1/1b) |
-| T02-09 | Musk vs. OpenAI | Demanda por "traición a la misión", 2024–26 (litigio activo) | A/C | medio | 16 | incubando (falta cross-check + seguir el juicio) |
+| T02-09 | Musk vs. OpenAI | Demanda por "traición a la misión", 2024–26 (litigio activo) | A/C | medio | 16 | aprobada |
 
 ## En espera (no en esta ronda)
 
@@ -176,6 +176,7 @@ Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Pr
 - `Eran demasiado POBRES para copiar a EE.UU. — así que inventaron algo mejor | Toyota | Documental`
 - `¿CÓMO venció Japón a Detroit? | Taiichi Ohno y el sistema Toyota | Documental`
 - `El método que nació de NO tener dinero | Toyota | Documental`
+- **Hook elegido:** `Eran demasiado POBRES para copiar a EE.UU. — así que inventaron algo mejor | Toyota | Documental`
 - **Material:** medio-bajo — Japón de posguerra; fotos de fábrica limitadas, mucho gráfico propio (el sistema pull, el kanban).
 - **Cierre A.** La restricción como fuente de innovación; David-Goliat (Japón vs Detroit). Para llevar: la falta de recursos obliga a pensar distinto.
 - **Notas:** riesgo de que sea árido — necesita anclarse en personas y escenas, no en el diagrama. Confirmar narrativa antes de aprobar.
@@ -284,4 +285,10 @@ Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Pr
 
 1. Owner del track abre el brief (`templates/episode-brief.md`) → confirma track, hook-title, cross-check de material real, forma de cierre.
 2. Corre eliminatorios E1–E8 + /21 completos.
-3. ≥14 y todo SÍ → `aprobada` → copiar `_TEMPLATE-episode-folder/` → `episodes/E0XX-<slug>/`, estado `en producción (E0XX)`, añadir a `episodes/_STATUS.md`.
+3. ≥14 y todo SÍ. En `idea-review.html`: veredicto **aprobar** + elige el hook-title más fuerte + **«Aplicar cambios»** → la fila pasa a `aprobada` y se guarda `**Hook elegido:**` en el detalle.
+4. En la card ya `aprobada`, botón **«Crear episodio →»**: asigna el siguiente `E0XX`, copia `_TEMPLATE-episode-folder/` → `episodes/E0XX-<slug>/`, prerrellena `01-brief.md` (ID, slug, track, hook, narrador), añade la fila a `episodes/_STATUS.md` (Stage 0 · gate `firmado`) y deja esta fila del pool en **`en producción (E0XX)`** — con lo que **desaparece de `idea-review.html`** (sigue en este fichero).
+5. En el panel, **«Avanzar a Stage 1»** encola el brief para completarlo.
+
+Sin servidor: añade la fila a `episodes/_STATUS.md` a mano y corre `python tools/dash.py`.
+
+**Estados y dónde se ven:** `nueva` · `incubando` · `aprobada` → visibles en `idea-review.html`. `en producción (E0XX)` · `publicada (E0XX)` · `descartada` → ocultas ahí (viven solo en este fichero y, si aplica, en `episodes/_STATUS.md`).

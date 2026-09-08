@@ -1,45 +1,48 @@
 # 07-pull.tsv — Stage 7 candidate-pull spec for E001 «Hokusai».
+# Regenerado 2026-09-08 para el shotlist v2 (48 beats, reparto A-roll/B-roll).
 # Tab-separated. Lines starting with # are ignored. One row per shotlist beat
-# that needs an image/clip pulled (own-graphics beats do NOT go here).
+# that needs an image/clip pulled. NO van aquí:
+#   - beats `acamara` (1·5·6·29·30·31·43·44·46·47·48) → la toma del narrador
+#   - beats `gráfico` (9·27·33·35·39·45) → gráfico propio
+#   - beats `ia` (17·36·38) → 07b-ai-prompts.md
+#   - beats `negro`
 #
 # columns:  beat | kind | source | query | opts
-#   kind:   stock     -> video (pexels+pixabay) FIRST, then images. Prefer motion.
-#           stock-img -> images only
-#           video     -> pexels+pixabay video only
-#           archive   -> the real artifact (met,commons)
-#   opts:   n=3  motion=no|only  orientation=landscape  min=1920  must=hokusai
+#   kind:   stock -> video first (pexels+pixabay) then images · stock-img -> images only
+#           video -> pexels+pixabay video only · intro -> cold-open footage (beat = INTRO1…)
+#           archive -> the real artifact (met,commons)
+#   opts:   n=3 · motion=no|only · orientation=landscape · min=1920 · must=hokusai,fuji
 #
-# stock = generic illustrative b-roll only, never "the real thing" (brain/12).
-# A found stock video beats making our own b-roll later — prefer it.
-# AI beats (ai01-ai04, +B/+C Daruma, +E packing-paper) live in 07b, not here.
+# stock = b-roll ilustrativo genérico, nunca "la cosa real" (brain/12).
 #
 beat	kind	source	query	opts
-# --- intro / cold open (brain/02 §0) — footage de impacto sobre el tema ---
-INTRO1	intro	intro	japan aerial cinematic landscape mountains	orientation=landscape;min=1920;n=3
-INTRO2	intro	intro	ukiyo-e woodblock print ink brush closeup	orientation=landscape;min=1920;n=3
-INTRO3	intro	intro	rough sea waves japan dramatic	orientation=landscape;min=1920;n=2
-2	archive	commons,met	great wave off kanagawa	must=hokusai,kanagawa;n=3
-4	archive	commons,met	hokusai portrait self portrait old	must=hokusai;n=3
-7	archive	commons,met	edo japan busy street ukiyo-e	must=street;n=3
-9	archive	commons,met	ukiyo-e illustrated book ehon album	must=book;n=3
-10	archive	commons,met	katsukawa shunsho kabuki actor	must=shunsho;n=3
-11	archive	commons,met	hokusai shunro early surimono	must=hokusai;n=3
-14	archive	commons,met	nagasaki harbour dutch ship view	must=nagasaki;n=3
-17	archive	commons,met	katsushika hokusai	must=hokusai;n=4
-21	archive	commons,met	hokusai manga sketches figures	must=manga;n=3
-25	archive	commons,met	thirty-six views of mount fuji	must=hokusai,fuji;n=3
-26	archive	commons,met	fine wind clear morning south wind red fuji	must=hokusai,fuji;n=3
-30	archive	commons,met	one hundred views of mount fuji	must=hokusai,fuji;n=3
-32	archive	commons,met	hokusai painting old age	must=hokusai;n=3
-33	archive	commons,met	fire conflagration edo city	must=fire;n=3
-34	archive	commons,met	katsushika oi painting	must=katsushika;n=3
-36	archive	commons,met	hokusai portrait	must=hokusai;n=3
-FG	archive	commons,met	van gogh japonaiserie	must=gogh;n=3
-# --- cold-open hook (brain/02 §0): 2-5 planos, vídeo preferido ---
-HOOK1	stock	stock	dim traditional japanese tatami room candle dawn	orientation=landscape;min=1920;n=3
-HOOK2	stock	stock	old hands calligraphy brush ink paper close up	orientation=landscape;min=1920;n=3
-# --- generic b-roll: video first, image fallback ---
-BR1	stock	stock	ocean big wave breaking slow motion	orientation=landscape;min=1920;n=3
-BR2	stock	stock	mount fuji distant snow clear sky	orientation=landscape;min=1920;n=3
-BR3	stock	stock	black ink swirling in water sumi	orientation=landscape;min=1920;n=3
-BR4	stock-img	stock-img	old worn japanese washi paper texture	min=2500;n=3
+# --- cold open (brain/02 §0) — B-roll cortado sobre la narración a cámara ---
+INTRO1	intro	intro	japan sea waves dramatic aerial	orientation=landscape;min=1920;n=3
+INTRO2	intro	intro	ukiyo-e woodblock ink brush closeup	orientation=landscape;min=1920;n=3
+INTRO3	intro	intro	old hands calligraphy brush paper	orientation=landscape;min=1920;n=2
+2	stock	stock	elderly hands ink brush paper japanese	motion=only;n=3
+3	archive	commons,met	great wave off kanagawa detail	must=hokusai,kanagawa;n=3
+4	archive	commons,met	hokusai portrait old man	must=hokusai;n=3
+# --- pivote a contexto ---
+7	archive	commons,met	edo japan map or street ukiyo-e	must=edo;n=3
+8	archive	commons,met	edo panorama screen painting	must=edo;n=3
+10	archive	commons,met	katsukawa shunsho kabuki actor print	must=shunsho;n=3
+11	archive	commons,met	hokusai shunro early print surimono	must=hokusai;n=3
+# --- narrativa (sección 2) ---
+12	archive	commons,met	katsukawa school actor print	must=katsukawa;n=2
+# beat 27 (azul de Prusia): en vez del gráfico G3, considerar b-roll de pintura/pincel.
+#   sugerencia del director: pexels.com/es-es/video/manos-arte-creativo-pintura-6109112/
+27	stock	stock	hands mixing blue paint pigment brush	motion=only;n=3
+14	archive	commons,met	ukiyo-e artist signature seal detail	n=3
+16	archive	commons,met	hokusai manga sketch figures album	must=manga;n=4
+18	stock-img	pexels,pixabay,openverse	single grain of rice macro	n=2
+20	archive	commons,met	hokusai portrait elderly	must=hokusai;n=3
+22	archive	commons,met	thirty-six views of mount fuji series	must=hokusai,fuji;n=3
+23	archive	commons,met	hokusai fuji rice field cooper barrel	must=fuji;n=3
+24	archive	commons,met	hokusai fuji red clear morning gaifu kaisei	must=fuji;n=3
+25	archive	commons,met	great wave off kanagawa full	must=hokusai,kanagawa;n=3
+32	archive	commons,met	hokusai one hundred views of fuji colophon page	must=fuji;n=3
+34	archive	commons,met	hokusai signature manji gakyo rojin	must=hokusai;n=2
+37	archive	commons,met	katsushika oi night scene lantern	must=oi;n=3
+# --- acto 5 / japonismo ---
+41	archive	commons,met	van gogh japonaiserie OR debussy la mer 1905 cover	n=4

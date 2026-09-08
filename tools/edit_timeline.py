@@ -78,6 +78,7 @@ def build(slug):
    'primer corte '+('alineado a la voz' if aligned else '(tiempos del shotlist)')}</span>
  <span class="spacer"></span>
  <button class="btn" id="prev">Previsualizar región</button>
+ <a class="btn ghost" target="_blank" href="http://localhost:8765/episodes/{e(slug)}/assets/graphic/_index.html">Gráficos</a>
  <button class="btn primary" id="fin">Finalizar Stage&nbsp;9</button>
  <a class="btn ghost" href="http://localhost:8765/">Volver al panel</a>
 </header>

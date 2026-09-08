@@ -1,0 +1,7 @@
+# 05-script-pass.txt — 05-script.html
+episodio	E001-hokusai
+version	v2.0 (continuidad narrativa)
+revisor	Usuario 001
+aprobado	si
+
+---BEATS---
