@@ -48,6 +48,11 @@ Ritmo de narración objetivo: **~155 palabras/min**. Elegir columna según durac
 [S..]        Tag de fuente al final de la frase factual.
 ```
 
+**Cabeceras de sección (`## N. …`):** cada una debe **contener una palabra clave** —
+`COLD OPEN` · `BUMPER` · `PIVOTE` · `CONTEXTO` · `NARRATIVA` · `TEORÍAS` · `CIERRE` · `CTA`
+(o `Acto N`). `tools/script_review.py` clasifica las secciones por el título. Un subtítulo
+está bien (`## 2. NARRATIVA — una sola vida`); quitar la palabra clave rompe la página.
+
 ---
 
 ## 0. COLD OPEN / HOOK  —  20–40 s (tope 45 s)

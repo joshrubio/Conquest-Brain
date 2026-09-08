@@ -16,6 +16,29 @@ authority: canonical
 
 **Shots are planned from the locked script, not from watching references.** The script already encodes the visual plan — every subject change, every `[EN PANTALLA]`, every `[EXPLICADOR]`, every `[PROMISE]`/`[PAY]` is a visual beat. Process B is only used once, to calibrate the numbers.
 
+## 1b. A-roll / B-roll — the narrator is on camera
+
+The channel is **talking-head with B-roll**, not pure voice-over. The Stage-8 take
+is filmed. A beat's visual is either **A-roll** (the narrator take, `tipo: acamara`)
+or **B-roll** (archival / graphic / stock over the same voice).
+
+**A-roll by default** (the face carries these):
+- the **cold open** narration to camera, and the **bumper**;
+- **pivotes / bisagras** — the hinge lines in and out of context, and between acts;
+- **opinion / first-person** beats — "yo creo…", "me llama la atención…", "investigando, descubrí…";
+- the **whole close / reflection** (§3), and the **CTA**.
+
+**B-roll by default** (cut away from the face):
+- the archival-heavy narrative stretches — a run of dates, a chronology, the subject's work, an event beat-by-beat;
+- every `[EXPLICADOR]` (motion graphic, no face);
+- every `[EN PANTALLA]`, every named document / number → its graphic.
+
+Cut on meaning, not on a clock: stay on the face while the narrator is *addressing
+you*; cut to B-roll the moment the narration is *describing a thing* the viewer
+should see. `[PROMISE]`/`[PAY]` stay B-roll (same shot both times, §2.1 rule 5).
+Rough split for a biography: ~30–45 % A-roll. `assemble.py` treats an `acamara`
+beat as "play the take for this slot" — no Ken Burns, `motion` forced to `cut`.
+
 ## 2. Process A — infer the shotlist from the script (primary, every episode)
 
 This is Stage 6 of the workflow. Input: locked `05-script.md`. Output: `06-shotlist.md`.
@@ -31,11 +54,12 @@ for the human.
 
 1. **One visual beat every ~2–3 sentences of narration**, or wherever the *subject* of the sentence changes (new person, place, year, object).
 2. Every `[EN PANTALLA]` cue in the script → a beat, kept verbatim.
-2b. **Cold open** → the `[HOOK VISUAL]` list in the script is 2–5 beats, hard-cut on the narration beat, **stock video preferred** over a push-in on a still. The last is the "turn" shot. **Bumper (§0b)** = one beat: black + `Conquest` wordmark, 3–6 s, no motion.
-3. Every **named** person / place / document / institution / number → its own archival image or graphic.
+2b. **Cold open** → the narration is **A-roll** (to camera); the `[HOOK VISUAL]` list in the script is 2–5 **B-roll** beats cut over/under it, hard-cut on the narration beat, **stock video preferred**, the last is the "turn" shot. **Bumper (§0b)** = one A-roll beat: `Conquest` wordmark + presenter line, 3–6 s.
+2c. **A-roll vs B-roll per beat** (§1b): opinion / address-the-viewer / pivote / close / CTA → `acamara`; describing a thing, a date, a chronology, an `[EXPLICADOR]` → B-roll.
+3. Every **named** person / place / document / institution / number → its own archival image or graphic (B-roll).
 4. `[EXPLICADOR]` interlude → one motion-graphic / diagram sequence. **No talking head.** Budget it as the single longest visual block (~60–140 s).
-5. `[PROMISE]` and its `[PAY]` → **the same shot both times** (visual rhyme; the viewer recognizes the image and the callback lands).
-6. **Close / reflection** → reuse images already shown; no new archival. Optional: the episode's only narrator-on-camera moment, on the applied takeaway.
+5. `[PROMISE]` and its `[PAY]` → **the same shot both times** (visual rhyme). Keep them B-roll even inside an A-roll stretch.
+6. **Close / reflection** → **A-roll** (the narrator makes the point to camera), cutting to *already-seen* images as illustration; no new archival.
 7. Every **number** → an own-made graphic with an on-screen source label.
 8. Every **disputed or approximate** claim → an on-screen caveat caption ("cifras aproximadas — las fuentes varían").
 
@@ -43,20 +67,23 @@ for the human.
 
 | Section | Beats per minute | Feel |
 |---------|------------------|------|
-| Cold open (hook) | 10–12 · 2–5 shots in 20–40 s, video preferred | fast, montage-like |
-| Bumper | 1 shot, 3–6 s | black, still, a breath |
-| Context + era setup | 6–8 | steady |
-| Narrative acts | 7–9 | steady, quickens toward the turn |
-| Explainer interlude | 3–5 | slower; one idea builds |
-| "N theories" module | 8–10 | brisk, one card per position |
-| Close / reflection | 4–6 | slow; lets the idea land |
-| CTA | 1–2 | one card |
+| Cold open (hook) | 10–12 · 2–5 B-roll shots over the A-roll narration | fast, montage-like |
+| Bumper | 1 A-roll shot, 3–6 s | a breath |
+| Context + era setup | 6–8 · mostly B-roll | steady |
+| Narrative acts | 7–9 · mostly B-roll, A-roll on the pivots | steady, quickens toward the turn |
+| Explainer interlude | 3–5 · B-roll only (motion graphics) | slower; one idea builds |
+| "N theories" module | 8–10 · B-roll | brisk, one card per position |
+| Close / reflection | 3–5 · **A-roll**, cutting to seen images | slow; lets the idea land |
+| CTA | 1–2 · A-roll | one beat |
+
+A-roll stretches cut slower (hold the face 4–8 s); a B-roll stretch keeps the
+rates above. Aim ~30–45 % of runtime on camera for a biography.
 
 For a 20-minute episode that's roughly **150–180 distinct visual beats**. Not 180 unique assets — reuse is expected (the E000 example reuses one engraving 3× and one chart 3×).
 
 ### 2.3 Visual-type menu (what fills a beat)
 
-- Narrator on camera (talking head) — **rare**, reserved for the takeaway.
+- **Narrator on camera (A-roll, `tipo: acamara`)** — the default for opinion, address-to-viewer, pivotes, the close and the CTA (§1b). Filmed at Stage 8; `assemble.py` plays the take for the beat's slot, no move.
 - Archival photo / engraving / painting (public domain preferred).
 - Archival video / newsreel.
 - Document — page, headline, filing, ledger — with a zoom to the relevant line.
@@ -81,6 +108,7 @@ The writer can pre-mark the script so Stage 6 is fast:
 - Put an `[EN PANTALLA]` line at every subject change, not only the dramatic ones.
 - Note "‹dato → gráfico›" next to every number.
 - Note "‹mismo plano que PROMISE›" at every `[PAY]`.
+- Note "‹a cámara›" on the opinion / address-the-viewer / pivote beats and the whole close (§1b) — everything else defaults to B-roll.
 A script marked this way *is* 80% of the shotlist.
 
 ## 4. Process B — video calibration pass (manual, run ONCE, then per major style change)

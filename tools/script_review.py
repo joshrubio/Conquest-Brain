@@ -122,12 +122,20 @@ def parse(md):
     appendix_raw, seen_real_section = "", False
     for hm0 in re.finditer(r"^#{2,3} (.+)$", body, re.M):
         title0 = re.sub(r"\s*\(.*?\)\s*$", "", hm0.group(1)).strip()
-        if section_key(title0) is None:
-            if seen_real_section:  # never treat the whole doc as appendix —
-                body, appendix_raw = body[:hm0.start()], body[hm0.start():].rstrip("\n")
-                break
-        else:
+        if section_key(title0) is not None:
             seen_real_section = True
+            continue
+        if not seen_real_section:
+            continue
+        # An unrecognized heading after the real sections is the start of the
+        # reference appendix ONLY if nothing from here on carries a spoken-beat
+        # cue (`[NARRACIÓN]`, `[EXPLICADOR]`, `[PROMISE]`…). Otherwise it's a
+        # narrative section with a non-standard title (e.g. "## 2. La vida") —
+        # keep it in the script instead of burying it.
+        tail = body[hm0.start():]
+        if not re.search(r"^\[[A-ZÑÁÉÍÓÚ]", tail, re.M):
+            body, appendix_raw = body[:hm0.start()], tail.rstrip("\n")
+            break
 
     nodes, cur_sec, cur_raw, cur_level, sec_idx, n = [], "—", None, 2, -1, 0
     blocks = re.split(r"(?=^#{2,3} )", body, flags=re.M)
@@ -213,6 +221,18 @@ def build(slug, header, header_raw, nodes, appendix_raw=""):
     e = _h.escape
     real_beats = [b for b in nodes if b["kind"] == "beat"]
     nbeats = len(real_beats)
+
+    # sections that hold spoken beats but whose title doesn't contain a canonical
+    # keyword (COLD OPEN / BUMPER / PIVOTE / CONTEXTO / NARRATIVA / TEORÍAS /
+    # CIERRE / CTA). The parser now keeps them in the script, but a drifted title
+    # loses the section's sidebar hint and CTA-slot detection — flag it so the
+    # writer renames the heading back to the template's convention.
+    _beat_secs = {b["sec_idx"] for b in real_beats}
+    unkeyed = [s["sec"] for s in nodes
+               if s["kind"] == "sec" and s["idx"] in _beat_secs and s["seckey"] is None]
+    sec_note = ("todas con palabra clave canónica" if not unkeyed else
+                "⚠ sin palabra clave (renómbralas — la herramienta las clasifica por el título): "
+                + " · ".join(unkeyed))
     n_promise = sum(1 for b in real_beats if b["promise"])
     n_pay = sum(1 for b in real_beats if b["pay"])
     # a pay beat can resolve more than one promise at once, so pay < promise is
@@ -248,6 +268,8 @@ def build(slug, header, header_raw, nodes, appendix_raw=""):
                  f'<td class="{"warn" if pp_bad else ""}">{e(pp_note)}</td></tr>')
     hdr_rows += (f'<tr><td>Tipo de CTA</td>'
                  f'<td class="{"warn" if (cta_bad or not cta_parts) else ""}">{e(cta_note)}</td></tr>')
+    hdr_rows += (f'<tr><td>Secciones</td>'
+                 f'<td class="{"warn" if unkeyed else ""}">{e(sec_note)}</td></tr>')
 
     leg = "".join(
         f'<tr><td><code>{e("[S..]" if k=="S.." else "["+k+"]")}</code></td>'
@@ -515,5 +537,12 @@ if __name__ == "__main__":
     header, header_raw, nodes, appendix_raw = parse(f.read_text(encoding="utf-8"))
     (ep / REVIEW_HTML).write_text(build(slug, header, header_raw, nodes, appendix_raw), encoding="utf-8")
     nb = sum(1 for b in nodes if b["kind"] == "beat")
+    _bsecs = {b["sec_idx"] for b in nodes if b["kind"] == "beat"}
+    _unkeyed = [s["sec"] for s in nodes
+                if s["kind"] == "sec" and s["idx"] in _bsecs and s["seckey"] is None]
     print(f"escrito  episodes/{slug}/{REVIEW_HTML}  ({nb} beats)")
+    if _unkeyed:
+        print("⚠ secciones con título sin palabra clave canónica (renómbralas — "
+              "COLD OPEN / BUMPER / PIVOTE / CONTEXTO / NARRATIVA / TEORÍAS / CIERRE / CTA): "
+              + " · ".join(_unkeyed))
     print("siguiente: ábrelo, edita directamente cada beat, «Finalizar Stage 4»")

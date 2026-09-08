@@ -29,7 +29,7 @@ The founder story is **voice and motive** — channel About, a pinned intro vide
 - **Category (YouTube):** *Education* — Farid Dieck's lane.
 - **Brand type:** independent show brand, no real person's name (both founders narrate; scales).
 - **Output resolution:** 4K (3840×2160). The **canonical rule**: the timeline stays 4K; a shot that can't fill it drops to its best *for that shot only* (`brain/16` applies it).
-- **No on-screen source cards** — the **canonical rule**: every citation lives in the description «Fuentes principales» + pinned comment. On screen only: the AI/reenactment label (`brain/15`), chapter/section cards, and the case-file device.
+- **No on-screen source cards** — the **canonical rule**: every citation lives in the description «Fuentes principales» + pinned comment. On screen only: the AI/reenactment label (`brain/15`), chapter/section cards, the case-file device, a small in-graphic **«Fuente: …» label on any chart of figures** (the chart's own attribution, not a citation card), and salvedad rótulos for disputed/uncertain numbers (`brain/08` §5).
 - Subjects are public — see [01-editorial-and-sourcing.md](01-editorial-and-sourcing.md) §3 and [00-project-charter.md](00-project-charter.md).
 
 ## Visual identity

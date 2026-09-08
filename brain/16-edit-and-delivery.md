@@ -1,10 +1,10 @@
 ---
 doc: 16-edit-and-delivery
-summary: "Stage 9, deliberately minimal. Ken Burns -> trim -> review -> b-roll -> music -> subtitles. 4K, house grade, export -14 LUFS. If an effect isn't in this doc it doesn't go in."
+summary: "Stage 9, deliberately minimal. Graphics -> Ken Burns -> trim (transcript-reviewed, 2 phases) -> b-roll -> music -> subtitles. 4K, optional house grade LUT, export -14 LUFS. If an effect isn't in this doc it doesn't go in."
 stage: [9]
 read_when: "editing the video; assembling b-roll; the music bed; export settings"
 pairs_with: [03-brand-identity, 11-visual-rhythm, 06-production-workflow]
-tools: [kenburns.py, trim_talk.py, edit_review.py, assemble.py, edit_timeline.py, find_music.py]
+tools: [make_graphics.py, kenburns.py, trim_talk.py, edit_review.py, assemble.py, edit_timeline.py, make_grade.py, find_music.py]
 authority: canonical
 ---
 
@@ -16,10 +16,17 @@ Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`)
 
 ## The run
 
-Stage 7 assets are chosen; Stage 8 footage is in. Then:
+Stage 7 assets are chosen; Stage 8 footage is in. **Entering Stage 9,
+`advance.py` runs the graphics + Ken Burns + the trim *review pass* + a first
+`assemble.py`/`edit_timeline.py`.** Best-effort: if ffmpeg / faster-whisper
+aren't on the box the stage still advances — you run the missing step by hand.
+Then:
 
-1. **Ken Burns clips** — `tools/kenburns.py --all` turns the Stage 7 stills (+ AI images) into moving clips → `assets/kb/`.
-2. **Trim** — `tools/trim_talk.py` cuts silences + fillers from each Stage 8 take → `<take>.trimmed.mp4` + `<take>.words.json` (word timings on the trimmed timeline).
+1. **Ken Burns clips + own graphics** — `tools/make_graphics.py` renders the `gráfico` beats, `tools/kenburns.py --all` turns the Stage 7 stills (+ AI images) into moving clips → `assets/kb/`. *(auto on Stage-9 entry)*
+2. **Trim — two phases, reviewed on a waveform** — the transcription drives every cut, so you check it before the cut is baked:
+   - *review* — `tools/trim_talk.py <take> --script 05-script.md` transcribes and **proposes** cuts (lead-in / tail-out silence, inter-word pauses `> --gap`, fillers, retakes) → `<take>.review.html` (the trim room) + `<take>.words.raw.json` + `<take>.cuts.json` (the proposal) + `<take>.review.m4a` (scrub proxy) + `<take>.peaks.json` (waveform). **Renders nothing.** *(auto on Stage-9 entry; dashboard: «Recortar la voz» on the episode card at Stage 8–9)*
+   - The **trim room** (`<take>.review.html`): the take drawn as a waveform, every cut a red block you **drag to move, drag the edges to resize, ✕ to delete**; **drag on empty waveform = a new cut** (retakes, repeated lines); a word-boundary magnet keeps edges clean. Transcript synced below (click a word or the wave = play from there; words inside a cut strike through live). Zoom in for 0.1 s precision. **«Aplicar corte»** → `serve.py /trim`. Self-contained — no CDN.
+   - *apply* — `/trim` writes `<take>.cuts.json`, spawns `trim_talk.py <take> --apply` → `<take>.trimmed.mp4` + `<take>.words.json`, then re-aligns the timeline, **detached** (writes `<take>.apply.done`). *(`--apply-now` = both phases with the auto proposal, no review; `--rebuild-page` regenerates the trim room from an existing transcription, no whisper.)*
 3. **Raw-clip review** *(optional but recommended)* — `tools/edit_review.py` → `07c-edit.html`: watch every KB clip + trimmed take on its own, tick OK or write a fix. Catches a bad KB move before it hits the timeline.
 4. **First cut + timeline** — `tools/assemble.py E0XX-slug` (auto, no agent):
    - parses the **"Timeline — la espina"** table in `06-shotlist.md`
@@ -30,7 +37,7 @@ Stage 7 assets are chosen; Stage 8 footage is in. Then:
 5. **Background music** — one ominous-ambient bed under the whole thing, ducked −5 dB under the VO (`assemble.py` mixes it on `--final`).
 6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
 
-Then: house grade (applied by `assemble.py --final`), export, picture-lock review.
+Then: house grade — **opt-in**: if `brand/assets/grade.cube` exists, `assemble.py` bakes it in with `lut3d` (proxy and master); no file → render untouched. `tools/make_grade.py` generates the .cube from ~8 constants and can preview it on a frame (`--preview frame.png`). Export, picture-lock review.
 
 ## Tooling — the timeline is ours; DaVinci is the escape hatch
 
@@ -64,12 +71,21 @@ Stills only (video already moves). The move is chosen from the image's **real as
 
 ## 2. Trim — `tools/trim_talk.py`
 
-- Input: the take(s) from Stage 8 (one or several video files).
-- `faster-whisper` transcribes each → word-level timestamps.
-- Cuts: **silence** gaps longer than `--gap` (default 0.6 s) → trimmed to ~0.15 s of room; **filler** words from a Spanish list (`eh`, `este`, `o sea`, `pues` at a phrase start, false starts) — conservative, standalone only.
-- **Smooth, not aggressive:** 120–180 ms of padding kept around every retained span; a pause under 0.4 s is never cut; an 8 ms audio fade at each join kills clicks.
-- Output per take: `<take>.trimmed.mp4` + `<take>.cuts.md` (transcript, cuts marked) + `<take>.words.json` (surviving words with their time on the trimmed timeline — `assemble.py` aligns beats against this). Corrections re-run it with `--keep MM:SS`.
-- Multi-take: trim each; `assemble.py` concatenates in script order and offsets each take's word times.
+- Input: the take(s) from Stage 8 (one or several video files — audio-only also works).
+- `faster-whisper` transcribes each → word-level timestamps. **The transcript is
+  reviewed before any cut is applied** (`<take>.review.html`) — it drives every
+  cut *and* the script-coverage check, so a wrong transcription = wrong edit.
+- Proposed cuts (**a proposal, not the edit** — the trim room is where you finish it):
+  - **lead-in / tail-out silence** — the take almost always opens and closes on dead air.
+  - **silence** gaps longer than `--gap` (default 0.45 s) → asymmetric pad: **~0.26 s kept *after* a word**, ~0.10 s before the next (whisper marks word-ends short, so a symmetric pad clips the tail of the word — this was a real bug).
+  - **filler** words from a Spanish list (`eh`, `este`, `o sea`, `pues`…) — conservative, standalone only, `--no-fillers` to skip.
+  - **retakes / false starts** (`--no-retakes` to skip) — recording in one long take with mistakes is expected. A run of ≥4 words re-said near-verbatim (≥74%) **within `--retake-window` s** (default 13) → the earlier attempt + any fumble is cut. Auto-detection is deliberately imperfect; **the trim room is the real control** — drag a cut over the bad take on the waveform.
+- **Smooth, not aggressive:** a pause under 0.45 s is never cut; a 10 ms audio fade at each join kills clicks.
+- Phase 1 output: `<take>.words.raw.json` (all words, original timeline) · `<take>.cuts.json` (the proposal, then whatever the trim room saved) · `<take>.cuts.md` (readable transcript with cuts marked) · `<take>.review.m4a` (audio proxy) · `<take>.peaks.json` (waveform, ~3000 buckets from ffmpeg PCM) · `<take>.review.html`.
+- Phase 2 output (`--apply`): `<take>.trimmed.mp4` + `<take>.words.json` (surviving words on the trimmed timeline — `assemble.py` aligns beats against this).
+- **`--script 05-script.md`** — the review page lists any script line that **no surviving span covers well** (cut entirely, always flubbed, or transcribed oddly). That's the re-record list.
+- `--keep MM:SS` protects a span in phase 1 (also applies to retake cuts).
+- Multi-take: review + apply each; `assemble.py` concatenates in script order and offsets each take's word times.
 
 ## 3. Raw-clip review — `tools/edit_review.py` → `07c-edit.html`  *(optional)*
 
@@ -82,7 +98,9 @@ Stills only (video already moves). The move is chosen from the image's **real as
 **`assemble.py E0XX-slug`** (python, no agent):
 - parses the **"Timeline — la espina"** table in `06-shotlist.md` (one row per beat: `#`, `in`, `dur`, `sección`, `tipo`, `asset`, `rótulo`, `motion`, `marcador`, guion frag.)
 - resolves `asset` ids to files via `07-selection.md` + `assets/{kb,stock,video,intro,archive,ai,graphic}/`
-- **aligns to the VO** when a trimmed take exists (fuzzy-matches each beat's frag against `*.words.json`); makes the timeline monotonic (each beat runs until the next begins)
+- **`tipo: acamara`** (A-roll, `brain/11` §1b) → the beat plays the **trimmed take** for its slot; `motion` forced to `cut`, no Ken Burns, no asset lookup. The take is both the VO spine and the A-roll video. *(Single continuous take only for now — multi-take A-roll needs per-take offset mapping.)*
+- **aligns to the VO** when a trimmed take exists (fuzzy-matches each beat's frag against `*.words.json`); beats whose frag never matches (paraphrased / pure-visual) are **spread across the gap between their aligned neighbours** by shotlist `dur`; the total is **clamped to the VO length** so no beat lands past the end of the take. Timeline is monotonic (each beat runs until the next begins).
+- an A-roll beat that still ends up past the trimmed take → rendered black (never a fatal seek), with a warning — signals the shotlist's planned duration overran the real VO.
 - writes **`09-timeline.json`** + `09-rough.mp4` (720p proxy) + `09-wave.b64` (waveform PNG)
 
 **`edit_timeline.py E0XX-slug`** renders **`09-edit.html`** — the cutting room:
@@ -93,15 +111,18 @@ Stills only (video already moves). The move is chosen from the image's **real as
 - **Finalizar Stage 9** → POSTs `09-timeline.json` (+ a `09-decisions.txt` changelog). Claude applies the regen notes (`kenburns.py` per beat) and runs `assemble.py --final` for the 4K master. Beats still `sin cubrir` block the final render.
 
 **Rules that don't move** (`assemble.py` enforces or the human keeps):
+- **A-roll / B-roll** (`brain/11` §1b): cut to the face when the narrator is *addressing the viewer* (opinion, pivote, close, CTA); cut to B-roll when the narration *describes a thing to see*. Hard cuts; a J-cut (VO of the next beat starts a beat early under the outgoing picture) is allowed at an A→B or B→A change and nowhere else.
 - **Video clips:** cut to length. No speed ramp, no filter. Loop only if shorter than the beat *and* the loop point is invisible.
-- **Cold open (§0):** the `intro` clips in numbered order, hard-cut on the narration beat. Last shot holds ½ s → cut to black.
+- **Cold open (§0):** narration to camera; the `intro` B-roll clips cut over it in numbered order. Last shot holds ½ s → cut to black.
 - **Bumper (§0b):** 3–6 s black + `Conquest` wordmark + presenter line. No music.
 - Reused beats (`PROMISE n` / `PAY n`): the **same** `asset` and `motion` both times (the shotlist spine sets this; the timeline keeps it).
 
 ## 5. Background music — `tools/find_music.py`
 
 - **Brief: ominous ambient.** Atmosphere, not dread, not a mystery stinger. Instrumental, low, slow, minimal or no melody, no vocals, no percussion spikes, loops cleanly.
-- **Licence:** CC0 / CC-BY / CC-BY-SA only — a monetised video is commercial + sync use; NC/ND are out. Full rule + sources in [brain/12](12-available-material-protocol.md) §Audio. `find_music.py` (Jamendo, key in `tools/.env`) filters to those and **appends** to `brand/assets/music/candidates.md`; the pool then shows in the **Music section of `07-style-pass.html`**. `--download` pulls ticked tracks → `brand/assets/music/` + `LICENSES.md` (exact licence + attribution).
+- **Licence:** CC0 / CC-BY / CC-BY-SA only — a monetised video is commercial + sync use; NC/ND are out. Full rule + sources in [brain/12](12-available-material-protocol.md) §Audio. `find_music.py` (Jamendo, key in `tools/.env`) filters to those and **appends** to `brand/assets/music/candidates.md`; the pool then shows in the **Music section of `07-style-pass.html`**.
+- **Your own track** — the Music section also has *«Recursos propios»* rows: paste a local path or URL + `título · autor` + a licence (`CC0` / `CC-BY` / `CC-BY-SA` only — the field offers nothing else). `--download` fetches it to `brand/assets/music/` and logs the licence + attribution in `LICENSES.md`; a track with a disallowed or missing licence, or no title/author, is **skipped with a warning**, not downloaded.
+- `--download` pulls every ticked / pasted track → `brand/assets/music/` + `LICENSES.md` (exact licence + attribution — carried into `09-description.md`).
 - **Per episode:** one bed under the whole piece, ~20–24 dB under the VO peak; duck −4 to −6 dB under speech. A second, warmer track may enter at the close (M3, `brain/02` §3). **No music in the bumper.** Same 3–5 beds every episode until a retro says to refresh.
 
 ## 6. Subtitles

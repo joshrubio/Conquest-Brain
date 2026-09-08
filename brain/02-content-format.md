@@ -19,7 +19,12 @@ authority: canonical
 
 ## Reference
 
-Farid Dieck — *Dieck Docs*. Narrated journalistic documentary/biography; calm first-person voice; archival visuals + light motion; chronological spine with teaching digressions; closes on reflection, a distributed lesson, or an open question. We adapt the structure, not the person.
+Farid Dieck — *Dieck Docs*. Narrated journalistic documentary/biography; calm first-person voice; chronological spine with teaching digressions; closes on reflection, a distributed lesson, or an open question. We adapt the structure, not the person.
+
+**Visual mode: A-roll / B-roll.** The narrator is filmed (talking-head) and on
+camera for the cold open, the pivotes, the opinion/first-person beats, the close
+and the CTA; archival images and motion graphics (B-roll) cover the archival-heavy
+narrative and every `[EXPLICADOR]`. Not pure voice-over. Full rules: [11-visual-rhythm.md](11-visual-rhythm.md) §1b.
 
 ## Episode anatomy
 
@@ -127,6 +132,7 @@ Allowed — a Conquest-owned product (book, course, merch) or a paid sponsor seg
 
 - Every episode answers, by the end: *what happened, why it matters about people, and — for forms A/B — what I can do with it* (form C leaves the "what I can do" as the viewer's to form).
 - Cold open (narrative + visual hook) → bumper on black → context pivot → chronological narrative → close → CTA. This order is fixed.
+- **Script section headings (`## N. …`) must each carry a canonical keyword** — `COLD OPEN` · `BUMPER` · `PIVOTE` · `CONTEXTO` · `NARRATIVA` · `TEORÍAS` · `CIERRE` · `CTA` (or `Acto N`). `tools/script_review.py` keys each section off its title; a subtitle is fine (`## 2. NARRATIVA — una sola vida`), dropping the keyword breaks the review page.
 - Explainer interludes and foreshadowing hooks appear in every episode.
 - Any concept invoked in the reflection — psychological, philosophical, or religious — is **named and, where a specific theory / study / thinker / school / text is used, sourced `[S..]`** ([09-reflection-rules.md](09-reflection-rules.md)).
 

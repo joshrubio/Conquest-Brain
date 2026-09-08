@@ -29,6 +29,12 @@ except Exception:
 
 TEMPLATE = P.EP_DIR / "_TEMPLATE-episode-folder"
 
+def _gen_note(epid, nxt, nm):
+    if nxt == 1:
+        return (f"completar el 01-brief.md ya prellenado de {epid} (ID/slug/track/hook/narrador puestos "
+                f"en Stage 0 desde la idea) — rellenar sujeto, tesis, estructura, fuentes y riesgos")
+    return f"escribir {nm['produces']} para {epid}"
+
 
 def _dash():
     subprocess.run([sys.executable, str(Path(__file__).parent / "dash.py")],
@@ -42,18 +48,66 @@ def _exp(epid, stage):
 # ---------- folds (mechanical) ----------
 
 def fold_idea(epid, d, payload):
-    """Stage 0: create the episode folder from template, mark the idea-pool row."""
+    """Stage 0: create the episode folder from template, prefill the brief, mark the idea-pool row."""
     ep = P.EP_DIR / f"{epid}-{d['slug']}" if not d["slug"].startswith(epid) else P.EP_DIR / d["slug"]
-    if not ep.exists():
-        shutil.copytree(TEMPLATE, ep)
+    # dirs_exist_ok: the produce endpoint pre-creates <ep>/_exports/ to stash
+    # stage00.json before calling this fold — merge the template in around it.
+    shutil.copytree(TEMPLATE, ep, dirs_exist_ok=True)
     P.ensure_assets(epid)
+    _prefill_brief(ep / "01-brief.md", epid, d, payload)
+    _mark_pool(payload.get("idea_id"), f"en producción ({epid})")
+    return True, "carpeta creada + brief prellenado"
+
+
+def _idea_id_of(epid):
+    """The idea-pool id an episode came from — stashed in _exports/stage00.json at Stage 0."""
+    f = P.ep_path(epid) / "_exports" / "stage00.json"
+    if f.exists():
+        try:
+            return json.loads(f.read_text(encoding="utf-8")).get("idea_id")
+        except json.JSONDecodeError:
+            pass
+    return None
+
+
+def _mark_pool(idea_id, state):
+    """Set the Estado cell of an idea-pool summary row (no-op if the id isn't found)."""
     pool = P.ROOT / "ideas" / "idea-pool.md"
-    if pool.exists() and payload.get("idea_id"):
-        t = pool.read_text(encoding="utf-8")
-        t = re.sub(rf"(\|\s*{re.escape(payload['idea_id'])}\s*\|.*?\|)([^|]*)(\|\s*)$",
-                   rf"\1 en producción ({epid}) \3", t, flags=re.M)
-        pool.write_text(t, encoding="utf-8")
-    return True, "carpeta creada"
+    if not (idea_id and pool.exists()):
+        return
+    t = pool.read_text(encoding="utf-8")
+    nt = re.sub(rf"(\|\s*{re.escape(idea_id)}\s*\|.*?\|)([^|]*)(\|\s*)$",
+                lambda m: m.group(1) + f" {state} " + m.group(3), t, flags=re.M, count=1)
+    if nt != t:
+        pool.write_text(nt, encoding="utf-8")
+
+
+def _prefill_brief(brief, epid, d, payload):
+    """Drop the knowns from Stage 0 into the fresh 01-brief.md — the author fills the rest."""
+    if not brief.exists():
+        return
+    cell = lambda s: s.replace("|", r"\|").strip()          # safe inside a md table cell
+    title = (d.get("title") or payload.get("working_title") or epid).strip("«».")
+    slug = d.get("slug") or f"{epid}-{P.slugify(title)}"
+    hook = payload.get("hook") or ""
+    track = {"T01": "T01 Historias Inspiradoras", "T02": "T02 Exploración"}.get(d.get("track"), d.get("track") or "…")
+    narr = d.get("narrator") or "…"
+    t = brief.read_text(encoding="utf-8")
+    subs = [
+        (r"^# Brief de episodio — E0XX «[^»]*»", f"# Brief de episodio — {epid} «{title}»"),
+        (r"(\|\s*ID episodio\s*\|\s*)E0XX(\s*\|)", epid),
+        (r"(\|\s*Slug carpeta\s*\|\s*)E0XX-<slug>(\s*\|)", cell(slug)),
+        (r"(\|\s*Track\s*\|\s*)[^|]*(\|)", cell(track) + " "),
+        (r"(\|\s*Narrador asignado\s*\|\s*)[^|]*(\|)", cell(narr) + " "),
+    ]
+    if hook:
+        subs.append((r"(\|\s*Hook-title elegido \(`brain/13`\)\s*\|\s*)[^|]*(\|)", cell(hook) + " "))
+    for pat, rep in subs:
+        if pat.startswith("^# "):
+            t = re.sub(pat, lambda m, r=rep: r, t, count=1, flags=re.M)
+        else:
+            t = re.sub(pat, lambda m, r=rep: m.group(1) + r + m.group(2), t, count=1, flags=re.M)
+    brief.write_text(t, encoding="utf-8")
 
 
 def fold_assets(epid, d, payload):
@@ -180,23 +234,64 @@ def do_next(epid, force=False):
     if nxt >= 6:
         P.ensure_assets(epid)
     d = P.set_ep(epid, stage=nxt, gate="abierto")
+    P.dequeue(epid, st)                   # the stage we just left is done — drop any stale task
+    if st == 11:                          # left publish -> the idea is now live
+        _mark_pool(_idea_id_of(epid), f"publicada ({epid})")
     if nxt == 9:
-        # Stage 9: build the first-cut timeline + its page (python, no agent)
+        # Stage 9 (brain/16): Ken Burns on stills → trim each take → first-cut
+        # timeline + page. Best-effort: if kenburns/trim can't run (no ffmpeg /
+        # faster-whisper on this box) the stage still advances, just less covered.
         slug = d["slug"] if d["slug"].startswith(epid) else f"{epid}-{d['slug']}"
-        r1 = subprocess.run([sys.executable, str(Path(__file__).parent / "assemble.py"), slug],
+        here = Path(__file__).parent
+        ep = P.ep_path(epid)
+        steps = []
+
+        gr = subprocess.run([sys.executable, str(here / "make_graphics.py"), slug],
                             capture_output=True, text=True)
-        subprocess.run([sys.executable, str(Path(__file__).parent / "edit_timeline.py"), slug],
+        steps.append("gráficos " + ("ok" if gr.returncode == 0 else "falló"))
+
+        kb = subprocess.run([sys.executable, str(here / "kenburns.py"), slug, "--all"],
+                            capture_output=True, text=True)
+        steps.append("KB " + ("ok" if kb.returncode == 0 else "falló"))
+
+        takes = [t for t in sorted(ep.glob("assets/*.mp4"))
+                 if ".trimmed" not in t.name and not t.name.startswith(("09-", "intro"))]
+        n_rev = n_done = 0
+        for t in takes:
+            if t.with_suffix(".trimmed.mp4").exists():
+                n_done += 1
+                continue
+            # phase 1 only: transcribe + propose cuts + review page. The user
+            # checks the transcript, vetoes bad cuts, then «Aplicar corte»
+            # (serve.py /trim) renders the trimmed take and re-aligns.
+            tr = subprocess.run(
+                [sys.executable, str(here / "trim_talk.py"), str(t),
+                 "--script", str(ep / "05-script.md")],
+                capture_output=True, text=True)
+            if tr.returncode == 0:
+                n_rev += 1
+        if takes:
+            steps.append(f"trim: {n_done} listas" + (f", {n_rev} a revisar" if n_rev else ""))
+        else:
+            steps.append("sin tomas")
+
+        r1 = subprocess.run([sys.executable, str(here / "assemble.py"), slug],
+                            capture_output=True, text=True)
+        subprocess.run([sys.executable, str(here / "edit_timeline.py"), slug],
                        capture_output=True, text=True)
-        tail = " · timeline montada (" + (r1.stdout or r1.stderr).strip().splitlines()[-1][:80] + ")"
-    elif nxt == 4 and not (P.ep_path(epid) / "05-script.md").exists():
-        # Stage 4's fold is mechanical (05-script.html saves straight to
-        # 05-script.md), but the *first* draft still has to come from
-        # somewhere — queue it same as any claude-fold stage would.
-        P.enqueue(epid, nxt, "generate", note=f"escribir {nm['produces']} para {epid}")
-        tail = f" · en cola: escribir {nm['produces']}"
-    elif nm["fold"] == "claude":
-        P.enqueue(epid, nxt, "generate",
-                  note=f"escribir {nm['produces']} para {epid}")
+        last = (r1.stdout or r1.stderr).strip().splitlines()[-1:] or [""]
+        rev = ""
+        if n_rev:
+            rt = next((t for t in takes if not t.with_suffix(".trimmed.mp4").exists()), None)
+            if rt:
+                rev = f" · revisa la transcripción: assets/{rt.with_suffix('.review.html').name}"
+        tail = f" · {' · '.join(steps)} · {last[0][:60]}{rev}"
+    elif nm["fold"] == "claude" or (nxt in P.DRAFT_STAGES and P.pristine(epid, P.DRAFT_STAGES[nxt])):
+        # a stage that produces a document nobody has drafted yet — queue it for
+        # the agent. Covers the `claude` folds (brief/outline/fact-check/shotlist)
+        # and the `mech` ones whose doc still has to be written first (research,
+        # script, package): without this the dashboard dead-ends on entry.
+        P.enqueue(epid, nxt, "generate", note=_gen_note(epid, nxt, nm))
         tail = f" · en cola: escribir {nm['produces']}"
     elif nm["fold"] == "human":
         tail = " · offline (marca 'hecho' en el dashboard cuando termines)"

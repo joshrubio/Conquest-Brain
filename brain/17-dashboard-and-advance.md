@@ -69,6 +69,33 @@ per-beat regen notes (`kenburns.py`) then `assemble.py --final` for the 4K maste
 Without the server: the finish button downloads the `.txt`; run
 `python tools/advance.py fold E0XX` then `python tools/advance.py next E0XX`.
 
+### Stages that Claude writes (brief · outline · fact-check · shotlist · research · script)
+
+These are Claude turns, not clicks. The panel is pure Python and never spends
+tokens — it can't generate the content. On the card:
+
+- an **⏳ En cola para Claude** line whenever `_queue.json` has a task for the
+  current stage. Not a dead end anymore.
+- **no review page** (brief · outline · fact-check · shotlist): once the doc is
+  written (no longer byte-identical to the template), a **«<Stage> listo →
+  avanzar a Stage N+1»** button → `POST /stage-done` → `advance.py E0XX`
+  (fold + next in one). It's the user asserting the content is ready — the same
+  gate the `/loop` would close. While the doc is still the bare template the
+  button is **▶ Pedir generación** → `POST /nudge`.
+- **has a review page** (research · script): the **Revisar · Stage N** button is
+  the path; no shortcut button.
+
+**`/nudge` and the `/loop` heartbeat.** `/nudge` can't run Claude — it raises
+`wake:true` in `_loop.json`, un-pauses the loop, and tells the user the instant
+path («sigue» in the loop terminal, or ask in chat). Each tick the `atiende`
+command writes `last_tick_ts`; the header shows **/loop: tick hace N min** (or
+**/loop sin señal** when it isn't running). Pacing is adaptive: ~60 s while the
+queue has work or after a nudge, backing off to 15 min only after ~30 min idle.
+
+`advance.py next` **dequeues** the stage it leaves, so a stale task can't re-run
+after you advance past it. Entering a `mech` stage that still needs a first draft
+(**research**, **script**) now queues that draft too (`pipeline.DRAFT_STAGES`).
+
 ## Controlar la sesión (el `/loop`)
 
 Un **tick** = una iteración del `/loop`: despierto, leo `_loop.json` + `_queue.json`, hago lo pendiente (o nada), reporto, programo el siguiente. En modo auto-pausado los ticks son ~1 min si hay trabajo y ~20 min en reposo (rango 60–3600 s). **No** coinciden con los cambios de stage — son un temporizador; el botón escribe un fichero y el siguiente tick lo ve.
@@ -122,12 +149,19 @@ Todos los botones del dashboard y de `cost.html` llevan tooltip temático (no el
 Botón **💡 Ideas** del dashboard → `ideas/idea-review.html` (regenerada por `idea_review.py`). Es gestión del pool, no un gate lineal:
 
 - por idea: veredicto (aprobar / incubar / descartar) + hook + /21 + nota
-- **«Aplicar cambios»** → `POST /ideas` → escribe los estados en `idea-pool.md` al momento (descartar → `descartada`, incubar → `incubando`); las `aprobar` se listan para crear su episodio
+- **«Aplicar cambios»** → `POST /ideas` → escribe los estados en `idea-pool.md` al momento (aprobar → `aprobada`, incubar → `incubando`, descartar → `descartada`) y guarda el hook elegido como línea `**Hook elegido:**` en el detalle
+- en una card **`aprobada`**, botón **«Crear episodio →»** → `POST /idea-produce` → asigna `E0XX` (`pipeline.next_epid`), fila en `_STATUS.md` (Stage 0, gate `exportado`), stash `_exports/stage00.json`, y `advance.py fold` (crea la carpeta, prerrellena `01-brief.md`, deja el pool en `en producción (E0XX)`)
+- `idea-review.html` **solo muestra** `nueva` / `incubando` / `aprobada`; `en producción` / `publicada` / `descartada` quedan fuera (pie de página con el conteo) — al crear el episodio, la card desaparece
 - **«＋ Generar 3 ideas»** → `POST /ideas-new` → encola una tarea `ideas` para el agente (añade ideas al pool, sin avanzar stages)
 - **← dashboard** para volver
 
 ## Adding an episode
 
-Approve an idea in `idea-review.html` → Stage 0 fold copies
-`_TEMPLATE-episode-folder/` → `episodes/E0XX-slug/`, marks the idea-pool row,
-sets Stage 1. Or add a row to `_STATUS.md` by hand and `python tools/dash.py`.
+In `idea-review.html`: verdict **aprobar** + pick the hook + **«Aplicar cambios»**
+(row → `aprobada`), then **«Crear episodio →»** on that card. That runs the Stage 0
+fold: `next_epid()` picks `E0XX`, `_TEMPLATE-episode-folder/` → `episodes/E0XX-slug/`,
+`01-brief.md` is prefilled (id · slug · track · hook · narrator), the idea-pool row
+→ `en producción (E0XX)`, `_STATUS.md` gets the row at Stage 0 / gate `firmado`.
+Then **«Avanzar a Stage 1»** on the dashboard queues the brief.
+
+Without the server: add a row to `_STATUS.md` by hand and `python tools/dash.py`.

@@ -1,0 +1,16 @@
+# 02-research.txt — 02-research.html
+episodio	E001-hokusai
+revisor	Usuario 001
+fecha	?
+aprobado	si
+
+---FUENTES---
+
+---DOSSIER---
+
+---GATE---
+carga-tier-ab	ok
+disputados	ok
+sin-cd	ok
+derechos	ok
+coi	ok

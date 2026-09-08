@@ -40,7 +40,7 @@ oversaturated
 
 ## ai01 — deathbed-room
 
-- **Beat(s) shotlist:** 1 (cold open, 0:00) — sustituye/completa «grabado de un interior humilde de Edo»
+- **Beat(s) shotlist:** 1 (cold open) — abre el vídeo con esta ilustración; VO encima
 - **Para qué:** abrir el episodio. 1849, el cuarto de alquiler, el hombre que se muere. **No se ve su cara.**
 - **Guardar como:** `E001_ai01_deathbed-room.png`
 
@@ -64,7 +64,7 @@ Muted blues and cream, one small vermilion detail.
 
 ## ai02 — daruma-nagoya-1817
 
-- **Beat(s) shotlist:** +B, +C (Acto 1) — «El Daruma gigante de Nagoya (1817)». No existe imagen de época del acto.
+- **Beat(s) shotlist:** 17, 19, 42 (PROMISE 2 / cierre PROMISE 2 / PAY 2) — el Daruma gigante de Nagoya (1817). Reusado 3×.
 - **Para qué:** mostrar la escala del espectáculo público; ancla el foreshadowing "quería que lo vieran, quería lo grande". Figura del artista de espaldas.
 - **Guardar como:** `E001_ai02_daruma-nagoya-1817.png`
 
@@ -89,7 +89,7 @@ temple roofs at the top edge.
 
 ## ai03 — studio-fire-night
 
-- **Beat(s) shotlist:** 33 (Acto 4) — el incendio de ~1839. Hay prints PD de incendios de Edo, pero ninguno es *su* taller; esta ilustración lo hace específico.
+- **Beat(s) shotlist:** 36 (Acto 4) — el incendio de ~1839. Hay prints PD de incendios de Edo, pero ninguno es *su* taller; esta ilustración lo hace específico.
 - **Para qué:** el momento en que lo pierde todo, otra vez, a los casi 80. Figura pequeña, de espaldas.
 - **Guardar como:** `E001_ai03_studio-fire-night.png`
 
@@ -114,7 +114,7 @@ edge to the smoke.
 
 ## ai04 — closing-path
 
-- **Beat(s) shotlist:** 39 (cierre) — puede sustituir al motion-graphic G5.
+- **Beat(s) shotlist:** 38 (Acto 4, PROMISE 4) — el hombre mayor dibujando junto a su hija.
 - **Para qué:** la metáfora del cierre: "¿ya llegué?" vs "¿me estoy acercando?". Un camino sin final. Abstracto, sin afirmación factual.
 - **Guardar como:** `E001_ai04_closing-path.png`
 

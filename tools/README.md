@@ -7,32 +7,35 @@ authority: index
 
 # tools/
 
-Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `reportlab`, `pillow`, `PyYAML`.
+Small scripts for the episode pipeline. Python 3.11+, deps: `requests`, `pillow`, `PyYAML`; Stage 9 adds `faster-whisper`, `static-ffmpeg`, `numpy`.
 
 | Script | Stage | What it does |
 |--------|-------|--------------|
 | `factcheck.py` | 5 | Layer 1 deterministic fact-check. `python tools/factcheck.py 05-script.md 03-source-log.csv` → PASS/FAIL. |
 | `build_ai_prompts.py` | 7 | Scaffolds `07b-ai-prompts.md` for AI-illustration beats (brain/15). `... E0XX-slug <img-slug> ...` / `... --check`. |
 | `pull_assets.py` | 7 | **The Stage-7 hub.** Pulls candidates from free APIs → `07-style-pass.html` (per-beat candidates + AI prompts + intro). See below. |
+| `make_graphics.py` | 9 | The episode's own graphics (`gráfico` beats). Renders one 4K PNG per row of the shotlist's *Gráficos / motion* table → `assets/graphic/`; 7 ids have a bespoke drawn renderer, the rest a titled card. `--force` · `--id <id>` · `--contact-only`. Pillow. |
 | `kenburns.py` | 9 | Orientation-aware Ken Burns on stills, **4K by default**. `... IMAGE --dur 6` or `... E0XX-slug --all`. ffmpeg. |
-| `trim_talk.py` | 9 | Trim silences + fillers from a take. `python tools/trim_talk.py TAKE.mp4` → `TAKE.trimmed.mp4` + `TAKE.cuts.md` + `TAKE.words.json`. faster-whisper. |
+| `trim_talk.py` | 9 | **The trim room — two phases.** *review* (`... TAKE.mp4 --script 05-script.md`): faster-whisper transcribes, proposes cuts, writes `TAKE.review.html` — the take as a **waveform** with every cut a draggable red block (move / resize edges / ✕ / «✂ corte aquí» / drag empty wave). Autosaves to `serve.py /trim-save`. Renders nothing. *apply* (`--apply`, or the page's «Aplicar corte» → `/trim`): `TAKE.trimmed.mp4` + `TAKE.words.json`. `--apply-now` = both, no review; `--rebuild-page` = regenerate the room, no whisper. faster-whisper + ffmpeg. |
 | `edit_review.py` | 9 | `07c-edit.html` — quick pass over raw KB clips + trimmed takes, approve or feedback → `07c-review.txt`. Optional. `... E0XX-slug`. |
-| `assemble.py` | 9 | First cut + render engine. Parses the shotlist spine, resolves assets, aligns beats to the VO → `09-timeline.json` + `09-rough.mp4`. `--preview T0 T1` re-renders a region; `--final` → 4K master. ffmpeg. |
+| `assemble.py` | 9 | First cut + render engine. Parses the shotlist spine, resolves assets, aligns beats to the VO (un-matched beats spread across gaps; total clamped to VO length) → `09-timeline.json` + `09-rough.mp4`. Bakes `brand/assets/grade.cube` if present. `--preview T0 T1` re-renders a region; `--final` → 4K master. ffmpeg. |
+| `make_grade.py` | 9 | House colour grade → `brand/assets/grade.cube` (opt-in; `assemble.py` applies it if the file exists). `--explore FRAME.png` = a labelled grid of every preset on a frame; `--preset NAME --preview FRAME.png` = write the .cube + a raw|graded split. ffmpeg + numpy + pillow. |
 | `edit_timeline.py` | 9 | `09-edit.html` — the cutting-room timeline: waveform + a block per beat + inspector (swap/trim/nudge/motion/approve). Renders `09-timeline.json`. `... E0XX-slug`. |
 | `find_music.py` | 9 | Ominous-ambient music beds. `... "query"` appends to the pool; ticks in the pass's Music section (or `... --get <id>...`) → `brand/assets/music/`. Jamendo (`JAMENDO_CLIENT_ID`). |
 | `idea_review.py` | 0 | `ideas/idea-review.html` — score + pick a hook-title + comment per idea → `idea-review.txt`. |
 | `script_review.py` | 4 | `E0XX/05-script.html` — the script as a two-column editor: narration/explicador/promise-pay in the main column, production notes (`EN PANTALLA`/`NOTA`/`HOOK VISUAL`) + editable section durations in a sidebar, reference material (source-log, registers) read-only and collapsed. **Finalizar Stage 4 writes straight to `05-script.md`** — no Claude fold, the only review page that works this way. |
 | `research_review.py` | 2 | `E0XX/02-research.html` — walk the source-log + dossier, tick OK/revisar + notes, approve → `02-research.txt`. |
 | `package_review.py` | 10 | `E0XX/10-package.html` — pick title, pick thumbnail, review description → `10-package.txt`. `--init` scaffolds `08` + `09`. |
+| `metrics.py` / `cost_update.py` | 12 / — | `12-metrics.html` — paste YouTube 48h/30d numbers → KPI-log row + retro block. `cost_update.py` refreshes the token-spend line on the dashboard. |
 | `theme.py` | — | **the design system** (CSS tokens + components + HTML wrapper) for every generated page, in one file. Presentation only. Open only to restyle pages — never for pipeline/data work. Not a CLI. |
 | `review_ui.py` | — | thin shim re-exporting `theme.py` as `STYLE` / `HELPERS` / `page` for older callers — not a CLI. |
-| `pipeline.py` | — | the 12-stage manifest + `_STATUS.md` / `_queue.json` I/O — not a CLI. |
-| `dash.py` | — | regenerate `dashboard.html` from `_STATUS.md` + folders + KPI log. |
-| `serve.py` | — | `127.0.0.1:8765` — serves the dashboard + review pages; the finish buttons POST here. |
-| `advance.py` | — | the gate engine: `fold` a stage's decisions, `next` to the following stage. `--drain` for all. |
-| `metrics.py` | 12 | `E0XX/12-metrics.html` — paste YouTube 48h/30d numbers → KPI-log row + retro block. |
+| `pipeline.py` | — | the 12-stage manifest + `_STATUS.md` / `_queue.json` / `_loop.json` I/O — not a CLI. |
+| `mediabin.py` | — | locates `ffmpeg` / `ffprobe` (PATH → `static-ffmpeg` → `imageio-ffmpeg`) — imported by the Stage-9 tools, not a CLI. |
+| `dash.py` | — | regenerate `dashboard.html` from `_STATUS.md` + folders + KPI log + `_loop.json` heartbeat. |
+| `serve.py` | — | `127.0.0.1:8765` — serves the dashboard + review pages (with HTTP Range, so `<audio>`/`<video>` seek); the finish buttons and autosaves POST here. |
+| `advance.py` | — | the gate engine: `fold` a stage's decisions, `next` to the following stage. On entering Stage 9 it runs graphics + Ken Burns + the trim review pass. `--drain` for all. |
 
-Stage 9 deps: `ffmpeg` on PATH, `faster-whisper`, `pillow`. See [brain/16-edit-and-delivery.md](../brain/16-edit-and-delivery.md).
+Stage 9 deps: `faster-whisper`, `static-ffmpeg` (or `ffmpeg` on PATH), `pillow`, `numpy`. `pip install faster-whisper static-ffmpeg numpy pillow`. See [brain/16-edit-and-delivery.md](../brain/16-edit-and-delivery.md).
 
 **Review pages** (`*-review.html` / `10-package.html`, `07-style-pass.html`, `07c-edit.html`) mostly follow the same pattern: a dark browser page with per-item controls, "Finalizar Stage N" → a small `.txt` Claude (or `advance.py`, for the mechanical gates) folds back into the source doc. **`05-script.html` (Stage 4) is the exception** — it writes the edited script straight into `05-script.md` itself, no fold step. The `.html` is gitignored; the exported `.txt` (where one exists) is tracked.
 
@@ -55,11 +58,16 @@ three surfaces:
   beat (persists in `localStorage`).
 - **Right column** — the `07b-ai-prompts.md` prompts (parsed live): prompt + *copiar
   prompt* + an input for the path/URL of the image you generated.
+- **Music section (bottom)** — the Jamendo pool (`find_music.py`) as ticked rows, plus
+  *«Recursos propios»*: paste a local path or URL + `título · autor` + a licence
+  (`CC0` / `CC-BY` / `CC-BY-SA` — nothing else offered). `--download` fetches it to
+  `brand/assets/music/` + logs `LICENSES.md`; a bad/missing licence or no title is skipped.
 
-**Finalizar Stage 7** writes all three into the episode folder (Chrome/Edge save
+**Finalizar Stage 7** writes all four surfaces into the episode folder (Chrome/Edge save
 dialog; other browsers download it). Then `--download`:
 - intro → `assets/intro/intro01…` (screen order) · beats → `assets/{stock,video,archive}/`
   · `ai:` → `assets/ai/<07b filename>` (local path copied, URL fetched)
+  · `music:` → `brand/assets/music/` + `LICENSES.md`
 - verifies resolution, appends `assets/CREDITS.md`, writes **`07-selection.md`** (the pass
   record — folds into `07-assets.md`), prints manifest rows.
 

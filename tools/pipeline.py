@@ -11,6 +11,7 @@ Not a CLI.
 """
 import json
 import re
+import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -31,8 +32,18 @@ def read_loop():
     return {"state": "run"}
 
 
-def write_loop(state, note=""):
-    LOOP_F.write_text(json.dumps({"state": state, "note": note}, ensure_ascii=False), encoding="utf-8")
+def write_loop(state, note="", **extra):
+    d = read_loop()
+    d.update({"state": state, "note": note})
+    d.update(extra)
+    LOOP_F.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+
+
+def touch_loop(**fields):
+    """Merge fields into _loop.json without changing state (heartbeat, wake flag, idle streak)."""
+    d = read_loop()
+    d.update(fields)
+    LOOP_F.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
 
 # fold kinds:
 #   mech   — advance.py folds it in python, no agent
@@ -80,7 +91,7 @@ CARD = {
     5: "Fact-check automático: cada dato contra su fuente.",
     6: "Shotlist: qué se ve en cada momento.",
     7: "Pase de estilo: eliges imágenes, clips y música.",
-    8: "Grabas la voz siguiendo el shotlist. Offline.",
+    8: "Grabas el vídeo (talking-head) siguiendo el shotlist. Offline.",
     9: "Edición: la timeline — coloca cada beat sobre la voz, ajusta y aprueba.",
     10: "Paquete: título publicado, miniatura, descripción.",
     11: "Publicación: tick legal, subir, programar.",
@@ -97,7 +108,7 @@ HELP = {
     5: "El fact-check. Automático: un script comprueba que cada fuente resuelve, y Claude re-lee cada afirmación contra su fuente y aplica las correcciones al guion.",
     6: "El shotlist: qué se ve en cada momento — un plano por cambio de sujeto, por explicador, por foreshadowing. Se infiere del guion ya bloqueado.",
     7: "El pase de estilo: eliges las imágenes y clips reales de cada beat, los del cold open, y la música. El sistema los descarga a la carpeta de recursos.",
-    8: "Grabación. Grabas la voz y lo que vaya a cámara siguiendo el shotlist. Es offline — cuando termines, marca 'hecho'.",
+    8: "Grabación. Te grabas en vídeo (talking-head, plano medio, set de serie) leyendo el guion — una toma continua vale, `trim_talk.py` limpia silencios, muletillas y retomas. El shotlist marca qué beats van a cámara (A-roll) y cuáles se cubren con B-roll. Guarda la(s) toma(s) en `<episodio>/assets/` (p. ej. `E0XX-vo.mp4`). Offline — cuando termines, marca 'hecho'.",
     9: "La edición: la sala de montaje. Un primer corte automático coloca cada beat sobre la voz grabada; en la timeline ajustas duración, posición y asset de cada clip, marcas los que hay que regenerar, y apruebas. El render 4K lo hace el sistema.",
     10: "El paquete: eliges el título publicado, la miniatura y repasas la descripción. Las 3 aprobaciones cierran el gate.",
     11: "Publicación. El tick legal/COI final, subir el vídeo, subtítulos, capítulos, comentario fijado, programar.",
@@ -228,3 +239,49 @@ def ep_path(epid):
     slug = d.get("slug") or epid
     p = EP_DIR / (slug if slug.startswith(epid) else f"{epid}-{slug}")
     return p if p.exists() else EP_DIR / slug
+
+
+TEMPLATE_DIR = EP_DIR / "_TEMPLATE-episode-folder"
+
+# the document each doc-producing stage owns (Stages 8/9/11 produce takes / a
+# timeline / an upload, not a doc — not here).
+PRIMARY_DOC = {1: "01-brief.md", 2: "02-research-dossier.md", 3: "03-outline.md",
+               4: "05-script.md", 5: "04-factcheck-auto.md", 6: "06-shotlist.md"}
+# ...of those, the `mech`-fold ones whose review page is meaningless until a
+# Claude draft exists (1/3/5/6 are `claude` folds — already queued on entry).
+DRAFT_STAGES = {2: PRIMARY_DOC[2], 4: PRIMARY_DOC[4]}
+
+
+def pristine(epid, fname):
+    """True if the episode's copy of fname is missing or still byte-identical to the template."""
+    a = ep_path(epid) / fname
+    if not a.exists():
+        return True
+    b = TEMPLATE_DIR / fname
+    return b.exists() and a.read_bytes() == b.read_bytes()
+
+
+def slugify(s):
+    """'Disney / Mickey' -> 'disney-mickey'. ASCII, kebab, safe for a folder name."""
+    s = unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode()
+    s = re.sub(r"[^\w\s-]", "", s).strip().lower()
+    s = re.sub(r"[\s_-]+", "-", s).strip("-")
+    return s or "ep"
+
+
+def next_epid():
+    """Next free E0XX — max across _STATUS.md, the episode folders, and the KPI log."""
+    n = 0
+    for epid in read_status():
+        m = re.match(r"E(\d+)$", epid)
+        if m:
+            n = max(n, int(m.group(1)))
+    for p in EP_DIR.glob("E[0-9][0-9][0-9]*"):
+        m = re.match(r"E(\d+)", p.name)
+        if m:
+            n = max(n, int(m.group(1)))
+    kpi = ROOT / "brain" / "07-publishing-seo-metrics.md"
+    if kpi.exists():
+        for m in re.finditer(r"\bE(\d{3})\b", kpi.read_text(encoding="utf-8")):
+            n = max(n, int(m.group(1)))
+    return f"E{n + 1:03d}"

@@ -37,14 +37,21 @@ try:
 except Exception:
     pass
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from mediabin import FFMPEG, FFPROBE  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 GROUND = "#100D09"          # brand letterbox / pad colour (brain/03)
 FPS = 24
 KIND_DIR = {"archivo": "archive", "stock": "stock", "kb": "kb", "ia": "ai",
-            "gráfico": "graphic", "grafico": "graphic", "negro": None}
+            "gráfico": "graphic", "grafico": "graphic", "negro": None,
+            "acamara": None, "a-cámara": None, "a-camara": None, "narrador": None}
 ASSET_SUBDIRS = ("kb", "stock", "video", "intro", "archive", "ai", "graphic", "thumb")
+MEDIA_EXT = (".mp4", ".mov", ".webm", ".png", ".jpg", ".jpeg", ".webp", ".tif", ".tiff", ".gif")
+STILL_EXT = (".png", ".jpg", ".jpeg", ".webp", ".tif", ".tiff", ".gif")
 MOTIONS = {"push", "pan-h", "pan-v", "static", "zoom", "cut"}
+ACAMARA = {"acamara", "a-cámara", "a-camara", "narrador"}   # beat shows the narrator take
 
 
 # ── parse the shotlist spine ────────────────────────────────────────────────
@@ -113,26 +120,50 @@ def _asset_index(ep):
         if not d.is_dir():
             continue
         for f in sorted(d.iterdir()):
-            if f.is_file() and f.suffix.lower() in (".mp4", ".mov", ".png", ".jpg", ".jpeg", ".webp"):
+            if f.is_file() and f.suffix.lower() in MEDIA_EXT:
                 idx.setdefault(f.stem, f)
                 idx.setdefault(f.name, f)
     return idx
 
 
+def _the_take(ep):
+    """The single trimmed narrator take (A-roll source). Multi-take A-roll isn't
+    supported yet — returns the first one and the caller warns."""
+    takes = sorted(ep.glob("assets/*.trimmed.mp4"))
+    return takes[0] if takes else None
+
+
 def resolve(ep, beats):
     idx = _asset_index(ep)
+    take = _the_take(ep)
     for b in beats:
+        if b["kind"] in ACAMARA:
+            b["file"] = str(take.relative_to(ep).as_posix()) if take else None
+            b["state"] = "ok" if take else "uncovered"
+            b["motion"] = "cut"     # live video, never a Ken Burns move
+            continue
         if b["kind"] == "negro" or not b["asset"]:
             continue
         hit = idx.get(b["asset"]) or idx.get(b["asset"].split(".")[0])
         if not hit:
-            # KB clips are named beatNN_* — try that
+            # prefix match: `intro01` -> `intro01_pexelsv_…`, `G4` -> `G4_age_ladder`
+            aid = b["asset"].lower()
+            hit = next((v for k, v in idx.items()
+                        if k.lower() == aid or k.lower().startswith(aid + "_")), None)
+        if not hit:
+            # downloaded assets are named beatNN_* — try that
             for k, v in idx.items():
-                if k.lower().startswith(f"beat{b['n']:02d}") or k.lower().startswith(f"beat{b['n']}_"):
+                if k.lower().startswith(f"beat{b['n']:02d}_") or k.lower().startswith(f"beat{b['n']}_"):
                     hit = v
                     break
         b["file"] = str(hit.relative_to(ep).as_posix()) if hit else None
         b["state"] = "uncovered" if (not b["file"] and b["kind"] != "negro") else "ok"
+    # same-asset reuse: a held shot / PROMISE+PAY that names the same `asset` as a
+    # beat that DID resolve borrows that file (assemble aligns times, not files).
+    by_asset = {b["asset"]: b["file"] for b in beats if b["asset"] and b["file"]}
+    for b in beats:
+        if b["state"] == "uncovered" and b["asset"] in by_asset:
+            b["file"], b["state"] = by_asset[b["asset"]], "ok"
     return beats
 
 
@@ -167,6 +198,7 @@ def align(beats, words):
     toks = [_norm(w["w"]) for w in words]
     cursor = 0
     for b in beats:
+        b["_al"] = False
         frag = [t for t in _norm(b["frag"]).split() if t]
         if not frag:
             continue
@@ -180,19 +212,44 @@ def align(beats, words):
             b["in"] = round(words[best_i]["t"], 2)
             end_i = min(best_i + max(len(frag), 1), len(words) - 1)
             b["out"] = round(words[end_i]["t"], 2)
+            b["_al"] = True
             cursor = best_i + len(frag)
-    # make it monotonic + close gaps: each beat runs until the next beat starts
     beats.sort(key=lambda x: x["n"])
+    vo_end = round(words[-1]["t"] + 0.5, 2)
+    # beats that never matched the VO (paraphrased frags — most acamara beats):
+    # spread each un-aligned run across the gap between its aligned neighbours,
+    # proportional to the shotlist dur. Never let one land past the VO.
+    j = 0
+    while j < len(beats):
+        if beats[j]["_al"]:
+            j += 1
+            continue
+        k = j
+        while k < len(beats) and not beats[k]["_al"]:
+            k += 1
+        t0 = beats[j - 1]["out"] if j else 0.0
+        t1 = beats[k]["in"] if k < len(beats) else vo_end
+        run = beats[j:k]
+        span = max(0.1, t1 - t0)
+        wsum = sum(max(0.1, r.get("dur", 4)) for r in run) or len(run)
+        acc = t0
+        for r in run:
+            share = span * max(0.1, r.get("dur", 4)) / wsum
+            r["in"], r["out"] = round(acc, 2), round(acc + share, 2)
+            acc += share
+        j = k
     for a, nb in zip(beats, beats[1:]):
-        a["out"] = round(max(a["in"] + 1.0, nb["in"]), 2)
-    total = round(max(words[-1]["t"] + 0.5, beats[-1]["out"]), 2)
+        a["out"] = round(max(a["in"] + 0.6, nb["in"]), 2)
+    total = vo_end
     beats[-1]["out"] = total
+    for b in beats:
+        b.pop("_al", None)
     return beats, total
 
 
 def _duration(path):
     try:
-        r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+        r = subprocess.run([FFPROBE, "-v", "error", "-show_entries", "format=duration",
                             "-of", "csv=p=0", str(path)], capture_output=True, text=True, timeout=20)
         return float(r.stdout.strip() or 0)
     except Exception:
@@ -279,7 +336,7 @@ def waveform(slug):
         print("  sin voz trimmeada aún — waveform vacío")
         return
     png = ep / "_wave.png"
-    cmd = ["ffmpeg", "-y", "-i", str(vo), "-filter_complex",
+    cmd = [FFMPEG, "-y", "-i", str(vo), "-filter_complex",
            "aformat=channel_layouts=mono,showwavespic=s=2400x120:colors=#9c927a",
            "-frames:v", "1", str(png)]
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -334,17 +391,39 @@ def render(slug, mode, t0=None, t1=None, dry=False):
     w, h = (1280, 720) if proxy else (data["w"], data["h"])
     fps = data["fps"]
 
+    take_path = _the_take(ep)
+    take_dur = _duration(take_path) if take_path else 0.0
+
     inputs, filters, vmaps = [], [], []
     for i, b in enumerate(beats):
         f = b.get("file")
-        if b["kind"] == "negro" or not f:
+        # an A-roll beat whose window falls past the end of the trimmed take
+        # (timeline / take out of sync) -> black, never a fatal seek-past-EOF
+        acamara_ok = b["kind"] in ACAMARA and f and (
+            take_dur == 0.0 or b["in"] < take_dur - 0.2)
+        if b["kind"] == "negro" or not f or (b["kind"] in ACAMARA and not acamara_ok):
+            if b["kind"] in ACAMARA:
+                print(f"  beat {b['n']}: a cámara pero in={b['in']:.1f}s > toma {take_dur:.1f}s → negro")
             inputs += ["-f", "lavfi", "-t", f'{max(0.4, b["out"]-b["in"]):.3f}',
                        "-i", f"color=c={GROUND}:s={w}x{h}:r={fps}"]
             filters.append(f"[{i}:v]trim=duration={max(0.4,b['out']-b['in']):.3f},"
                            f"setpts=PTS-STARTPTS[v{i}]")
+        elif b["kind"] in ACAMARA:
+            # A-roll: show the narrator take for this beat's slot. The beat's
+            # in/out are already on the VO-spine timeline; for a single take
+            # (offset 0) that is the take's own time, so trim it there.
+            p = ep / f
+            d = max(0.4, b["out"] - b["in"])
+            if take_dur:
+                d = min(d, take_dur - b["in"])
+            inputs += ["-ss", f'{b["in"]:.3f}', "-t", f'{d:.3f}', "-i", str(p)]
+            filters.append(
+                f"[{i}:v]scale={w}:{h}:force_original_aspect_ratio=increase,"
+                f"crop={w}:{h},setsar=1,fps={fps},trim=duration={d:.3f},"
+                f"setpts=PTS-STARTPTS[v{i}]")
         else:
             p = ep / f
-            still = p.suffix.lower() in (".png", ".jpg", ".jpeg", ".webp")
+            still = p.suffix.lower() in STILL_EXT
             if still:
                 inputs += ["-loop", "1", "-t", f'{max(0.4,b["out"]-b["in"]):.3f}', "-i", str(p)]
             else:
@@ -354,9 +433,13 @@ def render(slug, mode, t0=None, t1=None, dry=False):
 
     vo = next(iter(sorted(ep.glob("assets/*.trimmed.mp4"))), None)
     fc = ";\n".join(filters) + ";\n" + "".join(vmaps) + f"concat=n={len(beats)}:v=1:a=0[vraw];"
-    fc += "[vraw]format=yuv420p[vout]"
+    # house grade (brain/03) — opt-in: applied only if brand/assets/grade.cube exists.
+    # ffmpeg splits filter args on ':', so pass the LUT relative and run with cwd=ROOT.
+    grade = ROOT / "brand" / "assets" / "grade.cube"
+    lut = f"lut3d={grade.relative_to(ROOT).as_posix()}," if grade.exists() else ""
+    fc += f"[vraw]{lut}format=yuv420p[vout]"
 
-    cmd = ["ffmpeg", "-y", *inputs]
+    cmd = [FFMPEG, "-y", *inputs]
     a_map = []
     if vo:
         cmd += ["-i", str(vo)]
@@ -386,7 +469,7 @@ def render(slug, mode, t0=None, t1=None, dry=False):
         return
     print(f"render {'720p proxy' if proxy else '4K master'} · {len(beats)} beats"
           + (f" · {_fmt(t0 or 0)}–{_fmt(t1 or data['total'])}" if (t0 or t1) else "") + " …")
-    r = subprocess.run(cmd, capture_output=True, text=True)
+    r = subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT)
     if r.returncode != 0 or not out.exists():
         print("FALLO ffmpeg:\n" + "\n".join(r.stderr.strip().splitlines()[-6:]))
         sys.exit(1)

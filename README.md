@@ -22,13 +22,13 @@ Documentation, templates, per-episode folders, and the `tools/` that run the pip
 
 | Path | Purpose |
 |------|---------|
-| `brain/` | Standing rules 00–16: charter, editorial/sourcing, format, brand, legal, independence, workflow (12 stages), publishing, tone, reflection, git, visual rhythm, available-material, hook naming, fact-check, AI illustration, edit & delivery. |
+| `brain/` | Standing rules 00–19 (+ `INDEX.md`, `USERS.md`): charter, editorial/sourcing, format, brand, legal, independence, workflow (12 stages), publishing, tone, reflection, git, visual rhythm, available-material, hook naming, fact-check, AI illustration, edit & delivery, dashboard & advance, monetization, lessons. |
 | `templates/` | Blank fill-in templates for every stage. |
-| `episodes/` | One folder per episode. `_TEMPLATE-episode-folder/` to copy; `E000-EXAMPLE-*` worked reference; `_STATUS.md` master index. |
+| `episodes/` | One folder per episode. `_TEMPLATE-episode-folder/` to copy; `E000-EXAMPLE-*` worked reference; `_STATUS.md` master index (written by `advance.py` / `serve.py`). |
 | `ideas/` | Two **tracks** (`tracks.md`): T01 Historias Inspiradoras (Usuario 002), T02 Exploración (Usuario 001) → **idea pool** (`idea-pool.md`), scored with `idea-rubric.md`. |
-| `research/` | Reverse-engineering the Dieck Docs format from transcripts (kept local — copyright). |
-| `tools/` | `factcheck.py` · `build_ai_prompts.py` · `pull_assets.py` (Stage 7 hub) · `kenburns.py` · `trim_talk.py` · `edit_review.py` · `find_music.py` · `idea_review.py` · `package_review.py` · `review_ui.py`. Keys in `tools/.env` (gitignored). |
-| `brand/` | `naming-exploration.md`; `assets/` — avatar, banner, music. |
+| `research/` | Reverse-engineering the Dieck Docs format from transcripts (kept local — copyright). `_books/` holds reference books converted to markdown (gitignored). |
+| `tools/` | The pipeline scripts — full index in [tools/README.md](tools/README.md). The **dashboard** (`dash.py` + `serve.py` on `127.0.0.1:8765`) drives everything; `advance.py` is the gate engine; Stage 7 = `pull_assets.py`, Stage 9 = `make_graphics.py` → `kenburns.py` → `trim_talk.py` (the trim room) → `assemble.py` → `edit_timeline.py`, optional grade `make_grade.py`. Keys in `tools/.env` (gitignored). |
+| `brand/` | `naming-exploration.md`; `assets/` — avatar, banner, music, `grade.cube` (opt-in house LUT). |
 
 ## Core non-negotiables (full text in [brain/00-project-charter.md](brain/00-project-charter.md))
 
@@ -43,13 +43,14 @@ Documentation, templates, per-episode folders, and the `tools/` that run the pip
 2. **Available-material cross-check** ([brain/12](brain/12-available-material-protocol.md)) — public sources only.
 3. Add to [ideas/idea-pool.md](ideas/idea-pool.md); score with [ideas/idea-rubric.md](ideas/idea-rubric.md).
 4. If it passes: copy `episodes/_TEMPLATE-episode-folder/` → `episodes/E0XX-<slug>/`. Usuario 001 writes; assign narrator in the brief.
-5. Work the 12 stages in order — [brain/06-production-workflow.md](brain/06-production-workflow.md). Fact-check (5) = `factcheck.py` + LLM prompt + Usuario 002's sign-off ([brain/14](brain/14-fact-check-protocol.md)); assets (7) run through **`07-style-pass.html`** (`pull_assets.py`); edit (9) = `kenburns` → `trim_talk` → `edit_review` → b-roll → music ([brain/16](brain/16-edit-and-delivery.md)).
-6. Update `episodes/_STATUS.md`.
+5. Work the 12 stages in order from the **dashboard** (`python tools/serve.py` → `http://localhost:8765`) — [brain/06](brain/06-production-workflow.md), [brain/17](brain/17-dashboard-and-advance.md). Each stage has a review page; "Finalizar Stage N" closes the gate, `advance.py` moves on. Fact-check (5) = `factcheck.py` + LLM pass + Usuario 002's sign-off ([brain/14](brain/14-fact-check-protocol.md)); assets (7) = **`07-style-pass.html`** (`pull_assets.py`); edit (9) = graphics → Ken Burns → the **trim room** (`<take>.review.html` — waveform, drag the cuts) → `assemble.py` first cut → `09-edit.html` timeline → music → subtitles ([brain/16](brain/16-edit-and-delivery.md)).
+6. `_STATUS.md` updates itself as gates close.
 
 ## Status
 
-- **Brand:** decided (name, channel type, spelling, category, palette, grade, typography, case-file device, 4K). To do: secure `@conquestoficial` on IG/TikTok, produce logo SVG + thumbnail template, re-export banner at 2560×1440, trademark clearance (class 41, lawyer, before registering).
+- **Brand:** decided (name, channel type, spelling, category, palette, typography, case-file device, 4K). House colour grade = the near-neutral `clean` LUT (`brand/assets/grade.cube`, applied by `assemble.py` if present). To do: secure `@conquestoficial` on IG/TikTok, produce logo SVG + thumbnail template, re-export banner at 2560×1440, trademark clearance (class 41, lawyer, before registering).
 - **Format specs (`brain/02`, `08`, `09`) are v1** — validated against 6 Dieck Docs transcripts.
-- **Idea pool:** 21 ideas. `python tools/idea_review.py` → `ideas/idea-review.html` for Usuario 002 to score + pick hook-titles.
-- **E001 Hokusai** in production — at Stage 5 — apply the L2 corrections + close S15/S19/S20.
-- **Music:** Jamendo pool built; pick 3–5 beds from the Music section of the style pass.
+- **Idea pool:** ~23 ideas. `python tools/idea_review.py` → `ideas/idea-review.html` for Usuario 002 to score + pick hook-titles.
+- **E001 Hokusai** — Stage 9 (edit): script v2 + fact-check done, Stage 7 assets pulled, take recorded and transcribed; open the trim room, apply the cut, finish the timeline.
+- **E002 Toyota / Taiichi Ohno** — Stage 4, script v1 written, awaiting Usuario 002's sign-off.
+- **Media stack:** ffmpeg + faster-whisper run locally (via `static-ffmpeg`; `tools/mediabin.py` locates the binaries). Music: Jamendo pool built; pick 3–5 beds from the style pass.
