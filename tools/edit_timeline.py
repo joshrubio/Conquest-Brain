@@ -14,10 +14,11 @@ Renders 09-timeline.json (built by tools/assemble.py) as one page:
   - a music lane
 
 You drag / resize / reorder / swap / preview in the browser — no tokens.
-**Guardar** autosaves (debounced): dur-lock / slot / nudge / approve / fix are
-POSTed to `/tl-save`, the server re-runs `build_timeline` (align() then
-`_apply_edits`) and hands the recomputed timeline back. The overrides survive
-every later rebuild. "Finalizar Stage 9" flushes the save then folds the gate.
+**Guardar** autosaves (debounced): the authored beats (dur / order / motion /
+nudge / approve / fix / mix) are POSTed to `/tl-save`; `rebuild_timeline`
+re-derives in/out on the VO backbone and hands the recomputed line back.
+Structural edits go to `/beat-op` (beat_ops.py), asset swaps to `/beat-asset`.
+"Finalizar Stage 9" flushes the save then folds the gate.
 
 Writes  episodes/E0XX-slug/09-edit.html   (gitignored)
 Reads   09-timeline.json · 09-wave.b64 · 09-rough.mp4   (from assemble.py)
@@ -69,9 +70,16 @@ def build(slug):
     review_href = f"http://localhost:8765/episodes/{slug}/assets/{_rev.name}" if _rev else ""
 
     n_beats = len(data["beats"])
-    n_un = sum(1 for b in data["beats"] if b["state"] == "uncovered")
+    n_un = sum(1 for b in data["beats"] if b.get("state") == "uncovered")
     n_fix = sum(1 for b in data["beats"] if b.get("fix"))
     aligned = data.get("aligned")
+    schema = data.get("schema", 1)
+
+    try:
+        words = A.load_words(ep)
+    except Exception:
+        words = []
+    words_js = json.dumps(words, ensure_ascii=False).replace("</", "<\\/")
 
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     try:
@@ -115,6 +123,9 @@ def build(slug):
  #screen:fullscreen #still{{width:100%;height:100%;object-fit:contain}}
  #screen:fullscreen #scrrot{{font-size:clamp(2rem,6vw,4rem)}}
  #fs{{font-size:.68rem;padding:.2rem .5rem;white-space:nowrap}}
+ .vowords{{font-family:var(--mono);font-size:.72rem;color:var(--muted);padding:.15rem .1rem 0;
+   min-height:1.1em;letter-spacing:.01em}}
+ .vowords b{{color:var(--bone);font-weight:700}}
 </style>
 </head><body class="tl">
 <header class="topbar">
@@ -122,12 +133,14 @@ def build(slug):
  <span class="crumb"><b>Sala de montaje</b></span>
  <span class="ep">{e(epid)}</span>
  <span class="pill {'on' if not n_fix and not n_un else 'warn'}" style="font-size:.68rem"><span class="dot"></span>{
-   'alineado a la voz' if aligned else 'tiempos del shotlist'}</span>
+   ('línea canónica · sembrada ' + str(data.get('seeded', ''))) if schema >= 2
+   else ('alineado a la voz' if aligned else 'tiempos del shotlist')}</span>
  <span class="spacer"></span>
+ <button class="btn ghost" id="reseed" data-tip="Descarta TODAS las ediciones de la sala (duraciones, orden, beats añadidos o partidos, aprobados, mezcla) y vuelve a sembrar la línea desde la tabla «Timeline — la espina» del shotlist + la voz. Se guarda un respaldo. Pide confirmación.">Re-sembrar</button>
  <button class="btn" id="rrough" data-tip="Renderiza el vídeo entero a un borrador 720p (con voz, música, Ken Burns y cortes reales — sin grade) en segundo plano. Tarda unos minutos; cuando termine, míralo en «corte renderizado». Guarda antes.">{'Re-renderizar' if has_rough else 'Renderizar'}</button>
  <a class="btn ghost" target="_blank" href="http://localhost:8765/episodes/{e(slug)}/assets/graphic/_index.html" data-tip="Abre en otra pestaña el índice de gráficos del episodio (G1, G3, G4…) para comprobar cómo quedaron antes de montarlos. No modifica nada.">Gráficos</a>
  {f'<a class="btn ghost" target="_blank" href="{e(review_href)}" data-tip="Abre la sala de transcripción/recorte de la toma en otra pestaña — para revisar el texto de la voz, marcar retomas y ajustar los cortes. Al aplicar cambios allí, re-corre el Stage 8 y esta línea se recalcula.">Transcripción</a>' if review_href else ''}
- <button class="btn" id="save" data-tip="Fija en 09-timeline.json tus cambios de duración (dur_lock), orden (slot) y mezcla, y recalcula la línea contra la voz. Hay autoguardado cada pocos segundos; el botón se pone en dorado con «•» si queda algo sin guardar.">Guardar</button>
+ <button class="btn" id="save" data-tip="Fija en 09-timeline.json tus cambios de duración, orden, estructura y mezcla, y re-deriva la línea sobre la voz (sin re-alinear). Hay autoguardado cada pocos segundos; el botón se pone en dorado con «•» si queda algo sin guardar.">Guardar</button>
  <button class="btn primary" id="fin" data-tip="Cierra el Stage 9: guarda, avisa de los beats sin visual o con corrección pendiente, y marca el corte como listo para el render final. Los clips marcados «corrección» se los pasa a Claude para regenerar.">Finalizar</button>
  <a class="btn ghost" href="http://localhost:8765/" data-tip="Vuelve al dashboard de Conquest. El autoguardado ya conserva tus cambios; no se renderiza nada.">← Panel</a>
 </header>
@@ -160,6 +173,7 @@ def build(slug):
    <button class="btn ghost sm" id="fs" style="margin-left:.2rem" data-tip="Expande el reproductor a pantalla completa. En «corte renderizado» salen los controles del vídeo; en «en vivo» usa espacio para play/pausa y Esc para salir.">⛶ pantalla completa</button>
    <span class="phint">rueda = scroll · Ctrl+rueda = zoom · espacio = play · arrastra un clip para reubicarlo</span>
   </div>
+  <div class="vowords" id="vowords" data-tip="Las palabras de la voz bajo el cabezal — solo referencia. La línea es dueña de su tiempo; para clavar un beat a una frase usa «fijar entrada aquí» en el inspector."></div>
   <div class="mixrow" id="mixrow">
    <span class="mixlbl">Mezcla</span>
    <label class="mixctl">Voz <input type="range" id="mx-vo" min="-6" max="6" step="0.5"><span id="mx-vo-v" class="mixv"></span></label>
@@ -221,6 +235,7 @@ def build(slug):
 "use strict";
 const TL = {payload};
 const ASSETS = {assets_js};
+const WORDS = {words_js};
 const WAVE = {json.dumps(wave)};
 const EPID = {json.dumps(epid)}, SLUG = {json.dumps(slug)};
 const SECN = {{"cold open":"COLD OPEN","bumper":"BUMPER","pivote":"PIVOTE","contexto":"CONTEXTO",
@@ -235,6 +250,21 @@ let B = TL.beats;
 let TOTAL = TL.total;
 const fmt = s=>{{s=Math.max(0,Math.round(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}};
 const secname = s=>SECN[s]|| (s||"").toUpperCase();
+// schema 2: the beat id is the stable key; the number shown is just its position
+const bidx = b => B.indexOf(b);
+const disp = b => String(bidx(b)+1).padStart(2,"0");
+const byId = id => B.find(b=>b.id===id);
+const anchorOf = b => b.vo_anchor || b.frag || "";
+// mirror assemble.derive_times: in/out = frame-quantised cumulative sum of dur,
+// last beat snapped to vo_end. Keeps the UI live before the server round-trip.
+function deriveLocal(){{
+  const fr = 1/(TL.fps||24); let prev=0;
+  B.forEach(b=>{{ b.in=+prev.toFixed(3);
+    prev = Math.round((prev+Math.max(0,+b.dur||0))/fr)*fr; b.out=+prev.toFixed(3); }});
+  if(B.length && TL.vo_end) B[B.length-1].out = +(+TL.vo_end).toFixed(3);
+  TOTAL = B.length ? B[B.length-1].out : 0;
+  TL.total = TOTAL;
+}}
 let PPS=5, sel=null, playing=false, cur=0, raf=0, lastT=0;
 let _mmW=0, _playEl=null, _lastTc="";      // per-frame caches (see placePlayhead)
 const vid = $("#vid"), still=$("#still"), clip=$("#clip"), face=$("#face"), vo=$("#vo"), bed=$("#bed");
@@ -290,8 +320,8 @@ function updateScreen(force){{
   if(isAC) syncFace(false);                    // cheap drift-correct every frame
   // same beat, not a video b-roll → nothing on screen changes; skip the DOM work.
   // (acamara included now: the hard re-seek only needs to happen on the beat switch.)
-  if(!force && b.n===shownBeat && !VIDF.test(b.file||"")){{ return; }}
-  shownBeat=b.n;
+  if(!force && b.id===shownBeat && !VIDF.test(b.file||"")){{ return; }}
+  shownBeat=b.id;
   const f=b.file||"";
   $("#frame").hidden = !(b.kind==="negro"||(!f&&!isAC));
   if(b.kind==="negro"||(!f&&!isAC)){{ still.hidden=true; clip.hidden=true; face.hidden=true; clip.pause();
@@ -299,14 +329,14 @@ function updateScreen(force){{
     $("#scrrot").hidden = !rot;
     $("#scrrot").innerHTML = rot ? rot.split(/\\s*\\/\\s*/).map(s=>"<div>"+s+"</div>").join("") : "";
     $("#scrbeat").textContent = rot ? "" : (b.kind==="negro" ? "— negro —"
-      : "beat "+String(b.n).padStart(2,"0")+" · sin asset");
+      : "beat "+disp(b)+" · sin asset");
     return; }}
   $("#scrrot").hidden = true;
   if(isAC){{                                   // narrator on camera → the continuous take
     if(!face.getAttribute("src")){{           // no take / no proxy → labelled frame
       face.hidden=true; still.hidden=true; clip.hidden=true; clip.pause();
       $("#frame").hidden=false; $("#scrrot").hidden=true;
-      $("#scrbeat").textContent="beat "+String(b.n).padStart(2,"0")+" · a cámara (sin toma)";
+      $("#scrbeat").textContent="beat "+disp(b)+" · a cámara (sin toma)";
       return;
     }}
     syncFace(true); face.hidden=false; still.hidden=true; clip.hidden=true; clip.pause();
@@ -370,21 +400,21 @@ function layout(){{
     const el=document.createElement("div");
     el.className="clip"+(b.state==="uncovered"?" uncov":"")
       +((b.marker||"").startsWith("EXPL")?" expl":"")+(w<64?" narrow":"")+(b===sel?" sel":"")
-      +(b.pace?" pace":"")+((b.dur_lock||typeof b.slot==="number")?" edited":"");
-    el.style.left=(b.in*PPS)+"px";el.style.width=(w-2)+"px";el.dataset.n=b.n;
+      +(b.pace?" pace":"")+(b.dur_edited?" edited":"");
+    el.style.left=(b.in*PPS)+"px";el.style.width=(w-2)+"px";el.dataset.id=b.id;
     const col=KIND[b.kind]||"var(--k-none)";
     el.innerHTML=
       '<div class="kbar" style="background:'+col+'"></div>'+
-      '<div class="body"><div class="cn"><span style="color:'+col+'">'+String(b.n).padStart(2,"0")+'</span>'+
+      '<div class="body"><div class="cn"><span style="color:'+col+'">'+disp(b)+'</span>'+
       '<span>'+(KLAB[b.kind]||b.kind)+'</span></div>'+
       '<div class="ca">'+(b.state==="uncovered"?"— sin asset —":(b.asset||b.file||"—"))+'</div>'+
-      '<div class="cd">'+esc(b.frag||"")+'</div></div>'+
+      '<div class="cd">'+esc(anchorOf(b))+'</div></div>'+
       (b.marker?'<span class="badge">'+esc(b.marker)+'</span>':"")+
       (b.pace?'<span class="badge" style="background:#5a2f2f;color:#e0a89c" title="'+b.pace+'s en un visual — parte el beat o corta a cámara">⚠ '+Math.round(b.pace)+'s</span>':"")+
       (b.fix?'<span class="fixdot"></span>':"")+
       (b.approved&&!b.fix?'<svg class="okdot" viewBox="0 0 16 16"><path fill="currentColor" d="M6.5 11L3 7.5l1-1 2.5 2.4L12 3l1 1z"/></svg>':"")+
       '<span class="grip l"></span><span class="grip r"></span>';
-    el.addEventListener("click",ev=>{{if(!ev.target.classList.contains("grip"))select(b.n);}});
+    el.addEventListener("click",ev=>{{if(!ev.target.classList.contains("grip"))select(b.id);}});
     el.addEventListener("pointerenter",ev=>tip(ev,b));
     el.addEventListener("pointermove",tipmove);
     el.addEventListener("pointerleave",tiphide);
@@ -432,8 +462,19 @@ function placePlayhead(){{
   const b=B.find(x=>cur>=x.in&&cur<x.out)||B[B.length-1];
   if(!_mmW) _mmW=$("#minimap").clientWidth || 1;   // clientWidth forces reflow — read once
   $("#mmplay").style.left=(cur/TOTAL*_mmW)+"px";
-  const want = playing ? vtrack.querySelector('.clip[data-n="'+b.n+'"]') : null;
+  updWords();
+  const want = playing ? vtrack.querySelector('.clip[data-id="'+b.id+'"]') : null;
   if(want!==_playEl){{ if(_playEl)_playEl.classList.remove("playing"); if(want)want.classList.add("playing"); _playEl=want; }}
+}}
+let _wi=0;
+function updWords(){{
+  const el=$("#vowords"); if(!el||!WORDS.length) return;
+  // walk a small cursor to the current word (cheap; WORDS is time-sorted)
+  while(_wi>0 && WORDS[_wi] && WORDS[_wi].t>cur) _wi--;
+  while(_wi<WORDS.length-1 && WORDS[_wi+1] && WORDS[_wi+1].t<=cur) _wi++;
+  const a=Math.max(0,_wi-4), z=Math.min(WORDS.length,_wi+5);
+  el.innerHTML = WORDS.slice(a,z).map((w,k)=>
+    (a+k===_wi ? "<b>"+esc(w.w)+"</b>" : esc(w.w))).join(" ");
 }}
 function loop(ts){{
   if(!playing)return;
@@ -510,9 +551,12 @@ scroll.addEventListener("wheel",e=>{{
   }}
 }},{{passive:false}});
 
-/* drag the clip body = reorder (the VO stays; which picture shows when changes).
-   drag the right grip = lock this beat's duration (steals from the next beat). */
-function slotKey(x){{ return typeof x.slot==="number" ? x.slot : B.indexOf(x); }}
+/* schema 2: array order == playback order. drag the body = move the beat in the
+   list (the VO stays put, the pictures ripple). right grip = set this beat's dur
+   (everything after ripples). left grip = shift the boundary with the previous
+   beat (grows one, shrinks the other). No beat steals from a locked neighbour. */
+const FLOOR = b => AC.has(b.kind) ? 2.5 : (b.kind==="gráfico"||b.kind==="grafico") ? 5 : 2.8;
+function setDur(b,d){{ b.dur=Math.max(0.4,+d.toFixed(3)); b.dur_edited=true; deriveLocal(); }}
 function dragClip(el,b){{
   el.addEventListener("pointerdown",e=>{{
     if(e.target.classList.contains("grip")) return;
@@ -526,15 +570,15 @@ function dragClip(el,b){{
     const up=()=>{{
       removeEventListener("pointermove",mv); removeEventListener("pointerup",up);
       el.style.transition=""; el.style.zIndex=""; el.style.opacity="";
-      if(!moved){{ select(b.n); return; }}
+      if(!moved){{ select(b.id); return; }}
       const cx=(parseFloat(el.style.left)+el.offsetWidth/2)/PPS;         // drop centre, s
       const others=B.filter(x=>x!==b);
       let i=others.findIndex(x=>((x.in+x.out)/2)>cx); if(i<0) i=others.length;
-      const before = i>0 ? slotKey(others[i-1]) : slotKey(others[0])-1;
-      const after  = i<others.length ? slotKey(others[i]) : slotKey(others[others.length-1])+1;
-      b.slot = (before+after)/2;
-      toast('beat <span class="mono">'+String(b.n).padStart(2,"0")+'</span> → nueva posición · guardando…',2500);
-      markDirty(); layout(); select(b.n);
+      B = others.slice(0,i).concat([b], others.slice(i));
+      TL.beats = B;
+      deriveLocal();
+      toast('beat <span class="mono">'+disp(b)+'</span> → nueva posición · guardando…',2500);
+      markDirty(); layout(); select(b.id);
     }};
     addEventListener("pointermove",mv); addEventListener("pointerup",up);
   }});
@@ -545,37 +589,36 @@ function dragClip(el,b){{
     const mv=ev=>{{ el.style.width=Math.max(16,w0+(ev.clientX-sx))+"px"; }};
     const up=()=>{{
       removeEventListener("pointermove",mv); removeEventListener("pointerup",up);
-      b.dur_lock=Math.max(1,+(el.offsetWidth/PPS).toFixed(1));
-      b.out=+(b.in+b.dur_lock).toFixed(2);
-      toast('beat <span class="mono">'+String(b.n).padStart(2,"0")+'</span> → '+b.dur_lock+'s (fija) · guardando…',2500);
-      markDirty(); layout(); select(b.n);
+      setDur(b, Math.max(FLOOR(b), el.offsetWidth/PPS));
+      toast('beat <span class="mono">'+disp(b)+'</span> → '+b.dur.toFixed(1)+'s · guardando…',2500);
+      markDirty(); layout(); select(b.id);
     }};
     addEventListener("pointermove",mv); addEventListener("pointerup",up);
   }});
-  /* left grip = move the boundary with the previous beat: drag left ⇒ this beat
-     grows backwards and the previous one shrinks (we lock the previous beat). */
+  /* left grip = move the boundary with the previous beat */
   const gl=el.querySelector(".grip.l");
   if(gl) gl.addEventListener("pointerdown",e=>{{
     e.stopPropagation();
     const idx=B.indexOf(b); if(idx<=0){{ toast("el primer beat no se puede alargar hacia atrás",2200); return; }}
     const prev=B[idx-1];
-    const pel=vtrack.querySelector('.clip[data-n="'+prev.n+'"]');
+    const pel=vtrack.querySelector('.clip[data-id="'+prev.id+'"]');
     const sx=e.clientX, L0=b.in*PPS, W0=el.offsetWidth;
-    const pL0=prev.in*PPS, pW0=pel?pel.offsetWidth:(prev.out-prev.in)*PPS;
+    const pW0=pel?pel.offsetWidth:(prev.out-prev.in)*PPS;
     const mv=ev=>{{
       let d=ev.clientX-sx;
-      d=Math.max(-(pW0-14), Math.min(W0-14, d));   // keep both clips on screen
+      d=Math.max(-(pW0-14), Math.min(W0-14, d));
       el.style.left=(L0+d)+"px"; el.style.width=(W0-d)+"px";
       if(pel) pel.style.width=(pW0+d)+"px";
     }};
     const up=()=>{{
       removeEventListener("pointermove",mv); removeEventListener("pointerup",up);
-      const newBound=+((parseFloat(el.style.left)/PPS)).toFixed(2);
-      prev.dur_lock=Math.max(1,+((newBound-prev.in)).toFixed(1));
-      prev.out=+(prev.in+prev.dur_lock).toFixed(2);
-      b.in=prev.out;
-      toast('beat <span class="mono">'+String(prev.n).padStart(2,"0")+'</span> → '+prev.dur_lock+'s (fija) · guardando…',2500);
-      markDirty(); layout(); select(b.n);
+      const shift=(parseFloat(el.style.left)/PPS)-b.in;      // seconds the boundary moved
+      // move time between the two beats — keep b.out (and everything after) put
+      prev.dur=Math.max(0.4,+(prev.dur+shift).toFixed(3)); prev.dur_edited=true;
+      b.dur=Math.max(0.4,+(b.dur-shift).toFixed(3)); b.dur_edited=true;
+      deriveLocal();
+      toast('límite '+disp(prev)+'│'+disp(b)+' movido · guardando…',2500);
+      markDirty(); layout(); select(b.id);
     }};
     addEventListener("pointermove",mv); addEventListener("pointerup",up);
   }});
@@ -594,162 +637,157 @@ function assetOpts(b){{
   }});
   return h;
 }}
-async function beatEdit(body, msgSel){{
+async function _dispatch(path, body, msgSel){{
   const msg = msgSel && $(msgSel); if(msg){{msg.hidden=false;msg.textContent='aplicando… (puede tardar)';}}
   try{{
-    const r=await fetch("/beat-asset",{{method:"POST",headers:{{"content-type":"application/json"}},
+    const r=await fetch(path,{{method:"POST",headers:{{"content-type":"application/json"}},
       body:JSON.stringify(Object.assign({{ep:EPID,slug:SLUG,timeline:TL}},body))}});
     const j=await r.json().catch(()=>({{error:"respuesta ilegible del server"}}));
     if(!r.ok||j.error){{ if(msg)msg.textContent='⚠ '+(j.error||('server '+r.status)); toast('⚠ '+(j.error||r.status),5000); return null; }}
-    if(j.timeline && j.timeline.beats){{         // structural edit → reload the whole timeline
-      const keep = j.n || (sel && sel.n);
+    if(j.timeline && j.timeline.beats){{         // reload the whole recomputed timeline
+      let keep = body.id || (sel && sel.id);
       Object.assign(TL,j.timeline); B=TL.beats; TOTAL=TL.total||TOTAL; if(typeof applyMix==="function")applyMix();
       $("#tctot").textContent=fmt(TOTAL); shownBeat=-1; clipSrc="";
       status(); layout();
-      if(keep!=null && B.find(x=>x.n===keep)) select(keep);
-      else $("#inspbody").innerHTML='<div class="insp-empty">Selecciona un clip.</div>';
+      if(body.action==="add" && body.after){{     // land on the beat just inserted
+        const ai=B.findIndex(x=>x.id===body.after);
+        if(ai>=0 && B[ai+1]) keep=B[ai+1].id;
+      }}
+      if(keep && byId(keep)) select(keep);
+      else if(B.length) select(B[0].id);
     }}
     if(msg)msg.textContent='✓ '+(j.note||j.asset||'hecho');
-    toast('✓ '+(j.note||('beat '+(j.n||'')+' → '+j.asset)),4000);
+    toast('✓ '+(j.note||'hecho'),3500);
     return j;
   }}catch(e){{ if(msg)msg.textContent='⚠ server no disponible ('+e+')'; return null; }}
 }}
-async function applyAsset(n,body){{
-  const j=await beatEdit(Object.assign({{n:n}},body),"#i-amsg");
-  if(!j || (j.timeline))return;               // structural already reloaded
-  const bt=B.find(x=>x.n===n); if(!bt)return;
+const beatOp = (body, msgSel) => _dispatch("/beat-op", body, msgSel);
+async function applyAsset(id,body){{
+  const j=await _dispatch("/beat-asset", Object.assign({{id:id}},body), "#i-amsg");
+  if(!j || j.timeline) return;                  // full reload already handled
+  const bt=byId(id); if(!bt)return;
   bt.asset=j.asset; bt.file=j.file; bt.state=j.state||bt.state;
-  if(j.tipo)bt.kind=j.tipo; if(j.motion)bt.motion=j.motion;
-  shownBeat=-1; clipSrc=""; layout(); select(n); updateScreen(true); status();
+  if(j.kind)bt.kind=j.kind; if(j.motion)bt.motion=j.motion;
+  shownBeat=-1; clipSrc=""; layout(); select(id); updateScreen(true); status();
 }}
 
 /* inspector */
-function select(n){{
-  sel = B.find(b=>b.n===n);
+function select(id){{
+  sel = byId(id);
+  if(!sel){{ $("#inspbody").innerHTML='<div class="insp-empty">Selecciona un clip.</div>'; return; }}
   $$(".clip.sel").forEach(c=>c.classList.remove("sel"));
-  const el=vtrack.querySelector('.clip[data-n="'+n+'"]'); if(el)el.classList.add("sel");
+  const el=vtrack.querySelector('.clip[data-id="'+id+'"]'); if(el)el.classList.add("sel");
   setPlaying(false); seekTo(sel.in);
   const b=sel, ins=$("#inspbody");
   const showMotion = b.kind!=="negro";
+  const durTxt = b.dur.toFixed(1)+'s'+(b.dur_edited?' · editada':'');
   ins.innerHTML =
-   '<div class="insp-head"><span class="n">'+String(b.n).padStart(2,"0")+'</span>'+
-     '<h3>'+esc((b.frag||"").slice(0,50)||"beat "+b.n)+'</h3></div>'+
+   '<div class="insp-head"><span class="n">'+disp(b)+'</span>'+
+     '<h3>'+esc(anchorOf(b).slice(0,50)||"beat "+disp(b))+'</h3></div>'+
    '<div class="insp-sec">'+secname(b.section)+' · <span class="k">'+fmt(b.in)+'–'+fmt(b.out)+'</span>'+
      (b.marker?' · <span class="marker">'+esc(b.marker)+'</span>':"")+'</div>'+
    (b.state==="uncovered"?'<div class="field"><div class="notebox" style="border-color:var(--neg);color:var(--neg)">Este beat aún no tiene visual — elige uno abajo o pega una ruta/URL.</div></div>':"")+
    (SWAPPABLE.has(b.kind)
     ? ('<div class="field"><span class="lbl">Asset ('+(KLAB[b.kind]||b.kind)+')</span>'+
-       '<div class="control"><select id="i-asset" data-tip="Reemplaza el visual del beat por otro recurso que ya está en assets/. El cambio se escribe en el shotlist (06) y es retroactivo: picks, timeline y 07-assets se actualizan solos.">'+
+       '<div class="control"><select id="i-asset" data-tip="Reemplaza el visual del beat. Se apunta el beat al nuevo recurso, se fija en assets/_index.json y se anota en 07-picks (bloque SALA) para que una re-descarga no lo deshaga.">'+
          '<option value="">'+(b.asset?esc(b.asset):"— sin elegir —")+'</option>'+assetOpts(b)+
        '</select></div>'+
        '<div class="control" style="margin-top:.4rem;display:flex;gap:.4rem;flex-wrap:wrap">'+
-         '<button class="btn" id="i-abrowse" data-tip="Abre el explorador de archivos de tu equipo para traer una imagen o vídeo como visual de este beat. Se copia a assets/, se fija en _index.json y se cablea al beat.">Examinar…</button>'+
-         '<input id="i-asrc" placeholder="o pega una URL directa" style="flex:1;min-width:120px" data-tip="Pega una URL directa a una imagen/vídeo (o un id de asset ya en la biblioteca). Pexels y Pixabay se resuelven a la descarga real.">'+
+         '<button class="btn" id="i-abrowse" data-tip="Abre el explorador de archivos de tu equipo para traer una imagen o vídeo como visual de este beat.">Examinar…</button>'+
+         '<input id="i-asrc" placeholder="o pega una URL directa" style="flex:1;min-width:120px" data-tip="URL directa a una imagen/vídeo (o un id de asset de la biblioteca). Pexels y Pixabay se resuelven a la descarga real.">'+
          '<button class="btn ghost" id="i-ago" data-tip="Descarga lo que haya en el campo de la izquierda y lo asigna a este beat.">traer URL</button>'+
          '<input type="file" id="i-afile" accept="image/*,video/*" hidden></div>'+
        '<div class="notebox" id="i-amsg" hidden></div></div>')
     : '<div class="field"><span class="lbl">Asset</span><div class="notebox muted">este beat es «'+(KLAB[b.kind]||b.kind)+'» — no lleva asset que cambiar</div></div>')+
    '<div class="field" style="display:flex;gap:.7rem">'+
-     '<div style="flex:1" data-tip="Fija la duración del beat en segundos (dur_lock). El tiempo se le quita o se le da al beat siguiente; ningún vecino baja de su mínimo (2,8 s b-roll · 2,5 s a-cámara · 5 s gráfico). Para más, usa fusionar o partir.">'+
+     '<div style="flex:1" data-tip="La medida del beat en segundos. Cambiarla desplaza todo lo que viene después (ripple); la voz no se mueve. Ningún vecino pierde tiempo. El último beat siempre cierra al final de la voz.">'+
        '<span class="lbl">Duración</span><div class="stepper">'+
-       '<button data-d="-0.5">−</button><span class="val" id="i-dur">'+
-         (b.dur_lock?b.dur_lock.toFixed(1)+'s (fija)':(b.out-b.in).toFixed(1)+'s')+
-       '</span><button data-d="0.5">+</button></div></div>'+
-     '<div style="flex:1" data-tip="Adelanta o atrasa el punto de entrada del clip ± fotogramas, sin mover la frontera del beat. Para cuadrar un gesto, un pico de la música o un corte de cámara.">'+
+       '<button data-d="-0.5">−</button><span class="val" id="i-dur">'+durTxt+'</span><button data-d="0.5">+</button></div>'+
+       (b.dur_edited?'<a href="#" id="i-unlock" style="color:var(--muted);font-size:.62rem">↺ soltar (que re-sync la ajuste)</a>':"")+'</div>'+
+     '<div style="flex:1" data-tip="Adelanta o atrasa el punto de entrada del clip ± fotogramas, sin mover la frontera del beat.">'+
        '<span class="lbl">Nudge ± frames</span><div class="stepper">'+
        '<button data-nf="-1">−</button><span class="val" id="i-nudge">'+(b.nudge||0)+'</span><button data-nf="1">+</button></div></div></div>'+
-   ((b.dur_lock||typeof b.slot==="number")
-     ? '<div class="field"><div class="notebox" style="border-color:var(--gold)">'+
-       (b.dur_lock?'duración fija · ':'')+(typeof b.slot==="number"?'reordenado · ':'')+
-       '<a href="#" id="i-reset" style="color:var(--gold)">↺ restablecer este beat</a></div></div>' : "")+
-   (showMotion?'<div class="field" data-tip="Movimiento de cámara sobre el plano en el render final. Los gráficos siempre se mueven (nunca estáticos); el vídeo B-roll nunca lleva Ken Burns. «corte» = plano fijo.">'+
+   (bidx(b)>0?'<div class="field"><a href="#" id="i-snap" data-tip="Pon el cabezal sobre la palabra donde debe empezar este beat y pulsa aquí. Se ajusta la duración del beat anterior para que la entrada caiga ahí; lo de abajo hace ripple.">⇥ fijar entrada de este beat al cabezal ('+fmt(cur)+')</a></div>':"")+
+   (showMotion?'<div class="field" data-tip="Movimiento de cámara sobre el plano en el render. Los gráficos siempre se mueven; el vídeo B-roll nunca lleva Ken Burns. «clip» = plano fijo.">'+
      '<span class="lbl">Movimiento</span><div class="motionrow" id="i-motion">'+
      MOTIONS.map(m=>'<button class="mchip" data-m="'+m[0]+'" aria-pressed="'+(b.motion===m[0])+'">'+m[1]+'</button>').join("")+'</div></div>':"")+
-   '<div class="field" data-tip="Instrucción para que Claude regenere este clip al cerrar el Stage 9: «más lento», «empieza a la izquierda», «dir. arriba», «déjalo 4 s»… Al escribir aquí, el clip deja de estar aprobado.">'+
+   '<div class="field" data-tip="Instrucción para que Claude regenere este clip al cerrar el Stage 9. Al escribir aquí, el clip deja de estar aprobado.">'+
      '<span class="lbl">Regenerar clip — nota para Claude</span>'+
-     '<textarea class="fixnote" id="i-fix" placeholder="«más lento» · «empieza a la izquierda» · «dir arriba» · «déjalo 4 s»">'+esc(b.fix||"")+'</textarea></div>'+
-   '<label class="approve'+(b.approved?" on":"")+'" data-tip="Marca el clip como bueno para el render final. Borra cualquier nota de regeneración de arriba.">'+
+     '<textarea class="fixnote" id="i-fix" placeholder="«más lento» · «empieza a la izquierda» · «dir arriba»">'+esc(b.fix||"")+'</textarea></div>'+
+   '<label class="approve'+(b.approved?" on":"")+'" data-tip="Marca el clip como bueno para el render final. Borra la nota de regeneración.">'+
      '<input type="checkbox" id="i-ok"'+(b.approved?" checked":"")+'> clip aprobado</label>'+
    '<div class="field" style="margin-top:.5rem;border-top:1px solid var(--line-2);padding-top:.5rem">'+
      '<span class="lbl">Estructura</span>'+
      '<div style="display:flex;flex-wrap:wrap;gap:.35rem">'+
-       (SWAPPABLE.has(b.kind)?'<button class="btn ghost sm" id="i-clear" data-tip="Deja el beat sin visual (sin cubrir). El tramo de voz sigue igual; le asignas un recurso después. No cambia la duración.">✕ quitar visual</button>':"")+
-       '<button class="btn ghost sm" id="i-mprev" data-tip="Funde este beat en el anterior: el plano del anterior pasa a cubrir también este tramo de voz. Se renumera la espina y se reescriben picks / timeline / prosa / 07-assets.">⤺ fusionar anterior</button>'+
-       '<button class="btn ghost sm" id="i-mnext" data-tip="Funde este beat en el siguiente: el plano del siguiente cubre también este tramo. Renumera y reescribe las fases anteriores.">fusionar siguiente ⤻</button>'+
-       '<button class="btn ghost sm" id="i-del" style="color:var(--neg)" data-tip="Elimina el beat entero. El tramo de voz lo reparten los vecinos al realinear. Renumera la espina y reescribe picks / timeline / prosa / 07-assets / source-log.">🗑 eliminar beat</button>'+
-       '<button class="btn ghost sm" id="i-split" data-tip="Parte el beat en dos por donde esté el cabezal (llévalo dentro del beat primero). Las dos mitades conservan el mismo plano; reasignas el visual de la 2ª. El corte se ajusta a la palabra más cercana de la voz.">✂ partir aquí</button>'+
-       '<button class="btn ghost sm" id="i-addb" data-tip="Inserta un beat nuevo justo después de este. Necesita un fragmento de la voz escrito verbatim para colocarlo en el tiempo; roba duración a los vecinos.">＋ beat después</button></div>'+
+       (SWAPPABLE.has(b.kind)?'<button class="btn ghost sm" id="i-clear" data-tip="Deja el beat sin visual. El tramo de voz sigue igual; le asignas un recurso después.">✕ quitar visual</button>':"")+
+       '<button class="btn ghost sm" id="i-mprev" data-tip="Funde este beat en el anterior: su duración se suma a la del anterior y este desaparece.">⤺ fusionar anterior</button>'+
+       '<button class="btn ghost sm" id="i-mnext" data-tip="Funde este beat en el siguiente.">fusionar siguiente ⤻</button>'+
+       '<button class="btn ghost sm" id="i-dup" data-tip="Duplica el beat justo después (mismo plano, sin marcador).">⧉ duplicar</button>'+
+       '<button class="btn ghost sm" id="i-split" data-tip="Parte el beat en dos por donde esté el cabezal (llévalo dentro del beat primero). Las dos mitades conservan el mismo plano; reasignas el visual de la 2ª.">✂ partir aquí</button>'+
+       '<button class="btn ghost sm" id="i-del" style="color:var(--neg)" data-tip="Elimina el beat. Su duración la absorbe el ripple (lo de abajo sube); el último beat crece hasta el final de la voz.">🗑 eliminar</button>'+
+       '<button class="btn ghost sm" id="i-addb" data-tip="Inserta un beat nuevo justo después de este. No necesita fragmento de voz — la línea es dueña de su tiempo.">＋ beat después</button></div>'+
      '<div class="notebox" id="i-smsg" hidden></div>'+
      '<div id="i-addform" hidden style="margin-top:.4rem;display:flex;flex-direction:column;gap:.3rem">'+
-       '<textarea id="i-af-frag" rows="2" placeholder="fragmento de la voz para el beat nuevo (verbatim de la VO)" data-tip="Copia aquí, palabra por palabra, la frase de la voz que suena durante el beat nuevo. align() la busca en la transcripción real para colocar el beat; si no es idéntica, el beat cae mal y puede fusionarse solo."></textarea>'+
-       '<div style="display:flex;gap:.3rem;flex-wrap:wrap"><select id="i-af-kind" data-tip="Tipo del beat nuevo. «acamara» sale de la toma sola y «negro» no llevan asset; los demás necesitan un visual (ahora o después).">'+
+       '<div style="display:flex;gap:.3rem;flex-wrap:wrap"><select id="i-af-kind" data-tip="Tipo del beat nuevo. «acamara» sale de la toma sola y «negro» no llevan asset.">'+
          ["archivo","stock","acamara","gráfico","ia","negro"].map(k=>'<option>'+k+'</option>').join("")+'</select>'+
-         '<button class="btn" id="i-af-browse" data-tip="Trae el visual del beat nuevo desde un archivo de tu equipo.">Examinar…</button>'+
-         '<input id="i-af-src" placeholder="o URL / id de asset (opcional)" style="flex:1;min-width:110px" data-tip="Alternativa a Examinar: URL directa o id de un asset ya en la biblioteca. Opcional — puedes crear el beat sin visual.">'+
-         '<button class="btn" id="i-af-go" data-tip="Crea el beat: inserta la fila en el shotlist, renumera la espina y reconstruye la línea.">añadir</button>'+
-         '<input type="file" id="i-af-file" accept="image/*,video/*" hidden></div>'+
-       '<div id="i-af-fname" class="mono" style="font-size:.62rem;color:var(--gold)"></div></div></div>';
+         '<input id="i-af-src" placeholder="id de asset (opcional)" style="flex:1;min-width:110px" data-tip="Opcional: id de un asset ya en la biblioteca. Para traer un archivo o URL, crea el beat y usa Examinar… en él.">'+
+         '<button class="btn" id="i-af-go" data-tip="Crea el beat después de este y reconstruye la línea.">añadir</button></div>'+
+       '<input id="i-af-anchor" placeholder="ancla de voz (opcional — solo referencia)" data-tip="Texto orientativo de la voz bajo el beat. No coloca nada: la línea es dueña de su tiempo. Sirve para re-sincronizar tras una regrabación."></div></div>';
 
-  $("#i-asset")?.addEventListener("change",ev=>{{ const v=ev.target.value; if(v)applyAsset(n,{{asset:v}}); }});
-  $("#i-ago")?.addEventListener("click",()=>{{ const v=($("#i-asrc").value||"").trim(); if(v)applyAsset(n,{{src:v}}); }});
+  $("#i-asset")?.addEventListener("change",ev=>{{ const v=ev.target.value; if(v)applyAsset(id,{{asset:v}}); }});
+  $("#i-ago")?.addEventListener("click",()=>{{ const v=($("#i-asrc").value||"").trim(); if(v)applyAsset(id,{{src:v}}); }});
   $("#i-abrowse")?.addEventListener("click",()=>$("#i-afile").click());
   $("#i-afile")?.addEventListener("change",async ev=>{{
     const f=ev.target.files&&ev.target.files[0]; if(!f)return;
     if(f.size>200*1024*1024){{alert("El archivo pasa de 200 MB.");return;}}
     const msg=$("#i-amsg"); if(msg){{msg.hidden=false;msg.textContent='subiendo '+f.name+' ('+(f.size/1048576).toFixed(1)+' MB)…';}}
-    try{{ const data=await fileB64(f); applyAsset(n,{{upload:{{name:f.name,data:data}}}}); }}
+    try{{ const data=await fileB64(f); applyAsset(id,{{upload:{{name:f.name,data:data}}}}); }}
     catch(e){{ if(msg)msg.textContent='⚠ no se pudo leer el archivo'; }}
     ev.target.value="";
   }});
-  $("#i-clear")?.addEventListener("click",()=>{{ if(confirm("¿Quitar el visual del beat "+n+"? Quedará sin cubrir."))beatEdit({{action:"clear",n:n}},"#i-smsg"); }});
-  $("#i-mprev")?.addEventListener("click",()=>{{ if(confirm("Fusionar el beat "+n+" en el anterior (su plano cubre el tramo)?"))beatEdit({{action:"merge",n:n,into:"prev"}},"#i-smsg"); }});
-  $("#i-mnext")?.addEventListener("click",()=>{{ if(confirm("Fusionar el beat "+n+" en el siguiente?"))beatEdit({{action:"merge",n:n,into:"next"}},"#i-smsg"); }});
-  $("#i-del")?.addEventListener("click",()=>{{ if(confirm("¿Eliminar el beat "+n+"? La voz la reparten los vecinos."))beatEdit({{action:"del",n:n}},"#i-smsg"); }});
+  $("#i-clear")?.addEventListener("click",()=>{{ if(confirm("¿Quitar el visual del beat "+disp(b)+"? Quedará sin cubrir."))applyAsset(id,{{action:"clear"}}); }});
+  $("#i-mprev")?.addEventListener("click",()=>{{ if(confirm("Fusionar el beat "+disp(b)+" en el anterior?"))beatOp({{action:"merge",id:id,into:"prev"}},"#i-smsg"); }});
+  $("#i-mnext")?.addEventListener("click",()=>{{ if(confirm("Fusionar el beat "+disp(b)+" en el siguiente?"))beatOp({{action:"merge",id:id,into:"next"}},"#i-smsg"); }});
+  $("#i-dup")?.addEventListener("click",()=>beatOp({{action:"duplicate",id:id}},"#i-smsg"));
+  $("#i-del")?.addEventListener("click",()=>{{ if(confirm("¿Eliminar el beat "+disp(b)+"? Su duración la absorbe el ripple."))beatOp({{action:"delete",id:id}},"#i-smsg"); }});
   $("#i-split")?.addEventListener("click",()=>{{
-    const t=cur, flo=AC.has(b.kind)?2.5:(b.kind==="gráfico"||b.kind==="grafico")?5:2.8;
-    if(!(t>b.in+0.2 && t<b.out-0.2)){{
-      alert("Lleva el cabezal DENTRO del beat "+n+" (haz clic en la regla o reproduce y pausa) y vuelve a pulsar «partir».");
-      return;
-    }}
-    if(t-b.in<flo || b.out-t<flo){{
-      alert("Cada mitad debe durar ≥ "+flo+"s. Acerca el cabezal al centro del beat.");
-      return;
-    }}
-    if(confirm("Partir el beat "+n+" en "+fmt(t)+"\\n· 1ª mitad ≈ "+(t-b.in).toFixed(1)+"s\\n· 2ª mitad ≈ "+(b.out-t).toFixed(1)+"s — mismo plano, reasignas el visual de la 2ª\\n\\nSe renumera la espina."))
-      beatEdit({{action:"split",n:n,at:t}},"#i-smsg");
+    const t=cur, flo=FLOOR(b);
+    if(!(t>b.in+0.2 && t<b.out-0.2)){{ alert("Lleva el cabezal DENTRO del beat "+disp(b)+" y vuelve a pulsar «partir»."); return; }}
+    if(t-b.in<flo || b.out-t<flo){{ alert("Cada mitad debe durar ≥ "+flo+"s. Acerca el cabezal al centro."); return; }}
+    if(confirm("Partir el beat "+disp(b)+" en "+fmt(t)+"\\n· 1ª mitad ≈ "+(t-b.in).toFixed(1)+"s\\n· 2ª mitad ≈ "+(b.out-t).toFixed(1)+"s — mismo plano, reasignas el visual de la 2ª"))
+      beatOp({{action:"split",id:id,at:t}},"#i-smsg");
   }});
   $("#i-addb")?.addEventListener("click",()=>{{ const f=$("#i-addform"); f.hidden=!f.hidden; }});
-  let afUpload=null;
-  $("#i-af-browse")?.addEventListener("click",()=>$("#i-af-file").click());
-  $("#i-af-file")?.addEventListener("change",async ev=>{{
-    const f=ev.target.files&&ev.target.files[0]; if(!f)return;
-    if(f.size>200*1024*1024){{alert("El archivo pasa de 200 MB.");return;}}
-    try{{ afUpload={{name:f.name,data:await fileB64(f)}}; $("#i-af-fname").textContent="▸ "+f.name; }}
-    catch(e){{ $("#i-af-fname").textContent="⚠ no se pudo leer"; }}
-  }});
   $("#i-af-go")?.addEventListener("click",()=>{{
-    const frag=($("#i-af-frag").value||"").trim(); if(!frag){{alert("El beat nuevo necesita un fragmento de la voz.");return;}}
-    const src=($("#i-af-src").value||"").trim(); const kind=$("#i-af-kind").value;
-    const body={{action:"add",after:n,frag:frag,kind:kind,section:b.section}};
-    if(afUpload) body.upload=afUpload;
-    else if(src && /[\\/.:]/.test(src)) body.src=src;
-    else if(src) body.asset=src;
-    beatEdit(body,"#i-smsg");
+    const kind=$("#i-af-kind").value, asset=($("#i-af-src").value||"").trim();
+    const anchor=($("#i-af-anchor").value||"").trim();
+    const body={{action:"add",after:id,kind:kind,section:b.section}};
+    if(asset) body.asset=asset;
+    if(anchor) body.vo_anchor=anchor;
+    beatOp(body,"#i-smsg");
   }});
-  $("#i-ok").onchange=ev=>{{ b.approved=ev.target.checked; if(ev.target.checked)b.fix=""; ev.target.closest(".approve").classList.toggle("on",ev.target.checked); markDirty(); layout(); select(n); status(); }};
-  $("#i-fix").oninput=ev=>{{ b.fix=ev.target.value.trim(); if(b.fix)b.approved=false; status(); layout2(n); markDirty(); }};
+  $("#i-snap")?.addEventListener("click",ev=>{{
+    ev.preventDefault();
+    const prev=B[bidx(b)-1]; if(!prev) return;
+    const shift=cur-b.in;                       // move the prev/this boundary to the playhead
+    if(prev.dur+shift<0.4 || b.dur-shift<0.4){{ toast("el cabezal está fuera del margen de este límite",2500); return; }}
+    prev.dur=+(prev.dur+shift).toFixed(3); prev.dur_edited=true;
+    b.dur=+(b.dur-shift).toFixed(3); b.dur_edited=true;
+    b.vo_anchor = WORDS.slice(Math.max(0,_wi-1),_wi+6).map(w=>w.w).join(" ");
+    deriveLocal(); markDirty(); layout(); select(id);
+  }});
+  $("#i-unlock")?.addEventListener("click",ev=>{{ ev.preventDefault(); delete b.dur_edited; markDirty(); layout(); select(id); }});
+  $("#i-ok").onchange=ev=>{{ b.approved=ev.target.checked; if(ev.target.checked)b.fix=""; ev.target.closest(".approve").classList.toggle("on",ev.target.checked); markDirty(); layout(); select(id); status(); }};
+  $("#i-fix").oninput=ev=>{{ b.fix=ev.target.value.trim(); if(b.fix)b.approved=false; status(); layout2(id); markDirty(); }};
   $$("#i-motion .mchip").forEach(c=>c.onclick=()=>{{ b.motion=c.dataset.m;
-    $$("#i-motion .mchip").forEach(x=>x.setAttribute("aria-pressed","false")); c.setAttribute("aria-pressed","true"); }});
+    $$("#i-motion .mchip").forEach(x=>x.setAttribute("aria-pressed","false")); c.setAttribute("aria-pressed","true"); markDirty(); }});
   $$('.stepper [data-d]').forEach(x=>x.onclick=()=>{{
-    b.dur_lock=Math.max(1,+(((b.dur_lock|| (b.out-b.in))+ +x.dataset.d)).toFixed(1));
-    b.out=+(b.in+b.dur_lock).toFixed(2);
-    $("#i-dur").textContent=b.dur_lock.toFixed(1)+"s (fija)"; markDirty(); layout(); select(n); }});
+    setDur(b, b.dur + (+x.dataset.d));
+    $("#i-dur").textContent=b.dur.toFixed(1)+'s · editada'; markDirty(); layout(); select(id); }});
   $$('.stepper [data-nf]').forEach(x=>x.onclick=()=>{{ b.nudge=(b.nudge||0)+ +x.dataset.nf;
     $("#i-nudge").textContent=b.nudge; markDirty(); }});
-  $("#i-reset")?.addEventListener("click",()=>{{
-    delete b.dur_lock; delete b.slot; markDirty(); layout(); select(n); }});
 }}
-/* ---- save: dur_lock / slot / nudge persist via /tl-save (recomputes align) ---- */
+/* ---- save: authored beats persist via /tl-save; the server re-derives ---- */
 let saveT=0, saving=false;
 function markDirty(){{ const s=$("#save"); s.textContent="Guardar •"; s.classList.add("dirty");
   clearTimeout(saveT); saveT=setTimeout(saveTL,900); }}
@@ -760,10 +798,10 @@ async function saveTL(){{
     TL.beats=B;
     const j=await post("/tl-save",{{ep:EPID,slug:SLUG,timeline:TL}});
     if(j && j.timeline && j.timeline.beats){{
-      const selN = sel && sel.n;
+      const selId = sel && sel.id;
       Object.assign(TL,j.timeline); B=TL.beats; TOTAL=TL.total||TOTAL; if(typeof applyMix==="function")applyMix();
       $("#tctot").textContent=fmt(TOTAL); status(); layout();
-      if(selN!=null) select(selN);
+      if(selId) select(selId);
     }}
     s.textContent="Guardado ✓"; s.classList.remove("dirty");
   }}catch(e){{ s.textContent="⚠ sin guardar"; }}
@@ -771,9 +809,9 @@ async function saveTL(){{
 }}
 $("#save").onclick=saveTL;
 addEventListener("beforeunload",e=>{{ if($("#save").classList.contains("dirty")){{ e.preventDefault(); e.returnValue=""; }} }});
-function layout2(n){{ /* light re-style of one clip without full relayout */
-  const el=vtrack.querySelector('.clip[data-n="'+n+'"]'); if(!el)return;
-  const b=B.find(x=>x.n===n);
+function layout2(id){{ /* light re-style of one clip without full relayout */
+  const el=vtrack.querySelector('.clip[data-id="'+id+'"]'); if(!el)return;
+  const b=byId(id); if(!b)return;
   el.querySelector(".fixdot")?.remove();
   if(b.fix){{const s=document.createElement("span");s.className="fixdot";el.appendChild(s);}}
 }}
@@ -781,9 +819,9 @@ function layout2(n){{ /* light re-style of one clip without full relayout */
 /* tooltip */
 const tt=$("#tltip");
 function tip(e,b){{
-  tt.innerHTML='<b>beat '+String(b.n).padStart(2,"0")+'</b> · <span class="k">'+(KLAB[b.kind]||b.kind)+
+  tt.innerHTML='<b>beat '+disp(b)+'</b> · <span class="k">'+(KLAB[b.kind]||b.kind)+
     '</span> · <span class="k">'+fmt(b.in)+'–'+fmt(b.out)+'</span>'+
-    (b.frag?'<br>'+esc(b.frag):"")+(b.marker?'<br><span class="k">'+esc(b.marker)+'</span>':"")+
+    (anchorOf(b)?'<br>'+esc(anchorOf(b)):"")+(b.marker?'<br><span class="k">'+esc(b.marker)+'</span>':"")+
     (b.fix?'<br><span style="color:var(--gold)">corrección: '+esc(b.fix)+'</span>':"")+
     (b.state==="uncovered"?'<br><span style="color:var(--neg)">sin visual asignado</span>':"");
   tt.classList.add("show"); tipmove(e);
@@ -881,10 +919,16 @@ $("#fin").onclick=async()=>{{
   }}
 }};
 
+$("#reseed").onclick=async()=>{{
+  if(!confirm("Re-sembrar desde el shotlist.\\n\\nEsto DESCARTA todas las ediciones de la sala:\\n· duraciones y orden\\n· beats añadidos / partidos / fusionados\\n· aprobados y notas de regeneración\\n· la mezcla\\n\\nSe guarda un respaldo (09-timeline.<ts>.bak.json). ¿Seguir?")) return;
+  toast("re-sembrando desde la espina…",4000);
+  await beatOp({{action:"reseed",confirm:true}},null);
+}};
+
 /* init */
-status(); layout();
+status(); layout(); updWords();
 addEventListener("resize",()=>{{_mmW=0;drawMinimap();updRange();placePlayhead();}});
-if(B.length)select(B[0].n);
+if(B.length)select(B[0].id);
 scroll.scrollLeft=0;
 </script></body></html>
 """

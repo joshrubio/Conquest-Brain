@@ -54,6 +54,9 @@ def migrate(slug, check_only=False):
     # freeze: authored dur = current on-screen length; ids from the spine rows
     src = [dict(b) for b in old]
     ab = A.to_authored_beats(src, vo_end)
+    A.derive_times(ab, vo_end)            # canonical cumsum in/out
+    A.resolve(ep, ab)                     # file / state / aspect for the written doc
+    A._derive_motion(ab)
     doc = A.authored_doc(
         slug, ab, vo_end=vo_end, total=vo_end,
         words_sig=A._words_sig(words), aligned=bool(v1.get("aligned")),

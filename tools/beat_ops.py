@@ -17,6 +17,8 @@ the timeline owns its own structure now (brain/16 «timeline canónica»).
   python tools/beat_ops.py E0XX-slug --reorder b3,b1,b2,...
   python tools/beat_ops.py E0XX-slug --tidy [--merge-same-file]
 """
+import contextlib
+import io
 import json
 import sys
 from pathlib import Path
@@ -51,7 +53,8 @@ def _load(slug):
 
 def _finish(slug, tj, data):
     tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
-    return A.rebuild_timeline(slug)
+    with contextlib.redirect_stdout(io.StringIO()):    # keep assemble's chatter off our JSON
+        return A.rebuild_timeline(slug)
 
 
 def _idx(beats, bid):
@@ -181,6 +184,20 @@ def reorder(slug, order):
     return _finish(slug, tj, data)
 
 
+def reseed(slug, confirm=False):
+    """«Re-sembrar desde shotlist» — discard every sala edit and rebuild the
+    timeline from the spine + VO. Backs the current file up first."""
+    if not confirm:
+        raise SystemExit("reseed necesita confirm=true — descarta TODAS las ediciones de sala")
+    import shutil
+    import time
+    f = A.EP_DIR / slug / "09-timeline.json"
+    if f.exists():
+        shutil.copy2(f, f.with_name(f"09-timeline.{int(time.time())}.bak.json"))
+    with contextlib.redirect_stdout(io.StringIO()):
+        return A.seed_timeline(slug, force=True)
+
+
 def tidy(slug, merge_same_file=False):
     ep, tj, data = _load(slug)
     beats = data["beats"]
@@ -199,10 +216,12 @@ def tidy(slug, merge_same_file=False):
 # ── dispatch (used by serve.py /beat-op) ──────────────────────────────────
 
 def run(slug, action, **kw):
+    if "id" in kw:                       # the client keys beats by `id`; ops call it `bid`
+        kw["bid"] = kw.pop("id")
     fn = {"add": add, "split": split, "merge": merge, "delete": delete,
           "del": delete, "setdur": set_dur, "set_dur": set_dur,
           "duplicate": duplicate, "dup": duplicate, "reorder": reorder,
-          "tidy": tidy}.get(action)
+          "tidy": tidy, "reseed": reseed}.get(action)
     if not fn:
         raise SystemExit(f"acción desconocida: {action}")
     return fn(slug, **kw)
@@ -217,6 +236,18 @@ if __name__ == "__main__":
 
     def opt(name, default=None):
         return a[a.index(name) + 1] if name in a else default
+
+    if "--json" in a:                       # serve.py /beat-op: {"action": ..., ...}
+        try:
+            payload = json.loads(opt("--json") or "{}")
+            action = payload.pop("action", "")
+            tl = run(slug, action, **payload)
+            print(json.dumps({"ok": True, "timeline": tl}, ensure_ascii=False))
+        except SystemExit as ex:
+            print(json.dumps({"error": ex.code if isinstance(ex.code, str) else "error"},
+                             ensure_ascii=False))
+            sys.exit(1)
+        sys.exit(0)
 
     if "--add" in a:
         add(slug, after=opt("--after"), kind=opt("--kind", "stock"),

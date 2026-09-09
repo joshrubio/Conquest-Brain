@@ -309,8 +309,9 @@ class H(BaseHTTPRequestHandler):
             epp = P.ep_path(ep)
             (epp / "09-timeline.json").write_text(
                 json.dumps(tl, ensure_ascii=False, indent=1), encoding="utf-8")
-            # re-run build_timeline so _apply_edits turns the saved dur_lock / slot
-            # / nudge into real in/out, then hand the recomputed timeline back
+            # rebuild_timeline re-derives in/out from the authored `dur`s on the
+            # VO backbone (schema 2) and re-resolves files — no align — then we
+            # hand the recomputed timeline back
             _run(["assemble.py", slug, "--timeline-only"])
             _run(["edit_timeline.py", slug])
             fresh = (epp / "09-timeline.json").read_text(encoding="utf-8")
@@ -345,7 +346,7 @@ class H(BaseHTTPRequestHandler):
                 json.dumps(tl, ensure_ascii=False, indent=1), encoding="utf-8")
             beats = tl.get("beats", [])
             dec = ["# 09-decisions.txt — desde 09-edit.html", ""]
-            for b in beats:
+            for i, b in enumerate(beats, 1):
                 bits = []
                 if b.get("fix"):
                     bits.append("FIX: " + b["fix"])
@@ -354,27 +355,30 @@ class H(BaseHTTPRequestHandler):
                 if b.get("nudge"):
                     bits.append(f"nudge {b['nudge']:+d}f")
                 if bits:
-                    dec.append(f"beat {b['n']:>2}  {b.get('asset') or '—'}  " + " · ".join(bits))
+                    tag = b.get("id") or b.get("n") or f"#{i}"
+                    anchor = (b.get("vo_anchor") or b.get("frag") or "")[:48]
+                    dec.append(f"{i:>3} {tag:<5} {b.get('asset') or '—':<28} " + " · ".join(bits)
+                               + (f"   « {anchor} »" if anchor else ""))
             (epp / "09-decisions.txt").write_text("\n".join(dec) + "\n", encoding="utf-8")
             P.set_ep(ep, stage=9, gate="exportado")
             _run(["edit_timeline.py", slug])          # re-render the page with saved state
             msg = _run(["advance.py", "fold", ep])
             return self._send(200, json.dumps({"ok": True, "msg": msg}))
 
-        if path == "/beat-asset":                     # Stage 9 — edit one beat (swap / merge / del / add / clear)
+        if path == "/beat-asset":                     # Stage 9 — one beat's visual (swap / clear)
             slug = data.get("slug") or ep
             if data.get("list"):
                 return self._send(200, _run(["beat_asset.py", slug, "--list"]) or "[]")
             epp = P.ep_path(ep)
-            # persist the edit room's unsaved nudges/approvals first, so the
-            # rebuild inside beat_asset.py prev-merges them back
+            # persist the edit room's unsaved dur / nudge / approve edits first
             if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
                 (epp / "09-timeline.json").write_text(
                     json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
-            # a browsed file arrives as base64 → write it to a temp under assets/,
-            # then treat it like a local-path --src (beat_asset copies + names it)
-            up_tmp = None
-            up = data.get("upload")
+            bid = str(data.get("id") or "")
+            if not bid:
+                return self._send(400, json.dumps({"error": "falta el id del beat"}))
+            # a browsed file arrives as base64 → temp under assets/, passed as --src
+            up_tmp, up = None, data.get("upload")
             if isinstance(up, dict) and up.get("data"):
                 import base64
                 ext = (Path(str(up.get("name", "x"))).suffix or ".bin").lower()
@@ -385,38 +389,39 @@ class H(BaseHTTPRequestHandler):
                     data["src"] = str(up_tmp)
                 except Exception as e:
                     return self._send(400, json.dumps({"error": f"subida ilegible: {e}"}))
-            act = data.get("action", "set")
-            if act == "add":
-                args = ["beat_asset.py", slug, "--add", "--after", str(int(data.get("after", 0))),
-                        "--frag", str(data.get("frag", "")), "--kind", str(data.get("kind", "archivo"))]
-                for k in ("section", "marker", "dur", "asset", "src"):
-                    if data.get(k):
-                        args += [f"--{k}", str(data[k])]
+            if data.get("action") == "clear":
+                args = ["beat_asset.py", slug, "--clear", bid]
             else:
-                try:
-                    n = str(int(data["n"]))
-                except (KeyError, TypeError, ValueError):
-                    return self._send(400, json.dumps({"error": "falta el nº de beat"}))
-                if act == "clear":
-                    args = ["beat_asset.py", slug, "--clear", n]
-                elif act == "merge":
-                    args = ["beat_asset.py", slug, "--merge", n, "--into", str(data.get("into", "prev"))]
-                elif act == "del":
-                    args = ["beat_asset.py", slug, "--del", n]
-                elif act == "split":
-                    args = ["beat_asset.py", slug, "--split", n, "--at", str(float(data.get("at", 0)))]
-                else:
-                    args = ["beat_asset.py", slug, "--set", n]
-                    args += ["--src", str(data["src"])] if data.get("src") else ["--asset", str(data.get("asset", ""))]
+                args = ["beat_asset.py", slug, "--set", bid]
+                args += ["--src", str(data["src"])] if data.get("src") else ["--asset", str(data.get("asset", ""))]
             out = _run(args)
             if up_tmp is not None:
-                up_tmp.unlink(missing_ok=True)          # beat_asset copied it to the real name
+                up_tmp.unlink(missing_ok=True)
             try:
                 res = json.loads(out)
             except (json.JSONDecodeError, TypeError):
                 return self._send(500, json.dumps({"error": (out or "sin respuesta")[-400:]}))
-            # structural edits renumber the spine → hand the recomputed timeline back
-            if act in ("merge", "del", "add", "split") and not res.get("error"):
+            if not res.get("error"):
+                _run(["edit_timeline.py", slug])
+                res["timeline"] = json.loads((epp / "09-timeline.json").read_text(encoding="utf-8"))
+            return self._send(200, json.dumps(res, ensure_ascii=False))
+
+        if path == "/beat-op":                        # Stage 9 — structural edit by beat id
+            slug = data.get("slug") or ep
+            epp = P.ep_path(ep)
+            if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
+                (epp / "09-timeline.json").write_text(
+                    json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
+            payload = {k: v for k, v in data.items()
+                       if k not in ("slug", "ep", "timeline")}
+            if payload.get("action") == "reseed" and not payload.get("confirm"):
+                return self._send(400, json.dumps({"error": "reseed necesita confirm:true"}))
+            out = _run(["beat_ops.py", slug, "--json", json.dumps(payload, ensure_ascii=False)])
+            try:
+                res = json.loads(out)
+            except (json.JSONDecodeError, TypeError):
+                return self._send(500, json.dumps({"error": (out or "sin respuesta")[-400:]}))
+            if not res.get("error"):
                 _run(["edit_timeline.py", slug])
                 res["timeline"] = json.loads((epp / "09-timeline.json").read_text(encoding="utf-8"))
             return self._send(200, json.dumps(res, ensure_ascii=False))

@@ -694,6 +694,8 @@ def seed_timeline(slug, force=False):
 
     vo_end = round(_vo_end_from_words(words), 2) if words else round(total, 2)
     ab = to_authored_beats(beats, vo_end)
+    derive_times(ab, vo_end)              # write canonical (cumsum) in/out, not align's
+    total = round(ab[-1]["out"], 2) if ab else total
     data = authored_doc(slug, ab, vo_end=vo_end, total=total,
                         words_sig=_words_sig(words), aligned=bool(words),
                         music=_music_block({}, ab, total))
