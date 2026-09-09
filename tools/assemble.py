@@ -123,6 +123,16 @@ def _asset_index(ep):
             if f.is_file() and f.suffix.lower() in MEDIA_EXT:
                 idx.setdefault(f.stem, f)
                 idx.setdefault(f.name, f)
+    # explicit pins (assets/_index.json, written by beat_asset.py) win over the
+    # subdir scan — an edit-room swap can never be shadowed by a leftover file
+    pin = ep / "assets" / "_index.json"
+    if pin.exists():
+        try:
+            for k, v in json.loads(pin.read_text(encoding="utf-8")).items():
+                if (ep / v).exists():
+                    idx[k] = ep / v
+        except (json.JSONDecodeError, TypeError):
+            pass
     return idx
 
 

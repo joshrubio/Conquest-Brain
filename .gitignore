@@ -19,6 +19,7 @@
 # Episode working assets (archive downloads, exports, renders)
 episodes/**/assets/*
 !episodes/**/assets/README.md
+!episodes/**/assets/_index.json
 
 # Third-party transcripts used for format analysis — copyright, keep local only
 research/dieck-docs/transcripts/*
