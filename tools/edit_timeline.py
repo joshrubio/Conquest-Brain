@@ -379,6 +379,8 @@ function layout(){{
   placePlayhead(); drawMinimap(); updRange();
 }}
 function esc(s){{const d=document.createElement("div");d.textContent=s;return d.innerHTML;}}
+function fileB64(f){{return new Promise((res,rej)=>{{const r=new FileReader();
+  r.onload=()=>res(String(r.result).split(",")[1]); r.onerror=rej; r.readAsDataURL(f);}});}}
 
 function updRange(){{
   const v0=scroll.scrollLeft/PPS, v1=(scroll.scrollLeft+scroll.clientWidth)/PPS;
@@ -592,9 +594,11 @@ function select(n){{
        '<div class="control"><select id="i-asset">'+
          '<option value="">'+(b.asset?esc(b.asset):"— sin elegir —")+'</option>'+assetOpts(b)+
        '</select></div>'+
-       '<div class="control" style="margin-top:.4rem;display:flex;gap:.4rem">'+
-         '<input id="i-asrc" placeholder="o pega ruta local / URL directa (imagen o vídeo)" style="flex:1">'+
-         '<button class="btn" id="i-ago">traer</button></div>'+
+       '<div class="control" style="margin-top:.4rem;display:flex;gap:.4rem;flex-wrap:wrap">'+
+         '<button class="btn" id="i-abrowse">Examinar…</button>'+
+         '<input id="i-asrc" placeholder="o pega una URL directa" style="flex:1;min-width:120px">'+
+         '<button class="btn ghost" id="i-ago">traer URL</button>'+
+         '<input type="file" id="i-afile" accept="image/*,video/*" hidden></div>'+
        '<div class="notebox" id="i-amsg" hidden></div></div>')
     : '<div class="field"><span class="lbl">Asset</span><div class="notebox muted">este beat es «'+(KLAB[b.kind]||b.kind)+'» — no lleva asset que cambiar</div></div>')+
    '<div class="field" style="display:flex;gap:.7rem">'+
@@ -624,23 +628,45 @@ function select(n){{
      '<div class="notebox" id="i-smsg" hidden></div>'+
      '<div id="i-addform" hidden style="margin-top:.4rem;display:flex;flex-direction:column;gap:.3rem">'+
        '<textarea id="i-af-frag" rows="2" placeholder="fragmento de la voz para el beat nuevo (verbatim de la VO)"></textarea>'+
-       '<div style="display:flex;gap:.3rem"><select id="i-af-kind">'+
+       '<div style="display:flex;gap:.3rem;flex-wrap:wrap"><select id="i-af-kind">'+
          ["archivo","stock","acamara","gráfico","ia","negro"].map(k=>'<option>'+k+'</option>').join("")+'</select>'+
-         '<input id="i-af-src" placeholder="ruta/URL o id de asset (opcional)" style="flex:1">'+
-         '<button class="btn" id="i-af-go">añadir</button></div></div></div>';
+         '<button class="btn" id="i-af-browse">Examinar…</button>'+
+         '<input id="i-af-src" placeholder="o URL / id de asset (opcional)" style="flex:1;min-width:110px">'+
+         '<button class="btn" id="i-af-go">añadir</button>'+
+         '<input type="file" id="i-af-file" accept="image/*,video/*" hidden></div>'+
+       '<div id="i-af-fname" class="mono" style="font-size:.62rem;color:var(--gold)"></div></div></div>';
 
   $("#i-asset")?.addEventListener("change",ev=>{{ const v=ev.target.value; if(v)applyAsset(n,{{asset:v}}); }});
   $("#i-ago")?.addEventListener("click",()=>{{ const v=($("#i-asrc").value||"").trim(); if(v)applyAsset(n,{{src:v}}); }});
+  $("#i-abrowse")?.addEventListener("click",()=>$("#i-afile").click());
+  $("#i-afile")?.addEventListener("change",async ev=>{{
+    const f=ev.target.files&&ev.target.files[0]; if(!f)return;
+    if(f.size>200*1024*1024){{alert("El archivo pasa de 200 MB.");return;}}
+    const msg=$("#i-amsg"); if(msg){{msg.hidden=false;msg.textContent='subiendo '+f.name+' ('+(f.size/1048576).toFixed(1)+' MB)…';}}
+    try{{ const data=await fileB64(f); applyAsset(n,{{upload:{{name:f.name,data:data}}}}); }}
+    catch(e){{ if(msg)msg.textContent='⚠ no se pudo leer el archivo'; }}
+    ev.target.value="";
+  }});
   $("#i-clear")?.addEventListener("click",()=>{{ if(confirm("¿Quitar el visual del beat "+n+"? Quedará sin cubrir."))beatEdit({{action:"clear",n:n}},"#i-smsg"); }});
   $("#i-mprev")?.addEventListener("click",()=>{{ if(confirm("Fusionar el beat "+n+" en el anterior (su plano cubre el tramo)?"))beatEdit({{action:"merge",n:n,into:"prev"}},"#i-smsg"); }});
   $("#i-mnext")?.addEventListener("click",()=>{{ if(confirm("Fusionar el beat "+n+" en el siguiente?"))beatEdit({{action:"merge",n:n,into:"next"}},"#i-smsg"); }});
   $("#i-del")?.addEventListener("click",()=>{{ if(confirm("¿Eliminar el beat "+n+"? La voz la reparten los vecinos."))beatEdit({{action:"del",n:n}},"#i-smsg"); }});
   $("#i-addb")?.addEventListener("click",()=>{{ const f=$("#i-addform"); f.hidden=!f.hidden; }});
+  let afUpload=null;
+  $("#i-af-browse")?.addEventListener("click",()=>$("#i-af-file").click());
+  $("#i-af-file")?.addEventListener("change",async ev=>{{
+    const f=ev.target.files&&ev.target.files[0]; if(!f)return;
+    if(f.size>200*1024*1024){{alert("El archivo pasa de 200 MB.");return;}}
+    try{{ afUpload={{name:f.name,data:await fileB64(f)}}; $("#i-af-fname").textContent="▸ "+f.name; }}
+    catch(e){{ $("#i-af-fname").textContent="⚠ no se pudo leer"; }}
+  }});
   $("#i-af-go")?.addEventListener("click",()=>{{
     const frag=($("#i-af-frag").value||"").trim(); if(!frag){{alert("El beat nuevo necesita un fragmento de la voz.");return;}}
     const src=($("#i-af-src").value||"").trim(); const kind=$("#i-af-kind").value;
     const body={{action:"add",after:n,frag:frag,kind:kind,section:b.section}};
-    if(src && /[\\/.:]/.test(src)) body.src=src; else if(src) body.asset=src;
+    if(afUpload) body.upload=afUpload;
+    else if(src && /[\\/.:]/.test(src)) body.src=src;
+    else if(src) body.asset=src;
     beatEdit(body,"#i-smsg");
   }});
   $("#i-ok").onchange=ev=>{{ b.approved=ev.target.checked; if(ev.target.checked)b.fix=""; ev.target.closest(".approve").classList.toggle("on",ev.target.checked); markDirty(); layout(); select(n); status(); }};

@@ -23,25 +23,9 @@
  },
  "beats": [
   {
-   "n": 1,
+   "n": 2,
    "in": 0.0,
    "out": 5.83,
-   "dur": 10.0,
-   "section": "cold open",
-   "kind": "ia",
-   "asset": "beat1_custom_1",
-   "label": "Ilustración — Conquest",
-   "motion": "push",
-   "marker": "HOOK",
-   "frag": "un hombre de unos 88 años se estaba muriendo",
-   "file": "assets/archive/beat1_custom_1.png",
-   "state": "ok",
-   "aspect": 1.777
-  },
-  {
-   "n": 2,
-   "in": 5.83,
-   "out": 11.06,
    "dur": 5.0,
    "section": "cold open",
    "kind": "stock",
@@ -53,6 +37,23 @@
    "file": "assets/intro/intro02_pexelsv_2.mp4",
    "state": "ok",
    "merged": 1
+  },
+  {
+   "n": 1,
+   "in": 5.83,
+   "out": 11.06,
+   "dur": 10.0,
+   "section": "cold open",
+   "kind": "ia",
+   "asset": "beat1_custom_1",
+   "label": "Ilustración — Conquest",
+   "motion": "push",
+   "marker": "HOOK",
+   "frag": "un hombre de unos 88 años se estaba muriendo",
+   "file": "assets/archive/beat1_custom_1.png",
+   "state": "ok",
+   "aspect": 1.777,
+   "slot": 1.5
   },
   {
    "n": 4,
@@ -182,7 +183,7 @@
   {
    "n": 14,
    "in": 70.43,
-   "out": 73.35,
+   "out": 77.93,
    "dur": 6.0,
    "section": "pivote",
    "kind": "archivo",
@@ -193,11 +194,12 @@
    "frag": "es probablemente la ciudad más grande del mundo",
    "file": "assets/archive/beat14_custom_14.png",
    "state": "ok",
-   "aspect": 1.777
+   "aspect": 1.777,
+   "dur_lock": 7.5
   },
   {
    "n": 15,
-   "in": 73.35,
+   "in": 77.93,
    "out": 87.66,
    "dur": 12.0,
    "section": "pivote",
@@ -214,7 +216,7 @@
   {
    "n": 16,
    "in": 87.66,
-   "out": 102.66,
+   "out": 102.06,
    "dur": 8.0,
    "section": "explicador",
    "kind": "archivo",
@@ -225,11 +227,12 @@
    "frag": "va a ser el oficio de Hokusai los 70 años siguientes; grabados hechos para venderse barato",
    "file": "assets/_proxy/beat14_commons_1499270.jpg",
    "state": "ok",
-   "aspect": 0.585
+   "aspect": 0.585,
+   "dur_lock": 14.4
   },
   {
    "n": 17,
-   "in": 102.66,
+   "in": 102.06,
    "out": 108.6,
    "dur": 7.0,
    "section": "explicador",
@@ -355,7 +358,7 @@
   {
    "n": 25,
    "in": 166.36,
-   "out": 171.68,
+   "out": 173.24,
    "dur": 11.0,
    "section": "acto 1",
    "kind": "acamara",
@@ -365,12 +368,13 @@
    "marker": "",
    "frag": "La primera vez que empieza de cero",
    "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
+   "state": "ok",
+   "dur_lock": 8.1
   },
   {
    "n": 26,
-   "in": 171.68,
-   "out": 176.04,
+   "in": 173.24,
+   "out": 177.64,
    "dur": 9.0,
    "section": "acto 1",
    "kind": "archivo",
@@ -381,11 +385,12 @@
    "frag": "En 1793 muere",
    "file": "assets/archive/beat12_met_53446.jpg",
    "state": "ok",
-   "aspect": 0.75
+   "aspect": 0.75,
+   "dur_lock": 4.4
   },
   {
    "n": 27,
-   "in": 176.04,
+   "in": 177.64,
    "out": 183.72,
    "dur": 8.0,
    "section": "acto 1",
@@ -402,7 +407,7 @@
   {
    "n": 28,
    "in": 183.72,
-   "out": 196.38,
+   "out": 194.52,
    "dur": 10.0,
    "section": "acto 1",
    "kind": "acamara",
@@ -412,12 +417,13 @@
    "marker": "",
    "frag": "no hay un documento que lo confirme",
    "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
+   "state": "ok",
+   "dur_lock": 10.8
   },
   {
    "n": 29,
-   "in": 196.38,
-   "out": 199.22,
+   "in": 194.52,
+   "out": 199.62,
    "dur": 8.0,
    "section": "acto 1",
    "kind": "archivo",
@@ -428,11 +434,12 @@
    "frag": "estampa europea que entraba por Nagasaki",
    "file": "assets/archive/beat14_commons_26134200.jpg",
    "state": "ok",
-   "aspect": 0.507
+   "aspect": 0.507,
+   "dur_lock": 5.1
   },
   {
    "n": 30,
-   "in": 199.22,
+   "in": 199.62,
    "out": 206.83,
    "dur": 8.0,
    "section": "acto 1",
@@ -510,24 +517,9 @@
    "aspect": 0.458
   },
   {
-   "n": 35,
-   "in": 252.33,
-   "out": 271.02,
-   "dur": 14.0,
-   "section": "acto 1",
-   "kind": "acamara",
-   "asset": "",
-   "label": "",
-   "motion": "cut",
-   "marker": "",
-   "frag": "un genio ignorado que mal vendía láminas",
-   "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
-  },
-  {
    "n": 36,
-   "in": 271.02,
-   "out": 276.4,
+   "in": 252.33,
+   "out": 267.03,
    "dur": 9.0,
    "section": "acto 1",
    "kind": "archivo",
@@ -538,7 +530,24 @@
    "frag": "tuvo nombre, tuvo público",
    "file": "assets/archive/beat22_custom_22.jpg",
    "state": "ok",
-   "aspect": 1.46
+   "aspect": 1.46,
+   "dur_lock": 14.7,
+   "slot": 30.5
+  },
+  {
+   "n": 35,
+   "in": 267.03,
+   "out": 276.4,
+   "dur": 14.0,
+   "section": "acto 1",
+   "kind": "acamara",
+   "asset": "",
+   "label": "",
+   "motion": "cut",
+   "marker": "",
+   "frag": "un genio ignorado que mal vendía láminas",
+   "file": "assets/E001-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "n": 37,
@@ -621,7 +630,7 @@
   {
    "n": 42,
    "in": 313.48,
-   "out": 324.48,
+   "out": 321.98,
    "dur": 9.0,
    "section": "acto 1",
    "kind": "acamara",
@@ -631,22 +640,25 @@
    "marker": "",
    "frag": "Así llega a los 50 años",
    "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
+   "state": "ok",
+   "dur_lock": 8.5
   },
   {
-   "n": 43,
-   "in": 324.48,
+   "n": 45,
+   "in": 321.98,
    "out": 329.66,
-   "dur": 10.0,
+   "dur": 9.0,
    "section": "acto 1",
-   "kind": "stock",
-   "asset": "swap_43_ab25d7b0",
+   "kind": "archivo",
+   "asset": "manga_detail",
    "label": "",
-   "motion": "cut",
+   "motion": "pan-v",
    "marker": "",
-   "frag": "publica lo que le da fama de verdad, los Hokusai Manga",
-   "file": "assets/video/swap_43_ab25d7b0.mp4",
-   "state": "ok"
+   "frag": "gente trabajando, animales, olas, plantas",
+   "file": "assets/archive/beat45_custom_45.jpg",
+   "state": "ok",
+   "aspect": 1.396,
+   "slot": 38.5
   },
   {
    "n": 44,
@@ -661,27 +673,29 @@
    "marker": "",
    "frag": "no se trata de un comic o un manga",
    "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
+   "state": "ok",
+   "slot": 39.25
   },
   {
-   "n": 45,
+   "n": 43,
    "in": 339.43,
-   "out": 356.38,
-   "dur": 9.0,
+   "out": 354.23,
+   "dur": 10.0,
    "section": "acto 1",
-   "kind": "archivo",
-   "asset": "manga_detail",
+   "kind": "stock",
+   "asset": "swap_43_ab25d7b0",
    "label": "",
-   "motion": "pan-v",
+   "motion": "cut",
    "marker": "",
-   "frag": "gente trabajando, animales, olas, plantas",
-   "file": "assets/archive/beat45_custom_45.jpg",
+   "frag": "publica lo que le da fama de verdad, los Hokusai Manga",
+   "file": "assets/video/swap_43_ab25d7b0.mp4",
    "state": "ok",
-   "aspect": 1.396
+   "dur_lock": 14.8,
+   "slot": 40.625
   },
   {
    "n": 46,
-   "in": 356.38,
+   "in": 354.23,
    "out": 378.72,
    "dur": 10.0,
    "section": "acto 1",
@@ -714,7 +728,7 @@
   {
    "n": 48,
    "in": 381.59,
-   "out": 384.49,
+   "out": 387.49,
    "dur": 6.0,
    "section": "acto 1",
    "kind": "acamara",
@@ -724,12 +738,13 @@
    "marker": "PROMISE 2",
    "frag": "a Hokusai le gustaba lo grande",
    "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
+   "state": "ok",
+   "dur_lock": 5.9
   },
   {
    "n": 49,
-   "in": 384.49,
-   "out": 396.11,
+   "in": 387.49,
+   "out": 401.13,
    "dur": 8.0,
    "section": "acto 1",
    "kind": "ia",
@@ -740,11 +755,12 @@
    "frag": "Le gustaba que lo vieran hacerlo",
    "file": "assets/ai/E001_ai02_daruma-nagoya-1817.png",
    "state": "ok",
-   "aspect": 1.777
+   "aspect": 1.777,
+   "dur_lock": 15.6
   },
   {
    "n": 50,
-   "in": 396.11,
+   "in": 401.13,
    "out": 403.63,
    "dur": 10.0,
    "section": "acto 2",
