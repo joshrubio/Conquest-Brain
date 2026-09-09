@@ -78,6 +78,7 @@ def build(slug):
         resync_avail = A.resync_available(slug)
     except Exception:
         resync_avail = False
+    rough_running = (ep / "09-rough.progress").exists() and not (ep / "09-rough.done").exists()
 
     try:
         words = A.load_words(ep)
@@ -132,7 +133,27 @@ def build(slug):
  #fs{{font-size:.68rem;padding:.2rem .5rem;white-space:nowrap}}
  .resyncbar{{display:flex;align-items:center;gap:.8rem;padding:.5rem .9rem;
    background:#2a2410;border-bottom:1px solid var(--gold);color:var(--bone);font-size:.8rem}}
- .resyncbar .btn{{margin-left:auto}}
+ .split{{display:inline-flex;align-items:stretch}}
+ .split .btn:first-child{{border-top-right-radius:0;border-bottom-right-radius:0}}
+ .split .caret{{border-top-left-radius:0;border-bottom-left-radius:0;border-left:0;
+   padding-left:.4rem;padding-right:.4rem;font-size:.7rem}}
+ .undo{{display:inline-flex;gap:.15rem}}
+ .undo button{{background:var(--surface-2);border:1px solid var(--line-2);border-radius:6px;
+   color:var(--bone);font:inherit;font-size:.9rem;line-height:1;padding:.25rem .5rem;cursor:pointer}}
+ .undo button:disabled{{opacity:.35;cursor:not-allowed}}
+ .bakmenu{{position:fixed;z-index:60;min-width:230px;max-height:60vh;overflow:auto;
+   background:var(--surface-3);border:1px solid var(--line-2);border-radius:8px;
+   box-shadow:0 8px 30px #000a;padding:.3rem}}
+ .bakmenu .hd{{font-size:.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:.35rem .55rem}}
+ .bakmenu button{{display:block;width:100%;text-align:left;background:none;border:0;color:var(--bone);
+   font:inherit;font-size:.76rem;padding:.4rem .55rem;border-radius:5px;cursor:pointer}}
+ .bakmenu button:hover{{background:var(--surface-2)}}
+ .bakmenu .empty{{padding:.5rem .55rem;font-size:.74rem;color:var(--muted)}}
+ .roughbar{{position:relative;height:22px;background:var(--surface-2);
+   border-bottom:1px solid var(--line-2);overflow:hidden;flex:0 0 auto}}
+ .rbfill{{position:absolute;inset:0 auto 0 0;width:0;background:var(--gold);opacity:.28;transition:width .6s linear}}
+ .rblbl{{position:relative;display:block;line-height:22px;padding:0 .9rem;
+   font-size:.7rem;color:var(--muted);letter-spacing:.02em;white-space:nowrap}}
  .vowords{{font-family:var(--mono);font-size:.72rem;color:var(--muted);padding:.15rem .1rem 0;
    min-height:1.1em;letter-spacing:.01em}}
  .vowords b{{color:var(--bone);font-weight:700}}
@@ -146,7 +167,7 @@ def build(slug):
    ('línea canónica · sembrada ' + str(data.get('seeded', ''))) if schema >= 2
    else ('alineado a la voz' if aligned else 'tiempos del shotlist')}</span>
  <span class="spacer"></span>
- <button class="btn ghost" id="reseed" data-tip="Descarta TODAS las ediciones de la sala (duraciones, orden, beats añadidos o partidos, aprobados, mezcla) y vuelve a sembrar la línea desde la tabla «Timeline — la espina» del shotlist + la voz. Se guarda un respaldo. Pide confirmación.">Re-sembrar</button>
+ <span class="split"><button class="btn ghost" id="reseed" data-tip="Descarta TODAS las ediciones de la sala (duraciones, orden, beats añadidos o partidos, mezcla) y vuelve a sembrar la línea desde la tabla «Timeline — la espina» del shotlist + la voz. Se guarda un respaldo. Pide confirmación.">Re-sembrar</button><button class="btn ghost caret" id="reseed-bak" data-tip="Respaldos de re-sembrados anteriores — restaura la línea tal como estaba antes de un re-sembrado.">⌄</button></span>
  <button class="btn" id="rrough" data-tip="Renderiza el vídeo entero a un borrador 720p (con voz, música, Ken Burns y cortes reales — sin grade) en segundo plano. Tarda unos minutos; cuando termine, míralo en «corte renderizado». Guarda antes.">{'Re-renderizar' if has_rough else 'Renderizar'}</button>
  <a class="btn ghost" target="_blank" href="http://localhost:8765/episodes/{e(slug)}/assets/graphic/_index.html" data-tip="Abre en otra pestaña el índice de gráficos del episodio (G1, G3, G4…) para comprobar cómo quedaron antes de montarlos. No modifica nada.">Gráficos</a>
  {f'<a class="btn ghost" target="_blank" href="{e(review_href)}" data-tip="Abre la sala de transcripción/recorte de la toma en otra pestaña — para revisar el texto de la voz, marcar retomas y ajustar los cortes. Al aplicar cambios allí, re-corre el Stage 8 y esta línea se recalcula.">Transcripción</a>' if review_href else ''}
@@ -157,8 +178,13 @@ def build(slug):
 
 {'''<div class="resyncbar" id="resyncbar">
  <span>La voz cambió (regrabación / re-recorte). La línea sigue con los tiempos viejos.</span>
- <button class="btn" id="doresync" data-tip="Re-ajusta cada beat a la voz nueva usando su ancla de voz. Los beats a los que fijaste una duración a mano se conservan; el resto se re-encaja. Se guarda un respaldo.">Re-sincronizar</button>
+ <span class="split" style="margin-left:auto"><button class="btn" id="doresync" data-tipr data-tip="La voz de la toma cambió (regrabaste o re-recortaste). Esto re-encaja cada beat a la voz nueva por su ancla de texto: los beats con duración fija que ajustaste a mano se conservan, el resto se re-ajusta, y el último cierra en el nuevo final. Se guarda un respaldo antes.">Re-sincronizar</button><button class="btn caret" id="doresync-bak" data-tipr data-tip="Respaldos de re-sincronizados anteriores — restaura la línea tal como estaba antes.">⌄</button></span>
 </div>''' if resync_avail else ''}
+
+<div class="roughbar" id="roughbar"{'' if rough_running else ' hidden'}>
+ <div class="rbfill" id="rbfill"></div>
+ <span class="rblbl" id="rblbl">Renderizando el borrador…</span>
+</div>
 
 <div class="work">
  <section class="preview">
@@ -193,7 +219,7 @@ def build(slug):
    <label class="mixctl">Voz <input type="range" id="mx-vo" min="-6" max="6" step="0.5"><span id="mx-vo-v" class="mixv"></span></label>
    <label class="mixctl">Música <input type="range" id="mx-bed" min="-44" max="-10" step="1"><span id="mx-bed-v" class="mixv"></span></label>
    <label class="mixctl">Ducking <input type="range" id="mx-duck" min="0" max="18" step="1"><span id="mx-duck-v" class="mixv"></span></label>
-   <button class="btn ghost sm" id="mx-reset">↺</button>
+   <button class="btn ghost sm" id="mx-reset" data-tip="Devuelve la mezcla a los valores por defecto: voz 0 dB, música −30 dB, ducking 8 dB.">↺ restablecer mezcla</button>
   </div>
  </section>
  <aside class="inspector" id="inspector">
@@ -209,6 +235,7 @@ def build(slug):
   <div class="zoom"><span class="lbl" style="margin-right:.2rem">Zoom</span>
    <button id="zout" aria-label="Alejar">−</button><button id="zin" aria-label="Acercar">+</button>
    <button class="fit" id="zfit">ajustar</button></div>
+  <div class="undo"><button id="undo" aria-label="Deshacer" disabled data-tip="Deshace el último cambio (Ctrl+Z). Recorre una pila de la sesión — no sobrevive a recargar la página; el autoguardado ya deja el archivo al día. Re-sembrar y re-sincronizar no están en esta pila (cada uno guarda su propio respaldo).">↶</button><button id="redo" aria-label="Rehacer" disabled data-tip="Rehace lo último deshecho (Ctrl+Shift+Z).">↷</button></div>
   <span class="range" id="range">0:00 – 0:00</span>
   <button class="btn ghost sm" id="tidy" data-tip="Fusiona en su vecino cualquier beat por debajo del mínimo (2,8 s b-roll · 2,5 s a-cámara · 5 s gráfico). No toca los que estén por encima. Útil tras muchos cortes.">Ordenar sub-mínimos</button>
   <div class="legend">
@@ -245,6 +272,7 @@ def build(slug):
 </footer>
 
 <div class="toast" id="toast"></div><div class="tltip" id="tltip"></div>
+<div class="bakmenu" id="bakmenu" hidden></div>
 
 <script>
 "use strict";
@@ -308,9 +336,12 @@ function applyMix(){{
 if(bed && TL.music.bed){{ bed.src="/"+TL.music.bed; }}
 ["mx-vo","mx-bed","mx-duck"].forEach(id=>{{
   const key={{"mx-vo":"vo_gain_db","mx-bed":"bed_db","mx-duck":"duck_db"}}[id];
-  $("#"+id)?.addEventListener("input",e=>{{ TL.music[key]=+e.target.value; applyMix(); markDirty(); }});
+  const el=$("#"+id); if(!el) return;
+  el.addEventListener("pointerdown",()=>pushUndo(true));   // snapshot before the drag
+  el.addEventListener("input",e=>{{ TL.music[key]=+e.target.value; applyMix(); markDirty(); }});
 }});
 $("#mx-reset")?.addEventListener("click",()=>{{
+  pushUndo(true);
   Object.assign(TL.music,{{bed_db:-30,vo_gain_db:0,duck_db:8}}); applyMix(); markDirty(); }});
 applyMix();
 let shownBeat=-1, clipSrc="", lastFaceSync=0;
@@ -426,7 +457,6 @@ function layout(){{
       (b.marker?'<span class="badge">'+esc(b.marker)+'</span>':"")+
       (b.pace?'<span class="badge" style="background:#5a2f2f;color:#e0a89c" title="'+b.pace+'s en un visual — parte el beat o corta a cámara">⚠ '+Math.round(b.pace)+'s</span>':"")+
       (b.fix?'<span class="fixdot"></span>':"")+
-      (b.approved&&!b.fix?'<svg class="okdot" viewBox="0 0 16 16"><path fill="currentColor" d="M6.5 11L3 7.5l1-1 2.5 2.4L12 3l1 1z"/></svg>':"")+
       '<span class="grip l"></span><span class="grip r"></span>';
     el.addEventListener("click",ev=>{{if(!ev.target.classList.contains("grip"))select(b.id);}});
     el.addEventListener("pointerenter",ev=>tip(ev,b));
@@ -570,7 +600,7 @@ scroll.addEventListener("wheel",e=>{{
    (everything after ripples). left grip = shift the boundary with the previous
    beat (grows one, shrinks the other). No beat steals from a locked neighbour. */
 const FLOOR = b => AC.has(b.kind) ? 2.5 : (b.kind==="gráfico"||b.kind==="grafico") ? 5 : 2.8;
-function setDur(b,d){{ b.dur=Math.max(0.4,+d.toFixed(3)); b.dur_edited=true; deriveLocal(); }}
+function setDur(b,d){{ pushUndo(); b.dur=Math.max(0.4,+d.toFixed(3)); b.dur_edited=true; deriveLocal(); }}
 function dragClip(el,b){{
   el.addEventListener("pointerdown",e=>{{
     if(e.target.classList.contains("grip")) return;
@@ -585,6 +615,7 @@ function dragClip(el,b){{
       removeEventListener("pointermove",mv); removeEventListener("pointerup",up);
       el.style.transition=""; el.style.zIndex=""; el.style.opacity="";
       if(!moved){{ select(b.id); return; }}
+      pushUndo(true);
       const cx=(parseFloat(el.style.left)+el.offsetWidth/2)/PPS;         // drop centre, s
       const others=B.filter(x=>x!==b);
       let i=others.findIndex(x=>((x.in+x.out)/2)>cx); if(i<0) i=others.length;
@@ -627,6 +658,7 @@ function dragClip(el,b){{
     const up=()=>{{
       removeEventListener("pointermove",mv); removeEventListener("pointerup",up);
       const shift=(parseFloat(el.style.left)/PPS)-b.in;      // seconds the boundary moved
+      pushUndo(true);
       // move time between the two beats — keep b.out (and everything after) put
       prev.dur=Math.max(0.4,+(prev.dur+shift).toFixed(3)); prev.dur_edited=true;
       b.dur=Math.max(0.4,+(b.dur-shift).toFixed(3)); b.dur_edited=true;
@@ -653,6 +685,8 @@ function assetOpts(b){{
 }}
 async function _dispatch(path, body, msgSel){{
   const msg = msgSel && $(msgSel); if(msg){{msg.hidden=false;msg.textContent='aplicando… (puede tardar)';}}
+  // structural + asset edits are undoable; re-seed / re-sync / restore aren't (they back themselves up)
+  if(!["reseed","resync","restore"].includes(body.action)) pushUndo(true);
   try{{
     const r=await fetch(path,{{method:"POST",headers:{{"content-type":"application/json"}},
       body:JSON.stringify(Object.assign({{ep:EPID,slug:SLUG,timeline:TL}},body))}});
@@ -725,11 +759,9 @@ function select(id){{
    (showMotion?'<div class="field" data-tip="Movimiento de cámara sobre el plano en el render. Los gráficos siempre se mueven; el vídeo B-roll nunca lleva Ken Burns. «clip» = plano fijo.">'+
      '<span class="lbl">Movimiento</span><div class="motionrow" id="i-motion">'+
      MOTIONS.map(m=>'<button class="mchip" data-m="'+m[0]+'" aria-pressed="'+(b.motion===m[0])+'">'+m[1]+'</button>').join("")+'</div></div>':"")+
-   '<div class="field" data-tip="Instrucción para que Claude regenere este clip al cerrar el Stage 9. Al escribir aquí, el clip deja de estar aprobado.">'+
+   '<div class="field" data-tip="Instrucción para que Claude regenere este clip al cerrar el Stage 9 («más lento», «empieza a la izquierda»…). Los clips con nota se los pasa Claude para rehacerlos.">'+
      '<span class="lbl">Regenerar clip — nota para Claude</span>'+
      '<textarea class="fixnote" id="i-fix" placeholder="«más lento» · «empieza a la izquierda» · «dir arriba»">'+esc(b.fix||"")+'</textarea></div>'+
-   '<label class="approve'+(b.approved?" on":"")+'" data-tip="Marca el clip como bueno para el render final. Borra la nota de regeneración.">'+
-     '<input type="checkbox" id="i-ok"'+(b.approved?" checked":"")+'> clip aprobado</label>'+
    '<div class="field" style="margin-top:.5rem;border-top:1px solid var(--line-2);padding-top:.5rem">'+
      '<span class="lbl">Estructura</span>'+
      '<div style="display:flex;flex-wrap:wrap;gap:.35rem">'+
@@ -785,22 +817,62 @@ function select(id){{
     const prev=B[bidx(b)-1]; if(!prev) return;
     const shift=cur-b.in;                       // move the prev/this boundary to the playhead
     if(prev.dur+shift<0.4 || b.dur-shift<0.4){{ toast("el cabezal está fuera del margen de este límite",2500); return; }}
+    pushUndo(true);
     prev.dur=+(prev.dur+shift).toFixed(3); prev.dur_edited=true;
     b.dur=+(b.dur-shift).toFixed(3); b.dur_edited=true;
     b.vo_anchor = WORDS.slice(Math.max(0,_wi-1),_wi+6).map(w=>w.w).join(" ");
     deriveLocal(); markDirty(); layout(); select(id);
   }});
-  $("#i-unlock")?.addEventListener("click",ev=>{{ ev.preventDefault(); delete b.dur_edited; markDirty(); layout(); select(id); }});
-  $("#i-ok").onchange=ev=>{{ b.approved=ev.target.checked; if(ev.target.checked)b.fix=""; ev.target.closest(".approve").classList.toggle("on",ev.target.checked); markDirty(); layout(); select(id); status(); }};
-  $("#i-fix").oninput=ev=>{{ b.fix=ev.target.value.trim(); if(b.fix)b.approved=false; status(); layout2(id); markDirty(); }};
-  $$("#i-motion .mchip").forEach(c=>c.onclick=()=>{{ b.motion=c.dataset.m;
+  $("#i-unlock")?.addEventListener("click",ev=>{{ ev.preventDefault(); pushUndo(true); delete b.dur_edited; markDirty(); layout(); select(id); }});
+  $("#i-fix").addEventListener("focus",()=>pushUndo(true),{{once:true}});
+  $("#i-fix").oninput=ev=>{{ b.fix=ev.target.value.trim(); status(); layout2(id); markDirty(); }};
+  $$("#i-motion .mchip").forEach(c=>c.onclick=()=>{{ pushUndo(); b.motion=c.dataset.m;
     $$("#i-motion .mchip").forEach(x=>x.setAttribute("aria-pressed","false")); c.setAttribute("aria-pressed","true"); markDirty(); }});
   $$('.stepper [data-d]').forEach(x=>x.onclick=()=>{{
     setDur(b, b.dur + (+x.dataset.d));
     $("#i-dur").textContent=b.dur.toFixed(1)+'s · editada'; markDirty(); layout(); select(id); }});
-  $$('.stepper [data-nf]').forEach(x=>x.onclick=()=>{{ b.nudge=(b.nudge||0)+ +x.dataset.nf;
+  $$('.stepper [data-nf]').forEach(x=>x.onclick=()=>{{ pushUndo(); b.nudge=(b.nudge||0)+ +x.dataset.nf;
     $("#i-nudge").textContent=b.nudge; markDirty(); }});
 }}
+/* ---- undo/redo: a per-session snapshot stack (no reload persistence) ---- */
+let undoStack=[], redoStack=[], _lastPush=0;
+const UMAX=80;
+const _snap=()=>JSON.stringify({{beats:B, music:TL.music}});
+function pushUndo(force){{
+  const now=Date.now();
+  if(!force && now-_lastPush<400) return;               // coalesce a drag burst
+  const s=_snap();
+  if(undoStack.length && undoStack[undoStack.length-1]===s) return;
+  undoStack.push(s); if(undoStack.length>UMAX) undoStack.shift();
+  redoStack.length=0; _lastPush=now; refreshUndoUI();
+}}
+function refreshUndoUI(){{
+  const u=$("#undo"), r=$("#redo");
+  if(u) u.disabled = !undoStack.length;
+  if(r) r.disabled = !redoStack.length;
+}}
+function _restore(s){{
+  const o=JSON.parse(s);
+  B=o.beats; TL.beats=B; if(o.music) TL.music=o.music;
+  if(typeof applyMix==="function") applyMix();
+  deriveLocal(); shownBeat=-1; clipSrc="";
+  status(); layout();
+  const keep = (sel && byId(sel.id) && sel.id) || (B[0]&&B[0].id);
+  if(keep) select(keep);
+  markDirty();                                          // persist the restored state
+  refreshUndoUI();
+}}
+function undo(){{ if(!undoStack.length) return; redoStack.push(_snap()); _restore(undoStack.pop()); toast("deshecho",1200); }}
+function redo(){{ if(!redoStack.length) return; undoStack.push(_snap()); _restore(redoStack.pop()); toast("rehecho",1200); }}
+$("#undo").onclick=undo; $("#redo").onclick=redo;
+addEventListener("keydown",e=>{{
+  const t=e.target.tagName;
+  if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT") return;   // let the field's own undo work
+  const k=e.key.toLowerCase();
+  if((e.ctrlKey||e.metaKey) && k==="z"){{ e.preventDefault(); e.shiftKey?redo():undo(); }}
+  else if((e.ctrlKey||e.metaKey) && k==="y"){{ e.preventDefault(); redo(); }}
+}});
+
 /* ---- save: authored beats persist via /tl-save; the server re-derives ---- */
 let saveT=0, saving=false;
 function markDirty(){{ const s=$("#save"); s.textContent="Guardar •"; s.classList.add("dirty");
@@ -901,10 +973,37 @@ async function post(path,body){{
   if(!r.ok)throw new Error("server "+r.status);
   return r.json();
 }}
+/* ---- rough-render progress bar: always visible while it runs, never blocks ---- */
+let roughPoll=0, roughMiss=0;
+function roughBar(show){{ const b=$("#roughbar"); if(b) b.hidden=!show; }}
+function stopRough(){{ clearInterval(roughPoll); roughPoll=0; roughMiss=0; }}
+async function pollRough(){{
+  try{{
+    const j=await (await fetch("/rough-progress?ep="+encodeURIComponent(EPID))).json();
+    if(j.done && !j.running){{
+      $("#rbfill").style.width="100%";
+      $("#rblbl").textContent="Borrador listo — recarga la página o pásate a «corte renderizado».";
+      stopRough(); setTimeout(()=>roughBar(false),6000);
+      return;
+    }}
+    if(!j.running){{ if(++roughMiss>=3){{ stopRough(); roughBar(false); }} return; }}
+    roughMiss=0;
+    $("#rbfill").style.width=(j.pct||0)+"%";
+    $("#rblbl").textContent="Renderizando el borrador… "+(j.pct||0)+"% · puedes seguir editando";
+  }}catch(e){{ /* server busy — keep polling */ }}
+}}
+function startRoughBar(){{
+  roughBar(true); roughMiss=0;
+  $("#rbfill").style.width="0%"; $("#rblbl").textContent="Renderizando el borrador… 0%";
+  if(roughPoll) clearInterval(roughPoll);
+  roughPoll=setInterval(pollRough,2000); pollRough();
+}}
 $("#rrough").onclick=async()=>{{
   if($("#save").classList.contains("dirty")) await saveTL();
-  toast('renderizando el vídeo entero a 720p en segundo plano — unos minutos. Recarga y mira en «corte renderizado» cuando termine.',6500);
-  try{{ await post("/tl-rough",{{ep:EPID,slug:SLUG,timeline:TL}}); }}
+  try{{
+    await post("/tl-rough",{{ep:EPID,slug:SLUG,timeline:TL}});
+    startRoughBar();
+  }}
   catch(e){{ toast('server no disponible — corre <span class="mono">python tools/assemble.py '+SLUG+' --rough</span>',6000); }}
 }};
 $("#fs")?.addEventListener("click",()=>{{
@@ -938,7 +1037,7 @@ $("#tidy").onclick=async()=>{{
   await beatOp({{action:"tidy"}},null);   // toast comes from j.note in _dispatch
 }};
 $("#reseed").onclick=async()=>{{
-  if(!confirm("Re-sembrar desde el shotlist.\\n\\nEsto DESCARTA todas las ediciones de la sala:\\n· duraciones y orden\\n· beats añadidos / partidos / fusionados\\n· aprobados y notas de regeneración\\n· la mezcla\\n\\nSe guarda un respaldo (09-timeline.<ts>.bak.json). ¿Seguir?")) return;
+  if(!confirm("Re-sembrar desde el shotlist.\\n\\nEsto DESCARTA todas las ediciones de la sala:\\n· duraciones y orden\\n· beats añadidos / partidos / fusionados\\n· notas de regeneración y la mezcla\\n\\nSe guarda un respaldo (recuperable desde el menú ⌄ del botón). ¿Seguir?")) return;
   toast("re-sembrando desde la espina…",4000);
   await beatOp({{action:"reseed",confirm:true}},null);
 }};
@@ -946,14 +1045,50 @@ $("#doresync")?.addEventListener("click",async()=>{{
   if(!confirm("Re-sincronizar la línea con la voz nueva.\\n\\n· Los beats con duración fija (que ajustaste a mano) se conservan.\\n· El resto se re-encaja contra la voz por su ancla.\\n\\nSe guarda un respaldo. ¿Seguir?")) return;
   toast("re-sincronizando con la voz nueva…",4000);
   const j=await beatOp({{action:"resync"}},null);
-  if(j){{ const bar=$("#resyncbar"); if(bar) bar.hidden=true; }}
+  if(j){{                                        // keep the bar as a «done» strip with the backups ⌄
+    const bar=$("#resyncbar");
+    if(bar) bar.innerHTML='<span>✓ Re-sincronizado con la voz nueva.</span>'+
+      '<span class="split" style="margin-left:auto"><button class="btn" id="doresync" disabled>Re-sincronizar</button>'+
+      '<button class="btn caret" id="doresync-bak" data-tipr data-tip="Respaldos de re-sincronizados — restaura la línea como estaba antes.">⌄</button></span>';
+    $("#doresync-bak")?.addEventListener("click",e=>{{ e.stopPropagation(); openBak(e.currentTarget,"resync"); }});
+  }}
 }});
+
+/* ---- backups menu: the ⌄ next to Re-sembrar / Re-sincronizar ---- */
+const bakmenu=$("#bakmenu");
+function closeBak(){{ bakmenu.hidden=true; bakmenu.innerHTML=""; }}
+async function openBak(anchorEl, kind){{
+  if(!bakmenu.hidden){{ closeBak(); return; }}
+  let list=[];
+  try{{ list=await (await fetch("/timeline-backups?ep="+encodeURIComponent(EPID))).json(); }}catch(e){{}}
+  list=(list||[]).filter(x=>x.kind===kind);
+  const label = kind==="reseed" ? "re-sembrados" : "re-sincronizados";
+  bakmenu.innerHTML='<div class="hd">Respaldos · '+label+'</div>'+
+    (list.length ? list.map(x=>'<button data-f="'+esc(x.name)+'">'+x.when+'</button>').join("")
+                 : '<div class="empty">Sin respaldos todavía.</div>');
+  bakmenu.querySelectorAll("button[data-f]").forEach(btn=>btn.onclick=async()=>{{
+    const f=btn.getAttribute("data-f");
+    closeBak();
+    if(!confirm("Restaurar la línea desde este respaldo?\\n\\nEl estado actual también se respalda antes.")) return;
+    toast("restaurando respaldo…",3000);
+    await beatOp({{action:"restore",file:f}},null);
+  }});
+  const r=anchorEl.getBoundingClientRect();
+  bakmenu.style.top=(r.bottom+6)+"px";
+  bakmenu.style.left=Math.max(8, Math.min(r.left, innerWidth-250))+"px";
+  bakmenu.hidden=false;
+}}
+$("#reseed-bak")?.addEventListener("click",e=>{{ e.stopPropagation(); openBak(e.currentTarget,"reseed"); }});
+$("#doresync-bak")?.addEventListener("click",e=>{{ e.stopPropagation(); openBak(e.currentTarget,"resync"); }});
+document.addEventListener("click",e=>{{ if(!bakmenu.hidden && !bakmenu.contains(e.target)) closeBak(); }});
+addEventListener("keydown",e=>{{ if(e.key==="Escape" && !bakmenu.hidden) closeBak(); }});
 
 /* init */
 status(); layout(); updWords();
 addEventListener("resize",()=>{{_mmW=0;drawMinimap();updRange();placePlayhead();}});
 if(B.length)select(B[0].id);
 scroll.scrollLeft=0;
+if({str(rough_running).lower()}) startRoughBar();   // a render was already running when the page loaded
 </script></body></html>
 """
 

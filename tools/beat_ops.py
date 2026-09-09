@@ -20,6 +20,7 @@ the timeline owns its own structure now (brain/16 «timeline canónica»).
 import contextlib
 import io
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -184,28 +185,48 @@ def reorder(slug, order):
     return _finish(slug, tj, data)
 
 
+_BAK_RE = re.compile(r"^09-timeline\.\d+\.(reseed|resync)\.bak\.json$")
+
+
+def _backup(slug, kind):
+    import shutil
+    import time
+    f = A.EP_DIR / slug / "09-timeline.json"
+    if f.exists():
+        shutil.copy2(f, f.with_name(f"09-timeline.{int(time.time())}.{kind}.bak.json"))
+
+
 def reseed(slug, confirm=False):
     """«Re-sembrar desde shotlist» — discard every sala edit and rebuild the
     timeline from the spine + VO. Backs the current file up first."""
     if not confirm:
         raise SystemExit("reseed necesita confirm=true — descarta TODAS las ediciones de sala")
-    import shutil
-    import time
-    f = A.EP_DIR / slug / "09-timeline.json"
-    if f.exists():
-        shutil.copy2(f, f.with_name(f"09-timeline.{int(time.time())}.bak.json"))
+    _backup(slug, "reseed")
     with contextlib.redirect_stdout(io.StringIO()):
         return A.seed_timeline(slug, force=True)
+
+
+def restore(slug, file):
+    """Restore a backup (from a re-seed / re-sync) over 09-timeline.json."""
+    import shutil
+    if not _BAK_RE.match(file or ""):
+        raise SystemExit(f"nombre de respaldo no válido: {file}")
+    src = A.EP_DIR / slug / file
+    if not src.exists():
+        raise SystemExit(f"no existe el respaldo {file}")
+    _backup(slug, "reseed")               # keep the current line recoverable too
+    shutil.copy2(src, A.EP_DIR / slug / "09-timeline.json")
+    with contextlib.redirect_stdout(io.StringIO()):
+        tl = A.rebuild_timeline(slug)
+    tl["note"] = f"restaurado {file}"
+    return tl
 
 
 def resync(slug):
     """«Re-sincronizar tras regrabar» — 3-way merge onto the new VO: dur_edited
     beats keep their duration, the rest are re-fitted. Backs the line up first."""
-    import shutil
-    import time
+    _backup(slug, "resync")
     f = A.EP_DIR / slug / "09-timeline.json"
-    if f.exists():
-        shutil.copy2(f, f.with_name(f"09-timeline.{int(time.time())}.bak.json"))
     with contextlib.redirect_stdout(io.StringIO()):
         summary = A.resync_timeline(slug)
     tl = json.loads(f.read_text(encoding="utf-8"))
@@ -235,7 +256,8 @@ def run(slug, action, **kw):
     fn = {"add": add, "split": split, "merge": merge, "delete": delete,
           "del": delete, "setdur": set_dur, "set_dur": set_dur,
           "duplicate": duplicate, "dup": duplicate, "reorder": reorder,
-          "tidy": tidy, "reseed": reseed, "resync": resync}.get(action)
+          "tidy": tidy, "reseed": reseed, "resync": resync,
+          "restore": restore}.get(action)
     if not fn:
         raise SystemExit(f"acción desconocida: {action}")
     return fn(slug, **kw)

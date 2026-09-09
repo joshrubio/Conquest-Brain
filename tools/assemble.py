@@ -653,7 +653,7 @@ def _idn(bid):
 
 
 _AUTHORED_KEYS = ("id", "dur", "section", "kind", "asset", "label", "motion",
-                  "marker", "vo_anchor", "approved", "fix", "nudge", "dur_edited",
+                  "marker", "vo_anchor", "fix", "nudge", "dur_edited",
                   "in", "out", "file", "state", "aspect", "pace", "dup")
 
 
@@ -663,14 +663,13 @@ _ALWAYS = ("id", "dur", "section", "kind", "asset", "motion", "in", "out", "stat
 def _authored_beat(b):
     """A schema-2 beat: authored fields first, derived fields (in/out/file/…)
     kept for the page to read directly. Everything else (n, frag, slot,
-    dur_lock, _i, _al) is dropped."""
+    dur_lock, approved, _i, _al) is dropped."""
     out = {}
     for k in _AUTHORED_KEYS:
         if k not in b:
             continue
         v = b[k]
-        if k not in _ALWAYS and (v is None or v == ""
-                                 or (k in ("approved", "dur_edited") and not v)):
+        if k not in _ALWAYS and (v is None or v == "" or (k == "dur_edited" and not v)):
             continue
         out[k] = v
     return out
@@ -826,16 +825,16 @@ def _rebuild_schema1(slug, ep, tj):
             prev[b["n"]] = b
     except (json.JSONDecodeError, KeyError):
         pass
-    # keep the edit room's decisions across re-builds: approved / fix / nudge
-    # (and the motion the user picked on a beat they worked). `asset` is NOT
-    # restored — an asset change goes through the shotlist (beat_asset.py patches
-    # the spine row), so parse_spine above is already authoritative.
+    # keep the edit room's decisions across re-builds: fix / nudge (and the
+    # motion the user picked on a beat they worked). `asset` is NOT restored —
+    # an asset change goes through the shotlist (beat_asset.py patches the spine
+    # row), so parse_spine above is already authoritative. (Legacy schema-1 path.)
     for b in beats:
         p = prev.get(b["n"])
         if not p:
             continue
-        touched = any(p.get(k) for k in ("approved", "fix", "nudge"))
-        for k in ("approved", "fix", "nudge", "dur_lock", "slot"):
+        touched = any(p.get(k) for k in ("fix", "nudge"))
+        for k in ("fix", "nudge", "dur_lock", "slot"):
             if p.get(k) is not None:
                 b[k] = p[k]
         if touched and p.get("motion"):
@@ -1172,6 +1171,14 @@ def render(slug, mode, t0=None, t1=None, dry=False):
     if a_map:
         cmd += ["-c:a", "aac", "-b:a", "256k" if proxy else "320k"]
     out = ep / ("09-rough.mp4" if proxy else _master_name(ep, slug))
+
+    # ffmpeg -progress: a key=value stream the edit room polls for the bar.
+    # Only for a full render — a region (--preview) is too quick to bother.
+    # (Don't pre-delete it — serve.py seeds it at out_time_us=0 so the bar has
+    # something to read in the gap before ffmpeg starts writing.)
+    prog = ep / ("09-rough.progress" if proxy else "09-final.progress")
+    if not dry and t0 is None and t1 is None:
+        cmd += ["-progress", str(prog), "-stats_period", "1"]
     cmd.append(str(out))
 
     if dry:
@@ -1180,6 +1187,7 @@ def render(slug, mode, t0=None, t1=None, dry=False):
     print(f"render {'720p proxy' if proxy else '4K master'} · {len(beats)} beats"
           + (f" · {_fmt(t0 or 0)}–{_fmt(t1 or data['total'])}" if (t0 or t1) else "") + " …")
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT)
+    prog.unlink(missing_ok=True)
     if r.returncode != 0 or not out.exists():
         print("FALLO ffmpeg:\n" + "\n".join(r.stderr.strip().splitlines()[-6:]))
         sys.exit(1)

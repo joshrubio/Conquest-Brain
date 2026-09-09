@@ -149,6 +149,33 @@ class H(BaseHTTPRequestHandler):
             return self._send(200, f.read_bytes(), MIME[".html"])
         if path == "/state":
             return self._send(200, json.dumps(P.read_queue(), ensure_ascii=False))
+        if path == "/timeline-backups":
+            epp = P.ep_path(qs.get("ep", [""])[0])
+            out = []
+            for f in sorted(epp.glob("09-timeline.*.*.bak.json"), reverse=True):
+                m = re.match(r"09-timeline\.(\d+)\.(reseed|resync)\.bak\.json$", f.name)
+                if not m:
+                    continue
+                import datetime
+                when = datetime.datetime.fromtimestamp(int(m.group(1))).strftime("%d %b %H:%M")
+                out.append({"name": f.name, "kind": m.group(2), "when": when})
+            return self._send(200, json.dumps(out, ensure_ascii=False))
+
+        if path == "/rough-progress":
+            epp = P.ep_path(qs.get("ep", [""])[0])
+            done = (epp / "09-rough.done").exists()
+            pct = 100 if done else 0
+            prg = epp / "09-rough.progress"
+            if prg.exists() and not done:
+                try:
+                    us = re.findall(r"out_time_us=(\d+)", prg.read_text(encoding="utf-8", errors="replace"))
+                    tot = (json.loads((epp / "09-timeline.json").read_text(encoding="utf-8")).get("total") or 1) * 1e6
+                    if us:
+                        pct = max(1, min(99, round(int(us[-1]) / tot * 100)))
+                except Exception:
+                    pass
+            running = prg.exists() and not done
+            return self._send(200, json.dumps({"pct": pct, "done": done, "running": running}))
         if path == "/view":
             return self._view(qs.get("ep", [""])[0], qs.get("f", [""])[0])
         f = (P.ROOT / path.lstrip("/")).resolve()
@@ -330,6 +357,7 @@ class H(BaseHTTPRequestHandler):
                     json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
             flag = epp / "09-rough.done"
             flag.unlink(missing_ok=True)
+            (epp / "09-rough.progress").write_text("out_time_us=0\n", encoding="utf-8")  # bar starts at 0
             _spawn_chain([["assemble.py", slug, "--rough"], ["edit_timeline.py", slug]],
                          done_flag=flag)
             return self._send(200, json.dumps({"ok": True,
@@ -355,8 +383,6 @@ class H(BaseHTTPRequestHandler):
                 bits = []
                 if b.get("fix"):
                     bits.append("FIX: " + b["fix"])
-                if b.get("approved"):
-                    bits.append("APROBADO")
                 if b.get("nudge"):
                     bits.append(f"nudge {b['nudge']:+d}f")
                 if bits:

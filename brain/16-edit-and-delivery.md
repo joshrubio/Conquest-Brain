@@ -129,7 +129,7 @@ schema-2 line already exists):
   - **🗑 eliminar** — remove it; the ripple absorbs its `dur` (the last beat grows to `vo_end`; `pace` warns if that overstretches it).
   - **＋ beat después** — insert a new beat. **No verbatim frag required** — the line owns its time; `vo_anchor` is optional.
 - a **Mezcla** strip: *Voz* (`vo_gain_db`, ±6), *Música* (`bed_db`, −44…−10), *Ducking* (`duck_db`, 0…18). Persisted in `09-timeline.json` `music{{}}`; the render bakes them (`sidechaincompress` for the duck).
-- **Guardar** autosaves (debounced): the authored beats (`dur` / order / `motion` / `nudge` / `approved` / `fix` / `dur_edited` / mix) → `/tl-save`; `rebuild_timeline` re-derives and returns the line. Structural edits → `/beat-op`; asset swaps → `/beat-asset`.
+- **Guardar** autosaves (debounced): the authored beats (`dur` / order / `motion` / `nudge` / `fix` / `dur_edited` / mix) → `/tl-save`; `rebuild_timeline` re-derives and returns the line. Structural edits → `/beat-op`; asset swaps → `/beat-asset`. **Undo** (Ctrl+Z / the ↶ button) walks a per-session snapshot stack — it does not survive a reload (autosave already keeps the file current); a re-seed / re-sync is not on the stack (each backs itself up — its ⌄ menu restores those).
 - **Re-renderizar** (header) → `assemble.py --rough` in the background. **⛶ pantalla completa**. **Transcripción** opens the trim room. **Re-sembrar** discards all sala edits (confirm-gated, backed up).
 - **Finalizar Stage 9** → flushes the save, POSTs `09-timeline.json` (+ `09-decisions.txt`, keyed by id + index + anchor). Claude applies regen notes + `assemble.py --final`. Beats `sin cubrir` block the final render.
 
@@ -174,7 +174,7 @@ The house grade from [brain/03](03-brand-identity.md) §Grade, applied to the wh
 
 ## Review loop
 
-Timeline finalised in `09-edit.html` (every beat covered + approved) → Claude
+Timeline finalised in `09-edit.html` (every beat covered) → Claude
 applies regen notes + `assemble.py --final` → **picture lock** (no further timing
 changes) → Usuario 002 watches once, end to end, against `05-script.md` and
 `brain/04` (labels present, claims accurate, dignity) → signs in `07c-edit.md` →
@@ -182,7 +182,7 @@ changes) → Usuario 002 watches once, end to end, against `05-script.md` and
 
 ## Gate (Stage 9)
 
-- [ ] Every beat in `09-timeline.json` has an `asset`/`file` (0 `sin cubrir`) and is `approved`
+- [ ] Every beat in `09-timeline.json` has an `asset`/`file` (0 `sin cubrir`); no un-actioned regen notes
 - [ ] Only the moves in this doc — no other effects, transitions, or grade
 - [ ] Cold open = `intro` clips in order + bumper on black
 - [ ] Ken Burns `motion` matches each image's orientation; `PROMISE n`/`PAY n` share `asset` + `motion`

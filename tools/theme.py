@@ -397,10 +397,6 @@ body.tl{display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden;
 .mchip[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft);color:var(--gold)}
 textarea.fixnote{width:100%;min-height:2.6rem;resize:vertical;font:inherit;font-size:.8rem;background:var(--bg-2);
   color:var(--fg);border:1px solid var(--line-2);border-radius:var(--r-sm);padding:.5rem .6rem;line-height:1.45}
-.approve{display:flex;align-items:center;gap:.55rem;margin-top:.9rem;font-size:.84rem;padding:.55rem .7rem;
-  border-radius:var(--r-sm);border:1px solid var(--line-2);background:var(--surface-2);cursor:pointer}
-.approve input{accent-color:var(--pos);width:16px;height:16px}
-.approve.on{border-color:var(--pos);color:var(--pos);background:#63cf8b12}
 
 .timeline{flex:1 1 auto;min-height:288px;display:flex;flex-direction:column;background:var(--bg-2);
   border-top:1px solid var(--line-2)}
@@ -454,7 +450,6 @@ textarea.fixnote{width:100%;min-height:2.6rem;resize:vertical;font:inherit;font-
   padding:.06rem .3rem;border-radius:4px;background:var(--gold);color:var(--gold-ink)}
 .clip .fixdot{position:absolute;bottom:.3rem;right:.34rem;width:.5rem;height:.5rem;border-radius:50%;
   background:var(--gold);box-shadow:0 0 0 2px #0006}
-.clip .okdot{position:absolute;bottom:.26rem;right:.3rem;width:.62rem;height:.62rem;color:var(--pos)}
 .clip.sel{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),var(--shadow-lift);z-index:5}
 .clip.expl::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:repeating-linear-gradient(90deg,#0000 0 5px,#c9a24a14 5px 6px)}
