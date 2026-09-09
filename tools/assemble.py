@@ -534,13 +534,23 @@ def build_timeline(slug):
     beats = _apply_edits(beats)
     total = round(beats[-1]["out"], 2) if beats else total
 
+    prev_music = {}
+    if tj.exists():
+        try:
+            prev_music = json.loads(tj.read_text(encoding="utf-8")).get("music", {}) or {}
+        except json.JSONDecodeError:
+            pass
+    _mrange = {"bed_db": (-48, -6), "vo_gain_db": (-8, 8), "duck_db": (0, 20)}
+    mix = {k: prev_music[k] for k in _mrange
+           if isinstance(prev_music.get(k), (int, float)) and _mrange[k][0] <= prev_music[k] <= _mrange[k][1]}
     data = {
         "ep": slug[:4], "slug": slug, "generated": _now(),
         "aligned": bool(words), "fps": FPS, "w": 3840, "h": 2160,
         "total": total, "ground": GROUND,
-        "music": {"pool": music_pool(), "bed": (music_pool() or [""])[0],
+        "music": {"pool": music_pool(), "bed": prev_music.get("bed") or (music_pool() or [""])[0],
                   "in": beats[0]["out"] if beats else 0, "out": total,
-                  "duck_db": -6, "bed_db": -30},   # bed sits ~60% quieter than before
+                  # mix levels — dB; the edit room's «Mezcla» sliders persist here
+                  "bed_db": -30, "vo_gain_db": 0, "duck_db": 8, **mix},
         "beats": beats,
     }
     tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -783,11 +793,18 @@ def render(slug, mode, t0=None, t1=None, dry=False):
             fc += (f";[{vo_idx}:a]atrim=start={t0 or 0:.3f}"
                    + (f":end={t1:.3f}" if t1 else "") + ",asetpts=PTS-STARTPTS[voa]")
             va = "[voa]"
-        bed = data["music"].get("bed")
+        mus = data["music"]
+        vg = float(mus.get("vo_gain_db", 0) or 0)
+        if vg:                                      # voice trim, before the mix + sidechain
+            fc += f";{va}volume={vg:+.1f}dB[vog]"
+            va = "[vog]"
+        bed = mus.get("bed")
         if bed and (ROOT / bed).exists() and not proxy:
+            duck = max(0.0, float(mus.get("duck_db", 8) or 8))
+            ratio = max(2.0, min(12.0, 2.0 + duck / 2.0))   # 0 dB → gentle, 18 dB → hard
             cmd += ["-i", str(ROOT / bed)]
-            fc += (f";[{vo_idx+1}:a]aloop=loop=-1:size=2e9,volume={data['music']['bed_db']}dB[bed];"
-                   f"[bed]{va}sidechaincompress=threshold=0.02:ratio=6:release=300[ducked];"
+            fc += (f";[{vo_idx+1}:a]aloop=loop=-1:size=2e9,volume={mus.get('bed_db', -30)}dB[bed];"
+                   f"[bed]{va}sidechaincompress=threshold=0.03:ratio={ratio:.1f}:release=400[ducked];"
                    f"{va}[ducked]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1[aout]")
             a_map = ["-map", "[aout]"]
         else:

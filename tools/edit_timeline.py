@@ -98,6 +98,11 @@ def build(slug):
  .clip.edited{{outline:1px dashed var(--gold);outline-offset:-3px}}
  #save.dirty{{border-color:var(--gold);color:var(--gold)}}
  .btn.sm{{font-size:.68rem;padding:.2rem .5rem}}
+ .mixrow{{display:flex;align-items:center;gap:.7rem;padding:.4rem .1rem 0;flex-wrap:wrap}}
+ .mixlbl{{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}}
+ .mixctl{{display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:var(--muted)}}
+ .mixctl input[type=range]{{width:92px;accent-color:var(--gold)}}
+ .mixv{{font-family:var(--mono);font-size:.64rem;color:var(--bone);min-width:42px;text-align:right}}
  #scrrot{{position:absolute;inset:0;display:flex;flex-direction:column;gap:.4em;
    align-items:center;justify-content:center;text-align:center;z-index:3;
    font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.4rem,4vw,2.6rem);
@@ -145,6 +150,13 @@ def build(slug):
    </span>
    <button class="btn ghost" id="rrough" style="margin-left:.4rem">{'Re-renderizar borrador' if has_rough else 'Renderizar borrador'}</button>
    <span class="phint">rueda = scroll · Ctrl+rueda = zoom · espacio = play · arrastra un clip para reubicarlo</span>
+  </div>
+  <div class="mixrow" id="mixrow">
+   <span class="mixlbl">Mezcla</span>
+   <label class="mixctl">Voz <input type="range" id="mx-vo" min="-6" max="6" step="0.5"><span id="mx-vo-v" class="mixv"></span></label>
+   <label class="mixctl">Música <input type="range" id="mx-bed" min="-44" max="-10" step="1"><span id="mx-bed-v" class="mixv"></span></label>
+   <label class="mixctl">Ducking <input type="range" id="mx-duck" min="0" max="18" step="1"><span id="mx-duck-v" class="mixv"></span></label>
+   <button class="btn ghost sm" id="mx-reset">↺</button>
   </div>
  </section>
  <aside class="inspector" id="inspector"><div class="insp-empty">Selecciona un clip para editarlo.</div></aside>
@@ -219,10 +231,28 @@ $("#musicname").textContent = (TL.music.bed||"sin pista").split("/").pop();
 // ---- live compositor: VO m4a as master clock, one still/clip on screen ----
 let MODE = vo.getAttribute("src") ? "live" : "rough";
 const IMG=/\\.(png|jpe?g|webp|gif|tiff?)$/i, VIDF=/\\.(mp4|webm|mov)$/i;
-if(bed && TL.music && TL.music.bed){{
-  bed.src="/"+TL.music.bed;
-  bed.volume=Math.min(1,Math.pow(10,(TL.music.bed_db||-22)/20));
+const db2g = d=>Math.min(1,Math.pow(10,d/20));
+TL.music = TL.music || {{}};
+if(TL.music.bed_db==null)TL.music.bed_db=-30;
+if(TL.music.vo_gain_db==null)TL.music.vo_gain_db=0;
+if(TL.music.duck_db==null)TL.music.duck_db=8;
+function applyMix(){{
+  const m=TL.music;
+  // live can't sidechain-duck or boost past 1.0 — approximate the balance:
+  // bed ≈ bed_db − most of the duck − (any voice boost); voice only shows cuts
+  if(bed) bed.volume = db2g((+m.bed_db) - (+m.duck_db)*0.6 - Math.max(0,+m.vo_gain_db));
+  vo.volume = db2g(Math.min(0,+m.vo_gain_db));
+  const set=(id,v,suf)=>{{const s=$(id);if(s)s.value=v;const o=$(id+"-v");if(o)o.textContent=(v>0?"+":"")+v+suf;}};
+  set("#mx-vo",m.vo_gain_db," dB"); set("#mx-bed",m.bed_db," dB"); set("#mx-duck",m.duck_db," dB");
 }}
+if(bed && TL.music.bed){{ bed.src="/"+TL.music.bed; }}
+["mx-vo","mx-bed","mx-duck"].forEach(id=>{{
+  const key={{"mx-vo":"vo_gain_db","mx-bed":"bed_db","mx-duck":"duck_db"}}[id];
+  $("#"+id)?.addEventListener("input",e=>{{ TL.music[key]=+e.target.value; applyMix(); markDirty(); }});
+}});
+$("#mx-reset")?.addEventListener("click",()=>{{
+  Object.assign(TL.music,{{bed_db:-30,vo_gain_db:0,duck_db:8}}); applyMix(); markDirty(); }});
+applyMix();
 let shownBeat=-1, clipSrc="", lastFaceSync=0;
 const AC=new Set(["acamara","a-cámara","a-camara"]);
 function assetURL(f){{ return f ? (f.startsWith("assets/")? f : "assets/"+f) : ""; }}
@@ -523,7 +553,7 @@ async function beatEdit(body, msgSel){{
     if(!r.ok||j.error){{ if(msg)msg.textContent='⚠ '+(j.error||('server '+r.status)); toast('⚠ '+(j.error||r.status),5000); return null; }}
     if(j.timeline && j.timeline.beats){{         // structural edit → reload the whole timeline
       const keep = j.n || (sel && sel.n);
-      Object.assign(TL,j.timeline); B=TL.beats; TOTAL=TL.total||TOTAL;
+      Object.assign(TL,j.timeline); B=TL.beats; TOTAL=TL.total||TOTAL; if(typeof applyMix==="function")applyMix();
       $("#tctot").textContent=fmt(TOTAL); shownBeat=-1; clipSrc="";
       status(); layout();
       if(keep!=null && B.find(x=>x.n===keep)) select(keep);
@@ -638,7 +668,7 @@ async function saveTL(){{
     const j=await post("/tl-save",{{ep:EPID,slug:SLUG,timeline:TL}});
     if(j && j.timeline && j.timeline.beats){{
       const selN = sel && sel.n;
-      Object.assign(TL,j.timeline); B=TL.beats; TOTAL=TL.total||TOTAL;
+      Object.assign(TL,j.timeline); B=TL.beats; TOTAL=TL.total||TOTAL; if(typeof applyMix==="function")applyMix();
       $("#tctot").textContent=fmt(TOTAL); status(); layout();
       if(selN!=null) select(selN);
     }}
