@@ -361,7 +361,7 @@ class H(BaseHTTPRequestHandler):
             msg = _run(["advance.py", "fold", ep])
             return self._send(200, json.dumps({"ok": True, "msg": msg}))
 
-        if path == "/beat-asset":                     # Stage 9 — swap one beat's visual
+        if path == "/beat-asset":                     # Stage 9 — edit one beat (swap / merge / del / add / clear)
             slug = data.get("slug") or ep
             if data.get("list"):
                 return self._send(200, _run(["beat_asset.py", slug, "--list"]) or "[]")
@@ -371,18 +371,37 @@ class H(BaseHTTPRequestHandler):
             if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
                 (epp / "09-timeline.json").write_text(
                     json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
-            try:
-                n = str(int(data["n"]))
-            except (KeyError, TypeError, ValueError):
-                return self._send(400, json.dumps({"error": "falta el nº de beat"}))
-            args = ["beat_asset.py", slug, "--set", n]
-            args += ["--src", str(data["src"])] if data.get("src") else ["--asset", str(data.get("asset", ""))]
+            act = data.get("action", "set")
+            if act == "add":
+                args = ["beat_asset.py", slug, "--add", "--after", str(int(data.get("after", 0))),
+                        "--frag", str(data.get("frag", "")), "--kind", str(data.get("kind", "archivo"))]
+                for k in ("section", "marker", "dur", "asset", "src"):
+                    if data.get(k):
+                        args += [f"--{k}", str(data[k])]
+            else:
+                try:
+                    n = str(int(data["n"]))
+                except (KeyError, TypeError, ValueError):
+                    return self._send(400, json.dumps({"error": "falta el nº de beat"}))
+                if act == "clear":
+                    args = ["beat_asset.py", slug, "--clear", n]
+                elif act == "merge":
+                    args = ["beat_asset.py", slug, "--merge", n, "--into", str(data.get("into", "prev"))]
+                elif act == "del":
+                    args = ["beat_asset.py", slug, "--del", n]
+                else:
+                    args = ["beat_asset.py", slug, "--set", n]
+                    args += ["--src", str(data["src"])] if data.get("src") else ["--asset", str(data.get("asset", ""))]
             out = _run(args)
             try:
-                json.loads(out)                       # beat_asset prints JSON
-                return self._send(200, out)
+                res = json.loads(out)
             except (json.JSONDecodeError, TypeError):
                 return self._send(500, json.dumps({"error": (out or "sin respuesta")[-400:]}))
+            # structural edits renumber the spine → hand the recomputed timeline back
+            if act in ("merge", "del", "add") and not res.get("error"):
+                _run(["edit_timeline.py", slug])
+                res["timeline"] = json.loads((epp / "09-timeline.json").read_text(encoding="utf-8"))
+            return self._send(200, json.dumps(res, ensure_ascii=False))
 
         if path == "/tl-preview":                     # Stage 9 — re-render a region of the proxy
             slug = data.get("slug") or ep

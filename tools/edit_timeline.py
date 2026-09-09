@@ -97,6 +97,7 @@ def build(slug):
  .clip.pace{{box-shadow:inset 0 0 0 2px #a35}}
  .clip.edited{{outline:1px dashed var(--gold);outline-offset:-3px}}
  #save.dirty{{border-color:var(--gold);color:var(--gold)}}
+ .btn.sm{{font-size:.68rem;padding:.2rem .5rem}}
  #scrrot{{position:absolute;inset:0;display:flex;flex-direction:column;gap:.4em;
    align-items:center;justify-content:center;text-align:center;z-index:3;
    font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.4rem,4vw,2.6rem);
@@ -249,7 +250,7 @@ function updateScreen(force){{
   if(b.kind==="negro"||(!f&&!isAC)){{ still.hidden=true; clip.hidden=true; face.hidden=true; clip.pause();
     const rot = (b.kind==="negro" && (b.label||"").trim()) ? b.label.trim() : "";
     $("#scrrot").hidden = !rot;
-    $("#scrrot").innerHTML = rot ? rot.split(/\s*\/\s*/).map(s=>"<div>"+s+"</div>").join("") : "";
+    $("#scrrot").innerHTML = rot ? rot.split(/\\s*\\/\\s*/).map(s=>"<div>"+s+"</div>").join("") : "";
     $("#scrbeat").textContent = rot ? "" : (b.kind==="negro" ? "— negro —"
       : "beat "+String(b.n).padStart(2,"0")+" · sin asset");
     return; }}
@@ -513,20 +514,33 @@ function assetOpts(b){{
   }});
   return h;
 }}
-async function applyAsset(n,body){{
-  const msg=$("#i-amsg"); if(msg){{msg.hidden=false;msg.textContent='aplicando… (traer un recurso remoto puede tardar)';}}
+async function beatEdit(body, msgSel){{
+  const msg = msgSel && $(msgSel); if(msg){{msg.hidden=false;msg.textContent='aplicando… (puede tardar)';}}
   try{{
     const r=await fetch("/beat-asset",{{method:"POST",headers:{{"content-type":"application/json"}},
-      body:JSON.stringify(Object.assign({{ep:EPID,slug:SLUG,n:n,timeline:TL}},body))}});
+      body:JSON.stringify(Object.assign({{ep:EPID,slug:SLUG,timeline:TL}},body))}});
     const j=await r.json().catch(()=>({{error:"respuesta ilegible del server"}}));
-    if(!r.ok||j.error){{ if(msg)msg.textContent='⚠ '+(j.error||('server '+r.status)); return; }}
-    const bt=B.find(x=>x.n===n); if(!bt)return;
-    bt.asset=j.asset; bt.file=j.file; bt.state=j.state||bt.state;
-    if(j.tipo)bt.kind=j.tipo; if(j.motion)bt.motion=j.motion;
-    if(msg)msg.textContent='✓ '+j.asset+(j.state==='uncovered'?' — pero no resuelve, revisa el nombre':'')+(j.note?' · '+j.note:'');
-    shownBeat=-1; clipSrc=""; layout(); select(n); updateScreen(true); status();
-    toast('asset del beat '+n+' → '+j.asset+'. «Previsualizar región» para verlo en el corte.',4000);
-  }}catch(e){{ if(msg)msg.textContent='⚠ server no disponible ('+e+')'; }}
+    if(!r.ok||j.error){{ if(msg)msg.textContent='⚠ '+(j.error||('server '+r.status)); toast('⚠ '+(j.error||r.status),5000); return null; }}
+    if(j.timeline && j.timeline.beats){{         // structural edit → reload the whole timeline
+      const keep = j.n || (sel && sel.n);
+      Object.assign(TL,j.timeline); B=TL.beats; TOTAL=TL.total||TOTAL;
+      $("#tctot").textContent=fmt(TOTAL); shownBeat=-1; clipSrc="";
+      status(); layout();
+      if(keep!=null && B.find(x=>x.n===keep)) select(keep);
+      else $("#inspector").innerHTML='<div class="insp-empty">Selecciona un clip.</div>';
+    }}
+    if(msg)msg.textContent='✓ '+(j.note||j.asset||'hecho');
+    toast('✓ '+(j.note||('beat '+(j.n||'')+' → '+j.asset)),4000);
+    return j;
+  }}catch(e){{ if(msg)msg.textContent='⚠ server no disponible ('+e+')'; return null; }}
+}}
+async function applyAsset(n,body){{
+  const j=await beatEdit(Object.assign({{n:n}},body),"#i-amsg");
+  if(!j || (j.timeline))return;               // structural already reloaded
+  const bt=B.find(x=>x.n===n); if(!bt)return;
+  bt.asset=j.asset; bt.file=j.file; bt.state=j.state||bt.state;
+  if(j.tipo)bt.kind=j.tipo; if(j.motion)bt.motion=j.motion;
+  shownBeat=-1; clipSrc=""; layout(); select(n); updateScreen(true); status();
 }}
 
 /* inspector */
@@ -568,10 +582,37 @@ function select(n){{
      MOTIONS.map(m=>'<button class="mchip" data-m="'+m[0]+'" aria-pressed="'+(b.motion===m[0])+'">'+m[1]+'</button>').join("")+'</div></div>':"")+
    '<div class="field"><span class="lbl">Regenerar clip — nota para Claude</span>'+
      '<textarea class="fixnote" id="i-fix" placeholder="«más lento» · «empieza a la izquierda» · «dir arriba» · «déjalo 4 s»">'+esc(b.fix||"")+'</textarea></div>'+
-   '<label class="approve'+(b.approved?" on":"")+'"><input type="checkbox" id="i-ok"'+(b.approved?" checked":"")+'> clip aprobado</label>';
+   '<label class="approve'+(b.approved?" on":"")+'"><input type="checkbox" id="i-ok"'+(b.approved?" checked":"")+'> clip aprobado</label>'+
+   '<div class="field" style="margin-top:.5rem;border-top:1px solid var(--line-2);padding-top:.5rem">'+
+     '<span class="lbl">Estructura</span>'+
+     '<div style="display:flex;flex-wrap:wrap;gap:.35rem">'+
+       (SWAPPABLE.has(b.kind)?'<button class="btn ghost sm" id="i-clear">✕ quitar visual</button>':"")+
+       '<button class="btn ghost sm" id="i-mprev">⤺ fusionar anterior</button>'+
+       '<button class="btn ghost sm" id="i-mnext">fusionar siguiente ⤻</button>'+
+       '<button class="btn ghost sm" id="i-del" style="color:var(--neg)">🗑 eliminar beat</button>'+
+       '<button class="btn ghost sm" id="i-addb">＋ beat después</button></div>'+
+     '<div class="notebox" id="i-smsg" hidden></div>'+
+     '<div id="i-addform" hidden style="margin-top:.4rem;display:flex;flex-direction:column;gap:.3rem">'+
+       '<textarea id="i-af-frag" rows="2" placeholder="fragmento de la voz para el beat nuevo (verbatim de la VO)"></textarea>'+
+       '<div style="display:flex;gap:.3rem"><select id="i-af-kind">'+
+         ["archivo","stock","acamara","gráfico","ia","negro"].map(k=>'<option>'+k+'</option>').join("")+'</select>'+
+         '<input id="i-af-src" placeholder="ruta/URL o id de asset (opcional)" style="flex:1">'+
+         '<button class="btn" id="i-af-go">añadir</button></div></div></div>';
 
   $("#i-asset")?.addEventListener("change",ev=>{{ const v=ev.target.value; if(v)applyAsset(n,{{asset:v}}); }});
   $("#i-ago")?.addEventListener("click",()=>{{ const v=($("#i-asrc").value||"").trim(); if(v)applyAsset(n,{{src:v}}); }});
+  $("#i-clear")?.addEventListener("click",()=>{{ if(confirm("¿Quitar el visual del beat "+n+"? Quedará sin cubrir."))beatEdit({{action:"clear",n:n}},"#i-smsg"); }});
+  $("#i-mprev")?.addEventListener("click",()=>{{ if(confirm("Fusionar el beat "+n+" en el anterior (su plano cubre el tramo)?"))beatEdit({{action:"merge",n:n,into:"prev"}},"#i-smsg"); }});
+  $("#i-mnext")?.addEventListener("click",()=>{{ if(confirm("Fusionar el beat "+n+" en el siguiente?"))beatEdit({{action:"merge",n:n,into:"next"}},"#i-smsg"); }});
+  $("#i-del")?.addEventListener("click",()=>{{ if(confirm("¿Eliminar el beat "+n+"? La voz la reparten los vecinos."))beatEdit({{action:"del",n:n}},"#i-smsg"); }});
+  $("#i-addb")?.addEventListener("click",()=>{{ const f=$("#i-addform"); f.hidden=!f.hidden; }});
+  $("#i-af-go")?.addEventListener("click",()=>{{
+    const frag=($("#i-af-frag").value||"").trim(); if(!frag){{alert("El beat nuevo necesita un fragmento de la voz.");return;}}
+    const src=($("#i-af-src").value||"").trim(); const kind=$("#i-af-kind").value;
+    const body={{action:"add",after:n,frag:frag,kind:kind,section:b.section}};
+    if(src && /[\\/.:]/.test(src)) body.src=src; else if(src) body.asset=src;
+    beatEdit(body,"#i-smsg");
+  }});
   $("#i-ok").onchange=ev=>{{ b.approved=ev.target.checked; if(ev.target.checked)b.fix=""; ev.target.closest(".approve").classList.toggle("on",ev.target.checked); markDirty(); layout(); select(n); status(); }};
   $("#i-fix").oninput=ev=>{{ b.fix=ev.target.value.trim(); if(b.fix)b.approved=false; status(); layout2(n); markDirty(); }};
   $$("#i-motion .mchip").forEach(c=>c.onclick=()=>{{ b.motion=c.dataset.m;
