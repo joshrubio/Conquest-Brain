@@ -6,15 +6,21 @@ make_graphics.py — the episode's own graphics, in the house style (brain/03).
 Reads the **Gráficos / motion** table of `06-shotlist.md` and renders one 4K PNG
 per row into `assets/graphic/<id>.png` (id = the `asset` the shotlist names).
 
-Seven ids have a bespoke renderer — a real drawn graphic, not a text card:
-  *pipeline*  the print workshop chain          *age_ladder*   the preface's age scale
-  *names_timeline*  the ~30 art-names on a life  *mastery_curve* ego vs. maestría curves
-  *prussian_blue*  pigment + trade route         *death_card*    the closing text card
-  *signature_manji*  the late signature + gloss
+Eleven ids have a bespoke renderer — a real drawn graphic, not a text card:
+  *pipeline*  the print workshop chain          *age_ladder*    the preface's age scale
+  *names_timeline*  the ~30 art-names on a life  *mastery_curve*  ego vs. maestría curves
+  *prussian_blue*  the pigment swatch            *death_card*     the closing text card
+  *signature_manji*  the late signature + gloss  *edo_population* the number card (S20)
+  *moves_map*  the ~93 moves scattered on Edo    *36to46*        the series counter
+  *blue_route*  Europe → Nagasaki → Edo trade route + price fall
 Each pulls its content from the row's own "Qué muestra" / "Datos" text where it
 can (the arrows, the «quotes», the pairs); a few constants (the name list from
 S05, the kanji) live at the top of this file. Any id without a renderer falls
 back to a plain titled card carrying the "Qué muestra" text.
+
+Runs on its own AND is invoked by `pull_assets.py` before it writes the style
+pass, so every `gráfico` beat is previewable there. Also runs on entry to
+Stage 9 (`advance.py`). Skips PNGs that already exist unless --force.
 
 These are **stills** — enough for the Stage-9 rough cut to have every gráfico
 beat covered. A designer turns the load-bearing ones into motion later; re-run
@@ -29,6 +35,7 @@ Usage
   python tools/make_graphics.py E0XX-slug --contact-only   # just rebuild the sheet
 """
 import math
+import random
 import re
 import sys
 from pathlib import Path
@@ -427,6 +434,152 @@ def g_death(row):
     return im
 
 
+def g_population(row):
+    """G8 — 'tarjeta de número' (brain/03): la población de Edo. La cifra concreta
+    depende de S20 (aún sin cerrar) → el rótulo/salvedad hace el trabajo."""
+    im, d = _new()
+    frame(d, "Edo · hacia 1780–1800", row["label"])
+    ctext(d, W / 2, 430, "≈ 1.000.000", _font(SERIF_B, 300), BONE)
+    ctext(d, W / 2, 800, "habitantes", _font(SERIF_I, 92), GOLD)
+    ctext(d, W / 2, 980,
+          "entre las ciudades más grandes del mundo de su tiempo",
+          _font(SERIF, 60), MUTED)
+    # a skyline of rooftops along the lower band — reads as density, not as data
+    random.seed(1780)
+    base = H - 470
+    x = 250
+    while x < W - 250:
+        rw = random.randint(90, 210)
+        rh = random.randint(70, 230)
+        d.rectangle((x, base - rh, x + rw, base),
+                    fill=SURFACE2 if random.random() < 0.5 else SURFACE,
+                    outline=FAINT, width=2)
+        d.line([(x, base - rh), (x + rw / 2, base - rh - 36), (x + rw, base - rh)],
+               fill=FAINT, width=2)
+        x += rw + random.randint(6, 30)
+    d.line([(210, base), (W - 210, base)], fill=MUTED, width=4)
+    return im
+
+
+def g_moves(row):
+    """G9 — mapa esquemático de Edo con las ~93 mudanzas como puntos."""
+    im, d = _new()
+    frame(d, "unas 93 mudanzas", row["label"])
+    m = 320
+    top, bot = 380, H - 320
+    left, right = m, W - m
+    rrect(d, (left, top, right, bot), 46, fill=SURFACE, outline=FAINT, width=2)
+    # the Sumida sweeping across (kept inside the block)
+    riv = [(left + 70, bot - 180), (left + 900, bot - 540),
+           (left + 1900, top + 340), (right - 120, top + 230)]
+    d.line(riv, fill=SURFACE2, width=74)
+    d.line(riv, fill=FAINT, width=4)
+    # castle marker, roughly centre-left
+    cx, cy = left + 620, top + 440
+    for r in (140, 88, 40):
+        d.ellipse((cx - r, cy - r, cx + r, cy + r), outline=GOLD, width=4)
+    d.line([(cx, cy - 44), (cx, cy + 44)], fill=GOLD, width=4)
+    d.line([(cx - 44, cy), (cx + 44, cy)], fill=GOLD, width=4)
+    ctext(d, cx, cy + 180, "castillo de Edo", _font(SERIF_I, 40), MUTED)
+    # 93 deterministic dots + a wandering thread (nearest-neighbour walk so it
+    # meanders instead of criss-crossing the whole frame)
+    random.seed(93)
+    dots = [(random.uniform(left + 110, right - 110),
+             random.uniform(top + 150, bot - 110)) for _ in range(93)]
+    walk, pool = [dots[0]], list(dots[1:34])
+    while pool and len(walk) < 22:
+        px, py = walk[-1]
+        nxt = min(pool, key=lambda p: (p[0] - px) ** 2 + (p[1] - py) ** 2)
+        walk.append(nxt)
+        pool.remove(nxt)
+    d.line(walk, fill=MUTED, width=3)
+    for i, (x, y) in enumerate(dots):
+        edge = i in (0, 92)
+        rr = 12 if edge else 8
+        d.ellipse((x - rr, y - rr, x + rr, y + rr), fill=BONE if edge else GOLD)
+    ctext(d, W / 2, 250, "«se cuenta que se mudó unas 93 veces»",
+          _font(SERIF_I, 54), MUTED)
+    rtext(d, right, top - 44, "93 domicilios", _font(MONO, 44), GOLD)
+    return im
+
+
+def g_count36(row):
+    """G_36to46 — contador tipográfico: la serie pasó de 36 a 46 láminas."""
+    im, d = _new()
+    frame(d, "la serie que creció", row["label"])
+    nums = re.findall(r"\d+", " ".join(quotes(row["shows"])) or row["shows"])
+    a, b = (nums + ["36", "46"])[:2]
+    na, nb = int(a), int(b)
+    f = _font(SERIF_B, 340)
+    wa, wb, gap = d.textlength(a, font=f), d.textlength(b, font=f), 320
+    x = (W - (wa + gap + wb)) / 2
+    d.text((x, 420), a, font=f, fill=MUTED)
+    arrow(d, (x + wa + 56, 610), (x + wa + gap - 56, 610), color=GOLD, width=10, head=52)
+    d.text((x + wa + gap, 420), b, font=f, fill=BONE)
+    ctext(d, W / 2, 900, "«Treinta y seis vistas del monte Fuji»",
+          _font(SERIF_I, 76), BONE)
+    ctext(d, W / 2, 1012, "— y diez láminas más, ya famosa la serie",
+          _font(SERIF, 54), MUTED)
+    # nb tiles: first na in gold, the rest faint outlines
+    cols = 12
+    tw, th, g = 150, 104, 26
+    gw = cols * tw + (cols - 1) * g
+    ox = (W - gw) / 2
+    oy = 1220
+    for i in range(nb):
+        r, c = divmod(i, cols)
+        tx, ty = ox + c * (tw + g), oy + r * (th + g)
+        if i < na:
+            rrect(d, (tx, ty, tx + tw, ty + th), 8, fill=SURFACE2, outline=GOLD, width=2)
+            d.arc((tx + 12, ty + 22, tx + tw - 12, ty + th + 44), 180, 360,
+                  fill=BLUE, width=6)
+        else:
+            rrect(d, (tx, ty, tx + tw, ty + th), 8, outline=FAINT, width=2)
+    return im
+
+
+def g_route(row):
+    """G3_blue_route — mapa de ruta: el azul de Prusia de Europa a Edo vía Nagasaki,
+    y su precio cayendo. Segunda etapa del EXPLICADOR 2."""
+    im, d = _new()
+    frame(d, "el azul viaja", row["label"])
+    seq = []
+    for s in arrow_seq(row["shows"]):
+        s = re.split(r"[;:]", s)[0].strip()
+        s = re.sub(r"^(ruta comercial|desde|de|el pigmento.*)\s*", "", s, flags=re.I).strip()
+        if s:
+            seq.append(s)
+    labels = (seq + ["Europa", "Nagasaki", "Edo"])[:3] if len(seq) < 3 else seq[:3]
+    ax0, ax1, ay, amp = 400, W - 400, 1180, 540
+    pts = [(ax0 + (ax1 - ax0) * t / 80, ay - amp * math.sin(math.pi * t / 80))
+           for t in range(81)]
+    d.line(pts, fill=GOLD, width=5)
+    nodes = [(ax0, ay), ((ax0 + ax1) / 2, ay - amp), (ax1, ay)]
+    caps = ["sintetizado en Europa (s. XVIII)",
+            "puesto neerlandés — la única entrada",
+            "los talleres de láminas"]
+    for i, ((nx, ny), lab, cap) in enumerate(zip(nodes, labels, caps)):
+        col = BLUE if i == 0 else (BONE if i == 1 else GOLD)
+        d.ellipse((nx - 24, ny - 24, nx + 24, ny + 24), fill=col, outline=BONE, width=3)
+        if i == 1:
+            ctext(d, nx, ny - 168, lab.upper(), _font(MONO, 48), BONE)
+            ctext(d, nx, ny - 108, cap, _font(SERIF_I, 40), MUTED)
+        else:
+            ctext(d, nx, ny + 56, lab.upper(), _font(MONO, 48), BONE)
+            ctext(d, nx, ny + 122, cap, _font(SERIF_I, 40), MUTED)
+    # the pigment travelling along the arc
+    mx, my = pts[24]
+    d.polygon([(mx, my - 22), (mx + 22, my), (mx, my + 22), (mx - 22, my)],
+              fill=BLUE, outline=BONE)
+    # price falling
+    d.line([(W / 2 - 420, H - 560), (W / 2 + 360, H - 430)], fill=MUTED, width=5)
+    arrow(d, (W / 2 + 250, H - 545), (W / 2 + 400, H - 405), color=MUTED, width=5)
+    ctext(d, W / 2, H - 360,
+          "y el precio baja lo bastante para usarlo en tiradas enteras (déc. de 1820)",
+          _font(SERIF_I, 46), MUTED)
+    return im
+
+
 RENDERERS = [
     ("pipeline", g_pipeline),
     ("names", g_names),
@@ -437,6 +590,10 @@ RENDERERS = [
     ("mastery", g_mastery),
     ("curve", g_mastery),
     ("death", g_death),
+    ("population", g_population),
+    ("moves", g_moves),
+    ("36to46", g_count36),
+    ("route", g_route),
 ]
 
 

@@ -12,7 +12,7 @@ authority: canonical
 
 Deliberately minimal. **If an effect isn't in this doc, it doesn't go in the episode.** No lower-thirds system, no source cards, no transitions beyond a hard cut and a section fade. One house grade (`brain/03`), applied whole. The rigor is in the script and the sourcing, not in the motion graphics.
 
-Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`) · `07c-edit.html` (raw-clip review, generated) · `07c-review.txt` (raw-clip approvals) · **`09-edit.html`** (the timeline, generated) · **`09-timeline.json`** (the edit — tracked) · `09-decisions.txt` (changelog — tracked).
+Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`) · `07c-edit.html` (raw-clip review, generated) · `07c-review.txt` (raw-clip approvals) · **`09-edit.html`** (the timeline, generated) · **`09-timeline.json`** (the edit — tracked; `beats[].dur_lock`/`slot` carry the edit-room overrides) · `09-decisions.txt` (changelog — tracked) · `09-take.mp4` (take proxy, gitignored).
 
 ## The run
 
@@ -33,7 +33,7 @@ Then:
    - resolves each beat's `asset` id to a file via `07-selection.md` + the `assets/` folders
    - if a trimmed VO exists, **aligns every beat to real VO time** (fuzzy-matches its script fragment against `*.words.json`); otherwise uses the shotlist's planned times
    - writes `09-timeline.json` + a 720p proxy (`09-rough.mp4`) + a waveform
-   Then **`tools/edit_timeline.py`** renders **`09-edit.html`** — the cutting-room timeline: the waveform spine, a block per beat, a scrubbable proxy, and a per-beat inspector (swap asset · trim · nudge · Ken Burns motion · regen note · approve). Usuario 001 works it in the browser — drag, trim, preview a region — **no tokens**. **Finalizar Stage 9** POSTs `09-timeline.json`; Claude applies the regen notes (`kenburns.py` per fix) and `assemble.py --final` renders the 4K master.
+   Then **`tools/edit_timeline.py`** renders **`09-edit.html`** — the cutting-room timeline: the waveform spine, a block per beat, a scrubbable proxy, and a per-beat inspector (swap asset · lock duration · nudge · reorder · Ken Burns motion · regen note · approve). Usuario 001 works it in the browser — drag, resize, reorder, preview a region — **Guardar** autosaves and the overrides survive rebuilds; **no tokens**. **Finalizar Stage 9** POSTs `09-timeline.json`; Claude applies the regen notes and `assemble.py --final` renders the 4K master.
 5. **Background music** — one ominous-ambient bed under the whole thing, ducked −5 dB under the VO (`assemble.py` mixes it on `--final`).
 6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
 
@@ -99,21 +99,24 @@ Stills only (video already moves). The move is chosen from the image's **real as
 - parses the **"Timeline — la espina"** table in `06-shotlist.md` (one row per beat: `#`, `in`, `dur`, `sección`, `tipo`, `asset`, `rótulo`, `motion`, `marcador`, guion frag.)
 - resolves `asset` ids to files via `07-selection.md` + `assets/{kb,stock,video,intro,archive,ai,graphic}/`
 - **`tipo: acamara`** (A-roll, `brain/11` §1b) → the beat plays the **trimmed take** for its slot; `motion` forced to `cut`, no Ken Burns, no asset lookup. The take is both the VO spine and the A-roll video. *(Single continuous take only for now — multi-take A-roll needs per-take offset mapping.)*
-- **aligns to the VO** when a trimmed take exists (fuzzy-matches each beat's frag against `*.words.json`); beats whose frag never matches (paraphrased / pure-visual) are **spread across the gap between their aligned neighbours** by shotlist `dur`; the total is **clamped to the VO length** so no beat lands past the end of the take. Timeline is monotonic (each beat runs until the next begins).
-- an A-roll beat that still ends up past the trimmed take → rendered black (never a fatal seek), with a warning — signals the shotlist's planned duration overran the real VO.
-- writes **`09-timeline.json`** + `09-rough.mp4` (720p proxy) + `09-wave.b64` (waveform PNG)
+- **aligns to the VO** when a trimmed take exists (fuzzy-matches each beat's frag against `*.words.json` — needs ≥3 consecutive word matches; frags that are stage directions never anchor); un-matched beats are **spread across the gap between aligned neighbours** by shotlist `dur`; total **clamped to the VO length**. Monotonic (each beat runs until the next begins).
+- **enforces the rhythm** (`brain/11` §2.2): merges any beat under **2.5 s** into its neighbour and collapses two identical shots in a row (kills the millisecond flashes and the pile-ups); flags `pace` on any non-A-roll beat over **20 s** or 2.5× its section target (⚠ marker in the edit room); every still gets a Ken Burns move (**never static**); `pan-v`/`pan-h` auto-picked from the asset's aspect ratio so a portrait **fills the frame and travels** instead of sitting small on black; museum scans >4320 px are downscaled to `assets/_proxy/` first.
+- an A-roll beat that still ends up past the trimmed take → rendered black (never a fatal seek), with a warning.
+- writes **`09-timeline.json`** + `09-rough.mp4` (720p proxy) + `09-wave.b64` (waveform) + `09-vo.m4a` (VO audio proxy) + **`09-take.mp4`** (720p proxy of the narrator take, for the live page's continuous `#face`); music bed sits at **−30 dB** under the VO.
 
 **`edit_timeline.py E0XX-slug`** renders **`09-edit.html`** — the cutting room:
-- VO waveform (fixed) + section bands + one block per beat, width ∝ duration, coloured by kind; `PROMISE`/`PAY` + `EXPLICADOR` marked; uncovered beats flagged
-- a scrubbable 720p proxy; a per-beat **inspector**: swap asset · trim (drag edge or ±) · nudge ±frames · Ken Burns motion (`push`/`pan-h`/`pan-v`/`static`/`zoom`/`cut`) · a regen note for Claude · approve
-- drag a block to reposition (snaps to a word boundary); wheel = scroll, Ctrl+wheel = zoom, Shift+wheel = fast scroll; minimap to navigate
-- **Previsualizar región** re-renders that stretch of the proxy (`assemble.py --preview`) — seconds, not a full render
-- **Finalizar Stage 9** → POSTs `09-timeline.json` (+ a `09-decisions.txt` changelog). Claude applies the regen notes (`kenburns.py` per beat) and runs `assemble.py --final` for the 4K master. Beats still `sin cubrir` block the final render.
+- VO waveform (fixed) + section bands + one block per beat, width ∝ duration, coloured by kind; `PROMISE`/`PAY` + `EXPLICADOR` marked; uncovered flagged; **`pace` beats ⚠**; **edited beats** (locked duration / reordered) get a dashed outline.
+- **two preview modes:** *en vivo* (default) plays `09-vo.m4a` + music bed live; the narrator take (`09-take.mp4`) runs continuously as a hidden `#face`, shown on `acamara` beats (no per-beat seek); stills/clips swap one at a time — no render, no Ken Burns/grade. *corte renderizado* plays `09-rough.mp4`.
+- a per-beat **inspector**: **swap asset** (picker over `assets/` + paste a path/URL → `beat_asset.py` fetches it and re-points the spine row) · **lock a duration** (± or drag the right grip — steals from the next beat, capped at its floor) · nudge ±frames · Ken Burns motion · regen note · approve · ↺ reset.
+- **reorder**: drag a beat block past a neighbour — it takes that time window (the VO stays; only which picture shows when changes). Stored as a `slot` sort-key.
+- **Guardar** autosaves (debounced): `dur_lock` / `slot` / `nudge` / `approved` / `fix` → `/tl-save` → the server re-runs `build_timeline` (`align()` then `_apply_edits`) and returns the recomputed timeline. **The overrides survive every later rebuild** (prev-merge keeps them).
+- **Previsualizar región** / **Renderizar borrador** save first, then re-render (`assemble.py --preview` / `--rough`).
+- **Finalizar Stage 9** → flushes the save, POSTs `09-timeline.json` (+ `09-decisions.txt`). Claude applies regen notes + `assemble.py --final` for the 4K. Beats `sin cubrir` block the final render.
 
 **Rules that don't move** (`assemble.py` enforces or the human keeps):
 - **A-roll / B-roll** (`brain/11` §1b): cut to the face when the narrator is *addressing the viewer* (opinion, pivote, close, CTA); cut to B-roll when the narration *describes a thing to see*. Hard cuts; a J-cut (VO of the next beat starts a beat early under the outgoing picture) is allowed at an A→B or B→A change and nowhere else.
 - **Video clips:** cut to length. No speed ramp, no filter. Loop only if shorter than the beat *and* the loop point is invisible.
-- **Cold open (§0):** narration to camera; the `intro` B-roll clips cut over it in numbered order. Last shot holds ½ s → cut to black.
+- **Cold open (§0), ~35–45 s:** 1 contextual hero shot (8–10 s) + 3–5 `intro` hook clips (4–6 s) + the "turn" shot + close to camera → cut to black. (`brain/11` §2.1 rule 2b)
 - **Bumper (§0b):** 3–6 s black + `Conquest` wordmark + presenter line. No music.
 - Reused beats (`PROMISE n` / `PAY n`): the **same** `asset` and `motion` both times (the shotlist spine sets this; the timeline keeps it).
 
