@@ -10,7 +10,7 @@ intro	custom:3	https://www.pexels.com/es-es/video/serenas-flores-de-cerezos-en-e
 intro	custom:4	https://www.pexels.com/es-es/video/japon-timelapse-31453316/
 intro	custom:5	https://www.pexels.com/es-es/video/escaleras-montanas-vehiculo-japon-19757067/
 # --- BEATS ---
-1	custom:1	https://www.pexels.com/es-es/download/video/31385442/
+1	custom:1	"D:\Conquest\episodes\E001-hokusai\assets\archive\beat1_custom_1.png"
 11	custom:11	"D:\Conquest\episodes\E001-hokusai\assets\DP143415.jpg"
 12	custom:12	"D:\Conquest\episodes\E001-hokusai\assets\katsukawaportrait.jpg"
 16	custom:16	"D:\Conquest\episodes\E001-hokusai\assets\hokusaimanga.jpg"

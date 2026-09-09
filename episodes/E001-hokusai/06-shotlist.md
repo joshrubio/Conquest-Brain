@@ -84,7 +84,7 @@ Stage 8 a la ventana del beat, sin Ken Burns):
 
 | # | in | dur | sección | tipo | asset | rótulo | motion | marcador | guion (frag.) |
 |---|----|-----|---------|------|-------|--------|--------|----------|---------------|
-| 1 | 0:00 | 10 | cold open | stock | beat1_custom_1 | — | cut | HOOK | «un hombre de unos 88 años se estaba muriendo» |
+| 1 | 0:00 | 10 | cold open | ia | beat1_custom_1 | Ilustración — Conquest | push | HOOK | «un hombre de unos 88 años se estaba muriendo» |
 | 2 | 0:10 | 5 | cold open | stock | intro02 | — | cut | — | «en un cuarto de alquiler de Edo» |
 | 3 | 0:15 | 5 | cold open | stock | intro04 | — | cut | — | «llevaba más de 70 años dibujando» |
 | 4 | 0:20 | 4 | cold open | stock | beat2 | — | cut | — | «había publicado miles de imágenes» |
@@ -207,7 +207,7 @@ Stage 8 a la ventana del beat, sin Ken Burns):
 | asset | Visual | Origen | Fuente [ID] | Derechos |
 |-------|--------|--------|-------------|----------|
 | E001_ai02_daruma-nagoya-1817 · E001_ai03_studio-fire-night · E001_ai04_closing-path | ilustración IA (`assets/ai/`) | `07b-ai-prompts.md` | — | **IA — rótulo permanente «Ilustración — Conquest»** (`brain/15`). Sin cara fotorrealista. *(ai01 deathbed-room retirado: el beat 1 usa vídeo stock)* |
-| beat1_custom_1 | vídeo stock — plano atmosférico de apertura | Pexels 31385442 | licencia Pexels (uso libre) | 3,3 s → `assemble.py` lo **relentiza** (~1,9×) para llenar el beat (~6 s tras align), sin bucle |
+| beat1_custom_1 | ilustración IA — anciano en el futón mirando el amanecer por la shoji (cuarto de alquiler de Edo) | generada / propia | **IA — rótulo «Ilustración — Conquest»** (`brain/15`). Sin cara. Cambiada en la sala 2026-09-09 (antes: vídeo stock Pexels 31385442) |
 | beat3_commons_5576388 · beat25_commons_2646210 | «La gran ola frente a Kanagawa» (detalle / completa) | Wikimedia Commons | S09 | **CC0 / dominio público** |
 | beat24_commons_39740407 | «Fuji rojo» (*Gaifū kaisei*) | Wikimedia Commons / Google Art Project | S09 | CC0 / dominio público |
 | beat22_custom_22 · beat23_custom_23 | láminas de las *36 vistas* (hoja general · Fuji desde arrozal) | The Met Open Access | S09 | CC0 / dominio público |
