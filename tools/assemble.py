@@ -692,22 +692,40 @@ def seed_timeline(slug, force=False):
         return data
 
     vo_end = round(_vo_end_from_words(words), 2) if words else round(total, 2)
-    for b in beats:
-        b["id"] = f"b{b['n']}"
-        b["vo_anchor"] = b.pop("frag", "")
-        b["dur"] = round(b["out"] - b["in"], 3)
-    if beats:
-        beats[-1]["dur"] = round(vo_end - beats[-1]["in"], 3)
-    ab = [_authored_beat(b) for b in beats]
-    data = {"ep": slug[:4], "slug": slug, "generated": _now(), "schema": 2,
-            "seeded": _now(), "aligned": bool(words), "fps": FPS, "w": 3840, "h": 2160,
-            "vo_end": vo_end, "total": round(total, 2), "ground": GROUND,
-            "next_id": max((_idn(b["id"]) for b in ab), default=0) + 1,
-            "words_sig": _words_sig(words),
-            "music": _music_block({}, ab, total), "beats": ab}
+    ab = to_authored_beats(beats, vo_end)
+    data = authored_doc(slug, ab, vo_end=vo_end, total=total,
+                        words_sig=_words_sig(words), aligned=bool(words),
+                        music=_music_block({}, ab, total))
     tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     _report(slug, ab, round(total, 2), bool(words))
     return data
+
+
+def to_authored_beats(beats, vo_end):
+    """Turn derived beats (n, frag, in/out) into authored schema-2 beats: `id`
+    from the spine row, `dur` = the current on-screen length (so the first
+    rebuild reproduces the same cut), `vo_anchor` from `frag`. The last beat's
+    `dur` closes exactly on vo_end so cumulative sum lands there."""
+    for b in beats:
+        if "id" not in b and b.get("n") is not None:
+            b["id"] = f"b{b['n']}"
+        b["vo_anchor"] = b.get("vo_anchor") or b.pop("frag", "") or ""
+        b["dur"] = round(b["out"] - b["in"], 3)
+    if beats and vo_end:
+        beats[-1]["dur"] = round(float(vo_end) - beats[-1]["in"], 3)
+    return [_authored_beat(b) for b in beats]
+
+
+def authored_doc(slug, ab, *, vo_end, total, words_sig, aligned, music, seeded=None):
+    return {
+        "ep": slug[:4], "slug": slug, "generated": _now(), "schema": 2,
+        "seeded": seeded or _now(), "aligned": aligned,
+        "fps": FPS, "w": 3840, "h": 2160,
+        "vo_end": round(float(vo_end), 2), "total": round(float(total), 2), "ground": GROUND,
+        "next_id": max((_idn(b.get("id")) for b in ab), default=0) + 1,
+        "words_sig": words_sig,
+        "music": music, "beats": ab,
+    }
 
 
 def rebuild_timeline(slug):
