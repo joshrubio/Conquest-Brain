@@ -371,6 +371,20 @@ class H(BaseHTTPRequestHandler):
             if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
                 (epp / "09-timeline.json").write_text(
                     json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
+            # a browsed file arrives as base64 → write it to a temp under assets/,
+            # then treat it like a local-path --src (beat_asset copies + names it)
+            up_tmp = None
+            up = data.get("upload")
+            if isinstance(up, dict) and up.get("data"):
+                import base64
+                ext = (Path(str(up.get("name", "x"))).suffix or ".bin").lower()
+                up_tmp = epp / "assets" / ("_upload" + ext)
+                try:
+                    (epp / "assets").mkdir(parents=True, exist_ok=True)
+                    up_tmp.write_bytes(base64.b64decode(up["data"]))
+                    data["src"] = str(up_tmp)
+                except Exception as e:
+                    return self._send(400, json.dumps({"error": f"subida ilegible: {e}"}))
             act = data.get("action", "set")
             if act == "add":
                 args = ["beat_asset.py", slug, "--add", "--after", str(int(data.get("after", 0))),
@@ -393,6 +407,8 @@ class H(BaseHTTPRequestHandler):
                     args = ["beat_asset.py", slug, "--set", n]
                     args += ["--src", str(data["src"])] if data.get("src") else ["--asset", str(data.get("asset", ""))]
             out = _run(args)
+            if up_tmp is not None:
+                up_tmp.unlink(missing_ok=True)          # beat_asset copied it to the real name
             try:
                 res = json.loads(out)
             except (json.JSONDecodeError, TypeError):
