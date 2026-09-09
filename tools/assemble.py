@@ -309,7 +309,10 @@ def align(beats, words):
     if not words:
         return beats, round(beats[-1]["out"], 2) if beats else 0.0
     toks = [_norm(w["w"]) for w in words]
-    vo_end = round(words[-1]["t"] + 0.5, 2)
+    # Whisper's `t` is the word *start*; the tail must cover the last word being
+    # spoken, not a flat 0.5 s (which clips a long final word like "Hokusai").
+    _lastw = len(words[-1]["w"].strip(".,;:!?»«…"))
+    vo_end = round(words[-1]["t"] + min(1.8, 0.45 + 0.10 * _lastw), 2)
     planned_end = beats[-1]["out"] or vo_end
 
     # (planned_time, vo_time) anchor pairs, in order
@@ -361,12 +364,12 @@ def align(beats, words):
         dur = b["out"] - b["in"]
         plan = b.get("dur", dur)
         if b["kind"] in ACAMARA:
-            if dur > 22:                       # 22 s+ of unbroken talking head — cut away
-                b["pace"] = round(dur, 1)
+            pass                               # a piece to camera runs as long as the
+            #                                    voice needs it (house format, brain/11 §1b)
         elif b["kind"] in GRAPHIC and dur < MIN_GRAPHIC:
             b["pace"] = round(dur, 1)          # too brief to read (brain/11 §2.2)
         elif dur > max(2.5 * plan, 20):
-            b["pace"] = round(dur, 1)
+            b["pace"] = round(dur, 1)          # a still/clip align() stretched way past plan
     # asset over-reuse (brain/11 §2.2): a graphic id used >1× without a
     # PROMISE/PAY/eco tag, or any asset used >3× / >2× in one section.
     seen, per_sec = {}, {}
@@ -435,7 +438,7 @@ def _apply_edits(beats):
 def _repace(beats, total):
     """Kill the millisecond flashes and the pile-ups: merge any beat too short
     to register into its neighbour, and collapse two identical shots in a row
-    (except a deliberate PROMISE→PAY reuse) into one continuous move."""
+    (except a deliberate PROMISE→PAY reuse, or a fresh SPLIT) into one move."""
     out = []
     for b in beats:
         floor = MIN_ACAMARA if b["kind"] in ACAMARA else MIN_BEAT
@@ -443,7 +446,10 @@ def _repace(beats, total):
         if out:
             prev = out[-1]
             same_file = b.get("file") and b["file"] == prev.get("file")
-            promise_pay = {(prev.get("marker") or "")[:3], (b.get("marker") or "")[:3]} & {"PRO", "PAY"}
+            # a PROMISE→PAY reuse, or a beat just split in the cutting room (the 2nd
+            # half is deliberately the same shot until the editor reassigns it)
+            promise_pay = ({(prev.get("marker") or "")[:3], (b.get("marker") or "")[:3]} & {"PRO", "PAY"}
+                           or "SPLIT" in ((prev.get("marker") or ""), (b.get("marker") or "")))
             # don't merge a real A-roll beat away — the narrator on camera is a
             # deliberate structural beat even if the alignment shrank it a bit
             aroll_keep = b["kind"] in ACAMARA and dur >= MIN_ACAMARA and not (same_file and not promise_pay)
@@ -595,8 +601,9 @@ def vo_proxy(slug):
 def take_proxy(slug):
     """09-take.mp4 — a small 720p proxy of the trimmed narrator take for the edit
     page's live compositor. The 4K/1080p master runs ~800 MB; seeking into it
-    stutters. This is ~1 Mbps with a keyframe every 2 s so the picture tracks the
-    VO without thrash. Cached — skipped if newer than the take."""
+    stutters. This is a light 540p stream, muted (voice is #vo), with a keyframe
+    twice a second so the one seek per beat-switch lands fast and the decoder
+    keeps up on playback. Cached — skipped if newer than the take."""
     ep = EP_DIR / slug
     vo = next(iter(sorted(ep.glob("assets/*.trimmed.mp4"))), None)
     out = ep / "09-take.mp4"
@@ -605,9 +612,9 @@ def take_proxy(slug):
     if out.exists() and out.stat().st_mtime >= vo.stat().st_mtime:
         return out
     r = subprocess.run([FFMPEG, "-y", "-i", str(vo),
-                        "-vf", "scale=-2:720", "-c:v", "libx264", "-preset", "veryfast",
-                        "-crf", "30", "-g", "48", "-keyint_min", "48", "-sc_threshold", "0",
-                        "-c:a", "aac", "-b:a", "96k", "-movflags", "+faststart", str(out)],
+                        "-vf", "scale=-2:540,fps=24", "-c:v", "libx264", "-preset", "veryfast",
+                        "-crf", "32", "-g", "12", "-keyint_min", "12", "-sc_threshold", "0",
+                        "-an", "-movflags", "+faststart", str(out)],
                        capture_output=True, text=True)
     if r.returncode == 0:
         print(f"  escrito  09-take.mp4  ({out.stat().st_size // (1024 * 1024)} MB)")

@@ -97,7 +97,7 @@ section{margin:0 0 2.5rem}
 /* buttons — pill, quiet by default, one loud primary; gold hairline so they
    stay scannable on the dark ground */
 button,.btn{font:inherit;font-size:.82rem;font-weight:560;line-height:1;
-  display:inline-flex;align-items:center;gap:.4rem;
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
   padding:.6rem .95rem;border:1px solid var(--gold-line);border-radius:var(--r-pill);
   background:var(--surface-2);color:var(--bone);cursor:pointer;text-decoration:none;
   transition:background .12s,border-color .12s,transform .06s,filter .12s}
@@ -306,8 +306,17 @@ label.opt input{margin-top:.15rem}
 [data-tip]:hover::before{content:"";position:absolute;left:12px;top:calc(100% + 2px);
   border:5px solid transparent;border-bottom-color:var(--line-2);z-index:61}
 header [data-tip]:hover::after{max-width:24rem}
-[data-tipr][data-tip]:hover::after{left:auto;right:0}
-[data-tipr][data-tip]:hover::before{left:auto;right:12px}
+/* right-edge chrome (topbar actions, the inspector panel): open the bubble
+   leftward so it can't spill off the right of the screen */
+[data-tipr][data-tip]:hover::after,
+.topbar [data-tip]:hover::after,
+.inspector [data-tip]:hover::after{left:auto;right:0}
+[data-tipr][data-tip]:hover::before,
+.topbar [data-tip]:hover::before,
+.inspector [data-tip]:hover::before{left:auto;right:12px}
+/* the inspector is a scroll box → a CSS ::after bubble gets clipped at its edge.
+   there the bubble is drawn by JS (#tltip, position:fixed) instead. */
+.inspector [data-tip]:hover::after,.inspector [data-tip]:hover::before{content:none}
 
 /* markdown file view (serve.py /view, cost.html) */
 .doc{max-width:900px}
@@ -322,10 +331,14 @@ CSS = "<style>" + TOKENS + BASE + COMPONENTS + "</style>"
 
 # ── Stage 9 timeline (edit_timeline.py only — kept out of the shared CSS) ─────
 TIMELINE_CSS = """<style>
-body.tl{display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden}
-.tl .topbar{flex:0 0 auto;display:flex;align-items:center;gap:.9rem;padding:.7rem 1.15rem;
-  background:var(--bg);border-bottom:1px solid var(--line-2)}
-.tl .crumb{font-size:.82rem;color:var(--muted)} .tl .crumb b{color:var(--bone);font-weight:620}
+body.tl{display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden;
+  -webkit-user-select:none;user-select:none}
+.tl input,.tl textarea,.tl select,.tl [contenteditable="true"]{-webkit-user-select:text;user-select:text}
+.tl .topbar{flex:0 0 auto;display:flex;align-items:center;gap:.5rem;padding:.55rem .9rem;
+  background:var(--bg);border-bottom:1px solid var(--line-2);flex-wrap:nowrap}
+.tl .topbar .btn{font-size:.72rem;font-weight:560;padding:.34rem .62rem;gap:.3rem;white-space:nowrap}
+.tl .topbar .btn.primary{padding:.34rem .7rem}
+.tl .crumb{font-size:.78rem;color:var(--muted)} .tl .crumb b{color:var(--bone);font-weight:620}
 .tl .ep{font-family:var(--mono);font-size:.78rem;color:var(--gold);background:var(--gold-soft);
   border:1px solid var(--gold-line);border-radius:6px;padding:.12rem .5rem}
 
@@ -353,7 +366,13 @@ body.tl{display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden}
 .tc .sep{color:var(--faint);margin:0 .3rem}.tc .tot{color:var(--muted)}
 .phint{font-size:.7rem;color:var(--faint);margin-left:auto;max-width:20rem;text-align:right}
 
-.inspector{background:var(--bg);padding:1rem 1.15rem;overflow-y:auto;min-width:0}
+.inspector{background:var(--bg);padding:1rem 1.15rem 2rem;overflow-y:auto;min-width:0}
+.insp-cap{display:flex;align-items:center;gap:.4rem;font-size:.66rem;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--line-2);
+  padding-bottom:.5rem;margin-bottom:.7rem}
+.insp-cap .qm{margin-left:auto;width:1.05rem;height:1.05rem;border:1px solid var(--gold-line);
+  border-radius:50%;color:var(--gold);font-size:.68rem;display:flex;align-items:center;
+  justify-content:center;cursor:help}
 .insp-empty{color:var(--faint);font-size:.85rem;padding:2rem 0;text-align:center}
 .insp-head{display:flex;align-items:baseline;gap:.5rem}
 .insp-head h3{font-size:.92rem;margin:0}.insp-head .n{font-family:var(--mono);color:var(--gold);font-size:.85rem}
@@ -367,7 +386,8 @@ body.tl{display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden}
 .control select{all:unset;flex:1;color:var(--fg);font:inherit;min-width:0}
 .stepper{display:flex;gap:.3rem}
 .stepper button{width:1.9rem;height:1.9rem;border-radius:7px;border:1px solid var(--line-2);
-  background:var(--surface-2);font-family:var(--mono);font-size:.9rem;padding:0}
+  background:var(--surface-2);font-family:var(--mono);font-size:.9rem;padding:0;
+  justify-content:center;align-items:center;line-height:1;text-align:center}
 .stepper button:hover{border-color:var(--gold);background:var(--surface-3)}
 .stepper .val{flex:1;display:flex;align-items:center;justify-content:center;font-family:var(--mono);
   background:var(--surface-2);border:1px solid var(--line-2);border-radius:7px}

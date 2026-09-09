@@ -38,6 +38,9 @@ you*; cut to B-roll the moment the narration is *describing a thing* the viewer
 should see. `[PROMISE]`/`[PAY]` stay B-roll (same shot both times, §2.1 rule 5).
 Rough split for a biography: ~30–45 % A-roll. `assemble.py` treats an `acamara`
 beat as "play the take for this slot" — no Ken Burns, `motion` forced to `cut`.
+An A-roll beat runs **as long as the voice needs it** — a piece to camera has no
+upper length limit (house format). Only stretched *B-roll/graphic* beats get the
+`pace` ⚠ (a still `align()` blew past its plan, or a `gráfico` under 6 s).
 
 ## 2. Process A — infer the shotlist from the script (primary, every episode)
 
