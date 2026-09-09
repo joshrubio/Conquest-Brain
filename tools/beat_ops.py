@@ -208,8 +208,7 @@ def tidy(slug, merge_same_file=False):
         b["dur"] = round(b["out"] - b["in"], 3)
     data["beats"] = [A._authored_beat(b) for b in kept]
     out = _finish(slug, tj, data)
-    out["_tidied"] = before - len(kept)
-    print(f"  fusionados {before - len(kept)} beats sub-mínimo")
+    out["tidied"] = before - len(data["beats"])
     return out
 
 
@@ -242,7 +241,10 @@ if __name__ == "__main__":
             payload = json.loads(opt("--json") or "{}")
             action = payload.pop("action", "")
             tl = run(slug, action, **payload)
-            print(json.dumps({"ok": True, "timeline": tl}, ensure_ascii=False))
+            resp = {"ok": True, "timeline": tl}
+            if isinstance(tl, dict) and "tidied" in tl:
+                resp["note"] = f"fusionados {tl.pop('tidied')} beats sub-mínimo"
+            print(json.dumps(resp, ensure_ascii=False))
         except SystemExit as ex:
             print(json.dumps({"error": ex.code if isinstance(ex.code, str) else "error"},
                              ensure_ascii=False))

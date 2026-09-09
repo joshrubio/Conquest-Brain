@@ -160,16 +160,18 @@ def fold_edit(epid, d, payload):
     fixes = []
     if tj.exists():
         try:
-            for b in json.loads(tj.read_text(encoding="utf-8")).get("beats", []):
+            for i, b in enumerate(json.loads(tj.read_text(encoding="utf-8")).get("beats", []), 1):
                 if b.get("fix"):
-                    fixes.append(f"beat {b['n']} ({b.get('asset') or 'sin asset'}): {b['fix']}")
+                    tag = b.get("id") or b.get("n") or f"#{i}"
+                    fixes.append(f"beat {i} ({tag}, {b.get('asset') or 'sin asset'}): {b['fix']}")
         except json.JSONDecodeError:
             pass
-    note = ("Stage 9 — la timeline está en 09-timeline.json. "
+    note = ("Stage 9 — la timeline canónica está en 09-timeline.json (schema 2). "
             + (f"Aplica las {len(fixes)} correcciones re-corriendo kenburns.py por beat:\n  - "
                + "\n  - ".join(fixes) + "\n" if fixes else "Sin correcciones pendientes. ")
             + "Luego: `python tools/assemble.py " + (d.get("slug") or epid)
-            + " --final` para el render 4K. No toques 09-timeline.json a mano salvo para el asset de un beat sin cubrir.")
+            + " --final` para el render 4K. 09-timeline.json es el artefacto autorado — editarlo "
+            + "a mano (dur, orden, asset de un beat) está bien; lo que NO debes hacer es re-sembrarlo.")
     P.enqueue(epid, 9, "fold", note=note)
     return "queued", f"timeline guardada · {len(fixes)} correcciones + render 4K en cola"
 
@@ -275,7 +277,10 @@ def do_next(epid, force=False):
         else:
             steps.append("sin tomas")
 
-        r1 = subprocess.run([sys.executable, str(here / "assemble.py"), slug],
+        # seed the timeline once from the spine + VO. A schema-2 file already
+        # here (re-entry / re-drain) is left untouched; a schema-1 file makes
+        # --seed refuse and print the migrate command.
+        r1 = subprocess.run([sys.executable, str(here / "assemble.py"), slug, "--seed"],
                             capture_output=True, text=True)
         subprocess.run([sys.executable, str(here / "edit_timeline.py"), slug],
                        capture_output=True, text=True)

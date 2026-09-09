@@ -20,7 +20,8 @@ What it reads (all optional — degrades to a planning view):
 
 Usage
   python tools/assemble.py E0XX-slug                 # (re)build 09-timeline.json + wave
-  python tools/assemble.py E0XX-slug --seed          # (re)seed from the shotlist — discards edits
+  python tools/assemble.py E0XX-slug --seed          # seed once (no-op if already schema 2)
+  python tools/assemble.py E0XX-slug --reseed        # force re-seed from the shotlist — discards edits
   python tools/assemble.py E0XX-slug --rough         #  + render the 720p proxy
   python tools/assemble.py E0XX-slug --preview 340 385   # re-render just that region of the proxy
   python tools/assemble.py E0XX-slug --final         # render the 4K master
@@ -245,7 +246,11 @@ def resolve(ep, beats):
             b["motion"] = "cut"     # live video, never a Ken Burns move
             continue
         asset = b.get("asset") or ""
-        if b["kind"] == "negro" or not asset:
+        if b["kind"] == "negro":
+            b["file"], b["state"] = None, "plan"
+            continue
+        if not asset:                     # cleared / never assigned — reset any stale file
+            b["file"], b["state"] = None, "uncovered"
             continue
         hit = idx.get(asset) or idx.get(asset.split(".")[0])
         if not hit:
@@ -1107,8 +1112,10 @@ if __name__ == "__main__":
     if "--preview" in a:
         i = a.index("--preview")
         render(slug, "proxy", float(a[i + 1]), float(a[i + 2]), dry)
-    elif "--seed" in a:               # (re)seed from the shotlist spine — discards edits
+    elif "--reseed" in a:             # force re-seed from the spine — DISCARDS edits
         seed_timeline(slug, force=True)
+    elif "--seed" in a:               # seed once; no-op if a schema-2 line already exists
+        seed_timeline(slug, force=False)
     elif "--final" in a:
         build_timeline(slug)
         render(slug, "final", dry=dry)

@@ -196,6 +196,7 @@ def build(slug):
    <button id="zout" aria-label="Alejar">−</button><button id="zin" aria-label="Acercar">+</button>
    <button class="fit" id="zfit">ajustar</button></div>
   <span class="range" id="range">0:00 – 0:00</span>
+  <button class="btn ghost sm" id="tidy" data-tip="Fusiona en su vecino cualquier beat por debajo del mínimo (2,8 s b-roll · 2,5 s a-cámara · 5 s gráfico). No toca los que estén por encima. Útil tras muchos cortes.">Ordenar sub-mínimos</button>
   <div class="legend">
    <span><i style="background:var(--k-archive)"></i>archivo</span>
    <span><i style="background:var(--k-stock)"></i>stock</span>
@@ -919,6 +920,10 @@ $("#fin").onclick=async()=>{{
   }}
 }};
 
+$("#tidy").onclick=async()=>{{
+  if(!confirm("Fusionar todos los beats por debajo del mínimo en su vecino?")) return;
+  await beatOp({{action:"tidy"}},null);   // toast comes from j.note in _dispatch
+}};
 $("#reseed").onclick=async()=>{{
   if(!confirm("Re-sembrar desde el shotlist.\\n\\nEsto DESCARTA todas las ediciones de la sala:\\n· duraciones y orden\\n· beats añadidos / partidos / fusionados\\n· aprobados y notas de regeneración\\n· la mezcla\\n\\nSe guarda un respaldo (09-timeline.<ts>.bak.json). ¿Seguir?")) return;
   toast("re-sembrando desde la espina…",4000);
