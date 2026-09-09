@@ -188,23 +188,37 @@ def _negro_card(text, ep):
     try:
         from PIL import Image, ImageDraw, ImageFont
         w, h = 3840, 2160
+        safe_w, safe_h = w * 0.86, h * 0.80        # keep text inside a title-safe box
         im = Image.new("RGB", (w, h), (6, 5, 3))
         d = ImageDraw.Draw(im)
         lines = [s.strip() for s in re.split(r"\s*/\s*|\s*\n\s*", text) if s.strip()] or [text]
-        fnt = None
-        for cand in (r"C:\Windows\Fonts\georgia.ttf", r"C:\Windows\Fonts\times.ttf",
-                     "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
-                     "/Library/Fonts/Georgia.ttf"):
+        fpath = next((c for c in (r"C:\Windows\Fonts\georgia.ttf", r"C:\Windows\Fonts\times.ttf",
+                                  "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+                                  "/Library/Fonts/Georgia.ttf") if Path(c).exists()), None)
+
+        def _font(px):
             try:
-                fnt = ImageFont.truetype(cand, 168)
-                break
+                return ImageFont.truetype(fpath, px) if fpath else ImageFont.load_default()
             except Exception:
-                pass
-        fnt = fnt or ImageFont.load_default()
-        y = h / 2 - len(lines) * 120
+                return ImageFont.load_default()
+
+        # start at 168 px, shrink to fit the title-safe box (a long rótulo line or
+        # many "/"-separated lines would otherwise clip at the frame edge)
+        size, lh = 168, 240
+        while size > 40:
+            fnt = _font(size)
+            widest = max((d.textlength(ln, font=fnt) for ln in lines), default=0)
+            if widest <= safe_w and len(lines) * lh <= safe_h:
+                break
+            size = int(size * 0.9)
+            lh = int(size * 1.43)
+        fnt = _font(size)
+        if size < 168:
+            print(f"  negro card: rótulo largo → fuente {size}px (de 168) para que quepa")
+        y = h / 2 - len(lines) * lh / 2 + (lh - size) / 2
         for ln in lines:
             d.text(((w - d.textlength(ln, font=fnt)) / 2, y), ln, font=fnt, fill=(214, 203, 181))
-            y += 240
+            y += lh
         out.parent.mkdir(parents=True, exist_ok=True)
         im.save(out)
         return out

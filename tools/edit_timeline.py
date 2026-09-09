@@ -113,10 +113,13 @@ def build(slug):
  .mixctl{{display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:var(--muted)}}
  .mixctl input[type=range]{{width:92px;accent-color:var(--gold)}}
  .mixv{{font-family:var(--mono);font-size:.64rem;color:var(--bone);min-width:42px;text-align:right}}
- #scrrot{{position:absolute;inset:0;display:flex;flex-direction:column;gap:.4em;
+ #scrrot{{position:absolute;inset:0;display:flex;flex-direction:column;gap:.35em;
    align-items:center;justify-content:center;text-align:center;z-index:3;
-   font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.4rem,4vw,2.6rem);
-   color:#d6cbb5;letter-spacing:.01em;pointer-events:none}}
+   font-family:Georgia,"Times New Roman",serif;font-size:clamp(1rem,3.2vw,2.4rem);
+   color:#d6cbb5;letter-spacing:.01em;pointer-events:none;overflow:hidden}}
+ /* one line per '/' or newline, never wrapped — mirrors assemble._negro_card,
+    so the preview shows the same line count the render will bake */
+ #scrrot div{{white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}}
  #screen:fullscreen{{width:100vw;height:100vh;border:0;border-radius:0;background:#000}}
  #screen:fullscreen::before{{display:none}}
  #screen:fullscreen .tag,#screen:fullscreen .lab{{display:none}}
@@ -328,7 +331,7 @@ function updateScreen(force){{
   if(b.kind==="negro"||(!f&&!isAC)){{ still.hidden=true; clip.hidden=true; face.hidden=true; clip.pause();
     const rot = (b.kind==="negro" && (b.label||"").trim()) ? b.label.trim() : "";
     $("#scrrot").hidden = !rot;
-    $("#scrrot").innerHTML = rot ? rot.split(/\\s*\\/\\s*/).map(s=>"<div>"+s+"</div>").join("") : "";
+    $("#scrrot").innerHTML = rot ? rot.split(/\\s*\\/\\s*|\\s*\\n\\s*/).filter(Boolean).map(s=>"<div>"+esc(s)+"</div>").join("") : "";
     $("#scrbeat").textContent = rot ? "" : (b.kind==="negro" ? "— negro —"
       : "beat "+disp(b)+" · sin asset");
     return; }}
