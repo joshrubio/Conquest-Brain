@@ -80,6 +80,39 @@ def test_get_vo_end_prefers_stored():
     assert A.get_vo_end(Path("."), stored=0) != 0 or True  # stored<=0 -> recompute (no words here -> 0.0)
 
 
+def test_authored_beat_drops_derived_junk_keeps_core():
+    b = {"n": 7, "id": "b7", "dur": 4.0, "section": "acto 1", "kind": "acamara",
+         "asset": "", "motion": "cut", "in": 10.0, "out": 14.0, "state": "ok",
+         "frag": "x", "slot": 3.5, "dur_lock": 4.2, "_i": 0, "approved": False,
+         "vo_anchor": "hola", "merged": 2}
+    a = A._authored_beat(b)
+    assert "n" not in a and "frag" not in a and "slot" not in a and "dur_lock" not in a
+    assert "_i" not in a and "merged" not in a and "approved" not in a
+    assert a["id"] == "b7" and a["asset"] == "" and a["in"] == 10.0
+    assert a["vo_anchor"] == "hola"
+
+
+def test_idn():
+    assert A._idn("b7") == 7 and A._idn("b110") == 110
+    assert A._idn("swap_1") == 0 and A._idn(None) == 0
+
+
+def test_words_sig_changes_on_shift():
+    w1 = [{"w": "hola", "t": 1.0}, {"w": "mundo", "t": 1.5}]
+    w2 = [{"w": "hola", "t": 1.0}, {"w": "mundo", "t": 2.5}]
+    assert A._words_sig(w1) == A._words_sig(w1)
+    assert A._words_sig(w1) != A._words_sig(w2)
+
+
+def test_music_block_carries_valid_prev_mix_only():
+    beats = _beats([4.0, 4.0])
+    A.derive_times(beats, 8.0)
+    m = A._music_block({"bed": "x.mp3", "bed_db": -37, "duck_db": 99}, beats, 8.0)
+    assert m["bed"] == "x.mp3" and m["bed_db"] == -37     # in range → kept
+    assert m["duck_db"] == 8                              # 99 out of range → default
+    assert m["in"] == beats[0]["out"]
+
+
 def _run():
     fns = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     fail = 0
