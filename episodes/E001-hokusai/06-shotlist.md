@@ -96,8 +96,8 @@ Stage 8 a la ventana del beat, sin Ken Burns):
 | 10 | 0:53 | 4 | bumper | acamara | — | Conquest | cut | — | «Hola, mi nombre es» |
 | 11 | 0:57 | 4 | pivote | acamara | — | — | cut | — | «Para situarnos» |
 | 12 | 1:01 | 7 | pivote | archivo | beat7_commons_127164101 | — | pan-h | — | «nace hacia 1760 en el distrito de Katsushika» |
-| 13 | 1:08 | 7 | pivote | archivo | beat8_commons_77570475 | — | pan-h | — | «Japón lleva más de un siglo prácticamente cerrado al exterior» |
-| 14 | 1:15 | 6 | pivote | archivo | beat7_met_37248 | — | push | — | «es probablemente la ciudad más grande del mundo» |
+| 13 | 1:08 | 7 | pivote | archivo | beat13_custom_13 | — | pan-h | — | «Japón lleva más de un siglo prácticamente cerrado al exterior» |
+| 14 | 1:15 | 6 | pivote | archivo | beat14_custom_14 | — | push | — | «es probablemente la ciudad más grande del mundo» |
 | 15 | 1:21 | 12 | pivote | gráfico | G8_edo_population | ~1 millón — las fuentes varían | push | — | «cerca de un millón de personas» |
 | 16 | 1:33 | 8 | explicador | archivo | beat14_commons_1499270 | — | pan-v | — | «va a ser el oficio de Hokusai los 70 años siguientes; grabados hechos para venderse barato» |
 | 17 | 1:41 | 7 | explicador | archivo | woodblock_carving | — | cut | — | «el artista entrega un dibujo, un tallador lo copia sobre planchas de madera, una por cada color» |
@@ -114,7 +114,7 @@ Stage 8 a la ventana del beat, sin Ken Burns):
 | 28 | 3:13 | 10 | acto 1 | acamara | — | — | cut | — | «no hay un documento que lo confirme» |
 | 29 | 3:23 | 8 | acto 1 | archivo | beat14_commons_26134200 | — | pan-h | — | «estampa europea que entraba por Nagasaki» |
 | 30 | 3:31 | 8 | acto 1 | archivo | beat16_custom_16 | — | pan-v | — | «dibujo de la calle, de la gente corriente» |
-| 31 | 3:39 | 9 | acto 1 | archivo | beat14_commons_26134200 | — | pan-h | — | «Alrededor de 30 nombres artísticos en total» |
+| 31 | 3:39 | 9 | acto 1 | archivo | beat31_custom_31 | — | pan-h | — | «Alrededor de 30 nombres artísticos en total» |
 | 32 | 3:48 | 9 | acto 1 | archivo | beat14_commons_10969306 | — | zoom | — | «traspasar más de un nombre suyo a un discípulo» |
 | 33 | 3:57 | 10 | acto 1 | acamara | — | — | cut | — | «cada nombre nuevo coincidía con un cambio» |
 | 34 | 4:07 | 8 | acto 1 | archivo | beat11_met_37189 | — | pan-h | — | «una exploración en su manera de dibujar» |
@@ -124,9 +124,9 @@ Stage 8 a la ventana del beat, sin Ken Burns):
 | 38 | 4:48 | 9 | acto 1 | archivo | beat20_custom_20 | — | pan-v | — | «fue pobre, pobre de verdad, con estrecheces reales» |
 | 39 | 4:57 | 10 | acto 1 | gráfico | G9_moves_map | ~93 mudanzas — origen incierto | push | — | «se cuenta que se mudó unas 93 veces» |
 | 40 | 5:07 | 8 | acto 1 | acamara | — | — | cut | — | «la cifra hay que cogerla con pinza» |
-| 41 | 5:15 | 9 | acto 1 | archivo | beat8_commons_77570475 | — | pan-h | — | «porque no llegaba fin de mes» |
+| 41 | 5:15 | 9 | acto 1 | archivo | beat41_custom_41 | — | pan-h | — | «porque no llegaba fin de mes» |
 | 42 | 5:24 | 9 | acto 1 | acamara | — | — | cut | — | «Así llega a los 50 años» |
-| 43 | 5:33 | 10 | acto 1 | archivo | beat16_custom_16 | — | pan-v | — | «publica lo que le da fama de verdad, los Hokusai Manga» |
+| 43 | 5:33 | 10 | acto 1 | stock | swap_43_ab25d7b0 | — | pan-v | — | «publica lo que le da fama de verdad, los Hokusai Manga» |
 | 44 | 5:43 | 7 | acto 1 | acamara | — | — | cut | — | «no se trata de un comic o un manga» |
 | 45 | 5:50 | 9 | acto 1 | archivo | manga_detail | — | pan-h | — | «gente trabajando, animales, olas, plantas» |
 | 46 | 5:59 | 10 | acto 1 | ia | E001_ai02_daruma-nagoya-1817 | Ilustración — Conquest | push | — | «en la ciudad de Nagoya, monta un espectáculo» |
@@ -179,7 +179,7 @@ Stage 8 a la ventana del beat, sin Ken Burns):
 | 93 | 12:02 | 9 | acto 5 | acamara | — | — | cut | — | «y entonces, medio siglo después de su muerte, pasa lo que él quería y no llegó a ver: sus estampas empiezan a llegar a Europa» |
 | 94 | 12:11 | 7 | acto 5 | archivo | japonisme_packing_paper | — | pan-h | — | «se cuenta que algunos viajaron como papel de embalar, protegiendo cerámica japonesa» |
 | 95 | 12:15 | 8 | acto 5 | archivo | vangogh_japonaiserie | — | pan-h | — | «copió composiciones japonesas para aprender» |
-| 96 | 12:23 | 8 | acto 5 | archivo | beat41_custom_41 | — | push | — | «en 1905 Claude Debussy publicó» |
+| 96 | 12:23 | 8 | acto 5 | archivo | lamer_cover | — | push | — | «en 1905 Claude Debussy publicó» |
 | 97 | 12:31 | 5 | acto 5 | acamara | — | — | cut | PAY 2 | «acabó siendo visto por más gente» |
 | 98 | 12:36 | 12 | acto 5 | ia | E001_ai02_daruma-nagoya-1817 | Ilustración — Conquest | push | PAY 2 | «casi todo pasó cuando él ya no estaba» |
 | 99 | 12:48 | 10 | cierre | acamara | — | — | cut | — | «dicho a los 88 suena a fracaso» |
@@ -217,7 +217,8 @@ Stage 8 a la ventana del beat, sin Ken Burns):
 | beat10_commons_77578681 · beat11_met_37189 · beat11_custom_11 · beat12_met_53446 · beat14_commons_1499270 · beat14_commons_26134200 | grabados de la escuela Katsukawa / actores / *urushi-e* | The Met / Cleveland / Commons | S03 | CC0 / dominio público |
 | beat7_commons_127164101 · beat7_met_37248 · beat8_commons_77570475 | mapa de Edo · panorama de época (biombo Kanō) | Commons / The Met | S02, S20 | dominio público |
 | beat37_custom_37 | escena nocturna de Katsushika Ōi | reproducción PD | S11 | dominio público — **confirmar** (la de Ōta Memorial NO es open access) |
-| beat41_custom_41 | portada de *La Mer* (Durand, 1905) | partitura PD | S19, S14 | dominio público (1905) |
+| lamer_cover | portada de *La Mer* (Durand, 1905) | partitura PD | S19, S14 | dominio público (1905) |
+| beat13_custom_13 · beat14_custom_14 · beat31_custom_31 · beat41_custom_41 | ilustraciones cambiadas en la sala (2026-09-09) — si son IA, rótulo «Ilustración — Conquest» | propias / IA | — | pendiente confirmar |
 | beat18_custom_18 | miniatura sobre grano de arroz | archivo propio (relato tradicional) | S17 | ilustrativo — rótulo «cuentan» |
 | beat2 · intro02 · intro03 · intro04 | b-roll del cold open (habitación / invierno / cerezos / time-lapse) | stock (Pixabay/Pexels vídeo) | — | licencia stock — crédito en `09-description.md` |
 | G1…G9 · G_36to46 · negro / cards | gráfico propio | Conquest | ver tabla de gráficos | propio |

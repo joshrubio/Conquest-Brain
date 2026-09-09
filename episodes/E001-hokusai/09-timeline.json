@@ -22,25 +22,9 @@
  },
  "beats": [
   {
-   "n": 1,
+   "n": 2,
    "in": 0.0,
    "out": 5.83,
-   "dur": 10.0,
-   "section": "cold open",
-   "kind": "ia",
-   "asset": "beat1_custom_1",
-   "label": "Ilustración — Conquest",
-   "motion": "push",
-   "marker": "HOOK",
-   "frag": "un hombre de unos 88 años se estaba muriendo",
-   "file": "assets/archive/beat1_custom_1.png",
-   "state": "ok",
-   "aspect": 1.777
-  },
-  {
-   "n": 2,
-   "in": 5.83,
-   "out": 11.06,
    "dur": 5.0,
    "section": "cold open",
    "kind": "stock",
@@ -52,6 +36,23 @@
    "file": "assets/intro/intro02_pexelsv_2.mp4",
    "state": "ok",
    "merged": 1
+  },
+  {
+   "n": 1,
+   "in": 5.83,
+   "out": 11.06,
+   "dur": 10.0,
+   "section": "cold open",
+   "kind": "ia",
+   "asset": "beat1_custom_1",
+   "label": "Ilustración — Conquest",
+   "motion": "push",
+   "marker": "HOOK",
+   "frag": "un hombre de unos 88 años se estaba muriendo",
+   "file": "assets/archive/beat1_custom_1.png",
+   "state": "ok",
+   "aspect": 1.777,
+   "slot": 1.5
   },
   {
    "n": 4,
@@ -169,34 +170,35 @@
    "dur": 7.0,
    "section": "pivote",
    "kind": "archivo",
-   "asset": "beat8_commons_77570475",
+   "asset": "beat13_custom_13",
    "label": "",
    "motion": "pan-h",
    "marker": "",
    "frag": "Japón lleva más de un siglo prácticamente cerrado al exterior",
-   "file": "assets/_proxy/beat8_commons_77570475.jpg",
+   "file": "assets/archive/beat13_custom_13.png",
    "state": "ok",
-   "aspect": 2.114
+   "aspect": 1.777
   },
   {
    "n": 14,
    "in": 70.43,
-   "out": 73.35,
+   "out": 77.93,
    "dur": 6.0,
    "section": "pivote",
    "kind": "archivo",
-   "asset": "beat7_met_37248",
+   "asset": "beat14_custom_14",
    "label": "",
    "motion": "push",
    "marker": "",
    "frag": "es probablemente la ciudad más grande del mundo",
-   "file": "assets/archive/beat7_met_37248.jpg",
+   "file": "assets/archive/beat14_custom_14.png",
    "state": "ok",
-   "aspect": 1.512
+   "aspect": 1.777,
+   "dur_lock": 7.5
   },
   {
    "n": 15,
-   "in": 73.35,
+   "in": 77.93,
    "out": 87.66,
    "dur": 12.0,
    "section": "pivote",
@@ -213,7 +215,7 @@
   {
    "n": 16,
    "in": 87.66,
-   "out": 102.66,
+   "out": 102.06,
    "dur": 8.0,
    "section": "explicador",
    "kind": "archivo",
@@ -224,11 +226,12 @@
    "frag": "va a ser el oficio de Hokusai los 70 años siguientes; grabados hechos para venderse barato",
    "file": "assets/_proxy/beat14_commons_1499270.jpg",
    "state": "ok",
-   "aspect": 0.585
+   "aspect": 0.585,
+   "dur_lock": 14.4
   },
   {
    "n": 17,
-   "in": 102.66,
+   "in": 102.06,
    "out": 108.6,
    "dur": 7.0,
    "section": "explicador",
@@ -354,7 +357,7 @@
   {
    "n": 25,
    "in": 166.36,
-   "out": 171.68,
+   "out": 173.24,
    "dur": 11.0,
    "section": "acto 1",
    "kind": "acamara",
@@ -364,12 +367,13 @@
    "marker": "",
    "frag": "La primera vez que empieza de cero",
    "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
+   "state": "ok",
+   "dur_lock": 8.1
   },
   {
    "n": 26,
-   "in": 171.68,
-   "out": 176.04,
+   "in": 173.24,
+   "out": 177.64,
    "dur": 9.0,
    "section": "acto 1",
    "kind": "archivo",
@@ -380,11 +384,12 @@
    "frag": "En 1793 muere",
    "file": "assets/archive/beat12_met_53446.jpg",
    "state": "ok",
-   "aspect": 0.75
+   "aspect": 0.75,
+   "dur_lock": 4.4
   },
   {
    "n": 27,
-   "in": 176.04,
+   "in": 177.64,
    "out": 183.72,
    "dur": 8.0,
    "section": "acto 1",
@@ -401,7 +406,7 @@
   {
    "n": 28,
    "in": 183.72,
-   "out": 196.38,
+   "out": 194.52,
    "dur": 10.0,
    "section": "acto 1",
    "kind": "acamara",
@@ -411,12 +416,13 @@
    "marker": "",
    "frag": "no hay un documento que lo confirme",
    "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
+   "state": "ok",
+   "dur_lock": 10.8
   },
   {
    "n": 29,
-   "in": 196.38,
-   "out": 199.22,
+   "in": 194.52,
+   "out": 199.62,
    "dur": 8.0,
    "section": "acto 1",
    "kind": "archivo",
@@ -427,11 +433,12 @@
    "frag": "estampa europea que entraba por Nagasaki",
    "file": "assets/archive/beat14_commons_26134200.jpg",
    "state": "ok",
-   "aspect": 0.507
+   "aspect": 0.507,
+   "dur_lock": 5.1
   },
   {
    "n": 30,
-   "in": 199.22,
+   "in": 199.62,
    "out": 206.83,
    "dur": 8.0,
    "section": "acto 1",
@@ -452,14 +459,14 @@
    "dur": 9.0,
    "section": "acto 1",
    "kind": "archivo",
-   "asset": "beat14_commons_26134200",
+   "asset": "beat31_custom_31",
    "label": "",
-   "motion": "pan-v",
+   "motion": "pan-h",
    "marker": "",
    "frag": "Alrededor de 30 nombres artísticos en total",
-   "file": "assets/archive/beat14_commons_26134200.jpg",
+   "file": "assets/archive/beat31_custom_31.png",
    "state": "ok",
-   "aspect": 0.507
+   "aspect": 1.778
   },
   {
    "n": 32,
@@ -509,24 +516,9 @@
    "aspect": 0.458
   },
   {
-   "n": 35,
-   "in": 252.33,
-   "out": 271.02,
-   "dur": 14.0,
-   "section": "acto 1",
-   "kind": "acamara",
-   "asset": "",
-   "label": "",
-   "motion": "cut",
-   "marker": "",
-   "frag": "un genio ignorado que mal vendía láminas",
-   "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
-  },
-  {
    "n": 36,
-   "in": 271.02,
-   "out": 276.4,
+   "in": 252.33,
+   "out": 267.03,
    "dur": 9.0,
    "section": "acto 1",
    "kind": "archivo",
@@ -537,7 +529,24 @@
    "frag": "tuvo nombre, tuvo público",
    "file": "assets/archive/beat22_custom_22.jpg",
    "state": "ok",
-   "aspect": 1.46
+   "aspect": 1.46,
+   "dur_lock": 14.7,
+   "slot": 30.5
+  },
+  {
+   "n": 35,
+   "in": 267.03,
+   "out": 276.4,
+   "dur": 14.0,
+   "section": "acto 1",
+   "kind": "acamara",
+   "asset": "",
+   "label": "",
+   "motion": "cut",
+   "marker": "",
+   "frag": "un genio ignorado que mal vendía láminas",
+   "file": "assets/E001-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "n": 37,
@@ -608,19 +617,19 @@
    "dur": 9.0,
    "section": "acto 1",
    "kind": "archivo",
-   "asset": "beat8_commons_77570475",
+   "asset": "beat41_custom_41",
    "label": "",
    "motion": "pan-h",
    "marker": "",
    "frag": "porque no llegaba fin de mes",
-   "file": "assets/_proxy/beat8_commons_77570475.jpg",
+   "file": "assets/archive/beat41_custom_41.png",
    "state": "ok",
-   "aspect": 2.114
+   "aspect": 1.777
   },
   {
    "n": 42,
    "in": 313.48,
-   "out": 324.48,
+   "out": 321.98,
    "dur": 9.0,
    "section": "acto 1",
    "kind": "acamara",
@@ -630,23 +639,25 @@
    "marker": "",
    "frag": "Así llega a los 50 años",
    "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
+   "state": "ok",
+   "dur_lock": 8.5
   },
   {
-   "n": 43,
-   "in": 324.48,
+   "n": 45,
+   "in": 321.98,
    "out": 329.66,
-   "dur": 10.0,
+   "dur": 9.0,
    "section": "acto 1",
    "kind": "archivo",
-   "asset": "beat16_custom_16",
+   "asset": "manga_detail",
    "label": "",
    "motion": "pan-v",
    "marker": "",
-   "frag": "publica lo que le da fama de verdad, los Hokusai Manga",
-   "file": "assets/archive/beat16_custom_16.jpg",
+   "frag": "gente trabajando, animales, olas, plantas",
+   "file": "assets/archive/beat45_custom_45.jpg",
    "state": "ok",
-   "aspect": 0.688
+   "aspect": 1.396,
+   "slot": 38.5
   },
   {
    "n": 44,
@@ -661,27 +672,29 @@
    "marker": "",
    "frag": "no se trata de un comic o un manga",
    "file": "assets/E001-vo.trimmed.mp4",
-   "state": "ok"
+   "state": "ok",
+   "slot": 39.25
   },
   {
-   "n": 45,
+   "n": 43,
    "in": 339.43,
-   "out": 356.38,
-   "dur": 9.0,
+   "out": 354.83,
+   "dur": 10.0,
    "section": "acto 1",
-   "kind": "archivo",
-   "asset": "manga_detail",
+   "kind": "stock",
+   "asset": "swap_43_ab25d7b0",
    "label": "",
-   "motion": "pan-v",
+   "motion": "cut",
    "marker": "",
-   "frag": "gente trabajando, animales, olas, plantas",
-   "file": "assets/archive/beat45_custom_45.jpg",
+   "frag": "publica lo que le da fama de verdad, los Hokusai Manga",
+   "file": "assets/video/swap_43_ab25d7b0.mp4",
    "state": "ok",
-   "aspect": 1.396
+   "dur_lock": 15.4,
+   "slot": 40.625
   },
   {
    "n": 46,
-   "in": 356.38,
+   "in": 354.83,
    "out": 378.72,
    "dur": 10.0,
    "section": "acto 1",
@@ -1412,12 +1425,12 @@
    "dur": 8.0,
    "section": "acto 5",
    "kind": "archivo",
-   "asset": "beat41_custom_41",
+   "asset": "lamer_cover",
    "label": "",
    "motion": "pan-v",
    "marker": "",
    "frag": "en 1905 Claude Debussy publicó",
-   "file": "assets/archive/beat41_custom_41.webp",
+   "file": "assets/archive/lamer_cover.webp",
    "state": "ok",
    "aspect": 0.704
   },
