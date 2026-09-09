@@ -74,6 +74,10 @@ def build(slug):
     n_fix = sum(1 for b in data["beats"] if b.get("fix"))
     aligned = data.get("aligned")
     schema = data.get("schema", 1)
+    try:
+        resync_avail = A.resync_available(slug)
+    except Exception:
+        resync_avail = False
 
     try:
         words = A.load_words(ep)
@@ -126,6 +130,9 @@ def build(slug):
  #screen:fullscreen #still{{width:100%;height:100%;object-fit:contain}}
  #screen:fullscreen #scrrot{{font-size:clamp(2rem,6vw,4rem)}}
  #fs{{font-size:.68rem;padding:.2rem .5rem;white-space:nowrap}}
+ .resyncbar{{display:flex;align-items:center;gap:.8rem;padding:.5rem .9rem;
+   background:#2a2410;border-bottom:1px solid var(--gold);color:var(--bone);font-size:.8rem}}
+ .resyncbar .btn{{margin-left:auto}}
  .vowords{{font-family:var(--mono);font-size:.72rem;color:var(--muted);padding:.15rem .1rem 0;
    min-height:1.1em;letter-spacing:.01em}}
  .vowords b{{color:var(--bone);font-weight:700}}
@@ -148,6 +155,11 @@ def build(slug):
  <a class="btn ghost" href="http://localhost:8765/" data-tip="Vuelve al dashboard de Conquest. El autoguardado ya conserva tus cambios; no se renderiza nada.">← Panel</a>
 </header>
 
+{'''<div class="resyncbar" id="resyncbar">
+ <span>La voz cambió (regrabación / re-recorte). La línea sigue con los tiempos viejos.</span>
+ <button class="btn" id="doresync" data-tip="Re-ajusta cada beat a la voz nueva usando su ancla de voz. Los beats a los que fijaste una duración a mano se conservan; el resto se re-encaja. Se guarda un respaldo.">Re-sincronizar</button>
+</div>''' if resync_avail else ''}
+
 <div class="work">
  <section class="preview">
   <div class="screen" id="screen">
@@ -163,7 +175,6 @@ def build(slug):
     <div id="scrrot" hidden></div>
    </div>
    <span class="tag" id="scrtag">en vivo · voz + toma / clip · sin Ken Burns · sin grade</span>
-   <span class="lab" id="scrlab" hidden>Ilustración — Conquest</span>
   </div>
   <div class="transport">
    <button class="play" id="play" aria-label="Reproducir">
@@ -315,7 +326,6 @@ function syncFace(hard){{
 }}
 function updateScreen(force){{
   const b=B.find(x=>cur>=x.in&&cur<x.out)||B[B.length-1];
-  $("#scrlab").hidden = !(b.kind==="ia"||/recre/i.test(b.label||""));
   if(MODE==="rough"){{ if(vid) vid.hidden=false; still.hidden=true; clip.hidden=true; face.hidden=true;
     clip.pause(); face.pause(); $("#frame").hidden=true; return; }}
   if(vid) vid.hidden=true;
@@ -932,6 +942,12 @@ $("#reseed").onclick=async()=>{{
   toast("re-sembrando desde la espina…",4000);
   await beatOp({{action:"reseed",confirm:true}},null);
 }};
+$("#doresync")?.addEventListener("click",async()=>{{
+  if(!confirm("Re-sincronizar la línea con la voz nueva.\\n\\n· Los beats con duración fija (que ajustaste a mano) se conservan.\\n· El resto se re-encaja contra la voz por su ancla.\\n\\nSe guarda un respaldo. ¿Seguir?")) return;
+  toast("re-sincronizando con la voz nueva…",4000);
+  const j=await beatOp({{action:"resync"}},null);
+  if(j){{ const bar=$("#resyncbar"); if(bar) bar.hidden=true; }}
+}});
 
 /* init */
 status(); layout(); updWords();

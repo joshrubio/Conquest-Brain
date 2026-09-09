@@ -198,6 +198,21 @@ def reseed(slug, confirm=False):
         return A.seed_timeline(slug, force=True)
 
 
+def resync(slug):
+    """«Re-sincronizar tras regrabar» — 3-way merge onto the new VO: dur_edited
+    beats keep their duration, the rest are re-fitted. Backs the line up first."""
+    import shutil
+    import time
+    f = A.EP_DIR / slug / "09-timeline.json"
+    if f.exists():
+        shutil.copy2(f, f.with_name(f"09-timeline.{int(time.time())}.bak.json"))
+    with contextlib.redirect_stdout(io.StringIO()):
+        summary = A.resync_timeline(slug)
+    tl = json.loads(f.read_text(encoding="utf-8"))
+    tl["note"] = summary["note"]
+    return tl
+
+
 def tidy(slug, merge_same_file=False):
     ep, tj, data = _load(slug)
     beats = data["beats"]
@@ -220,7 +235,7 @@ def run(slug, action, **kw):
     fn = {"add": add, "split": split, "merge": merge, "delete": delete,
           "del": delete, "setdur": set_dur, "set_dur": set_dur,
           "duplicate": duplicate, "dup": duplicate, "reorder": reorder,
-          "tidy": tidy, "reseed": reseed}.get(action)
+          "tidy": tidy, "reseed": reseed, "resync": resync}.get(action)
     if not fn:
         raise SystemExit(f"acción desconocida: {action}")
     return fn(slug, **kw)
@@ -242,8 +257,11 @@ if __name__ == "__main__":
             action = payload.pop("action", "")
             tl = run(slug, action, **payload)
             resp = {"ok": True, "timeline": tl}
-            if isinstance(tl, dict) and "tidied" in tl:
-                resp["note"] = f"fusionados {tl.pop('tidied')} beats sub-mínimo"
+            if isinstance(tl, dict):
+                if "tidied" in tl:
+                    resp["note"] = f"fusionados {tl.pop('tidied')} beats sub-mínimo"
+                if "note" in tl:
+                    resp["note"] = tl.pop("note")
             print(json.dumps(resp, ensure_ascii=False))
         except SystemExit as ex:
             print(json.dumps({"error": ex.code if isinstance(ex.code, str) else "error"},

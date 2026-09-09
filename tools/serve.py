@@ -281,7 +281,9 @@ class H(BaseHTTPRequestHandler):
 
         if path == "/trim":
             # <take>.review.html «Aplicar corte»: write the approved cut list,
-            # render the trimmed take, then re-align the Stage-9 timeline.
+            # render the trimmed take + refresh the edit-room proxies. It does
+            # NOT re-fit the timeline — the room shows «Re-sincronizar» and the
+            # editor chooses when (the schema-2 line is authored, brain/16).
             epp = P.ep_path(ep)
             take_name = data.get("take", "")
             take = epp / "assets" / take_name
@@ -291,15 +293,18 @@ class H(BaseHTTPRequestHandler):
             take.with_suffix(".cuts.json").write_text(
                 json.dumps({"cuts": cuts}, ensure_ascii=False), encoding="utf-8")
             slug = P.read_status().get(ep, {}).get("slug") or ep
+            (epp / "09-resync.flag").write_text("re-trim", encoding="utf-8")
             flag = take.with_suffix(".apply.done")
             flag.unlink(missing_ok=True)
-            # the --apply render is minutes long — run it detached, poll the flag
+            # the --apply render is minutes long — run it detached, poll the flag.
+            # `assemble.py <slug>` (no render) just refreshes 09-vo.m4a / 09-take.mp4
+            # / 09-wave.b64 from the new trimmed take.
             _spawn_chain([["trim_talk.py", str(take), "--apply"],
-                          ["assemble.py", slug, "--rough"], ["edit_timeline.py", slug],
+                          ["assemble.py", slug], ["edit_timeline.py", slug],
                           ["dash.py"]], done_flag=flag)
             return self._send(200, json.dumps({"ok": True,
-                "msg": f"{len(cuts)} cortes → recortando la toma, re-alineando y renderizando "
-                       f"el borrador en segundo plano (unos minutos). El panel se actualiza al terminar."}))
+                "msg": f"{len(cuts)} cortes → recortando la toma en segundo plano (unos minutos). "
+                       f"Al terminar, la sala mostrará «Re-sincronizar» para re-ajustar la línea a la voz nueva."}))
 
         if path == "/tl-save":                         # Stage 9 — save WIP, recompute, no gate fold
             slug = data.get("slug") or ep

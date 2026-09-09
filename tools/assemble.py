@@ -22,6 +22,7 @@ Usage
   python tools/assemble.py E0XX-slug                 # (re)build 09-timeline.json + wave
   python tools/assemble.py E0XX-slug --seed          # seed once (no-op if already schema 2)
   python tools/assemble.py E0XX-slug --reseed        # force re-seed from the shotlist — discards edits
+  python tools/assemble.py E0XX-slug --resync        # re-fit the line to a re-recorded VO (keeps dur_edited)
   python tools/assemble.py E0XX-slug --rough         #  + render the 720p proxy
   python tools/assemble.py E0XX-slug --preview 340 385   # re-render just that region of the proxy
   python tools/assemble.py E0XX-slug --final         # render the 4K master
@@ -339,6 +340,18 @@ def get_vo_end(ep, stored=None):
     return _vo_end_from_words(load_words(ep))
 
 
+def resync_available(slug):
+    """True when the trimmed VO changed since the timeline was last seeded/synced
+    (a re-record or a re-trim) — the edit room shows a «Re-sincronizar» banner."""
+    ep = EP_DIR / slug
+    if (ep / "09-resync.flag").exists():
+        return True
+    data = _prev_json(ep / "09-timeline.json")
+    if data.get("schema", 1) < 2 or not data.get("words_sig"):
+        return False
+    return _words_sig(load_words(ep)) != data["words_sig"]
+
+
 def derive_times(beats, vo_end, fps=FPS):
     """Lay the authored beats on the VO backbone (brain/16, schema 2): each
     beat's `in`/`out` is the cumulative sum of the authored `dur`s before it,
@@ -369,32 +382,20 @@ def _stage_dir(raw):
         re.search(r"tipo de cta|en pantalla|^nota\b|wordmark", raw, re.I))
 
 
-def align(beats, words):
-    """Anchor the shotlist's planned timeline to the real VO.
-
-    The shotlist's `in`/`out` are already section-calibrated to the delivered
-    voice (the writer maps sections to VO time). So don't re-derive the whole
-    timeline from frag matches — instead find the beats whose frag matches the
-    voice *confidently*, and **piecewise-linearly remap** the planned times onto
-    the VO between those anchors. Beats between anchors keep their planned
-    proportions; the whole thing ends exactly at the VO."""
-    beats.sort(key=lambda x: x["n"])
-    if not words:
-        return beats, round(beats[-1]["out"], 2) if beats else 0.0
-    toks = [_norm(w["w"]) for w in words]
-    vo_end = _vo_end_from_words(words)
-    planned_end = beats[-1]["out"] or vo_end
-
-    # (planned_time, vo_time) anchor pairs, in order
+def _anchors(items, toks, words, ref_end, vo_end):
+    """Confident (ref_time, vo_time) knots for a piecewise-linear time remap.
+    `items` = [(ref_time, anchor_text), ...] in order — the anchor text is
+    fuzzy-matched against the word stream near where its ref_time would fall.
+    Used by align() (ref = shotlist planned time, text = frag) and by
+    resync_timeline() (ref = the beat's current `in`, text = its vo_anchor)."""
     anchors = [(0.0, 0.0)]
     cursor = 0
-    for b in beats:
-        raw = (b.get("frag") or "").strip()
+    for ref_t, raw in items:
+        raw = (raw or "").strip()
         frag = [t for t in _norm(raw).split() if t]
         if _stage_dir(raw) or len(frag) < 4:
             continue
-        # expected word index ≈ where this beat's planned time falls in the VO
-        exp = int(b["in"] / planned_end * len(toks))
+        exp = int(ref_t / ref_end * len(toks)) if ref_end else 0
         best, best_i = 0, exp
         for i in range(max(cursor, exp - 80), min(len(toks) - 1, exp + 200)):
             score = sum(1 for k, ft in enumerate(frag[:6]) if i + k < len(toks) and toks[i + k] == ft)
@@ -402,23 +403,39 @@ def align(beats, words):
                 best, best_i = score, i
         if best >= 4 or best == min(6, len(frag)):
             vt = round(words[best_i]["t"], 2)
-            pgap = b["in"] - anchors[-1][0]        # planned distance since last anchor
+            pgap = ref_t - anchors[-1][0]          # ref distance since the last anchor
             vgap = vt - anchors[-1][1]             # VO distance the match implies
-            # accept only if the match lands at a plausible spot: it can't pull the
-            # timeline backwards, and it can't compress the beats since the last
-            # anchor below ~35 % of their planned span (a frag matched too early —
-            # e.g. the shotlist put frags out of spoken order).
+            # accept only if the match lands plausibly: no backwards pull, and the
+            # run since the last anchor isn't compressed/stretched past 0.35×–2.6×.
             if pgap > 0 and vgap > 0.5 and vgap > 0.35 * pgap and vgap < 2.6 * pgap:
-                anchors.append((b["in"], vt))
+                anchors.append((ref_t, vt))
                 cursor = best_i + len(frag)
-    anchors.append((planned_end, vo_end))
+    anchors.append((ref_end, vo_end))
+    return anchors
 
+
+def _remap_fn(anchors, vo_end):
     def remap(pt):
         for (p0, v0), (p1, v1) in zip(anchors, anchors[1:]):
             if pt <= p1 or (p1, v1) == anchors[-1]:
                 f = (pt - p0) / (p1 - p0) if p1 > p0 else 0.0
                 return v0 + f * (v1 - v0)
         return vo_end
+    return remap
+
+
+def align(beats, words):
+    """Anchor the shotlist's planned timeline to the real VO — piecewise-linearly
+    remap planned times onto VO time between the beats whose frag matches the
+    voice confidently. Runs once, at seed."""
+    beats.sort(key=lambda x: x["n"])
+    if not words:
+        return beats, round(beats[-1]["out"], 2) if beats else 0.0
+    toks = [_norm(w["w"]) for w in words]
+    vo_end = _vo_end_from_words(words)
+    planned_end = beats[-1]["out"] or vo_end
+    anchors = _anchors([(b["in"], b.get("frag")) for b in beats], toks, words, planned_end, vo_end)
+    remap = _remap_fn(anchors, vo_end)
 
     for b in beats:
         b["in"] = round(remap(b["in"]), 2)
@@ -839,6 +856,66 @@ def _rebuild_schema1(slug, ep, tj):
     return data
 
 
+def resync_timeline(slug):
+    """Re-fit a schema-2 timeline to a re-recorded / re-trimmed VO (brain/16).
+    3-way merge: a beat the editor set the duration of (`dur_edited`) keeps its
+    `dur`; every other beat is re-fitted to the new voice by remapping its
+    current start through its `vo_anchor`. Only fires on «Re-sincronizar»."""
+    ep = _require_ep(slug)
+    tj = ep / "09-timeline.json"
+    data = _prev_json(tj)
+    if data.get("schema", 1) < 2:
+        raise SystemExit("«Re-sincronizar» solo aplica a una línea schema 2 (migra primero)")
+    beats = data.get("beats", [])
+    if not beats:
+        raise SystemExit("la línea no tiene beats")
+    new_words = load_words(ep)
+    if not new_words:
+        raise SystemExit("no hay voz trimmeada — nada que re-sincronizar")
+
+    old_vo_end = float(data.get("vo_end") or beats[-1]["out"])
+    new_vo_end = _vo_end_from_words(new_words)
+    old_total = beats[-1]["out"]
+    toks = [_norm(w["w"]) for w in new_words]
+    anchors = _anchors([(b["in"], b.get("vo_anchor")) for b in beats],
+                       toks, new_words, old_total, new_vo_end)
+    remap = _remap_fn(anchors, new_vo_end)
+    prop_in = [round(remap(b["in"]), 3) for b in beats] + [round(new_vo_end, 3)]
+
+    kept = refit = 0
+    for i, b in enumerate(beats):
+        if b.get("dur_edited"):
+            kept += 1
+            continue
+        fl = (MIN_ACAMARA if b["kind"] in ACAMARA
+              else MIN_GRAPHIC if b["kind"] in GRAPHIC else MIN_BEAT)
+        b["dur"] = round(max(fl, prop_in[i + 1] - prop_in[i]), 3)
+        refit += 1
+
+    resolve(ep, beats)
+    _derive_motion(beats)
+    derive_times(beats, new_vo_end)
+    flag_rhythm(beats)
+    ab = [_authored_beat(b) for b in beats]
+    data["beats"] = ab
+    data["vo_end"] = round(new_vo_end, 2)
+    data["total"] = round(ab[-1]["out"], 2)
+    data["words_sig"] = _words_sig(new_words)
+    data["seeded"] = _now()
+    data["aligned"] = True
+    data["music"] = _music_block(data.get("music", {}), ab, data["total"])
+    tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    (ep / "09-resync.flag").unlink(missing_ok=True)
+
+    shift = round(new_vo_end - old_vo_end, 1)
+    n_anchor = len(anchors) - 2
+    note = (f"re-sincronizado · voz {shift:+.1f}s · {kept} beats con duración fija "
+            f"conservados · {refit} re-ajustados · {n_anchor} anclas de voz")
+    print(note)
+    return {"note": note, "vo_shift": shift, "kept": kept, "refit": refit,
+            "anchors": n_anchor, "total": data["total"]}
+
+
 def _now():
     import datetime
     return datetime.date.today().isoformat()
@@ -1130,6 +1207,8 @@ if __name__ == "__main__":
         seed_timeline(slug, force=True)
     elif "--seed" in a:               # seed once; no-op if a schema-2 line already exists
         seed_timeline(slug, force=False)
+    elif "--resync" in a:             # 3-way merge a schema-2 line onto a re-recorded VO
+        resync_timeline(slug)
     elif "--final" in a:
         build_timeline(slug)
         render(slug, "final", dry=dry)
