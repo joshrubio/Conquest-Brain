@@ -27,14 +27,15 @@
    "out": 5.83,
    "dur": 10.0,
    "section": "cold open",
-   "kind": "stock",
+   "kind": "ia",
    "asset": "beat1_custom_1",
-   "label": "",
-   "motion": "cut",
+   "label": "Ilustración — Conquest",
+   "motion": "push",
    "marker": "HOOK",
    "frag": "un hombre de unos 88 años se estaba muriendo",
-   "file": "assets/video/beat1_custom_1.mp4",
-   "state": "ok"
+   "file": "assets/archive/beat1_custom_1.png",
+   "state": "ok",
+   "aspect": 1.777
   },
   {
    "n": 2,

@@ -115,13 +115,16 @@ def fetch_new(slug, n, src):
         raise SystemExit(f"no se pudo traer el recurso: {final}")
     ext = PA._ext_for(data, final, s)
     sub = "video" if ext in VIDEO_EXT else "archive"
-    dst = EP_DIR / slug / "assets" / sub
+    ass = EP_DIR / slug / "assets"
+    # drop any earlier beat<n>_custom_<n>.* (a different extension in another
+    # subdir would shadow the new file — _asset_index scans video/ before archive/)
+    for old in ass.glob(f"*/beat{n}_custom_{n}.*"):
+        old.unlink(missing_ok=True)
+    (ass / "_proxy" / f"beat{n}_custom_{n}.jpg").unlink(missing_ok=True)
+    dst = ass / sub
     dst.mkdir(parents=True, exist_ok=True)
     name = f"beat{n}_custom_{n}{ext}"
     (dst / name).write_bytes(data)
-    # a stale proxy for this beat name would shadow the new file
-    px = EP_DIR / slug / "assets" / "_proxy" / f"beat{n}_custom_{n}.jpg"
-    px.unlink(missing_ok=True)
     return f"beat{n}_custom_{n}", ("stock" if ext in VIDEO_EXT else "archivo")
 
 
