@@ -47,8 +47,9 @@ GROUND = "#100D09"          # brand letterbox / pad colour (brain/03)
 FPS = 24
 # 09-timeline.json schema. 1 = the derived timeline (parse_spine + align every
 # rebuild). 2 = the authored timeline (brain/16 "timeline canónica"): each beat
-# owns its `dur`, align() only seeds. Bumped to 2 by tools/migrate_timeline.py.
-SCHEMA_CURRENT = 1
+# owns its `dur`, align() only seeds. seed_timeline() now writes 2; existing
+# schema-1 files must be run through tools/migrate_timeline.py.
+SCHEMA_CURRENT = 2
 KIND_DIR = {"archivo": "archive", "stock": "stock", "kb": "kb", "ia": "ai",
             "gráfico": "graphic", "grafico": "graphic", "negro": None,
             "acamara": None, "a-cámara": None, "a-camara": None, "narrador": None}
