@@ -1,6 +1,6 @@
 ---
 doc: 11-visual-rhythm
-summary: "Shots are planned from the locked script (not from watching video). Beat-placement rules, beat-rate targets, visual-type menu, calibration pass."
+summary: "Shots are planned from the locked script. Plan by SHOT DURATION not beat count (§2.2 golden standard). Beat-placement rules, talking-head cadence (§2.6), portrait/pan handling, the assemble.py hard limits."
 stage: [4, 6, 9]
 read_when: "marking the script for shots; building the shotlist; setting cut rate in the edit"
 pairs_with: [02-content-format, 16-edit-and-delivery, 06-production-workflow]
@@ -10,7 +10,7 @@ authority: canonical
 
 # 11 — Visual Rhythm & Shot Planning
 
-> **Status: v1 — method set, not yet video-calibrated.** Built from shot planning inferred from the E000 script + standard edit craft. Direct observation of a reference video (§4) is still pending — bump to v2 after it.
+> **Status: v2 (2026-09) — the shot-duration standard (§2.2) and talking-head cadence (§2.6) are set, calibrated to the 7 Dieck transcripts + the E001 edit lessons.** Section durations are measured; per-shot durations are craft — the §4 reference-video timing is still pending, tighten §2.2 if it differs by >~2 s. v1 (method only, from the E000 script) is superseded.
 
 ## 1. The method in one line
 
@@ -52,34 +52,59 @@ for the human.
 
 ### 2.1 Rules for placing a visual beat
 
-1. **One visual beat every ~2–3 sentences of narration**, or wherever the *subject* of the sentence changes (new person, place, year, object).
+1. **One visual beat per sentence or subject change** (new person, place, year, object) — target one every ~6–8 s of narration. Never hold one shot past **§2.2's max** for that section.
 2. Every `[EN PANTALLA]` cue in the script → a beat, kept verbatim.
-2b. **Cold open** → the narration is **A-roll** (to camera); the `[HOOK VISUAL]` list in the script is 2–5 **B-roll** beats cut over/under it, hard-cut on the narration beat, **stock video preferred**, the last is the "turn" shot. **Bumper (§0b)** = one A-roll beat: `Conquest` wordmark + presenter line, 3–6 s.
-2c. **A-roll vs B-roll per beat** (§1b): opinion / address-the-viewer / pivote / close / CTA → `acamara`; describing a thing, a date, a chronology, an `[EXPLICADOR]` → B-roll.
+2b. **Cold open (§0) — always this shape, ~35–45 s total** (`brain/02` §0):
+   - **1 contextual hero shot** — the episode's own archival / AI image of the subject (E001: the deathbed illustration) — holds ~8–10 s while the VO sets the scene;
+   - **3–5 hook B-roll shots** — the selected impact clips + relevant archival, ~4–6 s each, cut a beat quicker than the body, stock video preferred;
+   - **the "turn" shot** (~5 s) — the image that flips the premise;
+   - **close to camera** (~5–8 s, A-roll) — the thesis line → hard cut to black → **Bumper (§0b)**: one A-roll beat, `Conquest` wordmark + presenter line, 3–6 s.
+2c. **A-roll vs B-roll per beat** (§1b): opinion / address-the-viewer / pivote / close / CTA → `acamara`; describing a thing, a date, a chronology → B-roll.
 3. Every **named** person / place / document / institution / number → its own archival image or graphic (B-roll).
-4. `[EXPLICADOR]` interlude → one motion-graphic / diagram sequence. **No talking head.** Budget it as the single longest visual block (~60–140 s).
-5. `[PROMISE]` and its `[PAY]` → **the same shot both times** (visual rhyme). Keep them B-roll even inside an A-roll stretch.
-6. **Close / reflection** → **A-roll** (the narrator makes the point to camera), cutting to *already-seen* images as illustration; no new archival.
+4. `[EXPLICADOR]` interlude — two shapes, pick by the graphic's **content**:
+   - **Simple stage** (a process in 3 boxes, a before/after) → **a sequence**: the graphic built in stages + 2–4 supporting archival shots, ~4–6 sub-beats of ~5 s.
+   - **Content-dense** (a data chart, a route map, a timeline, a multi-part diagram the viewer has to *read*) → **one held beat of 10–18 s** with internal motion (a build/reveal, or a slow push) + supporting b-roll **before and after, never intercut mid-graphic**. Rule of thumb: *if it can't be read in 5 s, don't cut away from it in 5 s.*
+   A static diagram parked on screen with no motion is the worst dead air there is — the held beat still moves.
+4b. **A graphic `id` appears once per video.** Exceptions, tagged in `marcador`: a `PROMISE n`→`PAY n` rhyme, or an `eco` callback in the close. Never the same graphic twice to pad — cut to camera (§2.6).
+4c. **An archival asset appears at most ~3× per video and ~2× per section** (a `PROMISE`→`PAY` pair aside). Reuse is normal — the same engraving twice, a portrait in the cold open and again in the close — but a fourth time reads as running out of pictures. When a section keeps wanting the same shot, rotate the pool (a different Fuji print, another portrait) or cut to camera. `assemble.py` flags a 4th use / a 3rd-in-section.
+5. `[PROMISE]` and its `[PAY]` → **the same shot both times** (visual rhyme). Keep them B-roll even inside an A-roll stretch. **A-roll cutaway right before each** (§2.6).
+6. **Close / reflection** → **A-roll** in chunks of ~10–14 s (the narrator makes the point to camera), cutting to *already-seen* images (~4–6 s) as illustration; no new archival.
 7. Every **number** → an own-made graphic with an on-screen source label.
 8. Every **disputed or approximate** claim → an on-screen caveat caption ("cifras aproximadas — las fuentes varían").
+9. **Never the same asset on two consecutive beats** (except a deliberate PROMISE→PAY). If a stretch has few distinct assets, break it with a talking-head cutaway (§2.6), not by repeating a shot.
 
-### 2.2 Beat-rate targets (v1 — calibrate in §4)
+### 2.2 Shot-duration standard (v2 — the golden standard)
 
-| Section | Beats per minute | Feel |
-|---------|------------------|------|
-| Cold open (hook) | 10–12 · 2–5 B-roll shots over the A-roll narration | fast, montage-like |
-| Bumper | 1 A-roll shot, 3–6 s | a breath |
-| Context + era setup | 6–8 · mostly B-roll | steady |
-| Narrative acts | 7–9 · mostly B-roll, A-roll on the pivots | steady, quickens toward the turn |
-| Explainer interlude | 3–5 · B-roll only (motion graphics) | slower; one idea builds |
-| "N theories" module | 8–10 · B-roll | brisk, one card per position |
-| Close / reflection | 3–5 · **A-roll**, cutting to seen images | slow; lets the idea land |
-| CTA | 1–2 · A-roll | one beat |
+**Plan by shot duration, not by beat count.** The number of beats then falls out
+of the episode's length — the *feel* is the same at 10, 15 or 25 minutes.
 
-A-roll stretches cut slower (hold the face 4–8 s); a B-roll stretch keeps the
-rates above. Aim ~30–45 % of runtime on camera for a biography.
+Section durations are calibrated to the 7 Dieck transcripts (`research/dieck-docs/structure-analysis.md`):
+hooks run **28–52 s**, the CTA boilerplate **15–42 s**, narrative + interludes
+55–70 % of runtime. Per-shot durations are craft, calibrated to the genre
+(Dieck / Vox / Johnny Harris cut at ~7–9 s average — not a trailer, not a
+slideshow); tighten in §4 once a reference video is timed.
 
-For a 20-minute episode that's roughly **150–180 distinct visual beats**. Not 180 unique assets — reuse is expected (the E000 example reuses one engraving 3× and one chart 3×).
+| Section | shot: min – **target** – max (s) | direction note |
+|---------|-----------------------------------|----------------|
+| **Cold open** (35–45 s total) | 4 – **6** – 10 | hero contextual holds 8–10 s, then 3–5 hook shots at 4–6 s, the turn, close to camera — §2.1 rule 2b |
+| Bumper | one A-roll · 3–6 | «Soy X, esto es Conquest» |
+| Context / era setup | 4 – **6** – 10 | maps + period archival with a slow move; an explainer can sit here |
+| **Narrative acts** (B-roll) | 4 – **7** – 11 | one shot per sentence / subject change |
+| **A-roll** (talking head) | 8 – **12** – 18 | hold the face; cut to B-roll when the VO *describes something to see* |
+| **Explainer / graphic** | dense: held 10 – **14** – 18 · simple: sub-beats 3 – **5** – 8 | content-dense graphic (chart / map / diagram to *read*) = one held beat with internal motion; simple stage = short sub-beats + support. One graphic id, one appearance (§2.1 rule 4 + 4b) |
+| "N theories" module | 3 – **5** – 8 | brisk; one card + support per position |
+| **Close / reflection** (A-roll) | 8 – **12** – 18 | slow; the cutaways to *already-seen* images run 4–6 s |
+| **CTA** | 15–25 s total · 1–2 shots | to camera + wordmark |
+
+Aim **~30–40 % of runtime on camera** for a biography. At a ~8 s average that
+is roughly **~100–115 beats for a 15-minute episode** (~135 for 20 min, ~70 for
+10). Reuse of assets across beats is expected — the count is beats, not unique
+assets (E000 reuses one engraving 3×). **Hard limits `assemble.py` enforces:**
+no B-roll shot under **2.8 s** or A-roll under **2.5 s** (merged), no `gráfico`
+beat under **6 s** (flagged ⚠), no non-A-roll beat over **20 s** or **2.5× its
+section target** (flagged ⚠), a still is **never static**, a graphic id used more
+than once without a `PROMISE`/`PAY`/`eco` tag is flagged, and never the same
+asset on two consecutive beats.
 
 ### 2.3 Visual-type menu (what fills a beat)
 
@@ -94,13 +119,27 @@ For a 20-minute episode that's roughly **150–180 distinct visual beats**. Not 
 
 ### 2.4 Motion & treatment defaults
 
-- Stills: slow Ken Burns (push-in or lateral). Hard cuts between beats; fades only at section breaks.
+- **Every still moves** — `assemble.py` never renders a static frame. Default `push` (slow zoom-in); `pan-h` for a panorama, `pan-v` for a portrait/tall image (the move *is* how the whole image is seen — never black bars + a small picture). `cut` (no move) only on a frame-ratio still that is deliberately a hard hold. **Graphics** always get a `push` (or their build) — never `cut`/`static`, a held graphic that doesn't move is dead air.
+- **Video B-roll** (`.mp4` in `stock`/`archivo`/`video`) plays straight — no Ken Burns, `motion: cut`. If the clip is a bit shorter than the beat `assemble.py` **slows it to fit** (up to ~2.6×); only loops it when it's far too short.
+- **Fill, never letterbox.** A too-tall or too-wide asset fills the frame and the move travels the overflow. `assemble.py` auto-picks `pan-v` / `pan-h` from the asset's aspect ratio; the shotlist `motion` is a hint it can override.
 - Documents: start wide, push to the cited line.
+- Hard cuts between beats; fades only at section breaks. A J-cut (next beat's VO starts under the outgoing picture) only at an A→B or B→A change.
 - On-screen text, grade, letterbox, no-source-cards: per `brain/16` §On-screen text + §Look, which apply `brain/03`.
 
 ### 2.5 Rights gate (unchanged from `templates/shotlist-broll.md`)
 
 No visual enters the edit without a rights status in `03-source-log.csv`. Every on-screen number carries a source label. Every reused-from-a-film image is replaced with a real archival equivalent or cut.
+
+### 2.6 Talking-head cadence — the narrator carries the rhythm
+
+The A-roll take is a **structural tool**, not just for opinion beats. Cut to camera at:
+
+- **every act / section entry** — the narrator re-anchors the viewer as the story turns;
+- **every `[PROMISE]` and every `[PAY]`** — an A-roll cutaway right before each (the promise/pay B-roll shot itself stays the visual rhyme, §2.1 rule 5);
+- **the whole close** and the **CTA** (§1b);
+- **any B-roll stretch of ~60 s+ that has few distinct assets** — break it with a talking-head cutaway rather than repeating a shot or holding one too long. The recorded take covers the entire VO, so any window can be used.
+
+A-roll target ~**30–40 %** of runtime. Under 25 % and the video feels like a slideshow with narration; over 45 % and it's a lecture. `assemble.py` reports the A-roll share; the shotlist review page shows a warning if a section has no A-roll beat.
 
 ## 3. Deriving the "visual plan" while still writing (Stage 4)
 
@@ -122,7 +161,7 @@ Automated browser tools can't do this reliably (§5). Usuario 001 runs it by han
 4. Note the cold-open treatment: how many shots in the first 20–30 s, what kind, any text-on-screen, any grade/letterbox.
 5. Note recurring motifs: channel bug, caption style, chapter cards, transition style.
 6. Repeat step 2 for a 2-minute stretch in the **middle** (a narrative act) and 2 minutes of the **close**.
-7. Fill the table below and update §2.2 if the observed rates differ by more than ~2 beats/min. Bump this file to v2.
+7. Fill the table below. Convert to **seconds per shot** and compare with §2.2's per-shot targets — update §2.2 if they differ by more than ~2 s. (§2.2 is already v2 from the transcripts + the E001 edit; this pass only refines the per-shot numbers.)
 
 **Calibration results (fill in):**
 

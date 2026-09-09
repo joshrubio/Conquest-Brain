@@ -21,18 +21,38 @@ authority: template
 
 ## Heurística de inferencia (proceso A — `brain/11 §2.1`)
 
-1. Un beat visual cada ~2–3 frases, o cuando cambia el sujeto de la frase.
+1. Un beat visual por frase o cambio de sujeto (persona, lugar, año, objeto) — uno cada ~6–8 s de narración. Nunca sostener un plano más allá del **máximo de §2.2** para esa sección.
 2. Todo `[EN PANTALLA]` del guion = beat, literal (B-roll).
-2b. **Cold open:** narración **a cámara** (`acamara`); el bloque `[HOOK VISUAL]` = 2–5 beats de B-roll cortados encima, corte seco, **vídeo stock preferido**, el último es el «giro». **Bumper:** 1 beat `acamara` = wordmark `Conquest` + presentador, 3–6 s.
-2c. **A-roll vs B-roll** (`brain/11 §1b`): `acamara` en cold open, bisagras/pivotes, beats de opinión y 1ª persona («yo creo…», «me llama la atención…»), **todo el cierre** y el CTA. B-roll en los tramos de archivo (fechas, cronología, obra, evento) y **todo `[EXPLICADOR]`**. ~30–45 % a cámara.
+2b. **Cold open — siempre esta forma, ~35–45 s en total:** 1 plano contextual (archivo/IA propio del sujeto) sostenido 8–10 s + 3–5 planos de hook (clips seleccionados + archivo, 4–6 s c/u, un pelín más rápido que el cuerpo) + el «giro» (~5 s) + cierre a cámara (~5–8 s) → corte seco a negro → **Bumper:** 1 beat `acamara` = wordmark `Conquest` + presentador, 3–6 s.
+2c. **A-roll vs B-roll** (`brain/11 §1b`): `acamara` en cold open, bisagras/pivotes, beats de opinión y 1ª persona, **todo el cierre** y el CTA. B-roll en los tramos de archivo.
 3. Toda persona / lugar / documento / institución / cifra nombrada → imagen o gráfico propio (B-roll).
-4. `[EXPLICADOR]` → una secuencia motion-graphic / diagrama. Sin talking-head. Es el bloque visual más largo (~60–140 s).
-5. `[PROMISE]` y `[PAY]` → **mismo plano** las dos veces (B-roll, aunque caigan en un tramo a cámara).
-6. Cierre / reflexión → **a cámara**, cortando a imágenes **ya vistas** como ilustración; sin archivo nuevo.
+4. `[EXPLICADOR]` — según el **contenido** del gráfico:
+   - simple (proceso en 3 cajas, un antes/después) → **secuencia**: gráfico en fases + 2–4 planos de apoyo, ~4–6 sub-beats de ~5 s;
+   - **denso** (dato, mapa, línea de tiempo, diagrama que hay que *leer*) → **un beat sostenido de 10–18 s** con movimiento interno (build o push lento) + b-roll antes y después, **nunca intercalado**. Si no se lee en 5 s, no cortes a los 5 s.
+4b. **Un `id` de gráfico aparece una vez por vídeo.** Excepción marcada: `PROMISE n`→`PAY n`, o un `eco` en el cierre.
+4c. **Un asset de archivo: ≤ 3× por vídeo, ≤ 2× por sección** (salvo pareja `PROMISE`→`PAY`). Un 4º uso lee como que te has quedado sin planos — rota el pool o corta a cámara. `assemble.py` lo avisa.
+5. `[PROMISE]` y `[PAY]` → **mismo plano** las dos veces (B-roll). **Corte a cámara justo antes de cada uno** (§2.6).
+6. Cierre / reflexión → **a cámara** en tramos de ~10–14 s, cortando a imágenes **ya vistas** (~4–6 s) como ilustración; sin archivo nuevo.
 7. Toda cifra → gráfico propio con rótulo de fuente en pantalla.
 8. Afirmación disputada o aproximada → rótulo de salvedad en pantalla.
+9. **Nunca el mismo asset en dos beats seguidos** (salvo PROMISE→PAY). Ningún `id` de gráfico dos veces sin marcador (regla 4b). Si un tramo tiene pocos assets, cortar a cámara — no repetir plano.
 
-**Ritmo objetivo (v1, calibrar en `brain/11 §4`):** cold open 10–12 beats/min · bumper 1 plano 3–6 s · contexto 6–8 · narrativa 7–9 (a cámara en las bisagras) · explicador 3–5 · cierre 3–5 a cámara · CTA 1–2. Episodio de 20 min ≈ 150–180 beats (con reutilización). Los tramos a cámara cortan más lento (mantener la cara 4–8 s).
+**Cadencia de talking-head (`brain/11 §2.6`):** a cámara en cada **entrada de acto/sección**, cada **`[PROMISE]`** y **`[PAY]`**, **todo el cierre** y el CTA; y en cualquier tramo B-roll de ~60 s+ con pocos assets distintos. Objetivo **~30–40 %** del metraje a cámara.
+
+**Estándar de duración de plano (`brain/11 §2.2` v2) — planifica por duración, no por número de beats:**
+
+| Sección | plano: mín – **objetivo** – máx (s) |
+|---|---|
+| Cold open (35–45 s total) | 4 – **6** – 10 |
+| Contexto / época | 4 – **6** – 10 |
+| Actos narrativos (B-roll) | 4 – **7** – 11 |
+| A cámara | 8 – **12** – 18 |
+| Explicador / gráfico | denso: sostenido 10–**14**–18 · simple: sub-beats 3–**5**–8 |
+| N teorías | 3 – **5** – 8 |
+| Cierre (a cámara) | 8 – **12** – 18 |
+| CTA | 15–25 s total · 1–2 planos |
+
+≈ **8–10 s de media** → ~95–110 beats para 15 min, ~130 para 20, ~70 para 10. `assemble.py` fuerza: ningún plano B-roll < 2,8 s / a-cámara < 2,5 s (fusiona), ningún `gráfico` < 5 s ni un `id` repetido sin marcador (marca ⚠), ninguno no-a-cámara > 20 s / 2,5× su objetivo (⚠), un still nunca estático, vídeo B-roll sin Ken Burns, nunca el mismo asset seguido.
 
 ## A cámara (A-roll · narrador: Usuario 002 / Usuario 001)
 
@@ -56,7 +76,7 @@ En la espina, un beat `acamara` = se muestra la toma del narrador para ese hueco
 - **`tipo`** — `acamara` (A-roll: la toma del narrador) · `archivo` (foto/escaneo real) · `stock` (b-roll de vídeo genérico) · `kb` (Ken Burns sobre una fija) · `ia` (ilustración IA — lleva rótulo) · `gráfico` (motion propio) · `negro` (corte a negro).
 - **`asset`** — el id que resuelve contra `07-selection.md` / `07-assets.md` (`E0XX_ai01_…`, `INTRO2`, `S09`, `G1`…). `—` para `acamara` y `negro`, o si aún no elegido.
 - **`rótulo`** — texto en pantalla, o `—`. `Ilustración — Conquest` obligatorio para `ia`; salvedad para cifras dudosas.
-- **`motion`** — token canónico: `push` (empuje 1.00→1.10) · `pan-h` · `pan-v` · `static` · `zoom` (a un detalle) · `cut` (clip de vídeo, sin move).
+- **`motion`** — token canónico: `push` (empuje 1.00→1.10) · `pan-h` · `pan-v` · `zoom` (a un detalle) · `cut` (hold seco, sin move). Es una **pista** — `assemble.py` la sobrescribe según el aspecto del asset (retrato → `pan-v`, panorámica → `pan-h`) y **nunca deja un still estático**. No uses `static`.
 - **`marcador`** — `HOOK` · `PROMISE n` · `PAY n` · `EXPLICADOR n` · `—`. `PROMISE n` y su `PAY n` **usan el mismo `asset` y el mismo `motion`**.
 
 | # | in | dur | sección | tipo | asset | rótulo | motion | marcador | guion (frag.) |

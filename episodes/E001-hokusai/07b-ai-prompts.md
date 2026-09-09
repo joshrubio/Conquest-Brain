@@ -6,12 +6,12 @@
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E001 |
-| Nº de imágenes IA | 4 |
+| Nº de imágenes IA | 3 (ai02·ai03·ai04 — ai01 retirado el 2026-09-08) |
 | Carpeta destino | `episodes/E001-hokusai/assets/ai/` |
 | Nomenclatura | `E001_aiNN_<slug>.png` |
 | Salida | ≥ 4K si el generador lo permite; si no, upscale a ~4800 px |
 | Rótulo en pantalla | `Ilustración — Conquest` (esquina inferior, discreto, legible) |
-| Fecha | 2026-08-30 |
+| Fecha | 2026-08-30 (nº de beat sincronizado con espina v3 el 2026-09-08) |
 
 ## Estilo de ESTE episodio: ukiyo-e / xilografía
 
@@ -38,9 +38,12 @@ oversaturated
 
 ---
 
-## ai01 — deathbed-room
+## (retirado 2026-09-08) ai01 · deathbed-room
 
-- **Beat(s) shotlist:** 1 (cold open) — abre el vídeo con esta ilustración; VO encima
+> El beat 1 pasó a **vídeo stock** (`beat1_custom_1`, Pexels 31385442). Se deja el
+> prompt por si se recupera la apertura ilustrada. No cuenta para el «Nº de imágenes IA».
+
+- **Beat(s) shotlist:** — (era el beat 1)
 - **Para qué:** abrir el episodio. 1849, el cuarto de alquiler, el hombre que se muere. **No se ve su cara.**
 - **Guardar como:** `E001_ai01_deathbed-room.png`
 
@@ -64,7 +67,7 @@ Muted blues and cream, one small vermilion detail.
 
 ## ai02 — daruma-nagoya-1817
 
-- **Beat(s) shotlist:** 17, 19, 42 (PROMISE 2 / cierre PROMISE 2 / PAY 2) — el Daruma gigante de Nagoya (1817). Reusado 3×.
+- **Beat(s) shotlist:** beats 48, 51, 102 — el Daruma gigante de Nagoya; misma imagen en los tres (aparición · PROMISE · PAY).
 - **Para qué:** mostrar la escala del espectáculo público; ancla el foreshadowing "quería que lo vieran, quería lo grande". Figura del artista de espaldas.
 - **Guardar como:** `E001_ai02_daruma-nagoya-1817.png`
 
@@ -89,7 +92,7 @@ temple roofs at the top edge.
 
 ## ai03 — studio-fire-night
 
-- **Beat(s) shotlist:** 36 (Acto 4) — el incendio de ~1839. Hay prints PD de incendios de Edo, pero ninguno es *su* taller; esta ilustración lo hace específico.
+- **Beat(s) shotlist:** beat 85 — el incendio del taller, ya anciano. Hay prints PD de incendios de Edo, pero ninguno es *su* taller; esta ilustración lo hace específico.
 - **Para qué:** el momento en que lo pierde todo, otra vez, a los casi 80. Figura pequeña, de espaldas.
 - **Guardar como:** `E001_ai03_studio-fire-night.png`
 
@@ -114,7 +117,7 @@ edge to the smoke.
 
 ## ai04 — closing-path
 
-- **Beat(s) shotlist:** 38 (Acto 4, PROMISE 4) — el hombre mayor dibujando junto a su hija.
+- **Beat(s) shotlist:** beats 92, 96, 114 — el hombre mayor dibujando junto a su hija; misma imagen en los tres (PROMISE · PAY · recap del cierre).
 - **Para qué:** la metáfora del cierre: "¿ya llegué?" vs "¿me estoy acercando?". Un camino sin final. Abstracto, sin afirmación factual.
 - **Guardar como:** `E001_ai04_closing-path.png`
 
@@ -138,7 +141,7 @@ faint indigo wash along the horizon.
 
 ## Después de generar
 
-1. `python tools/pull_assets.py E001-hokusai` — estos 4 prompts salen en la columna derecha de `07-style-pass.html`.
+1. `python tools/pull_assets.py E001-hokusai` — cada prompt sale dentro de su beat `ia` en `07-style-pass.html` (columna única, en orden de espina).
 2. Por prompt: 3–4 variantes → elegir la que más pega con el set → pegar su ruta/URL en el input del prompt.
 3. «Finalizar Stage 7» → `python tools/pull_assets.py E001-hokusai --download` copia cada imagen a `assets/ai/` con su nombre e imprime la fila de manifiesto (licencia = «ilustración propia (IA) — rótulo en pantalla»).
 4. Claude añade las 4 filas IA a `07-assets.md` y anota el rótulo en `09-description.md`.

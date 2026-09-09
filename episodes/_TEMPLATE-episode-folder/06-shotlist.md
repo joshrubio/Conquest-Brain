@@ -12,18 +12,21 @@
 
 ## Heurística de inferencia (proceso A — `brain/11 §2.1`)
 
-1. Un beat visual cada ~2–3 frases, o cuando cambia el sujeto de la frase.
+1. Un beat visual por frase o cambio de sujeto — uno cada ~6–8 s. Nunca sostener un plano más allá del máximo de §2.2.
 2. Todo `[EN PANTALLA]` del guion = beat, literal.
-2b. **Cold open:** narración **a cámara** (`acamara`); `[HOOK VISUAL]` = 2–5 beats de B-roll cortados encima, **vídeo stock preferido**, el último es el «giro». **Bumper:** 1 beat `acamara`, wordmark `Conquest` + presentador, 3–6 s.
-2c. **A-roll vs B-roll** (`brain/11 §1b`): `acamara` en cold open · bumper · bisagras/pivotes · beats de opinión y 1ª persona · **todo el cierre** · CTA. B-roll en los tramos de archivo y en cada `[EXPLICADOR]`. ~30–45 % a cámara.
+2b. **Cold open — siempre esta forma, ~35–45 s:** 1 plano contextual (archivo/IA propio) 8–10 s + 3–5 planos de hook (4–6 s) + el «giro» (~5 s) + cierre a cámara (~5–8 s) → negro → **Bumper:** 1 beat `acamara`, wordmark + presentador, 3–6 s.
+2c. **A-roll vs B-roll** (`brain/11 §1b`): `acamara` en cold open · bumper · bisagras · opinión / 1ª persona · **todo el cierre** · CTA.
 3. Toda persona / lugar / documento / institución / cifra nombrada → imagen o gráfico propio (B-roll).
-4. `[EXPLICADOR]` → una secuencia motion-graphic / diagrama. Sin talking-head. Es el bloque visual más largo (~60–140 s).
-5. `[PROMISE]` y `[PAY]` → **mismo plano** las dos veces (B-roll, aunque caigan en un tramo a cámara).
-6. Cierre / reflexión → **a cámara**, cortando a imágenes ya vistas; sin archivo nuevo.
+4. `[EXPLICADOR]` — gráfico **simple** → secuencia de sub-beats (~5 s); gráfico **denso** (dato/mapa/diagrama que hay que leer) → **un beat sostenido 10–18 s** con build interno + b-roll antes/después, nunca intercalado.
+4b. **Un `id` de gráfico, una aparición** — salvo callback marcado (`PROMISE`/`PAY`/`eco`).
+4c. **Un asset de archivo: ≤ 3× por vídeo, ≤ 2× por sección** (pareja `PROMISE`→`PAY` aparte). `assemble.py` avisa del 4º uso.
+5. `[PROMISE]` y `[PAY]` → **mismo plano** las dos veces (B-roll). Corte a cámara justo antes de cada uno.
+6. Cierre / reflexión → **a cámara** en tramos de ~10–14 s, cortando a imágenes ya vistas (~4–6 s); sin archivo nuevo.
 7. Toda cifra → gráfico propio con rótulo de fuente en pantalla.
 8. Afirmación disputada o aproximada → rótulo de salvedad en pantalla.
+9. **Nunca el mismo asset en dos beats seguidos** (salvo PROMISE→PAY). Ningún `id` de gráfico dos veces sin marcador (regla 4b).
 
-**Ritmo objetivo (v1, calibrar en `brain/11 §4`):** cold open 10–12 beats/min (2–5 planos en 20–40 s) · bumper 1 plano 3–6 s · contexto 6–8 · narrativa 7–9 · explicador 3–5 · módulo teorías 8–10 · cierre 4–6 · CTA 1–2. Episodio de 20 min ≈ 150–180 beats (con reutilización).
+**Duración de plano (`brain/11 §2.2` — planifica por duración, no por número):** cold open 4–**6**–10 s · contexto 4–**6**–10 · narrativa B-roll 4–**7**–11 · a cámara 8–**12**–18 · gráfico denso sostenido 10–**14**–18 · gráfico simple 3–**5**–8 (sub-beats) · teorías 3–**5**–8 · cierre 8–**12**–18 · CTA 15–25 s total. ≈ 8–10 s de media → ~95–110 beats para 15 min. **Talking-head** en cada entrada de acto, cada PROMISE/PAY, todo el cierre, CTA (`brain/11 §2.6`); ~30–40 % a cámara. `assemble.py` fuerza: B-roll < 2,8 s / a-cámara < 2,5 s se fusiona, `gráfico` < 5 s o `id` repetido sin marcador marca ⚠, no-a-cámara > 20 s marca ⚠, still nunca estático, vídeo B-roll sin Ken Burns.
 
 ## A cámara (narrador del episodio: Usuario 002 / Usuario 001)
 

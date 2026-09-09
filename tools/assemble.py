@@ -133,6 +133,92 @@ def _the_take(ep):
     return takes[0] if takes else None
 
 
+_ASPECT_CACHE = {}
+MAX_STILL_PX = 4320        # long side; a museum scan at 130 MP chokes ffmpeg's zoompan
+
+
+def _still_proxy(path, ep):
+    """Museum scans run 40–130 MP — ffmpeg's Ken Burns crawls on them. Downscale
+    once to `assets/_proxy/`, long side {MAX_STILL_PX}px, and use that instead."""
+    try:
+        from PIL import Image
+        Image.MAX_IMAGE_PIXELS = None
+        with Image.open(path) as im:
+            if max(im.size) <= MAX_STILL_PX:
+                return path
+            out = ep / "assets" / "_proxy" / (path.stem + ".jpg")
+            if out.exists() and out.stat().st_mtime >= path.stat().st_mtime:
+                return out
+            out.parent.mkdir(parents=True, exist_ok=True)
+            s = MAX_STILL_PX / max(im.size)
+            im.convert("RGB").resize((round(im.width * s), round(im.height * s)),
+                                     Image.LANCZOS).save(out, quality=92)
+            print(f"  proxy  {out.name}  ({im.width}x{im.height} -> {round(im.width*s)}x{round(im.height*s)})")
+            return out
+    except Exception:
+        return path
+
+
+def _negro_card(text, ep):
+    """A `negro` beat that carries a rótulo (e.g. beat 8's «5 años… / 10 años…»)
+    is a black slate with that text on it, not an empty black hole. ffmpeg's
+    drawtext isn't in every static build, so bake it with Pillow and cache it."""
+    import hashlib
+    key = hashlib.md5(text.encode("utf-8")).hexdigest()[:10]
+    out = ep / "assets" / "_proxy" / f"negro_{key}.png"
+    if out.exists():
+        return out
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+        w, h = 3840, 2160
+        im = Image.new("RGB", (w, h), (6, 5, 3))
+        d = ImageDraw.Draw(im)
+        lines = [s.strip() for s in re.split(r"\s*/\s*|\s*\n\s*", text) if s.strip()] or [text]
+        fnt = None
+        for cand in (r"C:\Windows\Fonts\georgia.ttf", r"C:\Windows\Fonts\times.ttf",
+                     "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+                     "/Library/Fonts/Georgia.ttf"):
+            try:
+                fnt = ImageFont.truetype(cand, 168)
+                break
+            except Exception:
+                pass
+        fnt = fnt or ImageFont.load_default()
+        y = h / 2 - len(lines) * 120
+        for ln in lines:
+            d.text(((w - d.textlength(ln, font=fnt)) / 2, y), ln, font=fnt, fill=(214, 203, 181))
+            y += 240
+        out.parent.mkdir(parents=True, exist_ok=True)
+        im.save(out)
+        return out
+    except Exception:
+        return None
+
+
+def _aspect(path):
+    """w/h of a still, cached. ~1.0 square, <1 portrait, >1.78 wide."""
+    k = str(path)
+    if k in _ASPECT_CACHE:
+        return _ASPECT_CACHE[k]
+    ar = 0.0
+    try:
+        from PIL import Image
+        Image.MAX_IMAGE_PIXELS = None      # museum scans are legitimately huge
+        with Image.open(path) as im:
+            ar = round(im.width / im.height, 3) if im.height else 0.0
+    except Exception:
+        try:
+            r = subprocess.run([FFPROBE, "-v", "error", "-select_streams", "v:0",
+                                "-show_entries", "stream=width,height", "-of", "csv=p=0", str(path)],
+                               capture_output=True, text=True, timeout=15)
+            wv, hv = (int(x) for x in r.stdout.strip().split(",")[:2])
+            ar = round(wv / hv, 3) if hv else 0.0
+        except Exception:
+            ar = 0.0
+    _ASPECT_CACHE[k] = ar
+    return ar
+
+
 def resolve(ep, beats):
     idx = _asset_index(ep)
     take = _the_take(ep)
@@ -156,6 +242,9 @@ def resolve(ep, beats):
                 if k.lower().startswith(f"beat{b['n']:02d}_") or k.lower().startswith(f"beat{b['n']}_"):
                     hit = v
                     break
+        if hit and hit.suffix.lower() in STILL_EXT:
+            b["aspect"] = _aspect(hit)
+            hit = _still_proxy(hit, ep)
         b["file"] = str(hit.relative_to(ep).as_posix()) if hit else None
         b["state"] = "uncovered" if (not b["file"] and b["kind"] != "negro") else "ok"
     # same-asset reuse: a held shot / PROMISE+PAY that names the same `asset` as a
@@ -191,60 +280,180 @@ def load_words(ep):
     return words
 
 
+def _stage_dir(raw):
+    """A frag that is a stage direction / production note, not delivered speech."""
+    return raw.startswith(("[", "‹", "(")) or bool(
+        re.search(r"tipo de cta|en pantalla|^nota\b|wordmark", raw, re.I))
+
+
 def align(beats, words):
-    """Slide each beat's script fragment along the word stream; set in/out to real VO time."""
+    """Anchor the shotlist's planned timeline to the real VO.
+
+    The shotlist's `in`/`out` are already section-calibrated to the delivered
+    voice (the writer maps sections to VO time). So don't re-derive the whole
+    timeline from frag matches — instead find the beats whose frag matches the
+    voice *confidently*, and **piecewise-linearly remap** the planned times onto
+    the VO between those anchors. Beats between anchors keep their planned
+    proportions; the whole thing ends exactly at the VO."""
+    beats.sort(key=lambda x: x["n"])
     if not words:
-        return beats, 0.0
+        return beats, round(beats[-1]["out"], 2) if beats else 0.0
     toks = [_norm(w["w"]) for w in words]
+    vo_end = round(words[-1]["t"] + 0.5, 2)
+    planned_end = beats[-1]["out"] or vo_end
+
+    # (planned_time, vo_time) anchor pairs, in order
+    anchors = [(0.0, 0.0)]
     cursor = 0
     for b in beats:
-        b["_al"] = False
-        frag = [t for t in _norm(b["frag"]).split() if t]
-        if not frag:
+        raw = (b.get("frag") or "").strip()
+        frag = [t for t in _norm(raw).split() if t]
+        if _stage_dir(raw) or len(frag) < 4:
             continue
-        best, best_i = 0, cursor
-        window = range(max(0, cursor - 30), min(len(toks) - 1, cursor + 400))
-        for i in window:
-            score = sum(1 for k, ft in enumerate(frag[:8]) if i + k < len(toks) and toks[i + k] == ft)
+        # expected word index ≈ where this beat's planned time falls in the VO
+        exp = int(b["in"] / planned_end * len(toks))
+        best, best_i = 0, exp
+        for i in range(max(cursor, exp - 80), min(len(toks) - 1, exp + 200)):
+            score = sum(1 for k, ft in enumerate(frag[:6]) if i + k < len(toks) and toks[i + k] == ft)
             if score > best:
                 best, best_i = score, i
-        if best >= 2:
-            b["in"] = round(words[best_i]["t"], 2)
-            end_i = min(best_i + max(len(frag), 1), len(words) - 1)
-            b["out"] = round(words[end_i]["t"], 2)
-            b["_al"] = True
-            cursor = best_i + len(frag)
-    beats.sort(key=lambda x: x["n"])
-    vo_end = round(words[-1]["t"] + 0.5, 2)
-    # beats that never matched the VO (paraphrased frags — most acamara beats):
-    # spread each un-aligned run across the gap between its aligned neighbours,
-    # proportional to the shotlist dur. Never let one land past the VO.
-    j = 0
-    while j < len(beats):
-        if beats[j]["_al"]:
-            j += 1
-            continue
-        k = j
-        while k < len(beats) and not beats[k]["_al"]:
-            k += 1
-        t0 = beats[j - 1]["out"] if j else 0.0
-        t1 = beats[k]["in"] if k < len(beats) else vo_end
-        run = beats[j:k]
-        span = max(0.1, t1 - t0)
-        wsum = sum(max(0.1, r.get("dur", 4)) for r in run) or len(run)
-        acc = t0
-        for r in run:
-            share = span * max(0.1, r.get("dur", 4)) / wsum
-            r["in"], r["out"] = round(acc, 2), round(acc + share, 2)
-            acc += share
-        j = k
+        if best >= 4 or best == min(6, len(frag)):
+            vt = round(words[best_i]["t"], 2)
+            pgap = b["in"] - anchors[-1][0]        # planned distance since last anchor
+            vgap = vt - anchors[-1][1]             # VO distance the match implies
+            # accept only if the match lands at a plausible spot: it can't pull the
+            # timeline backwards, and it can't compress the beats since the last
+            # anchor below ~35 % of their planned span (a frag matched too early —
+            # e.g. the shotlist put frags out of spoken order).
+            if pgap > 0 and vgap > 0.5 and vgap > 0.35 * pgap and vgap < 2.6 * pgap:
+                anchors.append((b["in"], vt))
+                cursor = best_i + len(frag)
+    anchors.append((planned_end, vo_end))
+
+    def remap(pt):
+        for (p0, v0), (p1, v1) in zip(anchors, anchors[1:]):
+            if pt <= p1 or (p1, v1) == anchors[-1]:
+                f = (pt - p0) / (p1 - p0) if p1 > p0 else 0.0
+                return v0 + f * (v1 - v0)
+        return vo_end
+
+    for b in beats:
+        b["in"] = round(remap(b["in"]), 2)
+        b["out"] = round(remap(b["out"]), 2)
     for a, nb in zip(beats, beats[1:]):
         a["out"] = round(max(a["in"] + 0.6, nb["in"]), 2)
     total = vo_end
     beats[-1]["out"] = total
+    beats = _repace(beats, total)
+    # flag beats that STILL hold one visual too long (brain/11 rhythm) — the edit
+    # page shows a warning marker; tools/*_audit surfaces the list.
+    for b in beats:
+        dur = b["out"] - b["in"]
+        plan = b.get("dur", dur)
+        if b["kind"] in ACAMARA:
+            if dur > 22:                       # 22 s+ of unbroken talking head — cut away
+                b["pace"] = round(dur, 1)
+        elif b["kind"] in GRAPHIC and dur < MIN_GRAPHIC:
+            b["pace"] = round(dur, 1)          # too brief to read (brain/11 §2.2)
+        elif dur > max(2.5 * plan, 20):
+            b["pace"] = round(dur, 1)
+    # asset over-reuse (brain/11 §2.2): a graphic id used >1× without a
+    # PROMISE/PAY/eco tag, or any asset used >3× / >2× in one section.
+    seen, per_sec = {}, {}
+    for b in beats:
+        a = b.get("asset") or ""
+        if not a or b["kind"] in ACAMARA or b["kind"] == "negro":
+            continue
+        mk = (b.get("marker") or b.get("marcador") or "").lower()
+        tagged = any(t in mk for t in ("promise", "pay", "eco"))
+        seen.setdefault(a, []).append(b["n"])
+        per_sec.setdefault((a, b.get("section", "")), []).append(b["n"])
+        if a.startswith("G") and len(seen[a]) == 2 and not tagged:
+            b["dup"] = seen[a][0]
+            print(f"  ⚠ gráfico {a} repetido (beat {b['n']} ↔ {seen[a][0]}) sin marcador")
+        elif not a.startswith("G") and len(seen[a]) == 4 and not tagged:
+            b["dup"] = seen[a][0]
+            print(f"  ⚠ asset {a} usado {len(seen[a])}× (beats {seen[a]}) — diversifica")
+        if len(per_sec[(a, b.get('section', ''))]) == 3 and not tagged:
+            print(f"  ⚠ asset {a} usado 3× en «{b.get('section')}» (beats {per_sec[(a, b.get('section', ''))]})")
     for b in beats:
         b.pop("_al", None)
     return beats, total
+
+
+MIN_BEAT = 2.8          # a B-roll shot shorter than this is a wasted flash
+MIN_ACAMARA = 2.5       # a talking-head cut shorter than this doesn't register
+MIN_GRAPHIC = 5.0       # a graphic on screen less than this can't be read (brain/11 §2.2)
+GRAPHIC = ("gráfico", "grafico")
+
+
+def _apply_edits(beats):
+    """Edit-room overrides applied on top of align(), and kept across re-builds:
+      b['slot']      — a float sort key: the beat moves to that position in the
+                       sequence and takes the time window there (the VO stays put,
+                       only which picture shows when changes)
+      b['dur_lock']  — a locked shot length in seconds; the delta is taken from
+                       the next beat (lengthening a shot shortens its neighbour)
+    """
+    if not beats:
+        return beats
+    for i, b in enumerate(beats):
+        b["_i"] = i
+    if any(isinstance(b.get("slot"), (int, float)) for b in beats):
+        win = [(b["in"], b["out"]) for b in beats]
+        beats = sorted(beats, key=lambda b: b["slot"] if isinstance(b.get("slot"), (int, float)) else b["_i"])
+        for k, b in enumerate(beats):
+            b["in"], b["out"] = win[k]
+    def _floor(x):
+        return MIN_ACAMARA if x["kind"] in ACAMARA else MIN_BEAT
+    for i in range(len(beats) - 1):
+        b, nb = beats[i], beats[i + 1]
+        d = b.get("dur_lock")
+        if not d:
+            continue
+        # move the b/nb boundary to give b the locked length, but never take nb
+        # (or b) below its floor — a bigger hold than that needs a merge, not this
+        lo = b["in"] + _floor(b)
+        hi = nb["out"] - _floor(nb)
+        cut = round(min(max(b["in"] + float(d), lo), hi), 2)
+        b["out"], nb["in"] = cut, cut
+    for b in beats:
+        b.pop("_i", None)
+    return beats
+
+
+def _repace(beats, total):
+    """Kill the millisecond flashes and the pile-ups: merge any beat too short
+    to register into its neighbour, and collapse two identical shots in a row
+    (except a deliberate PROMISE→PAY reuse) into one continuous move."""
+    out = []
+    for b in beats:
+        floor = MIN_ACAMARA if b["kind"] in ACAMARA else MIN_BEAT
+        dur = b["out"] - b["in"]
+        if out:
+            prev = out[-1]
+            same_file = b.get("file") and b["file"] == prev.get("file")
+            promise_pay = {(prev.get("marker") or "")[:3], (b.get("marker") or "")[:3]} & {"PRO", "PAY"}
+            # don't merge a real A-roll beat away — the narrator on camera is a
+            # deliberate structural beat even if the alignment shrank it a bit
+            aroll_keep = b["kind"] in ACAMARA and dur >= MIN_ACAMARA and not (same_file and not promise_pay)
+            # a graphic beat is a deliberate structural beat — don't merge it away
+            # for being a bit short (it gets a pace flag instead, below)
+            graphic_keep = b["kind"] in GRAPHIC and dur >= 3.0 and not (same_file and not promise_pay)
+            if not aroll_keep and not graphic_keep and (dur < floor or (same_file and not promise_pay)):
+                # absorb: the later narration wins the asset unless it has none
+                keep_new = bool(b.get("file")) and (dur >= prev["out"] - prev["in"] or not prev.get("file"))
+                if keep_new:
+                    for k in ("asset", "file", "aspect", "motion", "marker", "frag", "label", "kind"):
+                        if b.get(k):
+                            prev[k] = b[k]
+                prev["out"] = b["out"]
+                prev["merged"] = prev.get("merged", 0) + 1
+                continue
+        out.append(b)
+    # keep original beat numbers (gaps are fine) so the edit page's saved human
+    # decisions still key correctly across rebuilds
+    return out
 
 
 def _duration(path):
@@ -276,6 +485,17 @@ def build_timeline(slug):
     beats, total = align(beats, words)
     if not words:
         total = round(beats[-1]["out"], 2)
+    # resolve each still's actual Ken Burns move (aspect-aware; no static holds) so
+    # 09-timeline.json matches what the render will do. Human overrides win below.
+    for b in beats:
+        if b["kind"] in ("archivo", "ia", "kb", "gráfico", "grafico"):
+            b["motion"] = kb_move(b, 3840, 2160)
+        # a held graphic must move — never a dead static hold (brain/11 §2.4)
+        if b["kind"] in GRAPHIC and b["motion"] in ("cut", "static", "", None):
+            b["motion"] = "push"
+        # video B-roll plays straight — it never gets a Ken Burns move
+        if (b.get("file") or "").lower().endswith((".mp4", ".mov", ".webm")):
+            b["motion"] = "cut"
 
     prev = {}
     tj = ep / "09-timeline.json"
@@ -285,16 +505,24 @@ def build_timeline(slug):
                 prev[b["n"]] = b
         except json.JSONDecodeError:
             pass
-    # keep human decisions across re-builds
+    # keep the edit room's decisions across re-builds: approved / fix / nudge
+    # (and the motion the user picked on a beat they worked). The `asset` is NOT
+    # restored from the old JSON — an asset change goes through the shotlist
+    # (`beat_asset.py` patches the spine row), so `parse_spine` above is already
+    # authoritative and a stale id must never win.
     for b in beats:
         p = prev.get(b["n"])
-        if p:
-            for k in ("approved", "fix", "motion", "asset", "nudge"):
-                if p.get(k):
-                    b[k] = p[k]
-            if p.get("asset") and p["asset"] != b["asset"]:
-                b["asset"] = p["asset"]
-                resolve(ep, [b])
+        if not p:
+            continue
+        touched = any(p.get(k) for k in ("approved", "fix", "nudge"))
+        for k in ("approved", "fix", "nudge", "dur_lock", "slot"):
+            if p.get(k) is not None:
+                b[k] = p[k]
+        if touched and p.get("motion"):
+            b["motion"] = p["motion"]
+
+    beats = _apply_edits(beats)
+    total = round(beats[-1]["out"], 2) if beats else total
 
     data = {
         "ep": slug[:4], "slug": slug, "generated": _now(),
@@ -302,7 +530,7 @@ def build_timeline(slug):
         "total": total, "ground": GROUND,
         "music": {"pool": music_pool(), "bed": (music_pool() or [""])[0],
                   "in": beats[0]["out"] if beats else 0, "out": total,
-                  "duck_db": -5, "bed_db": -22},
+                  "duck_db": -6, "bed_db": -30},   # bed sits ~60% quieter than before
         "beats": beats,
     }
     tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -327,10 +555,53 @@ def _fmt(s):
 
 # ── waveform ─────────────────────────────────────────────────────────────
 
+def vo_proxy(slug):
+    """09-vo.m4a — the trimmed VO as a small AAC file the edit page plays live
+    (the trimmed take can be ~800 MB). Skipped if newer than the take."""
+    ep = EP_DIR / slug
+    vo = next(iter(sorted(ep.glob("assets/*.trimmed.mp4"))), None)
+    out = ep / "09-vo.m4a"
+    if not vo:
+        return None
+    if out.exists() and out.stat().st_mtime >= vo.stat().st_mtime:
+        return out
+    r = subprocess.run([FFMPEG, "-y", "-i", str(vo), "-vn", "-ac", "1",
+                        "-c:a", "aac", "-b:a", "128k", str(out)], capture_output=True, text=True)
+    if r.returncode == 0:
+        print(f"  escrito  09-vo.m4a")
+    return out
+
+
+def take_proxy(slug):
+    """09-take.mp4 — a small 720p proxy of the trimmed narrator take for the edit
+    page's live compositor. The 4K/1080p master runs ~800 MB; seeking into it
+    stutters. This is ~1 Mbps with a keyframe every 2 s so the picture tracks the
+    VO without thrash. Cached — skipped if newer than the take."""
+    ep = EP_DIR / slug
+    vo = next(iter(sorted(ep.glob("assets/*.trimmed.mp4"))), None)
+    out = ep / "09-take.mp4"
+    if not vo:
+        return None
+    if out.exists() and out.stat().st_mtime >= vo.stat().st_mtime:
+        return out
+    r = subprocess.run([FFMPEG, "-y", "-i", str(vo),
+                        "-vf", "scale=-2:720", "-c:v", "libx264", "-preset", "veryfast",
+                        "-crf", "30", "-g", "48", "-keyint_min", "48", "-sc_threshold", "0",
+                        "-c:a", "aac", "-b:a", "96k", "-movflags", "+faststart", str(out)],
+                       capture_output=True, text=True)
+    if r.returncode == 0:
+        print(f"  escrito  09-take.mp4  ({out.stat().st_size // (1024 * 1024)} MB)")
+    else:
+        print(f"  09-take.mp4 falló: {(r.stderr or r.stdout)[-200:]}")
+    return out
+
+
 def waveform(slug):
     ep = EP_DIR / slug
     vo = next(iter(sorted(ep.glob("assets/*.trimmed.mp4"))), None)
     out = ep / "09-wave.b64"
+    vo_proxy(slug)
+    take_proxy(slug)
     if not vo:
         out.write_text("", encoding="utf-8")
         print("  sin voz trimmeada aún — waveform vacío")
@@ -352,29 +623,53 @@ def waveform(slug):
 
 # ── render (ffmpeg filter_complex) ───────────────────────────────────────
 
-def _clip_filter(i, b, w, h, fps):
-    """One beat -> a [vN] stream scaled/padded to WxH on GROUND, with its Ken Burns move."""
-    d = max(0.4, b["out"] - b["in"])
-    src = f"[{i}:v]"
-    base = (f"{src}scale={w}:{h}:force_original_aspect_ratio=decrease,"
-            f"pad={w}:{h}:(ow-iw)/2:(oh-ih)/2:color={GROUND},setsar=1,fps={fps},"
-            f"trim=duration={d:.3f},setpts=PTS-STARTPTS")
+def kb_move(b, w, h):
+    """Pick the Ken Burns move for a still. A portrait asset always pans
+    vertically (the whole image is seen — never black bars + a tiny picture);
+    a panorama pans horizontally — this even overrides an explicit `cut`, since
+    you can't hard-hold an off-ratio image without bars or a brutal crop. For a
+    frame-ratio still: honour `cut`, else push/zoom, and never `static` (a dead
+    frame for seconds is wasted screen time)."""
     mv = b.get("motion", "static")
-    if b["kind"] in ("archivo", "ia", "kb", "gráfico") and mv != "cut":
-        fr = max(1, int(d * fps))
-        if mv == "push":
-            base += (f",scale={w*2}:{h*2},zoompan=z='min(zoom+0.0008,1.10)':"
-                     f"d={fr}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={w}x{h}:fps={fps}")
-        elif mv == "pan-h":
-            base += (f",scale={int(w*1.25)}:{h},zoompan=z=1:d={fr}:"
-                     f"x='(iw-{w})*on/{fr}':y=0:s={w}x{h}:fps={fps}")
-        elif mv == "pan-v":
-            base += (f",scale={w}:{int(h*1.25)},zoompan=z=1:d={fr}:"
-                     f"x=0:y='(ih-{h})*on/{fr}':s={w}x{h}:fps={fps}")
-        elif mv == "zoom":
-            base += (f",scale={w*2}:{h*2},zoompan=z='min(zoom+0.0016,1.20)':"
-                     f"d={fr}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={w}x{h}:fps={fps}")
-    return base + f"[v{i}]"
+    ar, far = b.get("aspect") or 0.0, w / h
+    if ar and ar < far * 0.80:
+        return "pan-v"
+    if ar and ar > far * 1.40:
+        return "pan-h"
+    if mv == "cut":
+        return "cut"
+    if mv in ("static", "", None):
+        return "push"
+    return mv
+
+
+def _clip_filter(i, b, w, h, fps):
+    """One beat -> a [vN] stream that FILLS WxH (no letterbox) with its move.
+    All moves use ONE `zoompan` on a single still — NO `fps` filter before it
+    (that would feed zoompan N frames and it emits d per frame → d*N frames,
+    a 15 min video rendered as 60 min: the bug that was here)."""
+    d = max(0.4, b["out"] - b["in"])
+    fr = max(1, int(round(d * fps)))
+    mv = kb_move(b, w, h)
+    src = f"[{i}:v]setsar=1"
+    # scale so the still at least fills the frame; `increase` = one dim overflows
+    fillbig = f"scale={w * 2}:{h * 2}:force_original_aspect_ratio=increase"
+    fill = f"scale={w}:{h}:force_original_aspect_ratio=increase"
+    zp = f"d={fr}:s={w}x{h}:fps={fps}"
+    if mv == "pan-v":       # travel the tall overflow top→bottom
+        f = (f"{src},{fill},zoompan=z=1:{zp}:x='(iw-{w})/2':y='(ih-{h})*on/{max(1,fr-1)}'")
+    elif mv == "pan-h":     # travel the wide overflow left→right
+        f = (f"{src},{fill},zoompan=z=1:{zp}:x='(iw-{w})*on/{max(1,fr-1)}':y='(ih-{h})/2'")
+    elif mv == "zoom":      # push harder, to a detail
+        f = (f"{src},{fillbig},crop={w * 2}:{h * 2},zoompan="
+             f"z='min(zoom+0.0016,1.20)':{zp}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'")
+    elif mv == "cut":       # hard hold, fills the frame, no move
+        f = (f"{src},{fill},crop={w}:{h},zoompan=z=1:{zp}:x=0:y=0")
+    else:                   # push (default) — slow zoom-in
+        f = (f"{src},{fillbig},crop={w * 2}:{h * 2},zoompan="
+             f"z='min(zoom+0.0008,1.10)':{zp}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'")
+    # concat needs every segment identical: square pixels + fixed size + fps
+    return f + f",trim=duration={d:.3f},setpts=PTS-STARTPTS,setsar=1,fps={fps}[v{i}]"
 
 
 def render(slug, mode, t0=None, t1=None, dry=False):
@@ -401,12 +696,21 @@ def render(slug, mode, t0=None, t1=None, dry=False):
         # (timeline / take out of sync) -> black, never a fatal seek-past-EOF
         acamara_ok = b["kind"] in ACAMARA and f and (
             take_dur == 0.0 or b["in"] < take_dur - 0.2)
-        if b["kind"] == "negro" or not f or (b["kind"] in ACAMARA and not acamara_ok):
+        dur = max(0.4, b["out"] - b["in"])
+        card = _negro_card(b["label"], ep) if (b["kind"] == "negro" and b.get("label")) else None
+        if card:
+            # a black slate with the beat's rótulo burned in
+            inputs += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(card)]
+            filters.append(
+                f"[{i}:v]scale={w}:{h}:force_original_aspect_ratio=increase,"
+                f"crop={w}:{h},setsar=1,fps={fps},trim=duration={dur:.3f},"
+                f"setpts=PTS-STARTPTS[v{i}]")
+        elif b["kind"] == "negro" or not f or (b["kind"] in ACAMARA and not acamara_ok):
             if b["kind"] in ACAMARA:
                 print(f"  beat {b['n']}: a cámara pero in={b['in']:.1f}s > toma {take_dur:.1f}s → negro")
-            inputs += ["-f", "lavfi", "-t", f'{max(0.4, b["out"]-b["in"]):.3f}',
+            inputs += ["-f", "lavfi", "-t", f"{dur:.3f}",
                        "-i", f"color=c={GROUND}:s={w}x{h}:r={fps}"]
-            filters.append(f"[{i}:v]trim=duration={max(0.4,b['out']-b['in']):.3f},"
+            filters.append(f"[{i}:v]trim=duration={dur:.3f},"
                            f"setpts=PTS-STARTPTS[v{i}]")
         elif b["kind"] in ACAMARA:
             # A-roll: show the narrator take for this beat's slot. The beat's
@@ -423,20 +727,37 @@ def render(slug, mode, t0=None, t1=None, dry=False):
                 f"setpts=PTS-STARTPTS[v{i}]")
         else:
             p = ep / f
-            still = p.suffix.lower() in STILL_EXT
-            if still:
-                inputs += ["-loop", "1", "-t", f'{max(0.4,b["out"]-b["in"]):.3f}', "-i", str(p)]
+            if p.suffix.lower() in STILL_EXT:
+                inputs += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(p)]
+                filters.append(_clip_filter(i, b, w, h, fps))
             else:
-                inputs += ["-i", str(p)]
-            filters.append(_clip_filter(i, b, w, h, fps))
+                # video B-roll: scale-crop to frame, play it straight — NO zoompan
+                # (that would explode the frame count). If the clip is a bit
+                # SHORTER than the beat, slow it to fit (nicer than a visible
+                # loop); only loop when it's far too short or long enough already.
+                clip_dur = _duration(p)
+                ratio = (dur / clip_dur) if clip_dur > 0.1 else 1.0
+                base = (f"[{i}:v]scale={w}:{h}:force_original_aspect_ratio=increase,"
+                        f"crop={w}:{h},setsar=1")
+                if 1.03 < ratio <= 2.6:
+                    inputs += ["-i", str(p)]
+                    filters.append(
+                        f"{base},setpts={ratio:.4f}*PTS,fps={fps},"
+                        f"trim=duration={dur:.3f},setpts=PTS-STARTPTS[v{i}]")
+                else:
+                    inputs += ["-stream_loop", "-1", "-t", f"{dur:.3f}", "-i", str(p)]
+                    filters.append(
+                        f"{base},fps={fps},trim=duration={dur:.3f},"
+                        f"setpts=PTS-STARTPTS[v{i}]")
         vmaps.append(f"[v{i}]")
 
     vo = next(iter(sorted(ep.glob("assets/*.trimmed.mp4"))), None)
     fc = ";\n".join(filters) + ";\n" + "".join(vmaps) + f"concat=n={len(beats)}:v=1:a=0[vraw];"
-    # house grade (brain/03) — opt-in: applied only if brand/assets/grade.cube exists.
-    # ffmpeg splits filter args on ':', so pass the LUT relative and run with cwd=ROOT.
+    # house grade (brain/03) — opt-in and **only on the 4K master**. The proxy
+    # skips it (the edit page is tagged "sin grade"); lut3d per frame roughly
+    # doubles a slow proxy render for a look you check once.
     grade = ROOT / "brand" / "assets" / "grade.cube"
-    lut = f"lut3d={grade.relative_to(ROOT).as_posix()}," if grade.exists() else ""
+    lut = f"lut3d={grade.relative_to(ROOT).as_posix()}," if (grade.exists() and not proxy) else ""
     fc += f"[vraw]{lut}format=yuv420p[vout]"
 
     cmd = [FFMPEG, "-y", *inputs]
@@ -444,15 +765,23 @@ def render(slug, mode, t0=None, t1=None, dry=False):
     if vo:
         cmd += ["-i", str(vo)]
         vo_idx = len(beats)
+        # a region render (--preview) must trim the VO to that window, or ffmpeg
+        # keeps encoding until the full-length audio ends (a 30 s clip + 16 min)
+        region = t0 is not None or t1 is not None
+        va = f"[{vo_idx}:a]"
+        if region:
+            fc += (f";[{vo_idx}:a]atrim=start={t0 or 0:.3f}"
+                   + (f":end={t1:.3f}" if t1 else "") + ",asetpts=PTS-STARTPTS[voa]")
+            va = "[voa]"
         bed = data["music"].get("bed")
         if bed and (ROOT / bed).exists() and not proxy:
             cmd += ["-i", str(ROOT / bed)]
             fc += (f";[{vo_idx+1}:a]aloop=loop=-1:size=2e9,volume={data['music']['bed_db']}dB[bed];"
-                   f"[bed][{vo_idx}:a]sidechaincompress=threshold=0.02:ratio=6:release=300[ducked];"
-                   f"[{vo_idx}:a][ducked]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1[aout]")
+                   f"[bed]{va}sidechaincompress=threshold=0.02:ratio=6:release=300[ducked];"
+                   f"{va}[ducked]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1[aout]")
             a_map = ["-map", "[aout]"]
         else:
-            fc += f";[{vo_idx}:a]loudnorm=I=-14:TP=-1[aout]"
+            fc += f";{va}loudnorm=I=-14:TP=-1[aout]"
             a_map = ["-map", "[aout]"]
 
     cmd += ["-filter_complex", fc, "-map", "[vout]", *a_map,
@@ -500,6 +829,8 @@ if __name__ == "__main__":
         build_timeline(slug)
         waveform(slug)
         render(slug, "proxy", dry=dry)
+    elif "--timeline-only" in a:      # just rebuild 09-timeline.json (edit-room saves)
+        build_timeline(slug)
     else:
         build_timeline(slug)
         waveform(slug)

@@ -34,6 +34,7 @@ Usage
 """
 import io
 import re
+import subprocess
 import sys
 import time
 import json
@@ -1088,6 +1089,18 @@ def run(slug):
             md.append(f"<!-- {note} -->")
         md.append("")
     ep = EP_DIR / slug
+    # the episode's own graphics (make_graphics.py) — render any that are missing
+    # so every `gráfico` beat is previewable right here in the style pass. Cheap
+    # (skips PNGs that already exist); best-effort — a missing Pillow/font won't
+    # block the page.
+    try:
+        g = subprocess.run([sys.executable, str(Path(__file__).resolve().parent / "make_graphics.py"), slug],
+                           capture_output=True, text=True, timeout=180)
+        made = [ln.strip() for ln in (g.stdout or "").splitlines() if ln.strip().startswith("escrito")]
+        if made:
+            print(f"gráficos: {len(made)} render(s) nuevos en assets/graphic/")
+    except Exception as e:
+        print(f"gráficos: no se pudieron generar ({e})")
     ai = parse_ai_prompts(slug)
     music = parse_music()
     timeline = parse_timeline(slug)
@@ -1226,6 +1239,9 @@ def _resolve_media_page(url, keys):
     return None, None
 
 
+_WIKI_FILE = re.compile(r"https?://[^/]*wik(?:ipedia|media)\.org/wiki/(?:[^:/]+:)?(?:File|Archivo|Datei):(.+)$", re.I)
+
+
 def _fetch(url, src):
     """Fetch a URL (or read a local path). Returns (bytes, final_url) or (None, err)."""
     url = url.strip().strip('"').strip("'").strip()   # Windows «Copiar como ruta» añade comillas
@@ -1235,12 +1251,19 @@ def _fetch(url, src):
             if cand.is_file():
                 return cand.read_bytes(), cand.as_posix()
         return None, f"no existe la ruta: {url}"
+    # a Wikimedia "/wiki/File:X" *description page* → the actual media file
+    m = _WIKI_FILE.match(url)
+    if m:
+        url = "https://commons.wikimedia.org/wiki/Special:FilePath/" + m.group(1).split("?")[0]
     tries, hdr = [url], {"User-Agent": UA}
     last = "?"
     for u in tries:
         try:
             r = requests.get(requests.utils.requote_uri(u), headers=hdr, timeout=90)
             r.raise_for_status()
+            ct = r.headers.get("Content-Type", "").lower()
+            if "text/html" in ct or r.content[:15].lstrip().lower().startswith((b"<!doctype", b"<html")):
+                return None, f"la URL devolvió una página HTML, no un archivo ({u}) — pega el enlace directo a la imagen"
             return r.content, u
         except Exception as e:
             last = e
@@ -1349,6 +1372,7 @@ def download(slug):
             _dl_ai(ep, beat, cid, url, ai_fname.get(cid, f"{cid}.png"), ai_rows, credits)
             continue
 
+        was_custom = src == "custom"
         if src == "custom" and url.lower().startswith("http") and (
                 "pexels.com" in url or "pixabay.com" in url):
             direct, dsrc = _resolve_media_page(url, keys)
@@ -1368,7 +1392,11 @@ def download(slug):
 
         if is_intro:
             intro_n += 1
-            sub, name = "intro", f"intro{intro_n:02d}_{src}_{re.sub(r'[^A-Za-z0-9]', '', cid)[:14]}{ext}"
+            # a `custom:N` intro keeps N as its number (the shotlist references
+            # `introNN`) — even after a pexels/pixabay page URL got resolved and
+            # `src` changed; a suggested/card intro uses the running counter.
+            seq = int(cid) if (was_custom and str(cid).isdigit()) else intro_n
+            sub, name = "intro", f"intro{seq:02d}_{src}_{re.sub(r'[^A-Za-z0-9]', '', str(cid))[:14]}{ext}"
         else:
             if src == "custom":                       # the user's own path for this beat
                 sub = "video" if ext in (".mp4", ".mov", ".webm") else "archive"

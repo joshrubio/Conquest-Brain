@@ -10,30 +10,37 @@ intro	custom:3	https://www.pexels.com/es-es/video/serenas-flores-de-cerezos-en-e
 intro	custom:4	https://www.pexels.com/es-es/video/japon-timelapse-31453316/
 intro	custom:5	https://www.pexels.com/es-es/video/escaleras-montanas-vehiculo-japon-19757067/
 # --- BEATS ---
+1	custom:1	https://www.pexels.com/es-es/download/video/31385442/
 11	custom:11	"D:\Conquest\episodes\E001-hokusai\assets\DP143415.jpg"
 12	custom:12	"D:\Conquest\episodes\E001-hokusai\assets\katsukawaportrait.jpg"
 16	custom:16	"D:\Conquest\episodes\E001-hokusai\assets\hokusaimanga.jpg"
 18	custom:18	"D:\Conquest\episodes\E001-hokusai\assets\ricegrain.jpg"
+17	custom:17	https://www.pexels.com/es-es/download/video/5972654/
 20	custom:20	https://commons.wikimedia.org/wiki/File:Hokusai_as_an_old_man.jpg
 22	custom:22	"D:\Conquest\episodes\E001-hokusai\assets\36views.jpg"
 23	custom:23	"D:\Conquest\episodes\E001-hokusai\assets\DP141049.jpg"
 32	custom:32	"D:\Conquest\episodes\E001-hokusai\assets\main-image.jpg"
-34	custom:34	"D:\Conquest\episodes\E001-hokusai\assets\1651825238836-pYfnCcm2Wb.webp"
+34	custom:34	https://www.pexels.com/es-es/download/video/37864529/
 37	custom:37	"D:\Conquest\episodes\E001-hokusai\assets\katsushika-oi-night-scene-in-the-yoshiwara-1854-obelisk-art-history.webp"
 41	custom:41	"D:\Conquest\episodes\E001-hokusai\assets\880242644381_Debussy_La Mer_cover.jpg.webp"
+45	custom:45	"D:\Conquest\episodes\E001-hokusai\assets\hokusai_manga_performances_large.jpg"
+58	custom:58	https://upload.wikimedia.org/wikipedia/commons/5/5f/%E5%86%A8%E5%B6%BD%E4%B8%89%E5%8D%81%E5%85%AD%E6%99%AF_%E5%B0%BE%E5%B7%9E%E4%B8%8D%E4%BA%8C%E8%A6%8B%E5%8E%9F-Fujimigahara_in_Owari_Province_%28Bish%C5%AB_Fujimigahara%29%2C_from_the_series_Thirty-six_Views_of_Mount_Fuji_%28Fugaku_sanj%C5%ABrokkei%29_MET_DP141033.jpg
+82	custom:82	"C:\Users\Joshue\Downloads\d6d25ba7-d232-4b1e-9279-a64ac84d3e3c_1600x1086.jpg"
+94	custom:94	https://www.pexels.com/es-es/download/video/7308170/
+95	custom:95	https://upload.wikimedia.org/wikipedia/commons/7/77/Vincent_van_Gogh_-_Brug_in_de_regen-_naar_Hiroshige_-_Google_Art_Project.jpg
 2	pixabayv:10378	https://cdn.pixabay.com/video/2017/06/29/10378-224234522_large.mp4
 3	commons:5576388	https://upload.wikimedia.org/wikipedia/commons/0/0d/Great_Wave_off_Kanagawa2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 4	commons:124369341	https://upload.wikimedia.org/wikipedia/commons/1/1c/Hokusai_as_an_old_man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 7	commons:127164101	https://upload.wikimedia.org/wikipedia/commons/a/a4/Yoshiwara_Map_Edo_by_Utagawa_Hiroshige_II_July_1860.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+14	commons:10969306	https://upload.wikimedia.org/wikipedia/commons/3/32/Brooklyn_Museum_-_Brocade_with_Sack_and_Seal_-_Sh%C3%BBtei_Tanaka.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+24	commons:39740407	https://upload.wikimedia.org/wikipedia/commons/6/6f/Katsushika_Hokusai%2C_published_by_Nishimuraya_Yohachi_%28Eijud%C5%8D%29_-_Fine_Wind%2C_Clear_Weather_%28Gaif%C5%AB_kaisei%29%2C_also_known_as_Red_Fuji%2C_from_the_series_Thirty-six_Views_o..._-_Google_Art_Project_-_Cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 8	commons:77570475	https://upload.wikimedia.org/wikipedia/commons/5/54/Kano_Tan%E2%80%99y%C5%AB_-_The_Four_Seasons_-_1992.394.1_-_Cleveland_Museum_of_Art.tif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 10	commons:77578681	https://upload.wikimedia.org/wikipedia/commons/6/61/Katsukawa_Shunsho_-_The_Actor_Segawa_Kikunojo_II_Dancing_with_a_Parasol_-_1985.354_-_Cleveland_Museum_of_Art.tif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-14	commons:1499270	https://upload.wikimedia.org/wikipedia/commons/9/92/Torii_Kiyomasu_-_Ichikawa_Danjuro_I_in_role_of_Takenuki_Goro.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-24	commons:39740407	https://upload.wikimedia.org/wikipedia/commons/6/6f/Katsushika_Hokusai%2C_published_by_Nishimuraya_Yohachi_%28Eijud%C5%8D%29_-_Fine_Wind%2C_Clear_Weather_%28Gaif%C5%AB_kaisei%29%2C_also_known_as_Red_Fuji%2C_from_the_series_Thirty-six_Views_o..._-_Google_Art_Project_-_Cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 25	commons:5576388	https://upload.wikimedia.org/wikipedia/commons/0/0d/Great_Wave_off_Kanagawa2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 # --- IA generada ---
-1	ai:ai01	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_01 (1).png"
-+B, +C	ai:ai02	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (2).png"
-33	ai:ai03	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (3).png"
-39	ai:ai04	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (4).png"
+# beat 1 (ai01 deathbed-room) sustituido por vídeo stock → ver sección BEATS (custom:1)
+46	ai:ai02	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (2).png"
+81	ai:ai03	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (3).png"
+88	ai:ai04	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (4).png"
 # --- MÚSICA (consideración; brand/assets/music/) ---
-music	custom:1	brand/assets/music/custom_1_inner-outer-lish-grooves.mp3	inner-outer · Lish Grooves	YT Audio Library	
+music	custom:1	"D:\Conquest\episodes\E001-hokusai\assets\inner-outer - Lish Grooves.mp3"	youtube library	CC0	

@@ -14,6 +14,7 @@ in its own terminal (survives across sessions).
 """
 import html as _h
 import json
+import os
 import re
 import subprocess
 import sys
@@ -44,13 +45,21 @@ TOOLS = Path(__file__).resolve().parent
 MIME = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript",
         ".json": "application/json", ".txt": "text/plain; charset=utf-8",
         ".md": "text/plain; charset=utf-8", ".csv": "text/plain; charset=utf-8",
-        ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp", ".mp4": "video/mp4",
+        ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp",
+        ".gif": "image/gif", ".mp4": "video/mp4", ".webm": "video/webm", ".mov": "video/quicktime",
+        ".mp3": "audio/mpeg", ".m4a": "audio/mp4", ".ogg": "audio/ogg", ".wav": "audio/wav",
         ".ico": "image/x-icon"}
+
+
+# child tools print unicode (→ « » é); force UTF-8 so a cp1252 console never
+# crashes them, and decode their output the same way.
+_ENV = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
 
 
 def _run(args):
     r = subprocess.run([sys.executable, str(TOOLS / args[0])] + args[1:],
-                       capture_output=True, text=True)
+                       capture_output=True, text=True, encoding="utf-8",
+                       errors="replace", env=_ENV)
     return (r.stdout or r.stderr).strip()
 
 
@@ -62,10 +71,11 @@ def _spawn_chain(steps, done_flag=None):
         "import subprocess,sys,pathlib\n"
         f"S={steps!r}\n"
         f"T={str(TOOLS)!r}\n"
-        "for s in S: subprocess.run([sys.executable, str(pathlib.Path(T)/s[0]), *s[1:]])\n"
+        "for s in S: subprocess.run([sys.executable, str(pathlib.Path(T)/s[0]), *s[1:]],"
+        " stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)\n"
         + (f"pathlib.Path({str(done_flag)!r}).write_text('ok')\n" if done_flag else "")
     )
-    subprocess.Popen([sys.executable, "-c", py], cwd=str(TOOLS.parent))
+    subprocess.Popen([sys.executable, "-c", py], cwd=str(TOOLS.parent), env=_ENV)
 
 
 def _pool_detail(txt, iid):
@@ -285,11 +295,39 @@ class H(BaseHTTPRequestHandler):
             flag.unlink(missing_ok=True)
             # the --apply render is minutes long — run it detached, poll the flag
             _spawn_chain([["trim_talk.py", str(take), "--apply"],
-                          ["assemble.py", slug], ["edit_timeline.py", slug],
+                          ["assemble.py", slug, "--rough"], ["edit_timeline.py", slug],
                           ["dash.py"]], done_flag=flag)
             return self._send(200, json.dumps({"ok": True,
-                "msg": f"{len(cuts)} cortes → recortando la toma y re-alineando en segundo plano "
-                       f"(unos minutos). El panel se actualiza al terminar."}))
+                "msg": f"{len(cuts)} cortes → recortando la toma, re-alineando y renderizando "
+                       f"el borrador en segundo plano (unos minutos). El panel se actualiza al terminar."}))
+
+        if path == "/tl-save":                         # Stage 9 — save WIP, recompute, no gate fold
+            slug = data.get("slug") or ep
+            tl = data.get("timeline") or {}
+            if not tl.get("beats"):
+                return self._send(400, json.dumps({"error": "timeline vacío"}))
+            epp = P.ep_path(ep)
+            (epp / "09-timeline.json").write_text(
+                json.dumps(tl, ensure_ascii=False, indent=1), encoding="utf-8")
+            # re-run build_timeline so _apply_edits turns the saved dur_lock / slot
+            # / nudge into real in/out, then hand the recomputed timeline back
+            _run(["assemble.py", slug, "--timeline-only"])
+            _run(["edit_timeline.py", slug])
+            fresh = (epp / "09-timeline.json").read_text(encoding="utf-8")
+            return self._send(200, json.dumps({"ok": True, "msg": "guardado", "timeline": json.loads(fresh)}))
+
+        if path == "/tl-rough":                        # Stage 9 — (re)render the 720p proxy
+            slug = data.get("slug") or ep
+            epp = P.ep_path(ep)
+            if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
+                (epp / "09-timeline.json").write_text(
+                    json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
+            flag = epp / "09-rough.done"
+            flag.unlink(missing_ok=True)
+            _spawn_chain([["assemble.py", slug, "--rough"], ["edit_timeline.py", slug]],
+                         done_flag=flag)
+            return self._send(200, json.dumps({"ok": True,
+                "msg": "renderizando el borrador 720p en segundo plano — unos minutos."}))
 
         if path == "/advance":
             return self._send(200, json.dumps({"ok": True, "msg": _run(["advance.py", "next", ep])}))
@@ -323,8 +361,34 @@ class H(BaseHTTPRequestHandler):
             msg = _run(["advance.py", "fold", ep])
             return self._send(200, json.dumps({"ok": True, "msg": msg}))
 
+        if path == "/beat-asset":                     # Stage 9 — swap one beat's visual
+            slug = data.get("slug") or ep
+            if data.get("list"):
+                return self._send(200, _run(["beat_asset.py", slug, "--list"]) or "[]")
+            epp = P.ep_path(ep)
+            # persist the edit room's unsaved nudges/approvals first, so the
+            # rebuild inside beat_asset.py prev-merges them back
+            if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
+                (epp / "09-timeline.json").write_text(
+                    json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
+            try:
+                n = str(int(data["n"]))
+            except (KeyError, TypeError, ValueError):
+                return self._send(400, json.dumps({"error": "falta el nº de beat"}))
+            args = ["beat_asset.py", slug, "--set", n]
+            args += ["--src", str(data["src"])] if data.get("src") else ["--asset", str(data.get("asset", ""))]
+            out = _run(args)
+            try:
+                json.loads(out)                       # beat_asset prints JSON
+                return self._send(200, out)
+            except (json.JSONDecodeError, TypeError):
+                return self._send(500, json.dumps({"error": (out or "sin respuesta")[-400:]}))
+
         if path == "/tl-preview":                     # Stage 9 — re-render a region of the proxy
             slug = data.get("slug") or ep
+            if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
+                (P.ep_path(ep) / "09-timeline.json").write_text(
+                    json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
             t0, t1 = str(int(float(data.get("t0", 0)))), str(int(float(data.get("t1", 30))) + 1)
             msg = _run(["assemble.py", slug, "--preview", t0, t1])
             return self._send(200, json.dumps({"ok": True, "msg": msg.splitlines()[-1] if msg else "ok"}))

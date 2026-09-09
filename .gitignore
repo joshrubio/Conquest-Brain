@@ -63,7 +63,10 @@ episodes/**/07c-edit.html
 episodes/**/09-edit.html
 episodes/**/09-rough.mp4
 episodes/**/09-wave.b64
+episodes/**/09-vo.m4a
+episodes/**/09-take.mp4
 episodes/**/_wave.png
+episodes/**/*.done
 
 # Review pages — generated (the exported *.txt records ARE tracked)
 ideas/idea-review.html

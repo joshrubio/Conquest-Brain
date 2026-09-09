@@ -488,30 +488,31 @@ function merged(){{
 }}
 function laneW(){{return Math.max(scroll.clientWidth, TOTAL*pps);}}
 
-function drawWave(){{
+function sizeWave(){{               // only on resize/zoom — setting cv.width is a realloc
   const vw=scroll.clientWidth, dpr=devicePixelRatio||1;
   cv.width=vw*dpr; cv.height=190*dpr; cv.style.width=vw+'px'; cv.style.height='190px';
   ctx.setTransform(dpr,0,0,dpr,0,0);
+}}
+function drawWave(){{               // cheap — called on every scroll
+  const vw=scroll.clientWidth, x0=scroll.scrollLeft, mid=24+70;
   ctx.clearRect(0,0,vw,190);
-  const x0=scroll.scrollLeft, mid=24+70;
-  ctx.fillStyle='#3a342a';
+  ctx.fillStyle='#3a342a'; ctx.beginPath();
   for(let px=0;px<vw;px++){{
     const t=(x0+px)/pps; if(t>TOTAL)break;
-    const i=Math.floor(t/TOTAL*PEAKS.length), a=(PEAKS[i]||0)/100;
-    const h=Math.max(1,a*66);
-    ctx.fillRect(px,mid-h,1,h*2);
+    const i=Math.floor(t/TOTAL*PEAKS.length), h=Math.max(1,(PEAKS[i]||0)/100*66);
+    ctx.rect(px,mid-h,1,h*2);
   }}
+  ctx.fill();
 }}
 function layout(){{
   lane.style.width=laneW()+'px';
-  // ticks
   [...lane.querySelectorAll('.tick')].forEach(t=>t.remove());
   const step= pps>8?5: pps>4?10: pps>2?30:60;
   for(let t=0;t<=TOTAL;t+=step){{
     const d=document.createElement('div');d.className='tick';d.style.left=(t*pps)+'px';
     d.innerHTML='<span>'+fmt(t)+'</span>';lane.appendChild(d);
   }}
-  drawRegions(); drawWave(); movePh();
+  drawRegions(); sizeWave(); drawWave(); movePh();
 }}
 function drawRegions(){{
   [...lane.querySelectorAll('.rg')].forEach(r=>r.remove());
@@ -525,9 +526,13 @@ function drawRegions(){{
 }}
 function movePh(){{ph.style.left=(au.currentTime*pps)+'px';
   clock.textContent=fmt(au.currentTime)+' / '+fmt(TOTAL);}}
-function syncStats(){{
+function statLine(){{                // cheap — safe to call every pointermove
   const m=merged();let rm=0;m.forEach(r=>rm+=r[1]-r[0]);
   stat.textContent=m.length+' cortes · quita '+fmt(rm)+' · queda '+fmt(TOTAL-rm);
+  return m;
+}}
+function syncStats(){{               // full — strikes through cut words (2696 nodes); pointerup only
+  const m=statLine();
   const cut=t=>m.some(r=>t>=r[0]&&t<r[1]);
   [...tx.children].forEach(el=>{{const s=+el.dataset.s,e=+el.dataset.e;
     el.classList.toggle('gone', cut((s+e)/2));}});
@@ -554,20 +559,24 @@ lane.addEventListener('pointerdown',ev=>{{
 }});
 lane.addEventListener('pointermove',ev=>{{
   if(!drag)return;
+  drag.moved=true;
   const x=ev.clientX-lane.getBoundingClientRect().left, t=Math.max(0,Math.min(TOTAL,x/pps));
   const r=regions[drag.i];
   if(drag.edge==='move'){{const w=drag.e0-drag.s0,ns=Math.max(0,Math.min(TOTAL-w,drag.s0+(t-drag.t0)));r.s=ns;r.e=ns+w;}}
   else if(drag.edge==='l')r.s=Math.min(t,r.e-0.06);
   else r.e=Math.max(t,r.s+0.06);
-  drawRegions();drawWave();syncStats();
+  // update ONLY the dragged region's div + the light stat — no full rebuild
+  const el=lane.querySelector('.rg[data-i="'+drag.i+'"]');
+  if(el){{const a=Math.min(r.s,r.e),b=Math.max(r.s,r.e);
+    el.style.left=(a*pps)+'px'; el.style.width=Math.max(2,(b-a)*pps)+'px';}}
+  statLine();
 }});
 lane.addEventListener('pointerup',ev=>{{
-  if(!drag){{ // plain click = seek
-    const x=ev.clientX-lane.getBoundingClientRect().left; au.currentTime=x/pps; return;
-  }}
+  if(!drag) return;
   const r=regions[drag.i];
-  if(drag.edge==='new' && Math.abs(r.e-r.s)<0.08){{ // just a click, not a drag
-    regions.splice(drag.i,1); au.currentTime=drag.t0;
+  if(!drag.moved){{                              // a click, not a drag → seek there
+    if(drag.edge==='new') regions.splice(drag.i,1);
+    au.currentTime=drag.t0;
   }} else {{
     r.s=snapT(Math.min(r.s,r.e)); r.e=snapT(Math.max(r.s,r.e));
     if(r.e-r.s<0.06) regions.splice(drag.i,1);
@@ -579,11 +588,16 @@ tx.addEventListener('click',ev=>{{const w=ev.target.closest('.w');if(!w)return;a
 document.getElementById('play').onclick=()=>{{au.paused?au.play():au.pause();}};
 au.addEventListener('play',()=>{{document.getElementById('play').textContent='⏸';tick();}});
 au.addEventListener('pause',()=>document.getElementById('play').textContent='▶');
-let follow=false;
+let follow=false, nowEl=null;
+function setNow(t){{                 // only re-scan when the word actually changes
+  if(nowEl){{ if(t>=+nowEl.dataset.s && t<+nowEl.dataset.e) return; nowEl.classList.remove('now'); }}
+  nowEl=[...tx.children].find(el=>t>=+el.dataset.s && t<+el.dataset.e)||null;
+  if(nowEl) nowEl.classList.add('now');
+}}
 function tick(){{
   movePh();
   const t=au.currentTime;
-  [...tx.children].forEach(el=>el.classList.toggle('now', t>=+el.dataset.s && t<+el.dataset.e));
+  setNow(t);
   // keep the PLAYHEAD in view horizontally — never scroll the page (that was fighting the edit)
   if(follow){{
     const px=t*pps;
