@@ -17,6 +17,14 @@ Patches the `asset` (and `tipo`, image↔vídeo) cell of that beat's row in
 approved/fix/nudge). Prints JSON {n, asset, file, state, tipo, motion}.
 serve.py's /beat-asset endpoint calls this.
 
+For a `--src` swap the resolution is made deterministic: any earlier
+`beat<n>_custom_<n>.*` (a different extension in another subdir would shadow the
+new file) is deleted, `assets/_index.json` pins the id → exact path (read first by
+`assemble._asset_index`), and `07-picks.txt` is updated so a later
+`pull_assets.py --download` reproduces the swap instead of restoring the old asset.
+
+Not for `acamara` / `negro` beats — those don't carry an asset.
+
 Not for `acamara` / `negro` beats — those don't carry an asset.
 """
 import json
@@ -125,7 +133,48 @@ def fetch_new(slug, n, src):
     dst.mkdir(parents=True, exist_ok=True)
     name = f"beat{n}_custom_{n}{ext}"
     (dst / name).write_bytes(data)
-    return f"beat{n}_custom_{n}", ("stock" if ext in VIDEO_EXT else "archivo")
+    return f"beat{n}_custom_{n}", ("stock" if ext in VIDEO_EXT else "archivo"), f"assets/{sub}/{name}"
+
+
+def pin_asset(slug, asset_id, rel_path):
+    """Record asset_id -> exact file in assets/_index.json. assemble._asset_index
+    reads this first, so a swap can never be shadowed by a leftover file with the
+    same stem in another subdir."""
+    f = EP_DIR / slug / "assets" / "_index.json"
+    idx = {}
+    if f.exists():
+        try:
+            idx = json.loads(f.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            pass
+    # prune entries whose file no longer exists
+    idx = {k: v for k, v in idx.items() if (EP_DIR / slug / v).exists()}
+    idx[asset_id] = rel_path
+    f.write_text(json.dumps(idx, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def patch_picks(slug, n, resource):
+    """Keep 07-picks.txt in sync with a sala swap, so a later
+    `pull_assets.py --download` reproduces it instead of restoring the old asset."""
+    f = EP_DIR / slug / "07-picks.txt"
+    if not f.exists():
+        return
+    lines = f.read_text(encoding="utf-8").splitlines()
+    row = f"{n}\tcustom:{n}\t{resource}"
+    for i, ln in enumerate(lines):
+        c = ln.split("\t")
+        if len(c) >= 2 and c[0].strip() == str(n) and not c[0].startswith("#"):
+            lines[i] = row
+            f.write_text("\n".join(lines) + "\n", encoding="utf-8")
+            return
+    # no existing line — insert after the "# --- BEATS ---" header, else append
+    for i, ln in enumerate(lines):
+        if ln.strip().startswith("# --- BEATS"):
+            lines.insert(i + 1, row)
+            break
+    else:
+        lines.append(row)
+    f.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def beat_kind_in_spine(slug, n):
@@ -145,13 +194,17 @@ def apply(slug, n, asset=None, src=None):
 
     tipo = None
     if src:
-        asset, tipo = fetch_new(slug, n, src)
+        asset, tipo, rel = fetch_new(slug, n, src)
+        pin_asset(slug, asset, rel)
+        patch_picks(slug, n, rel)
     elif asset:
         lib = {a["id"]: a for a in asset_library(slug)}
         if asset not in lib:
             return {"error": f"«{asset}» no está en assets/ — pega una ruta/URL en su lugar"}
         # the beat's tipo follows the new asset (a swap can turn a `gráfico` beat
-        # into `archivo`, or an image beat into `stock` video)
+        # into `archivo`, or an image beat into `stock` video). Picking an asset
+        # that already lives in assets/ needs no pin / picks line — its id is the
+        # file stem and _asset_index matches it exactly.
         tipo = lib[asset]["kind"]
     else:
         return {"error": "falta --asset o --src"}
