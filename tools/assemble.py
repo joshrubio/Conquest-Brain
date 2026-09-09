@@ -44,6 +44,10 @@ ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 GROUND = "#100D09"          # brand letterbox / pad colour (brain/03)
 FPS = 24
+# 09-timeline.json schema. 1 = the derived timeline (parse_spine + align every
+# rebuild). 2 = the authored timeline (brain/16 "timeline canónica"): each beat
+# owns its `dur`, align() only seeds. Bumped to 2 by tools/migrate_timeline.py.
+SCHEMA_CURRENT = 1
 KIND_DIR = {"archivo": "archive", "stock": "stock", "kb": "kb", "ia": "ai",
             "gráfico": "graphic", "grafico": "graphic", "negro": None,
             "acamara": None, "a-cámara": None, "a-camara": None, "narrador": None}
@@ -290,6 +294,48 @@ def load_words(ep):
     return words
 
 
+def _vo_end_from_words(words):
+    """The VO's end time. Whisper's `t` is the word *start*, so the tail scales
+    with the last word's length — a flat +0.5 s clipped a long final word like
+    "Hokusai"."""
+    if not words:
+        return 0.0
+    _lastw = len(words[-1]["w"].strip(".,;:!?»«…"))
+    return round(words[-1]["t"] + min(1.8, 0.45 + 0.10 * _lastw), 2)
+
+
+def get_vo_end(ep, stored=None):
+    """The authoritative VO length for a schema-2 timeline. Stored at seed/resync
+    time; only recomputed from the word list when absent."""
+    if isinstance(stored, (int, float)) and stored > 0:
+        return float(stored)
+    return _vo_end_from_words(load_words(ep))
+
+
+def derive_times(beats, vo_end, fps=FPS):
+    """Lay the authored beats on the VO backbone (brain/16, schema 2): each
+    beat's `in`/`out` is the cumulative sum of the authored `dur`s before it,
+    frame-quantised, contiguous (`in[i] == out[i-1]`), last beat snapped to
+    `vo_end`. The VO is the fixed measure; changing one `dur` ripples every beat
+    after it. No neighbour ever loses time to a lock."""
+    if not beats:
+        return beats
+    frame = 1.0 / fps
+    cursor, prev_out = 0.0, 0.0
+    for b in beats:
+        b["in"] = prev_out
+        cursor += max(0.0, float(b.get("dur") or 0.0))
+        prev_out = round(round(cursor / frame) * frame, 3)
+        b["out"] = prev_out
+    last = beats[-1]
+    if vo_end and vo_end > last["in"] + 0.1:
+        last["out"] = round(float(vo_end), 3)
+    elif vo_end:
+        print(f"  ⚠ vo_end {vo_end:.2f}s cae dentro del último beat "
+              f"(in {last['in']:.2f}s) — no se ajusta el cierre")
+    return beats
+
+
 def _stage_dir(raw):
     """A frag that is a stage direction / production note, not delivered speech."""
     return raw.startswith(("[", "‹", "(")) or bool(
@@ -309,10 +355,7 @@ def align(beats, words):
     if not words:
         return beats, round(beats[-1]["out"], 2) if beats else 0.0
     toks = [_norm(w["w"]) for w in words]
-    # Whisper's `t` is the word *start*; the tail must cover the last word being
-    # spoken, not a flat 0.5 s (which clips a long final word like "Hokusai").
-    _lastw = len(words[-1]["w"].strip(".,;:!?»«…"))
-    vo_end = round(words[-1]["t"] + min(1.8, 0.45 + 0.10 * _lastw), 2)
+    vo_end = _vo_end_from_words(words)
     planned_end = beats[-1]["out"] or vo_end
 
     # (planned_time, vo_time) anchor pairs, in order
@@ -357,9 +400,23 @@ def align(beats, words):
         a["out"] = round(max(a["in"] + 0.6, nb["in"]), 2)
     total = vo_end
     beats[-1]["out"] = total
-    beats = _repace(beats, total)
-    # flag beats that STILL hold one visual too long (brain/11 rhythm) — the edit
-    # page shows a warning marker; tools/*_audit surfaces the list.
+    beats = tidy_subfloor(beats, total)
+    flag_rhythm(beats)
+    for b in beats:
+        b.pop("_al", None)
+    return beats, total
+
+
+def flag_rhythm(beats):
+    """Advisory rhythm markers (brain/11) — the edit page shows a warning marker,
+    the audit tools surface the list. Never touches timing. Recomputed from
+    scratch each call so a schema-2 rebuild reflects the current cut.
+      b['pace'] — a still/graphic held too long, or a graphic too brief to read
+      b['dup']  — a graphic id reused, or an asset over-used per video / section
+    """
+    for b in beats:
+        b.pop("pace", None)
+        b.pop("dup", None)
     for b in beats:
         dur = b["out"] - b["in"]
         plan = b.get("dur", dur)
@@ -369,7 +426,7 @@ def align(beats, words):
         elif b["kind"] in GRAPHIC and dur < MIN_GRAPHIC:
             b["pace"] = round(dur, 1)          # too brief to read (brain/11 §2.2)
         elif dur > max(2.5 * plan, 20):
-            b["pace"] = round(dur, 1)          # a still/clip align() stretched way past plan
+            b["pace"] = round(dur, 1)          # held way past plan
     # asset over-reuse (brain/11 §2.2): a graphic id used >1× without a
     # PROMISE/PAY/eco tag, or any asset used >3× / >2× in one section.
     seen, per_sec = {}, {}
@@ -377,21 +434,20 @@ def align(beats, words):
         a = b.get("asset") or ""
         if not a or b["kind"] in ACAMARA or b["kind"] == "negro":
             continue
+        ref = b["n"] if b.get("n") is not None else b.get("id")
         mk = (b.get("marker") or b.get("marcador") or "").lower()
         tagged = any(t in mk for t in ("promise", "pay", "eco"))
-        seen.setdefault(a, []).append(b["n"])
-        per_sec.setdefault((a, b.get("section", "")), []).append(b["n"])
+        seen.setdefault(a, []).append(ref)
+        per_sec.setdefault((a, b.get("section", "")), []).append(ref)
         if a.startswith("G") and len(seen[a]) == 2 and not tagged:
             b["dup"] = seen[a][0]
-            print(f"  ⚠ gráfico {a} repetido (beat {b['n']} ↔ {seen[a][0]}) sin marcador")
+            print(f"  ⚠ gráfico {a} repetido (beat {ref} ↔ {seen[a][0]}) sin marcador")
         elif not a.startswith("G") and len(seen[a]) == 4 and not tagged:
             b["dup"] = seen[a][0]
             print(f"  ⚠ asset {a} usado {len(seen[a])}× (beats {seen[a]}) — diversifica")
         if len(per_sec[(a, b.get('section', ''))]) == 3 and not tagged:
             print(f"  ⚠ asset {a} usado 3× en «{b.get('section')}» (beats {per_sec[(a, b.get('section', ''))]})")
-    for b in beats:
-        b.pop("_al", None)
-    return beats, total
+    return beats
 
 
 MIN_BEAT = 2.8          # a B-roll shot shorter than this is a wasted flash
@@ -435,17 +491,23 @@ def _apply_edits(beats):
     return beats
 
 
-def _repace(beats, total):
+def tidy_subfloor(beats, total, merge_same_file=True):
     """Kill the millisecond flashes and the pile-ups: merge any beat too short
-    to register into its neighbour, and collapse two identical shots in a row
-    (except a deliberate PROMISE→PAY reuse, or a fresh SPLIT) into one move."""
+    to register into its neighbour, and (when `merge_same_file`) collapse two
+    identical shots in a row — except a deliberate PROMISE→PAY reuse or a fresh
+    SPLIT — into one move.
+
+    Called once from seed_timeline() and from the edit room's opt-in «Ordenar»
+    button. The per-save rebuild does NOT call this — a schema-2 timeline may
+    legitimately hold a sub-floor beat the editor put there on purpose."""
     out = []
     for b in beats:
         floor = MIN_ACAMARA if b["kind"] in ACAMARA else MIN_BEAT
         dur = b["out"] - b["in"]
         if out:
             prev = out[-1]
-            same_file = b.get("file") and b["file"] == prev.get("file")
+            same_file = (merge_same_file and b.get("file")
+                         and b["file"] == prev.get("file"))
             # a PROMISE→PAY reuse, or a beat just split in the cutting room (the 2nd
             # half is deliberately the same shot until the editor reassigns it)
             promise_pay = ({(prev.get("marker") or "")[:3], (b.get("marker") or "")[:3]} & {"PRO", "PAY"}
@@ -550,7 +612,7 @@ def build_timeline(slug):
     mix = {k: prev_music[k] for k in _mrange
            if isinstance(prev_music.get(k), (int, float)) and _mrange[k][0] <= prev_music[k] <= _mrange[k][1]}
     data = {
-        "ep": slug[:4], "slug": slug, "generated": _now(),
+        "ep": slug[:4], "slug": slug, "generated": _now(), "schema": SCHEMA_CURRENT,
         "aligned": bool(words), "fps": FPS, "w": 3840, "h": 2160,
         "total": total, "ground": GROUND,
         "music": {"pool": music_pool(), "bed": prev_music.get("bed") or (music_pool() or [""])[0],
