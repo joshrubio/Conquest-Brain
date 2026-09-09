@@ -10,6 +10,8 @@ beat_asset.py — edit the Stage-9 spine from the cutting room, retroactively.
   --merge <n> --into prev|next   fold beat <n> into a neighbour (that shot covers
                                  the combined VO span); the row is removed
   --del <n>                      remove beat <n> outright (align redistributes)
+  --split <n> --at <sec>         cut beat <n> in two at VO-time <sec>; both halves
+                                 keep the asset (reassign the 2nd in the sala)
   --add --after <n> --frag "<vo>" --kind <k> [--asset <id> | --src <url|path>]
         [--section <s>] [--marker <m>] [--dur <sec>]
                                  insert a new beat after <n>
@@ -429,7 +431,10 @@ def op_set(slug, n, asset=None, src=None):
         tipo = lib[asset]["kind"]
     else:
         return {"error": "falta --asset o --src"}
-    _patch_cells(slug, n, {"asset": asset, "tipo": tipo} if tipo else {"asset": asset})
+    cells = {"asset": asset, "tipo": tipo} if tipo else {"asset": asset}
+    if (row.get("marker") or "").upper() == "SPLIT":
+        cells["marker"] = "—"           # 2nd half of a split, now reassigned
+    _patch_cells(slug, n, cells)
     err = _rebuild(slug)
     return {"error": err} if err else {**_beat_json(slug, n), "was": row["asset"]}
 
@@ -440,7 +445,10 @@ def op_clear(slug, n):
         return {"error": f"beat {n} no está en la espina"}
     if row["tipo"] in NO_ASSET:
         return {"error": f"el beat {n} ya no lleva visual («{row['tipo']}»)"}
-    _patch_cells(slug, n, {"asset": "—", "rotulo": "—"})
+    cells = {"asset": "—", "rotulo": "—"}
+    if (row.get("marker") or "").upper() == "SPLIT":
+        cells["marker"] = "—"
+    _patch_cells(slug, n, cells)
     err = _rebuild(slug)
     return {"error": err} if err else {**_beat_json(slug, n), "note": "visual quitado — beat sin cubrir"}
 
@@ -482,6 +490,128 @@ def op_del(slug, n):
         return {"error": err}
     d = json.loads((EP_DIR / slug / "09-timeline.json").read_text(encoding="utf-8"))
     return {"ok": True, "beats": len(d["beats"]), "note": f"beat {n} eliminado"}
+
+
+def _clear_overrides(slug, ns, keys):
+    """Drop edit-room geometry overrides (dur_lock / slot) from given beats in
+    09-timeline.json — after a split the old lock no longer describes the beat."""
+    f = EP_DIR / slug / "09-timeline.json"
+    try:
+        d = json.loads(f.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return
+    for b in d.get("beats", []):
+        if b.get("n") in ns:
+            for k in keys:
+                b.pop(k, None)
+    f.write_text(json.dumps(d, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def _extend_assetlist(slug, n):
+    """After splitting beat n, beat n+1 reuses the same asset — widen the
+    07-assets.md Manifiesto 'Beat(s)' entry ('n' -> 'n–n+1', 'x–n' -> 'x–n+1')."""
+    f = EP_DIR / slug / "07-assets.md"
+    if not f.exists():
+        return
+    out, changed = [], False
+    for ln in f.read_text(encoding="utf-8").splitlines():
+        c = ln.split("|")
+        if (len(c) >= 4 and c[1].strip() and c[2].strip()
+                and not c[1].strip().startswith(("#", "-", "Campo", ":"))):
+            toks = [t.strip() for t in c[2].split(",")]
+            new = []
+            for t in toks:
+                if t == str(n):
+                    new.append(f"{n}–{n + 1}")
+                elif re.match(rf"^\d+\s*[–-]\s*{n}$", t):
+                    new.append(re.sub(rf"{n}$", str(n + 1), t))
+                else:
+                    new.append(t)
+            if new != toks:
+                c[2] = f" {', '.join(new)} "
+                ln = "|".join(c)
+                changed = True
+        out.append(ln)
+    if changed:
+        f.write_text("\n".join(out) + "\n", encoding="utf-8")
+
+
+def op_split(slug, n, at):
+    """Split beat <n> into two contiguous beats at VO-time <at> (seconds). Both
+    halves keep the same asset — a held shot you then reassign on the 2nd half.
+    Timing is taken from the word list, so it doesn't hinge on a frag guess."""
+    ep = EP_DIR / slug
+    row = beat_row(slug, n)
+    if not row:
+        return {"error": f"beat {n} no está en la espina"}
+    try:
+        tj = json.loads((ep / "09-timeline.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"error": "no encuentro 09-timeline.json — reconstruye la línea primero"}
+    tb = next((b for b in tj.get("beats", []) if b.get("n") == n), None)
+    if not tb:
+        return {"error": f"el beat {n} no está en la línea (¿se fusionó al re-alinear?)"}
+    vin, vout = float(tb["in"]), float(tb["out"])
+    span = vout - vin
+    at = float(at)
+    if not (vin + 0.2 < at < vout - 0.2):
+        return {"error": "el cabezal no está dentro del beat"}
+
+    # snap the cut to the nearest spoken-word boundary inside the beat
+    words = A.load_words(ep)
+    inside = [w for w in words if vin - 0.05 <= w["t"] < vout]
+    cut = at
+    if inside:
+        cut = min((w["t"] for w in inside), key=lambda t: abs(t - at))
+        cut = min(max(cut, vin + 0.2), vout - 0.2)
+
+    floor = (A.MIN_ACAMARA if row["tipo"] in A.ACAMARA
+             else A.MIN_GRAPHIC if row["tipo"] in A.GRAPHIC else A.MIN_BEAT)
+    if cut - vin < floor or vout - cut < floor:
+        return {"error": f"cada mitad debe durar ≥ {floor:g}s — acerca el cabezal al centro del beat"}
+
+    # split the planned dur in the same proportion as the aligned cut
+    frac = (cut - vin) / span
+    dur_plan = float(re.sub(r"[^\d.]", "", row["dur"]) or span)
+    dur1 = max(1, round(dur_plan * frac))
+    dur2 = max(1, round(dur_plan) - dur1) or 1
+
+    def _slice(lo, hi, cap=16):
+        return " ".join(w["w"] for w in inside if lo <= w["t"] < hi).split()[:cap]
+    frag_a = " ".join(_slice(vin - 0.05, cut)) or row["frag"].strip("«»")
+    frag_b = " ".join(_slice(cut, vout)) or "(sigue el plano)"
+
+    freeze_resolutions(slug)
+
+    fdst, lines, s, e = _spine(slug)
+    col = {"dur": 3, "frag": 10}
+    _li = ins_at = None
+    for li, c in _data_rows(lines, s, e):
+        if int(c[1].strip()) == n:
+            c[col["dur"]] = f" {dur1} "
+            c[col["frag"]] = f" «{frag_a.strip('«»')}» "
+            lines[li] = "|".join(c)
+            _li, ins_at = li, li + 1
+            break
+    if ins_at is None:
+        return {"error": f"no encuentro la fila del beat {n}"}
+    a_sec = A._secs(row["in"])
+    b_in = A._fmt((a_sec if a_sec is not None else vin) + dur1)
+    lines.insert(ins_at, _row("0", b_in, dur2, row["section"], row["tipo"],
+                              row["asset"], "—", row["motion"] or "cut", "SPLIT", frag_b))
+    fdst.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    renumber(slug)                                   # placeholder -> n+1, downstream +1
+    _clear_overrides(slug, {n}, ("dur_lock", "slot"))
+    err = _rebuild(slug)
+    if err:
+        return {"error": err}
+    _extend_assetlist(slug, n)
+    d = json.loads((ep / "09-timeline.json").read_text(encoding="utf-8"))
+    got = sorted((b for b in d["beats"] if b.get("n") in (n, n + 1)), key=lambda b: b["n"])
+    return {"ok": True, "n": n + 1, "beats": len(d["beats"]),
+            "note": f"beat {n} partido — 2ª mitad = beat {n + 1}",
+            "halves": [{"n": b["n"], "dur": round(b["out"] - b["in"], 1)} for b in got]}
 
 
 def op_add(slug, after, frag, kind, section=None, marker=None, dur=None, asset=None, src=None):
@@ -582,6 +712,9 @@ if __name__ == "__main__":
                                       _arg(a, "--into") or "prev"), ensure_ascii=False))
         elif "--del" in a:
             print(json.dumps(op_del(slug, int(_arg(a, "--del"))), ensure_ascii=False))
+        elif "--split" in a:
+            print(json.dumps(op_split(slug, int(_arg(a, "--split")),
+                                      float(_arg(a, "--at") or 0)), ensure_ascii=False))
         elif "--add" in a:
             print(json.dumps(op_add(slug, int(_arg(a, "--after")), _arg(a, "--frag") or "",
                                     _arg(a, "--kind"), _arg(a, "--section"), _arg(a, "--marker"),

@@ -131,76 +131,62 @@ Stage 8 a la ventana del beat, sin Ken Burns):
 | 45 | 5:50 | 9 | acto 1 | archivo | manga_detail | — | pan-h | — | «gente trabajando, animales, olas, plantas» |
 | 46 | 5:59 | 10 | acto 1 | ia | E001_ai02_daruma-nagoya-1817 | Ilustración — Conquest | push | — | «en la ciudad de Nagoya, monta un espectáculo» |
 | 47 | 6:09 | 8 | acto 1 | archivo | beat18_custom_18 | — | zoom | — | «figuras diminutas sobre granos de arroz» |
-| 48 | 6:17 | 6 | acto 1 | acamara | — | — | cut | PROMISE 2 | «a Hokusai le gustaba lo grande» |
-| 49 | 6:23 | 8 | acto 1 | ia | E001_ai02_daruma-nagoya-1817 | Ilustración — Conquest | push | PROMISE 2 | «Le gustaba que lo vieran hacerlo» |
-| 50 | 6:31 | 10 | acto 2 | acamara | — | — | cut | — | «con sesenta y muchos años, le cae encima la peor racha» |
-| 51 | 6:41 | 8 | acto 2 | archivo | beat11_custom_11 | — | push | — | «un nieto, hijo de una de sus hijas, contrae deudas» |
-| 52 | 6:49 | 7 | acto 2 | archivo | beat20_custom_20 | — | pan-v | — | «Hokusai las asume y las paga» |
-| 53 | 6:56 | 5 | acto 2 | acamara | — | — | cut | — | «solo que ahora, sin la energía de los treinta» |
-| 54 | 7:01 | 6 | acto 2 | archivo | beat20_met_57261 | — | push | PROMISE 3 | «Setenta años, arruinado por las deudas del nieto» |
-| 55 | 7:07 | 8 | acto 3 | archivo | beat22_custom_22 | — | pan-h | — | «publica la serie 36 vistas del monte Fuji» |
-| 56 | 7:15 | 7 | acto 3 | gráfico | G_36to46 | 36 → 46 | push | — | «Digo 36, pero acabaron siendo 46» |
-| 57 | 7:22 | 7 | acto 3 | archivo | beat23_custom_23 | — | push | — | «El Fuji desde un campo de arroz» |
-| 58 | 7:29 | 6 | acto 3 | archivo | fuji_barrel_met36500 | — | pan-h | — | «entre los andamios de un tonelero» |
-| 59 | 7:35 | 7 | acto 3 | archivo | beat24_commons_39740407 | — | push | — | «El Fuji rojo contra el cielo despejado» |
-| 60 | 7:42 | 7 | acto 3 | archivo | beat25_commons_2646210 | — | zoom | — | «una ola inmensa con la cresta abierta en garras de espuma» |
-| 61 | 7:49 | 6 | acto 3 | acamara | — | — | cut | — | «Detente y mírala un momento» |
-| 62 | 7:55 | 9 | acto 3 | archivo | beat23_custom_23 | — | zoom | — | «tenía unos 70 años cuando hizo» |
-| 63 | 8:04 | 9 | acto 3 | gráfico | G3_prussian_blue | — | push | EXPLICADOR 2 | «por qué esa serie se ve como se ve; un pigmento azul sintético» |
-| 64 | 8:13 | 6 | acto 3 | archivo | beat24_commons_39740407 | — | pan-h | EXPLICADOR 2 | «importado de Europa» |
-| 65 | 8:19 | 13 | acto 3 | gráfico | G3_blue_route | — | pan-h | EXPLICADOR 2 | «llega por Nagasaki a un precio que permite usarlo para la producción en masa; Hokusai construye una buena parte de las 36 vistas sobre ese azul nuevo» |
-| 66 | 8:32 | 8 | acto 3 | archivo | beat25_commons_2646210 | — | zoom | EXPLICADOR 2 | «la imagen más japonesa que conoces está hecha en parte con tecnología europea recién llegada» |
-| 67 | 8:41 | 7 | acto 3 | acamara | — | — | cut | PAY 3 | «el hombre arruinado por las deudas del nieto, el que llevaba medio siglo cambiándose el nombre» |
-| 68 | 8:48 | 8 | acto 3 | archivo | beat20_met_57261 | — | push | PAY 3 | «hizo eso a los 70» |
-| 69 | 8:56 | 14 | acto 3 | acamara | — | — | cut | — | «así es como suele pasar» |
-| 70 | 9:10 | 6 | acto 3 | archivo | beat20_custom_20 | — | zoom | — | «medio siglo de trabajo y una mala racha» |
-| 71 | 9:16 | 9 | acto 3 | acamara | — | — | cut | — | «¿alguna vez te ha pasado algo así? déjame en los comentarios» |
-| 72 | 9:25 | 10 | acto 4 | archivo | beat32_custom_32 | — | push | — | «en 1834 publica otro libro sobre el Fuji y al final añade una nota firmada de su puño» |
-| 73 | 9:35 | 9 | acto 4 | acamara | — | — | cut | — | «dice en esencia, y esto es una traducción nuestra, que nada de lo que ha hecho antes de los 70 merecía la pena» |
-| 74 | 9:44 | 6 | acto 4 | archivo | beat32_met_78803 | — | zoom | — | «que desde los 73 empezaba a entender un poco cómo están hechos los animales, las plantas» |
-| 75 | 9:50 | 16 | acto 4 | gráfico | G4_age_ladder | traducción propia | pan-v | — | «que a los 80 lo haría mucho mejor, a los 90 penetraría el sentido de las cosas, a los 100 lo extraordinario, y a los 110 cada punto y cada línea que trazara estarían vivos» |
-| 76 | 10:06 | 7 | acto 4 | archivo | beat22_custom_22 | — | pan-h | — | «lo escribió a los 74 años, y ya había hecho la gran ola» |
-| 77 | 10:13 | 10 | acto 4 | acamara | — | — | cut | — | «su balance es: todavía no sé nada, pero voy en la dirección correcta» |
-| 78 | 10:10 | 12 | acto 4 | gráfico | G3b_signature_manji | traducción propia | push | EXPLICADOR 3 | «no era falsa modestia… algo así como el viejo loco por la pintura» |
-| 79 | 10:22 | 6 | acto 4 | archivo | beat34_custom_34 | — | cut | — | «firmaba muchas de sus obras tardías con un nombre nuevo» |
-| 80 | 10:28 | 5 | acto 4 | acamara | — | — | cut | — | «el viejo que sigue obsesionado con esto» |
-| 81 | 10:33 | 8 | acto 4 | ia | E001_ai03_studio-fire-night | Ilustración — Conquest | push | — | «hacia 1839 un incendio destruyó su casa taller» |
-| 82 | 10:41 | 6 | acto 4 | archivo | edo_fire_print | — | pan-h | — | «los incendios eran frecuentes en el Edo de casas de madera» |
-| 83 | 10:47 | 6 | acto 4 | acamara | — | — | cut | — | «igual que a los 33, igual que a los 70» |
-| 84 | 10:53 | 8 | acto 4 | archivo | beat37_custom_37 | — | pan-h | — | «sus últimos años los pasa trabajando con su hija» |
-| 85 | 11:01 | 7 | acto 4 | acamara | — | — | cut | — | «salió en realidad de su mano» |
-| 86 | 11:08 | 5 | acto 4 | archivo | beat37_custom_37 | — | pan-v | — | «una pregunta que probablemente no se cierre nunca» |
-| 87 | 11:13 | 5 | acto 4 | acamara | — | — | cut | PROMISE 4 | «Quédate con esta imagen porque es la última» |
-| 88 | 11:18 | 13 | acto 4 | ia | E001_ai04_closing-path | Ilustración — Conquest | push | PROMISE 4 | «sentado a dibujar junto a su hija» |
-| 89 | 11:31 | 7 | acto 5 | gráfico | G7_death_card | 88 o 90, según el cómputo japonés | push | — | «Hokusai muere en Edo en 1849, con unos 88 años» |
-| 90 | 11:38 | 8 | acto 5 | acamara | — | — | cut | PAY 1 | «se había cambiado el nombre unas 30 veces buscando el que correspondiera a lo que se había hecho en cada etapa» |
-| 91 | 11:46 | 10 | acto 5 | gráfico | G2_names_timeline | ~30 nombres — recuento aproximado | pan-h | PAY 1 | «y murió sin encontrarlo, pidiendo 5 o 10 años más para por fin hacerlo bien» |
-| 92 | 11:56 | 6 | acto 5 | ia | E001_ai04_closing-path | Ilustración — Conquest | push | PAY 4 | «cuando él mismo se había puesto de plazo hasta los 110» |
-| 93 | 12:02 | 9 | acto 5 | acamara | — | — | cut | — | «y entonces, medio siglo después de su muerte, pasa lo que él quería y no llegó a ver: sus estampas empiezan a llegar a Europa» |
-| 94 | 12:11 | 7 | acto 5 | archivo | japonisme_packing_paper | — | pan-h | — | «se cuenta que algunos viajaron como papel de embalar, protegiendo cerámica japonesa» |
-| 95 | 12:15 | 8 | acto 5 | archivo | vangogh_japonaiserie | — | pan-h | — | «copió composiciones japonesas para aprender» |
-| 96 | 12:23 | 8 | acto 5 | archivo | lamer_cover | — | push | — | «en 1905 Claude Debussy publicó» |
-| 97 | 12:31 | 5 | acto 5 | acamara | — | — | cut | PAY 2 | «acabó siendo visto por más gente» |
-| 98 | 12:36 | 12 | acto 5 | ia | E001_ai02_daruma-nagoya-1817 | Ilustración — Conquest | push | PAY 2 | «casi todo pasó cuando él ya no estaba» |
-| 99 | 12:48 | 10 | cierre | acamara | — | — | cut | — | «dicho a los 88 suena a fracaso» |
-| 100 | 12:58 | 8 | cierre | archivo | beat4_commons_124369341 | — | pan-v | — | «un hombre que trabaja toda su vida, lo perdió casi todo tres veces y se murió sin sentirse a la altura» |
-| 101 | 13:06 | 10 | cierre | acamara | — | — | cut | — | «yo creo que es casi lo contrario y tiene que ver con cómo Hokusai medía su trabajo» |
-| 102 | 13:16 | 8 | cierre | archivo | beat11_met_37189 | — | push | — | «en la vida hay dos maneras de medir cualquier cosa en la que trabajes» |
-| 103 | 13:24 | 12 | cierre | acamara | — | — | cut | — | «una es preguntarte, ya llegué; la otra, ¿me estoy acercando?» |
-| 104 | 13:36 | 7 | cierre | archivo | beat24_commons_39740407 | — | zoom | — | «la primera pregunta tiene solo dos respuestas y las dos terminan mal» |
-| 105 | 13:43 | 12 | cierre | acamara | — | — | cut | — | «o has llegado y se acabó el camino y toca averiguar qué haces con los años que te quedan» |
-| 106 | 13:55 | 15 | cierre | gráfico | G6_mastery_curve | — | push | — | «la segunda pregunta no se agota nunca; perseguir y demostrar lo que ya vales, o perseguir y aprender sin un punto final» |
-| 107 | 14:10 | 14 | cierre | acamara | — | — | cut | — | «y si nos guiamos por lo que Hokusai dejó escrito, la nota de 1834, los 30 nombres, la firma del viejo loco» |
-| 108 | 14:24 | 8 | cierre | archivo | beat32_custom_32 | — | zoom | — | «puso la meta a los 110, que sabía que no iba a alcanzarla» |
-| 109 | 14:32 | 13 | cierre | ia | E001_ai04_closing-path | Ilustración — Conquest | push | — | «y eso, en vez de hundirlo, fue lo que lo mantuvo delante del papel a los 88, después de los incendios, las deudas, las constantes mudanzas» |
-| 110 | 14:45 | 13 | cierre | acamara | — | — | cut | — | «hay un dicho: consigue trabajar de lo que te gusta y no tendrás que trabajar un solo día de tu vida» |
-| 111 | 14:58 | 8 | cierre | archivo | beat16_custom_16 | — | pan-v | — | «cualquier cosa a la que te quieras dedicar requiere trabajo» |
-| 112 | 15:06 | 13 | cierre | acamara | — | — | cut | — | «la pregunta no es ya llegué, sino ¿esto que estoy haciendo me va a llevar a mi meta?» |
-| 113 | 15:19 | 7 | cierre | archivo | beat25_commons_2646210 | — | zoom | — | «¿en qué punto de ese futuro se encuentra tu granola?» |
-| 114 | 15:26 | 9 | cierre | acamara | — | — | cut | — | «Hokusai nunca llegó a donde quería, al menos en vida» |
-| 115 | 15:35 | 7 | cierre | archivo | beat4_commons_124369341 | — | pan-v | — | «pero a los 88 todavía tenía donde ir; visto el recorrido de su obra, eso no es una vida frustrada» |
-| 116 | 15:42 | 8 | cta | acamara | — | — | cut | — | «Hokusai se dio 10 años; tú, ¿cuánto te darías?» |
-| 117 | 15:50 | 12 | cta | acamara | — | Fuentes principales | cut | — | «si te ha gustado este vídeo, suscríbete al canal» |
+| 48 | 6:17 | 6 | acto 1 | acamara | — | — | cut | PROMISE 2 | «Le gustaba que lo vieran hacerlo a Hokusai le gustaba lo grande» |
+| 49 | 6:31 | 10 | acto 2 | acamara | — | — | cut | — | «con sesenta y muchos años, le cae encima la peor racha» |
+| 50 | 6:41 | 8 | acto 2 | archivo | swap_50_2c93b043 | — | push | — | «Hokusai las asume y las paga un nieto, hijo de una de sus hijas, contrae deudas» |
+| 51 | 6:56 | 5 | acto 2 | acamara | — | — | cut | — | «solo que ahora, sin la energía de los treinta» |
+| 52 | 7:01 | 6 | acto 2 | archivo | swap_52_fe3149b3 | — | push | PROMISE 3 | «Setenta años, arruinado por las deudas del nieto» |
+| 53 | 7:07 | 8 | acto 3 | archivo | beat22_custom_22 | — | pan-h | — | «publica la serie 36 vistas del monte Fuji» |
+| 54 | 7:15 | 7 | acto 3 | gráfico | G_36to46 | 36 → 46 | push | — | «Digo 36, pero acabaron siendo 46» |
+| 55 | 7:22 | 7 | acto 3 | archivo | beat23_custom_23 | — | push | — | «El Fuji desde un campo de arroz» |
+| 56 | 7:29 | 6 | acto 3 | archivo | fuji_barrel_met36500 | — | pan-h | — | «entre los andamios de un tonelero» |
+| 57 | 7:35 | 7 | acto 3 | archivo | beat24_commons_39740407 | — | push | — | «El Fuji rojo contra el cielo despejado» |
+| 58 | 7:42 | 7 | acto 3 | archivo | beat25_commons_2646210 | — | zoom | — | «una ola inmensa con la cresta abierta en garras de espuma» |
+| 59 | 7:49 | 6 | acto 3 | acamara | — | — | cut | — | «tenía unos 70 años cuando hizo Detente y mírala un momento» |
+| 60 | 8:04 | 9 | acto 3 | gráfico | G3_prussian_blue | — | push | EXPLICADOR 2 | «importado de Europa por qué esa serie se ve como se ve; un pigmento azul sintético» |
+| 61 | 8:19 | 13 | acto 3 | gráfico | G3_blue_route | — | pan-h | EXPLICADOR 2 | «llega por Nagasaki a un precio que permite usarlo para la producción en masa; Hokusai construye una buena parte de las 36 vistas sobre ese azul nuevo» |
+| 62 | 8:32 | 8 | acto 3 | archivo | beat25_commons_2646210 | — | zoom | EXPLICADOR 2 | «la imagen más japonesa que conoces está hecha en parte con tecnología europea recién llegada» |
+| 63 | 8:41 | 7 | acto 3 | acamara | — | — | cut | PAY 3 | «el hombre arruinado por las deudas del nieto, el que llevaba medio siglo cambiándose el nombre» |
+| 64 | 8:48 | 8 | acto 3 | archivo | swap_64_fe3149b3 | — | push | PAY 3 | «hizo eso a los 70» |
+| 65 | 8:56 | 14 | acto 3 | acamara | — | — | cut | — | «medio siglo de trabajo y una mala racha así es como suele pasar» |
+| 66 | 9:16 | 9 | acto 3 | acamara | — | — | cut | — | «¿alguna vez te ha pasado algo así? déjame en los comentarios» |
+| 67 | 9:25 | 10 | acto 4 | archivo | swap_67_53a18ff6 | — | push | — | «en 1834 publica otro libro sobre el Fuji y al final añade una nota firmada de su puño» |
+| 68 | 9:35 | 9 | acto 4 | acamara | — | — | cut | — | «que desde los 73 empezaba a entender un poco cómo están hechos los animales, las plantas dice en esencia, y esto es una traducción nuestra, que nada de lo que ha hecho antes de los 70 merecía la pena» |
+| 69 | 9:50 | 16 | acto 4 | gráfico | G4_age_ladder | traducción propia | pan-v | — | «que a los 80 lo haría mucho mejor, a los 90 penetraría el sentido de las cosas, a los 100 lo extraordinario, y a los 110 cada punto y cada línea que trazara estarían vivos» |
+| 70 | 10:06 | 7 | acto 4 | archivo | swap_70_81b0d516 | — | pan-h | — | «lo escribió a los 74 años, y ya había hecho la gran ola» |
+| 71 | 10:13 | 10 | acto 4 | acamara | — | — | cut | — | «su balance es: todavía no sé nada, pero voy en la dirección correcta» |
+| 72 | 10:10 | 12 | acto 4 | gráfico | G3b_signature_manji | traducción propia | push | EXPLICADOR 3 | «firmaba muchas de sus obras tardías con un nombre nuevo no era falsa modestia… algo así como el viejo loco por la pintura» |
+| 73 | 10:28 | 5 | acto 4 | acamara | — | — | cut | — | «el viejo que sigue obsesionado con esto» |
+| 74 | 10:33 | 8 | acto 4 | ia | E001_ai03_studio-fire-night | Ilustración — Conquest | push | — | «hacia 1839 un incendio destruyó su casa taller» |
+| 75 | 10:41 | 6 | acto 4 | archivo | edo_fire_print | — | pan-h | — | «los incendios eran frecuentes en el Edo de casas de madera» |
+| 76 | 10:47 | 6 | acto 4 | acamara | — | — | cut | — | «igual que a los 33, igual que a los 70» |
+| 77 | 10:53 | 8 | acto 4 | archivo | swap_77_0790ca34 | — | pan-h | — | «sus últimos años los pasa trabajando con su hija» |
+| 78 | 11:01 | 7 | acto 4 | acamara | — | — | cut | — | «salió en realidad de su mano» |
+| 79 | 11:08 | 5 | acto 4 | archivo | beat37_custom_37 | — | pan-v | — | «una pregunta que probablemente no se cierre nunca» |
+| 80 | 11:13 | 5 | acto 4 | acamara | — | — | cut | PROMISE 4 | «Quédate con esta imagen porque es la última» |
+| 81 | 11:18 | 13 | acto 4 | ia | E001_ai04_closing-path | Ilustración — Conquest | push | PROMISE 4 | «sentado a dibujar junto a su hija» |
+| 82 | 11:31 | 7 | acto 5 | gráfico | G7_death_card | 88 o 90, según el cómputo japonés | push | — | «Hokusai muere en Edo en 1849, con unos 88 años» |
+| 83 | 11:38 | 8 | acto 5 | acamara | — | — | cut | PAY 1 | «se había cambiado el nombre unas 30 veces buscando el que correspondiera a lo que se había hecho en cada etapa» |
+| 84 | 11:56 | 6 | acto 5 | archivo | swap_84_c2e5dd83 | Ilustración — Conquest | push | PAY 4 | «cuando él mismo se había puesto de plazo hasta los 110 y murió sin encontrarlo, pidiendo 5 o 10 años más para por fin hacerlo bien» |
+| 85 | 12:02 | 9 | acto 5 | acamara | — | — | cut | — | «y entonces, medio siglo después de su muerte, pasa lo que él quería y no llegó a ver: sus estampas empiezan a llegar a Europa» |
+| 86 | 12:11 | 7 | acto 5 | archivo | japonisme_packing_paper | — | pan-h | — | «se cuenta que algunos viajaron como papel de embalar, protegiendo cerámica japonesa» |
+| 87 | 12:15 | 4 | acto 5 | archivo | vangogh_japonaiserie | — | pan-h | — | «como llegaran, tallaron sobre una generación de artistas que buscaba otra forma de mirar. Monet colgó» |
+| 88 | 12:23 | 8 | acto 5 | archivo | lamer_cover | — | push | — | «en 1905 Claude Debussy publicó» |
+| 89 | 12:31 | 5 | acto 5 | acamara | — | — | cut | PAY 2 | «casi todo pasó cuando él ya no estaba acabó siendo visto por más gente» |
+| 90 | 12:48 | 10 | cierre | acamara | — | — | cut | — | «un hombre que trabaja toda su vida, lo perdió casi todo tres veces y se murió sin sentirse a la altura dicho a los 88 suena a fracaso» |
+| 91 | 13:06 | 10 | cierre | acamara | — | — | cut | — | «yo creo que es casi lo contrario y tiene que ver con cómo Hokusai medía su trabajo» |
+| 92 | 13:16 | 8 | cierre | archivo | swap_92_1a8716a5 | — | push | — | «en la vida hay dos maneras de medir cualquier cosa en la que trabajes» |
+| 93 | 13:24 | 12 | cierre | acamara | — | — | cut | — | «la primera pregunta tiene solo dos respuestas y las dos terminan mal una es preguntarte, ya llegué; la otra, ¿me estoy acercando?» |
+| 94 | 13:43 | 12 | cierre | acamara | — | — | cut | — | «o has llegado y se acabó el camino y toca averiguar qué haces con los años que te quedan» |
+| 95 | 13:55 | 15 | cierre | gráfico | G6_mastery_curve | — | push | — | «la segunda pregunta no se agota nunca; perseguir y demostrar lo que ya vales, o perseguir y aprender sin un punto final» |
+| 96 | 14:10 | 14 | cierre | acamara | — | — | cut | — | «puso la meta a los 110, que sabía que no iba a alcanzarla y si nos guiamos por lo que Hokusai dejó escrito, la nota de 1834, los 30 nombres, la firma del viejo loco» |
+| 97 | 14:32 | 13 | cierre | ia | E001_ai04_closing-path | Ilustración — Conquest | push | — | «y eso, en vez de hundirlo, fue lo que lo mantuvo delante del papel a los 88, después de los incendios, las deudas, las constantes mudanzas» |
+| 98 | 14:45 | 13 | cierre | acamara | — | — | cut | — | «hay un dicho: consigue trabajar de lo que te gusta y no tendrás que trabajar un solo día de tu vida» |
+| 99 | 15:06 | 13 | cierre | acamara | — | — | cut | — | «la pregunta no es ya llegué, sino ¿esto que estoy haciendo me va a llevar a mi meta?» |
+| 100 | 15:19 | 7 | cierre | archivo | beat25_commons_2646210 | — | zoom | — | «¿en qué punto de ese futuro se encuentra tu granola?» |
+| 101 | 15:26 | 9 | cierre | acamara | — | — | cut | — | «pero a los 88 todavía tenía donde ir; visto el recorrido de su obra, eso no es una vida frustrada Hokusai nunca llegó a donde quería, al menos en vida» |
+| 102 | 15:42 | 8 | cta | acamara | — | — | cut | — | «Hokusai se dio 10 años; tú, ¿cuánto te darías?» |
+| 103 | 15:50 | 12 | cta | acamara | — | Fuentes principales | cut | — | «si te ha gustado este vídeo, suscríbete al canal» |
 
 ## Detalle por beat — derechos (para el humano — no se parsea)
 
@@ -236,13 +222,13 @@ animado llega después (memoria `graphics-entrance-animation-plan`).
 |----|------|-------------|---------------------|-------------------|-----------------|
 | G8_edo_population | 15 (12 s) | tarjeta de cifra: Edo ~1 millón de habitantes hacia 1780–1800 | S20 | «~1 millón — las fuentes varían» | tarjeta de número; el número cuenta al entrar; S20 aún sin fuente cerrada |
 | G1_ukiyoe_pipeline | 18 (13 s) | cadena del grabado: dibujante → tallador → impresor + editor; la firma «viaja» al plano final. **Un solo beat sostenido**, el diagrama se construye en fases dentro del beat | S02 | — (proceso) | isométrico simple; b16 (lámina barata) y b17 (talla real) preparan, b19 a cámara cierra |
-| G2_names_timeline | 24 PROMISE 1 · 91 PAY 1 | línea de tiempo de los ~30 nombres, una obra bajo cada uno. Rima visual **PROMISE 1 (b24) → PAY 1 (b91)** — misma animación las dos veces. El cierre recuerda «los 30 nombres» sólo con la voz, sin re-mostrar el gráfico | S05 | «~30 nombres — recuento aproximado» | horizontal, scroll lento; único `id` que aparece 2×, y sólo por la rima |
+| G2_names_timeline | 24 PROMISE 1 · 91 PAY 1 | línea de tiempo de los ~30 nombres, una obra bajo cada uno. Rima visual **PROMISE 1 (b24) → PAY 1 (b84)** — misma animación las dos veces. El cierre recuerda «los 30 nombres» sólo con la voz, sin re-mostrar el gráfico | S05 | «~30 nombres — recuento aproximado» | horizontal, scroll lento; único `id` que aparece 2×, y sólo por la rima |
 | G9_moves_map | 39 (10 s) | mapa esquemático de Edo con las ~93 mudanzas como puntos + hilo serpenteante | S06 | «~93 mudanzas — origen incierto» | (era el «G3» de `07-assets.md`) |
 | G_36to46 | 56 (7 s) | contador «36 → 46» + rejilla de 46 láminas (36 + 10 tenues) | S09 | — | tipográfico |
 | G3_prussian_blue | 63 (8 s) | la muestra de azul de Prusia se llena; más intenso que los azules vegetales | S18 | — | muestra de color; sin fechas duras si S18 no las cierra |
-| G3_blue_route | 65 (10 s) | ruta Europa → Nagasaki → Edo; el pigmento viaja y el precio cae. 2ª mitad del EXPLICADOR 2, beat propio sostenido | S18 | — | mapa de ruta; b64 (Fuji rojo) prepara, b66 (la ola) cierra |
-| G3b_signature_manji | 78 (12 s) | la firma «Gakyō Rōjin Manji» aparece en kanji → romaji → glosa «el viejo loco por la pintura». **Un beat**, se construye dentro | S13 | «traducción propia» | caligrafía → gloss; b79 (firma real en una lámina) cierra |
-| G4_age_ladder | 75 (16 s) | escala del prefacio: 73 → 80 → 90 → 100 → **110** destacado, los peldaños suben con la VO. **Un beat sostenido** | S01 | «traducción propia» | escalera ascendente; b76 (detalle animales/plantas) cierra |
+| G3_blue_route | 65 (10 s) | ruta Europa → Nagasaki → Edo; el pigmento viaja y el precio cae. 2ª mitad del EXPLICADOR 2, beat propio sostenido | S18 | — | mapa de ruta; b61 (Fuji rojo) prepara, b62 (la ola) cierra |
+| G3b_signature_manji | 78 (12 s) | la firma «Gakyō Rōjin Manji» aparece en kanji → romaji → glosa «el viejo loco por la pintura». **Un beat**, se construye dentro | S13 | «traducción propia» | caligrafía → gloss; b73 (firma real en una lámina) cierra |
+| G4_age_ladder | 75 (16 s) | escala del prefacio: 73 → 80 → 90 → 100 → **110** destacado, los peldaños suben con la VO. **Un beat sostenido** | S01 | «traducción propia» | escalera ascendente; b70 (detalle animales/plantas) cierra |
 | G6_mastery_curve | 105 (15 s) | metas de demostrar (ego, con techo) vs. aprender (maestría, abierta); las dos curvas se dibujan en el mismo beat, sobre la explicación de Dweck. **Sin source card** | S15 (Nicholls 1984 / Dweck 2006) | — (cita en la descripción, `brain/03`) | dos curvas; va justo donde la voz resume «perseguir y demostrar vs. perseguir y aprender» |
 | G7_death_card | 89 (7 s) | «Edo, 1849 · ~88 años» | S12 | «88 o 90, según el cómputo japonés» | tarjeta de texto sobre negro; push lento (nunca `cut`) |
 
@@ -265,14 +251,14 @@ animado llega después (memoria `graphics-entrance-animation-plan`).
 - [ ] **`woodblock_carving`** — plano de talla de una plancha de madera (cuchilla sobre boj). Stock, o Commons *Woodblock printing in Japan*. Beat 17 (EXPLICADOR 1). *(descargado como vídeo `beat17_*` si `07-picks.txt` lo trae)*
 - [x] **`name_seal_transfer`** — el beat 32 usa ahora `beat14_commons_10969306` (*Brocade with Sack and Seal*, Brooklyn, PD) — motivo de sello. Si aparece un grabado temprano con firma «Shunrō» legible (The Met «Shunro»), mejora el plano.
 - [ ] **`manga_detail`** — segunda página / recorte de detalle de los *Hokusai Manga* (una figura, no la hoja entera), distinta de `beat16_custom_16`. The Met Open Access («Hokusai Manga»). Beat 45.
-- [x] **`fuji_barrel_met36500`** — «El Fuji en el barril del tonelero» (*Fujimigahara in Owari Province*). Descargado: Commons `MET DP141033` (The Met obj. 56214, CC0) → `assets/archive/beat58_custom_58.jpg` *(re-descargar con el nuevo nº de beat)*. Beat 58.
-- [ ] **`G3_blue_route`** — gráfico propio: ruta Europa → Nagasaki → Edo del azul de Prusia + caída de precio (2ª mitad del EXPLICADOR 2). Beat 65. **Renderer hecho** (`make_graphics.py`), pendiente pulir.
-- [ ] **`G_36to46`** — gráfico contador «36 → 46» + rejilla. Beat 56. **Renderer hecho.**
+- [x] **`fuji_barrel_met36500`** — «El Fuji en el barril del tonelero» (*Fujimigahara in Owari Province*). Descargado: Commons `MET DP141033` (The Met obj. 56214, CC0) → `assets/archive/beat58_custom_58.jpg` *(re-descargar con el nuevo nº de beat)*. Beat 56.
+- [ ] **`G3_blue_route`** — gráfico propio: ruta Europa → Nagasaki → Edo del azul de Prusia + caída de precio (2ª mitad del EXPLICADOR 2). Beat 61. **Renderer hecho** (`make_graphics.py`), pendiente pulir.
+- [ ] **`G_36to46`** — gráfico contador «36 → 46» + rejilla. Beat 54. **Renderer hecho.**
 - [ ] **`G8_edo_population`** — tarjeta de cifra «Edo ~1 millón». Beat 15. **Renderer hecho.** Requiere cerrar **S20** (fuente de población de Edo ~1780–1800).
 - [ ] **`G9_moves_map`** — mapa de Edo con las ~93 mudanzas. Beat 39. **Renderer hecho.**
-- [ ] **`edo_fire_print`** — incendio urbano en Edo / bomberos (*hikeshi*). LOC *Japanese fine prints pre-1915* (`?q=fire`, TIFF) o The Met. Beat 82.
-- [ ] **`japonisme_packing_paper`** — estampas usadas como papel de embalar / cajas de cerámica japonesa (puede ser gráfico propio o foto stock ilustrativa; relato «se cuenta»). Beat 94.
-- [x] **`vangogh_japonaiserie`** — Van Gogh, *Brug in de regen (naar Hiroshige)*, 1887 (Van Gogh Museum, PD, Google Art Project) → `assets/archive/beat95_custom_95.jpg` *(re-descargar con el nuevo nº de beat)*. Beat 95. Ref S19. *(Monet/Giverny: sin fuente PD → se cubre con este plano + la portada de La Mer; no recibe beat propio.)*
+- [ ] **`edo_fire_print`** — incendio urbano en Edo / bomberos (*hikeshi*). LOC *Japanese fine prints pre-1915* (`?q=fire`, TIFF) o The Met. Beat 75.
+- [ ] **`japonisme_packing_paper`** — estampas usadas como papel de embalar / cajas de cerámica japonesa (puede ser gráfico propio o foto stock ilustrativa; relato «se cuenta»). Beat 86.
+- [x] **`vangogh_japonaiserie`** — Van Gogh, *Brug in de regen (naar Hiroshige)*, 1887 (Van Gogh Museum, PD, Google Art Project) → `assets/archive/beat95_custom_95.jpg` *(re-descargar con el nuevo nº de beat)*. Beat 87. Ref S19. *(Monet/Giverny: sin fuente PD → se cubre con este plano + la portada de La Mer; no recibe beat propio.)*
 - [ ] **`chinese_tradition_painting`** — *(retirado de la espina en v3 para no inflar el acto 1; recuperar si se consigue una pintura de tradición china de referencia, The Met / Commons).*
 
 **Confirmaciones de ficha (heredadas de v2):**
@@ -289,8 +275,8 @@ animado llega después (memoria `graphics-entrance-animation-plan`).
 - [x] Se planifica por **duración de plano** (`brain/11 §2.2`): ~114 filas → ~94 beats tras `align`/`_repace`, 942 s ÷ ~10 s; ningún beat B-roll > 20 s ni > 2,5× el objetivo de su sección
 - [x] Reparto A-roll / B-roll (`§1b`): ~30 beats `acamara` ≈ **37 %** (horquilla 30–40 %); ninguna sección sin beat A-roll
 - [x] Cold open con la forma de `brain/02 §0`: héroe contextual (beat 1, vídeo, ~6 s) + 5 planos de hook 4–6 s + giro (beat 7) + a cámara (beat 9) → negro con rótulo (beat 8) → bumper (beat 10); hook+bumper ≤ 55 s
-- [x] `[EXPLICADOR]` (`brain/11 §2.1.4`): gráfico denso = **1 beat sostenido** 10–18 s con build interno + b-roll antes/después, nunca intercalado (EXPL 1 · G1 b18 · EXPL 2 · G3_prussian b63 + G3_blue_route b65 · EXPL 3 · G3b b78)
-- [x] Ningún `id` de gráfico dos veces salvo callback marcado: **sólo G2** (PROMISE 1 b24 → PAY 1 b91)
+- [x] `[EXPLICADOR]` (`brain/11 §2.1.4`): gráfico denso = **1 beat sostenido** 10–18 s con build interno + b-roll antes/después, nunca intercalado (EXPL 1 · G1 b18 · EXPL 2 · G3_prussian b60 + G3_blue_route b61 · EXPL 3 · G3b b72)
+- [x] Ningún `id` de gráfico dos veces salvo callback marcado: **sólo G2** (PROMISE 1 b24 → PAY 1 b84)
 - [x] `PROMISE n` / `PAY n` con el mismo `asset` y `motion` (1 · G2/pan-h · 2 · ai02/push · 3 · beat20_met_57261/push · 4 · ai04/push); corte a cámara de preparación antes de cada uno
 - [x] Nunca el mismo `asset` en dos beats consecutivos salvo las parejas PROMISE→PAY (verificado en la generación)
 - [x] `frag` = corte **verbatim** de la VO entregada (`assets/E001-vo.words.json`), no del borrador del guion, para que `align()` de `assemble.py` case

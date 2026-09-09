@@ -403,6 +403,8 @@ class H(BaseHTTPRequestHandler):
                     args = ["beat_asset.py", slug, "--merge", n, "--into", str(data.get("into", "prev"))]
                 elif act == "del":
                     args = ["beat_asset.py", slug, "--del", n]
+                elif act == "split":
+                    args = ["beat_asset.py", slug, "--split", n, "--at", str(float(data.get("at", 0)))]
                 else:
                     args = ["beat_asset.py", slug, "--set", n]
                     args += ["--src", str(data["src"])] if data.get("src") else ["--asset", str(data.get("asset", ""))]
@@ -414,7 +416,7 @@ class H(BaseHTTPRequestHandler):
             except (json.JSONDecodeError, TypeError):
                 return self._send(500, json.dumps({"error": (out or "sin respuesta")[-400:]}))
             # structural edits renumber the spine → hand the recomputed timeline back
-            if act in ("merge", "del", "add") and not res.get("error"):
+            if act in ("merge", "del", "add", "split") and not res.get("error"):
                 _run(["edit_timeline.py", slug])
                 res["timeline"] = json.loads((epp / "09-timeline.json").read_text(encoding="utf-8"))
             return self._send(200, json.dumps(res, ensure_ascii=False))

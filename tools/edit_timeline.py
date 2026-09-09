@@ -65,6 +65,8 @@ def build(slug):
     _af = next((b["file"] for b in data["beats"]
                 if b["kind"] in ("acamara", "a-cámara", "a-camara") and b.get("file")), "")
     take_src = "09-take.mp4" if (ep / "09-take.mp4").exists() else _af
+    _rev = next(iter(sorted(ep.glob("assets/*.review.html"))), None)
+    review_href = f"http://localhost:8765/episodes/{slug}/assets/{_rev.name}" if _rev else ""
 
     n_beats = len(data["beats"])
     n_un = sum(1 for b in data["beats"] if b["state"] == "uncovered")
@@ -107,20 +109,27 @@ def build(slug):
    align-items:center;justify-content:center;text-align:center;z-index:3;
    font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.4rem,4vw,2.6rem);
    color:#d6cbb5;letter-spacing:.01em;pointer-events:none}}
+ #screen:fullscreen{{width:100vw;height:100vh;border:0;border-radius:0;background:#000}}
+ #screen:fullscreen::before{{display:none}}
+ #screen:fullscreen .tag,#screen:fullscreen .lab{{display:none}}
+ #screen:fullscreen #still{{width:100%;height:100%;object-fit:contain}}
+ #screen:fullscreen #scrrot{{font-size:clamp(2rem,6vw,4rem)}}
+ #fs{{font-size:.68rem;padding:.2rem .5rem;white-space:nowrap}}
 </style>
 </head><body class="tl">
 <header class="topbar">
- <span class="brand" style="font-size:1.15rem">Conquest</span>
- <span class="crumb">Stage 9 · <b>Sala de montaje</b></span>
- <span class="ep">{e(epid)} · {e(slug.split('-',1)[-1])}</span>
- <span class="pill {'on' if not n_fix and not n_un else 'warn'}"><span class="dot"></span>{
-   'primer corte '+('alineado a la voz' if aligned else '(tiempos del shotlist)')}</span>
+ <span class="brand" style="font-size:1rem">Conquest</span>
+ <span class="crumb"><b>Sala de montaje</b></span>
+ <span class="ep">{e(epid)}</span>
+ <span class="pill {'on' if not n_fix and not n_un else 'warn'}" style="font-size:.68rem"><span class="dot"></span>{
+   'alineado a la voz' if aligned else 'tiempos del shotlist'}</span>
  <span class="spacer"></span>
- <button class="btn" id="prev">Previsualizar región</button>
- <a class="btn ghost" target="_blank" href="http://localhost:8765/episodes/{e(slug)}/assets/graphic/_index.html">Gráficos</a>
- <button class="btn" id="save">Guardar</button>
- <button class="btn primary" id="fin">Finalizar Stage&nbsp;9</button>
- <a class="btn ghost" href="http://localhost:8765/">Volver al panel</a>
+ <button class="btn" id="rrough" data-tip="Renderiza el vídeo entero a un borrador 720p (con voz, música, Ken Burns y cortes reales — sin grade) en segundo plano. Tarda unos minutos; cuando termine, míralo en «corte renderizado». Guarda antes.">{'Re-renderizar' if has_rough else 'Renderizar'}</button>
+ <a class="btn ghost" target="_blank" href="http://localhost:8765/episodes/{e(slug)}/assets/graphic/_index.html" data-tip="Abre en otra pestaña el índice de gráficos del episodio (G1, G3, G4…) para comprobar cómo quedaron antes de montarlos. No modifica nada.">Gráficos</a>
+ {f'<a class="btn ghost" target="_blank" href="{e(review_href)}" data-tip="Abre la sala de transcripción/recorte de la toma en otra pestaña — para revisar el texto de la voz, marcar retomas y ajustar los cortes. Al aplicar cambios allí, re-corre el Stage 8 y esta línea se recalcula.">Transcripción</a>' if review_href else ''}
+ <button class="btn" id="save" data-tip="Fija en 09-timeline.json tus cambios de duración (dur_lock), orden (slot) y mezcla, y recalcula la línea contra la voz. Hay autoguardado cada pocos segundos; el botón se pone en dorado con «•» si queda algo sin guardar.">Guardar</button>
+ <button class="btn primary" id="fin" data-tip="Cierra el Stage 9: guarda, avisa de los beats sin visual o con corrección pendiente, y marca el corte como listo para el render final. Los clips marcados «corrección» se los pasa a Claude para regenerar.">Finalizar</button>
+ <a class="btn ghost" href="http://localhost:8765/" data-tip="Vuelve al dashboard de Conquest. El autoguardado ya conserva tus cambios; no se renderiza nada.">← Panel</a>
 </header>
 
 <div class="work">
@@ -148,7 +157,7 @@ def build(slug):
      <button class="on" data-mode="live">en vivo</button>
      <button data-mode="rough" {'disabled' if not has_rough else ''}>corte renderizado</button>
    </span>
-   <button class="btn ghost" id="rrough" style="margin-left:.4rem">{'Re-renderizar borrador' if has_rough else 'Renderizar borrador'}</button>
+   <button class="btn ghost sm" id="fs" style="margin-left:.2rem" data-tip="Expande el reproductor a pantalla completa. En «corte renderizado» salen los controles del vídeo; en «en vivo» usa espacio para play/pausa y Esc para salir.">⛶ pantalla completa</button>
    <span class="phint">rueda = scroll · Ctrl+rueda = zoom · espacio = play · arrastra un clip para reubicarlo</span>
   </div>
   <div class="mixrow" id="mixrow">
@@ -159,7 +168,12 @@ def build(slug):
    <button class="btn ghost sm" id="mx-reset">↺</button>
   </div>
  </section>
- <aside class="inspector" id="inspector"><div class="insp-empty">Selecciona un clip para editarlo.</div></aside>
+ <aside class="inspector" id="inspector">
+   <div class="insp-cap">Inspector del beat
+     <span class="qm" data-tip="Aquí editas el beat seleccionado: su visual (cambiar / traer / quitar), su duración y encuadre, la nota de regeneración, y la estructura (fusionar con un vecino, eliminar, partir, añadir uno nuevo). Los cambios de asset y estructura son retroactivos al shotlist y a las fases anteriores.">?</span>
+   </div>
+   <div id="inspbody"><div class="insp-empty">Selecciona un clip para editarlo.</div></div>
+ </aside>
 </div>
 
 <section class="timeline">
@@ -222,6 +236,7 @@ let TOTAL = TL.total;
 const fmt = s=>{{s=Math.max(0,Math.round(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}};
 const secname = s=>SECN[s]|| (s||"").toUpperCase();
 let PPS=5, sel=null, playing=false, cur=0, raf=0, lastT=0;
+let _mmW=0, _playEl=null, _lastTc="";      // per-frame caches (see placePlayhead)
 const vid = $("#vid"), still=$("#still"), clip=$("#clip"), face=$("#face"), vo=$("#vo"), bed=$("#bed");
 const inner=$("#inner"), vtrack=$("#vtrack"), ruler=$("#ruler"), bands=$("#bands"), scroll=$("#scroll");
 if(WAVE && $("#waveimg")) $("#waveimg").src = WAVE;
@@ -272,8 +287,10 @@ function updateScreen(force){{
   if(vid) vid.hidden=true;
   vo.muted=false;                              // #vo (m4a) always carries the voice
   const isAC=AC.has(b.kind);
-  if(isAC) syncFace(false);                    // drift-correct even if we early-return
-  if(!force && b.n===shownBeat && !isAC && !VIDF.test(b.file||"")){{ return; }}
+  if(isAC) syncFace(false);                    // cheap drift-correct every frame
+  // same beat, not a video b-roll → nothing on screen changes; skip the DOM work.
+  // (acamara included now: the hard re-seek only needs to happen on the beat switch.)
+  if(!force && b.n===shownBeat && !VIDF.test(b.file||"")){{ return; }}
   shownBeat=b.n;
   const f=b.file||"";
   $("#frame").hidden = !(b.kind==="negro"||(!f&&!isAC));
@@ -326,6 +343,7 @@ function setMode(m){{
 $$("#modeg button").forEach(x=>x.onclick=()=>setMode(x.dataset.mode));
 
 function layout(){{
+  _mmW=0; _playEl=null;                       // clips get rebuilt below — drop stale refs
   const W = TOTAL*PPS;
   inner.style.width = (W+40)+"px";
   ruler.innerHTML="";
@@ -406,13 +424,16 @@ function drawMinimap(){{
 }}
 
 function placePlayhead(){{
-  $("#playhead").style.left=(cur*PPS)+"px";
-  $("#playhead").style.height=(20+2+20+2+40+6+66+30)+"px";
-  $("#tccur").textContent=fmt(cur); $("#scrtc").textContent=fmt(cur);
+  const ph=$("#playhead");
+  ph.style.left=(cur*PPS)+"px";
+  if(!ph.style.height) ph.style.height=(20+2+20+2+40+6+66+30)+"px";
+  const tc=fmt(cur);
+  if(tc!==_lastTc){{ $("#tccur").textContent=tc; $("#scrtc").textContent=tc; _lastTc=tc; }}
   const b=B.find(x=>cur>=x.in&&cur<x.out)||B[B.length-1];
-  const mmW=$("#minimap").clientWidth; $("#mmplay").style.left=(cur/TOTAL*mmW)+"px";
-  $$(".clip.playing").forEach(c=>c.classList.remove("playing"));
-  if(playing){{const el=vtrack.querySelector('.clip[data-n="'+b.n+'"]');if(el)el.classList.add("playing");}}
+  if(!_mmW) _mmW=$("#minimap").clientWidth || 1;   // clientWidth forces reflow — read once
+  $("#mmplay").style.left=(cur/TOTAL*_mmW)+"px";
+  const want = playing ? vtrack.querySelector('.clip[data-n="'+b.n+'"]') : null;
+  if(want!==_playEl){{ if(_playEl)_playEl.classList.remove("playing"); if(want)want.classList.add("playing"); _playEl=want; }}
 }}
 function loop(ts){{
   if(!playing)return;
@@ -531,6 +552,33 @@ function dragClip(el,b){{
     }};
     addEventListener("pointermove",mv); addEventListener("pointerup",up);
   }});
+  /* left grip = move the boundary with the previous beat: drag left ⇒ this beat
+     grows backwards and the previous one shrinks (we lock the previous beat). */
+  const gl=el.querySelector(".grip.l");
+  if(gl) gl.addEventListener("pointerdown",e=>{{
+    e.stopPropagation();
+    const idx=B.indexOf(b); if(idx<=0){{ toast("el primer beat no se puede alargar hacia atrás",2200); return; }}
+    const prev=B[idx-1];
+    const pel=vtrack.querySelector('.clip[data-n="'+prev.n+'"]');
+    const sx=e.clientX, L0=b.in*PPS, W0=el.offsetWidth;
+    const pL0=prev.in*PPS, pW0=pel?pel.offsetWidth:(prev.out-prev.in)*PPS;
+    const mv=ev=>{{
+      let d=ev.clientX-sx;
+      d=Math.max(-(pW0-14), Math.min(W0-14, d));   // keep both clips on screen
+      el.style.left=(L0+d)+"px"; el.style.width=(W0-d)+"px";
+      if(pel) pel.style.width=(pW0+d)+"px";
+    }};
+    const up=()=>{{
+      removeEventListener("pointermove",mv); removeEventListener("pointerup",up);
+      const newBound=+((parseFloat(el.style.left)/PPS)).toFixed(2);
+      prev.dur_lock=Math.max(1,+((newBound-prev.in)).toFixed(1));
+      prev.out=+(prev.in+prev.dur_lock).toFixed(2);
+      b.in=prev.out;
+      toast('beat <span class="mono">'+String(prev.n).padStart(2,"0")+'</span> → '+prev.dur_lock+'s (fija) · guardando…',2500);
+      markDirty(); layout(); select(b.n);
+    }};
+    addEventListener("pointermove",mv); addEventListener("pointerup",up);
+  }});
 }}
 
 /* inspector — asset swap */
@@ -559,7 +607,7 @@ async function beatEdit(body, msgSel){{
       $("#tctot").textContent=fmt(TOTAL); shownBeat=-1; clipSrc="";
       status(); layout();
       if(keep!=null && B.find(x=>x.n===keep)) select(keep);
-      else $("#inspector").innerHTML='<div class="insp-empty">Selecciona un clip.</div>';
+      else $("#inspbody").innerHTML='<div class="insp-empty">Selecciona un clip.</div>';
     }}
     if(msg)msg.textContent='✓ '+(j.note||j.asset||'hecho');
     toast('✓ '+(j.note||('beat '+(j.n||'')+' → '+j.asset)),4000);
@@ -581,7 +629,7 @@ function select(n){{
   $$(".clip.sel").forEach(c=>c.classList.remove("sel"));
   const el=vtrack.querySelector('.clip[data-n="'+n+'"]'); if(el)el.classList.add("sel");
   setPlaying(false); seekTo(sel.in);
-  const b=sel, ins=$("#inspector");
+  const b=sel, ins=$("#inspbody");
   const showMotion = b.kind!=="negro";
   ins.innerHTML =
    '<div class="insp-head"><span class="n">'+String(b.n).padStart(2,"0")+'</span>'+
@@ -591,48 +639,54 @@ function select(n){{
    (b.state==="uncovered"?'<div class="field"><div class="notebox" style="border-color:var(--neg);color:var(--neg)">Este beat aún no tiene visual — elige uno abajo o pega una ruta/URL.</div></div>':"")+
    (SWAPPABLE.has(b.kind)
     ? ('<div class="field"><span class="lbl">Asset ('+(KLAB[b.kind]||b.kind)+')</span>'+
-       '<div class="control"><select id="i-asset">'+
+       '<div class="control"><select id="i-asset" data-tip="Reemplaza el visual del beat por otro recurso que ya está en assets/. El cambio se escribe en el shotlist (06) y es retroactivo: picks, timeline y 07-assets se actualizan solos.">'+
          '<option value="">'+(b.asset?esc(b.asset):"— sin elegir —")+'</option>'+assetOpts(b)+
        '</select></div>'+
        '<div class="control" style="margin-top:.4rem;display:flex;gap:.4rem;flex-wrap:wrap">'+
-         '<button class="btn" id="i-abrowse">Examinar…</button>'+
-         '<input id="i-asrc" placeholder="o pega una URL directa" style="flex:1;min-width:120px">'+
-         '<button class="btn ghost" id="i-ago">traer URL</button>'+
+         '<button class="btn" id="i-abrowse" data-tip="Abre el explorador de archivos de tu equipo para traer una imagen o vídeo como visual de este beat. Se copia a assets/, se fija en _index.json y se cablea al beat.">Examinar…</button>'+
+         '<input id="i-asrc" placeholder="o pega una URL directa" style="flex:1;min-width:120px" data-tip="Pega una URL directa a una imagen/vídeo (o un id de asset ya en la biblioteca). Pexels y Pixabay se resuelven a la descarga real.">'+
+         '<button class="btn ghost" id="i-ago" data-tip="Descarga lo que haya en el campo de la izquierda y lo asigna a este beat.">traer URL</button>'+
          '<input type="file" id="i-afile" accept="image/*,video/*" hidden></div>'+
        '<div class="notebox" id="i-amsg" hidden></div></div>')
     : '<div class="field"><span class="lbl">Asset</span><div class="notebox muted">este beat es «'+(KLAB[b.kind]||b.kind)+'» — no lleva asset que cambiar</div></div>')+
    '<div class="field" style="display:flex;gap:.7rem">'+
-     '<div style="flex:1"><span class="lbl">Duración</span><div class="stepper">'+
+     '<div style="flex:1" data-tip="Fija la duración del beat en segundos (dur_lock). El tiempo se le quita o se le da al beat siguiente; ningún vecino baja de su mínimo (2,8 s b-roll · 2,5 s a-cámara · 5 s gráfico). Para más, usa fusionar o partir.">'+
+       '<span class="lbl">Duración</span><div class="stepper">'+
        '<button data-d="-0.5">−</button><span class="val" id="i-dur">'+
          (b.dur_lock?b.dur_lock.toFixed(1)+'s (fija)':(b.out-b.in).toFixed(1)+'s')+
        '</span><button data-d="0.5">+</button></div></div>'+
-     '<div style="flex:1"><span class="lbl">Nudge ± frames</span><div class="stepper">'+
+     '<div style="flex:1" data-tip="Adelanta o atrasa el punto de entrada del clip ± fotogramas, sin mover la frontera del beat. Para cuadrar un gesto, un pico de la música o un corte de cámara.">'+
+       '<span class="lbl">Nudge ± frames</span><div class="stepper">'+
        '<button data-nf="-1">−</button><span class="val" id="i-nudge">'+(b.nudge||0)+'</span><button data-nf="1">+</button></div></div></div>'+
    ((b.dur_lock||typeof b.slot==="number")
      ? '<div class="field"><div class="notebox" style="border-color:var(--gold)">'+
        (b.dur_lock?'duración fija · ':'')+(typeof b.slot==="number"?'reordenado · ':'')+
        '<a href="#" id="i-reset" style="color:var(--gold)">↺ restablecer este beat</a></div></div>' : "")+
-   (showMotion?'<div class="field"><span class="lbl">Movimiento</span><div class="motionrow" id="i-motion">'+
+   (showMotion?'<div class="field" data-tip="Movimiento de cámara sobre el plano en el render final. Los gráficos siempre se mueven (nunca estáticos); el vídeo B-roll nunca lleva Ken Burns. «corte» = plano fijo.">'+
+     '<span class="lbl">Movimiento</span><div class="motionrow" id="i-motion">'+
      MOTIONS.map(m=>'<button class="mchip" data-m="'+m[0]+'" aria-pressed="'+(b.motion===m[0])+'">'+m[1]+'</button>').join("")+'</div></div>':"")+
-   '<div class="field"><span class="lbl">Regenerar clip — nota para Claude</span>'+
+   '<div class="field" data-tip="Instrucción para que Claude regenere este clip al cerrar el Stage 9: «más lento», «empieza a la izquierda», «dir. arriba», «déjalo 4 s»… Al escribir aquí, el clip deja de estar aprobado.">'+
+     '<span class="lbl">Regenerar clip — nota para Claude</span>'+
      '<textarea class="fixnote" id="i-fix" placeholder="«más lento» · «empieza a la izquierda» · «dir arriba» · «déjalo 4 s»">'+esc(b.fix||"")+'</textarea></div>'+
-   '<label class="approve'+(b.approved?" on":"")+'"><input type="checkbox" id="i-ok"'+(b.approved?" checked":"")+'> clip aprobado</label>'+
+   '<label class="approve'+(b.approved?" on":"")+'" data-tip="Marca el clip como bueno para el render final. Borra cualquier nota de regeneración de arriba.">'+
+     '<input type="checkbox" id="i-ok"'+(b.approved?" checked":"")+'> clip aprobado</label>'+
    '<div class="field" style="margin-top:.5rem;border-top:1px solid var(--line-2);padding-top:.5rem">'+
      '<span class="lbl">Estructura</span>'+
      '<div style="display:flex;flex-wrap:wrap;gap:.35rem">'+
-       (SWAPPABLE.has(b.kind)?'<button class="btn ghost sm" id="i-clear">✕ quitar visual</button>':"")+
-       '<button class="btn ghost sm" id="i-mprev">⤺ fusionar anterior</button>'+
-       '<button class="btn ghost sm" id="i-mnext">fusionar siguiente ⤻</button>'+
-       '<button class="btn ghost sm" id="i-del" style="color:var(--neg)">🗑 eliminar beat</button>'+
-       '<button class="btn ghost sm" id="i-addb">＋ beat después</button></div>'+
+       (SWAPPABLE.has(b.kind)?'<button class="btn ghost sm" id="i-clear" data-tip="Deja el beat sin visual (sin cubrir). El tramo de voz sigue igual; le asignas un recurso después. No cambia la duración.">✕ quitar visual</button>':"")+
+       '<button class="btn ghost sm" id="i-mprev" data-tip="Funde este beat en el anterior: el plano del anterior pasa a cubrir también este tramo de voz. Se renumera la espina y se reescriben picks / timeline / prosa / 07-assets.">⤺ fusionar anterior</button>'+
+       '<button class="btn ghost sm" id="i-mnext" data-tip="Funde este beat en el siguiente: el plano del siguiente cubre también este tramo. Renumera y reescribe las fases anteriores.">fusionar siguiente ⤻</button>'+
+       '<button class="btn ghost sm" id="i-del" style="color:var(--neg)" data-tip="Elimina el beat entero. El tramo de voz lo reparten los vecinos al realinear. Renumera la espina y reescribe picks / timeline / prosa / 07-assets / source-log.">🗑 eliminar beat</button>'+
+       '<button class="btn ghost sm" id="i-split" data-tip="Parte el beat en dos por donde esté el cabezal (llévalo dentro del beat primero). Las dos mitades conservan el mismo plano; reasignas el visual de la 2ª. El corte se ajusta a la palabra más cercana de la voz.">✂ partir aquí</button>'+
+       '<button class="btn ghost sm" id="i-addb" data-tip="Inserta un beat nuevo justo después de este. Necesita un fragmento de la voz escrito verbatim para colocarlo en el tiempo; roba duración a los vecinos.">＋ beat después</button></div>'+
      '<div class="notebox" id="i-smsg" hidden></div>'+
      '<div id="i-addform" hidden style="margin-top:.4rem;display:flex;flex-direction:column;gap:.3rem">'+
-       '<textarea id="i-af-frag" rows="2" placeholder="fragmento de la voz para el beat nuevo (verbatim de la VO)"></textarea>'+
-       '<div style="display:flex;gap:.3rem;flex-wrap:wrap"><select id="i-af-kind">'+
+       '<textarea id="i-af-frag" rows="2" placeholder="fragmento de la voz para el beat nuevo (verbatim de la VO)" data-tip="Copia aquí, palabra por palabra, la frase de la voz que suena durante el beat nuevo. align() la busca en la transcripción real para colocar el beat; si no es idéntica, el beat cae mal y puede fusionarse solo."></textarea>'+
+       '<div style="display:flex;gap:.3rem;flex-wrap:wrap"><select id="i-af-kind" data-tip="Tipo del beat nuevo. «acamara» sale de la toma sola y «negro» no llevan asset; los demás necesitan un visual (ahora o después).">'+
          ["archivo","stock","acamara","gráfico","ia","negro"].map(k=>'<option>'+k+'</option>').join("")+'</select>'+
-         '<button class="btn" id="i-af-browse">Examinar…</button>'+
-         '<input id="i-af-src" placeholder="o URL / id de asset (opcional)" style="flex:1;min-width:110px">'+
-         '<button class="btn" id="i-af-go">añadir</button>'+
+         '<button class="btn" id="i-af-browse" data-tip="Trae el visual del beat nuevo desde un archivo de tu equipo.">Examinar…</button>'+
+         '<input id="i-af-src" placeholder="o URL / id de asset (opcional)" style="flex:1;min-width:110px" data-tip="Alternativa a Examinar: URL directa o id de un asset ya en la biblioteca. Opcional — puedes crear el beat sin visual.">'+
+         '<button class="btn" id="i-af-go" data-tip="Crea el beat: inserta la fila en el shotlist, renumera la espina y reconstruye la línea.">añadir</button>'+
          '<input type="file" id="i-af-file" accept="image/*,video/*" hidden></div>'+
        '<div id="i-af-fname" class="mono" style="font-size:.62rem;color:var(--gold)"></div></div></div>';
 
@@ -651,6 +705,19 @@ function select(n){{
   $("#i-mprev")?.addEventListener("click",()=>{{ if(confirm("Fusionar el beat "+n+" en el anterior (su plano cubre el tramo)?"))beatEdit({{action:"merge",n:n,into:"prev"}},"#i-smsg"); }});
   $("#i-mnext")?.addEventListener("click",()=>{{ if(confirm("Fusionar el beat "+n+" en el siguiente?"))beatEdit({{action:"merge",n:n,into:"next"}},"#i-smsg"); }});
   $("#i-del")?.addEventListener("click",()=>{{ if(confirm("¿Eliminar el beat "+n+"? La voz la reparten los vecinos."))beatEdit({{action:"del",n:n}},"#i-smsg"); }});
+  $("#i-split")?.addEventListener("click",()=>{{
+    const t=cur, flo=AC.has(b.kind)?2.5:(b.kind==="gráfico"||b.kind==="grafico")?5:2.8;
+    if(!(t>b.in+0.2 && t<b.out-0.2)){{
+      alert("Lleva el cabezal DENTRO del beat "+n+" (haz clic en la regla o reproduce y pausa) y vuelve a pulsar «partir».");
+      return;
+    }}
+    if(t-b.in<flo || b.out-t<flo){{
+      alert("Cada mitad debe durar ≥ "+flo+"s. Acerca el cabezal al centro del beat.");
+      return;
+    }}
+    if(confirm("Partir el beat "+n+" en "+fmt(t)+"\\n· 1ª mitad ≈ "+(t-b.in).toFixed(1)+"s\\n· 2ª mitad ≈ "+(b.out-t).toFixed(1)+"s — mismo plano, reasignas el visual de la 2ª\\n\\nSe renumera la espina."))
+      beatEdit({{action:"split",n:n,at:t}},"#i-smsg");
+  }});
   $("#i-addb")?.addEventListener("click",()=>{{ const f=$("#i-addform"); f.hidden=!f.hidden; }});
   let afUpload=null;
   $("#i-af-browse")?.addEventListener("click",()=>$("#i-af-file").click());
@@ -728,6 +795,27 @@ function tipmove(e){{
   tt.style.left=x+"px";tt.style.top=y+"px";
 }}
 function tiphide(){{tt.classList.remove("show");}}
+/* [data-tip] bubbles: the topbar draws them in pure CSS ([data-tip]:hover::after).
+   the inspector is a scroll box that would clip a CSS bubble, so there we reuse
+   the mouse-following #tltip (position:fixed). one mechanism per element — never
+   both — so no double bubble. */
+let tipEl=null;
+const _ib=$("#inspbody");
+_ib.addEventListener("pointerover",e=>{{
+  const t=e.target.closest("[data-tip]");
+  if(t===tipEl) return;
+  tipEl=t;
+  if(!t){{ tiphide(); return; }}
+  tt.textContent=t.getAttribute("data-tip"); tt.classList.add("show"); tipmove(e);
+}});
+_ib.addEventListener("pointermove",e=>{{ if(tipEl) tipmove(e); }});
+_ib.addEventListener("pointerleave",()=>{{ tipEl=null; tiphide(); }});
+// safety: pointer left the inspector for anything else (fast move / topbar) → drop it
+document.addEventListener("pointerover",e=>{{
+  if(tipEl && !(e.target.closest && e.target.closest("#inspbody"))){{ tipEl=null; tiphide(); }}
+}});
+// entering the topbar (CSS bubbles there) always clears any JS bubble
+$(".topbar")?.addEventListener("pointerover",()=>{{ tipEl=null; tiphide(); }});
 
 /* minimap nav */
 const mm=$("#minimap");
@@ -763,19 +851,19 @@ async function post(path,body){{
 }}
 $("#rrough").onclick=async()=>{{
   if($("#save").classList.contains("dirty")) await saveTL();
-  toast('renderizando el borrador 720p en segundo plano — unos minutos. Recarga cuando termine.',6000);
+  toast('renderizando el vídeo entero a 720p en segundo plano — unos minutos. Recarga y mira en «corte renderizado» cuando termine.',6500);
   try{{ await post("/tl-rough",{{ep:EPID,slug:SLUG,timeline:TL}}); }}
   catch(e){{ toast('server no disponible — corre <span class="mono">python tools/assemble.py '+SLUG+' --rough</span>',6000); }}
 }};
-$("#prev").onclick=async()=>{{
-  if($("#save").classList.contains("dirty")) await saveTL();
-  const a=sel?Math.max(0,sel.in-1):Math.max(0,cur-15), b=sel?sel.out+1:cur+15;
-  toast('renderizando <span class="mono">'+fmt(a)+'–'+fmt(b)+'</span> a 720p…',60000);
-  try{{ const j=await post("/tl-preview",{{ep:EPID,slug:SLUG,t0:a,t1:b,timeline:TL}});
-    toast('previsualización lista · recarga el reproductor',2600);
-    if(vid){{vid.load();vid.currentTime=a;}} }}
-  catch(e){{ toast('server no disponible — corre <span class="mono">python tools/assemble.py '+SLUG+' --preview '+Math.floor(a)+' '+Math.ceil(b)+'</span>',5000); }}
-}};
+$("#fs")?.addEventListener("click",()=>{{
+  const s=$("#screen");
+  if(document.fullscreenElement){{ document.exitFullscreen(); return; }}
+  const req=s.requestFullscreen||s.webkitRequestFullscreen;
+  if(req) req.call(s).then(()=>{{ if(MODE==="rough"&&vid) vid.controls=true; }}).catch(()=>{{}});
+}});
+document.addEventListener("fullscreenchange",()=>{{
+  if(!document.fullscreenElement && vid) vid.controls=false;
+}});
 $("#fin").onclick=async()=>{{
   if($("#save").classList.contains("dirty")) await saveTL();
   const un=B.filter(b=>b.state==="uncovered").length, fx=B.filter(b=>b.fix).length;
@@ -795,7 +883,7 @@ $("#fin").onclick=async()=>{{
 
 /* init */
 status(); layout();
-addEventListener("resize",()=>{{drawMinimap();updRange();placePlayhead();}});
+addEventListener("resize",()=>{{_mmW=0;drawMinimap();updRange();placePlayhead();}});
 if(B.length)select(B[0].n);
 scroll.scrollLeft=0;
 </script></body></html>

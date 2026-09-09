@@ -10,8 +10,16 @@ intro	custom:3	https://www.pexels.com/es-es/video/serenas-flores-de-cerezos-en-e
 intro	custom:4	https://www.pexels.com/es-es/video/japon-timelapse-31453316/
 intro	custom:5	https://www.pexels.com/es-es/video/escaleras-montanas-vehiculo-japon-19757067/
 # --- BEATS ---
+92	custom:92	assets/archive/swap_92_1a8716a5.png
+84	custom:84	assets/archive/swap_84_c2e5dd83.png
+77	custom:77	assets/archive/swap_77_0790ca34.png
+70	custom:70	assets/archive/swap_70_81b0d516.jpg
+67	custom:67	assets/archive/swap_67_53a18ff6.png
+64	custom:64	assets/archive/swap_64_fe3149b3.png
+52	custom:52	assets/archive/swap_52_fe3149b3.png
+50	custom:50	assets/archive/swap_50_2c93b043.png
 43	custom:43	assets/video/swap_43_ab25d7b0.mp4
-96	custom:96	assets/archive/lamer_cover.webp
+88	custom:88	assets/archive/lamer_cover.webp
 31	custom:31	assets/archive/beat31_custom_31.png
 13	custom:13	assets/archive/beat13_custom_13.png
 1	custom:1	"D:\Conquest\episodes\E001-hokusai\assets\archive\beat1_custom_1.png"
@@ -28,10 +36,10 @@ intro	custom:5	https://www.pexels.com/es-es/video/escaleras-montanas-vehiculo-ja
 37	custom:37	"D:\Conquest\episodes\E001-hokusai\assets\katsushika-oi-night-scene-in-the-yoshiwara-1854-obelisk-art-history.webp"
 41	custom:41	assets/archive/beat41_custom_41.png
 45	custom:45	"D:\Conquest\episodes\E001-hokusai\assets\hokusai_manga_performances_large.jpg"
-58	custom:58	https://upload.wikimedia.org/wikipedia/commons/5/5f/%E5%86%A8%E5%B6%BD%E4%B8%89%E5%8D%81%E5%85%AD%E6%99%AF_%E5%B0%BE%E5%B7%9E%E4%B8%8D%E4%BA%8C%E8%A6%8B%E5%8E%9F-Fujimigahara_in_Owari_Province_%28Bish%C5%AB_Fujimigahara%29%2C_from_the_series_Thirty-six_Views_of_Mount_Fuji_%28Fugaku_sanj%C5%ABrokkei%29_MET_DP141033.jpg
-82	custom:82	"C:\Users\Joshue\Downloads\d6d25ba7-d232-4b1e-9279-a64ac84d3e3c_1600x1086.jpg"
-94	custom:94	https://www.pexels.com/es-es/download/video/7308170/
-95	custom:95	https://upload.wikimedia.org/wikipedia/commons/7/77/Vincent_van_Gogh_-_Brug_in_de_regen-_naar_Hiroshige_-_Google_Art_Project.jpg
+56	custom:56	https://upload.wikimedia.org/wikipedia/commons/5/5f/%E5%86%A8%E5%B6%BD%E4%B8%89%E5%8D%81%E5%85%AD%E6%99%AF_%E5%B0%BE%E5%B7%9E%E4%B8%8D%E4%BA%8C%E8%A6%8B%E5%8E%9F-Fujimigahara_in_Owari_Province_%28Bish%C5%AB_Fujimigahara%29%2C_from_the_series_Thirty-six_Views_of_Mount_Fuji_%28Fugaku_sanj%C5%ABrokkei%29_MET_DP141033.jpg
+75	custom:75	"C:\Users\Joshue\Downloads\d6d25ba7-d232-4b1e-9279-a64ac84d3e3c_1600x1086.jpg"
+86	custom:86	https://www.pexels.com/es-es/download/video/7308170/
+87	custom:87	https://upload.wikimedia.org/wikipedia/commons/7/77/Vincent_van_Gogh_-_Brug_in_de_regen-_naar_Hiroshige_-_Google_Art_Project.jpg
 2	pixabayv:10378	https://cdn.pixabay.com/video/2017/06/29/10378-224234522_large.mp4
 3	commons:5576388	https://upload.wikimedia.org/wikipedia/commons/0/0d/Great_Wave_off_Kanagawa2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 4	commons:124369341	https://upload.wikimedia.org/wikipedia/commons/1/1c/Hokusai_as_an_old_man.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
@@ -44,7 +52,7 @@ intro	custom:5	https://www.pexels.com/es-es/video/escaleras-montanas-vehiculo-ja
 # --- IA generada ---
 # beat 1 (ai01 deathbed-room) sustituido por vídeo stock → ver sección BEATS (custom:1)
 46	ai:ai02	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (2).png"
-81	ai:ai03	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (3).png"
-88	ai:ai04	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (4).png"
+74	ai:ai03	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (3).png"
+81	ai:ai04	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (4).png"
 # --- MÚSICA (consideración; brand/assets/music/) ---
 music	custom:1	"D:\Conquest\episodes\E001-hokusai\assets\inner-outer - Lish Grooves.mp3"	youtube library	CC0	
