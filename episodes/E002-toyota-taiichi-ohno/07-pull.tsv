@@ -4,24 +4,28 @@
 # `gráfico` son propios y NO van aquí).
 #
 # kind: stock | stock-img | archive | video | intro
-# source: stock | stock-img | video | intro | archive(met,commons) | lista
+# source: stock | stock-img | video | intro | commons | met,commons | lista
 #
-# NOTA: tools/.env no tiene claves de Pexels/Pixabay/Unsplash — los beats
-# `stock`/`intro` no devolverán nada hasta que se pongan las claves. Los
-# `archive` (Wikimedia Commons / Met) sí funcionan. Usuario 001 pega sus
-# propios enlaces en las filas vacías del pase de estilo (brain/02 §0).
+# Claves de Pexels/Pixabay/Unsplash en tools/.env — OK (stock funciona).
+# Wikimedia Commons no necesita clave. Si Commons da 0, Usuario 001 pega
+# enlaces PD propios (Library of Congress, NARA DOCUMERICA) en el pase de estilo.
 #
 beat	kind	source	query	opts
 INTRO1	intro	intro	empty factory assembly hall dim	orientation=landscape;min=1920;n=3
-INTRO2	intro	intro	crowd of workers factory gates	orientation=landscape;min=1920;n=3
-5	archive	commons	Ford assembly line 1940s	n=4
-43	archive	commons	Ford River Rouge assembly line	n=4
-45	archive	commons	automobile factory warehouse parts 1940s	n=3
-25	archive	commons	Surrender of Japan 1945	n=3
-35	archive	commons	Korean War United States Army trucks 1950	n=3
-47	archive	commons	Ford River Rouge plant Dearborn	n=4
-74	archive	commons	American supermarket interior 1950s	n=4
-76	stock-img	stock-img	vintage grocery store shelves 1950s	min=2000;n=3
-97	archive	commons	1973 oil crisis gas station line	n=4
-106	archive	commons	Japanese cars imported United States 1970s	n=3
-108	archive	commons	NUMMI Fremont assembly plant	n=3
+INTRO2	intro	intro	crowd of workers leaving factory gates	orientation=landscape;min=1920;n=3
+INTRO3	intro	intro	vintage car assembly line 1950s	orientation=landscape;min=1920;n=3
+5	archive	commons	Ford Motor Company assembly line	n=4
+43	archive	commons	Ford River Rouge plant	n=4
+45	stock-img	stock-img	warehouse metal parts shelves industrial	min=2000;n=3
+25	archive	commons	Emperor Hirohito radio broadcast 1945	n=4
+29	stock-img	stock-img	japanese newspaper 1940s	min=1600;n=2
+35	archive	commons	Korean War US Army truck convoy	n=4
+47	archive	commons	Ford River Rouge Dearborn aerial	n=4
+74	archive	commons	self-service supermarket 1950s	n=4
+76	stock-img	stock-img	vintage grocery store shelves canned goods	min=2000;n=3
+77	stock	stock	supermarket aisle shelves stocking	min=1920;n=3
+97	archive	commons	Documerica gasoline shortage 1973	n=4
+98	archive	commons	gas station line 1979 fuel crisis	n=3
+106	archive	commons	Toyota Corolla 1970s	n=3
+108	stock	stock	car factory exterior 1980s	min=1920;n=3
+110	stock	stock	modern car assembly line workers	min=1920;n=3
