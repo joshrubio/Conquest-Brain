@@ -160,7 +160,7 @@ def build(slug):
  .bakmenu .empty{{padding:.5rem .55rem;font-size:.74rem;color:var(--muted)}}
  .roughbar{{position:relative;height:22px;background:var(--surface-2);
    border-bottom:1px solid var(--line-2);overflow:hidden;flex:0 0 auto}}
- .rbfill{{position:absolute;inset:0 auto 0 0;width:0;background:var(--gold);opacity:.28;transition:width .6s linear}}
+ .rbfill{{position:absolute;inset:0 auto 0 0;width:0;background:var(--rb,var(--gold));opacity:.28;transition:width .6s linear}}
  .rblbl{{position:relative;display:block;line-height:22px;padding:0 .9rem;
    font-size:.7rem;color:var(--muted);letter-spacing:.02em;white-space:nowrap}}
  .vowords{{font-family:var(--mono);font-size:.72rem;color:var(--muted);padding:.15rem .1rem 0;
@@ -1002,6 +1002,12 @@ function stopRough(){{ clearInterval(roughPoll); roughPoll=0; roughMiss=0; }}
 async function pollRough(){{
   try{{
     const j=await (await fetch("/rough-progress?ep="+encodeURIComponent(EPID))).json();
+    if(j.failed){{
+      $("#rbfill").style.width="100%"; $("#roughbar").style.setProperty("--rb","#a35");
+      $("#rblbl").textContent="El borrador falló — mira 09-rough.log. Vuelve a intentarlo.";
+      stopRough(); setTimeout(()=>roughBar(false),12000);
+      return;
+    }}
     if(j.done && !j.running){{
       $("#rbfill").style.width="100%";
       $("#rblbl").textContent="Borrador listo — recarga la página o pásate a «corte renderizado».";
@@ -1015,7 +1021,7 @@ async function pollRough(){{
   }}catch(e){{ /* server busy — keep polling */ }}
 }}
 function startRoughBar(){{
-  roughBar(true); roughMiss=0;
+  roughBar(true); roughMiss=0; $("#roughbar").style.removeProperty("--rb");
   $("#rbfill").style.width="0%"; $("#rblbl").textContent="Renderizando el borrador… 0%";
   if(roughPoll) clearInterval(roughPoll);
   roughPoll=setInterval(pollRough,2000); pollRough();
@@ -1023,6 +1029,12 @@ function startRoughBar(){{
 async function pollFinal(){{
   try{{
     const j=await (await fetch("/final-progress?ep="+encodeURIComponent(EPID))).json();
+    if(j.failed){{
+      $("#rbfill").style.width="100%"; $("#roughbar").style.setProperty("--rb","#a35");
+      $("#rblbl").textContent="El render 4K falló — mira 09-final.log. Vuelve a lanzarlo (reaprovecha la caché ya horneada).";
+      stopRough(); setTimeout(()=>roughBar(false),15000);
+      return;
+    }}
     if(j.done && !j.running){{
       $("#rbfill").style.width="100%";
       $("#rblbl").textContent="Master 4K listo.";
@@ -1036,7 +1048,7 @@ async function pollFinal(){{
   }}catch(e){{ /* server busy — keep polling */ }}
 }}
 function startFinalBar(){{
-  roughBar(true); roughMiss=0;
+  roughBar(true); roughMiss=0; $("#roughbar").style.removeProperty("--rb");
   $("#rbfill").style.width="0%"; $("#rblbl").textContent="Renderizando el master 4K… 0%";
   if(roughPoll) clearInterval(roughPoll);
   roughPoll=setInterval(pollFinal,2000); pollFinal();

@@ -63,17 +63,26 @@ def _run(args):
     return (r.stdout or r.stderr).strip()
 
 
-def _spawn_chain(steps, done_flag=None):
+def _spawn_chain(steps, done_flag=None, log=None):
     """Run a list of [tool.py, *args] in sequence, detached — the HTTP response
     returns now, the work (a multi-minute render) continues in the background.
-    Writes `done_flag` (a Path) when finished so the UI can poll."""
+    On success writes `done_flag`; if a step exits non-zero (or is killed) it
+    stops and writes `<done_flag>.fail` instead, so the UI can tell a crash from
+    a completion. `log` (a Path) captures stdout+stderr of every step."""
     py = (
         "import subprocess,sys,pathlib\n"
         f"S={steps!r}\n"
         f"T={str(TOOLS)!r}\n"
-        "for s in S: subprocess.run([sys.executable, str(pathlib.Path(T)/s[0]), *s[1:]],"
-        " stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)\n"
-        + (f"pathlib.Path({str(done_flag)!r}).write_text('ok')\n" if done_flag else "")
+        f"LOG={str(log)!r} if {log is not None} else None\n"
+        "fh=open(LOG,'w',encoding='utf-8',errors='replace') if LOG else subprocess.DEVNULL\n"
+        "ok=True\n"
+        "for s in S:\n"
+        "    r=subprocess.run([sys.executable, str(pathlib.Path(T)/s[0]), *s[1:]],"
+        " stdout=fh, stderr=subprocess.STDOUT)\n"
+        "    if r.returncode != 0: ok=False; break\n"
+        "if LOG: fh.close()\n"
+        + (f"pathlib.Path({str(done_flag)!r} + ('' if ok else '.fail')).write_text('ok' if ok else 'fail')\n"
+           if done_flag else "")
     )
     subprocess.Popen([sys.executable, "-c", py], cwd=str(TOOLS.parent), env=_ENV)
 
@@ -161,12 +170,14 @@ class H(BaseHTTPRequestHandler):
                 out.append({"name": f.name, "kind": m.group(2), "when": when})
             return self._send(200, json.dumps(out, ensure_ascii=False))
 
-        if path == "/rough-progress":
+        if path in ("/rough-progress", "/final-progress"):
+            stem = "09-rough" if path == "/rough-progress" else "09-final"
             epp = P.ep_path(qs.get("ep", [""])[0])
-            done = (epp / "09-rough.done").exists()
+            done = (epp / f"{stem}.done").exists()
+            failed = (epp / f"{stem}.done.fail").exists()
+            prg = epp / f"{stem}.progress"
             pct = 100 if done else 0
-            prg = epp / "09-rough.progress"
-            if prg.exists() and not done:
+            if prg.exists() and not done and not failed:
                 try:
                     us = re.findall(r"out_time_us=(\d+)", prg.read_text(encoding="utf-8", errors="replace"))
                     tot = (json.loads((epp / "09-timeline.json").read_text(encoding="utf-8")).get("total") or 1) * 1e6
@@ -174,24 +185,9 @@ class H(BaseHTTPRequestHandler):
                         pct = max(1, min(99, round(int(us[-1]) / tot * 100)))
                 except Exception:
                     pass
-            running = prg.exists() and not done
-            return self._send(200, json.dumps({"pct": pct, "done": done, "running": running}))
-
-        if path == "/final-progress":
-            epp = P.ep_path(qs.get("ep", [""])[0])
-            done = (epp / "09-final.done").exists()
-            pct = 100 if done else 0
-            prg = epp / "09-final.progress"
-            if prg.exists() and not done:
-                try:
-                    us = re.findall(r"out_time_us=(\d+)", prg.read_text(encoding="utf-8", errors="replace"))
-                    tot = (json.loads((epp / "09-timeline.json").read_text(encoding="utf-8")).get("total") or 1) * 1e6
-                    if us:
-                        pct = max(1, min(99, round(int(us[-1]) / tot * 100)))
-                except Exception:
-                    pass
-            running = prg.exists() and not done
-            return self._send(200, json.dumps({"pct": pct, "done": done, "running": running}))
+            running = prg.exists() and not done and not failed
+            return self._send(200, json.dumps(
+                {"pct": pct, "done": done, "running": running, "failed": failed}))
         if path == "/view":
             return self._view(qs.get("ep", [""])[0], qs.get("f", [""])[0])
         f = (P.ROOT / path.lstrip("/")).resolve()
@@ -373,9 +369,10 @@ class H(BaseHTTPRequestHandler):
                     json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
             flag = epp / "09-rough.done"
             flag.unlink(missing_ok=True)
+            (epp / "09-rough.done.fail").unlink(missing_ok=True)
             (epp / "09-rough.progress").write_text("out_time_us=0\n", encoding="utf-8")  # bar starts at 0
             _spawn_chain([["assemble.py", slug, "--rough"], ["edit_timeline.py", slug]],
-                         done_flag=flag)
+                         done_flag=flag, log=epp / "09-rough.log")
             return self._send(200, json.dumps({"ok": True,
                 "msg": "renderizando el borrador 720p en segundo plano — unos minutos."}))
 
@@ -387,8 +384,9 @@ class H(BaseHTTPRequestHandler):
                     json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
             flag = epp / "09-final.done"
             flag.unlink(missing_ok=True)
+            (epp / "09-final.done.fail").unlink(missing_ok=True)
             (epp / "09-final.progress").write_text("out_time_us=0\n", encoding="utf-8")  # bar starts at 0
-            _spawn_chain([["assemble.py", slug, "--final"]], done_flag=flag)
+            _spawn_chain([["assemble.py", slug, "--final"]], done_flag=flag, log=epp / "09-final.log")
             return self._send(200, json.dumps({"ok": True,
                 "msg": "renderizando el master 4K en segundo plano — esto tarda bastante."}))
 
