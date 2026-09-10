@@ -124,6 +124,7 @@ def build(slug):
     wrapped to a tiny box */
  .screen #frame{{position:absolute;inset:0;display:flex;flex-direction:column;
    align-items:center;justify-content:center;gap:.4rem;z-index:2;padding:7% 6%}}
+ .screen #frame[hidden]{{display:none}}   /* our display:flex out-specifies the UA [hidden] rule — restore it */
  .screen #frame.negro{{background:#000}}
  #scrrot{{position:absolute;inset:0;display:flex;flex-direction:column;gap:.35em;
    align-items:center;justify-content:center;text-align:center;z-index:3;
