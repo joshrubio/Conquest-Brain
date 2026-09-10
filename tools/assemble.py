@@ -1016,12 +1016,14 @@ def kb_move(b, w, h):
     return mv
 
 
-def _kb_big(w, h):
-    """An oversize 16:9 canvas for a zoom move — ~3× the output (capped at 8K)
-    so zoompan's per-frame integer rounding of the shrinking window stays
-    sub-pixel after the final downscale (the other half of the anti-jitter fix
-    is the linear `on` expression instead of an accumulating `zoom+delta`)."""
-    return min(round(w * 3), 7680), min(round(h * 3), 4320)
+def _kb_canvas(w, h):
+    """The 16:9 canvas the geq zoom works on before the final downscale. geq is
+    smooth at any size (continuous sampling, no crop-rounding) — a bigger canvas
+    only adds sharpness, and its cost is ~linear in pixels. So: light 1.5×
+    supersample for the 720p proxy, native for the 4K master (no point, and it
+    would grind)."""
+    cw = 1920 if w <= 1280 else w
+    return cw, round(cw * 9 / 16)
 
 
 def _still_move(b, w, h):
@@ -1029,35 +1031,78 @@ def _still_move(b, w, h):
     return mv if mv in ("pan-v", "pan-h", "cut", "push", "zoom") else "push"
 
 
-def _clip_filter(i, b, w, h, fps, mv=None):
-    """One beat -> a [vN] stream that FILLS WxH (no letterbox) with its move.
+def _geq_zoom_vf(mv, w, h, dur):
+    """The push/zoom move as a `geq` per-pixel remap of a continuously-scaling
+    centre-anchored coordinate. `zoompan` rounds its crop window to whole pixels
+    every frame — on a slow zoom that stair-steps ~1 px and reads as a tremble.
+    geq has no crop window and no rounding. Slower (single-threaded), so
+    render() bakes each zoom beat to a cached clip (_kb_render)."""
+    amt = 0.20 if mv == "zoom" else 0.10
+    cw, ch = _kb_canvas(w, h)
+    z = f"(1+{amt}*min(1,T/{dur:.3f}))"
+    gx = f"X/{z}+(1-1/{z})*W/2"
+    gy = f"Y/{z}+(1-1/{z})*H/2"
+    return (f"setsar=1,scale={cw}:{ch}:force_original_aspect_ratio=increase,"
+            f"crop={cw}:{ch},format=yuv420p,"
+            f"geq=lum='p({gx},{gy})':cb='p({gx},{gy})':cr='p({gx},{gy})',"
+            f"scale={w}:{h}:flags=lanczos")
 
-    Panning moves use `crop` on a real frame stream, animated by `t` (fixed crop
-    size, moving x/y) — this keeps the aspect ratio and never jitters. Zoom moves
-    use `zoompan` on a SINGLE frame that has already been cropped to 16:9 (so
-    z=1 is an undistorted full frame, not a squashed one), pre-scaled onto a big
-    canvas and driven by a linear `on` expression so the crop window doesn't
-    stair-step. render() feeds the right kind of input for each."""
+
+def _kb_render(ep, b, w, h, fps):
+    """Bake a still's push/zoom move to a cached clip (geq is too slow to run on
+    every render). Keyed by file+mtime+move+dur+resolution — a dur or asset
+    change re-renders just that beat. Returns the clip Path, or None on failure."""
+    import hashlib
+    src = ep / b["file"]
+    if not src.exists():
+        return None
+    mv = _still_move(b, w, h)
+    dur = max(0.4, b["out"] - b["in"])
+    try:
+        mt = int(src.stat().st_mtime)
+    except OSError:
+        mt = 0
+    key = hashlib.sha1(
+        f"{b['file']}|{mt}|{mv}|{round(dur, 2)}|{w}x{h}|geq2".encode("utf-8")
+    ).hexdigest()[:12]
+    cache = ep / "assets" / "_kb" / f"kb_{key}.mp4"
+    # a good cache entry is a real clip roughly the beat's length (a killed bake
+    # leaves a stub / truncated file — re-render it)
+    if cache.exists() and cache.stat().st_size > 4096 and abs(_duration(cache) - dur) < 0.3:
+        return cache
+    cache.unlink(missing_ok=True)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    proxy = w <= 1920
+    cmd = [FFMPEG, "-y", "-loop", "1", "-framerate", str(fps), "-t", f"{dur:.3f}",
+           "-i", str(src), "-an",
+           "-vf", _geq_zoom_vf(mv, w, h, dur) + f",fps={fps},format=yuv420p",
+           "-c:v", "libx264", "-preset", "veryfast" if proxy else "slow",
+           "-crf", "20" if proxy else "16", "-pix_fmt", "yuv420p",
+           "-movflags", "+faststart", str(cache)]
+    print(f"  ken burns  {b['id']} ({mv} {dur:.1f}s) → assets/_kb/{cache.name} …")
+    r = subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT)
+    if r.returncode != 0 or not cache.exists() or abs(_duration(cache) - dur) > 0.3:
+        print(f"  ⚠ geq falló para {b['id']}: {(r.stderr or r.stdout)[-200:]}")
+        cache.unlink(missing_ok=True)
+        return None
+    return cache
+
+
+def _clip_filter(i, b, w, h, fps, mv=None):
+    """A panning still -> a [vN] stream that FILLS WxH (no letterbox), animated
+    over `t` on a real frame stream. `crop` — fixed WxH window, moving x/y —
+    keeps the aspect and never jitters. (push/zoom go through _kb_render.)"""
     d = max(0.4, b["out"] - b["in"])
     mv = mv or _still_move(b, w, h)
-    bw, bh = _kb_big(w, h)
-    # `increase` = cover the target keeping aspect (one dimension overflows → room to move)
     fill = f"[{i}:v]setsar=1,scale={w}:{h}:force_original_aspect_ratio=increase"
-
     if mv == "pan-v":       # hold width, travel the tall overflow top→bottom
         f = f"{fill},crop={w}:{h}:x='(iw-{w})/2':y='(ih-{h})*min(1,t/{d:.3f})'"
     elif mv == "pan-h":     # hold height, travel the wide overflow left→right
         f = f"{fill},crop={w}:{h}:x='(iw-{w})*min(1,t/{d:.3f})':y='(ih-{h})/2'"
-    elif mv == "cut":       # hard hold, centred, no move
+    elif mv in ("push", "zoom"):     # fallback if _kb_render failed — inline geq
+        f = f"[{i}:v]{_geq_zoom_vf(mv, w, h, d)}"
+    else:                   # cut — hard hold, centred, no move
         f = f"{fill},crop={w}:{h}:x='(iw-{w})/2':y='(ih-{h})/2'"
-    else:                   # push (0.10) / zoom (0.20) — clean centre zoom-in
-        amt = 1.20 if mv == "zoom" else 1.10
-        fr = max(2, int(round(d * fps)))
-        f = (f"[{i}:v]setsar=1,scale={bw}:{bh}:force_original_aspect_ratio=increase,"
-             f"crop={bw}:{bh},"
-             f"zoompan=z='1+{amt - 1:.2f}*on/{fr - 1}':d={fr}:s={w}x{h}:fps={fps}:"
-             f"x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'")
-    # concat needs every segment identical: square pixels + fixed size + fps
     return f + f",trim=duration={d:.3f},setpts=PTS-STARTPTS,setsar=1,fps={fps},format=yuv420p[v{i}]"
 
 
@@ -1118,13 +1163,15 @@ def render(slug, mode, t0=None, t1=None, dry=False):
             p = ep / f
             if p.suffix.lower() in STILL_EXT:
                 mv = _still_move(b, w, h)
-                if mv in ("pan-v", "pan-h", "cut"):
-                    # a real frame stream so the crop-based pan can animate over `t`
+                kb = _kb_render(ep, b, w, h, fps) if mv in ("push", "zoom") else None
+                if kb:                          # pre-baked geq zoom → just normalise it
+                    inputs += ["-i", str(kb)]
+                    filters.append(
+                        f"[{i}:v]scale={w}:{h},setsar=1,fps={fps},"
+                        f"trim=duration={dur:.3f},setpts=PTS-STARTPTS,format=yuv420p[v{i}]")
+                else:                           # pan/cut, or geq failed → animate inline
                     inputs += ["-loop", "1", "-framerate", str(fps), "-t", f"{dur:.3f}", "-i", str(p)]
-                else:
-                    # one frame — zoompan makes the rest (feeding it many would explode)
-                    inputs += ["-loop", "1", "-t", "0.04", "-i", str(p)]
-                filters.append(_clip_filter(i, b, w, h, fps, mv))
+                    filters.append(_clip_filter(i, b, w, h, fps, mv))
             else:
                 # video B-roll: scale-crop to frame, play it straight — NO zoompan
                 # (that would explode the frame count). If the clip is a bit

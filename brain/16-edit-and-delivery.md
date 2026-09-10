@@ -116,10 +116,12 @@ schema-2 line already exists):
 
 `assemble.py` also writes `09-rough.mp4` (720p proxy) · `09-wave.b64` · `09-vo.m4a` · `09-take.mp4`; music bed at **−30 dB** default. An A-roll beat whose derived `in` runs past the take → rendered black with a warning (use *fijar entrada* or *Re-sincronizar*).
 
+**Ken Burns in the render** (`_clip_filter`): pans/cut = `crop` with a moving window (fast, keeps aspect). Push/zoom = `geq` (a per-pixel remap of a continuously-scaling coordinate — `zoompan` rounds its window every frame and trembles on a slow zoom). geq is single-threaded and slow, so each push/zoom still is **baked once to `assets/_kb/kb_<hash>.mp4`** (keyed by file+mtime+move+dur+resolution) and reused; a dur or asset change re-bakes just that beat. `assets/_kb/` is generated (gitignored).
+
 **`edit_timeline.py E0XX-slug`** renders **`09-edit.html`** — the cutting room:
 - VO waveform (fixed) + section bands + one block per beat, width ∝ duration, coloured by kind; markers shown; uncovered flagged; **`pace` beats ⚠**; **`dur_edited` beats** get a dashed outline. A **words-under-playhead** strip shows the VO text at the cursor (reference only).
 - **two preview modes:** *en vivo* plays `09-vo.m4a` + bed live, the take runs continuously as `#face` on `acamara` beats; *corte renderizado* plays `09-rough.mp4`.
-- a per-beat **inspector**: **swap asset** (picker + path/URL/file → `beat_asset.py` points the beat at it *by id*, pins `id → file` in `assets/_index.json`, appends an asset-id row to `07-picks.txt`'s SALA block) · **duración** (± or drag the right grip — ripples downstream, no neighbour theft) · **⇥ fijar entrada al cabezal** (moves the boundary with the previous beat so this beat starts at the playhead) · nudge ±frames · Ken Burns motion · regen note · approve.
+- a per-beat **inspector**: **swap asset** (picker + path/URL/file → `beat_asset.py` points the beat at it *by id*, pins `id → file` in `assets/_index.json`, appends an asset-id row to `07-picks.txt`'s SALA block) · **duración** (± or drag the right grip — ripples downstream, no neighbour theft) · **⇥ fijar entrada al cabezal** (moves the boundary with the previous beat so this beat starts at the playhead) · nudge ±frames · Ken Burns motion · regen note.
 - **reorder**: drag a beat block past a neighbour — the array order *is* the playback order; the VO stays put, the pictures ripple.
 - **structural edits** (inspector → *Estructura*, via `beat_ops.py` on `09-timeline.json` by id — the spine is **not** touched):
   - **✕ quitar visual** — beat goes `sin cubrir`, keeps its time.
