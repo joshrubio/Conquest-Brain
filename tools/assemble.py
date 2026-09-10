@@ -29,11 +29,34 @@ Usage
   python tools/assemble.py E0XX-slug --dry           # print the ffmpeg command, render nothing
 """
 import base64
+import contextlib
 import json
 import re
 import subprocess
 import sys
 from pathlib import Path
+
+
+@contextlib.contextmanager
+def keep_awake():
+    """Ask Windows not to idle-sleep while a long render runs (it's what killed
+    an overnight 4K master mid-bake). Released on exit / crash; does not stop a
+    manual sleep, a laptop lid close, or non-Windows hosts (no-op there)."""
+    ES_CONTINUOUS, ES_SYSTEM_REQUIRED = 0x80000000, 0x00000001
+    set_state = None
+    if sys.platform == "win32":
+        try:
+            import ctypes
+            set_state = ctypes.windll.kernel32.SetThreadExecutionState
+            set_state(ES_CONTINUOUS | ES_SYSTEM_REQUIRED)
+        except Exception:
+            set_state = None
+    try:
+        yield
+    finally:
+        if set_state is not None:
+            with contextlib.suppress(Exception):
+                set_state(ES_CONTINUOUS)
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -1288,11 +1311,13 @@ if __name__ == "__main__":
         resync_timeline(slug)
     elif "--final" in a:
         build_timeline(slug)
-        render(slug, "final", dry=dry)
+        with keep_awake():
+            render(slug, "final", dry=dry)
     elif "--rough" in a:
         build_timeline(slug)
         waveform(slug)
-        render(slug, "proxy", dry=dry)
+        with keep_awake():
+            render(slug, "proxy", dry=dry)
     elif "--timeline-only" in a:      # rebuild 09-timeline.json in place (edit-room saves)
         rebuild_timeline(slug)
     else:
