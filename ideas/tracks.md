@@ -51,13 +51,15 @@
   audio siempre reemplazado o atenuado, espejo/zoom/recorte/grade obligatorios.
 - **Anatomía:** la variante de `brain/20 §3` (la lectura es el hilo, no el recap;
   reflexión como interludio constante).
+- **Título:** cola `| Ensayo` (`brain/13`), no `| Documental`.
 - **Cierre:** formas A/B × cuatro registros (`brain/09`), proporcionalmente mayor.
 - **Monetización:** cada episodio Ensayo con clips se puntúa asumiendo un recorte
   de RPM (`brain/20 §5`).
 
-> **Estado del track Ensayo: no disponible hasta que 001 + 002 firmen `brain/20`
-> §8.** Hasta entonces, una idea marcada Ensayo queda bloqueada en E1 de la
-> rúbrica y no pasa a brief.
+Track **activo**: una idea Ensayo se propone, se puntúa, se aprueba y se produce
+como cualquier otra. Parte del tooling del pipeline (localizador de escena,
+recorte de clip, bloque de brief, gate de shotlist) se construye sobre la marcha —
+`brain/20 §6`.
 
 ## Reglas comunes
 
@@ -70,7 +72,8 @@
   sobre la obra). El track se fija en la ideación con el hook-title.
 - Toda idea pasa por los dos protocolos de ideación antes de consolidarse:
   1. **Contenido disponible** — `brain/12`. Para Documental: cross-check contra
-     archivos de dominio público. Para Ensayo: el plan de metraje de `brain/20 §4`.
+     archivos de dominio público. Para Ensayo: la feasibility de `brain/20 §4.0`
+     (copia lícita · ≥3 fuentes para la lectura · presupuesto de clips).
   2. **Hook Naming** — `brain/13`. La idea se nombra con un título-hook estilo
      Farid Dieck desde el minuto uno.
 - Los eliminatorios de `idea-rubric.md` (registro público, ≥3 fuentes Tier A/B,

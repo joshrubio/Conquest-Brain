@@ -60,7 +60,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | 17 | dashboard-and-advance | all | dashboard.html + serve.py + advance.py — one-click gate hand-off; the /loop; _STATUS.md |
 | 18 | monetization-and-audience | 0 | CPM/RPM by category + Spanish-language audience geography — non-blocking tiebreaker at ideation |
 | 19 | lessons | 3·4·5 | capped, working log of recurring correction patterns — graduates to a real rule (and gets deleted) once it repeats |
-| 20 | experimental-clip-protocol | 0·2·6·7·9 | **DRAFT** — the **Ensayo** track: episodes built on a copyrighted film/TV/game/album under fair use. Three modes (obra como sujeto / cita / suceso), charter carve-out, Mode-A anatomy (§3), footage doctrine + minimum treatment (§4), discovery vs. published excerpt (§4.6), RPM haircut (§5), cadence cap. Not canon until 001+002 sign §8 |
+| 20 | experimental-clip-protocol | 0·2·6·7·9 | the **Ensayo** track: episodes built on a copyrighted film/TV/game/album under fair use. Three modes (obra como sujeto / cita / suceso), charter carve-out, Stage-0 feasibility (§4.0), Mode-A anatomy (§3), footage doctrine + minimum treatment (§4), discovery vs. published excerpt (§4.6), RPM haircut (§5), cadence cap (§7). Live; some tooling still to build (§6, §8) |
 | — | USERS | all | the only slot→person map; slots fixed, responsibilities assignable |
 
 ## Canonical homes (where a rule lives once, everyone else points)

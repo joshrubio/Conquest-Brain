@@ -49,15 +49,15 @@
 
 ## Tabla resumen — Ensayo
 
-> **El track Ensayo no está activo** hasta que 001 + 002 firmen `brain/20 §8`.
-> Estas semillas quedan bloqueadas en E1 hasta entonces. Formato de detalle
-> reducido (3 hook-titles + sujeto + modo + material). Modo = `brain/20 §1`.
+> Track **activo** (`brain/20`). Detalle en formato reducido: 3 hook-titles +
+> obra/suceso + modo (`brain/20 §1`) + feasibility (`brain/20 §4.0`).
+> Cola del título: `| Ensayo`.
 
 | # | Título de trabajo | Obra / suceso | Cierre | Modo (`brain/20 §1`) | /21 (est.) | Estado |
 |---|-------------------|---------------|--------|----------------------|------------|--------|
-| ENS-01 | El videojuego que llegó al Senado de EE.UU. | Mortal Kombat / Night Trap → audiencias de 1993 → nace la ESRB | A/C | obra como suceso | — | nueva (track no activo) |
-| ENS-02 | *Whiplash* y el precio de ser el mejor | el film de Chazelle (2014), leído como caso de ambición y abuso | A/B | obra como sujeto | — | nueva (track no activo) |
-| ENS-03 | (por definir) — caso real + su adaptación dramatizada | un caso documentado que cita 2–3 clips de la película que lo cuenta | A/C | obra como cita | — | nueva (track no activo) |
+| ENS-01 | El videojuego que llegó al Senado de EE.UU. | Mortal Kombat / Night Trap → audiencias de 1993 → nace la ESRB | A/C | obra como suceso | — | nueva |
+| ENS-02 | *Whiplash* y el precio de ser el mejor | el film de Chazelle (2014), leído como caso de ambición y abuso | A/B | obra como sujeto | — | nueva |
+| ENS-03 | (por definir) — caso real + su adaptación dramatizada | un caso documentado que cita 2–3 clips de la película que lo cuenta | A/C | obra como cita | — | nueva |
 
 ## En espera (no en esta ronda)
 
@@ -289,34 +289,35 @@ Formato: **3 hook-titles** (el 1º es el título de trabajo) · **material** (Pr
 
 ## Detalle — Ensayo
 
-Formato reducido (el track no está activo — ver arriba). **3 hook-titles** ·
-**obra / suceso** · **modo** (`brain/20 §1`) · **material** (`brain/20 §4`).
+Formato reducido. **3 hook-titles** · **obra / suceso** · **modo** (`brain/20 §1`) ·
+**feasibility** (`brain/20 §4.0`: copia lícita · ≥3 fuentes para la lectura ·
+presupuesto de clips).
 
-### ENS-01 · El videojuego que llegó al Senado de EE.UU.  *(nueva — track no activo)*
+### ENS-01 · El videojuego que llegó al Senado de EE.UU.
 - `El videojuego tan VIOLENTO que llegó al Senado de EE.UU. | Mortal Kombat | Ensayo`
 - `Cómo dos videojuegos OBLIGARON a la industria a vigilarse sola | Ensayo`
 - `1993: el año en que el Congreso vio Mortal Kombat | Ensayo`
 - **Obra / suceso:** las audiencias del Senado de EE.UU. de 1993–94 sobre violencia en videojuegos (Lieberman/Kohl), gatilladas por *Mortal Kombat* y *Night Trap*, y el nacimiento de la ESRB como autorregulación para evitar una ley federal.
 - **Modo:** obra como suceso (C). El sujeto es el evento regulatorio documentado — acta del Congreso (Tier A), prensa de la época, cobertura retrospectiva.
-- **Material:** clips muy breves de ambos juegos bajo fair use (`brain/20 §4`) + acta/vídeo de las audiencias (registro del Congreso, a menudo PD) + gráficos propios.
+- **Feasibility:** copia lícita de ambos juegos, fácil (emulación/compra); fuentes abundantes (acta del Senado, cobertura de prensa 1993–94, historia de la ESRB, beca de game studies); presupuesto de clips holgado — el metraje pesado es el acta de las audiencias, que es registro público.
 - **Cierre A/C.** Autorregulación bajo amenaza: una industria que se pone reglas para que no se las pongan. ¿Funcionó, o solo movió la línea?
 - **Monetización:** Categoría B · Audiencia Tier 1/mixta (regulación + gaming, interés global). Recorte de RPM por los clips (`brain/20 §5`).
 
-### ENS-02 · *Whiplash* y el precio de ser el mejor  *(nueva — track no activo)*
+### ENS-02 · *Whiplash* y el precio de ser el mejor
 - `¿Cuánto abuso vale la GRANDEZA? | Whiplash | Ensayo`
 - `La película que no sabe si el maltrato funcionó | Whiplash | Ensayo`
 - `Fletcher tenía razón (y por eso da miedo) | Whiplash | Ensayo`
 - **Obra / suceso:** *Whiplash* (Damien Chazelle, 2014) leída como caso de ambición, mentoría tóxica y la pregunta que el film deja abierta a propósito.
-- **Modo:** obra como sujeto (A). Recepción crítica pública amplia (Sundance, Óscar, ensayos y entrevistas al director) → síntesis de varias fuentes, no reconstrucción de la obra sola (`brain/04 §5`).
-- **Material:** stills primero; clips ≤~10 s solo donde el montaje/interpretación es el argumento; audio reemplazado (`brain/20 §4`).
-- **Cierre A/B.** Registro psicológico — atribuido: qué dice la investigación sobre presión, motivación y coste (a nombrar en el guion, `brain/09` + el hueco de "citas a psicólogos" que abre el template de Ensayo).
+- **Modo:** obra como sujeto (A).
+- **Feasibility:** copia lícita, trivial. Fuentes abundantes (crítica de Sundance/Óscar, entrevistas del director en ScreenCrush/The Dissolve/RogerEbert, más el estante de citas: Ericsson, teoría de la autodeterminación, Eby). Presupuesto de clips: stills primero, 2–3 clips ≤10 s. **Guion demo escrito** — `episodes/_DEMO-ensayo-whiplash/`.
+- **Cierre A/B.** Registro psicológico + filosófico, atribuido (`brain/09` §Ensayo).
 - **Monetización:** Categoría C · Audiencia Tier 1/mixta. Recorte de RPM por los clips.
 
-### ENS-03 · (por definir) — caso real + su adaptación dramatizada  *(nueva — track no activo)*
+### ENS-03 · (por definir) — caso real + su adaptación dramatizada
 - (hook-titles por redactar)
 - **Obra / suceso:** un caso real documentado del que existe una película dramatizada; el episodio narra el caso y **cita** 2–3 clips de la película para contrastar "lo que pasó" con "cómo lo contaron".
 - **Modo:** obra como cita (B). El sujeto sigue siendo el caso real; los clips son comentario sobre la adaptación, no ilustración (`brain/12 §1c`, `brain/20 §4`).
-- **Material:** el del caso real (Documental) + clips ≤~10 s de la adaptación, ≤~60 s en total.
+- **Feasibility:** depende del caso — copia lícita de la película + el material del caso real (Documental) + ≤~60 s de clips en total.
 - **Cierre:** según el caso que se elija.
 
 ---

@@ -5,7 +5,7 @@ Dos niveles: **track** (permanente, por formato) → **idea** de video individua
 ```
 TRACK (fijo — por formato, no por tema · ideación compartida)
    ├─ Documental  · caso real narrado (todo lo del canal hoy) · brain/02 + brain/11 + brain/12
-   └─ Ensayo      · una obra / su recepción, con clips bajo fair use · brain/20   [no activo hasta firma §8]
+   └─ Ensayo      · una obra / su recepción, con clips bajo fair use · brain/20
         │
         └─ IDEA de video ──[hook-title + cross-check de material + rúbrica]──► aprobada
                                                                                   │
@@ -22,7 +22,7 @@ dos fundadores propone a cualquier track. Ver [tracks.md](tracks.md).
   restricción temática. Material PD + Protocolo 1b.
 - **Ensayo** — una obra (cine/serie/juego/álbum/libro) o su recepción, llevada por
   una lectura ensayística; permite clips con copyright bajo fair use con los caps
-  de montaje de `brain/20 §4`. **No disponible hasta que 001+002 firmen `brain/20 §8`.**
+  de montaje de `brain/20 §4`. Cola del título `| Ensayo`. Track activo.
 
 ## Nivel 2 — Ideas
 

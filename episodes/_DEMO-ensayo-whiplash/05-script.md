@@ -4,7 +4,7 @@ summary: "Guion de demostración del track Ensayo (brain/20) — NO es un episod
 stage: [4]
 fills: "(demo) 05-script.md"
 rule: [02, 08, 09, 20]
-authority: "DEMO — el track Ensayo está bloqueado hasta brain/20 §8. Prototipo para revisión, no entra en _STATUS.md ni consume un E0XX."
+authority: "DEMO — prototipo para revisión del template Ensayo. No entra en _STATUS.md ni consume un E0XX; carpeta _-prefijada, invisible al dashboard."
 ---
 
 # Guion — DEMO «Whiplash» (track Ensayo) · v0.2
@@ -31,6 +31,7 @@ authority: "DEMO — el track Ensayo está bloqueado hasta brain/20 §8. Prototi
 | **Modo** | A — obra como sujeto (`brain/20 §1`) |
 | **Forma del cierre** | A — reflexión + para llevar (`brain/09`) |
 | **Registro(s) del cierre** | psicológico + filosófico (máx. 2, `brain/09`) |
+| **Track activo** | Sí — `brain/20` es canon (2026-09-10) |
 | Recuento de palabras | ~2.850 |
 | Duración estimada | ~18 min |
 
@@ -62,7 +63,7 @@ Así que en este episodio vamos a hacer una cosa sencilla y un poco incómoda: l
 ## 0b. BUMPER — 3–6 s, en negro
 
 [EN PANTALLA] Corte a negro. Marca **`Conquest`**.
-[NARRACIÓN] «Soy [nombre].»
+[NARRACIÓN] «Hola, mi nombre es [nombre], y esto es Conquest.» *(línea fija — `brain/02` §0b)*
 [NOTA] Un tono grave. El pivote entra en el plano siguiente.
 
 ---
@@ -201,6 +202,8 @@ No voy a decirte que la disciplina no importe, ni que exigir sea malo. La pregun
 
 [NARRACIÓN]
 ¿Tú tuviste un Fletcher? ¿Te hizo mejor, te hizo daño, o —lo más raro— las dos cosas a la vez? Cuéntamelo en los comentarios, los leo todos. Y si te interesa este tipo de lectura de películas, suscríbete: la semana que viene desmontamos otra.
+
+Mi nombre es [nombre] y esto fue: *Whiplash*, la película que confunde a propósito la exigencia con el desprecio. *(sign-off fijo — `brain/02` §3, echo del hook-title)*
 
 [EN PANTALLA] Rótulo «Fuentes principales».
 

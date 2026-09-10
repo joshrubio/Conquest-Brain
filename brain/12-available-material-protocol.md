@@ -36,11 +36,11 @@ What most creators do informally (grab a press photo, drop it in), the channel d
 
 ## Protocol 1c — citation tier for copyrighted film / TV
 
-> **This tier is being promoted into the Ensayo track ([brain/20](20-experimental-clip-protocol.md)).**
-> Until 001+002 sign `brain/20` §8, §1c stays in force here as the narrow exception
-> for a Documental beat that genuinely comments on a specific work. Once signed,
-> `brain/20` §4 owns the workflow and §1c keeps only PD-first + the "no
-> illustrative use" line, pointing there.
+> **The Ensayo track ([brain/20](20-experimental-clip-protocol.md)) is the home for
+> this now.** §1c stays here as the narrow exception for a **Documental** beat that
+> genuinely comments on a specific work (Ensayo Mode B is the same shape). Full
+> workflow — footage doctrine, budgets, discovery, treatment — is `brain/20` §4;
+> the §1c fold into a pointer is still pending (`brain/20` §6).
 
 For the case a beat is **commentary on a specific film, series, or scene itself** — we are analysing that work, not borrowing its footage to illustrate an unrelated story. Using a *Wall Street* clip to dress a real fraud we're narrating is pure illustrative use: weakest fair-use footing and a near-certain Content ID claim. Don't. This tier is only for "here is the scene we're actually talking about".
 

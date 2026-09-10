@@ -1,23 +1,21 @@
 ---
 doc: 20-experimental-clip-protocol
-summary: "DRAFT — the Ensayo track: episodes built on a copyrighted film / TV / game / album under fair use. Three modes (obra como sujeto / cita / suceso), a charter carve-out that makes released creative works an eligible subject, per-mode footage budgets and a transformation checklist, the discovery workflow, the RPM-haircut expectation, and a cadence cap. Extends brain/12 §1c; carries its own 001+002 sign-off gate (§8)."
+summary: "The Ensayo track: episodes built on a copyrighted film / TV / game / album under fair use. Three modes (obra como sujeto / cita / suceso), a charter carve-out that makes released creative works an eligible subject, per-mode footage budgets and a transformation checklist, the discovery workflow, the RPM-haircut expectation, and a cadence cap. Extends brain/12 §1c."
 stage: [0, 2, 6, 7, 9]
 read_when: "proposing an Ensayo idea built on a film / series / game / album; writing the Mode-A anatomy or the reading; planning footage for one"
 pairs_with: [00-project-charter, 12-available-material-protocol, 02-content-format, 09-reflection-rules, 04-legal-and-ethics, 18-monetization-and-audience]
-authority: "DRAFT — not canon until Usuario 001 + Usuario 002 sign §8 (activates the Ensayo track). The brain/00 #1 rewrite, brain/09 §Ensayo, research/citation-shelf.md and the template changes are already live."
+authority: canonical
 ---
 
-# 20 — Experimental Clip Protocol (DRAFT)
+# 20 — Experimental Clip Protocol
 
-> **Status: DRAFT, 2026-09-10 (§3–§6 fleshed out from T08). Pending 001 + 002
-> sign-off (§8).** Written after the Farid-Dieck monetisation research (`research/`
-> + the 2026-09-10 session). It **extends [brain/12 §1c](12-available-material-protocol.md)**
-> (the citation tier for copyrighted film/TV) from "the rare exception" into a
-> working track — **Ensayo** ([ideas/tracks.md](../ideas/tracks.md)) — and carries
-> the rewrite of [charter](00-project-charter.md) non-negotiable #1 that makes it
-> possible. §8 (the operating-terms sign-off) is what activates the track; the
-> charter rewrite, `brain/09` §"Ensayo" and `research/citation-shelf.md` are
-> already live.
+> **Status: canonical, 2026-09-10.** The **Ensayo** track ([ideas/tracks.md](../ideas/tracks.md))
+> is live — an Ensayo idea is proposed, scored, approved and produced like any
+> other. This doc **extends [brain/12 §1c](12-available-material-protocol.md)** (the
+> citation tier for copyrighted film/TV) from "the rare exception" into a full
+> track, and carries the rewrite of [charter](00-project-charter.md)
+> non-negotiable #1 that makes it possible (`brain/00` #1 is the canonical home;
+> this is the detail). Some pipeline tooling is still to build — see §8.
 
 ## 0. Why this exists
 
@@ -59,12 +57,10 @@ C; reach for A only when the reading itself is the reason the episode exists.
 
 ## 2. Charter carve-out — creative works as eligible subjects (Ensayo only)
 
-> [brain/00](00-project-charter.md) non-negotiable #1 has already been rewritten
-> to name this (under change control, alongside this doc), and E1 of
+> [brain/00](00-project-charter.md) non-negotiable #1 has been rewritten to name
+> this (under change control, commit history of that file), and E1 of
 > [`ideas/idea-rubric.md`](../ideas/idea-rubric.md) carries the fourth eligible
-> subject type. What §8 does is **activate** the Ensayo track — until then
-> [`ideas/tracks.md`](../ideas/tracks.md) marks it unavailable and Ensayo ideas
-> stay blocked at E1.
+> subject type. This is the detail behind that line.
 
 A **released, publicly distributed creative work** — a film, television series,
 video game, album, or book — **and the documented public response to it**
@@ -86,10 +82,9 @@ non-negotiable #1, provided **all** of:
 - **Multiple sources.** The script synthesises **several** secondary sources —
   criticism, interviews, making-of documentation, scholarship. Never a
   reconstruction from the work alone ([brain/04 §5](04-legal-and-ethics.md)).
-- **Both founders sign.** The idea-pool row and `01-brief.md` carry 001 **and**
-  002 ticks, same as [brain/12 §1c](12-available-material-protocol.md).
 
-This amendment **does not touch** non-negotiables #2 (no one the founders know),
+No special sign-off — an Ensayo idea passes Stage 0 like any other (one signer,
+[brain/06](06-production-workflow.md)). This carve-out **does not touch** non-negotiables #2 (no one the founders know),
 #3 (every load-bearing claim ≥1 Tier A/B source), or #4 (channel independence).
 `research/` analysis of the work still may not be a reconstruction from a single
 transcript, and living creators covered critically get the [brain/04 §2](04-legal-and-ethics.md)
@@ -98,7 +93,7 @@ opinion).
 
 **E1 carries:** *"una obra creativa estrenada y su recepción pública documentada
 (solo Ensayo, bajo brain/20)."* R3 (cross-check de material) is satisfied for these
-ideas by the §4 footage plan below, not by the PD archive check.
+ideas by the §4.0 feasibility check, not by the PD archive worksheet.
 
 ## 3. Episode anatomy
 
@@ -111,7 +106,7 @@ handled as Mode-B citations (§4). Most Ensayo clip episodes should be this.
 ### Mode B — obra como cita
 **No change to [brain/02](02-content-format.md).** A normal episode about a real
 case that cites a work in one or two beats. The existing §1c rules already cover
-it; this doc just routes it through the same logging and sign-off.
+it; this doc just routes it through the same logging (§4.7).
 
 ### Mode A — obra como sujeto (variant of [brain/02](02-content-format.md) §Episode anatomy)
 
@@ -145,6 +140,17 @@ and fast; the reading is what fills the runtime. If a beat sheet is mostly recap
 with a thin reading on top, the episode isn't ready.
 
 ## 4. Footage doctrine
+
+### 4.0 Feasibility check (Stage 0 — satisfies rubric R3 for Ensayo)
+Three lines in the idea-pool row, no worksheet:
+1. **Lawful copy.** Is there a way to obtain the work legally (owned disc, bought
+   digital, a subscription that can be screen-captured)? Name it.
+2. **Reading sources.** Are there **≥3 Tier A/B** secondary sources for the reading
+   — criticism, interviews, making-of, scholarship? (These also satisfy E3.)
+3. **Clip budget.** Does the reading plausibly fit inside §4.4 (stills-first, clips
+   ≤ ~10 s, mode ceiling)? A rough "yes" is enough at Stage 0; the shotlist
+   resolves it beat by beat.
+Mark `Rights` on the worksheet row as `cita — crítica/comentario (fair use)`.
 
 ### 4.1 Stills first, motion only where motion is the argument
 A frame still (screenshot) under narration is far lower-risk than a moving clip
@@ -269,63 +275,45 @@ Operating rules:
   monetisation tag is set one step below the category it would otherwise get.
   Justify the episode on P2/P4/P6, not on the CPM tag.
 - **Disputing a Content ID claim can escalate to a takedown and a strike.**
-  Dispute **only** where the commentary case is unambiguous and both founders
-  agree in writing. Otherwise let the claim stand — a revenue redirect on the
-  clip portion of one video is survivable; a strike threatens the whole channel.
+  Dispute **only** where the commentary case is unambiguous. Otherwise let the
+  claim stand — a revenue redirect on the clip portion of one video is survivable;
+  a strike threatens the whole channel.
 - **Jurisdiction, one line:** "fair use" is US doctrine; Spain/LATAM "derecho de
   cita" is narrower. YouTube runs US-style Content ID globally. Keep §4 tight;
   escalate a specific worry to a lawyer ([brain/04](04-legal-and-ethics.md)) — this is not legal advice.
 
-## 6. Tooling (proposed — built on sign-off)
+## 6. Tooling
 
-| Tool | Stage | What it does |
-|------|-------|--------------|
-| `research/citation-shelf.md` | 4·5 | **Exists now (seeded).** The verified list of psychologists / theorists / studies the reading can cite — name, field, claim, Tier-A/B primary source, exact finding, verified flag. Grows per episode; the fact-check crosses every `[S..]` authority against it. |
-| `tools/scene_locator.py` | 6 | Indexes a **local `.srt`** against `06-shotlist.md` scene notes / quoted lines → candidate timecodes. A convenience for discovery, not a gate (§4.6). |
-| `tools/clip_cut.py` | 7 | `clip_cut.py <SOURCE-or-URL> 01:12:33 8 --out assets/cite/…` — cut an excerpt from a local file or a user-supplied URL, strip audio, cap at budget. ffmpeg (`mediabin.py`). |
-| `01-brief.md` template | 1 | New block: **mode (A/B/C), work + year + distributor, "RPM reducido (clips)" flag, 001+002 clip sign-off.** |
-| `templates/script-template.md` | 4 | Track field; an **«Autoridades citadas»** table (name · field · `[S..]` · on the shelf?) for Ensayo; a note that the `NARRATIVA` section is the work's scaffold. |
-| `06-shotlist.md` gate | 6 | New check: every `cita` beat has title/year/distributor/timecode and is ≤ budget; moving-image total ≤ mode ceiling; no `cita` beat load-bearing; §4.3 treatment noted. |
-| `ideas/idea-rubric.md` | 0 | E1 gains the fourth subject type; R3 met by the §4 plan for these ideas. |
-| `brain/INDEX.md` | — | Row 20; routing entries under "judge/score an idea", "use a copyrighted clip", "anything legal". |
+| Tool | Stage | State |
+|------|-------|-------|
+| `research/citation-shelf.md` | 4·5 | **Live.** Verified list of psychologists / theorists / studies the reading can cite — name, field, claim, Tier-A/B source, verified flag. Grows per episode; the fact-check ([brain/14](14-fact-check-protocol.md)) crosses every `[S..]` authority against it. |
+| `templates/script-template.md` | 4 | **Live.** Track field; the «Autoridades citadas» table; the welded-sections + spread-citations notes; the `NARRATIVA`-is-the-scaffold note. |
+| `ideas/idea-rubric.md` · `brain/INDEX.md` | 0 | **Live.** E1's fourth subject type, R3 → §4.0, routing rows. |
+| `tools/scene_locator.py` | 6 | **To build.** Indexes a local `.srt` against `06-shotlist.md` scene notes → candidate timecodes. A discovery convenience, not a gate (§4.6). |
+| `tools/clip_cut.py` | 7 | **To build.** `clip_cut.py <SOURCE-or-URL> 01:12:33 8 --out assets/cite/…` — cut an excerpt from a local file or a URL, strip audio, cap at budget. ffmpeg (`mediabin.py`). |
+| `01-brief.md` template | 1 | **To build.** Ensayo block: mode (A/B/C), work + year + distributor, lawful-copy source, "RPM reducido (clips)" flag. |
+| `06-shotlist.md` `cita` gate | 6 | **To build.** Every `cita` beat has title/year/distributor/timecode and is ≤ budget; moving-image total ≤ mode ceiling; no `cita` beat load-bearing; §4.3 treatment noted. |
+| `brain/12 §1c` fold | — | **To do.** Move the §1c workflow detail here, leave a pointer (keep §1c's PD-first + "no illustrative use" lines). |
 
 ## 7. Cadence cap
 
-Until three episodes under this protocol have published **and** been reviewed at
+Until three Ensayo episodes with clips have published **and** been reviewed at
 48 h + 30 d (`tools/metrics.py`) **with their Content ID outcomes recorded**:
 
-- **≤ 1 in every 4 published episodes** uses Mode A or B/C-with-clips.
-- After the third, the founders review: retention vs. the channel baseline, the
-  Content ID claim rate, whether any dispute was needed, and the AdSense hit.
-  Then this cap is re-set (raised, kept, or the protocol paused).
+- **≤ 1 in every 4 published episodes** uses Mode A, or B/C with clips.
+- After the third, review: retention vs. the channel baseline, the Content ID
+  claim rate, whether any dispute was needed, the RPM hit. Then re-set the cap
+  (raise, keep, or pause the track).
 
 Mode C episodes that use **only PD footage or stills within budget** and draw no
-claims in practice don't count against the cap after review — but they start
-under it.
+claims in practice stop counting against the cap after that review — but they
+start under it.
 
-## 8. Sign-off — activates the Ensayo track (both founders)
+## 8. Still to build
 
-The track-restructure (Documental / Ensayo, `ideas/tracks.md`) and the `brain/00`
-#1 rewrite are already in the canon. This sign-off is the founders accepting the
-**Ensayo operating terms** — the §4 footage doctrine, the §5 RPM haircut, the §7
-cadence cap — and flipping the track live.
-
-- [ ] **Usuario 001** — accepts §3 Mode-A anatomy, §4 footage doctrine, §5 RPM-haircut scoring, §7 cap. Date: ______
-- [ ] **Usuario 002** — same. Date: ______
-
-On both ticks:
-1. Flip this file's `authority` to `canonical` and drop the DRAFT banners.
-2. In `ideas/tracks.md`, remove the "track no activo" block; unblock the `ENS-*`
-   ideas at E1.
-3. Build `tools/scene_locator.py` + `tools/clip_cut.py`; add the `01-brief.md`
-   Ensayo block and the `06-shotlist.md` `cita` gate.
-4. Fold the now-redundant workflow detail of [brain/12 §1c](12-available-material-protocol.md)
-   into a pointer here (keep §1c's PD-first and "no illustrative use" lines).
-
-`research/citation-shelf.md`, the `templates/script-template.md` additions, the
-`brain/09` §"Ensayo" block and the `brain/00` #1 rewrite are **already live** —
-they're useful to Documental too and don't wait on the sign-off.
-
-Until then: **the Ensayo track is not available.** `ENS-*` ideas stay blocked at
-E1; a Documental beat that genuinely comments on a specific work still uses
-[brain/12 §1c](12-available-material-protocol.md) as the narrow exception.
+The Ensayo track is live for ideation and scriptwriting (the Whiplash demo,
+`episodes/_DEMO-ensayo-whiplash/`, is a worked Stage-4 example). The pipeline
+pieces still marked **"To build" / "To do"** in §6 land as the track is exercised
+stage by stage — `scene_locator.py`, `clip_cut.py`, the `01-brief.md` block, the
+`06-shotlist.md` gate, and the §1c fold. Until `clip_cut.py` exists, cut cited
+excerpts by hand with ffmpeg and log them the same way (§4.7).

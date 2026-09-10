@@ -19,7 +19,7 @@ Cada idea pertenece a uno. Se definen por **formato y régimen de derechos**, no
 | Track | Qué es | Material / montaje | Cierre habitual |
 |-------|--------|--------------------|-----------------|
 | **Documental** | un caso real narrado — persona, empresa, evento, práctica, fenómeno colectivo. Todo lo que el canal hace hoy (antes T01 + T02), sin restricción temática. | dominio público + Protocolo 1b (`brain/12`); anatomía `brain/02` + montaje `brain/11` | A, B o C |
-| **Ensayo** | una **obra** (cine/serie/juego/álbum/libro) o su recepción, llevada por una lectura ensayística — obra como sujeto / cita / suceso (`brain/20 §1`). | + clips con copyright bajo fair use con los caps de `brain/20 §4`; anatomía `brain/20 §3`. **No activo hasta firma de `brain/20 §8`.** | A o B |
+| **Ensayo** | una **obra** (cine/serie/juego/álbum/libro) o su recepción, llevada por una lectura ensayística — obra como sujeto / cita / suceso (`brain/20 §1`). | + clips con copyright bajo fair use con los caps de `brain/20 §4`; anatomía `brain/20 §3`; cola del título `\| Ensayo`. Track activo. | A o B |
 
 Un mismo sujeto puede ir a **cualquier track** según el tratamiento. Se fija en la ideación, junto con el hook-title.
 
@@ -34,7 +34,7 @@ Cualquiera de los dos fundadores propone la idea con:
 
 ### 2 · Cross-check de material (Protocolo 1)
 
-Antes de puntuar: ¿hay material de dominio público —fotos, documentos, footage— para ilustrar el episodio? Se rellena la hoja de `brain/12`. **Sin material, no hay episodio.** Detalle en [3-los-3-protocolos](3-los-3-protocolos.md).
+Antes de puntuar: **Documental** — ¿hay material de dominio público (fotos, documentos, footage) para ilustrar el episodio? Se rellena la hoja de `brain/12`. **Ensayo** — la feasibility de `brain/20 §4.0`: ¿hay copia lícita de la obra?, ¿≥3 fuentes para la lectura?, ¿presupuesto de clips viable? **Sin material, no hay episodio.** Detalle en [3-los-3-protocolos](3-los-3-protocolos.md).
 
 ### 3 · Los tres requisitos previos
 
@@ -48,9 +48,9 @@ Antes de puntuar: ¿hay material de dominio público —fotos, documentos, foota
 
 | # | Filtro |
 |---|--------|
-| E1 | El sujeto es figura pública / caso histórico / empresa-práctica (no persona privada). |
+| E1 | El sujeto es figura pública / caso o evento histórico / empresa-práctica / fenómeno colectivo documentado (no persona privada) — o, solo Ensayo, una obra estrenada y su recepción documentada. |
 | E2 | Existe registro público documentado (no solo rumores). |
-| E3 | Hay ≥3 fuentes Tier A/B localizables antes de empezar. |
+| E3 | Hay ≥3 fuentes Tier A/B localizables antes de empezar. *(Ensayo: la crítica, entrevistas y beca sobre la obra cuentan.)* |
 | E4 | Nadie que Usuario 001 o Usuario 002 conozcan está involucrado o es identificable — ni anonimizado. |
 | E5 | La idea no procede de un tip privado (o se re-obtuvo íntegra desde material público). |
 | E6 | La historia **se sostiene sola**, sin necesidad del cierre. |

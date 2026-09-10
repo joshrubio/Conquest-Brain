@@ -500,8 +500,9 @@ class H(BaseHTTPRequestHandler):
         if path == "/ideas-new":
             n = int(data.get("n", 3))
             P.enqueue("POOL", 0, "ideas",
-                      note=f"Añade {n} ideas nuevas a ideas/idea-pool.md (track Documental salvo que encaje "
-                           f"mejor en Ensayo), 3 hook-titles estilo Dieck cada una, /21 estimada. No crees "
+                      note=f"Añade {n} ideas nuevas a ideas/idea-pool.md — mezcla los dos tracks "
+                           f"(Documental `DOC-` y Ensayo `ENS-`) según lo que pida cada idea. 3 hook-titles "
+                           f"estilo Dieck cada una (cola `| Documental` o `| Ensayo`), /21 estimada. No crees "
                            f"carpetas ni avances stages. Reglas: brain/12, brain/13, brain/20, ideas/idea-rubric.md")
             _run(["dash.py"])
             return self._send(200, json.dumps({"ok": True, "reload": False,
