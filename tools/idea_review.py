@@ -42,20 +42,20 @@ def parse_pool(txt):
     """-> ([idea…], hidden_count).  idea = {id, track, title, angle, close, material,
     score, status, hooks[], chosen_hook, cierre, note, cpm, audience}"""
     ideas = {}
-    # summary tables: | T01-01 | Title | Angle | Close | Material | 20 | aprobada |
-    for m in re.finditer(r"^\|\s*(T0[12]-\d+)\s*\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|",
+    # summary tables: | DOC-01 | Title | Angle | Close | Material | 20 | aprobada |
+    for m in re.finditer(r"^\|\s*((?:DOC|ENS)-\d+)\s*\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|",
                          txt, re.M):
         iid = m.group(1)
         ideas[iid] = {
-            "id": iid, "track": "T01" if iid.startswith("T01") else "T02",
+            "id": iid, "track": "Ensayo" if iid.startswith("ENS") else "Documental",
             "title": m.group(2).strip(), "angle": m.group(3).strip(),
             "close": m.group(4).strip(), "material": m.group(5).strip(),
             "score": re.sub(r"\D", "", m.group(6)) or "?",
             "status": m.group(7).strip(),
             "hooks": [], "chosen_hook": "", "note": "", "cierre": "", "cpm": "", "audience": "",
         }
-    # detail sections:  ### T01-01 · Coca-Cola
-    for m in re.finditer(r"^### (T0[12]-\d+)[^\n]*\n(.*?)(?=^### |\Z)", txt, re.M | re.S):
+    # detail sections:  ### DOC-01 · Coca-Cola
+    for m in re.finditer(r"^### ((?:DOC|ENS)-\d+)[^\n]*\n(.*?)(?=^### |\Z)", txt, re.M | re.S):
         iid, block = m.group(1), m.group(2)
         if iid not in ideas:
             continue

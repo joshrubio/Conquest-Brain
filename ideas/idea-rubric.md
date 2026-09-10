@@ -6,15 +6,15 @@
 
 | # | Requisito | Ref |
 |---|-----------|-----|
-| R1 | **Track asignado** — T01 Historias Inspiradoras o T02 Exploración | `tracks.md` |
+| R1 | **Track asignado** — **Documental** o **Ensayo** | `tracks.md` |
 | R2 | **Hook-title** redactado (estilo Farid Dieck) | `brain/13-hook-naming.md` |
-| R3 | **Cross-check de contenido disponible** completo — hay material de dominio público (o plan de gráficos propios) para sostener el episodio | `brain/12-available-material-protocol.md` |
+| R3 | **Cross-check de contenido disponible** completo — Documental: hay material de dominio público (o plan de gráficos propios) para sostener el episodio. Ensayo: el plan de metraje de `brain/20 §4` (stills + clips bajo fair use dentro de presupuesto). | `brain/12-available-material-protocol.md` · `brain/20` |
 
 ## Filtros eliminatorios (todos deben ser SÍ)
 
 | # | Filtro | SÍ / NO |
 |---|--------|---------|
-| E1 | El sujeto es una **figura pública**, un **caso histórico** o una **empresa/práctica** (no una persona privada). | |
+| E1 | El sujeto es una **figura pública**, un **caso o evento histórico**, una **empresa/práctica** o un **fenómeno colectivo documentado** (no una persona privada) — **o**, solo para el track **Ensayo**, una **obra creativa estrenada y su recepción pública documentada** (carve-out de `brain/00` #1, `brain/20 §2`; bloqueado hasta que se firme `brain/20 §8`). | |
 | E2 | Existe un **registro público documentado** (no solo rumores). | |
 | E3 | Hay al menos **3 fuentes Tier A/B** localizables antes de empezar. | |
 | E4 | **Nadie** que Usuario 001 o Usuario 002 conozcan personalmente está involucrado o es identificable — ni anonimizado. | |
@@ -49,8 +49,10 @@ Cada idea lleva dos etiquetas más, tomadas de [brain/18-monetization-and-audien
 
 | Etiqueta | Valores | Qué mide |
 |----------|---------|----------|
-| **Categoría CPM** | A (alta) · B (media) · C (baja) | fraude/dinero/institucional (A) vs. historia/arte/biografía pura (C) |
+| **Categoría CPM** | A (alta) · B (media) · C (baja) | fraude/dinero/institucional (A) vs. historia/arte/biografía pura (C). Ortogonal al track — un Documental y un Ensayo pueden ser cualquiera de las tres. |
 | **Audiencia esperada** | Tier 1 (España/hispanos EE.UU.) · mixta · Tier 3 (LATAM) | de dónde es probable que venga la mayoría de las vistas |
+
+Los episodios **Ensayo** con clips llevan además el recorte de RPM de `brain/20 §5` (Content ID sobre los tramos con clip) — informativo, no eliminatorio.
 
 Sirven **solo como desempate**: entre dos ideas con puntaje similar, o al elegir cuál
 incubando promover primero, se prefiere la de categoría/audiencia más alta. Nunca

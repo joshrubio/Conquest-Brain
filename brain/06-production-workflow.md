@@ -15,9 +15,9 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 **The dashboard** ([brain/17](17-dashboard-and-advance.md)) — `dashboard.html` (from `tools/dash.py`) is one screen for every chapter; `tools/serve.py` + `tools/advance.py` close each gate with one click and regenerate it. **Review pages.** Six stages hand off to a generated dark-theme HTML instead of a markdown table — either user works in the browser and hits **Finalizar Stage N**: Stage 0 `ideas/idea-review.html` · Stage 2 `02-research.html` · Stage 4 `05-script.html` · Stage 7 `07-style-pass.html` · Stage 9 `07c-edit.html` · Stage 10 `10-package.html`. Most fold a small `.txt` of decisions back into the source doc (the server does the mechanical ones, Claude the rest). **Stage 4 is the exception** — its page is a direct editor, not a decisions form: the server writes what's in the editor straight into `05-script.md`, no folding step. The `.html` is regenerable (gitignored); the exported `.txt` is the tracked record. **Any gate can be signed by one person.**
 
 ## Stage 0 — Ideation
-- Track owner proposes the idea: **T01 Historias Inspiradoras** (Usuario 002) or **T02 Exploración** (Usuario 001) — see [ideas/tracks.md](../ideas/tracks.md).
+- Either founder proposes the idea and assigns a track — **Documental** or **Ensayo** ([ideas/tracks.md](../ideas/tracks.md)). Ideation is shared; the track (format + rights regime), not the proposer, sets the anatomy and montage rules. Ensayo is blocked at E1 until `brain/20` §8 is signed.
 - **Protocol 2 — Hook Naming** ([brain/13](13-hook-naming.md)): 3 hook-title variants, Dieck register.
-- **Protocol 1 — Available material** ([brain/12](12-available-material-protocol.md)): cross-check the case against public-domain archives; fill the worksheet. No material → no episode.
+- **Protocol 1 — Available material** ([brain/12](12-available-material-protocol.md)): Documental — cross-check the case against public-domain archives; fill the worksheet. Ensayo — the footage plan of [brain/20](20-experimental-clip-protocol.md) §4. No material → no episode.
 - Score with [ideas/idea-rubric.md](../ideas/idea-rubric.md): eliminatorios E1–E8 + /21.
 - Record in [ideas/idea-pool.md](../ideas/idea-pool.md).
 - **Review:** `python tools/idea_review.py` → `ideas/idea-review.html` — score each idea, pick the strongest hook-title, comment; exports `idea-review.txt` → folded back into `idea-pool.md`.
@@ -105,7 +105,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 Slots and the responsibility split: [brain/00](00-project-charter.md) + [brain/USERS.md](USERS.md).
 
-- **Stage 0 ideation** — the track owner (Usuario 002 for T01, Usuario 001 for T02).
+- **Stage 0 ideation** — shared; whoever proposes the idea leads, the other supports.
 - **Stages 1–7, 9–10** — Usuario 001 leads; the picture-lock and package gates are review pages **either user can sign**.
 - **Stage 8 record** — the assigned narrator.
 - **Stage 11 publish, Stage 12 retro** — Usuario 001; the legal/COI tick can be either user.

@@ -50,15 +50,22 @@ international relevance a case doesn't have.
 
 | Tier | Category archetype | Approx. CPM | Typical Conquest fit |
 |------|--------------------|-------------|----------------------|
-| **A — alta** | Fraud / financial crime · business & money · true-crime-adjacent institutional failure | $12–25+ | T02 cases with a financial-fraud or criminal core (Talidomida, manías especulativas, empresas que mintieron) |
-| **B — media** | Education / science explainer · engineering failure with casualties · legal/regulatory | $6–12 | T02 disasters, cover-ups, regulation stories; T01 companies where the money angle carries the episode |
-| **C — baja** | "Pure" history, art, or personal biography with no crime/money/institutional-failure spine | $3–8 | biographies like Hokusai — strong Track fit, weaker CPM |
+| **A — alta** | Fraud / financial crime · business & money · true-crime-adjacent institutional failure | $12–25+ | cases with a financial-fraud or criminal core (Talidomida, manías especulativas, empresas que mintieron) |
+| **B — media** | Education / science explainer · engineering failure with casualties · legal/regulatory | $6–12 | disasters, cover-ups, regulation stories; companies where the money angle carries the episode; most **Ensayo** obra-como-suceso ideas (a ban, a lawsuit, an industry shift) |
+| **C — baja** | "Pure" history, art, or personal biography with no crime/money/institutional-failure spine | $3–8 | biographies like Hokusai; most **Ensayo** obra-como-sujeto ideas (film/work criticism) — strong fit, weaker CPM |
 
-A case doesn't have to be re-angled to move tiers — most T02 material (fraud,
-mania, institutional failure) is naturally Tier A/B already; most T01 material
-(companies, money, founders) sits A/B too. The tier mainly flags the minority of
-ideas — usually pure-arts/pure-history biographies — that are editorially strong
-but structurally low-CPM, so that's known going in, not discovered after Stage 9.
+The tier is **orthogonal to the track** — a Documental and an Ensayo can each be
+A, B or C. A case doesn't have to be re-angled to move tiers — most fraud / mania /
+institutional-failure material is naturally Tier A/B already, and most
+company / money / founder material sits A/B too. The tier mainly flags the
+minority of ideas — usually pure-arts/pure-history biographies and film-criticism
+essays — that are editorially strong but structurally low-CPM, so that's known
+going in, not discovered after Stage 9.
+
+**Ensayo episodes that use copyrighted clips** carry an extra RPM haircut: Content
+ID claims redirect ad revenue on the clip-bearing portions. Score them assuming
+that haircut (detail: [20-experimental-clip-protocol.md](20-experimental-clip-protocol.md) §5) —
+softened, not erased, by the channel already targeting Tier-1 geography.
 
 ## How it's used
 

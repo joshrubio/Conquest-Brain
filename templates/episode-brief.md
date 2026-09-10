@@ -17,7 +17,7 @@ authority: template
 | Slug carpeta | E0XX-<slug> |
 | Fecha del brief | AAAA-MM-DD |
 | Autor del brief | Usuario 002 / Usuario 001 |
-| Track | T01 Historias Inspiradoras / T02 Exploración (`ideas/tracks.md`) |
+| Track | Documental / Ensayo (`ideas/tracks.md`) |
 | Hook-title elegido (`brain/13`) | … |
 | Guionista | Usuario 001 |
 | Narrador asignado | Usuario 002 / Usuario 001 |

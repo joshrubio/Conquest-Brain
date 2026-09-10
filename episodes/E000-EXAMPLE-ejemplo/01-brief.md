@@ -8,7 +8,7 @@
 | Slug carpeta | E000-EXAMPLE-ejemplo |
 | Fecha del brief | 2026-08-28 |
 | Autor del brief | Usuario 001 (ejemplo) |
-| Track | **T02 Exploración** (`ideas/tracks.md`) |
+| Track | **Documental** (`ideas/tracks.md`) — el ejemplo se redactó como «T02 Exploración» |
 | Hook-title elegido (`brain/13`) | `¿La PRIMERA BURBUJA de la historia fue un FRAUDE planeado? \| Los Mares del Sur, 1720 \| Documental` |
 | Guionista | Usuario 001 |
 | Narrador asignado | Usuario 001 |
@@ -25,7 +25,7 @@
 
 ## Elegibilidad (resumen de la rúbrica — ver `ideas/idea-rubric.md`)
 
-- [x] Track asignado (T02) + hook-title redactado (`brain/13`)
+- [x] Track asignado (Documental) + hook-title redactado (`brain/13`)
 - [x] Cross-check de contenido disponible hecho — ver sección abajo (`brain/12`)
 - [x] Registro público documentado (actas del Parlamento 1721, prensa de la época, historiografía)
 - [x] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)

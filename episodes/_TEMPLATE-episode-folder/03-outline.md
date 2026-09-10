@@ -7,7 +7,7 @@
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E0XX |
-| Track | T01 / T02 |
+| Track | Documental / Ensayo |
 | Narrador | Usuario 001 / Usuario 002 |
 | Guionista | Usuario 001 |
 | Forma del cierre (`brain/09`) | A reflexión + para llevar / B lección distribuida / C pregunta abierta |

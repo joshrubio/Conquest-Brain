@@ -47,9 +47,10 @@ Cada retro añade una fila al **KPI log** de `brain/07`:
 
 Cada ~5 episodios publicados:
 
-- ¿Se inclina todo hacia un track (T01 / T02)?
+- ¿Se inclina todo hacia un formato (Documental / Ensayo)?
 - ¿Los hooks siguen funcionando (CTR)?
-- ¿Algún subtema de Exploración deriva a tono sensacionalista?
+- ¿Algún tema deriva a tono sensacionalista?
+- ¿Los episodios Ensayo respetan sus caps de montaje y su realidad de monetización (`brain/20`)?
 - Fijar / revisar la cadencia (`brain/07`).
 
 ## Actualizar el estado

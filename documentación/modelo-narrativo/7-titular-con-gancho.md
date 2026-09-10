@@ -1,7 +1,7 @@
 ---
 doc: modelo-narrativo/7-titular-con-gancho
 summary: "Anatomía del título Dieck, tipos de gancho, reglas éticas, plantillas, ejemplos con sujetos propios."
-audience: "dueño del track"
+audience: "cualquiera de los dos fundadores"
 mirrors: [brain/13]
 authority: guide
 ---

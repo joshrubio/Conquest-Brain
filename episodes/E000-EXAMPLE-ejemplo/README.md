@@ -11,7 +11,7 @@ Carpeta de referencia: muestra **cómo se rellenan los archivos de un episodio**
 
 | Archivo | Qué demuestra |
 |---------|---------------|
-| `01-brief.md` | Brief Stage 1 completo: **track T02**, **3 hook-titles** (`brain/13`), cross-check de material (`brain/12`), forma de cierre A, estructura, riesgos. |
+| `01-brief.md` | Brief Stage 1 completo: **track Documental**, **3 hook-titles** (`brain/13`), cross-check de material (`brain/12`), forma de cierre A, estructura, riesgos. |
 | `02-research-dossier.md` | Cronología, afirmaciones de carga con tier, puntos disputados, la cita apócrifa marcada. |
 | `03-source-log.csv` | Registro de fuentes con tier y estado de derechos. Fuentes reales; localización exacta marcada como *a completar*. |
 | `04-factcheck-auto.md` | Salida de Layer 1 (`tools/factcheck.py`) + hueco de Layer 2 (`brain/14`). |

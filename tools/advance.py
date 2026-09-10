@@ -90,7 +90,7 @@ def _prefill_brief(brief, epid, d, payload):
     title = (d.get("title") or payload.get("working_title") or epid).strip("«».")
     slug = d.get("slug") or f"{epid}-{P.slugify(title)}"
     hook = payload.get("hook") or ""
-    track = {"T01": "T01 Historias Inspiradoras", "T02": "T02 Exploración"}.get(d.get("track"), d.get("track") or "…")
+    track = d.get("track") or "…"
     narr = d.get("narrator") or "…"
     t = brief.read_text(encoding="utf-8")
     subs = [

@@ -65,6 +65,6 @@ El PRECIO de <logro> | <Sujeto> | Documental
 
 | Idea | Hook-title variants |
 |------|---------------------|
-| Ignaz Semmelweis (T01) | `El médico que descubrió cómo SALVAR VIDAS — y murió en un manicomio \| Semmelweis \| Documental` · `¿POR QUÉ NADIE le creyó? \| Semmelweis \| Documental` · `El PRECIO de tener razón demasiado pronto \| Semmelweis \| Documental` |
-| Hyatt Regency 1981 (T02) | `¿QUIÉN fue el CULPABLE? \| Kansas City, 1981 \| Documental` · `El pequeño cambio de plano que MATÓ a 114 personas \| Documental` · `El LADO MÁS OSCURO de decir "esto ya funcionaba" \| Hyatt Regency \| Documental` |
-| Radium Girls (T02) | `Las obreras a las que les dijeron que el VENENO era seguro \| Radium Girls \| Documental` · `¿POR QUÉ la empresa las dejó MORIR? \| Radium Girls \| Documental` · `La VERDADERA HISTORIA DETRÁS de tu derecho a un trabajo seguro \| Documental` |
+| Ignaz Semmelweis | `El médico que descubrió cómo SALVAR VIDAS — y murió en un manicomio \| Semmelweis \| Documental` · `¿POR QUÉ NADIE le creyó? \| Semmelweis \| Documental` · `El PRECIO de tener razón demasiado pronto \| Semmelweis \| Documental` |
+| Hyatt Regency 1981 | `¿QUIÉN fue el CULPABLE? \| Kansas City, 1981 \| Documental` · `El pequeño cambio de plano que MATÓ a 114 personas \| Documental` · `El LADO MÁS OSCURO de decir "esto ya funcionaba" \| Hyatt Regency \| Documental` |
+| Radium Girls | `Las obreras a las que les dijeron que el VENENO era seguro \| Radium Girls \| Documental` · `¿POR QUÉ la empresa las dejó MORIR? \| Radium Girls \| Documental` · `La VERDADERA HISTORIA DETRÁS de tu derecho a un trabajo seguro \| Documental` |

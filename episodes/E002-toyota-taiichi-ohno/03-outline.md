@@ -6,7 +6,7 @@
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E002 |
-| Track | T01 Historias Inspiradoras |
+| Track | Documental |
 | Narrador | Usuario 002 |
 | Guionista | Usuario 001 |
 | Forma del cierre (`brain/09`) | **A** — reflexión + para llevar |
