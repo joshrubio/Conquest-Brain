@@ -1016,33 +1016,49 @@ def kb_move(b, w, h):
     return mv
 
 
-def _clip_filter(i, b, w, h, fps):
-    """One beat -> a [vN] stream that FILLS WxH (no letterbox) with its move.
-    All moves use ONE `zoompan` on a single still — NO `fps` filter before it
-    (that would feed zoompan N frames and it emits d per frame → d*N frames,
-    a 15 min video rendered as 60 min: the bug that was here)."""
-    d = max(0.4, b["out"] - b["in"])
-    fr = max(1, int(round(d * fps)))
+def _kb_big(w, h):
+    """An oversize 16:9 canvas for a zoom move — ~3× the output (capped at 8K)
+    so zoompan's per-frame integer rounding of the shrinking window stays
+    sub-pixel after the final downscale (the other half of the anti-jitter fix
+    is the linear `on` expression instead of an accumulating `zoom+delta`)."""
+    return min(round(w * 3), 7680), min(round(h * 3), 4320)
+
+
+def _still_move(b, w, h):
     mv = kb_move(b, w, h)
-    src = f"[{i}:v]setsar=1"
-    # scale so the still at least fills the frame; `increase` = one dim overflows
-    fillbig = f"scale={w * 2}:{h * 2}:force_original_aspect_ratio=increase"
-    fill = f"scale={w}:{h}:force_original_aspect_ratio=increase"
-    zp = f"d={fr}:s={w}x{h}:fps={fps}"
-    if mv == "pan-v":       # travel the tall overflow top→bottom
-        f = (f"{src},{fill},zoompan=z=1:{zp}:x='(iw-{w})/2':y='(ih-{h})*on/{max(1,fr-1)}'")
-    elif mv == "pan-h":     # travel the wide overflow left→right
-        f = (f"{src},{fill},zoompan=z=1:{zp}:x='(iw-{w})*on/{max(1,fr-1)}':y='(ih-{h})/2'")
-    elif mv == "zoom":      # push harder, to a detail
-        f = (f"{src},{fillbig},crop={w * 2}:{h * 2},zoompan="
-             f"z='min(zoom+0.0016,1.20)':{zp}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'")
-    elif mv == "cut":       # hard hold, fills the frame, no move
-        f = (f"{src},{fill},crop={w}:{h},zoompan=z=1:{zp}:x=0:y=0")
-    else:                   # push (default) — slow zoom-in
-        f = (f"{src},{fillbig},crop={w * 2}:{h * 2},zoompan="
-             f"z='min(zoom+0.0008,1.10)':{zp}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'")
+    return mv if mv in ("pan-v", "pan-h", "cut", "push", "zoom") else "push"
+
+
+def _clip_filter(i, b, w, h, fps, mv=None):
+    """One beat -> a [vN] stream that FILLS WxH (no letterbox) with its move.
+
+    Panning moves use `crop` on a real frame stream, animated by `t` (fixed crop
+    size, moving x/y) — this keeps the aspect ratio and never jitters. Zoom moves
+    use `zoompan` on a SINGLE frame that has already been cropped to 16:9 (so
+    z=1 is an undistorted full frame, not a squashed one), pre-scaled onto a big
+    canvas and driven by a linear `on` expression so the crop window doesn't
+    stair-step. render() feeds the right kind of input for each."""
+    d = max(0.4, b["out"] - b["in"])
+    mv = mv or _still_move(b, w, h)
+    bw, bh = _kb_big(w, h)
+    # `increase` = cover the target keeping aspect (one dimension overflows → room to move)
+    fill = f"[{i}:v]setsar=1,scale={w}:{h}:force_original_aspect_ratio=increase"
+
+    if mv == "pan-v":       # hold width, travel the tall overflow top→bottom
+        f = f"{fill},crop={w}:{h}:x='(iw-{w})/2':y='(ih-{h})*min(1,t/{d:.3f})'"
+    elif mv == "pan-h":     # hold height, travel the wide overflow left→right
+        f = f"{fill},crop={w}:{h}:x='(iw-{w})*min(1,t/{d:.3f})':y='(ih-{h})/2'"
+    elif mv == "cut":       # hard hold, centred, no move
+        f = f"{fill},crop={w}:{h}:x='(iw-{w})/2':y='(ih-{h})/2'"
+    else:                   # push (0.10) / zoom (0.20) — clean centre zoom-in
+        amt = 1.20 if mv == "zoom" else 1.10
+        fr = max(2, int(round(d * fps)))
+        f = (f"[{i}:v]setsar=1,scale={bw}:{bh}:force_original_aspect_ratio=increase,"
+             f"crop={bw}:{bh},"
+             f"zoompan=z='1+{amt - 1:.2f}*on/{fr - 1}':d={fr}:s={w}x{h}:fps={fps}:"
+             f"x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'")
     # concat needs every segment identical: square pixels + fixed size + fps
-    return f + f",trim=duration={d:.3f},setpts=PTS-STARTPTS,setsar=1,fps={fps}[v{i}]"
+    return f + f",trim=duration={d:.3f},setpts=PTS-STARTPTS,setsar=1,fps={fps},format=yuv420p[v{i}]"
 
 
 def render(slug, mode, t0=None, t1=None, dry=False):
@@ -1101,8 +1117,14 @@ def render(slug, mode, t0=None, t1=None, dry=False):
         else:
             p = ep / f
             if p.suffix.lower() in STILL_EXT:
-                inputs += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(p)]
-                filters.append(_clip_filter(i, b, w, h, fps))
+                mv = _still_move(b, w, h)
+                if mv in ("pan-v", "pan-h", "cut"):
+                    # a real frame stream so the crop-based pan can animate over `t`
+                    inputs += ["-loop", "1", "-framerate", str(fps), "-t", f"{dur:.3f}", "-i", str(p)]
+                else:
+                    # one frame — zoompan makes the rest (feeding it many would explode)
+                    inputs += ["-loop", "1", "-t", "0.04", "-i", str(p)]
+                filters.append(_clip_filter(i, b, w, h, fps, mv))
             else:
                 # video B-roll: scale-crop to frame, play it straight — NO zoompan
                 # (that would explode the frame count). If the clip is a bit

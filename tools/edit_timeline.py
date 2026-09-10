@@ -189,7 +189,7 @@ def build(slug):
 <div class="work">
  <section class="preview">
   <div class="screen" id="screen">
-   {'<video id="vid" preload="metadata" src="09-rough.mp4#t=0.01"></video>' if has_rough else ''}
+   {'<video id="vid" preload="auto" src="09-rough.mp4#t=0.01"></video>' if has_rough else ''}
    <img id="still" alt="" hidden>
    <video id="clip" playsinline preload="auto" hidden></video>
    <video id="face" playsinline muted preload="auto" hidden {f'src="{e(take_src)}"' if take_src else ''}></video>
@@ -522,7 +522,13 @@ function updWords(){{
 }}
 function loop(ts){{
   if(!playing)return;
-  if(MODE==="rough" && vid && !vid.paused){{ cur=vid.currentTime; }}
+  // rough mode: keep #vid running — a buffer stall / tab throttle can pause it,
+  // and nothing else here would ever restart it (audio would just stop dead).
+  if(MODE==="rough" && vid){{
+    if(vid.paused && cur<TOTAL-0.1) vid.play().catch(()=>{{}});
+    if(!vid.paused){{ cur=vid.currentTime; }}
+    else {{ if(!lastT)lastT=ts; cur+=(ts-lastT)/1000; lastT=ts; }}
+  }}
   else if(MODE==="live" && !vo.paused){{ cur=vo.currentTime; }}
   else {{ if(!lastT)lastT=ts; cur+=(ts-lastT)/1000; lastT=ts; }}
   if(cur>=TOTAL){{cur=TOTAL;setPlaying(false);}}
@@ -552,10 +558,12 @@ function setPlaying(p){{
   if(p)raf=requestAnimationFrame(loop); else cancelAnimationFrame(raf);
   placePlayhead();
 }}
-// a hidden tab throttles rAF and pauses the muted #face — catch up on return
+// a hidden tab throttles rAF and pauses the media — catch up / resume on return
 document.addEventListener("visibilitychange",()=>{{
-  if(document.visibilityState!=="visible"||!playing||MODE!=="live")return;
-  cur=vo.currentTime; syncFace(true); updateScreen(true);
+  if(document.visibilityState!=="visible"||!playing)return;
+  if(MODE==="rough" && vid){{ if(vid.paused) vid.play().catch(()=>{{}}); cur=vid.currentTime; }}
+  else {{ cur=vo.currentTime; syncFace(true); }}
+  updateScreen(true);
 }});
 function seekTo(t){{
   cur=Math.max(0,Math.min(TOTAL,t));
@@ -701,8 +709,8 @@ async function _dispatch(path, body, msgSel){{
         const ai=B.findIndex(x=>x.id===body.after);
         if(ai>=0 && B[ai+1]) keep=B[ai+1].id;
       }}
-      if(keep && byId(keep)) select(keep);
-      else if(B.length) select(B[0].id);
+      if(keep && byId(keep)) select(keep, true);
+      else if(B.length) select(B[0].id, true);
     }}
     if(msg)msg.textContent='✓ '+(j.note||j.asset||'hecho');
     toast('✓ '+(j.note||'hecho'),3500);
@@ -719,13 +727,13 @@ async function applyAsset(id,body){{
   shownBeat=-1; clipSrc=""; layout(); select(id); updateScreen(true); status();
 }}
 
-/* inspector */
-function select(id){{
+/* inspector — `quiet` = just rebuild it (a save/undo re-select), don't stop playback */
+function select(id, quiet){{
   sel = byId(id);
   if(!sel){{ $("#inspbody").innerHTML='<div class="insp-empty">Selecciona un clip.</div>'; return; }}
   $$(".clip.sel").forEach(c=>c.classList.remove("sel"));
   const el=vtrack.querySelector('.clip[data-id="'+id+'"]'); if(el)el.classList.add("sel");
-  setPlaying(false); seekTo(sel.in);
+  if(!quiet){{ setPlaying(false); seekTo(sel.in); }}
   const b=sel, ins=$("#inspbody");
   const showMotion = b.kind!=="negro";
   const durTxt = b.dur.toFixed(1)+'s'+(b.dur_edited?' · editada':'');
@@ -858,7 +866,7 @@ function _restore(s){{
   deriveLocal(); shownBeat=-1; clipSrc="";
   status(); layout();
   const keep = (sel && byId(sel.id) && sel.id) || (B[0]&&B[0].id);
-  if(keep) select(keep);
+  if(keep) select(keep, true);
   markDirty();                                          // persist the restored state
   refreshUndoUI();
 }}
@@ -887,7 +895,7 @@ async function saveTL(){{
       const selId = sel && sel.id;
       Object.assign(TL,j.timeline); B=TL.beats; TOTAL=TL.total||TOTAL; if(typeof applyMix==="function")applyMix();
       $("#tctot").textContent=fmt(TOTAL); status(); layout();
-      if(selId) select(selId);
+      if(selId) select(selId, true);
     }}
     s.textContent="Guardado ✓"; s.classList.remove("dirty");
   }}catch(e){{ s.textContent="⚠ sin guardar"; }}
