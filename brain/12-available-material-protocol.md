@@ -1,6 +1,6 @@
 ---
 doc: 12-available-material-protocol
-summary: "Never write for a story you can't illustrate. Public-domain archives list, a fair-use tier for rights-managed subjects with no PD alternative (digital-era figures AND 20th-century company histories), a citation tier for copyrighted film/TV, the per-idea worksheet, stock rules, music licensing, subject-with-no-photograph."
+summary: "Never write for a story you can't illustrate. Public-domain archives list, a fair-use tier for rights-managed subjects with no PD alternative (digital-era figures AND 20th-century company histories), recreation/illustration as a first-class way to carry a material-poor episode, a citation tier for copyrighted film/TV, the per-idea worksheet, stock rules, music licensing, subject-with-no-photograph."
 stage: [0, 2, 7]
 read_when: "judging an idea's feasibility; planning assets; licensing music; a subject with no surviving likeness"
 pairs_with: [06-production-workflow, 15-ai-illustration-protocol, 03-brand-identity]
@@ -10,11 +10,11 @@ authority: canonical
 
 # 12 — Available-Material Protocol (Protocol 1)
 
-Runs **during ideation**, before an idea can be approved. Purpose: never write a script for a story we can't illustrate. "Available" means **public domain** (or our own graphics) — no paid archives for now.
+Runs **during ideation**, before an idea can be approved. Purpose: never write a script for a story we can't illustrate. "Available" means **public domain**, **our own graphics**, or **a deliberate recreation / illustration plan** ([15-ai-illustration-protocol.md](15-ai-illustration-protocol.md)) — no paid archives for now.
 
 ## The rule
 
-An idea is not approved until someone has confirmed, against real archive listings, that there is enough **public-domain** visual material — or a workable own-graphics plan, or the fair-use tier below — to carry the episode.
+An idea is not approved until someone has confirmed there is a workable way to carry the **whole** episode visually: enough **public-domain** material, an **own-graphics** plan, a deliberate **recreation / illustration** register ([15](15-ai-illustration-protocol.md)), the fair-use tier below, or any mix of them. What fails the gate is a stretch of the likely spine with **no plan at all** behind it — not "the real photos are under copyright", which the recreation register now covers.
 
 ## Protocol 1b — fair use where the only images are rights-managed (no PD alternative)
 
@@ -97,7 +97,7 @@ When the work genuinely is under copyright:
 **Our own**
 - Charts, timelines, diagrams, animated maps, text cards — always available; cite the underlying data source in `03-source-log.csv`.
 
-**AI illustration** — only where nothing real exists; see [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md).
+**Recreation / AI illustration** — where real material is missing, too scarce, or entirely rights-locked; may carry a large share of a material-poor episode, always labelled, one style. See [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md).
 
 ## Worksheet (fill per idea — goes in `idea-pool.md` notes + the brief)
 
@@ -109,12 +109,12 @@ When the work genuinely is under copyright:
 | Moving image of the era | | | | stills + motion graphics |
 | Data for any chart | | | | own graphic, cite source |
 
-**Minimum bar:** every load-bearing beat of the likely narrative has at least one real PD visual OR an own-made graphic that fully covers it. If more than ~30% of the episode would be "narrator over a black screen" or not-cleared images (unlicensed **or** held under Protocol 1b fair use), the idea fails E8.
+**Minimum bar:** every load-bearing beat of the likely narrative has something planned that covers it — a real PD visual, an own-made graphic, or a recreation / illustration shot. The idea fails E8 only when a stretch of the spine has **no plan**, or when it would lean past ~30% on **not-cleared** images (unlicensed **or** held under Protocol 1b fair use). That ~30% ceiling is about *someone else's* copyrighted stills; our own labelled recreations and illustrations do **not** count toward it (they carry their own honesty cost — the label — not a rights cost).
 
 ## Practical consequences (this shapes what we can make now)
 
 - **Favours:** pre-~1930 subjects (photos frequently PD by age), government-documented cases, historical corporate/engineering cases, anything with court records or archives.
-- **Harder — leans on Protocol 1b + own graphics, score P7 low:** recent events and living people whose only images are rights-managed (1b-i); **mid-20th-century company histories** whose imagery sits in a corporate/agency archive and isn't PD yet (1b-ii — Toyota, LEGO, Nintendo pre-console, Adidas/Puma); anything needing modern broadcast footage.
+- **Rights-heavier — leans on Protocol 1b + own graphics + the recreation register, score P7 low:** recent events and living people whose only images are rights-managed (1b-i); **mid-20th-century company histories** whose imagery sits in a corporate/agency archive and isn't PD yet (1b-ii — Toyota, LEGO, Nintendo pre-console, Adidas/Puma); anything needing modern broadcast footage. **Still very makeable** — the recreation / illustration register (`brain/15`) exists for exactly this. P7 scores the *rights friction*, not the feasibility; a strong recreation plan can carry these.
 
 ## Subject with no photograph (pre-photography or no likeness survives)
 
@@ -126,7 +126,7 @@ Common (Semmelweis, Hokusai, Tulipmania, Radium-era…). Layered approach, most 
 4. **Light 2.5D parallax** on portrait stills (layer separation, subtle motion, no face manipulation). Gives life without crossing into reenactment.
 5. **A recurring stylised illustration** of the subject for journey / timeline / abstract sequences — clearly an illustration, labelled once. Needs an illustrator.
 
-**Not as a primary device:** photoreal AI "bringing a portrait to life". At most one deliberate, labelled moment — full rules in [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md).
+**A recurring recreation / illustration register *can* be a primary device** when the subject's real imagery is genuinely scarce or rights-locked (mid-20th-century company histories, pre-1960 non-Western subjects) — decided at Stage 0/2, written into the brief, one style, labelled every appearance ([15](15-ai-illustration-protocol.md)). The one thing that stays out even then: a photoreal AI **face of an identifiable real person** offered as their actual likeness (`brain/15` rule 3) — use a real portrait, a clearly non-photoreal impression, or frame away from the face.
 
 ## Sign-off
 

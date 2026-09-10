@@ -1,6 +1,6 @@
 ---
 doc: 02-content-format
-summary: "Episode anatomy (cold open -> bumper -> context pivot -> chronological narrative -> close -> CTA), length, required devices."
+summary: "Episode anatomy (cold open -> bumper -> context pivot -> chronological narrative -> close -> CTA), length (no hard ceiling, soft notice at 30 min), first-time-telling rule, required devices."
 stage: [3, 4]
 read_when: "outlining or writing a script; laying out the beat sheet"
 pairs_with: [08-tone-of-voice, 09-reflection-rules, 11-visual-rhythm]
@@ -11,11 +11,11 @@ authority: canonical
 
 > **Status: v1 (6 Dieck transcripts, 2026-08-27) + v1.1 close registers (T07, 2026-09).** Basis: `research/dieck-docs/structure-analysis.md` (T01 Grinberg · T02 Titanic · T03 Chernobyl · T04 Heath Ledger · T05 McDonald's · T06 Steve Jobs · T07 *Petróleo sangriento* — craft only, film analysis). Companion files: tone in [08-tone-of-voice.md](08-tone-of-voice.md), reflection craft in [09-reflection-rules.md](09-reflection-rules.md).
 >
-> **We adopt Dieck's structure; we do NOT adopt his sourcing.** Several of the analyzed episodes lean on dramatized films as narrative scaffolding (e.g. *The Founder* for McDonald's) and carry a high density of "se dice / según la leyenda" without support. Our episodes keep this shape but meet the bar in [01-editorial-and-sourcing.md](01-editorial-and-sourcing.md): every load-bearing claim ≥1 Tier A/B source.
+> **We adopt Dieck's structure; we do NOT adopt his sourcing.** Several of the analyzed episodes lean on dramatized films as narrative scaffolding (e.g. *The Founder* for McDonald's) and carry a high density of "se dice / según la leyenda" without support. Our episodes keep this shape but meet the bar in [01-editorial-and-sourcing.md](01-editorial-and-sourcing.md): every load-bearing claim ≥1 Tier A/B source. (Borrowing a *third party's* dramatized film to stand in for the real story stays out; our own labelled recreations and illustrations, built from the sourced record, are a different thing — [12-available-material-protocol.md](12-available-material-protocol.md), [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md).)
 
 ## Episode length
 
-**Target: 15–25 minutes.** Reference episodes ran 18:35–28:52. Script ~2,400–4,000 words (Spanish, ~150–165 wpm narrated). Hard floor 12 min, ceiling 28 min. Longer = more biographical beats, same structure — not a looser structure.
+**Target: 15–25 minutes.** Reference episodes ran 18:35–28:52. Script ~2,400–4,000 words (Spanish, ~150–165 wpm narrated). Hard floor 12 min. **No hard ceiling** — at ~30 min a soft notice fires (is the runtime earning its length? are the extra beats context and story, or padding?), and that is the whole check. Longer = more biographical and context beats, same structure — not a looser structure.
 
 ## Reference
 
@@ -68,9 +68,10 @@ An explicit hinge line out of the hook: "pero para ver si esto es cierto, necesi
 
 ### 2. Chronological narrative — 55–70%
 The spine.
+- **Tell it as a first hearing, not a correction.** Assume the viewer has never heard this story — usually true. The spine narrates *what happened*, in order, with the stakes live and the outcome not yet in evidence. It does **not** argue against "the version you've heard", debunk a myth, or keep score for the close's thesis. Corrective openers — "la historia que te han contado", "la leyenda se salta", "en realidad no fue así", "se suele contar de dos maneras" — shadow-box a prior the audience doesn't hold, and they drain the story of discovery. A famous anecdote (Ohno's supermarket, the Newton apple) is **told forward**, as an event that happened, not staged as a misconception to knock down. Any genuine myth-correction the record demands goes into **one honest beat late in the narrative** ("tres cosas que hacen la historia más real"), or is left for the close to do — never threaded through the spine. This is a Documental-track rule; the Ensayo track (`brain/20`) keeps its reading-as-through-line shape.
 - **People:** birth → a childhood detail that foreshadows the arc → rise → peak → turn / fall → outcome.
 - **Events:** era → build-up → the event beat by beat → aftermath → investigation.
-- Attribute as you go ("según los registros del juicio…", "en su autobiografía…").
+- Attribute as you go ("según los registros del juicio…", "en su autobiografía…"). **Name a cited person only with a reason to trust them here** — one clause on who they are / why their word counts ("el historiador del MIT que contrastó el relato con los archivos de la empresa"), on first mention. A bare surname the viewer can't place is a dead reference; either give it that clause or drop the name and keep the claim.
 - Show the documentary basis on screen when possible.
 - Name uncertainty in words (see [08-tone-of-voice.md](08-tone-of-voice.md) §Uncertainty).
 

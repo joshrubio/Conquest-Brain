@@ -16,6 +16,7 @@ Applies to every script regardless of narrator. Two narrators (Usuario 002, Usua
 ## 1. Register
 
 - **Precise, calm, adult.** The narrator knows the story cold and is not impressed by their own material.
+- **First-time telling.** Every story is narrated as if the viewer is hearing it for the first time — because they are. Forward, stakes live; never a rebuttal of "the version you've heard" or a myth-debunk the audience never needed. Full rule: [02-content-format.md](02-content-format.md) §2.
 - **Curiosity over verdict.** We investigate, we don't prosecute. The audience reaches the judgment; we lay out the record.
 - **Teacherly, not lecturing.** Dieck's voice is a knowledgeable friend explaining something interesting. Warm, direct, patient with the audience — but never preachy.
 - **Respect for the subject**, including subjects who did wrong. No contempt, no mockery, no gloating at a downfall.

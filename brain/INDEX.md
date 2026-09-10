@@ -42,7 +42,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 |---|-----|---------|-----------|
 | 00 | project-charter | all | mission, the 4 non-negotiables, what the project is / isn't |
 | 01 | editorial-and-sourcing | 2·4·5 | uncited-claim rule, source tiers A–D, quotes, corrections, AI-not-a-source |
-| 02 | content-format | 3·4 | episode anatomy (cold open→bumper→pivot→narrative→close→CTA), length, required devices, A-roll/B-roll visual mode |
+| 02 | content-format | 3·4 | episode anatomy (cold open→bumper→pivot→narrative→close→CTA), length (no hard ceiling), first-time-telling rule, required devices, A-roll/B-roll visual mode |
 | 03 | brand-identity | 3·7·9·10 | name, palette, grade, typography, case-file device, 4K rule, no-source-cards rule, thumbnails |
 | 04 | legal-and-ethics | 5·11 | subject eligibility, defamation, minors, sensitive topics, disclosure checklist |
 | 05 | independence-and-coi | 0·5·11 | off-limits subjects, the public-documentation test, research hygiene |
@@ -52,10 +52,10 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | 09 | reflection-rules | 1·3·4 | the close in forms A/B/C × four registers (psych / practical / philosophical / religious), the surgical test, failure modes; Ensayo = distributed reading, every beat a named authority from `../research/citation-shelf.md` |
 | 10 | repo-and-git-workflow | all | repo layout, what's versioned, branching, commit-message convention |
 | 11 | visual-rhythm | 4·6·9 | shots from the locked script; A-roll/B-roll split (narrator on camera); beat rates; visual-type menu |
-| 12 | available-material-protocol | 0·2·7 | PD archives list, fair-use tier for rights-managed subjects with no PD alternative (digital-era figures + 20th-c company histories), citation tier for copyrighted film/TV, per-idea worksheet, stock rules, music licensing, subject-with-no-photo |
+| 12 | available-material-protocol | 0·2·7 | PD archives list, fair-use tier for rights-managed subjects, recreation/illustration as a first-class way to carry a material-poor episode, citation tier for copyrighted film/TV, per-idea worksheet, stock rules, music licensing |
 | 13 | hook-naming | 0·10 | Dieck title anatomy, hook types, templates, ethical rules |
 | 14 | fact-check-protocol | 5 | fully automated — L1 deterministic + L2 agent edit-pass that applies the fixes; no human step |
-| 15 | ai-illustration-protocol | 7 | AI only where nothing real exists; one style/episode; label always; no real faces, no fake docs |
+| 15 | ai-illustration-protocol | 7 | recreation/AI where real material is missing/scarce/rights-locked (may carry most of a material-poor episode); one style/episode; label always; no real-person photoreal faces, no fake docs |
 | 16 | edit-and-delivery | 9 | Ken Burns→trim (silences+fillers+retakes)→review→A/B-roll→music→subs; 4K; house grade; −14 LUFS |
 | 17 | dashboard-and-advance | all | dashboard.html + serve.py + advance.py — one-click gate hand-off; the /loop; _STATUS.md |
 | 18 | monetization-and-audience | 0 | CPM/RPM by category + Spanish-language audience geography — non-blocking tiebreaker at ideation |
@@ -75,6 +75,10 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | no on-screen source cards · 4K fallback · house grade | `03` |
 | music licence (CC-BY / BY-SA / CC0 only) | `12` §Audio |
 | foreshadowing phrase toolkit | `08` §6 |
+| first-time telling (narrate forward, don't debunk) | `02` §2 |
+| cited person needs a "why trust them here" clause | `02` §2 |
+| recreation / illustration as a primary visual register | `12` (+ `15` for the AI ones) |
+| episode length (no hard ceiling, soft notice at 30 min) | `02` §Episode length |
 | close forms A/B/C (detail) | `09` |
 | title / hook pattern | `13` |
 | AI-illustration rules | `15` |

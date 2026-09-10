@@ -1,6 +1,6 @@
 ---
 doc: 15-ai-illustration-protocol
-summary: "AI images only where nothing real exists. One style per episode, on-screen label every time, never a photoreal real-person face, never a fabricated document."
+summary: "Recreation / AI imagery where real material is missing, scarce, or rights-locked — may carry most of a material-poor episode. One style per episode, on-screen label every time, never a photoreal real-person face, never a fabricated document."
 stage: [7]
 read_when: "a shotlist beat has no real image and no own-graphic; writing AI prompts"
 pairs_with: [12-available-material-protocol, 04-legal-and-ethics, 03-brand-identity]
@@ -10,13 +10,13 @@ authority: canonical
 
 # 15 — AI Illustration Protocol
 
-Runs **inside Stage 7** ([06-production-workflow.md](06-production-workflow.md)), only when the style pass concludes a beat has **no viable public-domain image and no own-graphic plan**. It produces a copy-paste prompt document so Usuario 001 can generate the images and drop them back in.
+Runs **inside Stage 7** ([06-production-workflow.md](06-production-workflow.md)), whenever the style pass concludes a beat has **no viable public-domain image and no own-graphic plan** — because none was ever made, or because every surviving image is rights-locked. It produces a copy-paste prompt document so Usuario 001 can generate the images and drop them back in. "AI illustration" here covers both AI-generated and hand-commissioned recreation / illustration — the rules below apply to both; the AI ones additionally follow the prompt-document workflow.
 
 ## When it triggers
 
 At Stage 7, after the style pass, some `07-assets.md` rows are ❌ (no PD source, e.g. an event with no contemporary depiction, or a person with no usable likeness). If those beats also can't be an own-made graphic (chart / map / text card), they become **AI-illustration beats**.
 
-**AI is not a shortcut past sourcing.** It is only for beats where *nothing real exists* — an event no one depicted, a place we can't photograph, an abstract idea — and a drawn or recreated shot (labelled) is the honest option anyway.
+**AI is not a shortcut past *sourcing*.** Every fact still needs its Tier A/B source, and a recreation of an undocumented moment must invent nothing the record doesn't support. But it **is** a legitimate way to carry the **visual** track when real footage is missing, too scarce, or entirely rights-locked: an event no one depicted, a place we can't photograph, an abstract idea, or a 20th-century company / institution history whose every photo sits behind copyright. A labelled recreation or illustration is the honest option in all of those — and for a genuinely material-poor subject it can be most of the episode.
 
 ## Hard rules
 
@@ -26,11 +26,11 @@ At Stage 7, after the style pass, some `07-assets.md` rows are ❌ (no PD source
    - **Scenes, places, events, atmosphere, abstract shots:** allowed, photoreal or not, with the label.
    - **The photoreal face of an identifiable real person, as their likeness:** not allowed — pure invention of how someone looked, deepfake-adjacent. Use the figure from behind / in silhouette / at distance, a clearly non-photoreal impression labelled as such, or a real portrait (then it's not AI).
    - **Documents, records, newspapers, photographs-of-record:** never fabricated. A photoreal "1721 report page" is a forgery.
-4. **Only where no real image exists** and no own-graphic works. Real archival stays the base — an episode is mostly real material with a *few* AI beats, never the reverse.
+4. **Only where no *usable* real image exists** — none was made, or every one is rights-locked, or what survives is too thin to carry the beat — and an own-graphic (chart / map / card) doesn't fit. For a well-documented subject this still means real archival is the base and recreation is a few beats. For a **material-poor subject** (mid-20th-century company history, pre-1960 non-Western figure), the recreation / illustration register may carry the **majority** of the visual track — a deliberate choice made at Stage 0/2 and written into `01-brief.md`, never a drift discovered in the edit.
 
 ## How the count is set
 
-The number of AI images = the count of shotlist beats flagged in `07-assets.md` as **no PD image + no own-graphic**. It comes from the locked script → shotlist → asset manifest, not from a wish for more visuals. Typical: 2–6 per episode. If it's more than ~8, the episode probably has a sourcing problem — stop and reassess.
+The number of AI images = the count of shotlist beats flagged in `07-assets.md` as **no PD image + no own-graphic**. It comes from the locked script → shotlist → asset manifest, not from a wish for more visuals. Typical: 2–6 for a well-documented subject. For a material-poor subject it can be many times that, **by design** — the check then is *consistency and labelling* (one register, every shot marked), not the count. What still signals a real problem: AI standing in for something that **is** well documented — i.e. nobody did the archive search.
 
 ## The prompt document — `07b-ai-prompts.md`
 
