@@ -19,6 +19,7 @@
 ## 2. Verificación y legal (gate duro)
 
 - [ ] Fact-check: L1 PASS + todas las banderas L2 resueltas (`04-factcheck-auto.md`)
+  - [ ] L2 (2026-09-10) dejó **8 ítems para verificación humana** — ver `04-factcheck-auto.md` § «Para verificación humana». Bloque grande: verificar S17–S23 con los libros (NUMMI en Womack/Liker, Toyopet, Premio Deming, Platt); citas (sumo, Minoura, «guijarro»); y el retrato en bloque de la plantilla de Fremont (dignidad).
 - [ ] Checklist legal-ético (`brain/04-legal-and-ethics.md`) sin casillas abiertas
 - [ ] Derecho de réplica: gestionado o motivo registrado
 - [ ] Todo el archivo/música con estado de derechos en `03-source-log.csv`

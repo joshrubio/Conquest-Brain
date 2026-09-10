@@ -8,7 +8,8 @@ Usage:
 
 Writes a markdown report to stdout. No judgement — pure consistency:
   1. Every [S..] tag in the script resolves to a source-log row.
-  2. Every source-log row has a tier (A/B/C/D) and a rights_status.
+  2. Every source-log row has a tier and a rights_status. A compound tier
+     ('A / C', 'A (con sesgo)') is fine — the strongest letter is used.
   3. Orphan-claim heuristic: sentences with a number / date / proper noun / quote
      marks but NO [S..] tag are flagged for a human to check.
   4. Tier check: claims whose only [S..] points to Tier C/D.
@@ -40,6 +41,19 @@ DATE_RE = re.compile(MONTHS + r"|\b1[0-9]{3}\b|\b20[0-9]{2}\b", re.I)
 # crude proper-noun heuristic: a capitalised word that is not at sentence start
 PROPER_RE = re.compile(r"(?<=[a-záéíóúñ,;:]\s)[A-ZÁÉÍÓÚÑ][a-záéíóúñ]{2,}")
 QUOTE_RE = re.compile(r"[«»\"“”]")
+
+
+def norm_tier(raw):
+    """Reduce a tier field to a single letter A/B/C/D.
+
+    The source-log sometimes carries a compound value — 'A / C' (record vs.
+    intent), 'A (con sesgo)', 'B / C' — where the letters are the tier for
+    different *uses* of the same source. For the consistency checks we take
+    the STRONGEST letter present (A < B < C < D): the question is whether a
+    claim has at least one solid tier behind it. Returns '' if no letter.
+    """
+    letters = [c for c in (raw or "").upper() if c in "ABCD"]
+    return min(letters) if letters else ""
 
 
 def load_sources(csv_path):
@@ -92,10 +106,10 @@ def main():
 
     # 2. source rows well-formed
     for key, r in sources.items():
-        tier = (r.get("tier") or "").strip().upper()
+        tier = norm_tier(r.get("tier"))
         rights = (r.get("rights_status") or "").strip()
         if tier not in {"A", "B", "C", "D"}:
-            errors.append(f"source S{key}: tier is '{tier}' (must be A/B/C/D)")
+            errors.append(f"source S{key}: tier is '{r.get('tier')}' — no A/B/C/D letter found")
         if not rights:
             errors.append(f"source S{key}: rights_status is empty")
 
@@ -103,10 +117,10 @@ def main():
     cd_only = []
     for t in used_unique:
         r = sources.get(t)
-        if r and (r.get("tier") or "").strip().upper() in {"C", "D"}:
+        if r and norm_tier(r.get("tier")) in {"C", "D"}:
             cd_only.append(t)
     for t in cd_only:
-        errors.append(f"`[S{t}]` is Tier {sources[t]['tier'].upper()} — a claim cannot "
+        errors.append(f"`[S{t}]` is Tier {norm_tier(sources[t]['tier'])} — a claim cannot "
                       f"rest only on this; upgrade or reframe as disputed on screen")
 
     # unused sources (warn only)
@@ -135,9 +149,10 @@ def main():
     out.append(f"- Script: `{script_path}`")
     out.append(f"- Source-log: `{csv_path}`")
     out.append(f"- Tags used: {len(used_tags)} ({len(used_unique)} unique)")
-    tiers = {}
+    tiers = {}  # counts by normalised (strongest) tier letter
     for r in sources.values():
-        tiers[(r.get('tier') or '?').strip().upper()] = tiers.get((r.get('tier') or '?').strip().upper(), 0) + 1
+        _t = norm_tier(r.get('tier')) or '?'
+        tiers[_t] = tiers.get(_t, 0) + 1
     out.append(f"- Sources: {len(sources)} — " + ", ".join(f"{k}:{v}" for k, v in sorted(tiers.items())))
     out.append(f"- Orphan-claim candidates: {len(orphans)}")
     out.append("")

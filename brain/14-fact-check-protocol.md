@@ -44,6 +44,7 @@ Run by the agent (this session, or a subagent): `templates/fact-check-auto-promp
 Rules the L2 pass follows:
 - **The LLM is not a source** ([01](01-editorial-and-sourcing.md) §9). A correction can only tighten the script to what the *cited source* supports, add a hedge, add an attribution, or cut a line — **never add a new fact**.
 - A claim the source can't support and that can't be hedged or attributed → **cut it or mark it disputed on screen**, don't guess.
+- **L2 resolves everything now — it does not create a "verify later" queue.** A claim it can't confirm from the source-log description is hedged, attributed, or cut *in this pass*. The only thing that waits is the **table-6** legal/ethics/COI/dignity judgement (below). "Would be nice to double-check against the book" is not a blocker — if the pass wants to note a recoverable trim, that goes in the script's own notes as an optional future improvement, never as a gate.
 - Legal/ethics/COI flags that need a judgement call (a defamation risk, a sensitive-topic handling question) → **leave the line, flag it loudly in the Changelog** for the Stage 11 human tick. Don't silently "fix" those.
 
 **Gate:** L1 `PASS` + L2 pass run + Changelog written → Stage 6.

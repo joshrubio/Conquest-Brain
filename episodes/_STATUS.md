@@ -13,7 +13,7 @@
 | ID | Slug | Título | Track | Narrador | Stage | Gate | Auto-avance | Notas |
 |----|------|--------|-------|----------|-------|------|-------------|-------|
 | E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 9 | exportado | 12 | timeline guardada · 0 correcciones + render 4K en cola |
-| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 4 | abierto | 4 | guion v2 (expansión: origen Toyoda, Corea, NUMMI, arco a 2008); 05-script.html regenerado (60 beats). BLOQUEA avance: verificar S17–S23 contra los libros (dossier §«Actualización 2026-09-10») antes de la pasada L2; luego aprobar+firmar en 05-script.html. Pendiente: outline §v2, 06/07. |
+| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 6 | abierto | 4 | Stage 5 cerrado 2026-09-10: L1 PASS, L2 aplicó 19 correcciones (`04-factcheck-auto.md`), sin cola de verificación. Único ítem para Stage 11: dignidad del retrato de la plantilla de Fremont (NUMMI). Siguiente: escribir 06-shotlist.md. |
 
 ## Reglas
 
