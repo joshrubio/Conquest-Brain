@@ -36,6 +36,12 @@ What most creators do informally (grab a press photo, drop it in), the channel d
 
 ## Protocol 1c — citation tier for copyrighted film / TV
 
+> **This tier is being promoted into the Ensayo track ([brain/20](20-experimental-clip-protocol.md)).**
+> Until 001+002 sign `brain/20` §8, §1c stays in force here as the narrow exception
+> for a Documental beat that genuinely comments on a specific work. Once signed,
+> `brain/20` §4 owns the workflow and §1c keeps only PD-first + the "no
+> illustrative use" line, pointing there.
+
 For the case a beat is **commentary on a specific film, series, or scene itself** — we are analysing that work, not borrowing its footage to illustrate an unrelated story. Using a *Wall Street* clip to dress a real fraud we're narrating is pure illustrative use: weakest fair-use footing and a near-certain Content ID claim. Don't. This tier is only for "here is the scene we're actually talking about".
 
 **PD-first still applies.** Films with lapsed or non-renewed copyright (large corpus on Internet Archive / archive.org — pre-1929 outright, plus much of pre-1964 US film that was never renewed) carry **no claim at all** and can be used like any archival source. Check copyright status per title before reaching for anything under studio rights.
@@ -112,7 +118,7 @@ When the work genuinely is under copyright:
 
 ## Subject with no photograph (pre-photography or no likeness survives)
 
-Common for T01/T02 (Semmelweis, Hokusai, Tulipmania, Radium-era…). Layered approach, most honest first:
+Common (Semmelweis, Hokusai, Tulipmania, Radium-era…). Layered approach, most honest first:
 
 1. **Contemporary depictions** — portraits, engravings, busts, plaques made in the subject's lifetime or soon after. Usually few (2–4) → reuse deliberately as a motif.
 2. **How they were shown by others / showed themselves** — self-portraits, caricatures, courtroom sketches, a figure in their own work. Primary-source, on-brand.
@@ -124,7 +130,7 @@ Common for T01/T02 (Semmelweis, Hokusai, Tulipmania, Radium-era…). Layered app
 
 ## Sign-off
 
-The idea's track owner (Usuario 002 for T01, Usuario 001 for T02) ticks the worksheet. Recorded in the idea-pool row and carried into `01-brief.md`. Re-checked at Stage 2 (research dossier) when the exact beats are known — `06-shotlist.md` then resolves each beat to a specific item.
+Whoever proposed the idea ticks the worksheet. Recorded in the idea-pool row and carried into `01-brief.md`. Re-checked at Stage 2 (research dossier) when the exact beats are known — `06-shotlist.md` then resolves each beat to a specific item.
 
 ## Per-episode artifacts
 

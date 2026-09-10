@@ -63,5 +63,7 @@ Transcripts go in `transcripts/` as `T0N-slug.txt`, **local only** (gitignored �
 | T04 | transcripts/T04-heath-ledger.txt | ✅ | NoteGPT | ~3.9k | `[HH:MM:SS]` per block |
 | T05 | transcripts/T05-mcdonalds.txt | ✅ | NoteGPT | ~4.7k | `[HH:MM:SS]` per block |
 | T06 | transcripts/T06-steve-jobs.txt | ✅ | NoteGPT | ~6.0k | `[HH:MM:SS]` per block |
+| T07 | transcripts/T07-petroleo-sangriento.txt | ✅ | (ASR) | ~6.5k | `[H:MM - H:MM]` per block · **film analysis — Ensayo ref** |
+| T08 | transcripts/T08-channel-chasers.txt | ✅ | NoteGPT | ~6.6k | `[HH:MM:SS - HH:MM:SS]` per block · **Relato y Reflexión (obra como sujeto) — Ensayo ref; carries the psychologist-citation pattern** |
 
 All 6 normalized 2026-08-27: consistent `T0N-slug.txt` names, standard `#` heading block (tag, title, URL, duration, source tool, format notes, known ASR issues, copyright/local-only), service ad-lines stripped, `--- TRANSCRIPCION ---` marker before body. NoteGPT time ranges collapsed to `[HH:MM:SS]` start anchors. TurboScribe files have **no timestamps** — section mapping for T01–T03 must be done by text proportion + spot-checking the video. All are auto-ASR: **verify any name/number/quote against the video before it enters a script or `brain/` file.**

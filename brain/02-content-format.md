@@ -28,6 +28,12 @@ narrative and every `[EXPLICADOR]`. Not pure voice-over. Full rules: [11-visual-
 
 ## Episode anatomy
 
+> This is the anatomy of the **Documental** track. The **Ensayo** track
+> (`ideas/tracks.md`, `brain/20`) keeps the same devices — cold open, bumper,
+> explainers, `[PROMISE]`/`[PAY]`, close — but reshapes the spine: the reading of
+> the work is the through-line, not a plot recap, and reflexión runs as a constant
+> interlude. Full variant: [20-experimental-clip-protocol.md](20-experimental-clip-protocol.md) §3.
+
 Runtime split observed across the 6 (use as target, not a straitjacket):
 
 | Section | Share of runtime |
@@ -133,6 +139,7 @@ Allowed — a Conquest-owned product (book, course, merch) or a paid sponsor seg
 - Every episode answers, by the end: *what happened, why it matters about people, and — for forms A/B — what I can do with it* (form C leaves the "what I can do" as the viewer's to form).
 - Cold open (narrative + visual hook) → bumper on black → context pivot → chronological narrative → close → CTA. This order is fixed.
 - **Script section headings (`## N. …`) must each carry a canonical keyword** — `COLD OPEN` · `BUMPER` · `PIVOTE` · `CONTEXTO` · `NARRATIVA` · `TEORÍAS` · `CIERRE` · `CTA` (or `Acto N`). `tools/script_review.py` keys each section off its title; a subtitle is fine (`## 2. NARRATIVA — una sola vida`), dropping the keyword breaks the review page.
+- **Sections are welded, not stacked.** Headings are a production convenience — the narration must not *feel* sectioned. Every seam (act→act, narrative→explainer, explainer→narrative, narrative→close) gets a **bridge**: the last line of the outgoing block reaches forward, or the first line of the incoming block reaches back, in the narrator's own words. Never "end an idea. new heading. start an unrelated idea." An explainer is *invited by the beat right before it* ("para entender por qué hizo eso, hace falta saber…") and *hands back to the story on exit* ("con eso claro, volvamos a…"). Same for a cited authority (below). Phrase models: [research/dieck-docs/phrasebook.md](../research/dieck-docs/phrasebook.md) §3–§5, §9, §18. Checked at Stage 4 self-review and flagged by the L2 fact-check pass.
 - Explainer interludes and foreshadowing hooks appear in every episode.
 - Any concept invoked in the reflection — psychological, philosophical, or religious — is **named and, where a specific theory / study / thinker / school / text is used, sourced `[S..]`** ([09-reflection-rules.md](09-reflection-rules.md)).
 

@@ -20,10 +20,34 @@ authority: template
 | Fecha | AAAA-MM-DD |
 | Guionista | Usuario 001 |
 | Narrador | Usuario 002 / Usuario 001 |
+| **Track** | Documental / Ensayo (`ideas/tracks.md`) |
 | **Forma del cierre** | A / B / C — fijada en el brief |
 | **Registro(s) del cierre** | psicológico / práctico / filosófico / religioso — máx. 2, fijados en el brief (`brain/09`) |
 | Recuento de palabras | … |
 | Duración estimada | … min |
+
+> **Si Track = Ensayo** (`brain/20`): la sección `## 2. NARRATIVA` es **el andamio
+> de la obra** (trama en presente, escena por escena), pero el hilo es la lectura,
+> no el recap. La reflexión va **distribuida** en toda la narrativa (interludio
+> tras casi cada secuencia, puenteando ficción → vida del espectador), no solo en
+> el cierre.
+>
+> **Escribir la lectura ES una tarea de investigación (Stage 4).** Para cada
+> afirmación de carga psicológica / filosófica / religiosa del análisis: buscar
+> **quién lo ha dicho bien** (investigador, estudio, filósofo, tradición), leer lo
+> suficiente de la fuente para citarla con precisión, y ponerle `[S..]`. Mirar
+> primero `research/citation-shelf.md`; si hace falta alguien nuevo, hacer la
+> búsqueda, **añadir la fila al estante**, y citar. Se registran abajo en
+> «Autoridades citadas».
+>
+> **Citas esparcidas, no en bloque** (`brain/20 §3`, `brain/09 §Ensayo`): como
+> mucho **una autoridad nombrada cada ~3–4 min**, cada una **presentada por la
+> escena que plantea su idea** y devuelta enseguida a la historia (`phrasebook.md`
+> §19). Una subsección de `NARRATIVA` con tres citas seguidas es una clase — se
+> reparte cada nombre a la escena que explica.
+>
+> Sin aviso de spoiler — el episodio es abiertamente una lectura completa de la
+> obra. Anatomía completa: `brain/20 §3`.
 
 ---
 
@@ -64,6 +88,13 @@ Ritmo de narración objetivo: **~155 palabras/min**. Elegir columna según durac
 título; una cabecera sin palabra clave pierde su ficha de producción y el chequeo del CTA
 (y antes del arreglo de 2026-09 se tragaba la sección entera como "apéndice"). Puedes añadir
 un subtítulo — `## 2. NARRATIVA — una sola vida` — pero **no quites la palabra clave**.
+
+**Secciones soldadas, no apiladas** (`brain/02` §Recurring structural rules): la
+cabecera es para el editor; el espectador no debe notarla. **Cada costura**
+(acto→acto, narrativa→explicador, explicador→narrativa, narrativa→cierre) lleva un
+**puente**: la última frase de un bloque tira hacia delante, o la primera del
+siguiente tira hacia atrás, en voz del narrador. Nunca «cierra una idea. cabecera
+nueva. abre otra idea sin relación». Modelos: `phrasebook.md` §18–§19.
 
 ---
 
@@ -220,6 +251,12 @@ Justo tras un [PAY] o la salida señalizada de un [EXPLICADOR]. Tipo más ligero
 | S01 | | |
 | S02 | | |
 
+## Autoridades citadas — registro  *(obligatorio si Track = Ensayo; útil en Documental)*
+
+| # | Autoridad | Campo (cómo se atribuye) | `[S..]` | ¿En `citation-shelf.md`? | Beat / sección |
+|---|-----------|-------------------------|---------|--------------------------|----------------|
+| 1 | | psicólogo del desarrollo / pediatra / investigador de medios / filósofo / teórico del guion | | ☐ | |
+
 ## Foreshadowing — registro
 
 | # | Se promete en | Se paga en | Idea |
@@ -237,13 +274,17 @@ Justo tras un [PAY] o la salida señalizada de un [EXPLICADOR]. Tipo más ligero
 - [ ] Recuento de palabras dentro del presupuesto de la duración objetivo
 - [ ] Todo `[S..]` resuelve contra el source-log
 - [ ] Orden: cold open (hook narrativo + `[HOOK VISUAL]` 2–5 planos) → bumper en negro → contexto → narrativa → cierre → CTA
+- [ ] **Cada costura entre secciones lleva un puente** (frase de enlace hacia delante o hacia atrás); ningún explicador/cita entra «en frío» — lo invita el beat anterior y devuelve a la historia al salir (`phrasebook.md` §18–§19)
 - [ ] Cold open ≤ 45 s; hook + bumper ≤ 50 s; contexto corre para 0:50
 - [ ] El hook se paga en el cuerpo
 - [ ] 3-6 foreshadowings, todos pagados (tabla arriba)
 - [ ] 2-4 interludios explicadores, señalizados entrada y salida (tabla arriba)
 - [ ] Cierre en la forma fijada (A/B/C) y el/los registro(s) fijados (máx. 2); si B, las 2-3 piezas están identificadas
 - [ ] Toda idea filosófica/religiosa lleva dueño + [S..]; presentada como idea, no como verdad; sin sermón ni llamada a creer
-- [ ] Sin película dramatizada usada como registro histórico
+- [ ] (Ensayo) toda afirmación de carga psicológica/filosófica/religiosa lleva autoridad nombrada por campo + [S..]; cada autoridad está en `research/citation-shelf.md` (añadida y leída si era nueva); tabla «Autoridades citadas» rellena
+- [ ] (Ensayo) las citas están **esparcidas** (≤1 autoridad nombrada cada ~3–4 min), cada una presentada por su escena, ninguna subsección con 3 citas seguidas
+- [ ] (Ensayo) la `NARRATIVA` es andamio de la obra, no recap — quitar la interpretación y no se sigue el hilo; reflexión distribuida, no solo en el cierre
+- [ ] Sin película dramatizada usada como registro histórico (salvo Track = Ensayo bajo `brain/20 §4`: clip breve como cita/comentario, con tratamiento §4.3)
 - [ ] Sin moralina, sin desprecio al sujeto, sin clickbait
 - [ ] Cumple `brain/08` y `brain/09`
 - [ ] Español neutro-internacional; leído en voz alta sin tropiezos

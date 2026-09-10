@@ -126,7 +126,7 @@ still avoided.
 - Own-made graphic: chart, timeline, diagram, animated map, counter.
 - Plain text card — a quote, a date, a caveat, a chapter marker.
 - Free stock footage/photo — generic b-roll only (`brain/12`); **preferred in the cold-open visual hook** and anywhere a real moving shot beats hand-animating a still.
-- **No** dramatized-film clips as if they were record; **no** AI/reenactment unless labeled ([brain/04](04-legal-and-ethics.md), [brain/08](08-tone-of-voice.md)).
+- **No** dramatized-film clips as if they were record; **no** AI/reenactment unless labeled ([brain/04](04-legal-and-ethics.md), [brain/08](08-tone-of-voice.md)). *(The **Ensayo** track uses brief copyrighted clips **as commentary on the work itself**, under [brain/20](20-experimental-clip-protocol.md) §4 — stills-first, ≤~10 s, mirror/zoom/crop/grade, audio replaced. That is not "clip as record" — the clip is the thing being analysed.)*
 
 ### 2.4 Motion & treatment defaults
 
@@ -139,7 +139,7 @@ still avoided.
 
 ### 2.5 Rights gate (unchanged from `templates/shotlist-broll.md`)
 
-No visual enters the edit without a rights status in `03-source-log.csv`. Every on-screen number carries a source label. Every reused-from-a-film image is replaced with a real archival equivalent or cut.
+No visual enters the edit without a rights status in `03-source-log.csv`. Every on-screen number carries a source label. Every reused-from-a-film image is replaced with a real archival equivalent or cut — **except** on the **Ensayo** track, where a brief clip logged as `cita — crítica/comentario (fair use)` under [brain/20](20-experimental-clip-protocol.md) §4 is allowed within its budget.
 
 ### 2.6 Talking-head cadence — the narrator carries the rhythm
 

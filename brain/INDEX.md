@@ -17,12 +17,12 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | Task | Read (in order) |
 |------|-----------------|
 | understand the whole project | `00`, `06` |
-| judge / score an idea | `../ideas/idea-rubric.md`, `12`, `13`, `05`, `18` |
+| judge / score an idea | `../ideas/idea-rubric.md`, `../ideas/tracks.md`, `12`, `13`, `05`, `18` (Ensayo idea: also `20`) |
 | name an idea / pick a title | `13`, `07` |
 | research a case / build the source-log | `01`, `05`, `12` |
-| outline an episode | `02`, `09`, `19` |
-| write the script | `02`, `08`, `09`, `01`, `19` · pass: `tools/script_review.py` → `05-script.html` |
-| write the close / reflection (any register) | `09`, `08`, `01` |
+| outline an episode | `02`, `09`, `19` (Ensayo: `20` §3) |
+| write the script | `02`, `08`, `09`, `01`, `19` (Ensayo: `20` §3) · pass: `tools/script_review.py` → `05-script.html` |
+| write the close / reflection (any register) | `09`, `08`, `01` · authorities: `../research/citation-shelf.md` |
 | fact-check a script | `14`, `01`, `04`, `19` (log a recurring gap, or graduate one) |
 | build the shotlist | `11`, `02`, `06` (Stage 6) |
 | pick assets / images / music | `12`, `15`, `03` |
@@ -34,6 +34,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | commit / git question | `10` |
 | who is Usuario 001/002 | `USERS.md` |
 | anything legal / a living person / a sensitive topic | `04`, `05` |
+| use a copyrighted film / TV / game / music clip (Ensayo) | `20`, `12` (§1c), `00` (§1), `11` (§2.5) |
 
 ## The docs
 
@@ -48,7 +49,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | 06 | production-workflow | all | the 12 gated stages, the 5 review pages, per-stage roles, Definition of Done |
 | 07 | publishing-seo-metrics | 10·11·12 | cadence, title/thumbnail rules, description blocks, KPIs + KPI log |
 | 08 | tone-of-voice | 4 | register, first-person investigator, neutral Spanish, uncertainty phrasing, never-do list |
-| 09 | reflection-rules | 1·3·4 | the close in forms A/B/C × four registers (psych / practical / philosophical / religious), the surgical test, failure modes |
+| 09 | reflection-rules | 1·3·4 | the close in forms A/B/C × four registers (psych / practical / philosophical / religious), the surgical test, failure modes; Ensayo = distributed reading, every beat a named authority from `../research/citation-shelf.md` |
 | 10 | repo-and-git-workflow | all | repo layout, what's versioned, branching, commit-message convention |
 | 11 | visual-rhythm | 4·6·9 | shots from the locked script; A-roll/B-roll split (narrator on camera); beat rates; visual-type menu |
 | 12 | available-material-protocol | 0·2·7 | PD archives list, fair-use tier for rights-managed subjects with no PD alternative (digital-era figures + 20th-c company histories), citation tier for copyrighted film/TV, per-idea worksheet, stock rules, music licensing, subject-with-no-photo |
@@ -59,6 +60,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | 17 | dashboard-and-advance | all | dashboard.html + serve.py + advance.py — one-click gate hand-off; the /loop; _STATUS.md |
 | 18 | monetization-and-audience | 0 | CPM/RPM by category + Spanish-language audience geography — non-blocking tiebreaker at ideation |
 | 19 | lessons | 3·4·5 | capped, working log of recurring correction patterns — graduates to a real rule (and gets deleted) once it repeats |
+| 20 | experimental-clip-protocol | 0·2·6·7·9 | **DRAFT** — the **Ensayo** track: episodes built on a copyrighted film/TV/game/album under fair use. Three modes (obra como sujeto / cita / suceso), charter carve-out, Mode-A anatomy (§3), footage doctrine + minimum treatment (§4), discovery vs. published excerpt (§4.6), RPM haircut (§5), cadence cap. Not canon until 001+002 sign §8 |
 | — | USERS | all | the only slot→person map; slots fixed, responsibilities assignable |
 
 ## Canonical homes (where a rule lives once, everyone else points)
@@ -66,6 +68,9 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | Rule | Home |
 |------|------|
 | subjects are public | `01` §3 (+ `00` non-negotiable #1) |
+| tracks (Documental / Ensayo — format, not theme) | `../ideas/tracks.md` |
+| creative work as subject · copyrighted clips under fair use | `20` (+ `00` #1, `12` §1c) |
+| verified authorities for the reflection (psychologists, thinkers, studies) | `../research/citation-shelf.md` |
 | COI / no one you know / public-doc test | `05` |
 | no on-screen source cards · 4K fallback · house grade | `03` |
 | music licence (CC-BY / BY-SA / CC0 only) | `12` §Audio |

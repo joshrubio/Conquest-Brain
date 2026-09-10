@@ -1,6 +1,9 @@
 # Dieck Docs — Análisis de estructura
 
-Analizadas 7 transcripciones (`transcripts/T01`–`T07`). T01–T06 el 2026-08-27, T07 el 2026-09. Fuente: auto-ASR (TurboScribe / NoteGPT). Timestamps en T04–T07; en T01–T03 las proporciones son estimadas por volumen de texto. **Verificar cualquier cita textual contra el video.**
+Analizadas 8 transcripciones (`transcripts/T01`–`T08`). T01–T06 el 2026-08-27, T07 el 2026-09, T08 el 2026-09-10. Fuente: auto-ASR (TurboScribe / NoteGPT). Timestamps en T04–T08; en T01–T03 las proporciones son estimadas por volumen de texto. **Verificar cualquier cita textual contra el video.**
+
+- **T01–T06:** documentales de caso real → base de `brain/02`, `08`, `09` (v1).
+- **T07 (*There Will Be Blood*) y T08 (*Cazadores de canales*):** Relato y Reflexión sobre una obra → referencia para el track **Ensayo** (`brain/20`). Solo artesanía (estructura, reflexión, **citas** en T08) — nunca modelo de fuentes ni de selección de sujeto.
 
 ## Estado
 
@@ -115,6 +118,49 @@ Dieck disecciona la película escena por escena. **No es modelo de fuentes** (`b
 | **Cierre (28:33–29:36): Forma A muy moralizante** | "que la historia de Daniel nos sirva de advertencia… que nos impulse a reflexionar sobre nuestras propias metas… buscar un equilibrio que nos permita avanzar sin perder nuestra humanidad." Este es exactamente el registro predicador que nuestro `brain/08` §1 dial-down. |
 
 **Para nosotros:** T07 confirma que la reflexión puede (a) ir en dosis a lo largo del episodio y (b) tocar terreno **filosófico y religioso**, no solo psicológico/práctico — pero muestra dos cosas a corregir: la nota existencial **sin fuente** ("el éxito externo no llena el vacío" debería atribuirse a una tradición o pensador y llevar `[S..]`), y el cierre **predicador** ("que nos sirva de advertencia").
+
+---
+
+## T08 — *Cazadores de canales* / *The Fairly OddParents: Channel Chasers* (~31:37, timestamps NoteGPT) — **Relato y Reflexión: obra como sujeto (modo A, `brain/20`)**
+
+Análisis de una película de una serie animada, escena por escena, con lectura psicológica constante. Tesis: *reconocer las fallas de tus padres no te vuelve distinto — romper el patrón exige voluntad, trabajo y **memoria***. Añadida 2026-09-10 como referencia para el track **Ensayo** — aporta lo que T07 no tenía: **el aparato de citas**.
+
+### Estructura (igual que T01–T06, aplicada a una obra)
+
+| Sección | Timestamp | Notas |
+|---------|-----------|-------|
+| Cold open | 00:00–00:27 | **Tesis abstracta primero** ("Timmy juró nunca ser como sus papás… lo difícil es no convertirte en ellos"), luego nombra la obra y la crítica que hace, y **anuncia el pago al espectador**: "Si pasaste tu infancia viendo caricaturas, tal vez aquí encuentres respuestas que nunca supiste que estabas buscando". Sin bumper de canal ASR-visible. |
+| Apertura in-media-res | 00:27–02:14 | Arranca por la escena distópica (20 años en el futuro) — el gancho de misterio — y retrocede. |
+| Espina = la trama | todo el cuerpo | Narrada en **presente**, escena por escena. La trama es el andamio; el hilo es la lectura. |
+| Reflexión como interludio **constante** | tras casi cada secuencia | "El tema principal de esta película es…", "Aquí estamos viendo cómo…", "Esta película nos plantea que…". Cada tramo de trama → un paso atrás que **puentea ficción → vida del espectador** ("y esto no solo les pasa a los niños, también a los adultos… las relaciones románticas"). Densidad tipo T07, entre Forma A y B. |
+| Primera persona | recurrente | "cuando yo era niño…", "A mí me ha pasado…", "creo yo", "dos razones se me ocurren". |
+| Interlinkeo del propio catálogo | 07:34, 08:00, 21:42, 22:07 | "Si viste el análisis que hice de *H Catástrofe*…", "Si viste mi análisis sobre *Los Simpsons*…" — retención + construye un corpus. |
+| Trivia de producción como evidencia | 14:35 | "en los primeros bocetos… los papás de Timmy ni siquiera tenían rostro" → usado para sostener la lectura (adultos presentes pero ausentes). Es la síntesis de varias fuentes que `brain/20 §2` pide. |
+| Cierre — Forma A | 28:33–31:05 | "podemos tomar este cierre como una **advertencia**… se necesita voluntad y trabajo constante y **memoria**… ser ahora ese adulto que hubiéramos querido tener". Aplicado, flojo al "tú". Roza el registro predicador que `brain/08` §1 baja. |
+| CTA | 31:05–31:37 | Coda separada, boilerplate ("Para ti que llegaste hasta el final…"). |
+
+### Las citas — lo que hay que copiar (con cuidado)
+
+**Cada afirmación psicológica de carga lleva una autoridad nombrada, dicha en el momento.** Cinco en un vídeo de 31 min:
+
+| # | Autoridad (ASR — **verificar ortografía y atribución**) | Afirmación en el vídeo | Campo real | Notas para verificar |
+|---|--------------------------------------------------------|------------------------|-----------|----------------------|
+| 1 | **Jacqueline Woolley** ("Jacqueln Woolly"), psicóloga del desarrollo, UT Austin | los menores de ~5 años creen que casi todo lo que ven en pantalla es real; el pensamiento crítico aún no está desarrollado | desarrollo de la distinción fantasía/realidad | real; su línea de trabajo es fantasy/reality distinction. Confirmar la cita exacta y la edad. |
+| 2 | **Dimitri Christakis** ("Dimitri Christackis"), pediatra, Seattle Children's | muchos programas infantiles están hechos para sobre-estimular: colores, música, cortes rápidos → dopamina → luego cuesta concentrarse | efectos de la TV rápida en la atención infantil | real; autor del estudio de 2004 sobre TV temprana y déficit de atención. Confirmar el mecanismo tal como lo enuncia. |
+| 3 | **David Elkind** ("David Elke"), psicólogo del desarrollo (*The Hurried Child*) | la TV genera expectativas poco realistas del mundo → insatisfacción constante | presión/expectativas en la infancia | real. Confirmar que dijo esto de la TV específicamente, no solo de "the hurried child". |
+| 4 | **Jennings Bryant**, investigador de psicología de medios (parasocial) | para niños solos o poco atendidos, la TV es fuente de afecto y seguridad; se forman lazos con los personajes | relaciones parasociales | real (co-editor de *Media Effects*). Confirmar frase. |
+| 5 | **Robert McKee** ("Robert McKe"), teórico del guion (*Story*) | el ser humano ha intentado entender la vida por cuatro vías: ciencia, filosofía, religión e **historias** | teoría narrativa | McKee es teórico de guion, no psicólogo — atribución correcta como *teórico*. Esa "cuádruple vía" **mapea directamente sobre los cuatro registros de `brain/09`** (psicológico / práctico / filosófico / religioso + el propio relato). |
+
+Además, atribución **genérica** para casos: "se han reportado cientos de casos", "en Noruega, tres niños…", "en India, uno…" — hechos de imitación real, marcados como reportados, no como dato cerrado.
+
+### Para nosotros — el hueco que T08 revela
+
+`brain/09` ya exige atribuir **ideas filosóficas y religiosas** con `[S..]`. `brain/01` ya prohíbe **psicología popular sin respaldo**. Pero no hay un patrón positivo ni un *estante de citas* para **psicología** como sí hay un phrasebook para el tono. T08 muestra el patrón a adoptar para el track Ensayo (y útil en Documental):
+
+1. **Toda lectura psicológica de carga → autoridad nombrada en pantalla + `[S..]`**, igual que un dato. "Según la psicóloga X…", "el investigador Y explica que…".
+2. **Distinguir el campo**: psicólogo del desarrollo ≠ pediatra ≠ teórico del guion ≠ filósofo. Atribuir por lo que la persona realmente es.
+3. **Construir un estante** — un `research/citation-shelf.md` (o similar): psicólogos / teorías / estudios que el canal ha verificado y puede citar, con la cita exacta y la fuente Tier A/B, análogo a `research/_books/`. Evita reinventar la verificación cada episodio y evita el error de T07 (afirmación existencial sin dueño).
+4. El **template de guion del Ensayo** (Parte 2) lleva un campo obligatorio "autoridades citadas" que el fact-check L1/L2 cruza contra el estante.
 
 ---
 

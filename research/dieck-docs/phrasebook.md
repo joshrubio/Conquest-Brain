@@ -145,3 +145,37 @@ Elegiac ending:
 > "Para ti que llegaste hasta el final, muchísimas gracias por ver el video completo. Quiero agradecerte también por todo tu apoyo y recordarte que si no te has suscrito a mi canal, lo hagas en este momento. La verdad me apoyarías bastante y así también te aseguras de no perderte ninguno de mis videos. Sin más, tú y yo nos vemos en el próximo video."
 
 **Our version:** shorter, brand-separate, no over-familiar tone. See `templates/description-and-credits.md` and `brain/05-independence-and-coi.md`. Draft: *"Si estas historias te sirven, suscríbete — así no te pierdes el próximo episodio. Las fuentes están en la descripción."*
+
+---
+
+## 18. Section welding — bridges across a seam (`brain/02` §Recurring structural rules)
+
+The heading is for the editor; the viewer should never feel it. The outgoing line
+reaches forward **or** the incoming line reaches back — one of the two, every seam.
+
+**Act → act (carry a thread, don't just jump time):**
+- "Ese miedo no se queda en la sala de ensayo. Lo siguiente que hace es llevárselo a casa."
+- "Con la silla ya ganada, Andrew cree que ha pasado lo peor. Le queda el día del concurso."
+- "Lo que viene ahora sólo se entiende si recuerdas cómo empezó todo: [callback]."
+
+**Narrative → explainer (the beat invites it):**
+- "Para saber si eso que acaba de hacer Fletcher tiene algún sentido, hace falta salir un momento de la historia."
+- "Aquí conviene parar, porque lo que Andrew está haciendo tiene un nombre y una literatura detrás."
+
+**Explainer → narrative (hand it back, tie it to the next beat):**
+- "Con eso en la cabeza, la siguiente escena se lee distinto."
+- "Volvamos a la sala de ensayo — porque la película sabe todo esto y aun así te va a poner del lado de Fletcher."
+- "Guarda ese dato. Vuelve a importar en el minuto final."
+
+**Into the close (collect, don't restart):**
+- "Todo lo que hemos visto apunta a una misma cosa, y es con lo que me quedo."
+- "Con la película entera delante, la pregunta del principio ya se puede responder."
+
+## 19. Introducing a cited authority *from* the story (`brain/20` §3, `brain/09` §Ensayo)
+
+Never "El psicólogo X dice Y" cold. The scene raises the idea; the authority answers it.
+
+- "[escena] … y esto que le pasa a Andrew tiene nombre. La investigación sobre <tema> lo llama <concepto> — <autoridad, por su campo> lo describió así: …"
+- "Fletcher tiene una teoría explícita de esto. Y hay una línea de investigación que la contradice punto por punto: <autoridad> …"
+- "No es sólo cosa de la película. Cuando <investigador/a> estudió <contexto real análogo>, encontró que …"
+- Exit right after: "… — y con eso, volvamos a [beat siguiente]."
