@@ -113,12 +113,12 @@ Beats `acamara` (50 de 133 ≈ 38 %): **9, 10, 11, 16, 27, 36, 39, 42, 46, 49, 5
 | 73 | 8:38 | 8 | acto 2 | acamara | — | — | cut | — | «a Ohno le falta la manera de explicarlo; la gente lo mira como si estuviera del revés» |
 | 74 | 8:46 | 6 | acto 2 | archivo | beat74_supermarket_1950s | — | pan-h | PROMISE 4 | «una tienda americana que en Japón todavía no existe» |
 | 75 | 8:52 | 8 | acto 2 | ia | E002_ai13_supermarket-slides | Recreación | static | — | «un compañero vuelve de EE.UU. con diapositivas a color: el supermercado» |
-| 76 | 9:00 | 7 | acto 2 | archivo | beat76_supermarket_1950s | — | pan-h | — | «el cliente coge de la estantería lo que quiere, y se va» |
+| 76 | 9:00 | 7 | acto 2 | archivo | beat74_supermarket_1950s | — | pan-h | — | «el cliente coge de la estantería lo que quiere, y se va» |
 | 77 | 9:07 | 7 | acto 2 | archivo | beat77_supermarket_shelves | — | push | — | «alguien mira los huecos y repone lo que se ha llevado la gente» |
 | 78 | 9:14 | 12 | acto 2 | gráfico | G10_supermarket_analogy | taller = cliente · taller de atrás = reponedor · ficha = etiqueta del estante | push | PAY 4 | «Ohno oye eso y ve su fábrica» |
 | 79 | 9:26 | 6 | acto 2 | ia | E002_ai13_supermarket-slides | Recreación | static | — | «dentro de Toyota lo llaman "el sistema del supermercado"» |
 | 80 | 9:32 | 8 | acto 2 | acamara | — | — | cut | — | «el supermercado no le dio la idea; le dio una imagen que cualquiera entendía» |
-| 81 | 9:40 | 7 | acto 2 | archivo | beat81_supermarket_1950s | — | pan-h | — | «Ohno no pisaría uno hasta 1956, en un viaje a Estados Unidos» |
+| 81 | 9:40 | 7 | acto 2 | archivo | beat77_supermarket_shelves | — | pan-h | — | «Ohno no pisaría uno hasta 1956, en un viaje a Estados Unidos» |
 | 82 | 9:47 | 7 | acto 2 | ia | E002_ai14_ohno-supermarket | Recreación | pan-h | — | «recorrer en persona los pasillos que llevaba cinco años usando como metáfora» |
 | 83 | 9:54 | 10 | acto 3 | acamara | — | — | cut | PROMISE 3 | «esto no lo cambió una reunión: alguien tuvo que meterse en esa fábrica y no salir en veinte años» |
 | 84 | 10:04 | 8 | acto 3 | ia | E002_ai10_shopfloor-chaos | Recreación | push | — | «la resistencia más dura venía de los mandos intermedios» |
@@ -135,7 +135,7 @@ Beats `acamara` (50 de 133 ≈ 38 %): **9, 10, 11, 16, 27, 36, 39, 42, 46, 49, 5
 | 95 | 11:38 | 8 | acto 3 | gráfico | G6_toyoda_timeline | — | pan-h | — | «para los años sesenta el sistema cubre ya casi toda la empresa» |
 | 96 | 11:46 | 8 | acto 3 | acamara | — | — | cut | — | «y entonces, en octubre de 1973, pasa algo que nadie tenía previsto» |
 | 97 | 11:54 | 8 | acto 3 | archivo | beat97_gasline_1973 | «Crisis del petróleo — 1973» | pan-h | — | «los países árabes cortan el petróleo, el precio se multiplica» |
-| 98 | 12:02 | 7 | acto 3 | archivo | beat98_gasline_1973 | — | static | — | «Japón, que importa casi todo su crudo, es de los más golpeados» |
+| 98 | 12:02 | 7 | acto 3 | archivo | beat97_gasline_1973 | — | static | — | «Japón, que importa casi todo su crudo, es de los más golpeados» |
 | 99 | 12:09 | 9 | acto 3 | acamara | — | — | cut | — | «Toyota cae menos y se recupera antes: coches pequeños, sin almacenes llenos» |
 | 100 | 12:18 | 10 | acto 3 | gráfico | G7_toyota_gm_scale | — | push | PAY 2 | «la fábrica que no podía permitirse el método de Detroit era la que mejor aguantaba» |
 | 101 | 12:28 | 9 | acto 3 | acamara | — | — | cut | PAY 2 | «en 1973, por primera vez, la industria entera pudo ver por qué» |
@@ -193,11 +193,12 @@ Beats `acamara` (50 de 133 ≈ 38 %): **9, 10, 11, 16, 27, 36, 39, 42, 46, 49, 5
 | 56, 84, 122 | Taller de Toyota en caos: motores parados, almacenes desbordados | recreación | S03 | Recreación — rótulo | mismo `asset` ai10 |
 | 64, 66, 68, 124 | La tarjeta *kanban* en una caja de piezas | recreación / macro | S14 | Recreación — rótulo | PROMISE 1 (b64) = PAY 1 (b68): `asset` + `motion` idénticos |
 | 70, 71 | Un obrero tira del cable que para la línea (*andon*) | recreación | S14 | Recreación — rótulo | mano en el cable; luz que se enciende |
-| 74, 76, 77, 81 | Interior de un supermercado americano años 50 | LOC / archivos de revistas | S07 (contexto) | PD parcial / stock ilustrativo | PROMISE 4 (b74): plano de entrada |
+| 74, 76 | Interior de un supermercado americano años 50 (`beat74_supermarket_1950s`) | Commons: «Bergs Supermarket, c.1950» (OSU, sin restricciones) | S07 (contexto) | PD / sin restricciones | PROMISE 4 (b74) |
+| 77, 81 | Estantes de supermercado, detalle (`beat77_supermarket_shelves`) | stock-img | S07 (contexto) | licencia stock | reponer estantes |
 | 75, 79 | Un colega enseña diapositivas a color del supermercado | recreación | S14 | Recreación — rótulo | sala de reunión años 50, proyector de diapositivas |
 | 82 | Ohno recorre un pasillo de supermercado en EE.UU. (1956) | recreación | S07 | Recreación — rótulo | de espaldas |
 | 91, 92, 128 | Minoura de pie en el círculo de tiza | recreación | S12 | Recreación — rótulo | planta de fábrica; el círculo en el suelo |
-| 97, 98 | Colas de gasolina, 1973 | archivo de prensa / gobierno de EE.UU. | S03 (contexto) | PD / cita breve | icónico y muy disponible |
+| 97, 98 | Colas de gasolina, 1973 (`beat97_gasline_1973`) | Commons: serie DOCUMERICA de David Falconer (NARA), Oregon, otoño 1973 | S03 (contexto) | **dominio público** (obra del gobierno de EE.UU.) | localizado |
 | 106 | Coches japoneses en un concesionario / puerto de EE.UU., años 60–70 | archivo de prensa | S02 (contexto) | cita breve 1b | genérico |
 | 108, 126 | Planta de Fremont / NUMMI | prensa / AP años 80 | S22 | cita breve 1b (fair use) | exterior; **dignidad** (§ Para Stage 11) |
 | 110 | Cadena de montaje de NUMMI en marcha | recreación | S22, S02 | Recreación — rótulo | obreros en una línea ordenada |
@@ -238,14 +239,13 @@ Beats `acamara` (50 de 133 ≈ 38 %): **9, 10, 11, 16, 27, 36, 39, 42, 46, 49, 5
 
 ## Faltantes / a conseguir (para el pase de estilo, Stage 7)
 
-- [ ] Signaturas LOC concretas para la cadena de Ford/Detroit [S13] (beats 5, 43, 45).
-- [ ] Pieza PD de la rendición del 15 ago 1945 (NARA) — beat 25.
-- [ ] Interior de supermercado americano años 50 en PD, o stock ilustrativo (beats 74, 76, 77, 81).
-- [ ] Colas de gasolina 1973 en PD (beats 97, 98).
-- [ ] Fremont/NUMMI años 80: prensa (AP/Getty) bajo cita breve 1b — o recreación si el riesgo Content ID no compensa (beats 108, 126).
-- [ ] Imágenes que Ford / Toyota publican de la planta Rouge (1b-ii, orden de preferencia 1) — beats 47, 50, 52.
-- [ ] `07b-ai-prompts.md`: un bloque por `E002_aiNN` (ai01–ai19), un solo estilo (recreación fotográfica de época, grano, sin rostros legibles de personas reales).
-- [ ] Música: correr `find_music.py` y elegir 2–3 lechos en el pase de estilo.
+**Pull corrido 2026-09-11** (`07-pull.tsv` → `07-style-pass.html`, 38 candidatos / 12 assets). Localizados en PD: cadena de Ford (foundry Dearborn, NARA), aéreas de River Rouge (Detroit Publishing + NARA), «civiles escuchando la rendición» (Commons), colas de gasolina 1973 (DOCUMERICA/Falconer, NARA), supermercado Bergs c.1950 (OSU), Corolla 1973 (Commons). Stock: intro ×3, almacén de piezas, estantes de supermercado, exterior de fábrica.
+
+- [ ] **beat 35** (camiones de la guerra de Corea): Commons flojo (1–2 resultados). Buscar en NARA / LoC directamente, o encuadrar de otra forma.
+- [ ] **beat 108 / 126** (Fremont/NUMMI): no está en Commons. Enlace de prensa (AP/Getty) bajo cita breve 1b, o dejarlo como recreación (`E002_ai19` cubre el interior; el exterior podría ser stock genérico).
+- [ ] **beat 47 / 50 / 52**: preferir una imagen que Ford publica de River Rouge (1b-ii orden 1) sobre las de Commons si Usuario 001 tiene acceso.
+- [ ] `07b-ai-prompts.md`: **hecho** — 19 bloques, estilo de recreación fotográfica de época, sin rostros legibles. Falta generar las imágenes.
+- [ ] Música: 21 tracks ya en el pase de estilo (Jamendo); elegir 2–3 lechos.
 
 ## Gate Stage 6
 

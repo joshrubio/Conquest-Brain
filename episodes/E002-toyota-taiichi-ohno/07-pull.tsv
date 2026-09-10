@@ -1,31 +1,35 @@
 # 07-pull.tsv — E002 «Toyota / Taiichi Ohno». Stage 7 candidate-pull spec.
-# Tab-separated. `#` lines ignored. Una fila por beat de la espina que necesita
-# imagen/clip de archivo o stock (los beats `ia` van a 07b-ai-prompts.md; los
-# `gráfico` son propios y NO van aquí).
+# Tab-separated. `#` lines ignored.
 #
-# kind: stock | stock-img | archive | video | intro
-# source: stock | stock-img | video | intro | commons | met,commons | lista
+# UNA FILA POR ASSET ÚNICO de la espina que es `archivo` / `stock` / `intro`.
+# Los `ia` van a 07b-ai-prompts.md; los `gráfico` son propios (make_graphics);
+# `acamara` y `negro` no llevan asset.
 #
-# Claves de Pexels/Pixabay/Unsplash en tools/.env — OK (stock funciona).
-# Wikimedia Commons no necesita clave. Si Commons da 0, Usuario 001 pega
-# enlaces PD propios (Library of Congress, NARA DOCUMERICA) en el pase de estilo.
+# Assets reutilizados — el candidato elegido en el pase de estilo vale para
+# todos sus beats:
+#   beat47_rouge_1950        → beats 47, 50, 52
+#   beat74_supermarket_1950s → beats 74, 76
+#   beat77_supermarket_shelves → beats 77, 81
+#   beat97_gasline_1973      → beats 97, 98
+#   beat108_fremont_1980s    → beats 108, 126
+#
+# Claves de Pexels/Pixabay/Unsplash en tools/.env: OK.
+# Wikimedia Commons no necesita clave; si da 0, Usuario 001 pega enlaces PD
+# propios (Library of Congress, NARA) en el pase de estilo.
 #
 beat	kind	source	query	opts
 INTRO1	intro	intro	empty factory assembly hall dim	orientation=landscape;min=1920;n=3
 INTRO2	intro	intro	crowd of workers leaving factory gates	orientation=landscape;min=1920;n=3
 INTRO3	intro	intro	vintage car assembly line 1950s	orientation=landscape;min=1920;n=3
 5	archive	commons	Ford Motor Company assembly line	n=4
-43	archive	commons	Ford River Rouge plant	n=4
-45	stock-img	stock-img	warehouse metal parts shelves industrial	min=2000;n=3
-25	archive	commons	Emperor Hirohito radio broadcast 1945	n=4
-29	stock-img	stock-img	japanese newspaper 1940s	min=1600;n=2
-35	archive	commons	Korean War US Army truck convoy	n=4
+25	archive	commons	Japanese civilians listening surrender broadcast 1945	n=3
+29	stock-img	stock-img	old japanese newspaper page	min=1600;n=2
+35	archive	commons	Korean War US Army truck convoy 1950	n=4
+43	archive	commons	Ford assembly line Dearborn foundry	n=4
+45	stock-img	stock-img	industrial warehouse metal parts shelves	min=2000;n=3
 47	archive	commons	Ford River Rouge Dearborn aerial	n=4
 74	archive	commons	self-service supermarket 1950s	n=4
-76	stock-img	stock-img	vintage grocery store shelves canned goods	min=2000;n=3
-77	stock	stock	supermarket aisle shelves stocking	min=1920;n=3
+77	stock-img	stock-img	vintage grocery store shelves canned goods	min=2000;n=3
 97	archive	commons	Documerica gasoline shortage 1973	n=4
-98	archive	commons	gas station line 1979 fuel crisis	n=3
-106	archive	commons	Toyota Corolla 1970s	n=3
-108	stock	stock	car factory exterior 1980s	min=1920;n=3
-110	stock	stock	modern car assembly line workers	min=1920;n=3
+106	archive	commons	Toyota Corolla 1973	n=3
+108	stock	stock	large car factory exterior building	min=1920;n=3
