@@ -20,6 +20,9 @@ What it reads (all optional — degrades to a planning view):
 
 Usage
   python tools/assemble.py E0XX-slug                 # (re)build 09-timeline.json + wave
+  python tools/assemble.py E0XX-slug --seed          # seed once (no-op if already schema 2)
+  python tools/assemble.py E0XX-slug --reseed        # force re-seed from the shotlist — discards edits
+  python tools/assemble.py E0XX-slug --resync        # re-fit the line to a re-recorded VO (keeps dur_edited)
   python tools/assemble.py E0XX-slug --rough         #  + render the 720p proxy
   python tools/assemble.py E0XX-slug --preview 340 385   # re-render just that region of the proxy
   python tools/assemble.py E0XX-slug --final         # render the 4K master
@@ -44,6 +47,11 @@ ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 GROUND = "#100D09"          # brand letterbox / pad colour (brain/03)
 FPS = 24
+# 09-timeline.json schema. 1 = the derived timeline (parse_spine + align every
+# rebuild). 2 = the authored timeline (brain/16 "timeline canónica"): each beat
+# owns its `dur`, align() only seeds. seed_timeline() now writes 2; existing
+# schema-1 files must be run through tools/migrate_timeline.py.
+SCHEMA_CURRENT = 2
 KIND_DIR = {"archivo": "archive", "stock": "stock", "kb": "kb", "ia": "ai",
             "gráfico": "graphic", "grafico": "graphic", "negro": None,
             "acamara": None, "a-cámara": None, "a-camara": None, "narrador": None}
@@ -181,23 +189,37 @@ def _negro_card(text, ep):
     try:
         from PIL import Image, ImageDraw, ImageFont
         w, h = 3840, 2160
+        safe_w, safe_h = w * 0.86, h * 0.80        # keep text inside a title-safe box
         im = Image.new("RGB", (w, h), (6, 5, 3))
         d = ImageDraw.Draw(im)
         lines = [s.strip() for s in re.split(r"\s*/\s*|\s*\n\s*", text) if s.strip()] or [text]
-        fnt = None
-        for cand in (r"C:\Windows\Fonts\georgia.ttf", r"C:\Windows\Fonts\times.ttf",
-                     "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
-                     "/Library/Fonts/Georgia.ttf"):
+        fpath = next((c for c in (r"C:\Windows\Fonts\georgia.ttf", r"C:\Windows\Fonts\times.ttf",
+                                  "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+                                  "/Library/Fonts/Georgia.ttf") if Path(c).exists()), None)
+
+        def _font(px):
             try:
-                fnt = ImageFont.truetype(cand, 168)
-                break
+                return ImageFont.truetype(fpath, px) if fpath else ImageFont.load_default()
             except Exception:
-                pass
-        fnt = fnt or ImageFont.load_default()
-        y = h / 2 - len(lines) * 120
+                return ImageFont.load_default()
+
+        # start at 168 px, shrink to fit the title-safe box (a long rótulo line or
+        # many "/"-separated lines would otherwise clip at the frame edge)
+        size, lh = 168, 240
+        while size > 40:
+            fnt = _font(size)
+            widest = max((d.textlength(ln, font=fnt) for ln in lines), default=0)
+            if widest <= safe_w and len(lines) * lh <= safe_h:
+                break
+            size = int(size * 0.9)
+            lh = int(size * 1.43)
+        fnt = _font(size)
+        if size < 168:
+            print(f"  negro card: rótulo largo → fuente {size}px (de 168) para que quepa")
+        y = h / 2 - len(lines) * lh / 2 + (lh - size) / 2
         for ln in lines:
             d.text(((w - d.textlength(ln, font=fnt)) / 2, y), ln, font=fnt, fill=(214, 203, 181))
-            y += 240
+            y += lh
         out.parent.mkdir(parents=True, exist_ok=True)
         im.save(out)
         return out
@@ -238,20 +260,30 @@ def resolve(ep, beats):
             b["state"] = "ok" if take else "uncovered"
             b["motion"] = "cut"     # live video, never a Ken Burns move
             continue
-        if b["kind"] == "negro" or not b["asset"]:
+        asset = b.get("asset") or ""
+        if b["kind"] == "negro":
+            b["file"], b["state"] = None, "plan"
             continue
-        hit = idx.get(b["asset"]) or idx.get(b["asset"].split(".")[0])
+        if not asset:                     # cleared / never assigned — reset any stale file
+            b["file"], b["state"] = None, "uncovered"
+            continue
+        hit = idx.get(asset) or idx.get(asset.split(".")[0])
         if not hit:
             # prefix match: `intro01` -> `intro01_pexelsv_…`, `G4` -> `G4_age_ladder`
-            aid = b["asset"].lower()
+            aid = asset.lower()
             hit = next((v for k, v in idx.items()
                         if k.lower() == aid or k.lower().startswith(aid + "_")), None)
         if not hit:
-            # downloaded assets are named beatNN_* — try that
-            for k, v in idx.items():
-                if k.lower().startswith(f"beat{b['n']:02d}_") or k.lower().startswith(f"beat{b['n']}_"):
-                    hit = v
-                    break
+            # downloaded assets are named beatNN_* (legacy) — try that. schema-2
+            # beats carry `id` ("b7") not `n`; the spine row number is the digits.
+            bn = b.get("n")
+            if bn is None and isinstance(b.get("id"), str) and b["id"][1:].isdigit():
+                bn = int(b["id"][1:])
+            if bn is not None:
+                for k, v in idx.items():
+                    if k.lower().startswith(f"beat{bn:02d}_") or k.lower().startswith(f"beat{bn}_"):
+                        hit = v
+                        break
         if hit and hit.suffix.lower() in STILL_EXT:
             b["aspect"] = _aspect(hit)
             hit = _still_proxy(hit, ep)
@@ -259,9 +291,9 @@ def resolve(ep, beats):
         b["state"] = "uncovered" if (not b["file"] and b["kind"] != "negro") else "ok"
     # same-asset reuse: a held shot / PROMISE+PAY that names the same `asset` as a
     # beat that DID resolve borrows that file (assemble aligns times, not files).
-    by_asset = {b["asset"]: b["file"] for b in beats if b["asset"] and b["file"]}
+    by_asset = {b["asset"]: b["file"] for b in beats if b.get("asset") and b.get("file")}
     for b in beats:
-        if b["state"] == "uncovered" and b["asset"] in by_asset:
+        if b.get("state") == "uncovered" and b.get("asset") in by_asset:
             b["file"], b["state"] = by_asset[b["asset"]], "ok"
     return beats
 
@@ -290,41 +322,80 @@ def load_words(ep):
     return words
 
 
+def _vo_end_from_words(words):
+    """The VO's end time. Whisper's `t` is the word *start*, so the tail scales
+    with the last word's length — a flat +0.5 s clipped a long final word like
+    "Hokusai"."""
+    if not words:
+        return 0.0
+    _lastw = len(words[-1]["w"].strip(".,;:!?»«…"))
+    return round(words[-1]["t"] + min(1.8, 0.45 + 0.10 * _lastw), 2)
+
+
+def get_vo_end(ep, stored=None):
+    """The authoritative VO length for a schema-2 timeline. Stored at seed/resync
+    time; only recomputed from the word list when absent."""
+    if isinstance(stored, (int, float)) and stored > 0:
+        return float(stored)
+    return _vo_end_from_words(load_words(ep))
+
+
+def resync_available(slug):
+    """True when the trimmed VO changed since the timeline was last seeded/synced
+    (a re-record or a re-trim) — the edit room shows a «Re-sincronizar» banner."""
+    ep = EP_DIR / slug
+    if (ep / "09-resync.flag").exists():
+        return True
+    data = _prev_json(ep / "09-timeline.json")
+    if data.get("schema", 1) < 2 or not data.get("words_sig"):
+        return False
+    return _words_sig(load_words(ep)) != data["words_sig"]
+
+
+def derive_times(beats, vo_end, fps=FPS):
+    """Lay the authored beats on the VO backbone (brain/16, schema 2): each
+    beat's `in`/`out` is the cumulative sum of the authored `dur`s before it,
+    frame-quantised, contiguous (`in[i] == out[i-1]`), last beat snapped to
+    `vo_end`. The VO is the fixed measure; changing one `dur` ripples every beat
+    after it. No neighbour ever loses time to a lock."""
+    if not beats:
+        return beats
+    frame = 1.0 / fps
+    cursor, prev_out = 0.0, 0.0
+    for b in beats:
+        b["in"] = prev_out
+        cursor += max(0.0, float(b.get("dur") or 0.0))
+        prev_out = round(round(cursor / frame) * frame, 3)
+        b["out"] = prev_out
+    last = beats[-1]
+    if vo_end and vo_end > last["in"] + 0.1:
+        last["out"] = round(float(vo_end), 3)
+    elif vo_end:
+        print(f"  ⚠ vo_end {vo_end:.2f}s cae dentro del último beat "
+              f"(in {last['in']:.2f}s) — no se ajusta el cierre")
+    return beats
+
+
 def _stage_dir(raw):
     """A frag that is a stage direction / production note, not delivered speech."""
     return raw.startswith(("[", "‹", "(")) or bool(
         re.search(r"tipo de cta|en pantalla|^nota\b|wordmark", raw, re.I))
 
 
-def align(beats, words):
-    """Anchor the shotlist's planned timeline to the real VO.
-
-    The shotlist's `in`/`out` are already section-calibrated to the delivered
-    voice (the writer maps sections to VO time). So don't re-derive the whole
-    timeline from frag matches — instead find the beats whose frag matches the
-    voice *confidently*, and **piecewise-linearly remap** the planned times onto
-    the VO between those anchors. Beats between anchors keep their planned
-    proportions; the whole thing ends exactly at the VO."""
-    beats.sort(key=lambda x: x["n"])
-    if not words:
-        return beats, round(beats[-1]["out"], 2) if beats else 0.0
-    toks = [_norm(w["w"]) for w in words]
-    # Whisper's `t` is the word *start*; the tail must cover the last word being
-    # spoken, not a flat 0.5 s (which clips a long final word like "Hokusai").
-    _lastw = len(words[-1]["w"].strip(".,;:!?»«…"))
-    vo_end = round(words[-1]["t"] + min(1.8, 0.45 + 0.10 * _lastw), 2)
-    planned_end = beats[-1]["out"] or vo_end
-
-    # (planned_time, vo_time) anchor pairs, in order
+def _anchors(items, toks, words, ref_end, vo_end):
+    """Confident (ref_time, vo_time) knots for a piecewise-linear time remap.
+    `items` = [(ref_time, anchor_text), ...] in order — the anchor text is
+    fuzzy-matched against the word stream near where its ref_time would fall.
+    Used by align() (ref = shotlist planned time, text = frag) and by
+    resync_timeline() (ref = the beat's current `in`, text = its vo_anchor)."""
     anchors = [(0.0, 0.0)]
     cursor = 0
-    for b in beats:
-        raw = (b.get("frag") or "").strip()
+    for ref_t, raw in items:
+        raw = (raw or "").strip()
         frag = [t for t in _norm(raw).split() if t]
         if _stage_dir(raw) or len(frag) < 4:
             continue
-        # expected word index ≈ where this beat's planned time falls in the VO
-        exp = int(b["in"] / planned_end * len(toks))
+        exp = int(ref_t / ref_end * len(toks)) if ref_end else 0
         best, best_i = 0, exp
         for i in range(max(cursor, exp - 80), min(len(toks) - 1, exp + 200)):
             score = sum(1 for k, ft in enumerate(frag[:6]) if i + k < len(toks) and toks[i + k] == ft)
@@ -332,23 +403,39 @@ def align(beats, words):
                 best, best_i = score, i
         if best >= 4 or best == min(6, len(frag)):
             vt = round(words[best_i]["t"], 2)
-            pgap = b["in"] - anchors[-1][0]        # planned distance since last anchor
+            pgap = ref_t - anchors[-1][0]          # ref distance since the last anchor
             vgap = vt - anchors[-1][1]             # VO distance the match implies
-            # accept only if the match lands at a plausible spot: it can't pull the
-            # timeline backwards, and it can't compress the beats since the last
-            # anchor below ~35 % of their planned span (a frag matched too early —
-            # e.g. the shotlist put frags out of spoken order).
+            # accept only if the match lands plausibly: no backwards pull, and the
+            # run since the last anchor isn't compressed/stretched past 0.35×–2.6×.
             if pgap > 0 and vgap > 0.5 and vgap > 0.35 * pgap and vgap < 2.6 * pgap:
-                anchors.append((b["in"], vt))
+                anchors.append((ref_t, vt))
                 cursor = best_i + len(frag)
-    anchors.append((planned_end, vo_end))
+    anchors.append((ref_end, vo_end))
+    return anchors
 
+
+def _remap_fn(anchors, vo_end):
     def remap(pt):
         for (p0, v0), (p1, v1) in zip(anchors, anchors[1:]):
             if pt <= p1 or (p1, v1) == anchors[-1]:
                 f = (pt - p0) / (p1 - p0) if p1 > p0 else 0.0
                 return v0 + f * (v1 - v0)
         return vo_end
+    return remap
+
+
+def align(beats, words):
+    """Anchor the shotlist's planned timeline to the real VO — piecewise-linearly
+    remap planned times onto VO time between the beats whose frag matches the
+    voice confidently. Runs once, at seed."""
+    beats.sort(key=lambda x: x["n"])
+    if not words:
+        return beats, round(beats[-1]["out"], 2) if beats else 0.0
+    toks = [_norm(w["w"]) for w in words]
+    vo_end = _vo_end_from_words(words)
+    planned_end = beats[-1]["out"] or vo_end
+    anchors = _anchors([(b["in"], b.get("frag")) for b in beats], toks, words, planned_end, vo_end)
+    remap = _remap_fn(anchors, vo_end)
 
     for b in beats:
         b["in"] = round(remap(b["in"]), 2)
@@ -357,9 +444,23 @@ def align(beats, words):
         a["out"] = round(max(a["in"] + 0.6, nb["in"]), 2)
     total = vo_end
     beats[-1]["out"] = total
-    beats = _repace(beats, total)
-    # flag beats that STILL hold one visual too long (brain/11 rhythm) — the edit
-    # page shows a warning marker; tools/*_audit surfaces the list.
+    beats = tidy_subfloor(beats, total)
+    flag_rhythm(beats)
+    for b in beats:
+        b.pop("_al", None)
+    return beats, total
+
+
+def flag_rhythm(beats):
+    """Advisory rhythm markers (brain/11) — the edit page shows a warning marker,
+    the audit tools surface the list. Never touches timing. Recomputed from
+    scratch each call so a schema-2 rebuild reflects the current cut.
+      b['pace'] — a still/graphic held too long, or a graphic too brief to read
+      b['dup']  — a graphic id reused, or an asset over-used per video / section
+    """
+    for b in beats:
+        b.pop("pace", None)
+        b.pop("dup", None)
     for b in beats:
         dur = b["out"] - b["in"]
         plan = b.get("dur", dur)
@@ -369,7 +470,7 @@ def align(beats, words):
         elif b["kind"] in GRAPHIC and dur < MIN_GRAPHIC:
             b["pace"] = round(dur, 1)          # too brief to read (brain/11 §2.2)
         elif dur > max(2.5 * plan, 20):
-            b["pace"] = round(dur, 1)          # a still/clip align() stretched way past plan
+            b["pace"] = round(dur, 1)          # held way past plan
     # asset over-reuse (brain/11 §2.2): a graphic id used >1× without a
     # PROMISE/PAY/eco tag, or any asset used >3× / >2× in one section.
     seen, per_sec = {}, {}
@@ -377,21 +478,20 @@ def align(beats, words):
         a = b.get("asset") or ""
         if not a or b["kind"] in ACAMARA or b["kind"] == "negro":
             continue
+        ref = b["n"] if b.get("n") is not None else b.get("id")
         mk = (b.get("marker") or b.get("marcador") or "").lower()
         tagged = any(t in mk for t in ("promise", "pay", "eco"))
-        seen.setdefault(a, []).append(b["n"])
-        per_sec.setdefault((a, b.get("section", "")), []).append(b["n"])
+        seen.setdefault(a, []).append(ref)
+        per_sec.setdefault((a, b.get("section", "")), []).append(ref)
         if a.startswith("G") and len(seen[a]) == 2 and not tagged:
             b["dup"] = seen[a][0]
-            print(f"  ⚠ gráfico {a} repetido (beat {b['n']} ↔ {seen[a][0]}) sin marcador")
+            print(f"  ⚠ gráfico {a} repetido (beat {ref} ↔ {seen[a][0]}) sin marcador")
         elif not a.startswith("G") and len(seen[a]) == 4 and not tagged:
             b["dup"] = seen[a][0]
             print(f"  ⚠ asset {a} usado {len(seen[a])}× (beats {seen[a]}) — diversifica")
         if len(per_sec[(a, b.get('section', ''))]) == 3 and not tagged:
             print(f"  ⚠ asset {a} usado 3× en «{b.get('section')}» (beats {per_sec[(a, b.get('section', ''))]})")
-    for b in beats:
-        b.pop("_al", None)
-    return beats, total
+    return beats
 
 
 MIN_BEAT = 2.8          # a B-roll shot shorter than this is a wasted flash
@@ -435,17 +535,23 @@ def _apply_edits(beats):
     return beats
 
 
-def _repace(beats, total):
+def tidy_subfloor(beats, total, merge_same_file=True):
     """Kill the millisecond flashes and the pile-ups: merge any beat too short
-    to register into its neighbour, and collapse two identical shots in a row
-    (except a deliberate PROMISE→PAY reuse, or a fresh SPLIT) into one move."""
+    to register into its neighbour, and (when `merge_same_file`) collapse two
+    identical shots in a row — except a deliberate PROMISE→PAY reuse or a fresh
+    SPLIT — into one move.
+
+    Called once from seed_timeline() and from the edit room's opt-in «Ordenar»
+    button. The per-save rebuild does NOT call this — a schema-2 timeline may
+    legitimately hold a sub-floor beat the editor put there on purpose."""
     out = []
     for b in beats:
         floor = MIN_ACAMARA if b["kind"] in ACAMARA else MIN_BEAT
         dur = b["out"] - b["in"]
         if out:
             prev = out[-1]
-            same_file = b.get("file") and b["file"] == prev.get("file")
+            same_file = (merge_same_file and b.get("file")
+                         and b["file"] == prev.get("file"))
             # a PROMISE→PAY reuse, or a beat just split in the cutting room (the 2nd
             # half is deliberately the same shot until the editor reassigns it)
             promise_pay = ({(prev.get("marker") or "")[:3], (b.get("marker") or "")[:3]} & {"PRO", "PAY"}
@@ -460,7 +566,8 @@ def _repace(beats, total):
                 # absorb: the later narration wins the asset unless it has none
                 keep_new = bool(b.get("file")) and (dur >= prev["out"] - prev["in"] or not prev.get("file"))
                 if keep_new:
-                    for k in ("asset", "file", "aspect", "motion", "marker", "frag", "label", "kind"):
+                    for k in ("asset", "file", "aspect", "motion", "marker",
+                              "frag", "vo_anchor", "label", "kind"):
                         if b.get(k):
                             prev[k] = b[k]
                 prev["out"] = b["out"]
@@ -488,50 +595,246 @@ def music_pool():
     return [f"brand/assets/music/{f.name}" for f in sorted(d.glob("*.mp3"))] if d.is_dir() else []
 
 
-def build_timeline(slug):
+def _require_ep(slug):
     ep = EP_DIR / slug
     if not ep.is_dir():
         raise SystemExit(f"no existe {ep}")
-    sl = ep / "06-shotlist.md"
-    if not sl.exists():
-        raise SystemExit(f"no existe {sl.relative_to(ROOT)} — el Stage 6 no está hecho")
-    beats = parse_spine(sl.read_text(encoding="utf-8"))
+    if not (ep / "06-shotlist.md").exists():
+        raise SystemExit(f"no existe episodes/{slug}/06-shotlist.md — el Stage 6 no está hecho")
+    return ep
+
+
+def _derive_motion(beats):
+    """Resolve each still's real Ken Burns move (aspect-aware, no dead holds) so
+    the JSON matches what render() does. The authored `motion` is the input."""
+    for b in beats:
+        if b["kind"] in ("archivo", "ia", "kb", "gráfico", "grafico"):
+            b["motion"] = kb_move(b, 3840, 2160)
+        if b["kind"] in GRAPHIC and b.get("motion") in ("cut", "static", "", None):
+            b["motion"] = "push"
+        if (b.get("file") or "").lower().endswith((".mp4", ".mov", ".webm")):
+            b["motion"] = "cut"
+    return beats
+
+
+def _music_block(prev_music, beats, total):
+    _mrange = {"bed_db": (-48, -6), "vo_gain_db": (-8, 8), "duck_db": (0, 20)}
+    mix = {k: prev_music[k] for k in _mrange
+           if isinstance(prev_music.get(k), (int, float)) and _mrange[k][0] <= prev_music[k] <= _mrange[k][1]}
+    pool = music_pool()
+    return {"pool": pool, "bed": prev_music.get("bed") or (pool or [""])[0],
+            # array[0] is always the first shot shown (array order == playback
+            # order, even after a reorder), so music still starts when it ends
+            "in": beats[0]["out"] if beats else 0, "out": total,
+            "bed_db": -30, "vo_gain_db": 0, "duck_db": 8, **mix}
+
+
+def _words_sig(words):
+    """A short digest of the trimmed VO word list — changes iff a re-record /
+    re-trim moved the voice, so a schema-2 timeline can offer «Re-sincronizar»."""
+    import hashlib
+    h = hashlib.sha1()
+    for w in words:
+        h.update(f"{w['w']}|{round(w['t'], 2)}\n".encode("utf-8"))
+    return h.hexdigest()[:16]
+
+
+def _prev_json(tj):
+    if not tj.exists():
+        return {}
+    try:
+        return json.loads(tj.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+
+
+def _idn(bid):
+    return int(bid[1:]) if isinstance(bid, str) and bid[1:].isdigit() else 0
+
+
+_AUTHORED_KEYS = ("id", "dur", "section", "kind", "asset", "label", "motion",
+                  "marker", "vo_anchor", "fix", "nudge", "dur_edited",
+                  "in", "out", "file", "state", "aspect", "pace", "dup")
+
+
+_ALWAYS = ("id", "dur", "section", "kind", "asset", "motion", "in", "out", "state")
+
+
+def _authored_beat(b):
+    """A schema-2 beat: authored fields first, derived fields (in/out/file/…)
+    kept for the page to read directly. Everything else (n, frag, slot,
+    dur_lock, approved, _i, _al) is dropped."""
+    out = {}
+    for k in _AUTHORED_KEYS:
+        if k not in b:
+            continue
+        v = b[k]
+        if k not in _ALWAYS and (v is None or v == "" or (k == "dur_edited" and not v)):
+            continue
+        out[k] = v
+    return out
+
+
+def _report(slug, beats, total, aligned):
+    n_un = sum(1 for b in beats if b.get("state") == "uncovered")
+    n_fix = sum(1 for b in beats if b.get("fix"))
+    print(f"escrito  episodes/{slug}/09-timeline.json  "
+          f"({len(beats)} beats · {_fmt(total)} · "
+          f"{'alineado a la voz' if aligned else 'tiempos del shotlist (sin voz aún)'} · "
+          f"{n_un} sin cubrir · {n_fix} con corrección)")
+
+
+def build_timeline(slug):
+    """Back-compat entry: seed the timeline if there isn't one, then rebuild it.
+    Every existing caller (render, --rough, --final, --timeline-only) still works."""
+    if not (EP_DIR / slug / "09-timeline.json").exists():
+        seed_timeline(slug)
+    return rebuild_timeline(slug)
+
+
+def seed_timeline(slug, force=False):
+    """Create 09-timeline.json ONCE from the shotlist spine + the trimmed VO
+    (brain/16 «timeline canónica»). align() runs here and only here. Idempotent:
+    an existing schema-2 file is returned untouched unless `force`; a schema-1
+    file is never clobbered silently — migrate it first."""
+    ep = _require_ep(slug)
+    tj = ep / "09-timeline.json"
+    cur = _prev_json(tj)
+    if cur and not force:
+        if cur.get("schema", 1) >= 2:
+            print(f"  09-timeline.json ya sembrada (schema {cur['schema']}) — no la toco")
+            return cur
+        raise SystemExit(
+            f"09-timeline.json es schema 1 (línea derivada, quizá editada a mano).\n"
+            f"  migra antes de sembrar:  python tools/migrate_timeline.py {slug}")
+
+    beats = parse_spine((ep / "06-shotlist.md").read_text(encoding="utf-8"))
+    resolve(ep, beats)
+    words = load_words(ep)
+    beats, total = align(beats, words)          # tidy_subfloor + flag_rhythm run inside
+    if not words:
+        total = round(beats[-1]["out"], 2)
+    _derive_motion(beats)
+
+    if SCHEMA_CURRENT < 2:
+        # legacy shape — the seed still writes a derived timeline until the
+        # migration commit flips SCHEMA_CURRENT to 2
+        data = {"ep": slug[:4], "slug": slug, "generated": _now(), "schema": 1,
+                "aligned": bool(words), "fps": FPS, "w": 3840, "h": 2160,
+                "total": total, "ground": GROUND,
+                "music": _music_block({}, beats, total), "beats": beats}
+        tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+        _report(slug, beats, total, bool(words))
+        return data
+
+    vo_end = round(_vo_end_from_words(words), 2) if words else round(total, 2)
+    ab = to_authored_beats(beats, vo_end)
+    derive_times(ab, vo_end)              # write canonical (cumsum) in/out, not align's
+    total = round(ab[-1]["out"], 2) if ab else total
+    data = authored_doc(slug, ab, vo_end=vo_end, total=total,
+                        words_sig=_words_sig(words), aligned=bool(words),
+                        music=_music_block({}, ab, total))
+    tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    _report(slug, ab, round(total, 2), bool(words))
+    return data
+
+
+def to_authored_beats(beats, vo_end):
+    """Turn derived beats (n, frag, in/out) into authored schema-2 beats: `id`
+    from the spine row, `dur` = the current on-screen length (so the first
+    rebuild reproduces the same cut), `vo_anchor` from `frag`. The last beat's
+    `dur` closes exactly on vo_end so cumulative sum lands there."""
+    for b in beats:
+        if "id" not in b and b.get("n") is not None:
+            b["id"] = f"b{b['n']}"
+        b["vo_anchor"] = b.get("vo_anchor") or b.pop("frag", "") or ""
+        b["dur"] = round(b["out"] - b["in"], 3)
+    if beats and vo_end:
+        beats[-1]["dur"] = round(float(vo_end) - beats[-1]["in"], 3)
+    return [_authored_beat(b) for b in beats]
+
+
+def authored_doc(slug, ab, *, vo_end, total, words_sig, aligned, music, seeded=None):
+    return {
+        "ep": slug[:4], "slug": slug, "generated": _now(), "schema": 2,
+        "seeded": seeded or _now(), "aligned": aligned,
+        "fps": FPS, "w": 3840, "h": 2160,
+        "vo_end": round(float(vo_end), 2), "total": round(float(total), 2), "ground": GROUND,
+        "next_id": max((_idn(b.get("id")) for b in ab), default=0) + 1,
+        "words_sig": words_sig,
+        "music": music, "beats": ab,
+    }
+
+
+def rebuild_timeline(slug):
+    """Recompute 09-timeline.json in place, keeping every edit-room decision.
+    Schema 1 → the legacy path (re-parse the spine, re-align, fold the overrides).
+    Schema 2 → the authored path: read the beats, lay them on the VO by
+    cumulative `dur`, re-resolve files. No align()."""
+    ep = _require_ep(slug)
+    tj = ep / "09-timeline.json"
+    cur = _prev_json(tj)
+    if not cur:
+        return seed_timeline(slug)
+    if cur.get("schema", 1) >= 2:
+        return _rebuild_authored(slug, ep, tj, cur)
+    return _rebuild_schema1(slug, ep, tj)
+
+
+def _rebuild_authored(slug, ep, tj, data):
+    beats = data.get("beats", [])
+    resolve(ep, beats)
+    _derive_motion(beats)
+    words = load_words(ep)
+    vo_end = get_vo_end(ep, data.get("vo_end"))
+    total = round(data.get("total") or 0.0, 2)
+    if beats:
+        derive_times(beats, vo_end)
+        total = round(beats[-1]["out"], 2)
+    flag_rhythm(beats)
+    ab = [_authored_beat(b) for b in beats]
+    out = dict(data)
+    out.update({
+        "generated": _now(), "schema": 2,
+        "aligned": bool(words), "fps": FPS,
+        "w": data.get("w", 3840), "h": data.get("h", 2160),
+        "vo_end": round(vo_end, 2) if vo_end else data.get("vo_end", 0),
+        "total": total, "ground": data.get("ground", GROUND),
+        "next_id": data.get("next_id") or (max((_idn(b.get("id")) for b in ab), default=0) + 1),
+        "words_sig": data.get("words_sig") or _words_sig(words),
+        "music": _music_block(data.get("music", {}), ab, total),
+        "beats": ab,
+    })
+    tj.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    _report(slug, ab, total, bool(words))
+    return out
+
+
+def _rebuild_schema1(slug, ep, tj):
+    beats = parse_spine((ep / "06-shotlist.md").read_text(encoding="utf-8"))
     resolve(ep, beats)
     words = load_words(ep)
     beats, total = align(beats, words)
     if not words:
         total = round(beats[-1]["out"], 2)
-    # resolve each still's actual Ken Burns move (aspect-aware; no static holds) so
-    # 09-timeline.json matches what the render will do. Human overrides win below.
-    for b in beats:
-        if b["kind"] in ("archivo", "ia", "kb", "gráfico", "grafico"):
-            b["motion"] = kb_move(b, 3840, 2160)
-        # a held graphic must move — never a dead static hold (brain/11 §2.4)
-        if b["kind"] in GRAPHIC and b["motion"] in ("cut", "static", "", None):
-            b["motion"] = "push"
-        # video B-roll plays straight — it never gets a Ken Burns move
-        if (b.get("file") or "").lower().endswith((".mp4", ".mov", ".webm")):
-            b["motion"] = "cut"
+    _derive_motion(beats)
 
     prev = {}
-    tj = ep / "09-timeline.json"
-    if tj.exists():
-        try:
-            for b in json.loads(tj.read_text(encoding="utf-8")).get("beats", []):
-                prev[b["n"]] = b
-        except json.JSONDecodeError:
-            pass
-    # keep the edit room's decisions across re-builds: approved / fix / nudge
-    # (and the motion the user picked on a beat they worked). The `asset` is NOT
-    # restored from the old JSON — an asset change goes through the shotlist
-    # (`beat_asset.py` patches the spine row), so `parse_spine` above is already
-    # authoritative and a stale id must never win.
+    try:
+        for b in json.loads(tj.read_text(encoding="utf-8")).get("beats", []):
+            prev[b["n"]] = b
+    except (json.JSONDecodeError, KeyError):
+        pass
+    # keep the edit room's decisions across re-builds: fix / nudge (and the
+    # motion the user picked on a beat they worked). `asset` is NOT restored —
+    # an asset change goes through the shotlist (beat_asset.py patches the spine
+    # row), so parse_spine above is already authoritative. (Legacy schema-1 path.)
     for b in beats:
         p = prev.get(b["n"])
         if not p:
             continue
-        touched = any(p.get(k) for k in ("approved", "fix", "nudge"))
-        for k in ("approved", "fix", "nudge", "dur_lock", "slot"):
+        touched = any(p.get(k) for k in ("fix", "nudge"))
+        for k in ("fix", "nudge", "dur_lock", "slot"):
             if p.get(k) is not None:
                 b[k] = p[k]
         if touched and p.get("motion"):
@@ -539,34 +842,77 @@ def build_timeline(slug):
 
     beats = _apply_edits(beats)
     total = round(beats[-1]["out"], 2) if beats else total
-
-    prev_music = {}
-    if tj.exists():
-        try:
-            prev_music = json.loads(tj.read_text(encoding="utf-8")).get("music", {}) or {}
-        except json.JSONDecodeError:
-            pass
-    _mrange = {"bed_db": (-48, -6), "vo_gain_db": (-8, 8), "duck_db": (0, 20)}
-    mix = {k: prev_music[k] for k in _mrange
-           if isinstance(prev_music.get(k), (int, float)) and _mrange[k][0] <= prev_music[k] <= _mrange[k][1]}
+    prev_music = _prev_json(tj).get("music", {}) or {}
     data = {
-        "ep": slug[:4], "slug": slug, "generated": _now(),
+        "ep": slug[:4], "slug": slug, "generated": _now(), "schema": 1,
         "aligned": bool(words), "fps": FPS, "w": 3840, "h": 2160,
         "total": total, "ground": GROUND,
-        "music": {"pool": music_pool(), "bed": prev_music.get("bed") or (music_pool() or [""])[0],
-                  "in": beats[0]["out"] if beats else 0, "out": total,
-                  # mix levels — dB; the edit room's «Mezcla» sliders persist here
-                  "bed_db": -30, "vo_gain_db": 0, "duck_db": 8, **mix},
+        "music": _music_block(prev_music, beats, total),
         "beats": beats,
     }
     tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
-    n_un = sum(1 for b in beats if b["state"] == "uncovered")
-    n_fix = sum(1 for b in beats if b.get("fix"))
-    print(f"escrito  episodes/{slug}/09-timeline.json  "
-          f"({len(beats)} beats · {_fmt(total)} · "
-          f"{'alineado a la voz' if words else 'tiempos del shotlist (sin voz aún)'} · "
-          f"{n_un} sin cubrir · {n_fix} con corrección)")
+    _report(slug, beats, total, bool(words))
     return data
+
+
+def resync_timeline(slug):
+    """Re-fit a schema-2 timeline to a re-recorded / re-trimmed VO (brain/16).
+    3-way merge: a beat the editor set the duration of (`dur_edited`) keeps its
+    `dur`; every other beat is re-fitted to the new voice by remapping its
+    current start through its `vo_anchor`. Only fires on «Re-sincronizar»."""
+    ep = _require_ep(slug)
+    tj = ep / "09-timeline.json"
+    data = _prev_json(tj)
+    if data.get("schema", 1) < 2:
+        raise SystemExit("«Re-sincronizar» solo aplica a una línea schema 2 (migra primero)")
+    beats = data.get("beats", [])
+    if not beats:
+        raise SystemExit("la línea no tiene beats")
+    new_words = load_words(ep)
+    if not new_words:
+        raise SystemExit("no hay voz trimmeada — nada que re-sincronizar")
+
+    old_vo_end = float(data.get("vo_end") or beats[-1]["out"])
+    new_vo_end = _vo_end_from_words(new_words)
+    old_total = beats[-1]["out"]
+    toks = [_norm(w["w"]) for w in new_words]
+    anchors = _anchors([(b["in"], b.get("vo_anchor")) for b in beats],
+                       toks, new_words, old_total, new_vo_end)
+    remap = _remap_fn(anchors, new_vo_end)
+    prop_in = [round(remap(b["in"]), 3) for b in beats] + [round(new_vo_end, 3)]
+
+    kept = refit = 0
+    for i, b in enumerate(beats):
+        if b.get("dur_edited"):
+            kept += 1
+            continue
+        fl = (MIN_ACAMARA if b["kind"] in ACAMARA
+              else MIN_GRAPHIC if b["kind"] in GRAPHIC else MIN_BEAT)
+        b["dur"] = round(max(fl, prop_in[i + 1] - prop_in[i]), 3)
+        refit += 1
+
+    resolve(ep, beats)
+    _derive_motion(beats)
+    derive_times(beats, new_vo_end)
+    flag_rhythm(beats)
+    ab = [_authored_beat(b) for b in beats]
+    data["beats"] = ab
+    data["vo_end"] = round(new_vo_end, 2)
+    data["total"] = round(ab[-1]["out"], 2)
+    data["words_sig"] = _words_sig(new_words)
+    data["seeded"] = _now()
+    data["aligned"] = True
+    data["music"] = _music_block(data.get("music", {}), ab, data["total"])
+    tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    (ep / "09-resync.flag").unlink(missing_ok=True)
+
+    shift = round(new_vo_end - old_vo_end, 1)
+    n_anchor = len(anchors) - 2
+    note = (f"re-sincronizado · voz {shift:+.1f}s · {kept} beats con duración fija "
+            f"conservados · {refit} re-ajustados · {n_anchor} anclas de voz")
+    print(note)
+    return {"note": note, "vo_shift": shift, "kept": kept, "refit": refit,
+            "anchors": n_anchor, "total": data["total"]}
 
 
 def _now():
@@ -734,7 +1080,7 @@ def render(slug, mode, t0=None, t1=None, dry=False):
                 f"setpts=PTS-STARTPTS[v{i}]")
         elif b["kind"] == "negro" or not f or (b["kind"] in ACAMARA and not acamara_ok):
             if b["kind"] in ACAMARA:
-                print(f"  beat {b['n']}: a cámara pero in={b['in']:.1f}s > toma {take_dur:.1f}s → negro")
+                print(f"  beat {b.get('n', b.get('id'))}: a cámara pero in={b['in']:.1f}s > toma {take_dur:.1f}s → negro")
             inputs += ["-f", "lavfi", "-t", f"{dur:.3f}",
                        "-i", f"color=c={GROUND}:s={w}x{h}:r={fps}"]
             filters.append(f"[{i}:v]trim=duration={dur:.3f},"
@@ -825,6 +1171,14 @@ def render(slug, mode, t0=None, t1=None, dry=False):
     if a_map:
         cmd += ["-c:a", "aac", "-b:a", "256k" if proxy else "320k"]
     out = ep / ("09-rough.mp4" if proxy else _master_name(ep, slug))
+
+    # ffmpeg -progress: a key=value stream the edit room polls for the bar.
+    # Only for a full render — a region (--preview) is too quick to bother.
+    # (Don't pre-delete it — serve.py seeds it at out_time_us=0 so the bar has
+    # something to read in the gap before ffmpeg starts writing.)
+    prog = ep / ("09-rough.progress" if proxy else "09-final.progress")
+    if not dry and t0 is None and t1 is None:
+        cmd += ["-progress", str(prog), "-stats_period", "1"]
     cmd.append(str(out))
 
     if dry:
@@ -833,6 +1187,7 @@ def render(slug, mode, t0=None, t1=None, dry=False):
     print(f"render {'720p proxy' if proxy else '4K master'} · {len(beats)} beats"
           + (f" · {_fmt(t0 or 0)}–{_fmt(t1 or data['total'])}" if (t0 or t1) else "") + " …")
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT)
+    prog.unlink(missing_ok=True)
     if r.returncode != 0 or not out.exists():
         print("FALLO ffmpeg:\n" + "\n".join(r.stderr.strip().splitlines()[-6:]))
         sys.exit(1)
@@ -856,6 +1211,12 @@ if __name__ == "__main__":
     if "--preview" in a:
         i = a.index("--preview")
         render(slug, "proxy", float(a[i + 1]), float(a[i + 2]), dry)
+    elif "--reseed" in a:             # force re-seed from the spine — DISCARDS edits
+        seed_timeline(slug, force=True)
+    elif "--seed" in a:               # seed once; no-op if a schema-2 line already exists
+        seed_timeline(slug, force=False)
+    elif "--resync" in a:             # 3-way merge a schema-2 line onto a re-recorded VO
+        resync_timeline(slug)
     elif "--final" in a:
         build_timeline(slug)
         render(slug, "final", dry=dry)
@@ -863,8 +1224,8 @@ if __name__ == "__main__":
         build_timeline(slug)
         waveform(slug)
         render(slug, "proxy", dry=dry)
-    elif "--timeline-only" in a:      # just rebuild 09-timeline.json (edit-room saves)
-        build_timeline(slug)
+    elif "--timeline-only" in a:      # rebuild 09-timeline.json in place (edit-room saves)
+        rebuild_timeline(slug)
     else:
         build_timeline(slug)
         waveform(slug)

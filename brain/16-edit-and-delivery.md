@@ -12,7 +12,7 @@ authority: canonical
 
 Deliberately minimal. **If an effect isn't in this doc, it doesn't go in the episode.** No lower-thirds system, no source cards, no transitions beyond a hard cut and a section fade. One house grade (`brain/03`), applied whole. The rigor is in the script and the sourcing, not in the motion graphics.
 
-Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`) · `07c-edit.html` (raw-clip review, generated) · `07c-review.txt` (raw-clip approvals) · **`09-edit.html`** (the timeline, generated) · **`09-timeline.json`** (the edit — tracked; `beats[].dur_lock`/`slot` carry the edit-room overrides) · `09-decisions.txt` (changelog — tracked) · `09-take.mp4` (take proxy, gitignored).
+Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`) · `07c-edit.html` (raw-clip review, generated) · `07c-review.txt` (raw-clip approvals) · **`09-edit.html`** (the timeline, generated) · **`09-timeline.json`** (the authored edit, schema 2 — tracked; each beat owns `id` + `dur`, `in`/`out` derived) · `09-decisions.txt` (changelog — tracked) · `09-take.mp4` (take proxy, gitignored).
 
 ## The run
 
@@ -28,12 +28,11 @@ Then:
    - The **trim room** (`<take>.review.html`): the take drawn as a waveform, every cut a red block you **drag to move, drag the edges to resize, ✕ to delete**; **drag on empty waveform = a new cut** (retakes, repeated lines); a word-boundary magnet keeps edges clean. Transcript synced below (click a word or the wave = play from there; words inside a cut strike through live). Zoom in for 0.1 s precision. **«Aplicar corte»** → `serve.py /trim`. Self-contained — no CDN.
    - *apply* — `/trim` writes `<take>.cuts.json`, spawns `trim_talk.py <take> --apply` → `<take>.trimmed.mp4` + `<take>.words.json`, then re-aligns the timeline, **detached** (writes `<take>.apply.done`). *(`--apply-now` = both phases with the auto proposal, no review; `--rebuild-page` regenerates the trim room from an existing transcription, no whisper.)*
 3. **Raw-clip review** *(optional but recommended)* — `tools/edit_review.py` → `07c-edit.html`: watch every KB clip + trimmed take on its own, tick OK or write a fix. Catches a bad KB move before it hits the timeline.
-4. **First cut + timeline** — `tools/assemble.py E0XX-slug` (auto, no agent):
-   - parses the **"Timeline — la espina"** table in `06-shotlist.md`
-   - resolves each beat's `asset` id to a file via `07-selection.md` + the `assets/` folders
-   - if a trimmed VO exists, **aligns every beat to real VO time** (fuzzy-matches its script fragment against `*.words.json`); otherwise uses the shotlist's planned times
+4. **First cut + timeline** — `tools/assemble.py E0XX-slug --seed` (auto, no agent):
+   - **seeds** `09-timeline.json` (schema 2) once from the **"Timeline — la espina"** table in `06-shotlist.md` + the trimmed VO: `align()` maps each beat's frag to real VO time, its aligned span becomes the beat's authored `dur`, `frag` becomes `vo_anchor`. After this the spine and transcript are not re-consulted.
+   - resolves each beat's `asset` id to a file via `07-selection.md` + the `assets/` folders + `assets/_index.json`
    - writes `09-timeline.json` + a 720p proxy (`09-rough.mp4`) + a waveform
-   Then **`tools/edit_timeline.py`** renders **`09-edit.html`** — the cutting-room timeline: the waveform spine, a block per beat, a scrubbable proxy, and a per-beat inspector (swap asset · lock duration · nudge · reorder · Ken Burns motion · regen note · approve). Usuario 001 works it in the browser — drag, resize, reorder, preview a region — **Guardar** autosaves and the overrides survive rebuilds; **no tokens**. **Finalizar Stage 9** POSTs `09-timeline.json`; Claude applies the regen notes and `assemble.py --final` renders the 4K master.
+   Then **`tools/edit_timeline.py`** renders **`09-edit.html`** — the cutting-room timeline: the waveform spine, a block per beat, a scrubbable proxy, and a per-beat inspector (swap asset · duración · fijar entrada · nudge · reorder · motion · regen note · approve) plus first-class structure ops (add / split / merge / delete / duplicate). Usuario 001 works it in the browser — **Guardar** autosaves, `rebuild_timeline` re-derives; **no tokens**. **Finalizar Stage 9** POSTs `09-timeline.json`; Claude applies the regen notes and `assemble.py --final` renders the 4K master.
 5. **Background music** — one ominous-ambient bed under the whole thing, ducked −5 dB under the VO (`assemble.py` mixes it on `--final`).
 6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
 
@@ -95,37 +94,53 @@ Stills only (video already moves). The move is chosen from the image's **real as
 
 ## 4. First cut + timeline — `assemble.py` → `edit_timeline.py` → `09-edit.html`
 
-**`assemble.py E0XX-slug`** (python, no agent):
-- parses the **"Timeline — la espina"** table in `06-shotlist.md` (one row per beat: `#`, `in`, `dur`, `sección`, `tipo`, `asset`, `rótulo`, `motion`, `marcador`, guion frag.)
-- resolves `asset` ids to files via `07-selection.md` + `assets/{kb,stock,video,intro,archive,ai,graphic}/`
-- **`tipo: acamara`** (A-roll, `brain/11` §1b) → the beat plays the **trimmed take** for its slot; `motion` forced to `cut`, no Ken Burns, no asset lookup. The take is both the VO spine and the A-roll video. *(Single continuous take only for now — multi-take A-roll needs per-take offset mapping.)*
-- **aligns to the VO** when a trimmed take exists (fuzzy-matches each beat's frag against `*.words.json` — needs ≥3 consecutive word matches; frags that are stage directions never anchor); un-matched beats are **spread across the gap between aligned neighbours** by shotlist `dur`; total **clamped to the VO length**. Monotonic (each beat runs until the next begins).
-- **enforces the rhythm** (`brain/11` §2.2): merges any beat under **2.5 s** into its neighbour and collapses two identical shots in a row (kills the millisecond flashes and the pile-ups); flags `pace` on any non-A-roll beat over **20 s** or 2.5× its section target (⚠ marker in the edit room); every still gets a Ken Burns move (**never static**); `pan-v`/`pan-h` auto-picked from the asset's aspect ratio so a portrait **fills the frame and travels** instead of sitting small on black; museum scans >4320 px are downscaled to `assets/_proxy/` first.
-- an A-roll beat that still ends up past the trimmed take → rendered black (never a fatal seek), with a warning.
-- writes **`09-timeline.json`** + `09-rough.mp4` (720p proxy) + `09-wave.b64` (waveform) + `09-vo.m4a` (VO audio proxy) + **`09-take.mp4`** (720p proxy of the narrator take, for the live page's continuous `#face`); music bed sits at **−30 dB** under the VO.
+**The timeline is canónica.** `09-timeline.json` (schema 2) is the *authored*
+source of truth for time and picture order the moment Stage 9 is entered. The
+shotlist spine and the transcript **seed** it once; they are never re-consulted
+on a save. A beat owns its `dur`; `in`/`out` are the frame-quantised cumulative
+sum of the `dur`s before it (the VO is the fixed backbone, the pictures ripple),
+last beat snapped to `vo_end`. Every beat has a stable `id` — nothing is
+renumbered any more.
+
+**Seed — `assemble.py E0XX-slug --seed`** (once, on Stage-9 entry; a no-op if a
+schema-2 line already exists):
+- parses **"Timeline — la espina"** in `06-shotlist.md` (`#`, `in`, `dur`, `sección`, `tipo`, `asset`, `rótulo`, `motion`, `marcador`, guion frag.)
+- resolves `asset` ids to files via `07-selection.md` + `assets/{kb,stock,video,intro,archive,ai,graphic}/` + `assets/_index.json` pins
+- **`tipo: acamara`** (A-roll, `brain/11` §1b) → the beat plays the **trimmed take** for its slot; `motion` forced to `cut`. *(Single continuous take only for now.)*
+- **`align()` runs here and only here** — fuzzy-matches each frag against `*.words.json` and piecewise-linearly remaps the planned times onto real VO time; `tidy_subfloor` merges sub-2.5 s / duplicate beats once
+- converts the aligned span of each beat into its authored `dur`; `frag` becomes **`vo_anchor`** (metadata — never re-consulted); writes `schema 2`, `vo_end`, `words_sig`, `next_id`.
+
+**Rebuild — `assemble.py E0XX-slug --timeline-only`** (every save, and before every render): reads the authored beats, `derive_times` on the VO backbone, re-resolves files, re-derives motion, revalidates the mix, recomputes the `pace`/`dup` advisory flags. **No align, no auto-merge, no override folding.**
+
+**Force re-seed — `assemble.py E0XX-slug --reseed`** (or *Re-sembrar* in the room): backs up the current line and rebuilds from the spine, discarding every sala edit.
+
+`assemble.py` also writes `09-rough.mp4` (720p proxy) · `09-wave.b64` · `09-vo.m4a` · `09-take.mp4`; music bed at **−30 dB** default. An A-roll beat whose derived `in` runs past the take → rendered black with a warning (use *fijar entrada* or *Re-sincronizar*).
 
 **`edit_timeline.py E0XX-slug`** renders **`09-edit.html`** — the cutting room:
-- VO waveform (fixed) + section bands + one block per beat, width ∝ duration, coloured by kind; `PROMISE`/`PAY` + `EXPLICADOR` marked; uncovered flagged; **`pace` beats ⚠**; **edited beats** (locked duration / reordered) get a dashed outline.
-- **two preview modes:** *en vivo* (default) plays `09-vo.m4a` + music bed live; the narrator take (`09-take.mp4`) runs continuously as a hidden `#face`, shown on `acamara` beats (no per-beat seek); stills/clips swap one at a time — no render, no Ken Burns/grade. *corte renderizado* plays `09-rough.mp4`.
-- a per-beat **inspector**: **swap asset** (picker over `assets/` + paste a path/URL → `beat_asset.py` fetches it, re-points the spine row, pins the id → file in `assets/_index.json` and syncs `07-picks.txt` so a re-download can't undo it) · **lock a duration** (± or drag the right grip — steals from the next beat, capped at its floor) · nudge ±frames · Ken Burns motion · regen note · approve · ↺ reset.
-- **reorder**: drag a beat block past a neighbour — it takes that time window (the VO stays; only which picture shows when changes). Stored as a `slot` sort-key.
-- **structural edits** (inspector → *Estructura*, via `beat_asset.py`, all retroactive — the spine is renumbered 1..N and the beat numbers in `07-picks.txt`, `09-timeline.json`, the `06` prose below `## Detalle` and the `07-assets.md` `Beat(s)` column are remapped; every covered beat's `asset → file` is frozen into `assets/_index.json` first):
+- VO waveform (fixed) + section bands + one block per beat, width ∝ duration, coloured by kind; markers shown; uncovered flagged; **`pace` beats ⚠**; **`dur_edited` beats** get a dashed outline. A **words-under-playhead** strip shows the VO text at the cursor (reference only).
+- **two preview modes:** *en vivo* plays `09-vo.m4a` + bed live, the take runs continuously as `#face` on `acamara` beats; *corte renderizado* plays `09-rough.mp4`.
+- a per-beat **inspector**: **swap asset** (picker + path/URL/file → `beat_asset.py` points the beat at it *by id*, pins `id → file` in `assets/_index.json`, appends an asset-id row to `07-picks.txt`'s SALA block) · **duración** (± or drag the right grip — ripples downstream, no neighbour theft) · **⇥ fijar entrada al cabezal** (moves the boundary with the previous beat so this beat starts at the playhead) · nudge ±frames · Ken Burns motion · regen note · approve.
+- **reorder**: drag a beat block past a neighbour — the array order *is* the playback order; the VO stays put, the pictures ripple.
+- **structural edits** (inspector → *Estructura*, via `beat_ops.py` on `09-timeline.json` by id — the spine is **not** touched):
   - **✕ quitar visual** — beat goes `sin cubrir`, keeps its time.
-  - **⤺ fusionar anterior / siguiente ⤻** — fold the beat into a neighbour; that shot covers the joined VO span; the row is dropped.
-  - **🗑 eliminar beat** — remove it; `align()` redistributes the span.
-  - **✂ partir aquí** — cut the beat in two at the playhead (snapped to the nearest VO word). Both halves keep the asset; the 2nd carries a `SPLIT` marker (exempt from the same-shot `_repace` merge) until you reassign its visual — doing so clears the marker. The `07-assets.md` `Beat(s)` entry widens `n → n–(n+1)`.
-  - **＋ beat después** — insert a new beat (needs a verbatim VO frag to place it; a new archival asset appends an `07-assets.md` row + an `03-source-log.csv` `PENDIENTE` stub).
-- a **Mezcla** strip (under the transport): *Voz* (`vo_gain_db`, ±6), *Música* (`bed_db`, −44…−10), *Ducking* (`duck_db`, 0…18) — live preview updates `#bed`/`#vo` gain immediately (approximated; HTML can't sidechain-duck or boost past 0 dB), the render bakes them: `volume=<vo_gain>dB` on the voice, `volume=<bed_db>dB` on the bed, `duck_db` → `sidechaincompress` ratio. Persisted in `09-timeline.json` `music{{}}`.
-- **Guardar** autosaves (debounced): `dur_lock` / `slot` / `nudge` / `approved` / `fix` / the mix → `/tl-save` → the server re-runs `build_timeline` (`align()` then `_apply_edits`) and returns the recomputed timeline. **The overrides survive every later rebuild** (prev-merge keeps them).
-- **Renderizar vídeo** (header) saves first, then renders the whole cut to `09-rough.mp4` (720p, `assemble.py --rough`) in the background — watch it in *corte renderizado* mode. **⛶ pantalla completa** (by the mode toggle) fullscreens `#screen` (native `<video>` controls in rendered mode; space / Esc in live). **Transcripción** (header) opens the take's trim room (`<take>.review.html`) in a new tab.
-- **Finalizar Stage 9** → flushes the save, POSTs `09-timeline.json` (+ `09-decisions.txt`). Claude applies regen notes + `assemble.py --final` for the 4K. Beats `sin cubrir` block the final render.
+  - **⤺ fusionar anterior / siguiente ⤻** — the neighbour absorbs this beat's `dur`; the beat is dropped.
+  - **⧉ duplicar** — clone the beat right after (same shot, no marker).
+  - **✂ partir aquí** — cut the beat in two at the playhead (snapped to the nearest VO word). Both halves keep the asset; the 2nd carries a `SPLIT` marker, cleared on reassign.
+  - **🗑 eliminar** — remove it; the ripple absorbs its `dur` (the last beat grows to `vo_end`; `pace` warns if that overstretches it).
+  - **＋ beat después** — insert a new beat. **No verbatim frag required** — the line owns its time; `vo_anchor` is optional.
+- a **Mezcla** strip: *Voz* (`vo_gain_db`, ±6), *Música* (`bed_db`, −44…−10), *Ducking* (`duck_db`, 0…18). Persisted in `09-timeline.json` `music{{}}`; the render bakes them (`sidechaincompress` for the duck).
+- **Guardar** autosaves (debounced): the authored beats (`dur` / order / `motion` / `nudge` / `fix` / `dur_edited` / mix) → `/tl-save`; `rebuild_timeline` re-derives and returns the line. Structural edits → `/beat-op`; asset swaps → `/beat-asset`. **Undo** (Ctrl+Z / the ↶ button) walks a per-session snapshot stack — it does not survive a reload (autosave already keeps the file current); a re-seed / re-sync is not on the stack (each backs itself up — its ⌄ menu restores those).
+- **Re-renderizar** (header) → `assemble.py --rough` in the background. **⛶ pantalla completa**. **Transcripción** opens the trim room. **Re-sembrar** discards all sala edits (confirm-gated, backed up).
+- **Finalizar Stage 9** → flushes the save, POSTs `09-timeline.json` (+ `09-decisions.txt`, keyed by id + index + anchor). Claude applies regen notes + `assemble.py --final`. Beats `sin cubrir` block the final render.
+
+**Re-record / re-trim.** The trim room's *Aplicar corte* re-renders the take and marks `09-resync.flag`; the room shows a **Re-sincronizar** banner. It never re-aligns silently — you choose when. *(The 3-way merge that keeps `dur_edited` beats while re-fitting the rest is planned; until then a re-record means *Re-sembrar* + re-do the edit, or hand-adjust.)*
 
 **Rules that don't move** (`assemble.py` enforces or the human keeps):
 - **A-roll / B-roll** (`brain/11` §1b): cut to the face when the narrator is *addressing the viewer* (opinion, pivote, close, CTA); cut to B-roll when the narration *describes a thing to see*. Hard cuts; a J-cut (VO of the next beat starts a beat early under the outgoing picture) is allowed at an A→B or B→A change and nowhere else.
 - **Video clips:** cut to length. No speed ramp, no filter. Loop only if shorter than the beat *and* the loop point is invisible.
 - **Cold open (§0), ~35–45 s:** 1 contextual hero shot (8–10 s) + 3–5 `intro` hook clips (4–6 s) + the "turn" shot + close to camera → cut to black. (`brain/11` §2.1 rule 2b)
 - **Bumper (§0b):** 3–6 s black + `Conquest` wordmark + presenter line. No music.
-- Reused beats (`PROMISE n` / `PAY n`): the **same** `asset` and `motion` both times (the shotlist spine sets this; the timeline keeps it).
+- Reused beats (`PROMISE n` / `PAY n`): the **same** `asset` and `motion` both times (seeded from the spine; kept in the timeline).
 
 ## 5. Background music — `tools/find_music.py`
 
@@ -159,7 +174,7 @@ The house grade from [brain/03](03-brand-identity.md) §Grade, applied to the wh
 
 ## Review loop
 
-Timeline finalised in `09-edit.html` (every beat covered + approved) → Claude
+Timeline finalised in `09-edit.html` (every beat covered) → Claude
 applies regen notes + `assemble.py --final` → **picture lock** (no further timing
 changes) → Usuario 002 watches once, end to end, against `05-script.md` and
 `brain/04` (labels present, claims accurate, dignity) → signs in `07c-edit.md` →
@@ -167,7 +182,7 @@ changes) → Usuario 002 watches once, end to end, against `05-script.md` and
 
 ## Gate (Stage 9)
 
-- [ ] Every beat in `09-timeline.json` has an `asset`/`file` (0 `sin cubrir`) and is `approved`
+- [ ] Every beat in `09-timeline.json` has an `asset`/`file` (0 `sin cubrir`); no un-actioned regen notes
 - [ ] Only the moves in this doc — no other effects, transitions, or grade
 - [ ] Cold open = `intro` clips in order + bumper on black
 - [ ] Ken Burns `motion` matches each image's orientation; `PROMISE n`/`PAY n` share `asset` + `motion`

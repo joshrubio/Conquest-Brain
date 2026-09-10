@@ -49,9 +49,13 @@ This is Stage 6 of the workflow. Input: locked `05-script.md`. Output: `06-shotl
 The shotlist's **"Timeline — la espina"** table is the machine-readable spine —
 one row per beat (`#`, `in`, `dur`, `sección`, `tipo`, `asset`, `rótulo`,
 `motion` `push/pan-h/pan-v/static/zoom/cut`, `marcador` `HOOK/PROMISE n/PAY n/EXPLICADOR n`).
-`tools/assemble.py` parses it at Stage 9 to build the first-cut timeline, so it
-has to be complete and clean (see the template). The prose tables below it are
-for the human.
+`tools/assemble.py --seed` parses it **once** at Stage-9 entry to seed the
+`09-timeline.json` (schema 2), so it has to be complete and clean (see the
+template). After seeding, the timeline is the authored artifact — the spine is
+not re-consulted; a deliberate *Re-sembrar* is what pulls a spine revision in.
+The `frag` column still matters for the seed (it's what `align()` matches);
+after seeding it lives on each beat as `vo_anchor`. The prose tables below the
+spine are for the human.
 
 ### 2.1 Rules for placing a visual beat
 
@@ -102,12 +106,16 @@ slideshow); tighten in §4 once a reference video is timed.
 Aim **~30–40 % of runtime on camera** for a biography. At a ~8 s average that
 is roughly **~100–115 beats for a 15-minute episode** (~135 for 20 min, ~70 for
 10). Reuse of assets across beats is expected — the count is beats, not unique
-assets (E000 reuses one engraving 3×). **Hard limits `assemble.py` enforces:**
-no B-roll shot under **2.8 s** or A-roll under **2.5 s** (merged), no `gráfico`
-beat under **6 s** (flagged ⚠), no non-A-roll beat over **20 s** or **2.5× its
-section target** (flagged ⚠), a still is **never static**, a graphic id used more
-than once without a `PROMISE`/`PAY`/`eco` tag is flagged, and never the same
-asset on two consecutive beats.
+assets (E000 reuses one engraving 3×). **Limits `assemble.py` applies:** at
+**seed** it merges any B-roll shot under **2.8 s** / A-roll under **2.5 s** and
+collapses two identical shots in a row (`tidy_subfloor`). On every later
+**rebuild** it only *flags* (never mutates): `pace` on a `gráfico` beat under
+**5 s** or a non-A-roll beat over **20 s** / **2.5× its section target** (⚠ in
+the room), `dup` on a graphic id reused without a `PROMISE`/`PAY`/`eco` tag or an
+archival asset over-used. A sub-floor beat the editor put there on purpose is
+kept — the room's *Ordenar sub-mínimos* button re-runs the tidy on demand. A
+still is still **never static**; the same asset on two consecutive beats is
+still avoided.
 
 ### 2.3 Visual-type menu (what fills a beat)
 

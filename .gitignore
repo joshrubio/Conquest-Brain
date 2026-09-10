@@ -68,6 +68,9 @@ episodes/**/09-vo.m4a
 episodes/**/09-take.mp4
 episodes/**/_wave.png
 episodes/**/*.done
+episodes/**/09-timeline.*.bak.json
+episodes/**/09-resync.flag
+episodes/**/09-*.progress
 
 # Review pages — generated (the exported *.txt records ARE tracked)
 ideas/idea-review.html
