@@ -500,9 +500,10 @@ class H(BaseHTTPRequestHandler):
         if path == "/ideas-new":
             n = int(data.get("n", 3))
             P.enqueue("POOL", 0, "ideas",
-                      note=f"Añade {n} ideas nuevas a ideas/idea-pool.md — alterna T01/T02, 3 hook-titles "
-                           f"estilo Dieck cada una, /21 estimada. No crees carpetas ni avances stages. "
-                           f"Reglas: brain/12, brain/13, ideas/idea-rubric.md")
+                      note=f"Añade {n} ideas nuevas a ideas/idea-pool.md — mezcla los dos tracks "
+                           f"(Documental `DOC-` y Ensayo `ENS-`) según lo que pida cada idea. 3 hook-titles "
+                           f"estilo Dieck cada una (cola `| Documental` o `| Ensayo`), /21 estimada. No crees "
+                           f"carpetas ni avances stages. Reglas: brain/12, brain/13, brain/20, ideas/idea-rubric.md")
             _run(["dash.py"])
             return self._send(200, json.dumps({"ok": True, "reload": False,
                               "msg": f"{n} ideas en cola — el /loop o Claude las escribe en el pool"}))
@@ -552,8 +553,8 @@ class H(BaseHTTPRequestHandler):
             if not hook:
                 hm = re.search(r"(?m)^-\s+\*\*Hook elegido:\*\*\s*`([^`]+)`", _pool_detail(t, iid))
                 hook = hm.group(1) if hm else (hooks[0] if hooks else work_title)
-            track = "T01" if iid.startswith("T01") else "T02"
-            narrator = "Usuario 002" if track == "T01" else "Usuario 001"
+            track = "Ensayo" if iid.startswith("ENS") else "Documental"
+            narrator = "—"  # ideación sin dueño: el narrador se asigna en el brief (Stage 1)
             epid = P.next_epid()
             slug = f"{epid}-{P.slugify(work_title)}"
             P.set_ep(epid, slug=slug, title=f"«{work_title}»", track=track, narrator=narrator,

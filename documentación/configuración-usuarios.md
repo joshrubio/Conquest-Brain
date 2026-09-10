@@ -31,8 +31,8 @@ Este documento y su gemelo técnico [`brain/USERS.md`](../brain/USERS.md) son lo
 
 | Slot | Persona |
 |------|---------|
-| Usuario 001 | Josh — escribe los guiones, producción, edición, publicación, tech, `tools/`, ideación T02. |
-| Usuario 002 | Carmen — lead editorial, dirección de investigación, ideación T01. |
+| Usuario 001 | Josh — escribe los guiones, producción, edición, publicación, tech, `tools/`. Ideación (compartida). |
+| Usuario 002 | Carmen — lead editorial, dirección de investigación. Ideación (compartida). |
 
 Los dos son **periodistas venezolanos**, parte del éxodo venezolano —el hecho que
 sostiene la tesis y el nombre del canal (*Conquest* = lo que viene después de
@@ -44,11 +44,10 @@ universitaria.
 | Ítem | Asignado a |
 |------|------------|
 | Escribe todos los guiones | Usuario 001 |
-| Ideación — T02 Exploración | Usuario 001 |
 | Producción, edición, publicación | Usuario 001 |
 | Tech, `tools/` | Usuario 001 |
 | Lead editorial, dirección de investigación | Usuario 002 |
-| Ideación — T01 Historias Inspiradoras | Usuario 002 |
+| Ideación (Documental + Ensayo) | compartida — ambos |
 | Firma del fact-check (capa 3) | Usuario 002 |
 | Pasada legal/ética + independencia/COI | Usuario 002 |
 | Narración / a cámara | por episodio — cualquiera de los dos, se anota en `episodes/_STATUS.md` |

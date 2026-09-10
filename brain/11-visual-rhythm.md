@@ -94,14 +94,14 @@ slideshow); tighten in §4 once a reference video is timed.
 | Section | shot: min – **target** – max (s) | direction note |
 |---------|-----------------------------------|----------------|
 | **Cold open** (35–45 s total) | 4 – **6** – 10 | hero contextual holds 8–10 s, then 3–5 hook shots at 4–6 s, the turn, close to camera — §2.1 rule 2b |
-| Bumper | one A-roll · 3–6 | «Soy X, esto es Conquest» |
+| Bumper | one A-roll · 3–6 | «Hola, mi nombre es X, y esto es Conquest» (fraseo fijo) |
 | Context / era setup | 4 – **6** – 10 | maps + period archival with a slow move; an explainer can sit here |
 | **Narrative acts** (B-roll) | 4 – **7** – 11 | one shot per sentence / subject change |
 | **A-roll** (talking head) | 8 – **12** – 18 | hold the face; cut to B-roll when the VO *describes something to see* |
 | **Explainer / graphic** | dense: held 10 – **14** – 18 · simple: sub-beats 3 – **5** – 8 | content-dense graphic (chart / map / diagram to *read*) = one held beat with internal motion; simple stage = short sub-beats + support. One graphic id, one appearance (§2.1 rule 4 + 4b) |
 | "N theories" module | 3 – **5** – 8 | brisk; one card + support per position |
 | **Close / reflection** (A-roll) | 8 – **12** – 18 | slow; the cutaways to *already-seen* images run 4–6 s |
-| **CTA** | 15–25 s total · 1–2 shots | to camera + wordmark |
+| **CTA** | 15–25 s total · 1–2 shots | to camera; the fixed sign-off line («Mi nombre es X y esto fue: …») → wordmark + «Fuentes principales» card |
 
 Aim **~30–40 % of runtime on camera** for a biography. At a ~8 s average that
 is roughly **~100–115 beats for a 15-minute episode** (~135 for 20 min, ~70 for
@@ -126,7 +126,7 @@ still avoided.
 - Own-made graphic: chart, timeline, diagram, animated map, counter.
 - Plain text card — a quote, a date, a caveat, a chapter marker.
 - Free stock footage/photo — generic b-roll only (`brain/12`); **preferred in the cold-open visual hook** and anywhere a real moving shot beats hand-animating a still.
-- **No** dramatized-film clips as if they were record; **no** AI/reenactment unless labeled ([brain/04](04-legal-and-ethics.md), [brain/08](08-tone-of-voice.md)).
+- **No** dramatized-film clips as if they were record; **no** AI/reenactment unless labeled ([brain/04](04-legal-and-ethics.md), [brain/08](08-tone-of-voice.md)). *(The **Ensayo** track uses brief copyrighted clips **as commentary on the work itself**, under [brain/20](20-experimental-clip-protocol.md) §4 — stills-first, ≤~10 s, mirror/zoom/crop/grade, audio replaced. That is not "clip as record" — the clip is the thing being analysed.)*
 
 ### 2.4 Motion & treatment defaults
 
@@ -139,7 +139,7 @@ still avoided.
 
 ### 2.5 Rights gate (unchanged from `templates/shotlist-broll.md`)
 
-No visual enters the edit without a rights status in `03-source-log.csv`. Every on-screen number carries a source label. Every reused-from-a-film image is replaced with a real archival equivalent or cut.
+No visual enters the edit without a rights status in `03-source-log.csv`. Every on-screen number carries a source label. Every reused-from-a-film image is replaced with a real archival equivalent or cut — **except** on the **Ensayo** track, where a brief clip logged as `cita — crítica/comentario (fair use)` under [brain/20](20-experimental-clip-protocol.md) §4 is allowed within its budget.
 
 ### 2.6 Talking-head cadence — the narrator carries the rhythm
 

@@ -11,7 +11,7 @@
 
 ## 1. Reinicio de fuentes (si aplica)
 
-No aplica. La idea salió del pool público (T01-14), no de la vida privada de Usuario 001 ni de Usuario 002. Todo el material es bibliografía publicada y archivo corporativo público. Pasa `brain/05`.
+No aplica. La idea salió del pool público (DOC-14), no de la vida privada de Usuario 001 ni de Usuario 002. Todo el material es bibliografía publicada y archivo corporativo público. Pasa `brain/05`.
 
 ## 2. Cronología
 

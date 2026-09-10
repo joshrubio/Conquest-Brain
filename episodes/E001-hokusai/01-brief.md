@@ -8,7 +8,7 @@
 | Slug carpeta | E001-hokusai |
 | Fecha del brief | 2026-08-29 |
 | Autor del brief | Usuario 002 |
-| Track | **T01 Historias Inspiradoras** (`ideas/tracks.md`) |
+| Track | **Documental** (`ideas/tracks.md`) — antes «T01 Historias Inspiradoras» |
 | Hook-title elegido (`brain/13`) | `Lo perdió TODO tres veces — y pintó "La gran ola" a los 70 \| Hokusai \| Documental` |
 | Guionista | Usuario 001 |
 | Narrador asignado | Usuario 002 |
@@ -25,7 +25,7 @@
 
 ## Elegibilidad (resumen — `ideas/idea-rubric.md`)
 
-- [x] Track asignado (T01) + hook-title redactado (`brain/13`)
+- [x] Track asignado (Documental) + hook-title redactado (`brain/13`)
 - [x] Cross-check de contenido disponible hecho — ver sección abajo (`brain/12`)
 - [x] Registro público documentado (obra conservada, prefacio de 1834, catálogos museísticos, biografías académicas)
 - [x] Fuentes Tier A/B localizadas (listadas en `03-source-log.csv`)

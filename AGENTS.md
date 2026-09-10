@@ -37,7 +37,7 @@ you never open a styled file and the design never enters your context. Only open
 
 | Dir | What | Language |
 |-----|------|----------|
-| `brain/` | standing rules 00–16 + `USERS.md` — the canon | EN, terse |
+| `brain/` | standing rules 00–20 + `USERS.md` — the canon (20 = Ensayo track, DRAFT) | EN, terse |
 | `templates/` | one blank fill-in per stage | ES |
 | `episodes/` | one folder per episode; `_TEMPLATE-episode-folder/` to copy; `_STATUS.md` is the master index; `E000-EXAMPLE-*` is a worked reference | ES |
 | `documentación/` | human guides — the same rules in prose, with examples | ES |

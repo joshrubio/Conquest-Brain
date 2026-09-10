@@ -14,7 +14,10 @@ Every idea is presented, **from ideation**, with a **hook-title** — a working 
 
 ## The Dieck title anatomy (from `research/dieck-docs/`)
 
-`[HOOK PHRASE — 1–3 charged words in CAPS] | [Subject / case] | Documental`
+`[HOOK PHRASE — 1–3 charged words in CAPS] | [Subject / case] | [track word]`
+
+The tail is the **track word** — `Documental` for the Documental track, `Ensayo`
+for the Ensayo track (`ideas/tracks.md`). It doubles as a genre tag for the viewer.
 
 The **hook phrase leads**; the subject name sits in the pipe tail so curiosity comes first. Observed hook types:
 
@@ -38,9 +41,11 @@ The **hook phrase leads**; the subject name sits in the pipe tail so curiosity c
 - **≤ ~70 visible characters.** Front-load the hook — it may be truncated on mobile.
 - **Spanish neutral-international.** No regionalisms.
 - **Doesn't duplicate the thumbnail text.** Title and thumbnail together, not the same 3 words twice.
-- Tail: `| Documental` for now (revisit a series tag at brand).
+- Tail: the track word — `| Documental` or `| Ensayo` (revisit a finer series tag at brand).
 
 ## Fill-in templates
+
+Tail = the track word (`Documental` / `Ensayo`).
 
 ```
 ¿POR QUÉ <acción sorprendente del sujeto>? | <Sujeto> | Documental
@@ -52,6 +57,11 @@ El PRECIO de <logro> | <Sujeto> | Documental
 <El X> que <hizo Y a una escala Z> | <Sujeto> | Documental
 ¿<Sujeto> fue <A> o solo <B>? | Documental
 <Nombre>: ¿POR QUÉ <desapareció / renunció / mintió / calló>? | Documental
+
+# Ensayo (la obra en la cola, el mismo repertorio de ganchos):
+¿<pregunta que abre la obra>? | <Obra> | Ensayo
+La película que <no resuelve / esconde / miente sobre> <X> | <Obra> | Ensayo
+El <juego / disco / libro> que <provocó Y> | <Obra> | Ensayo
 ```
 
 ## Deliverable per idea
@@ -65,6 +75,7 @@ El PRECIO de <logro> | <Sujeto> | Documental
 
 | Idea | Hook-title variants |
 |------|---------------------|
-| Ignaz Semmelweis (T01) | `El médico que descubrió cómo SALVAR VIDAS — y murió en un manicomio \| Semmelweis \| Documental` · `¿POR QUÉ NADIE le creyó? \| Semmelweis \| Documental` · `El PRECIO de tener razón demasiado pronto \| Semmelweis \| Documental` |
-| Hyatt Regency 1981 (T02) | `¿QUIÉN fue el CULPABLE? \| Kansas City, 1981 \| Documental` · `El pequeño cambio de plano que MATÓ a 114 personas \| Documental` · `El LADO MÁS OSCURO de decir "esto ya funcionaba" \| Hyatt Regency \| Documental` |
-| Radium Girls (T02) | `Las obreras a las que les dijeron que el VENENO era seguro \| Radium Girls \| Documental` · `¿POR QUÉ la empresa las dejó MORIR? \| Radium Girls \| Documental` · `La VERDADERA HISTORIA DETRÁS de tu derecho a un trabajo seguro \| Documental` |
+| Ignaz Semmelweis | `El médico que descubrió cómo SALVAR VIDAS — y murió en un manicomio \| Semmelweis \| Documental` · `¿POR QUÉ NADIE le creyó? \| Semmelweis \| Documental` · `El PRECIO de tener razón demasiado pronto \| Semmelweis \| Documental` |
+| Hyatt Regency 1981 | `¿QUIÉN fue el CULPABLE? \| Kansas City, 1981 \| Documental` · `El pequeño cambio de plano que MATÓ a 114 personas \| Documental` · `El LADO MÁS OSCURO de decir "esto ya funcionaba" \| Hyatt Regency \| Documental` |
+| Radium Girls | `Las obreras a las que les dijeron que el VENENO era seguro \| Radium Girls \| Documental` · `¿POR QUÉ la empresa las dejó MORIR? \| Radium Girls \| Documental` · `La VERDADERA HISTORIA DETRÁS de tu derecho a un trabajo seguro \| Documental` |
+| Whiplash *(Ensayo)* | `¿Cuánto ABUSO vale la GRANDEZA? \| Whiplash \| Ensayo` · `La película que no sabe si el MALTRATO funcionó \| Whiplash \| Ensayo` · `Fletcher tenía RAZÓN — y por eso da miedo \| Whiplash \| Ensayo` |

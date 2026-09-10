@@ -37,7 +37,7 @@ Output: `04-factcheck-auto.md` (Layer 1 section), `PASS` / `FAIL`.
 
 Run by the agent (this session, or a subagent): `templates/fact-check-auto-prompt.md` — script + source-log in. The model:
 
-1. **Analyses** every claim against its `[S..]` source, plus interpretation-as-fact, quotes, hedging, pop-psychology, and legal/ethics/COI risk (six tables → `04-factcheck-auto.md`).
+1. **Analyses** every claim against its `[S..]` source, plus interpretation-as-fact, quotes, hedging, pop-psychology, and legal/ethics/COI risk (six tables → `04-factcheck-auto.md`). **Cited authorities:** every named psychologist / theorist / study in the script (esp. dense on the Ensayo track, `brain/09` §"Ensayo") is cross-checked against `research/citation-shelf.md` — on the shelf and `Verified` ✅, attributed by the right field, and the claim matches the shelf's wording. A citation not on the shelf, or on it but unverified, is a flag: add + verify against the primary source, or cut the specificity.
 2. **Produces exact corrections** — for every `desajuste`, `sin tag`, missing hedge, over-stated claim, unmarked translation, or interpretation-as-fact: the precise old text → new text.
 3. The agent **applies each correction to `05-script.md`** and writes the **Changelog** table in `04-factcheck-auto.md` (what changed, why, which line).
 

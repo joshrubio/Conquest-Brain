@@ -1,8 +1,8 @@
 ---
 doc: pipeline/2-de-idea-a-episodio
-summary: "Stage 0: los 2 tracks, propuesta, cross-check de material, 3 requisitos + 8 eliminatorios + /21, decisión, cuándo matar una idea."
-audience: "dueño del track"
-mirrors: [brain/06, ideas/idea-rubric]
+summary: "Stage 0: los 2 tracks (Documental / Ensayo), propuesta, cross-check de material, 3 requisitos + 8 eliminatorios + /21, decisión, cuándo matar una idea."
+audience: "cualquiera de los dos fundadores"
+mirrors: [brain/06, ideas/idea-rubric, ideas/tracks]
 authority: guide
 ---
 
@@ -14,27 +14,27 @@ Archivos: `ideas/tracks.md`, `ideas/idea-pool.md`, `ideas/idea-rubric.md`. Regla
 
 ## Los dos tracks
 
-Cada idea pertenece a uno. Son fijos —no hay rúbrica que apruebe tracks—.
+Cada idea pertenece a uno. Se definen por **formato y régimen de derechos**, no por tema. **Ideación compartida:** cualquiera de los dos fundadores propone a cualquier track. Detalle: [`ideas/tracks.md`](../../ideas/tracks.md).
 
-| Track | Dueño de ideación | Qué es | Cierre habitual |
-|-------|-------------------|--------|-----------------|
-| **T01 Historias Inspiradoras** | Usuario 002 | biografías y trayectorias — personas, empresas, familias, productos, métodos — por lo que revelan sobre construir, persistir, crear | A o B, rara vez C |
-| **T02 Exploración** | Usuario 001 | todo lo demás — errores de ingeniería, fraudes, empresas que mintieron, sectas, manías, inventores saboteados, migración histórica | A, B o C según el caso |
+| Track | Qué es | Material / montaje | Cierre habitual |
+|-------|--------|--------------------|-----------------|
+| **Documental** | un caso real narrado — persona, empresa, evento, práctica, fenómeno colectivo. Todo lo que el canal hace hoy (antes T01 + T02), sin restricción temática. | dominio público + Protocolo 1b (`brain/12`); anatomía `brain/02` + montaje `brain/11` | A, B o C |
+| **Ensayo** | una **obra** (cine/serie/juego/álbum/libro) o su recepción, llevada por una lectura ensayística — obra como sujeto / cita / suceso (`brain/20 §1`). | + clips con copyright bajo fair use con los caps de `brain/20 §4`; anatomía `brain/20 §3`; cola del título `\| Ensayo`. Track activo. | A o B |
 
-Un mismo caso puede ir a **cualquier track** según el ángulo y la forma de cierre. Se fija en la ideación, junto con el hook-title.
+Un mismo sujeto puede ir a **cualquier track** según el tratamiento. Se fija en la ideación, junto con el hook-title.
 
 ## El proceso, paso a paso
 
 ### 1 · Propuesta
 
-El dueño del track propone la idea con:
-- un **track** asignado,
+Cualquiera de los dos fundadores propone la idea con:
+- un **track** asignado (Documental / Ensayo),
 - **3 hook-titles** estilo Dieck (ver [modelo-narrativo/7-titular-con-gancho](../modelo-narrativo/7-titular-con-gancho.md)),
 - una nota de por qué el ángulo humano es genuino.
 
 ### 2 · Cross-check de material (Protocolo 1)
 
-Antes de puntuar: ¿hay material de dominio público —fotos, documentos, footage— para ilustrar el episodio? Se rellena la hoja de `brain/12`. **Sin material, no hay episodio.** Detalle en [3-los-3-protocolos](3-los-3-protocolos.md).
+Antes de puntuar: **Documental** — ¿hay material de dominio público (fotos, documentos, footage) para ilustrar el episodio? Se rellena la hoja de `brain/12`. **Ensayo** — la feasibility de `brain/20 §4.0`: ¿hay copia lícita de la obra?, ¿≥3 fuentes para la lectura?, ¿presupuesto de clips viable? **Sin material, no hay episodio.** Detalle en [3-los-3-protocolos](3-los-3-protocolos.md).
 
 ### 3 · Los tres requisitos previos
 
@@ -48,9 +48,9 @@ Antes de puntuar: ¿hay material de dominio público —fotos, documentos, foota
 
 | # | Filtro |
 |---|--------|
-| E1 | El sujeto es figura pública / caso histórico / empresa-práctica (no persona privada). |
+| E1 | El sujeto es figura pública / caso o evento histórico / empresa-práctica / fenómeno colectivo documentado (no persona privada) — o, solo Ensayo, una obra estrenada y su recepción documentada. |
 | E2 | Existe registro público documentado (no solo rumores). |
-| E3 | Hay ≥3 fuentes Tier A/B localizables antes de empezar. |
+| E3 | Hay ≥3 fuentes Tier A/B localizables antes de empezar. *(Ensayo: la crítica, entrevistas y beca sobre la obra cuentan.)* |
 | E4 | Nadie que Usuario 001 o Usuario 002 conozcan está involucrado o es identificable — ni anonimizado. |
 | E5 | La idea no procede de un tip privado (o se re-obtuvo íntegra desde material público). |
 | E6 | La historia **se sostiene sola**, sin necesidad del cierre. |
@@ -101,4 +101,4 @@ El pool tiene una sección **"En espera"** para ideas con un buen hook pero un f
 
 ## El equilibrio entre tracks
 
-Cada ~5 episodios publicados: ¿se inclina todo hacia un track? ¿los hooks siguen funcionando (CTR)? ¿algún subtema de Exploración deriva a tono sensacionalista?
+Cada ~5 episodios publicados: ¿se inclina todo hacia un formato (Documental / Ensayo)? ¿los hooks siguen funcionando (CTR)? ¿algún tema deriva a tono sensacionalista? ¿los Ensayo respetan sus caps de montaje?

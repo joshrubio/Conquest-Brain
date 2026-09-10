@@ -7,7 +7,7 @@
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E001 |
-| Track | T01 |
+| Track | Documental |
 | Narrador | Usuario 002 |
 | Guionista | Usuario 001 |
 | Forma del cierre | **A — reflexión + para llevar** |

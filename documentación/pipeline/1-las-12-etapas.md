@@ -16,7 +16,7 @@ Regla completa: `brain/06-production-workflow.md`. Cada etapa tiene su plantilla
 
 | # | Etapa | Produce | Lead | Gate |
 |---|-------|---------|------|------|
-| 0 | Ideación | fila en `idea-pool.md` | dueño del track | hook-title + material + rúbrica ≥14 + visto en idea-pool |
+| 0 | Ideación | fila en `idea-pool.md` | quien propone | track (Documental / Ensayo) + hook-title + material + rúbrica ≥14 + visto en idea-pool |
 | 1 | Brief | `01-brief.md` | Usuario 001 | vale la pena la investigación; narrador asignado |
 | 2 | Dossier de investigación | `02-research-dossier.md` + `03-source-log.csv` | Usuario 001 | toda claim de carga con ≥1 Tier A/B |
 | 3 | Outline | `03-outline.md` (beat sheet, plantilla `templates/outline-template.md`) | Usuario 001 | la estructura se sostiene sin torcer hechos; hook pagado en el cierre; foreshadowings prometidos y pagados |
@@ -50,14 +50,15 @@ El `.html` es regenerable (gitignored); el `.txt` exportado es el registro que s
 
 **`Usuario 001` y `Usuario 002` son *slots*, no personas.** Las responsabilidades son ítems asignables; el reparto de abajo es el de esta iteración. Quién es quién vive en [configuración-usuarios.md](../configuración-usuarios.md) (y `brain/USERS.md`) — los únicos archivos con nombres reales.
 
-- **Usuario 001 escribe todos los guiones.** También: ideación T02, shotlist, edición, publicación, tech, `tools/`.
-- **Usuario 002:** lead editorial, ideación T01, dirección de investigación, a cámara/narración (compartido).
+- **Usuario 001 escribe todos los guiones.** También: shotlist, edición, publicación, tech, `tools/`.
+- **Usuario 002:** lead editorial, dirección de investigación, a cámara/narración (compartido).
+- **Ideación compartida** — ambos idean a los dos tracks (Documental / Ensayo); no hay dueño de track.
 - Cualquier gate lo firma un solo usuario.
-- **Narrador** asignado por episodio — suele seguir al dueño del track; mantener un reparto equilibrado. En cámara dice su nombre real (`«Soy [nombre].»`).
+- **Narrador** asignado por episodio en el brief (Stage 1); mantener un reparto equilibrado. En cámara dice su nombre real (`«Soy [nombre].»`).
 
 | Etapa | Lead | Apoyo |
 |-------|------|-------|
-| 0 ideación | dueño del track | el otro |
+| 0 ideación | quien propone la idea | el otro |
 | 1–3 investigación | Usuario 001 | — |
 | 4 guion | Usuario 001 | — |
 | 5 fact-check | 100% automático (L1 + L2 agente aplica correcciones) | — |

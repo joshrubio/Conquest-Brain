@@ -8,7 +8,7 @@
 | Slug carpeta | E002-toyota-taiichi-ohno |
 | Fecha del brief | 2026-09-07 |
 | Autor del brief | Usuario 002 (borrador Claude) |
-| Track | T01 Historias Inspiradoras |
+| Track | Documental (antes «T01 Historias Inspiradoras») |
 | Hook-title elegido (`brain/13`) | Eran demasiado POBRES para copiar a EE.UU. — así que inventaron algo mejor \| Toyota \| Documental |
 | Guionista | Usuario 001 |
 | Narrador asignado | Usuario 002 |
@@ -47,7 +47,7 @@ No podían permitirse la eficiencia de Detroit —máquinas grandes, series larg
 
 ## Por qué ahora / por qué nosotros
 
-- **Sujeto reconocible + ángulo oculto (dirección T01):** todo el mundo conoce Toyota y ha oído "just-in-time" / "lean"; casi nadie sabe que ese método no nació de la genialidad ni de la "disciplina japonesa", sino de una empresa en quiebra que no tenía otra salida.
+- **Sujeto reconocible + ángulo oculto (dirección Documental):** todo el mundo conoce Toyota y ha oído "just-in-time" / "lean"; casi nadie sabe que ese método no nació de la genialidad ni de la "disciplina japonesa", sino de una empresa en quiebra que no tenía otra salida.
 - **Desmonta un mito pulido (`brain/01`):** el "milagro japonés" como cultura/carácter; y el cuento del supermercado como momento *eureka* (la propia historia corporativa de Toyota sitúa el "método supermercado" en la fábrica en 1954, dos años antes del viaje de Ohno a EE.UU.).
 - **Monetización (`brain/18`):** Categoría B · Audiencia mixta — el ángulo negocios/manufactura atrae un nicho de mayor CPM sin salir del formato.
 

@@ -1,9 +1,9 @@
 ---
 doc: 09-reflection-rules
-summary: "The close in three forms (A takeaway / B distributed / C open question), across four registers (psychological, practical, philosophical, religious — the last two attributed + sourced), the surgical test, failure modes."
+summary: "The close in three forms (A takeaway / B distributed / C open question), across four registers (psychological, practical, philosophical, religious — the last two attributed + sourced), the surgical test, failure modes. On the Ensayo track the reflection is distributed through the whole episode and every reading beat carries a named authority from research/citation-shelf.md."
 stage: [1, 3, 4]
-read_when: "choosing the close form + register in the brief; writing or checking the close"
-pairs_with: [02-content-format, 08-tone-of-voice, 01-editorial-and-sourcing]
+read_when: "choosing the close form + register in the brief; writing or checking the close; writing an Ensayo reading"
+pairs_with: [02-content-format, 08-tone-of-voice, 01-editorial-and-sourcing, 20-experimental-clip-protocol]
 authority: canonical
 ---
 
@@ -37,6 +37,45 @@ The channel's reflection is not "psychology + a life hack". A case can genuinely
 5. **Still no preaching** ([08-tone-of-voice.md](08-tone-of-voice.md) §1). A philosophical close *names the tension* and stops. It does not resolve the viewer's life, and it does not end on "deberíamos, como sociedad…".
 6. **Registers combine.** The strongest closes hold two: a mechanism *and* the philosophical question it raises (T07: narcissism *and* "virtues taken to the extreme become poisons"). Two is the ceiling — a close that touches all four is a sermon.
 
+## The Ensayo track — the reading is distributed, and every beat carries its authority
+
+On the **Ensayo** track ([brain/20](20-experimental-clip-protocol.md)) the reflection is not
+8–20% at the end — it runs as a **constant interlude** through the whole episode
+(the T07/T08 model: after most sequences, a one-or-two-sentence read that bridges
+the work to the viewer's life). This changes two things:
+
+1. **§A6 applies everywhere, not just in the close.** In a Documental, "name an
+   external authority when you invoke a concept" is a close-section rule. In an
+   Ensayo, *every* load-bearing psychological reading beat — anywhere in the
+   episode — carries a **named authority + `[S..]`**, attributed by field
+   (developmental psychologist ≠ pediatrician ≠ media researcher ≠ story theorist ≠
+   philosopher). A reading beat with no authority is either a general observation
+   (fine, no cite) or an unsupported claim (cut or source it).
+   **But spread them and let the story call them.** T08 names five researchers
+   across 31 minutes — *one at a time, each at the scene that raises its idea*, not
+   in a block. Rule: at most **one named authority per ~3–4 min**, each **set up by
+   the plot beat right before it** and handed straight back to the story ("…y con
+   eso, volvamos a la sala de ensayo"). A `NARRATIVA` passage that stacks three
+   citations is a lecture — break each out to the scene it explains; if two belong
+   to one beat, cite one and make the other a general observation.
+2. **Sourcing the reading is part of writing it — a Stage-4 task.** When the
+   scriptwriter drafts an Ensayo reading, finding the authorities is not a
+   separate later step: for each load-bearing psychological / philosophical /
+   religious claim, look up **who has articulated it well** (a named researcher, a
+   study, a philosopher, a tradition), read enough of the source to represent it
+   accurately, and attach the `[S..]`. Check `research/citation-shelf.md` first
+   (already verified, reusable); when the claim needs someone new, do the lookup,
+   **add the row to the shelf**, then cite. The fact-check
+   ([brain/14](14-fact-check-protocol.md)) crosses every cited authority against the
+   shelf. This is what stops the T07 failure (existential claim in the narrator's
+   voice, no owner) from recurring at scale.
+
+The **close** itself still picks form A or B and ≤2 registers in the brief, same
+as any episode — it's just proportionally larger, because the reading is the point.
+The [brain/08 §1](08-tone-of-voice.md) no-preaching rule is *more* important here, not
+less: T07 ("que nos sirva de advertencia") and T08 ("podemos tomar este cierre
+como una advertencia… deberíamos…") both end by preaching. Name the tension; stop.
+
 ## 1. Choose the form in the brief
 
 | Form | When it fits | Reference |
@@ -69,7 +108,7 @@ Every claim in the close points back to a specific scene. **No new facts in the 
 "esto sugiere…", "una lectura posible es…", "los estudios sobre X apuntan a…". Never state interpretation as established fact.
 
 ### A6. Name an external authority when you invoke a concept
-The reference set does this consistently: Michael Sandel + *Lo que el dinero no puede comprar* (McDonald's); Stanislavski + "actuación de método" (Ledger); "resonancia límbica" as a real neuroscience term (Grinberg). **Any specific theory, study, thinker, statistic, philosophical school, or religious text → full source in `03-source-log.csv` with a `[S..]` tag, same standard as the narrative.**
+The reference set does this consistently: Michael Sandel + *Lo que el dinero no puede comprar* (McDonald's); Stanislavski + "actuación de método" (Ledger); "resonancia límbica" as a real neuroscience term (Grinberg); T08 names Woolley, Christakis, Elkind, Bryant, McKee. **Any specific theory, study, thinker, statistic, philosophical school, or religious text → full source in `03-source-log.csv` with a `[S..]` tag, same standard as the narrative.** Reusable authorities live on `research/citation-shelf.md` (verified once, cited many times); add to it rather than re-verifying each episode.
 - Naming a bias in general terms needs no citation; popular-psychology claims ("usamos el 10% del cerebro", "la regla de las 10.000 horas") are checked or cut.
 - A philosophical or religious idea always names its source ("Frankl, en *El hombre en busca de sentido*…", "Eclesiastés lo dice así…") — the T07 failure is stating one flat in the narrator's voice. For a scripture or a classical text, cite the passage; for a translation, flag it (`brain/01` §4).
 - Attribution is not endorsement: "para los estoicos…", "una lectura cristiana sería…" — the frame stays *this is an idea someone holds*, never *this is the truth*.
@@ -136,6 +175,10 @@ The reference set sometimes ends on a human vignette instead of/after the analys
 | Interpretation stated as fact | Add "una lectura posible…" |
 | Concept / thinker / scripture invoked with no name + `[S..]` | Name and source it, or drop the specificity |
 | Philosophical or religious idea in the narrator's own voice, unattributed (the T07 failure) | Attribute it to a thinker / school / text + `[S..]` |
+| (Ensayo) a psychological reading beat with no named authority | Name one (by field) + `[S..]` from `research/citation-shelf.md`, or downgrade to a general observation |
+| (Ensayo) authority cited but not on `research/citation-shelf.md` / not verified | Add + verify against the primary source before the script passes fact-check |
+| (Ensayo) 3+ citations stacked in one passage / a "psychology explainer" section that is a list of names | Break each authority out to the plot beat that raises its idea; ≤1 per ~3–4 min, story-motivated (`brain/20` §3) |
+| A section seam reads as an abrupt jump (idea ends, heading, unrelated idea starts) | Add a bridge line — outgoing reaches forward or incoming reaches back (`brain/02` §Recurring structural rules, `phrasebook.md` §18) |
 | A religious or philosophical idea framed as *the truth* rather than *an idea someone holds* | Reframe: "para X…", "la tradición Y sostiene…" |
 | Proselytising, or treating belief / non-belief as naïve | Cut; offer the lens alongside another |
 | The `Conquest` frame pushed onto a secular case, or used to valorise historical conquest | Cut — it is motive/voice, not a lens for every episode |
