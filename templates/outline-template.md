@@ -46,7 +46,7 @@ de nota: **HOOK**, **PROMISE n/N**, **PAY n/N**, **EXPLICADOR n**, y los rótulo
 | 2 | 0 · Cold open | … | | [S..] | |
 | 3 | 0 · Cold open | … | | [S..] | **HOOK** — se paga en el cierre (beat …). |
 | 4 | 0 · Cold open | Bisagra: «para entender esto hay que ver …» | | — | |
-| 5 | 0b · Bumper | Negro, marca `Conquest`, «Soy [nombre]» | | — | 3–5 s. Sin animación de logo. |
+| 5 | 0b · Bumper | Negro, marca `Conquest`, «Hola, mi nombre es [nombre], y esto es Conquest» (fraseo fijo) | | — | 3–5 s. Sin animación de logo. |
 | 6 | 1 · Pivote | Nace / empieza — sitúa a la persona en el tiempo y el lugar | | [S..] | «Para situarnos.» |
 | 7 | 1 · Pivote | La época: qué hay que saber del mundo para entender la historia | | [S..] | |
 | 8 | 1 · Pivote | **EXPLICADOR 1** — el concepto que hace falta antes de seguir | | [S..] | ~120–160 palabras. Entrada/salida señalizadas. |
@@ -58,7 +58,7 @@ de nota: **HOOK**, **PROMISE n/N**, **PAY n/N**, **EXPLICADOR n**, y los rótulo
 | … | 3 · Cierre <A/B/C> | Contra-tesis / bisagra al significado | | — | Marco interpretativo obligatorio. |
 | … | 3 · Cierre | El mecanismo, nombrado en general + literatura/fuente citada (`brain/09` A6) | | [S..] | **Registro:** … `[S..]` = la literatura, no un estudio único del caso. |
 | … | 3 · Cierre · para llevar | Una idea, ≤ 90 s (solo forma A) | | — | ¿se deduce del caso sin forzar? |
-| … | 4 · CTA coda | «Si estas historias te sirven, suscríbete.» Fuentes en la descripción | ~10 s | — | |
+| … | 4 · CTA coda | «Si estas historias te sirven, suscríbete.» → sign-off fijo «Mi nombre es [nombre] y esto fue: …» Fuentes en la descripción | ~10 s | — | |
 
 > Numera de corrido al rellenar. Borra las filas de ejemplo que no uses.
 

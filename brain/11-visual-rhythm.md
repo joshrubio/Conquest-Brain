@@ -94,14 +94,14 @@ slideshow); tighten in §4 once a reference video is timed.
 | Section | shot: min – **target** – max (s) | direction note |
 |---------|-----------------------------------|----------------|
 | **Cold open** (35–45 s total) | 4 – **6** – 10 | hero contextual holds 8–10 s, then 3–5 hook shots at 4–6 s, the turn, close to camera — §2.1 rule 2b |
-| Bumper | one A-roll · 3–6 | «Soy X, esto es Conquest» |
+| Bumper | one A-roll · 3–6 | «Hola, mi nombre es X, y esto es Conquest» (fraseo fijo) |
 | Context / era setup | 4 – **6** – 10 | maps + period archival with a slow move; an explainer can sit here |
 | **Narrative acts** (B-roll) | 4 – **7** – 11 | one shot per sentence / subject change |
 | **A-roll** (talking head) | 8 – **12** – 18 | hold the face; cut to B-roll when the VO *describes something to see* |
 | **Explainer / graphic** | dense: held 10 – **14** – 18 · simple: sub-beats 3 – **5** – 8 | content-dense graphic (chart / map / diagram to *read*) = one held beat with internal motion; simple stage = short sub-beats + support. One graphic id, one appearance (§2.1 rule 4 + 4b) |
 | "N theories" module | 3 – **5** – 8 | brisk; one card + support per position |
 | **Close / reflection** (A-roll) | 8 – **12** – 18 | slow; the cutaways to *already-seen* images run 4–6 s |
-| **CTA** | 15–25 s total · 1–2 shots | to camera + wordmark |
+| **CTA** | 15–25 s total · 1–2 shots | to camera; the fixed sign-off line («Mi nombre es X y esto fue: …») → wordmark + «Fuentes principales» card |
 
 Aim **~30–40 % of runtime on camera** for a biography. At a ~8 s average that
 is roughly **~100–115 beats for a 15-minute episode** (~135 for 20 min, ~70 for

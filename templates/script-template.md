@@ -123,7 +123,7 @@ El beat de reinicio entre hook e historia (Dieck lo hace así — la marca apare
 
 [EN PANTALLA] Corte a **negro**. Aparece la marca **`Conquest`**.
 
-[NARRACIÓN] Una línea del presentador: «Soy [nombre].»
+[NARRACIÓN] Línea de la casa, fraseo fijo (solo cambia el nombre): «Hola, mi nombre es [nombre], y esto es Conquest.»
 
 [NOTA] Un tono grave bajo o un beat de silencio. Sin animación de logo, sin sting largo. El pivote a contexto entra en el plano siguiente. Todo hasta aquí (hook + bumper) ≤ 50 s, objetivo ~35 s; el contexto corre para 0:45–0:50.
 
@@ -228,6 +228,8 @@ Recapitular qué SÍ está establecido → entregar el juicio al espectador con 
 Después de que el cierre aterrice. CTA suave del canal, separado de la idea, ligado a lo que este episodio concreto acaba de entregar — no genérico. Tiende a `suscribete`/`notificaciones`/`whatsapp` (el ask de "sigue viendo este canal"), pero cualquier tipo vale si el caso lo justifica.
 Ejemplo (tipo `comentar`, ligado al caso): «Si tú te dieras diez años más para algo — ¿para qué serían? Cuéntamelo en los comentarios, los leo todos.»
 
+**Sign-off — última frase de la coda, fraseo fijo:** «Mi nombre es [nombre] y esto fue: [lo que fue el episodio].» (E001: «…y esto fue, la vida y obra de Hokusai.»). Rima con el bumper (§0b) y cierra el episodio; el hueco `[lo que fue…]` nombra al sujeto/caso, normalmente haciendo eco del hook-title.
+
 [EN PANTALLA] Rótulo opcional «Fuentes principales».
 
 <!-- Mid-episode nudge (opcional, va DENTRO de un Acto de la narrativa, no aquí) — brain/02 §4b:
@@ -274,6 +276,7 @@ Justo tras un [PAY] o la salida señalizada de un [EXPLICADOR]. Tipo más ligero
 - [ ] Recuento de palabras dentro del presupuesto de la duración objetivo
 - [ ] Todo `[S..]` resuelve contra el source-log
 - [ ] Orden: cold open (hook narrativo + `[HOOK VISUAL]` 2–5 planos) → bumper en negro → contexto → narrativa → cierre → CTA
+- [ ] Bumper con el fraseo fijo de la casa («Hola, mi nombre es [nombre], y esto es Conquest») y la coda cierra con el sign-off fijo («Mi nombre es [nombre] y esto fue: …»)
 - [ ] **Cada costura entre secciones lleva un puente** (frase de enlace hacia delante o hacia atrás); ningún explicador/cita entra «en frío» — lo invita el beat anterior y devuelve a la historia al salir (`phrasebook.md` §18–§19)
 - [ ] Cold open ≤ 45 s; hook + bumper ≤ 50 s; contexto corre para 0:50
 - [ ] El hook se paga en el cuerpo

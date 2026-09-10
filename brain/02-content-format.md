@@ -61,7 +61,7 @@ These shots are chosen in the **Intro row of `07-style-pass.html`** (Stage 7): `
 **Always end the narrative hook by naming what the video will do**: "en este episodio reconstruimos…", "aquí van las tres versiones del caso…", "para entenderlo, primero el contexto". **Sourced** — the hook may not overstate what the record supports.
 
 ### 0b. Bumper — 3–6 s, on black
-The reset beat between hook and story (Dieck does this — the brand moment lands *after* the hook, never before). Cut to **black**. Presenter says one line — "Soy [nombre]." — the **`Conquest`** wordmark appears, one low tone or a beat of silence, out. No logo animation, no music sting longer than the beat. This is also the narrative's "chapter 1" line — the context pivot starts on the next shot. Everything up to here (hook + bumper) is **≤ 50 s**, target ~35 s; the context pivot is running by **0:45–0:50**.
+The reset beat between hook and story (Dieck does this — the brand moment lands *after* the hook, never before). Cut to **black**. Presenter says the house line — **"Hola, mi nombre es [nombre], y esto es Conquest."** (fixed wording; only the name changes) — the **`Conquest`** wordmark appears, one low tone or a beat of silence, out. No logo animation, no music sting longer than the beat. This is also the narrative's "chapter 1" line — the context pivot starts on the next shot. Everything up to here (hook + bumper) is **≤ 50 s**, target ~35 s; the context pivot is running by **0:45–0:50**.
 
 ### 1. Context pivot + era setup — 10–20%
 An explicit hinge line out of the hook: "pero para ver si esto es cierto, necesitamos algo de contexto" / "quiero que imagines que estás en…". Then the background the story needs: the era, the institution, the people, the stakes. This is where the first **explainer interlude** usually sits.
@@ -114,6 +114,7 @@ No form or register is an excuse to skip the sourcing or to moralize. The takeaw
 - **Rotation rule:** before writing it, check the **previous episode's** closing-ask tag (`Tipo de CTA: …` in its `05-script.md`) — never repeat the same type in the closing slot two episodes in a row.
 - **Phrasing varies every time** even for the same type — never copy-paste the previous episode's line.
 - Keep it ~10 s, one sentence, tied to what the episode just delivered (not generic) — a closing remark earned by the case, not an ad break.
+- **Sign-off — the last line of the coda, fixed wording:** **"Mi nombre es [nombre] y esto fue: [lo que fue el episodio]."** (E001: *"…y esto fue, la vida y obra de Hokusai."*). It rhymes with the bumper (§0b) and bookends the episode; the `[lo que fue…]` slot names the subject/case, usually echoing the hook-title. Then the **`Conquest`** wordmark + "Fuentes principales" card, out.
 
 #### 4b. Mid-episode nudge (optional — only when the episode earns it)
 
