@@ -6,8 +6,8 @@
 |-------|-------|
 | ID episodio | E002 |
 | Investigador principal | Usuario 002 (borrador Claude) |
-| Última actualización | 2026-09-07 |
-| Nº de fuentes en source-log | 16 (A: 5 · B: 7 · C: 4). **Obtenidas 2026-09-07: S03 (Cusumano), S12 (Liker), S14 (Ohno *Workplace Management*), S16 (Acar et al. 2019, acceso abierto).** Pendiente: S13 (signatura LOC), S15 (texto de Stokes — no bloqueante, S16 es el ancla) |
+| Última actualización | 2026-09-10 (mini-pasada expansión v2 — ver sección al final) |
+| Nº de fuentes en source-log | 23 (S17–S23 son EXPANSIÓN v2, borrador Claude, verificación humana pendiente). **Obtenidas 2026-09-07: S03 (Cusumano), S12 (Liker), S14 (Ohno *Workplace Management*), S16 (Acar et al. 2019, acceso abierto).** Pendiente: S13 (signatura LOC), S15 (texto de Stokes — no bloqueante), verificación de S17–S23 |
 
 ## 1. Reinicio de fuentes (si aplica)
 
@@ -164,3 +164,80 @@ No aplica. La idea salió del pool público (DOC-14), no de la vida privada de U
 - Supermercado: S14 y S07 dicen **diapositivas de un colega (1951–52)**; S03 dice **periódico**. Las fuentes propias varían en el *cómo*; coinciden en «no fue una visita ni un chispazo». Beat 19 del outline lo trata bien.
 - **Literatura del cierre cerrada:** S16 (Acar, Tarakci & van Knippenberg, *Journal of Management* 2019 — revisión revisada por pares, acceso abierto) como ancla + S15 (Stokes 2005) como apoyo. *Scarcity* descartado (valencia opuesta). Outline beat 29 ya lleva `[S16][S15]`.
 - **Nada bloqueante pendiente para Stage 4.** Deseable pero no crítico: localizar una cita de Ohno sobre el desperdicio; conseguir el texto de Stokes (S16 ya cubre el punto).
+
+---
+
+## Actualización 2026-09-10 — mini-pasada de Stage 2 para la EXPANSIÓN v2
+
+> Motivo: la revisión de narrativa concluyó que el guion se leía como corrección de mitos y se quedaba corto de **contexto sobre Toyota**. Decisión (Usuario 001/002): apertura histórica ancha + arco hasta hoy, sin techo de duración (`brain/02` cambiado), y el plan visual pasa a un **registro de recreación/ilustración** (`brain/12`/`brain/15` cambiados). Esta pasada trae las fuentes de los beats nuevos. **Borrador Claude — verificación humana pendiente (marcar en el Gate).**
+>
+> **Regla nueva aplicada al re-guion (`brain/02` §2):** la columna se cuenta como primera vez, no como desmentido. El supermercado (§5) se narra como hallazgo; los matices honestos van a **un** beat tardío, no repartidos por el spine.
+
+### Fuentes nuevas: S17–S23 (en `03-source-log.csv`)
+
+| ID | Cubre | Tier | Estado |
+|----|-------|------|--------|
+| S17 | Sakichi Toyoda: autodidacta, telar 1896, Tipo G 1924 (paro automático → jidoka), muere 1930 | B/C | heritage Toyota Industries + JPO — verificar |
+| S18 | Venta de patentes a Platt Brothers (21 dic 1929, £100.000 a plazos, renegociado a £83.500 en 1934) | A/C | «75 Years» oficial — **matiza el mito del capital semilla** |
+| S19 | Guerra + bombardeo de Koromo (14 ago 1945, ~¼ destruido), rendición 15 ago, camiones 17 ago | A/C | «75 Years» oficial |
+| S20 | Dpto. de automóviles 1933, motor por ingeniería inversa de un Chevrolet, Model AA jul 1936, escisión de Toyota Motor 1937, cambio de nombre Toyoda→Toyota | B/C | heritage + Wikipedia — cruzar con S03 |
+| S21 | Toyopet Crown, fracaso en EE.UU. (1957–60), retorno con Corona/Corolla, ruptura en 1973 | C | prensa del motor — **necesita ancla A/B (Cusumano/Womack) para el "1973 = ruptura"** |
+| S22 | NUMMI (1984): Fremont "la peor plantilla", 85% mismos obreros, calidad iguala a Japón en ~2 años | B/C | This American Life 403/561 + wiki — **anclar en S02 (Womack) y S12 (Liker), que ya tenéis** |
+| S23 | 2008: Toyota rebasa a GM como nº 1 mundial (8,97 M vs 8,36 M) | B/C | WaPo + History.com |
+
+### Delta de cronología (§2 — filas a insertar)
+
+| Fecha | Hecho | Fuente | Tier |
+|-------|-------|--------|------|
+| 1867 | Nace Sakichi Toyoda, hijo de carpintero | S17 | C |
+| 1896 | Sakichi: primer telar de fuerza de Japón, con paro automático de trama | S17 | C |
+| 1924 | Telar automático Tipo G: cambio de lanzadera sin parar; se para solo al romperse un hilo | S17, S14 | B/A |
+| 21 dic 1929 | Venta de los derechos de patente del telar a Platt Brothers (£100.000, a plazos) | S18 | A/C |
+| oct 1930 | Muere Sakichi Toyoda (63 años) | S17 | C |
+| 1 sep 1933 | Kiichirō crea el departamento de automóviles dentro de Toyoda Automatic Loom | S20, S03 | B |
+| jul 1936 | Se presenta el Model AA (motor copiado del Chevrolet); nombre Toyoda→Toyota (1936–37) | S20 | B/C |
+| 28 ago 1937 | Se escinde Toyota Motor Co. (dato ya en §2 vía S08/S04) | S20, S08 | A/C |
+| 1936–45 | Prohibición de facto del turismo; Toyota fabrica camiones para el Ejército Imperial | S19, S03 | A/C |
+| 14 ago 1945 | Un bombardeo destruye ~¼ de la planta de Koromo | S19 | A/C |
+| 15–17 ago 1945 | Rendición anunciada durante las reparaciones; producción de camiones reanudada el 17 | S19 | A/C |
+| ago 1957 – dic 1960 | Toyopet Crown en EE.UU.: 287 uds. en 1958, 976 en 1959; retirada de turismos en dic 1960 | S21 | C |
+| 1965 | Vuelve a EE.UU. con el Corona (Toyopet Crown rediseñado) | S21 | C |
+| 1966 → | Corolla; con la crisis del petróleo de 1973, los compactos japoneses rompen en EE.UU. | S21, S03, S02 | C/B |
+| 1982 | GM cierra la planta de Fremont ("la peor plantilla de la industria en EE.UU.") | S22 | B/C |
+| 1984 | Reabre como NUMMI (empresa conjunta GM-Toyota); primer coche, un Chevrolet Nova, dic 1984 | S22, S02, S12 | B |
+| ~1986 | NUMMI iguala en calidad a las plantas de Toyota en Japón, con ~85% de los obreros de antes | S22, S02, S12 | B |
+| 21 ene 2009 | Se confirma que Toyota rebasó a GM en ventas mundiales en 2008 (8,97 M vs 8,36 M) | S23 | B/C |
+| 1 abr 2010 | Cierra NUMMI (último coche, un Corolla rojo) | S22 | C |
+
+### Afirmaciones de carga nuevas (§4)
+
+| # | Afirmación (en esencia) | Fuente | Tier | Estado |
+|---|-------------------------|--------|------|--------|
+| C12 | Toyota nace del negocio de telares de Sakichi Toyoda; su telar Tipo G de 1924 se paraba solo al romperse un hilo — el principio que Ohno llamaría *jidoka* | S17, S14 | B/A | borrador — verificar |
+| C13 | En 1929 los derechos de patente del telar se vendieron a Platt Brothers por £100.000; ese dinero ayudó a financiar la investigación del automóvil de Kiichirō — aunque la propia Toyota presenta ambas cosas como paralelas y el pago se renegoció a la baja | S18 | A/C | borrador — **redactar sin el mito del "capital semilla" limpio** |
+| C14 | Kiichirō montó un departamento de automóviles dentro de la fábrica de telares en 1933, construyó el primer motor copiando un Chevrolet; el primer turismo (Model AA) es de 1936 y Toyota Motor se escinde en 1937 | S20, S03, S08 | B/C | borrador — cruzar con Cusumano |
+| C15 | En la guerra Toyota fabricó camiones para el Ejército; el 14 ago 1945 un bombardeo destruyó ~¼ de la planta de Koromo, la rendición se anunció al día siguiente y los camiones se reanudaron el 17 | S19, S03 | A/C | borrador — verificar |
+| C16 | El primer intento de Toyota en EE.UU. (Toyopet Crown, 1957–60) fracasó por infrapotencia en autopista; volvió con el Corona (1965) y el Corolla, y rompió con la crisis del petróleo de 1973 | S21, S03, S02 | C/B | borrador — **el "1973" necesita ancla A/B** |
+| C17 | En 1984 GM y Toyota reabrieron la planta cerrada de Fremont como NUMMI; ~85% eran los mismos obreros despedidos en 1982 (una plantilla tenida por la peor del país), el sindicato siguió, y en ~2 años la calidad igualó a las plantas de Toyota en Japón — prueba de que el trabajo lo hacía el método, no "la cultura japonesa" | S22, S02, S12 | B | borrador — **anclar en los libros que tenéis (S02, S12)** |
+| C18 | En 2008 Toyota vendió más coches que GM en el mundo (8,97 M vs 8,36 M), cerrando ~77 años de GM como el mayor fabricante | S23 | B/C | borrador — verificar |
+
+### §5 — matices / versiones en conflicto (añadir)
+
+| Tema | Versión popular | Lo que dicen las fuentes | En pantalla |
+|------|-----------------|--------------------------|-------------|
+| El "capital semilla" del telar | "Sakichi vendió la patente y con esas £100.000 se fundó Toyota" | S18 («75 Years»): pago a plazos (cuatro de £25.000), renegociado a la baja a £83.500 en 1934; Toyota presenta la investigación del automóvil de Kiichirō como **paralela**, no como algo financiado directamente por esa venta | "la venta ayudó, pero no fue un cheque que fundó la empresa" — sin el mito limpio |
+| El cambio de nombre Toyoda→Toyota | "por los 8 trazos / el número de la suerte" | S20 (Tier C): concurso público de logo; katakana = 8 trazos; 8 = suerte; **y** —el motivo que importa— separar la empresa de coches del negocio de telares | atribuir ("se cuenta que…") o quedarse solo con la separación de las dos empresas |
+| NUMMI y "la disciplina japonesa" | (no es disputa: **refuerza** la contra-tesis) | Misma plantilla que GM tenía por la peor del país, mismo sindicato, misma ciudad → en 2 años, calidad de Toyota-Japón | beat de cierre de la narrativa: la mejor prueba de que era el método, no la nación |
+
+### §10 — archivo / derechos (cambio de plan)
+
+Con `brain/12`/`brain/15` actualizados: el episodio se apoya en un **registro único de recreación fotográfica + ilustración** (decidido aquí, va al `01-brief.md`). Ya no aplica el gate E8 del "≤30% diagramas". Necesidades visuales nuevas: Sakichi y el telar Tipo G; la fábrica de Koromo en la guerra y el bombardeo; el primer Model AA; el Toyopet Crown varado en una autopista de EE.UU.; la planta de Fremont/NUMMI; obreros de NUMMI volando a Japón. Todo como recreación/ilustración rotulada salvo lo que haya en PD (Detroit sigue siendo PD para el contraste; posible PD: prensa de EE.UU. de 1957–58 sobre coches japoneses; Fremont años 80).
+
+### Verificación humana pendiente (para el Gate)
+
+1. **S18 / C13** — leer la página de «75 Years» y redactar C13 sin el mito del capital semilla.
+2. **S22 / C17 (NUMMI)** — contrastar con S02 (Womack, cap. de NUMMI) y S12 (Liker) que ya tenéis en `research/_books/`; fijar la cita de "la peor plantilla" y el % exacto.
+3. **C16** — anclar el "1973 = ruptura de los japoneses en EE.UU." en Cusumano (S03) o Womack (S02), no en prensa del motor.
+4. **S19** — descartar o sustituir la afirmación "la rendición evitó un ataque mayor planificado" (hoy sin fuente sólida).
+5. **S20** — confirmar el detalle del cambio de nombre contra «75 Years»; si no, atribuir o recortar.
+6. Fechas exactas de fundación (1933/1936/1937) cruzadas con Cusumano.

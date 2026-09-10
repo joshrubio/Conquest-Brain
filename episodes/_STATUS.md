@@ -12,8 +12,8 @@
 
 | ID | Slug | Título | Track | Narrador | Stage | Gate | Auto-avance | Notas |
 |----|------|--------|-------|----------|-------|------|-------------|-------|
-| E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 9 | abierto | 12 | Stage 9: timeline 38/48 cubiertos. Solo faltan los 10 beats a-cámara → corre trim_talk.py sobre assets/E001-vo.mp4 (necesita faster-whisper+ffmpeg) y re-corre assemble.py. |
-| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 4 | abierto | 4 | guion v1 escrito desde el outline — falta tu revisión + firma en 05-script.html (gate alto riesgo). Auto-avance=4. |
+| E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 9 | exportado | 12 | timeline guardada · 0 correcciones + render 4K en cola |
+| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 4 | abierto | 4 | guion v2 (expansión: origen Toyoda, Corea, NUMMI, arco a 2008); 05-script.html regenerado (60 beats). BLOQUEA avance: verificar S17–S23 contra los libros (dossier §«Actualización 2026-09-10») antes de la pasada L2; luego aprobar+firmar en 05-script.html. Pendiente: outline §v2, 06/07. |
 
 ## Reglas
 

@@ -110,3 +110,33 @@ El brief y el dossier fijaron **este gate** como el punto donde se decide si E00
 - **Fuentes:** ✅ S03 (Cusumano), S12 (Liker), S14 (Ohno *Workplace Management*), S15+S16 (literatura del cierre) — **todas obtenidas y volcadas al dossier**. El beat 20 ya no depende solo de Ohno; el cierre ya tiene `[S16][S15]`.
 - **Ajuste hecho:** el beat 12 (la cifra 9:1) corregido — Ohno la *oyó* en 1937–38, no la calculó; el guion (beat 3) debe reflejarlo.
 - **Decisión del revisor en este gate:** ¿el beat sheet ancla de verdad en personas/escenas (→ sigue a Stage 4) o sigue tirando demasiado de concepto (→ vuelve a `incubando (narrativa)`)? Firma un usuario.
+
+---
+
+## v2 — expansión (2026-09-10)
+
+> El beat sheet de arriba es el de **v1** y se conserva como registro. El guion pasó por dos revisiones que lo cambian sin tocar la macroestructura (cold open → bumper → pivote → narrativa → cierre → CTA):
+>
+> **v1→v1b (registro):** la columna narrativa se cuenta como primera vez, no como desmentido (`brain/02` §2, regla nueva). El supermercado es un hallazgo, no un mito. Los 4 foreshadowings pasan a ser ganchos hacia delante. Cierre a 2 registros exactos.
+>
+> **v2 (expansión), sin techo de duración (`brain/02` cambiado):**
+>
+> | Añadido | Dónde | Fuentes |
+> |---|---|---|
+> | Sakichi Toyoda + el telar Tipo G que se para solo (semilla del jidoka, *plant* con recogida ×2) | Sección 1 | S17, S14 |
+> | Venta de la patente a Platt Brothers — con rótulo: sin el mito del «cheque que fundó Toyota» | Sección 1 | S18 |
+> | Kiichirō monta el dpto. de coches, copia un Chevrolet, Model AA 1936, escisión y cambio de nombre 1937 | Sección 1 | S20, S03 |
+> | La guerra: camiones para el ejército, bombardeo de Koromo (14 ago 1945), rendición al día siguiente | Sección 1 | S19, S03 |
+> | «Alcanzar a América en tres años» (atribuido a Kiichirō vía Ohno) + la muerte de Kiichirō en 1952 | Sección 1 | S01, S14, S05 |
+> | **La guerra de Corea (jun 1950)** como beat propio: lo que de verdad salva a Toyota en 1950 (bancos + despidos + Corea), no el método | Sección 1 | S03, S10 |
+> | Fricción de los 20 años desplegada: mandos acaparando inventario, miedo a «menos manos por coche», el problema de los proveedores | Sección 2 | S03, S12 |
+> | **NUMMI (1984):** Fremont, la peor plantilla de EE.UU., mismos obreros → calidad de Toyota-Japón. Prueba de «el método, no la cultura». Paga a Minoura | Sección 2 | S22, S02, S12 |
+> | Toyopet Crown (fracaso en EE.UU., años 50) como back-story de los compactos post-73 | Sección 2 | S21 |
+> | **2008: Toyota rebasa a GM** — remata el hook | Sección 2 | S02, S23 |
+> | Sign-off fijo que faltaba (`brain/02` §4a) | CTA | — |
+>
+> **Plan visual:** registro único de recreación fotográfica + ilustración rotulada (`brain/12`/`15` cambiados) — ya no aplica el gate E8 del «≤30% diagramas». Va al `01-brief.md`.
+>
+> **Bloquea el avance:** S17–S23 son borrador (mini-pasada Claude). Verificación humana antes de la pasada L2 — lista en `02-research-dossier.md` § «Actualización 2026-09-10».
+>
+> El registro de foreshadowing y de interludios **vigente** es el de `05-script.md` (v2), no las tablas de este archivo.
