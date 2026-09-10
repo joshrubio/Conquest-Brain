@@ -176,6 +176,22 @@ class H(BaseHTTPRequestHandler):
                     pass
             running = prg.exists() and not done
             return self._send(200, json.dumps({"pct": pct, "done": done, "running": running}))
+
+        if path == "/final-progress":
+            epp = P.ep_path(qs.get("ep", [""])[0])
+            done = (epp / "09-final.done").exists()
+            pct = 100 if done else 0
+            prg = epp / "09-final.progress"
+            if prg.exists() and not done:
+                try:
+                    us = re.findall(r"out_time_us=(\d+)", prg.read_text(encoding="utf-8", errors="replace"))
+                    tot = (json.loads((epp / "09-timeline.json").read_text(encoding="utf-8")).get("total") or 1) * 1e6
+                    if us:
+                        pct = max(1, min(99, round(int(us[-1]) / tot * 100)))
+                except Exception:
+                    pass
+            running = prg.exists() and not done
+            return self._send(200, json.dumps({"pct": pct, "done": done, "running": running}))
         if path == "/view":
             return self._view(qs.get("ep", [""])[0], qs.get("f", [""])[0])
         f = (P.ROOT / path.lstrip("/")).resolve()
@@ -362,6 +378,19 @@ class H(BaseHTTPRequestHandler):
                          done_flag=flag)
             return self._send(200, json.dumps({"ok": True,
                 "msg": "renderizando el borrador 720p en segundo plano — unos minutos."}))
+
+        if path == "/tl-final":                        # Stage 9 — render the 4K master
+            slug = data.get("slug") or ep
+            epp = P.ep_path(ep)
+            if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
+                (epp / "09-timeline.json").write_text(
+                    json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
+            flag = epp / "09-final.done"
+            flag.unlink(missing_ok=True)
+            (epp / "09-final.progress").write_text("out_time_us=0\n", encoding="utf-8")  # bar starts at 0
+            _spawn_chain([["assemble.py", slug, "--final"]], done_flag=flag)
+            return self._send(200, json.dumps({"ok": True,
+                "msg": "renderizando el master 4K en segundo plano — esto tarda bastante."}))
 
         if path == "/advance":
             return self._send(200, json.dumps({"ok": True, "msg": _run(["advance.py", "next", ep])}))
