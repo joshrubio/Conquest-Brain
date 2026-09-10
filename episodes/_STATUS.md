@@ -12,8 +12,8 @@
 
 | ID | Slug | Título | Track | Narrador | Stage | Gate | Auto-avance | Notas |
 |----|------|--------|-------|----------|-------|------|-------------|-------|
-| E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 9 | exportado | 12 | timeline guardada · 0 correcciones + render 4K en cola |
-| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 6 | abierto | 4 | Stage 5 cerrado 2026-09-10: L1 PASS, L2 aplicó 19 correcciones (`04-factcheck-auto.md`), sin cola de verificación. Único ítem para Stage 11: dignidad del retrato de la plantilla de Fremont (NUMMI). Siguiente: escribir 06-shotlist.md. |
+| E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 9 | exportado | 12 | BLOQUEADO en Stage 9: el fold necesita `assemble.py --final` (render 4K) y **no hay ffmpeg en esta máquina**. El loop no puede drenarlo. Correr el render en un box con ffmpeg. (Aviso: un beat sin `asset/file` en 09-timeline.json — revisar en 09-edit.html antes de renderizar.) |
+| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 7 | abierto | 4 | 2026-09-11: Stage 6 estaba sin hacer (06/07 eran plantillas). Escrito `06-shotlist.md` (133 beats, registro de recreación) + `07b-ai-prompts.md` (19 prompts) + `07-pull.tsv`. `07-style-pass.html` YA existe (era el 404). Pase de estilo a medias: 24 candidatos / 11 beats — **`tools/.env` sin claves Pexels/Pixabay/Unsplash**, el stock no devuelve nada; archivo (Commons) sí. Falta: generar las 19 imágenes IA, pegar rutas, poner claves o enlaces propios, «Finalizar Stage 7». |
 
 ## Reglas
 

@@ -1,0 +1,27 @@
+# 07-pull.tsv — E002 «Toyota / Taiichi Ohno». Stage 7 candidate-pull spec.
+# Tab-separated. `#` lines ignored. Una fila por beat de la espina que necesita
+# imagen/clip de archivo o stock (los beats `ia` van a 07b-ai-prompts.md; los
+# `gráfico` son propios y NO van aquí).
+#
+# kind: stock | stock-img | archive | video | intro
+# source: stock | stock-img | video | intro | archive(met,commons) | lista
+#
+# NOTA: tools/.env no tiene claves de Pexels/Pixabay/Unsplash — los beats
+# `stock`/`intro` no devolverán nada hasta que se pongan las claves. Los
+# `archive` (Wikimedia Commons / Met) sí funcionan. Usuario 001 pega sus
+# propios enlaces en las filas vacías del pase de estilo (brain/02 §0).
+#
+beat	kind	source	query	opts
+INTRO1	intro	intro	empty factory assembly hall dim	orientation=landscape;min=1920;n=3
+INTRO2	intro	intro	crowd of workers factory gates	orientation=landscape;min=1920;n=3
+5	archive	commons	Ford assembly line 1940s	n=4
+43	archive	commons	Ford River Rouge assembly line	n=4
+45	archive	commons	automobile factory warehouse parts 1940s	n=3
+25	archive	commons	Surrender of Japan 1945	n=3
+35	archive	commons	Korean War United States Army trucks 1950	n=3
+47	archive	commons	Ford River Rouge plant Dearborn	n=4
+74	archive	commons	American supermarket interior 1950s	n=4
+76	stock-img	stock-img	vintage grocery store shelves 1950s	min=2000;n=3
+97	archive	commons	1973 oil crisis gas station line	n=4
+106	archive	commons	Japanese cars imported United States 1970s	n=3
+108	archive	commons	NUMMI Fremont assembly plant	n=3

@@ -196,7 +196,17 @@ def do_fold(epid):
         payload = json.loads(ef.read_text(encoding="utf-8"))
     fold = sm["fold"]
     if fold in ("human", "claude", "verify"):
-        # nothing to fold mechanically; a claude/human stage is 'done' when its file exists / user marks it
+        # nothing to fold mechanically; a claude/human stage is 'done' when its
+        # produced doc actually exists — NOT just because fold was called. A
+        # 'claude' stage whose primary doc is still the folder template has not
+        # been done: re-queue it and hold the gate, don't wave it through.
+        prim = (P.PRIMARY_DOC.get(st) or "").split()[0]
+        if fold == "claude" and prim and P.pristine(epid, prim):
+            P.enqueue(epid, st, "generate", note=_gen_note(epid, st, sm))
+            P.set_ep(epid, gate="abierto")
+            _dash()
+            return (f"{epid}: stage {st} ({sm['name']}) — {prim} sigue en plantilla, "
+                    f"nada que plegar; encolado para escribir. NO avanza.")
         P.set_ep(epid, gate="firmado")
         _dash()
         return f"{epid}: stage {st} ({sm['name']}) — gate firmado"
