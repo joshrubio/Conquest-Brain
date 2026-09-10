@@ -79,6 +79,7 @@ def build(slug):
     except Exception:
         resync_avail = False
     rough_running = (ep / "09-rough.progress").exists() and not (ep / "09-rough.done").exists()
+    final_running = (ep / "09-final.progress").exists() and not (ep / "09-final.done").exists()
 
     try:
         words = A.load_words(ep)
@@ -118,10 +119,16 @@ def build(slug):
  .mixctl{{display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:var(--muted)}}
  .mixctl input[type=range]{{width:92px;accent-color:var(--gold)}}
  .mixv{{font-family:var(--mono);font-size:.64rem;color:var(--bone);min-width:42px;text-align:right}}
+ /* #frame is a grid item in #screen (place-items:center) — pin it to fill the
+    screen so the negro card / rótulo lands full-size and centred, not shrink-
+    wrapped to a tiny box */
+ .screen #frame{{position:absolute;inset:0;display:flex;flex-direction:column;
+   align-items:center;justify-content:center;gap:.4rem;z-index:2;padding:7% 6%}}
+ .screen #frame.negro{{background:#000}}
  #scrrot{{position:absolute;inset:0;display:flex;flex-direction:column;gap:.35em;
    align-items:center;justify-content:center;text-align:center;z-index:3;
    font-family:Georgia,"Times New Roman",serif;font-size:clamp(1rem,3.2vw,2.4rem);
-   color:#d6cbb5;letter-spacing:.01em;pointer-events:none;overflow:hidden}}
+   color:#d6cbb5;letter-spacing:.01em;pointer-events:none;overflow:hidden;padding:0 6%}}
  /* one line per '/' or newline, never wrapped — mirrors assemble._negro_card,
     so the preview shows the same line count the render will bake */
  #scrrot div{{white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}}
@@ -136,7 +143,8 @@ def build(slug):
  .split{{display:inline-flex;align-items:stretch}}
  .split .btn:first-child{{border-top-right-radius:0;border-bottom-right-radius:0}}
  .split .caret{{border-top-left-radius:0;border-bottom-left-radius:0;border-left:0;
-   padding-left:.4rem;padding-right:.4rem;font-size:.7rem}}
+   padding:0 .45rem;font-size:.7rem;display:inline-flex;align-items:center;
+   justify-content:center;line-height:1}}
  .undo{{display:inline-flex;gap:.15rem}}
  .undo button{{background:var(--surface-2);border:1px solid var(--line-2);border-radius:6px;
    color:var(--bone);font:inherit;font-size:.9rem;line-height:1;padding:.25rem .5rem;cursor:pointer}}
@@ -169,6 +177,7 @@ def build(slug):
  <span class="spacer"></span>
  <span class="split"><button class="btn ghost" id="reseed" data-tip="Descarta TODAS las ediciones de la sala (duraciones, orden, beats añadidos o partidos, mezcla) y vuelve a sembrar la línea desde la tabla «Timeline — la espina» del shotlist + la voz. Se guarda un respaldo. Pide confirmación.">Re-sembrar</button><button class="btn ghost caret" id="reseed-bak" data-tip="Respaldos de re-sembrados anteriores — restaura la línea tal como estaba antes de un re-sembrado.">⌄</button></span>
  <button class="btn" id="rrough" data-tip="Renderiza el vídeo entero a un borrador 720p (con voz, música, Ken Burns y cortes reales — sin grade) en segundo plano. Tarda unos minutos; cuando termine, míralo en «corte renderizado». Guarda antes.">{'Re-renderizar' if has_rough else 'Renderizar'}</button>
+ <button class="btn ghost" id="rfinal" data-tip="Renderiza el master 4K definitivo (con grade si hay grade.cube) en segundo plano. Tarda mucho — normalmente se deja de noche. La barra de arriba sigue el avance; puedes seguir editando, pero el resultado usa la línea tal como está al lanzarlo.">Render 4K</button>
  <a class="btn ghost" target="_blank" href="http://localhost:8765/episodes/{e(slug)}/assets/graphic/_index.html" data-tip="Abre en otra pestaña el índice de gráficos del episodio (G1, G3, G4…) para comprobar cómo quedaron antes de montarlos. No modifica nada.">Gráficos</a>
  {f'<a class="btn ghost" target="_blank" href="{e(review_href)}" data-tip="Abre la sala de transcripción/recorte de la toma en otra pestaña — para revisar el texto de la voz, marcar retomas y ajustar los cortes. Al aplicar cambios allí, re-corre el Stage 8 y esta línea se recalcula.">Transcripción</a>' if review_href else ''}
  <button class="btn" id="save" data-tip="Fija en 09-timeline.json tus cambios de duración, orden, estructura y mezcla, y re-deriva la línea sobre la voz (sin re-alinear). Hay autoguardado cada pocos segundos; el botón se pone en dorado con «•» si queda algo sin guardar.">Guardar</button>
@@ -181,9 +190,9 @@ def build(slug):
  <span class="split" style="margin-left:auto"><button class="btn" id="doresync" data-tipr data-tip="La voz de la toma cambió (regrabaste o re-recortaste). Esto re-encaja cada beat a la voz nueva por su ancla de texto: los beats con duración fija que ajustaste a mano se conservan, el resto se re-ajusta, y el último cierra en el nuevo final. Se guarda un respaldo antes.">Re-sincronizar</button><button class="btn caret" id="doresync-bak" data-tipr data-tip="Respaldos de re-sincronizados anteriores — restaura la línea tal como estaba antes.">⌄</button></span>
 </div>''' if resync_avail else ''}
 
-<div class="roughbar" id="roughbar"{'' if rough_running else ' hidden'}>
+<div class="roughbar" id="roughbar"{'' if (rough_running or final_running) else ' hidden'}>
  <div class="rbfill" id="rbfill"></div>
- <span class="rblbl" id="rblbl">Renderizando el borrador…</span>
+ <span class="rblbl" id="rblbl">Renderizando…</span>
 </div>
 
 <div class="work">
@@ -371,11 +380,15 @@ function updateScreen(force){{
   $("#frame").hidden = !(b.kind==="negro"||(!f&&!isAC));
   if(b.kind==="negro"||(!f&&!isAC)){{ still.hidden=true; clip.hidden=true; face.hidden=true; clip.pause();
     const rot = (b.kind==="negro" && (b.label||"").trim()) ? b.label.trim() : "";
+    $("#frame").classList.toggle("negro", b.kind==="negro");
+    $("#scrtc").hidden = !!rot;                 // rótulo shown → hide the big clock, match the render
     $("#scrrot").hidden = !rot;
     $("#scrrot").innerHTML = rot ? rot.split(/\\s*\\/\\s*|\\s*\\n\\s*/).filter(Boolean).map(s=>"<div>"+esc(s)+"</div>").join("") : "";
     $("#scrbeat").textContent = rot ? "" : (b.kind==="negro" ? "— negro —"
       : "beat "+disp(b)+" · sin asset");
     return; }}
+  $("#frame").classList.remove("negro");
+  $("#scrtc").hidden = false;
   $("#scrrot").hidden = true;
   if(isAC){{                                   // narrator on camera → the continuous take
     if(!face.getAttribute("src")){{           // no take / no proxy → labelled frame
@@ -1006,6 +1019,27 @@ function startRoughBar(){{
   if(roughPoll) clearInterval(roughPoll);
   roughPoll=setInterval(pollRough,2000); pollRough();
 }}
+async function pollFinal(){{
+  try{{
+    const j=await (await fetch("/final-progress?ep="+encodeURIComponent(EPID))).json();
+    if(j.done && !j.running){{
+      $("#rbfill").style.width="100%";
+      $("#rblbl").textContent="Master 4K listo.";
+      stopRough(); setTimeout(()=>roughBar(false),8000);
+      return;
+    }}
+    if(!j.running){{ if(++roughMiss>=3){{ stopRough(); roughBar(false); }} return; }}
+    roughMiss=0;
+    $("#rbfill").style.width=(j.pct||0)+"%";
+    $("#rblbl").textContent="Renderizando el master 4K… "+(j.pct||0)+"% · puedes seguir editando";
+  }}catch(e){{ /* server busy — keep polling */ }}
+}}
+function startFinalBar(){{
+  roughBar(true); roughMiss=0;
+  $("#rbfill").style.width="0%"; $("#rblbl").textContent="Renderizando el master 4K… 0%";
+  if(roughPoll) clearInterval(roughPoll);
+  roughPoll=setInterval(pollFinal,2000); pollFinal();
+}}
 $("#rrough").onclick=async()=>{{
   if($("#save").classList.contains("dirty")) await saveTL();
   try{{
@@ -1013,6 +1047,15 @@ $("#rrough").onclick=async()=>{{
     startRoughBar();
   }}
   catch(e){{ toast('server no disponible — corre <span class="mono">python tools/assemble.py '+SLUG+' --rough</span>',6000); }}
+}};
+$("#rfinal").onclick=async()=>{{
+  if($("#save").classList.contains("dirty")) await saveTL();
+  if(!confirm("Render 4K del master.\\n\\nEs lento — puede tardar bastante (a menudo se deja de noche). Puedes seguir editando mientras corre, pero el master usa la línea tal como está AHORA. ¿Seguir?")) return;
+  try{{
+    await post("/tl-final",{{ep:EPID,slug:SLUG,timeline:TL}});
+    startFinalBar();
+  }}
+  catch(e){{ toast('server no disponible — corre <span class="mono">python tools/assemble.py '+SLUG+' --final</span>',6000); }}
 }};
 $("#fs")?.addEventListener("click",()=>{{
   const s=$("#screen");
@@ -1096,7 +1139,8 @@ status(); layout(); updWords();
 addEventListener("resize",()=>{{_mmW=0;drawMinimap();updRange();placePlayhead();}});
 if(B.length)select(B[0].id);
 scroll.scrollLeft=0;
-if({str(rough_running).lower()}) startRoughBar();   // a render was already running when the page loaded
+if({str(rough_running).lower()}) startRoughBar();        // a render was already running when the page loaded
+else if({str(final_running).lower()}) startFinalBar();   // …or the 4K master render is
 </script></body></html>
 """
 
