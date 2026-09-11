@@ -26,6 +26,10 @@ Si la idea surgió de la vida privada de Usuario 001 o Usuario 002 (un tip, una 
 
 ## 2. Cronología
 
+> Ensayo (modo A/B): la cronología es la **producción y recepción de la obra**
+> (escritura, rodaje/desarrollo, estreno, crítica y relecturas en el tiempo), no
+> el argumento — el argumento vive en el outline/shotlist como andamio.
+
 | Fecha | Hecho | Fuente(s) [ID source-log] | Tier | Nota / certeza |
 |-------|-------|---------------------------|------|----------------|
 | | | | | |
@@ -64,7 +68,7 @@ Si la idea surgió de la vida privada de Usuario 001 o Usuario 002 (un tip, una 
 ## 8. Ángulo psicológico / humano
 
 - Mecanismo(s) que revela el caso (nombre exacto): …
-- Teóricos / estudios que se citarán (y su fuente [ID]): …
+- Teóricos / estudios que se citarán (y su fuente [ID]): … *(mirar primero `research/citation-shelf.md`; si hace falta alguien nuevo, verificar y añadir la fila — `brain/09 §Ensayo`)*
 - Momentos concretos del caso a los que se anclará la reflexión: …
 
 ## 9. Para llevar — validación
@@ -75,6 +79,10 @@ Si la idea surgió de la vida privada de Usuario 001 o Usuario 002 (un tip, una 
 
 ## 10. Necesidades de archivo / derechos
 
+> Ensayo: aquí va el inventario de clips — escena/timecode en vez de "visual",
+> fuente = copia propia / clip-service / fragmento, derechos = `cita —
+> crítica/comentario (fair use)` (`brain/20 §4.7`).
+
 | Visual necesario | Posible fuente | Estado de derechos (dominio público / CC / licencia / cita) |
 |------------------|----------------|------------------------------------------------------------|
 | | | |
@@ -84,4 +92,5 @@ Si la idea surgió de la vida privada de Usuario 001 o Usuario 002 (un tip, una 
 - [ ] Toda afirmación de carga con ≥1 Tier A/B
 - [ ] Puntos disputados identificados
 - [ ] Sin dependencia de Tier C/D para sostener nada
+- [ ] (Ensayo) ≥3 fuentes para la lectura localizadas (crítica / entrevistas / making-of / beca)
 - [ ] Revisado por Usuario 001 — fecha __
