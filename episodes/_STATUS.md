@@ -12,8 +12,8 @@
 
 | ID | Slug | Título | Track | Narrador | Stage | Gate | Auto-avance | Notas |
 |----|------|--------|-------|----------|-------|------|-------------|-------|
-| E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 9 | exportado | 12 | BLOQUEADO en Stage 9: el fold necesita `assemble.py --final` (render 4K) y **no hay ffmpeg en esta máquina**. El loop no puede drenarlo. Correr el render en un box con ffmpeg. (Aviso: un beat sin `asset/file` en 09-timeline.json — revisar en 09-edit.html antes de renderizar.) |
-| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 7 | abierto | 4 | 2026-09-11: Stage 6 estaba sin hacer (06/07 eran plantillas). Escrito `06-shotlist.md` (133 beats, registro de recreación) + `07b-ai-prompts.md` (19 prompts) + `07-pull.tsv` ampliado. `07-style-pass.html` poblado: **49 candidatos / 15 beats** (claves de stock OK; buenos hits PD — Documerica 1973, supermercado Bergs 1950, Corolla 73, rendición). Falta (Usuario 001): elegir candidatos en el HTML, generar las 19 imágenes IA, pegar rutas, «Finalizar Stage 7». |
+| E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 9 | exportado | 12 | timeline guardada · 0 correcciones + render 4K en cola |
+| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 7 | abierto | 4 | 2026-09-11: Stage 6 escrito (`06-shotlist.md`, 133 beats). Pase de estilo simplificado — se quitó la caja de «Intro» (confundía «sin fila»); ahora **0 beats sin fila**, cada uno con su propio recurso o candidatos. Falta (Usuario 001): elegir candidatos en `07-style-pass.html`, generar las 19 imágenes IA, «Finalizar Stage 7». |
 
 ## Reglas
 
