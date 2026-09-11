@@ -140,6 +140,40 @@ class H(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(b)
 
+    UPLOAD_MAX = 2 * 1024 * 1024 * 1024   # 2 GB — a raw 4K still/clip fits, a mistaken pick doesn't hang the box
+    UPLOAD_SUBDIRS = {"custom", "ai", "music"}
+
+    def _upload(self, qs):
+        """«Examinar…» buttons in 07-style-pass.html: saves a local file the
+        user picked straight into the episode's assets/ (no filesystem path
+        ever needed in the browser — that's what makes this necessary; JS
+        can't read a real local path from <input type=file>, only its bytes).
+        Returns the relative path the style-pass JS drops into that beat's
+        «recurso propio» input, same as if it had been typed by hand."""
+        ep = (qs.get("ep") or [""])[0]
+        name = (qs.get("name") or ["archivo"])[0]
+        sub = (qs.get("sub") or ["custom"])[0]
+        if sub not in self.UPLOAD_SUBDIRS:
+            sub = "custom"
+        n = int(self.headers.get("Content-Length", 0) or 0)
+        epp = P.ep_path(ep)
+        if not ep or not epp.is_dir():
+            return self._send(404, json.dumps({"error": f"episodio «{ep}» no encontrado"}))
+        if n <= 0 or n > self.UPLOAD_MAX:
+            return self._send(400, json.dumps({"error": "tamaño de archivo inválido (0 o > 2 GB)"}))
+        body = self.rfile.read(n)
+        safe = re.sub(r"[^A-Za-z0-9_.-]", "_", unquote(name)).lstrip(".") or "archivo"
+        dst_dir = epp / "assets" / sub
+        dst_dir.mkdir(parents=True, exist_ok=True)
+        dst, i = dst_dir / safe, 1
+        while dst.exists():
+            dst = dst_dir / f"{Path(safe).stem}_{i}{Path(safe).suffix}"
+            i += 1
+        dst.write_bytes(body)
+        rel = f"assets/{sub}/{dst.name}"
+        return self._send(200, json.dumps({"ok": True, "path": rel,
+                                           "size_mb": round(len(body) / (1024 * 1024), 1)}))
+
     def do_OPTIONS(self):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -250,12 +284,21 @@ class H(BaseHTTPRequestHandler):
         self._send(200, html, MIME[".html"])
 
     def do_POST(self):
+        raw_path = self.path
+        path = raw_path.split("?")[0]
+
+        if path == "/upload":
+            # a "browse..." button's file picker: the body IS the file's raw
+            # bytes (fetch(url, {method:'POST', body: file})) — not JSON, so
+            # this has to be handled before the generic JSON read below.
+            qs = parse_qs(raw_path.split("?", 1)[1]) if "?" in raw_path else {}
+            return self._upload(qs)
+
         n = int(self.headers.get("Content-Length", 0))
         try:
             data = json.loads(self.rfile.read(n) or b"{}")
         except json.JSONDecodeError:
             return self._send(400, json.dumps({"error": "bad json"}))
-        path = self.path.split("?")[0]
         ep = data.get("ep")
 
         if path == "/picks":

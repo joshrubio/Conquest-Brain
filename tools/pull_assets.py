@@ -814,6 +814,14 @@ def build_html(slug, groups, ai_prompts=("", []), music=None,
  .beatcustom>span{{opacity:.8}}
  .beatcustom .bcust,.beatcustom input{{margin-top:.35rem}}
  section:has(.bcust:not(:placeholder-shown)) .grid{{opacity:.4}}
+ .pathrow{{display:flex;gap:.4rem;align-items:center;min-width:0}}
+ .pathrow>input:not([type=file]){{flex:1;min-width:0}}
+ .browse{{flex:none;font-size:.72rem;padding:.4rem .65rem;border-radius:6px;
+   border:1px solid var(--line-2);background:var(--surface-2);color:inherit;
+   cursor:pointer;white-space:nowrap}}
+ .browse:hover{{border-color:var(--line);background:var(--bg-2)}}
+ .browse:disabled{{opacity:.6;cursor:wait}}
+ .mown .pathrow{{min-width:0}}
  .mtrk{{display:grid;grid-template-columns:20px minmax(180px,1fr) auto 320px auto;
    gap:.9rem;align-items:center;padding:.55rem .3rem;border-bottom:1px solid var(--line);
    font-size:.82rem;cursor:pointer}}
@@ -962,6 +970,42 @@ mown.forEach((d,ix)=>{{const s=initMO[ix]||{{}};
 const initA=jget(LSA,{{}});
 aip.forEach(i=>{{if(initA[i.dataset.ai])i.value=initA[i.dataset.ai];
   i.addEventListener('input',syncA)}});
+
+// «Examinar…» — a browse button next to every path input. A browser can't
+// hand JS a real local filesystem path (<input type=file> only exposes the
+// bytes), so the picked file is uploaded straight to the local server and
+// the returned relative path is what lands in the text input — same as
+// pasting one by hand.
+function wireBrowse(selector, accept, sub){{
+  document.querySelectorAll(selector).forEach(inp=>{{
+    if(inp.dataset.browseWired)return; inp.dataset.browseWired='1';
+    const wrap=document.createElement('span'); wrap.className='pathrow';
+    inp.parentNode.insertBefore(wrap,inp); wrap.appendChild(inp);
+    const file=document.createElement('input');
+    file.type='file'; file.hidden=true; if(accept)file.accept=accept;
+    const btn=document.createElement('button');
+    btn.type='button'; btn.className='browse'; btn.textContent='Examinar…';
+    wrap.appendChild(file); wrap.appendChild(btn);
+    btn.onclick=()=>file.click();
+    file.onchange=async()=>{{
+      const f=file.files[0]; if(!f)return;
+      const prev=btn.textContent; btn.disabled=true; btn.textContent='subiendo…';
+      try{{
+        const url='http://localhost:8765/upload?ep='+encodeURIComponent(SLUG.slice(0,4))
+          +'&name='+encodeURIComponent(f.name)+'&sub='+sub;
+        const r=await fetch(url,{{method:'POST',body:f}});
+        const j=await r.json().catch(()=>({{}}));
+        if(!r.ok){{alert(j.error||('server '+r.status));return;}}
+        inp.value=j.path; inp.dispatchEvent(new Event('input',{{bubbles:true}}));
+      }}catch(e){{alert('No se pudo subir — ¿está corriendo el servidor local? (tools/serve.py)');}}
+      finally{{btn.disabled=false; btn.textContent=prev; file.value='';}}
+    }};
+  }});
+}}
+wireBrowse('.bcust','image/*,video/*','custom');
+wireBrowse('.aipath','image/*','ai');
+wireBrowse('.mopath','audio/*','music');
+
 sync(); syncA();
 document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{{
   navigator.clipboard.writeText(b.previousElementSibling.textContent.trim());
