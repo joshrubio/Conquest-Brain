@@ -24,12 +24,19 @@
 Ajusta los tramos a este episodio. La narrativa es periodística y cronológica (`brain/02`);
 el cierre no puede ser el motivo de haber elegido el caso.
 
+**Si Track = Ensayo** (`brain/20 §3`): la narrativa es el **andamio de la obra**
+(trama en presente, escena por escena), pero el hilo es la lectura, no el recap;
+la reflexión va como **interludio constante**, no solo en el cierre.
+
 ---
 
 ## Beats
 
 Un beat = una unidad de sentido (≈ 10–45 s). En orden de emisión. Marca en la columna
 de nota: **HOOK**, **PROMISE n/N**, **PAY n/N**, **EXPLICADOR n**, y los rótulos de salvedad.
+**Ensayo:** además **CITA n** en el beat donde entra una autoridad nombrada
+(psicólogo/teórico/tradición) — ≤1 cada ~3-4 min, presentada por el beat anterior,
+**nunca dos CITA seguidas** (`brain/20 §3`, `brain/09 §Ensayo`).
 
 | # | Sección | Beat | ~min | Fuente | Nota de artesanía |
 |---|---------|------|------|--------|-------------------|
@@ -37,7 +44,7 @@ de nota: **HOOK**, **PROMISE n/N**, **PAY n/N**, **EXPLICADOR n**, y los rótulo
 | 2 | 0 · Cold open | … | | [S..] | |
 | 3 | 0 · Cold open | … | | [S..] | **HOOK** — se paga en el cierre (beat …). |
 | 4 | 0 · Cold open | Bisagra: «para entender esto hay que ver …» | | — | |
-| 5 | 0b · Bumper | Negro, marca `Conquest`, «Soy [nombre]» | | — | 3–5 s. Sin animación de logo. |
+| 5 | 0b · Bumper | Negro, marca `Conquest`, «Hola, mi nombre es [nombre], y esto es Conquest» (fraseo fijo) | | — | 3–5 s. Sin animación de logo. |
 | 6 | 1 · Pivote | Nace / empieza — sitúa a la persona en el tiempo y el lugar | | [S..] | «Para situarnos.» |
 | 7 | 1 · Pivote | La época: qué hay que saber del mundo para entender la historia | | [S..] | |
 | 8 | 1 · Pivote | **EXPLICADOR 1** — el concepto que hace falta antes de seguir | | [S..] | ~120–160 palabras. Entrada/salida señalizadas. |
@@ -49,7 +56,7 @@ de nota: **HOOK**, **PROMISE n/N**, **PAY n/N**, **EXPLICADOR n**, y los rótulo
 | … | 3 · Cierre <A/B/C> | Contra-tesis / bisagra al significado | | — | Marco interpretativo obligatorio. |
 | … | 3 · Cierre | El mecanismo, nombrado en general + literatura/fuente citada (`brain/09` A6) | | [S..] | **Registro:** … `[S..]` = la literatura, no un estudio único del caso. |
 | … | 3 · Cierre · para llevar | Una idea, ≤ 90 s (solo forma A) | | — | ¿se deduce del caso sin forzar? |
-| … | 4 · CTA coda | «Si estas historias te sirven, suscríbete.» Fuentes en la descripción | ~10 s | — | |
+| … | 4 · CTA coda | «Si estas historias te sirven, suscríbete.» → sign-off fijo «Mi nombre es [nombre] y esto fue: …» Fuentes en la descripción | ~10 s | — | |
 
 > Numera de corrido al rellenar. Borra las filas de ejemplo que no uses.
 
@@ -83,6 +90,7 @@ Presupuesto total de explicadores < ~15% de las palabras del episodio.
 - [ ] Cierre: mecanismo nombrado en general + fuente de la literatura, no un estudio único (`brain/09` A6)
 - [ ] ≤ 2 registros en el cierre (`brain/09`); ideas filosóficas/religiosas atribuidas a un pensador/escuela/tradición
 - [ ] La estructura se sostiene sin estirar los hechos; el cierre es honesto con el caso
-- [ ] Sin película dramatizada ni fuente secundaria débil como columna
+- [ ] Sin película dramatizada ni fuente secundaria débil como columna *(Ensayo: los clips citados bajo `brain/20 §4` no cuentan como esto — son el objeto de comentario, no un andamiaje prestado)*
 - [ ] Cifras dudosas marcadas para rótulo de salvedad
-- [ ] Sujeto: figura pública / caso histórico / empresa documentada — sin persona privada
+- [ ] Sujeto: figura pública / caso histórico / empresa documentada — sin persona privada *(o, Ensayo, una obra estrenada y su recepción documentada — `brain/00` #1)*
+- [ ] (Ensayo) Los `CITA n` están repartidos — ninguno consecutivo, ≤1 cada ~3-4 min

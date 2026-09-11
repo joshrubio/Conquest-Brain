@@ -33,12 +33,19 @@ authority: template
 Ajusta los tramos a este episodio. La narrativa es periodística y cronológica (`brain/02`);
 el cierre no puede ser el motivo de haber elegido el caso.
 
+**Si Track = Ensayo** (`brain/20 §3`): la narrativa es el **andamio de la obra**
+(trama en presente, escena por escena), pero el hilo es la lectura, no el recap;
+la reflexión va como **interludio constante**, no solo en el cierre.
+
 ---
 
 ## Beats
 
 Un beat = una unidad de sentido (≈ 10–45 s). En orden de emisión. Marca en la columna
 de nota: **HOOK**, **PROMISE n/N**, **PAY n/N**, **EXPLICADOR n**, y los rótulos de salvedad.
+**Ensayo:** además **CITA n** en el beat donde entra una autoridad nombrada
+(psicólogo/teórico/tradición) — ≤1 cada ~3-4 min, presentada por el beat anterior,
+**nunca dos CITA seguidas** (`brain/20 §3`, `brain/09 §Ensayo`).
 
 | # | Sección | Beat | ~min | Fuente | Nota de artesanía |
 |---|---------|------|------|--------|-------------------|
@@ -92,6 +99,7 @@ Presupuesto total de explicadores < ~15% de las palabras del episodio.
 - [ ] Cierre: mecanismo nombrado en general + fuente de la literatura, no un estudio único (`brain/09` A6)
 - [ ] ≤ 2 registros en el cierre (`brain/09`); ideas filosóficas/religiosas atribuidas a un pensador/escuela/tradición
 - [ ] La estructura se sostiene sin estirar los hechos; el cierre es honesto con el caso
-- [ ] Sin película dramatizada ni fuente secundaria débil como columna
+- [ ] Sin película dramatizada ni fuente secundaria débil como columna *(Ensayo: los clips citados bajo `brain/20 §4` no cuentan como esto — son el objeto de comentario, no un andamiaje prestado)*
 - [ ] Cifras dudosas marcadas para rótulo de salvedad
-- [ ] Sujeto: figura pública / caso histórico / empresa documentada — sin persona privada
+- [ ] Sujeto: figura pública / caso histórico / empresa documentada — sin persona privada *(o, Ensayo, una obra estrenada y su recepción documentada — `brain/00` #1)*
+- [ ] (Ensayo) Los `CITA n` están repartidos — ninguno consecutivo, ≤1 cada ~3-4 min
