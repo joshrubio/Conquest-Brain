@@ -18,6 +18,7 @@ authority: template
 | Fecha del brief | AAAA-MM-DD |
 | Autor del brief | Usuario 002 / Usuario 001 |
 | Track | Documental / Ensayo (`ideas/tracks.md`) |
+| Modo (solo si Ensayo, `brain/20 §1`) | A obra como sujeto / B obra como cita / C obra como suceso |
 | Hook-title elegido (`brain/13`) | … |
 | Guionista | Usuario 001 |
 | Narrador asignado | Usuario 002 / Usuario 001 |
@@ -26,14 +27,19 @@ authority: template
 
 ## Sujeto
 
-- **Figura pública / caso histórico / empresa-práctica:** …
+- **Figura pública / caso histórico / empresa-práctica / obra (Ensayo):** …
 - **Época / lugar:** …
 - **Resumen en 3 frases:** …
+
+### Obra (solo si Track = Ensayo)
+
+- **Título, año, director/estudio, distribuidora:** …
+- **Vía de copia lícita:** …
 
 ## Elegibilidad (resumen de la rúbrica — ver `ideas/idea-rubric.md`)
 
 - [ ] Track asignado + hook-title redactado (`brain/13`)
-- [ ] Cross-check de contenido disponible hecho — hay material de dominio público (`brain/12`)
+- [ ] Cross-check de contenido disponible hecho — Documental: hay material de dominio público (`brain/12`). Ensayo: feasibility de `brain/20 §4.0`.
 - [ ] Registro público documentado
 - [ ] Fuentes Tier A/B localizadas (mínimo 3, listadas abajo)
 - [ ] Nadie que Usuario 001 o Usuario 002 conozcan personalmente involucrado / identificable
@@ -66,7 +72,9 @@ Una frase: ¿de qué trata realmente este episodio?
 | 2 | | | | |
 | 3 | | | | |
 
-## Cross-check de contenido disponible (`brain/12`) — resumen
+## Cross-check de contenido disponible
+
+**Documental** (`brain/12`) — resumen:
 
 | Necesidad | ¿Hay? | Archivo + ref | Derechos | Si no hay |
 |-----------|-------|---------------|----------|-----------|
@@ -77,6 +85,11 @@ Una frase: ¿de qué trata realmente este episodio?
 | Datos para gráficos | | | | |
 
 - ¿Menos del ~30% sería "narrador sobre fondo negro"? Sí/No →  si Sí, la idea falla E8.
+
+**Ensayo** (`brain/20 §4.0`) — feasibility en 3 líneas en vez de la tabla:
+- Copia lícita: …
+- Fuentes para la lectura (≥3 Tier A/B — crítica, entrevistas, making-of, beca): …
+- Presupuesto de clips viable dentro de §4.4: Sí/No
 
 ## Riesgos
 
