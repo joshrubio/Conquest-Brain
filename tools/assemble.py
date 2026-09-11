@@ -78,7 +78,7 @@ SCHEMA_CURRENT = 2
 KIND_DIR = {"archivo": "archive", "stock": "stock", "kb": "kb", "ia": "ai",
             "gráfico": "graphic", "grafico": "graphic", "negro": None,
             "acamara": None, "a-cámara": None, "a-camara": None, "narrador": None}
-ASSET_SUBDIRS = ("kb", "stock", "video", "intro", "archive", "ai", "graphic", "thumb")
+ASSET_SUBDIRS = ("kb", "stock", "video", "intro", "archive", "ai", "graphic", "thumb", "cite")
 MEDIA_EXT = (".mp4", ".mov", ".webm", ".png", ".jpg", ".jpeg", ".webp", ".tif", ".tiff", ".gif")
 STILL_EXT = (".png", ".jpg", ".jpeg", ".webp", ".tif", ".tiff", ".gif")
 MOTIONS = {"push", "pan-h", "pan-v", "static", "zoom", "cut"}
