@@ -5,5 +5,30 @@
 # música propia: col4 = título · autor · col5 = licencia (CC0/CC-BY/CC-BY-SA) · col6 = página
 # --- BEATS ---
 2	custom:2	https://www.pexels.com/download/video/32063955/
-3	pexelsv:38836318	https://videos.pexels.com/video-files/38836318/16509043_1920_1080_25fps.mp4
+3	custom:3	https://www.pexels.com/download/video/10121747/
 5	commons:133224482	https://upload.wikimedia.org/wikipedia/commons/d/d1/Anonymous%2C_Engine_line_of_Ford_Motor_Company_of_Canada%2C_c_1937.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+25	commons:6044645	https://upload.wikimedia.org/wikipedia/commons/a/ac/Japanese_civilians_listening_to_the_surrender_broadcast.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+29	pixabay:350376	https://pixabay.com/get/g8025c8723898e868e61e15c1c5f7fa772df90423b72b45e28c1afa234d342503d00ee516a6a135b915827397561b159f23ac39fff509756d22d8274deabf87c2_1280.jpg
+35	commons:152655585	https://upload.wikimedia.org/wikipedia/commons/7/70/Road_choked_with_US_and_Australian_military_vehicles.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+43	commons:17099316	https://upload.wikimedia.org/wikipedia/commons/4/48/HOT_METAL_ON_AN_ASSEMBLY_LINE_AT_THE_FORD_FOUNDRY_IN_DEARBORN_-_NARA_-_549695.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+45	pexels:7018662	https://images.pexels.com/photos/7018662/pexels-photo-7018662.jpeg
+47	commons:139506	https://upload.wikimedia.org/wikipedia/commons/8/8d/River_Rouge_aerial_4a25915r.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+50	commons:139506	https://upload.wikimedia.org/wikipedia/commons/8/8d/River_Rouge_aerial_4a25915r.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+52	commons:139506	https://upload.wikimedia.org/wikipedia/commons/8/8d/River_Rouge_aerial_4a25915r.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+74	commons:28067171	https://upload.wikimedia.org/wikipedia/commons/1/1f/People_serving_themselves_at_the_Bergs_Supermarket_meat_section%2C_circa_1950_%286327551210%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+76	commons:28067171	https://upload.wikimedia.org/wikipedia/commons/1/1f/People_serving_themselves_at_the_Bergs_Supermarket_meat_section%2C_circa_1950_%286327551210%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+77	unsplash:AXBtbNQOAZw	https://images.unsplash.com/photo-1777621285403-dfd034d65e64?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8dmludGFnZSUyMGdyb2NlcnklMjBzdG9yZSUyMHNoZWx2ZXMlMjBjYW5uZWQlMjBnb29kc3xlbnwwfHx8fDE3ODkwODA2OTF8MA&ixlib=rb-4.1.0&q=90&fm=jpg
+81	unsplash:AXBtbNQOAZw	https://images.unsplash.com/photo-1777621285403-dfd034d65e64?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8dmludGFnZSUyMGdyb2NlcnklMjBzdG9yZSUyMHNoZWx2ZXMlMjBjYW5uZWQlMjBnb29kc3xlbnwwfHx8fDE3ODkwODA2OTF8MA&ixlib=rb-4.1.0&q=90&fm=jpg
+97	commons:17082264	https://upload.wikimedia.org/wikipedia/commons/5/5d/GASOLINE_SHORTAGE_-_NARA_-_548053.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+98	commons:17082264	https://upload.wikimedia.org/wikipedia/commons/5/5d/GASOLINE_SHORTAGE_-_NARA_-_548053.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+106	commons:5963985	https://upload.wikimedia.org/wikipedia/commons/e/ef/1973_Toyota_Corolla_Deluxe_coup%C3%A9_%28KE25-D%29_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+108	pexelsv:34126231	https://videos.pexels.com/video-files/34126231/14470464_3840_2160_24fps.mp4
+126	pexelsv:34126231	https://videos.pexels.com/video-files/34126231/14470464_3840_2160_24fps.mp4
+# --- IA generada ---
+1	ai:ai01	assets/ai/ChatGPT_Image_11_sept_2026__17_42_07__1_.png
+4	ai:ai09	assets/ai/ChatGPT_Image_11_sept_2026__17_42_11__7_.png
+8	ai:ai02	assets/ai/ChatGPT_Image_11_sept_2026__17_42_07__2_.png
+12	ai:ai03	assets/ai/ChatGPT_Image_11_sept_2026__17_42_08__3_.png
+15	ai:ai04	assets/ai/ChatGPT_Image_11_sept_2026__17_42_10__6_.png
+18	ai:ai05	assets/ai/ChatGPT_Image_11_sept_2026__17_42_08__4_.png
+21	ai:ai06	assets/ai/ChatGPT_Image_11_sept_2026__17_42_09__5_.png
