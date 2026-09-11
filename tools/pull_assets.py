@@ -895,10 +895,11 @@ def build_html(slug, groups, ai_prompts=("", []), music=None,
  <h1>Style pass · {esc(slug)}</h1>
  <span id="cnt">0 / {total} beats</span>
  <span id="aicnt"></span>
- <button class="primary" id="exp">Finalizar Stage 7</button>
+ <button id="exp">Guardar</button>
+ <button class="primary" id="close">Finalizar Stage 7</button>
  <button id="clr">Limpiar</button>
  <a class="btn ghost" id="assets" href="http://localhost:8765/episodes/{slug}/assets/" target="_blank">Carpeta de recursos</a>
- <span class="small" style="opacity:.7">al finalizar se descargan los recursos elegidos ahí</span>
+ <span class="small" style="opacity:.7">«Guardar» descarga los recursos elegidos, sin cerrar el stage · «Finalizar» descarga y pliega el gate (avanza el pipeline)</span>
  <a class="btn ghost spacer" href="http://localhost:8765/">Volver al panel</a>
 </header>
 <div class="wrap">
@@ -1018,7 +1019,7 @@ document.getElementById('clr').onclick=()=>{{
   bcust.forEach(i=>i.value=''); aip.forEach(i=>i.value='');
   sync(); syncA();
 }};
-document.getElementById('exp').onclick=async()=>{{
+function buildTxt(){{
   const L=['# {PICKS_F} — generado por {PASS_HTML}',
            '# col1: <beat> | "music"',
            '# col2: source:id | custom:<beat> (música propia) | ai:id',
@@ -1041,27 +1042,56 @@ document.getElementById('exp').onclick=async()=>{{
     if(!m){{alert('Falta «título · autor» en una pista propia — es obligatorio para el crédito.');}}
     mus.push(['music','custom:'+d.dataset.slot,p,m,l,g].join('\\t'));}});
   if(mus.length){{L.push('# --- MÚSICA (consideración; brand/assets/music/) ---'); L.push(...mus);}}
-  const txt=L.join('\\n')+'\\n';
-  // 1: write 07-picks.txt + --download via the server (no depende del stage).
+  return L.join('\\n')+'\\n';
+}}
+function offerLocalSave(txt){{
+  (async()=>{{
+    try{{
+      const fh=await window.showSaveFilePicker({{suggestedName:'{PICKS_F}',
+        types:[{{description:'texto',accept:{{'text/plain':['.txt']}}}}]}});
+      const w=await fh.createWritable(); await w.write(txt); await w.close();
+      alert('Guardado (server no detectado). Corre:  python tools/pull_assets.py '+SLUG+' --download');
+      return;
+    }}catch(e){{if(e&&e.name==='AbortError')return;}}
+    navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{{}});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([txt],{{type:'text/plain'}}));
+    a.download='{PICKS_F}'; a.click();
+  }})();
+}}
+document.getElementById('exp').onclick=async()=>{{
+  // «Guardar»: escribe 07-picks.txt + descarga los recursos elegidos. NO
+  // cierra el stage — se puede pulsar tantas veces como haga falta mientras
+  // se sigue eligiendo.
+  const txt=buildTxt();
   try{{
     const r=await fetch('http://localhost:8765/picks',{{method:'POST',
       headers:{{'content-type':'application/json'}},
       body:JSON.stringify({{ep:SLUG.slice(0,4),payload:{{txt:txt}}}})}});
     if(r.ok){{const j=await r.json();
-      alert('Guardado — descargando recursos.\\n'+(j.msg||'')+'\\nPanel actualizado.');return;}}
+      alert('Guardado — descargando recursos.\\n'+(j.msg||'')+'\\nStage 7 sigue abierto; pulsa «Finalizar Stage 7» cuando termines.');return;}}
     const j=await r.json().catch(()=>({{}})); alert(j.error||('server '+r.status));
   }}catch(e){{}}
+  offerLocalSave(txt);
+}};
+document.getElementById('close').onclick=async()=>{{
+  // «Finalizar Stage 7»: guarda + descarga + pliega el gate de verdad
+  // (advance.py fold) — no hace falta esperar al siguiente tick del loop,
+  // el fold del Stage 7 es mecánico (solo descarga lo ya elegido).
+  const txt=buildTxt();
+  if(!confirm('¿Finalizar Stage 7? Guarda los picks, descarga los recursos y cierra el gate.'))return;
   try{{
-    const fh=await window.showSaveFilePicker({{suggestedName:'{PICKS_F}',
-      types:[{{description:'texto',accept:{{'text/plain':['.txt']}}}}]}});
-    const w=await fh.createWritable(); await w.write(txt); await w.close();
-    alert('Guardado (server no detectado). Corre:  python tools/pull_assets.py '+SLUG+' --download');
-    return;
-  }}catch(e){{if(e&&e.name==='AbortError')return;}}
-  navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{{}});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([txt],{{type:'text/plain'}}));
-  a.download='{PICKS_F}'; a.click();
+    const r=await fetch('http://localhost:8765/finish',{{method:'POST',
+      headers:{{'content-type':'application/json'}},
+      body:JSON.stringify({{ep:SLUG.slice(0,4),stage:7,payload:{{txt:txt}}}})}});
+    const j=await r.json().catch(()=>({{}}));
+    if(r.ok){{alert('Stage 7 finalizado.\\n'+(j.msg||'')+'\\nPanel actualizado.');return;}}
+    if(r.status===409){{alert(j.msg||j.error||'no se pudo finalizar');return;}}
+    alert(j.error||('server '+r.status));
+  }}catch(e){{
+    alert('No se pudo finalizar — ¿está corriendo el servidor local? (tools/serve.py)');
+    offerLocalSave(txt);
+  }}
 }};
 </script></body></html>
 """
@@ -1388,12 +1418,15 @@ def _audio_ext(data):
 
 
 def _dl_music(key, url, mmeta):
-    """Download a considered track into brand/assets/music/ + log its licence."""
+    """Download a considered track into brand/assets/music/ + log its licence.
+    Returns (filename, meta) for the caller to record in this episode's own
+    07-selection.md — brand/assets/music/ is a pool shared across episodes,
+    so that's the only place that knows *this* episode picked *this* file."""
     MUSIC_DIR.mkdir(parents=True, exist_ok=True)
     data, _ = _fetch(url, "music")
     if data is None:
         print(f"  FALLO  música {key}  (sin descarga)")
-        return
+        return None
     m = mmeta.get(key, {})
     safe = re.sub(r"[^A-Za-z0-9]+", "-", m.get("title", key)).strip("-").lower()[:40] or "track"
     fn = MUSIC_DIR / f"{key.replace(':', '_')}_{safe}{_audio_ext(data)}"
@@ -1409,6 +1442,7 @@ def _dl_music(key, url, mmeta):
             + " — atribución obligatoria en 09-description.md")
     if line not in prev:
         lf.write_text(prev.rstrip() + "\n" + line + "\n", encoding="utf-8")
+    return fn.name, m
 
 
 def download(slug):
@@ -1417,7 +1451,7 @@ def download(slug):
     ep = EP_DIR / slug
     ai_fname = {p["id"]: p["fname"] for p in parse_ai_prompts(slug)[1]}
     mmeta = {m["key"]: m for m in parse_music()}
-    beat_rows, ai_rows, credits = [], [], []
+    beat_rows, ai_rows, credits, music_rows = [], [], [], []
 
     for beat, src, cid, url, meta in picks:
         if beat.lower() == "music":
@@ -1438,9 +1472,13 @@ def download(slug):
                 if not own["title"]:
                     print(f"  SALTADA  música propia {url}  — falta «título · autor» para el crédito")
                     continue
-                _dl_music(f"custom:{cid}", url, {f"custom:{cid}": own})
+                r = _dl_music(f"custom:{cid}", url, {f"custom:{cid}": own})
             else:
-                _dl_music(f"{src}:{cid}", url, mmeta)
+                r = _dl_music(f"{src}:{cid}", url, mmeta)
+            if r:
+                fname, m = r
+                music_rows.append((m.get("title", ""), m.get("artist", ""),
+                                    m.get("lic", ""), f"brand/assets/music/{fname}"))
             continue
 
         if src == "ai":
@@ -1491,7 +1529,7 @@ def download(slug):
         beat_rows.append((beat, f"{src}:{cid}", final, dim, rel))
         credits.append(f"- {beat}: {src}:{cid} — {final if final.startswith('http') else '(archivo propio)'}")
 
-    _write_selection(ep, slug, beat_rows, ai_rows)
+    _write_selection(ep, slug, beat_rows, ai_rows, music_rows)
     if credits:
         cf = ep / "assets" / "CREDITS.md"
         cf.parent.mkdir(parents=True, exist_ok=True)
@@ -1500,7 +1538,7 @@ def download(slug):
         print(f"\ncréditos    → episodes/{slug}/assets/CREDITS.md")
 
 
-def _write_selection(ep, slug, beat_rows, ai_rows):
+def _write_selection(ep, slug, beat_rows, ai_rows, music_rows=None):
     L = [f"# Selección — Stage 7 style pass · {slug}", "",
          f"> Generado por `pull_assets.py --download` desde `{PICKS_F}`. "
          f"Este es el registro de decisiones del pase; se pliega en `07-assets.md`.", ""]
@@ -1513,6 +1551,16 @@ def _write_selection(ep, slug, beat_rows, ai_rows):
         L += ["## Ilustración IA (rótulo «Ilustración — Conquest» en pantalla)", "",
               "| Beat | id | Res. | Archivo |", "|------|----|------|---------|"]
         L += [f"| {b} | {s.split(':', 1)[1]} | {d} | `{p}` |" for b, s, _u, d, p in ai_rows]
+        L += [""]
+    if music_rows:
+        L += ["## Música", "",
+              "> En este orden — Stage 9 las pone en cola una detrás de otra y repite la "
+              "secuencia completa en bucle hasta cubrir todo el vídeo (una sola pista: "
+              "bucle simple; dos o más: bucle de la secuencia).", "",
+              "| # | Título | Autor | Licencia | Archivo |",
+              "|---|--------|-------|----------|---------|"]
+        L += [f"| {i} | {t or '—'} | {a or '—'} | {lic or '—'} | `{p}` |"
+              for i, (t, a, lic, p) in enumerate(music_rows, 1)]
         L += [""]
     (ep / SELECTION_F).write_text("\n".join(L) + "\n", encoding="utf-8")
     print(f"\nselección   → episodes/{slug}/{SELECTION_F}")

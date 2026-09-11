@@ -16,6 +16,7 @@ Usage
   python tools/package_review.py E0XX-slug
 """
 import csv
+import hashlib
 import html as _h
 import re
 import sys
@@ -109,6 +110,7 @@ def build(ep, slug):
     titles = title_candidates(ep)
     desc = description_text(ep)
     fuentes = fuentes_block(ep)
+    src_hash = hashlib.sha1(("".join(titles) + desc).encode("utf-8")).hexdigest()[:12]
     thumbs = []
     td = ep / "assets" / "thumb"
     if td.is_dir():
@@ -158,6 +160,7 @@ def build(ep, slug):
     script = f"""
 const EPID={slug[:4]!r}; const STAGE=10;
 const LS="conquest-package:{e(slug)}";
+const HASH={src_hash!r};
 const $=s=>document.querySelector(s);
 function state(){{
   return {{
@@ -170,10 +173,15 @@ function state(){{
   }};
 }}
 function sync(){{
-  const s=state(); localStorage.setItem(LS,JSON.stringify(s));
+  const s=state(); localStorage.setItem(LS,JSON.stringify(Object.assign({{__h:HASH}},s)));
   $('.count').textContent=s.ok.length+' / 3 aprobados';
 }}
-const i=jget(LS,null);
+const {{fresh:i,hadStale}}=freshLocal(LS,HASH);
+if(hadStale){{
+  const note=document.createElement('p'); note.className='muted small';
+  note.textContent='⚠ Se descartó un borrador local de una versión anterior de este stage (el título/miniatura/descripción cambiaron desde tu última visita) — esto es lo recién generado.';
+  document.querySelector('main').prepend(note);
+}}
 if(i){{
   if(i.t){{const r=document.querySelector('input[name=titulo][value="'+CSS.escape(i.t)+'"]'); if(r)r.checked=true;}}
   if(i.to)$('#titulo_otro').value=i.to;

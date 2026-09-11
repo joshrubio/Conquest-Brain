@@ -174,6 +174,37 @@ class H(BaseHTTPRequestHandler):
         return self._send(200, json.dumps({"ok": True, "path": rel,
                                            "size_mb": round(len(body) / (1024 * 1024), 1)}))
 
+    RECORD_UPLOAD_MAX = 8 * 1024 * 1024 * 1024   # 8 GB — a raw talking-head take runs bigger than a style-pass asset
+
+    def _record_upload(self, qs):
+        """Stage 8's upload dialog («Ver más» on its stage-strip tile): saves
+        the picked take straight into the episode's assets/ as <EPID>-vo.<ext>
+        — the name every later tool (trim_talk.py, assemble.py --seed) expects
+        — then folds the gate the same way «Marcar hecho» (/human) does and
+        advances straight to Stage 9. One click, no filesystem path typed."""
+        ep = (qs.get("ep") or [""])[0]
+        name = (qs.get("name") or ["toma.mp4"])[0]
+        n = int(self.headers.get("Content-Length", 0) or 0)
+        epp = P.ep_path(ep)
+        if not ep or not epp.is_dir():
+            return self._send(404, json.dumps({"error": f"episodio «{ep}» no encontrado"}))
+        if n <= 0 or n > self.RECORD_UPLOAD_MAX:
+            return self._send(400, json.dumps({"error": "tamaño de archivo inválido (0 o > 8 GB)"}))
+        body = self.rfile.read(n)
+        ext = Path(unquote(name)).suffix.lower()
+        if ext not in (".mp4", ".mov", ".webm", ".mkv", ".avi"):
+            ext = ".mp4"
+        dst_dir = epp / "assets"
+        dst_dir.mkdir(parents=True, exist_ok=True)
+        dst = dst_dir / f"{ep}-vo{ext}"
+        replaced = dst.exists()
+        dst.write_bytes(body)
+        P.set_ep(ep, gate="firmado")
+        msg = _run(["advance.py", "next", ep])
+        note = f"{dst.name} guardado" + (" (reemplazó una toma anterior)" if replaced else "")
+        return self._send(200, json.dumps({"ok": True,
+            "msg": f"{note} · {round(len(body) / (1024 * 1024))} MB · {msg}"}))
+
     def do_OPTIONS(self):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -287,12 +318,12 @@ class H(BaseHTTPRequestHandler):
         raw_path = self.path
         path = raw_path.split("?")[0]
 
-        if path == "/upload":
+        if path in ("/upload", "/record-upload"):
             # a "browse..." button's file picker: the body IS the file's raw
             # bytes (fetch(url, {method:'POST', body: file})) — not JSON, so
             # this has to be handled before the generic JSON read below.
             qs = parse_qs(raw_path.split("?", 1)[1]) if "?" in raw_path else {}
-            return self._upload(qs)
+            return self._record_upload(qs) if path == "/record-upload" else self._upload(qs)
 
         n = int(self.headers.get("Content-Length", 0))
         try:
@@ -330,6 +361,8 @@ class H(BaseHTTPRequestHandler):
             canon = P.STAGE.get(stage, {}).get("export")
             if canon and payload.get("txt"):
                 (epp / canon).write_text(payload["txt"], encoding="utf-8")
+            if stage == 1 and payload.get("brief_md"):
+                (epp / "01-brief.md").write_text(payload["brief_md"], encoding="utf-8")
             if stage == 4 and payload.get("script_md"):
                 (epp / "05-script.md").write_text(payload["script_md"], encoding="utf-8")
 

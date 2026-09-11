@@ -324,7 +324,13 @@ const vid = $("#vid"), still=$("#still"), clip=$("#clip"), face=$("#face"), vo=$
 const inner=$("#inner"), vtrack=$("#vtrack"), ruler=$("#ruler"), bands=$("#bands"), scroll=$("#scroll");
 if(WAVE && $("#waveimg")) $("#waveimg").src = WAVE;
 $("#tctot").textContent = fmt(TOTAL);
-$("#musicname").textContent = (TL.music.bed||"sin pista").split("/").pop();
+(()=>{{
+  const tr = (TL.music.tracks && TL.music.tracks.length) ? TL.music.tracks : (TL.music.bed ? [TL.music.bed] : []);
+  $("#musicname").textContent = !tr.length ? "sin pista"
+    : tr.length===1 ? tr[0].split("/").pop()
+    : tr.length+" pistas en cola (bucle): "+tr.map(t=>t.split("/").pop()).join(" → ")+
+      "  · previsualización solo con la 1ª, el render mezcla todas";
+}})();
 
 // ---- live compositor: VO m4a as master clock, one still/clip on screen ----
 let MODE = vo.getAttribute("src") ? "live" : "rough";

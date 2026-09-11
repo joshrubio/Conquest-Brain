@@ -38,7 +38,7 @@ def md_to_html(md):
             tbl = []
             while i < len(lines) and lines[i].startswith("|"):
                 tbl.append(lines[i]); i += 1
-            rows = [[c.strip() for c in r.strip("|").split("|")] for r in tbl]
+            rows = [[c.strip().replace("\\|", "|") for c in re.split(r"(?<!\\)\|", r.strip("|"))] for r in tbl]
             rows = [r for r in rows if not set("".join(r)) <= set("-: ")]
             if rows:
                 th = "".join(f"<th>{fmt(c)}</th>" for c in rows[0])
@@ -124,7 +124,14 @@ def strip(epid, slug, cur, gate):
                 href = f"{P.SERVED}view?ep={epid}&f={tgt}" if (epp / tgt).exists() else ""
         inner = (f'<span class="scn">{n}</span> <b>{e(sm["name"])}</b>'
                  f'<span class="scd">{e(P.CARD.get(n, ""))}</span>')
-        if href:
+        if n == 8 and n <= cur:
+            # Stage 8 (Grabación) has no doc to read — «Ver más» opens the
+            # upload dialog (pick the take -> sube a assets/ -> pliega el gate)
+            # instead of pointing at 06-shotlist.md (OPEN[8], meant for while
+            # you're filming, not as this card's target).
+            cards.append(f'<button type="button" class="{cls}" data-rec-open="{epid}">{inner}'
+                         f'<span class="scpill">Ver más</span></button>')
+        elif href:
             cards.append(f'<a class="{cls}" href="{href}" target="_blank">{inner}'
                          f'<span class="scpill">Ver más</span></a>')
         else:
@@ -330,6 +337,32 @@ document.querySelectorAll('[data-human]').forEach(b=>b.onclick=()=>{{
   const [ep,st]=b.dataset.human.split(':'); post('/human',{{ep,stage:+st}});}});
 document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
   await post('/loop',{{state:b.dataset.loop}});}});
+
+// Stage 8 — «Ver más» opens this instead of a page: pick the take, «Subir»
+// copies it into assets/ (renamed) and pliega el gate + avanza a Edición.
+const recDlg=document.getElementById('recmodal'), recFile=document.getElementById('recfile'),
+      recBtn=document.getElementById('recupload'), recSt=document.getElementById('recstatus');
+let recEp='';
+document.querySelectorAll('[data-rec-open]').forEach(b=>b.onclick=()=>{{
+  recEp=b.dataset.recOpen;
+  document.getElementById('recep').textContent=recEp;
+  recFile.value=''; recSt.textContent=''; recBtn.disabled=true;
+  recDlg.showModal();
+}});
+document.getElementById('reccancel').onclick=()=>recDlg.close();
+recFile.onchange=()=>{{ recBtn.disabled=!recFile.files.length; }};
+recBtn.onclick=async()=>{{
+  const f=recFile.files[0]; if(!f)return;
+  recBtn.disabled=true; recSt.textContent='subiendo… ('+(f.size/1048576).toFixed(0)+' MB)';
+  try{{
+    const url='http://localhost:{P.PORT}/record-upload?ep='+encodeURIComponent(recEp)
+      +'&name='+encodeURIComponent(f.name);
+    const r=await fetch(url,{{method:'POST',body:f}});
+    const j=await r.json().catch(()=>({{}}));
+    if(r.ok){{alert('Toma subida.\\n'+(j.msg||'')+'\\nPanel actualizado.');location.reload();return;}}
+    recSt.textContent=j.error||('server '+r.status); recBtn.disabled=false;
+  }}catch(e){{recSt.textContent='El server no está corriendo (tools/serve.py).'; recBtn.disabled=false;}}
+}};
 """
     welcome = (
         '<div class="welcome"><h2>Bienvenido a <b>Conquest</b></h2>'
@@ -339,10 +372,22 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
     grid = ('<div class="epgrid">' + "".join(cards) + '</div>') if cards else (
         '<p class="muted">Ningún capítulo en producción. '
         'Añade una fila a <code>episodes/_STATUS.md</code> o aprueba una idea.</p>')
+    recmodal = (
+        '<dialog id="recmodal" class="recmodal"><form method="dialog">'
+        '<h3>Subir la toma — <span id="recep"></span></h3>'
+        '<p class="muted small">Elige el vídeo grabado (talking-head, Stage 8). Se copia a '
+        '<code>assets/&lt;EPID&gt;-vo.&lt;ext&gt;</code>, cierra el gate y avanza a Stage 9 (Edición) — '
+        'sin esperar al /loop.</p>'
+        '<input type="file" id="recfile" accept="video/*">'
+        '<p id="recstatus" class="muted small"></p>'
+        '<div class="row" style="justify-content:flex-end;gap:.5rem;margin-top:.6rem">'
+        '<button type="button" class="btn ghost" id="reccancel">Cancelar</button>'
+        '<button type="button" class="btn primary" id="recupload" disabled>Subir</button>'
+        '</div></form></dialog>')
     body = (
         welcome + _tips()
         + '<section><h2>En producción</h2>' + grid + '</section>'
-        '<section><h2>Publicados</h2>' + hist + '</section>')
+        '<section><h2>Publicados</h2>' + hist + '</section>' + recmodal)
     return T.shell("Conquest · panel", _header(), body, script)
 
 

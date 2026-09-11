@@ -53,7 +53,7 @@ def touch_loop(**fields):
 STAGES = [
     # n  key         name(ES)                     produces                                   review_html                export                fold      nxt  reads_to_generate                                                   rules
     (0,  "idea",     "Ideación",                  "fila en ideas/idea-pool.md",              "ideas/idea-review.html",  "idea-review.txt",    "mech",   1,   ["ideas/idea-pool.md"],                                              ["brain/12", "brain/13", "brain/05"]),
-    (1,  "brief",    "Brief",                     "01-brief.md",                             None,                      None,                 "claude", 2,   ["ideas/idea-pool.md"],                                              ["brain/06", "brain/13", "brain/09"]),
+    (1,  "brief",    "Brief",                     "01-brief.md",                             "01-brief.html",           None,                 "claude", 2,   ["ideas/idea-pool.md"],                                              ["brain/06", "brain/13", "brain/09"]),
     (2,  "research", "Dossier de investigación",  "02-research-dossier.md + 03-source-log.csv", "02-research.html",      "02-research.txt",     "mech",   3,   ["01-brief.md"],                                                     ["brain/01", "brain/05", "brain/12"]),
     (3,  "outline",  "Outline",                   "03-outline.md (beat sheet)",              None,                      None,                 "claude", 4,   ["02-research-dossier.md", "01-brief.md"],                            ["brain/02", "brain/09", "brain/19", "templates/outline-template.md"]),
     (4,  "script",   "Guion",                     "05-script.md",                            "05-script.html",          "05-script-pass.txt", "mech",   5,   ["03-outline.md", "02-research-dossier.md", "03-source-log.csv", "01-brief.md"], ["brain/02", "brain/08", "brain/09", "brain/13", "brain/19"]),
@@ -74,7 +74,7 @@ GATES = ("abierto", "exportado", "firmado")   # firmado = passed, ready to advan
 # what clicking a stage's card opens (relative to the episode folder).
 # a review .html if it has one; otherwise the file it produced; stage 8 -> the shotlist.
 OPEN = {
-    0: "ideas/idea-review.html", 1: "01-brief.md", 2: "02-research.html",
+    0: "ideas/idea-review.html", 1: "01-brief.html", 2: "02-research.html",
     3: "03-outline.md", 4: "05-script.html", 5: "04-factcheck-auto.md",
     6: "06-shotlist.md", 7: "07-style-pass.html", 8: "06-shotlist.md",
     9: "09-edit.html", 10: "10-package.html", 11: "10-publish-checklist.md",
@@ -251,14 +251,81 @@ PRIMARY_DOC = {1: "01-brief.md", 2: "02-research-dossier.md", 3: "03-outline.md"
 # Claude draft exists (1/3/5/6 are `claude` folds — already queued on entry).
 DRAFT_STAGES = {2: PRIMARY_DOC[2], 4: PRIMARY_DOC[4]}
 
+# stages whose doc(s) Claude can and must write BEFORE a human ever opens the
+# review page — same idea as PRIMARY_DOC/DRAFT_STAGES, just for a stage that
+# can produce *more than one* doc: "needs writing" if any doc is still the
+# blank template. Used by do_fold()/do_next() so a half-written stage (found
+# E001 this way: 09-description.md sat as the raw template) can't silently
+# reach its review page or let the gate advance past it.
+#   Only Stage 10 belongs here. 7 and 12 were tried and reverted: nothing
+# ever writes 07-assets.md (fold_assets only downloads picks; the manifest is
+# meant to be transcribed from 07-selection.md *after* a human has picked —
+# there's nothing to write the moment Stage 7 opens) or 11-retro.md (Stage 12
+# needs real YouTube analytics that don't exist until days after publish) —
+# either would have queued a "generate" task Claude can't actually complete,
+# and blocked a legitimately-finished Stage 7 fold forever. Stage 10 is
+# different: research + script + the render already exist by the time it
+# opens, so the title/description candidates are genuinely writable on entry.
+REQUIRED_DOCS = {10: ["08-thumbnail-title.md", "09-description.md"]}
+
 
 def pristine(epid, fname):
-    """True if the episode's copy of fname is missing or still byte-identical to the template."""
+    """True if the episode's copy of fname is missing or still textually
+    identical to the template. Compares as text (universal newlines), not raw
+    bytes — found via E002's 07-assets.md: shutil.copytree preserves the
+    template's CRLF at scaffold time, but something along the way (an editor,
+    git) re-saves it as LF-only with the placeholder content untouched, so a
+    byte compare said "written" for a file that was still 100% template."""
     a = ep_path(epid) / fname
     if not a.exists():
         return True
     b = TEMPLATE_DIR / fname
-    return b.exists() and a.read_bytes() == b.read_bytes()
+    if not b.exists():
+        return False
+    try:
+        return a.read_text(encoding="utf-8") == b.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        return a.read_bytes() == b.read_bytes()
+
+
+_CHAPTER_LINE = re.compile(r"^(\d+:\d{2}(?::\d{2})?)\s+(.+)$")
+
+
+def description_chapters_ok(text, min_chapters=3):
+    """True if 09-description.md's «⏱ Capítulos» block has real, distinct
+    timestamped chapters — not the blank template ('0:00 …' / '—:— Reflexión').
+    brain/07 requires chapters on every episode so the video is navigable;
+    this is what actually enforces it, not just "the file isn't the template"."""
+    m = re.search(r"⏱ Capítulos\s*\n(.*?)\n\s*\n", text, re.S)
+    if not m:
+        return False
+    seen, real = set(), 0
+    for ln in m.group(1).splitlines():
+        cm = _CHAPTER_LINE.match(ln.strip())
+        if not cm:
+            continue
+        label = cm.group(2).strip()
+        if label in ("…", "...", "") or cm.group(1) in seen:
+            continue
+        seen.add(cm.group(1))
+        real += 1
+    return real >= min_chapters
+
+
+def stage_needs_writing(epid, stage):
+    """True if a stage in REQUIRED_DOCS hasn't actually been written yet —
+    any of its docs still pristine, or (Stage 10) the description's chapters
+    are still the blank placeholder rather than real timestamps."""
+    docs = REQUIRED_DOCS.get(stage)
+    if not docs:
+        return False
+    if any(pristine(epid, d) for d in docs):
+        return True
+    if stage == 10:
+        desc = ep_path(epid) / "09-description.md"
+        if desc.exists() and not description_chapters_ok(desc.read_text(encoding="utf-8")):
+            return True
+    return False
 
 
 def timeline_content_hash(data):

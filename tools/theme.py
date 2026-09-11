@@ -247,11 +247,16 @@ COMPONENTS = """
   font-size:.64rem;font-weight:600;letter-spacing:.02em;color:var(--bone);
   margin-top:.7rem}
 .sc .scpill.pend{border-color:var(--line-2);color:var(--faint)}
-a.sc:hover{text-decoration:none;filter:brightness(1.12)}
-a.sc:hover .scpill{background:var(--gold-soft);border-color:var(--gold)}
+a.sc:hover,button.sc:hover{text-decoration:none;filter:brightness(1.12)}
+a.sc:hover .scpill,button.sc:hover .scpill{background:var(--gold-soft);border-color:var(--gold)}
+/* stage 8's tile is a <button> (opens the upload dialog, not a link) — same
+   look + affordance as a reachable <a>, not the dimmed "pending" state */
+button.sc{width:100%;height:100%;font:inherit;text-align:left;cursor:pointer;
+  appearance:none;-webkit-appearance:none;margin:0;
+  align-items:stretch;justify-content:flex-start;gap:0}
 /* pending: dark + hatch, still framed so it's scannable */
-.sc:not(a){opacity:.85}
-.sc:not(a)::after{content:"";position:absolute;inset:0;background:var(--hatch);pointer-events:none;opacity:.6}
+.sc:not(a):not(button){opacity:.85}
+.sc:not(a):not(button)::after{content:"";position:absolute;inset:0;background:var(--hatch);pointer-events:none;opacity:.6}
 /* done: full gold-tinted fill, warm ink */
 .sc.done{background:var(--done-fill);border-color:var(--gold-line);color:var(--done-ink)}
 .sc.done b{color:var(--done-ink)}
@@ -271,6 +276,14 @@ a.sc.cur:hover .scpill,a.sc.done:hover .scpill{background:#0002}
 .sc.cur.firmado{background:var(--pos);border-color:var(--pos)}
 .sc.cur.firmado b,.sc.cur.firmado .scd{color:#0c1f14}
 .sc.cur.firmado .scn{background:#0c1f14;color:var(--pos)}
+
+/* Stage 8 upload dialog */
+dialog.recmodal{width:min(30rem,92vw);padding:1.3rem 1.4rem;border:1px solid var(--gold-line);
+  border-radius:var(--r);background:var(--surface);color:var(--fg)}
+dialog.recmodal::backdrop{background:#000a}
+dialog.recmodal h3{margin:0 0 .5rem;font-size:1rem}
+dialog.recmodal input[type=file]{margin:.7rem 0;font-size:.78rem;color:var(--muted)}
+dialog.recmodal .row{display:flex}
 
 /* disclosure blocks: tips + context manifest */
 details.tips{border:1px solid var(--gold-line);border-radius:var(--r);background:var(--surface);
@@ -498,6 +511,22 @@ FAVICON = ('<link rel="icon" href="/brand/assets/favicon.ico" sizes="any">'
 HELPERS = """
 const DASH="http://localhost:8765";
 function jget(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}}
+// A review page's localStorage draft only makes sense against the *same*
+// source content it was saved from. Without this, reopening a page after its
+// underlying doc got rewritten (Claude regenerated it, another pass folded
+// new decisions in) silently overwrites the fresh render with a stale draft
+// — found via 10-package.html: 09-description.md was completely rewritten
+// with real content, but the page kept restoring the blank-template draft
+// saved from before that happened. Every save must stamp `__h: HASH`;
+// restoring goes through this instead of a raw jget(LS,null).
+function freshLocal(k,hash){
+  let raw=null; try{raw=localStorage.getItem(k);}catch(e){}
+  if(!raw) return {fresh:null,hadStale:false};
+  let v=null; try{v=JSON.parse(raw);}catch(e){}
+  if(v&&v.__h===hash) return {fresh:v,hadStale:false};
+  try{localStorage.removeItem(k);}catch(e){}
+  return {fresh:null,hadStale:!!v};
+}
 async function saveTxt(name,txt,doneMsg){
   try{
     const fh=await window.showSaveFilePicker({suggestedName:name,

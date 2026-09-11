@@ -76,6 +76,7 @@ episodes/**/09-*.log
 
 # Review pages — generated (the exported *.txt records ARE tracked)
 ideas/idea-review.html
+episodes/**/01-brief.html
 episodes/**/02-research.html
 episodes/**/05-script.html
 episodes/**/09-edit.html

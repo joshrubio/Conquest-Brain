@@ -33,6 +33,11 @@ def _gen_note(epid, nxt, nm):
     if nxt == 1:
         return (f"completar el 01-brief.md ya prellenado de {epid} (ID/slug/track/hook/narrador puestos "
                 f"en Stage 0 desde la idea) — rellenar sujeto, tesis, estructura, fuentes y riesgos")
+    if nxt == 10:
+        return (f"escribir {nm['produces']} para {epid} — 09-description.md necesita capítulos reales "
+                f"con timestamp (nunca la plantilla en blanco '0:00 …'): calcula los cortes de sección "
+                f"desde los tiempos reales de 09-timeline.json (el render final ya alineado a la voz), "
+                f"no desde el plan de la shotlist pre-render, que puede estar desviado varios minutos")
     return f"escribir {nm['produces']} para {epid}"
 
 
@@ -110,15 +115,77 @@ def _prefill_brief(brief, epid, d, payload):
     brief.write_text(t, encoding="utf-8")
 
 
+def _md_table_rows(block):
+    """Data rows (list of cell-lists) of a markdown table, header + separator
+    dropped."""
+    rows = []
+    for ln in block.splitlines():
+        ln = ln.strip()
+        if not ln.startswith("|") or re.match(r"^\|[-:\s|]+\|$", ln):
+            continue
+        rows.append([c.strip() for c in ln.strip("|").split("|")])
+    return rows[1:]
+
+
+def _selection_section(text, heading):
+    """One '## <heading>...' table's data rows from 07-selection.md
+    (pull_assets.py's own machine-generated record of what got downloaded)."""
+    m = re.search(rf"## {re.escape(heading)}\b.*?\n\n(.*?)(?:\n##\s|\Z)", text, re.S)
+    return _md_table_rows(m.group(1)) if m else []
+
+
+def _write_assets_manifest(epid, d):
+    """Stage 7: transcribe 07-selection.md into 07-assets.md's Manifiesto —
+    nothing else does this. A picked candidate in 07-style-pass.html already
+    *is* the pase-de-estilo verdict (chosen over the alternatives shown), so
+    there's nothing left for a human to transcribe by hand; also fills the
+    header fields (title/ID/fecha) nobody fills at scaffold time. Best-effort:
+    a missing 07-selection.md/07-assets.md doesn't fail the fold — the
+    download itself already succeeded."""
+    ep = P.ep_path(epid)
+    sel, doc = ep / "07-selection.md", ep / "07-assets.md"
+    if not sel.exists() or not doc.exists():
+        return
+    text, out = sel.read_text(encoding="utf-8"), doc.read_text(encoding="utf-8")
+    beats = _selection_section(text, "Por beat")
+    ia = _selection_section(text, "Ilustración IA")
+    lines = ["## Manifiesto (auto — transcrito de `07-selection.md` al plegar Stage 7)", "",
+             "> Cada fila ya pasó el pase de estilo al elegirse entre candidatos en "
+             "`07-style-pass.html` — no hace falta un veredicto aparte aquí. Licencia y "
+             "detalle exacto de cada pieza: `assets/CREDITS.md`.", "",
+             "| Beat | Fuente | Res. | Archivo |", "|------|--------|------|---------|"]
+    for row in beats:
+        if len(row) >= 4:
+            lines.append(f"| {row[0]} | {row[1]} | {row[2] or '—'} | `{row[3].strip('`')}` |")
+    for row in ia:
+        if len(row) >= 4:
+            lines.append(f"| {row[0]} | ai:{row[1]} | {row[2] or '—'} | `{row[3].strip('`')}` |")
+    if not beats and not ia:
+        lines.append("| — | — | — | *(sin picks todavía)* |")
+    out = re.sub(r"## Manifiesto\b.*?(?=\n## |\Z)", "\n".join(lines) + "\n\n", out, count=1, flags=re.S)
+    out = re.sub(r"^# Manifiesto de recursos — .*$",
+                 f"# Manifiesto de recursos — {epid} {d.get('title', '')}".rstrip(),
+                 out, count=1, flags=re.M)
+    out = re.sub(r"(\| ID episodio \|).*(\|)",
+                 rf"\1 {epid} · narrador {d.get('narrator', '—')} \2", out, count=1)
+    import datetime
+    out = re.sub(r"(\| Fecha \|).*(\|)", rf"\1 {datetime.date.today().isoformat()} \2", out, count=1)
+    doc.write_text(out, encoding="utf-8")
+
+
 def fold_assets(epid, d, payload):
-    """Stage 7: the picker already wrote 07-picks.txt; run the download."""
+    """Stage 7: the picker already wrote 07-picks.txt; run the download, then
+    transcribe the result into 07-assets.md (see _write_assets_manifest)."""
     picks = P.ep_path(epid) / "07-picks.txt"
     if not picks.exists():
         return False, "no 07-picks.txt"
     r = subprocess.run([sys.executable, str(Path(__file__).parent / "pull_assets.py"),
                         d["slug"] if d["slug"].startswith(epid) else f"{epid}-{d['slug']}", "--download"],
                        capture_output=True, text=True)
-    return (r.returncode == 0), (r.stdout or r.stderr).strip().splitlines()[-1:][0] if (r.stdout or r.stderr) else "descargado"
+    ok = r.returncode == 0
+    if ok:
+        _write_assets_manifest(epid, d)
+    return ok, (r.stdout or r.stderr).strip().splitlines()[-1:][0] if (r.stdout or r.stderr) else "descargado"
 
 
 def fold_script(epid, d, payload):
@@ -130,18 +197,83 @@ def fold_script(epid, d, payload):
     return True, "guion actualizado directamente en 05-script.md"
 
 
+def _retro_hdr_line(txt):
+    """Parse 12-metrics.txt's header lines (fecha/quien/cerrada) — the payload
+    posted to /finish only carries {txt, metrics}, not those as separate
+    fields, so they only exist in the .txt block itself."""
+    hdr = {}
+    for ln in txt.splitlines():
+        if "\t" in ln:
+            k, _, v = ln.partition("\t")
+            if k in ("fecha", "quien", "cerrada"):
+                hdr[k] = v.strip()
+    return hdr
+
+
 def fold_retro(epid, d, payload):
-    """Stage 12: append a KPI-log row to brain/07."""
+    """Stage 12: upsert this episode's KPI-log row in brain/07 AND fill this
+    episode's own 11-retro.md (header + metrics table + the qualitative
+    note) — metrics.py's own UI already promises both ('...se escriben
+    solos'), but only the KPI log ever actually happened, and even that
+    appended a fresh duplicate row on every re-submit (48h pass, then 30d
+    pass) instead of updating the one row for this episode."""
     doc = P.ROOT / "brain" / "07-publishing-seo-metrics.md"
     if not doc.exists():
         return False, "no brain/07"
-    t = doc.read_text(encoding="utf-8")
     m = payload.get("metrics", {})
-    row = (f"| {epid} {d['title']} | {m.get('pub','—')} | {m.get('len','—')} | {m.get('views','—')} | "
-           f"{m.get('avd','—')} | {m.get('ctr','—')} | {m.get('subs','—')} | {m.get('notes','')} |")
-    t = re.sub(r"(## KPI log\s*\n(?:\|.*\n)+)", lambda mm: mm.group(1) + row + "\n", t, count=1)
+    txt = payload.get("txt", "")
+    ep = P.ep_path(epid)
+    mfile = ep / "12-metrics.txt"
+    if not txt and mfile.exists():
+        txt = mfile.read_text(encoding="utf-8")
+    hdr = _retro_hdr_line(txt)
+
+    t = doc.read_text(encoding="utf-8")
+    row = (f"| {epid} {d['title']} | {m.get('pub', '—')} | {m.get('len', '—')} | {m.get('views', '—')} | "
+           f"{m.get('avd', '—')} | {m.get('ctr', '—')} | {m.get('subs', '—')} | {m.get('notes', '')} |")
+    row_re = re.compile(rf"^\|\s*{re.escape(epid)}\b.*\|\s*$", re.M)
+    if row_re.search(t):
+        t = row_re.sub(lambda _mm: row, t, count=1)
+    else:
+        t = re.sub(r"(## KPI log\s*\n(?:\|.*\n)+)", lambda mm: mm.group(1) + row + "\n", t, count=1)
     doc.write_text(t, encoding="utf-8")
-    return True, "KPI log actualizado"
+
+    note = "KPI log actualizado"
+    retro = ep / "11-retro.md"
+    if retro.exists():
+        rt = retro.read_text(encoding="utf-8")
+        rt = re.sub(r"(\| Fecha de publicación \|).*(\|)", rf"\1 {m.get('pub', '…')} \2", rt, count=1)
+        rt = re.sub(r"(\| Duración final \|).*(\|)", rf"\1 {m.get('len', '…')} \2", rt, count=1)
+        if hdr.get("quien"):
+            rt = re.sub(r"(\| Autor de la retro \|).*(\|)", rf"\1 {hdr['quien']} \2", rt, count=1)
+        mrows = [
+            ("Visualizaciones", m.get("views48", ""), m.get("views", ""), ""),
+            ("Duración media \\(%\\)", m.get("avd48", ""), m.get("avd", ""), ""),
+            ("Retención en marcador «Reflexión»", "", m.get("ret_refl", ""), ""),
+            ("Retención en marcador «Para llevar»", "", m.get("ret_takeaway", ""), ""),
+            ("CTR \\(%\\)", m.get("ctr48", ""), m.get("ctr", ""), ""),
+            ("Suscriptores ganados", "", m.get("subs", ""), ""),
+            ("Espectadores recurrentes", "", m.get("returning", ""), ""),
+        ]
+        for label, v48, v30, _ in mrows:
+            if not (v48 or v30):
+                continue  # nothing from *this* submission for this row — leave it exactly as it was
+            # a partial resubmit (48h pass, then a 30d pass weeks later) must not blank out
+            # the column the *other* pass already filled — merge with what's already there.
+            pat = rf"(\|\s*{label}\s*\|)([^|]*)\|([^|]*)(\|[^|]*\|)"
+
+            def _sub(mm, v48=v48, v30=v30):
+                old48, old30 = mm.group(2).strip(), mm.group(3).strip()
+                new48 = v48 or (old48 if old48 not in ("", "—") else "")
+                new30 = v30 or (old30 if old30 not in ("", "—") else "")
+                return f"{mm.group(1)} {new48 or '—'} | {new30 or '—'} {mm.group(4)}"
+            rt = re.sub(pat, _sub, rt, count=1)
+        if m.get("notes"):
+            rt = re.sub(r"- ¿Provoca reflexión o indignación\? …",
+                        f"- ¿Provoca reflexión o indignación? {m['notes']}", rt, count=1)
+        retro.write_text(rt, encoding="utf-8")
+        note += " + 11-retro.md actualizado"
+    return True, note
 
 
 def fold_stash(epid, d, payload):
@@ -229,6 +361,17 @@ def do_fold(epid):
         P.set_ep(epid, gate="firmado")
         _dash()
         return f"{epid}: stage {st} ({sm['name']}) — gate firmado"
+    if fold == "mech" and P.stage_needs_writing(epid, st):
+        # same idea as the claude-fold guard above, for the `mech` stages that
+        # still need a doc written before there's anything to fold (7/10/12 —
+        # see REQUIRED_DOCS). Found via E001's Stage 10: 09-description.md sat
+        # as the blank template and nothing ever caught it.
+        P.enqueue(epid, st, "generate", note=_gen_note(epid, st, sm))
+        P.set_ep(epid, gate="abierto")
+        _dash()
+        return (f"{epid}: stage {st} ({sm['name']}) — {sm['produces']} sigue sin escribir "
+                f"(o, en Stage 10, sin capítulos reales en la descripción), nada que plegar; "
+                f"encolado para escribir. NO avanza.")
     fn = FOLDS.get(sm["key"])
     if not fn:
         P.set_ep(epid, gate="firmado")
@@ -320,11 +463,14 @@ def do_next(epid, force=False):
             if rt:
                 rev = f" · revisa la transcripción: assets/{rt.with_suffix('.review.html').name}"
         tail = f" · {' · '.join(steps)} · {last[0][:60]}{rev}"
-    elif nm["fold"] == "claude" or (nxt in P.DRAFT_STAGES and P.pristine(epid, P.DRAFT_STAGES[nxt])):
+    elif (nm["fold"] == "claude" or (nxt in P.DRAFT_STAGES and P.pristine(epid, P.DRAFT_STAGES[nxt]))
+          or P.stage_needs_writing(epid, nxt)):
         # a stage that produces a document nobody has drafted yet — queue it for
-        # the agent. Covers the `claude` folds (brief/outline/fact-check/shotlist)
-        # and the `mech` ones whose doc still has to be written first (research,
-        # script, package): without this the dashboard dead-ends on entry.
+        # the agent. Covers the `claude` folds (brief/outline/fact-check/shotlist),
+        # the `mech` ones whose doc still has to be written first (research,
+        # script), and REQUIRED_DOCS (assets manifest, package, retro): without
+        # this the dashboard dead-ends on entry, or — Stage 10's actual bug —
+        # sits there with a blank template nobody notices.
         P.enqueue(epid, nxt, "generate", note=_gen_note(epid, nxt, nm))
         tail = f" · en cola: escribir {nm['produces']}"
     elif nm["fold"] == "human":

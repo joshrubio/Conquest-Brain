@@ -682,6 +682,28 @@ def music_pool():
     return [f"brand/assets/music/{f.name}" for f in sorted(d.glob("*.mp3"))] if d.is_dir() else []
 
 
+def _episode_music_tracks(ep):
+    """This episode's own music picks, in the order chosen on the Stage 7 style
+    pass — from the `## Música` section `pull_assets.py --download` writes into
+    07-selection.md (one row per picked track, `Archivo` column = the file it
+    downloaded into the shared brand/assets/music/ pool). Multiple tracks play
+    back-to-back, then the whole sequence loops to fill the video (see the
+    render's aloop-over-concat below) — that's what lets a video with more
+    beats than the picked music can cover still have a full bed."""
+    sel = ep / "07-selection.md"
+    if not sel.exists():
+        return []
+    m = re.search(r"## Música\b.*?\n\n(.*?)(?:\n##\s|\Z)", sel.read_text(encoding="utf-8"), re.S)
+    if not m:
+        return []
+    tracks = []
+    for line in m.group(1).splitlines():
+        cell = re.findall(r"`([^`]+)`", line)
+        if cell and cell[-1] not in tracks:
+            tracks.append(cell[-1])
+    return [t for t in tracks if (ROOT / t).exists()]
+
+
 def _require_ep(slug):
     ep = EP_DIR / slug
     if not ep.is_dir():
@@ -706,12 +728,23 @@ def _derive_motion(beats):
     return beats
 
 
-def _music_block(prev_music, beats, total):
+def _music_block(prev_music, beats, total, ep=None):
     _mrange = {"bed_db": (-48, -6), "vo_gain_db": (-8, 8), "duck_db": (0, 20)}
     mix = {k: prev_music[k] for k in _mrange
            if isinstance(prev_music.get(k), (int, float)) and _mrange[k][0] <= prev_music[k] <= _mrange[k][1]}
     pool = music_pool()
-    return {"pool": pool, "bed": prev_music.get("bed") or (pool or [""])[0],
+    # tracks: an authored timeline's own list always wins (the editor may have
+    # pruned/reordered it in the Sala) — only derive fresh from Stage 7's picks
+    # (or fall back to the pool / a legacy single "bed") the first time there's
+    # nothing authored yet.
+    prev_tracks = prev_music.get("tracks")
+    if isinstance(prev_tracks, list) and prev_tracks:
+        tracks = [t for t in prev_tracks if isinstance(t, str) and t]
+    elif prev_music.get("bed"):
+        tracks = [prev_music["bed"]]                      # migrate an old single-bed timeline
+    else:
+        tracks = (_episode_music_tracks(ep) if ep is not None else []) or (pool[:1] if pool else [])
+    return {"pool": pool, "tracks": tracks, "bed": tracks[0] if tracks else "",
             # array[0] is always the first shot shown (array order == playback
             # order, even after a reorder), so music still starts when it ends
             "in": beats[0]["out"] if beats else 0, "out": total,
@@ -811,7 +844,7 @@ def seed_timeline(slug, force=False):
         data = {"ep": slug[:4], "slug": slug, "generated": _now(), "schema": 1,
                 "aligned": bool(words), "fps": FPS, "w": 3840, "h": 2160,
                 "total": total, "ground": GROUND,
-                "music": _music_block({}, beats, total), "beats": beats}
+                "music": _music_block({}, beats, total, ep=ep), "beats": beats}
         tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
         _report(slug, beats, total, bool(words))
         return data
@@ -822,7 +855,7 @@ def seed_timeline(slug, force=False):
     total = round(ab[-1]["out"], 2) if ab else total
     data = authored_doc(slug, ab, vo_end=vo_end, total=total,
                         words_sig=_words_sig(words), aligned=bool(words),
-                        music=_music_block({}, ab, total))
+                        music=_music_block({}, ab, total, ep=ep))
     tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     _report(slug, ab, round(total, 2), bool(words))
     return data
@@ -891,7 +924,7 @@ def _rebuild_authored(slug, ep, tj, data):
         "total": total, "ground": data.get("ground", GROUND),
         "next_id": data.get("next_id") or (max((_idn(b.get("id")) for b in ab), default=0) + 1),
         "words_sig": data.get("words_sig") or _words_sig(words),
-        "music": _music_block(data.get("music", {}), ab, total),
+        "music": _music_block(data.get("music", {}), ab, total, ep=ep),
         "beats": ab,
     })
     tj.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -936,7 +969,7 @@ def _rebuild_schema1(slug, ep, tj):
         "ep": slug[:4], "slug": slug, "generated": _now(), "schema": 1,
         "aligned": bool(words), "fps": FPS, "w": 3840, "h": 2160,
         "total": total, "ground": GROUND,
-        "music": _music_block(prev_music, beats, total),
+        "music": _music_block(prev_music, beats, total, ep=ep),
         "beats": beats,
     }
     tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -991,7 +1024,7 @@ def resync_timeline(slug):
     data["words_sig"] = _words_sig(new_words)
     data["seeded"] = _now()
     data["aligned"] = True
-    data["music"] = _music_block(data.get("music", {}), ab, data["total"])
+    data["music"] = _music_block(data.get("music", {}), ab, data["total"], ep=ep)
     tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     (ep / "09-resync.flag").unlink(missing_ok=True)
 
@@ -1351,12 +1384,29 @@ def render(slug, mode, t0=None, t1=None, dry=False):
         if vg:                                      # voice trim, before the mix + sidechain
             fc += f";{va}volume={vg:+.1f}dB[vog]"
             va = "[vog]"
-        bed = mus.get("bed")
-        if bed and (ROOT / bed).exists() and not proxy:
+        tracks = [t for t in (mus.get("tracks") or ([mus["bed"]] if mus.get("bed") else []))
+                  if t and (ROOT / t).exists()]
+        if tracks and not proxy:
             duck = max(0.0, float(mus.get("duck_db", 8) or 8))
             ratio = max(2.0, min(12.0, 2.0 + duck / 2.0))   # 0 dB → gentle, 18 dB → hard
-            cmd += ["-i", str(ROOT / bed)]
-            fc += (f";[{vo_idx+1}:a]aloop=loop=-1:size=2e9,volume={mus.get('bed_db', -30)}dB[bed];"
+            base = vo_idx + 1
+            for t in tracks:
+                cmd += ["-i", str(ROOT / t)]
+            # normalize every track to the same format first — concat refuses
+            # mismatched sample rate/layout, and a jamendo/pixabay/own-file mix
+            # is exactly the case where that happens.
+            for i in range(len(tracks)):
+                fc += (f";[{base+i}:a]aformat=sample_fmts=fltp:sample_rates=48000:"
+                       f"channel_layouts=stereo[mt{i}]")
+            if len(tracks) > 1:
+                # several picks: play them back-to-back once, then loop that
+                # whole sequence — a single track loops on its own instead.
+                seq = "".join(f"[mt{i}]" for i in range(len(tracks)))
+                fc += f";{seq}concat=n={len(tracks)}:v=0:a=1[mseq]"
+                loop_src = "[mseq]"
+            else:
+                loop_src = "[mt0]"
+            fc += (f";{loop_src}aloop=loop=-1:size=2e9,volume={mus.get('bed_db', -30)}dB[bed];"
                    f"[bed]{va}sidechaincompress=threshold=0.03:ratio={ratio:.1f}:release=400[ducked];"
                    f"{va}[ducked]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1[aout]")
             a_map = ["-map", "[aout]"]

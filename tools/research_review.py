@@ -17,6 +17,7 @@ Usage
   python tools/research_review.py E0XX-slug
 """
 import csv
+import hashlib
 import html as _h
 import re
 import sys
@@ -81,7 +82,7 @@ def md_to_html(md):
     return "".join(html) or '<p class="empty">— vacío —</p>'
 
 
-def build(slug, sections, sources, tier_counts):
+def build(slug, sections, sources, tier_counts, src_hash=""):
     e = _h.escape
 
     sec_cards = []
@@ -147,6 +148,7 @@ def build(slug, sections, sources, tier_counts):
     script = f"""
 const EPID={slug[:4]!r}; const STAGE=2;
 const LS="conquest-research-{slug}";
+const HASH={src_hash!r};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const cnt=$('.count');
 const inp=$$('.st,.nt,.ck');
@@ -154,6 +156,7 @@ const K=el=>(el.classList.contains('st')?'st:':el.classList.contains('ck')?'ck:'
 function save(){{
   const c={{}}; inp.forEach(el=>c[K(el)]=el.type==='checkbox'||el.type==='radio'?el.checked:el.value);
   c['#firma']=$('#firma').value; c['#fecha']=$('#fecha').value; c['#aprob']=$('#aprob').checked;
+  c.__h=HASH;
   localStorage.setItem(LS,JSON.stringify(c));
 }}
 function sync(){{
@@ -163,7 +166,12 @@ function sync(){{
     return s&&s.value!=='ok';}}).length;
   cnt.textContent=w+' fuentes a verificar · '+wr+' marcadas';
 }}
-const init=JSON.parse(localStorage.getItem(LS)||'null');
+const {{fresh:init,hadStale}}=freshLocal(LS,HASH);
+if(hadStale){{
+  const note=document.createElement('p'); note.className='muted small';
+  note.textContent='⚠ Se descartó un borrador local de una versión anterior del dossier/source-log (cambió desde tu última visita) — esto es lo recién generado.';
+  document.querySelector('main').prepend(note);
+}}
 if(init){{
   inp.forEach(el=>{{const v=init[K(el)]; if(v===undefined)return;
     if(el.type==='checkbox'||el.type==='radio')el.checked=v; else el.value=v;}});
@@ -226,13 +234,16 @@ if __name__ == "__main__":
     log = ep / LOG_F
     if not dossier.exists():
         sys.exit(f"no {dossier.relative_to(ROOT)}")
-    sections = md_sections(dossier.read_text(encoding="utf-8"))
+    dossier_txt = dossier.read_text(encoding="utf-8")
+    log_txt = log.read_text(encoding="utf-8") if log.exists() else ""
+    sections = md_sections(dossier_txt)
     sources, counts = [], {}
     if log.exists():
         with log.open(encoding="utf-8", newline="") as fh:
             for row in csv.DictReader(fh):
                 sources.append(row)
                 counts[row.get("tier", "?")] = counts.get(row.get("tier", "?"), 0) + 1
-    (ep / REVIEW_HTML).write_text(build(slug, sections, sources, counts), encoding="utf-8")
+    src_hash = hashlib.sha1((dossier_txt + log_txt).encode("utf-8")).hexdigest()[:12]
+    (ep / REVIEW_HTML).write_text(build(slug, sections, sources, counts, src_hash), encoding="utf-8")
     print(f"escrito  episodes/{slug}/{REVIEW_HTML}  ({len(sections)} secciones, {len(sources)} fuentes)")
     print("siguiente: ábrelo, revisa fuentes + dossier, marca el gate, firma, «Finalizar Stage 2»")
