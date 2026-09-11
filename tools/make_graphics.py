@@ -6,8 +6,13 @@ make_graphics.py — the episode's own graphics, in the house style (brain/03).
 Reads the **Gráficos / motion** table of `06-shotlist.md` and renders one 4K PNG
 per row into `assets/graphic/<id>.png` (id = the `asset` the shotlist names).
 
-Eleven ids have a bespoke renderer — a real drawn graphic, not a text card:
-  *pipeline*  the print workshop chain          *age_ladder*    the preface's age scale
+Eleven ids have a bespoke renderer — a real drawn graphic, not a text card.
+**These are all E001-Hokusai-specific artwork, not generic templates** — the
+match is on the *exact* id stem (never a loose one-word tag like "signature"
+or "curve") precisely so a future episode's own id can't accidentally get
+hijacked into rendering someone else's picture (E002 hit this: an id merely
+*containing* "signature" rendered Hokusai's Manji signature card):
+  *ukiyoe_pipeline*  the print workshop chain    *age_ladder*    the preface's age scale
   *names_timeline*  the ~30 art-names on a life  *mastery_curve*  ego vs. maestría curves
   *prussian_blue*  the pigment swatch            *death_card*     the closing text card
   *signature_manji*  the late signature + gloss  *edo_population* the number card (S20)
@@ -162,7 +167,47 @@ def dashed(d, p0, p1, color=MUTED, width=3, dash=26, gap=18):
 
 
 def _clean(s):
-    return re.sub(r"[`*]+", "", s or "").strip()
+    s = re.sub(r"[`*]+", "", s or "").strip()
+    # "→" tofu-boxes in every SERIF font this file resolves to on Windows
+    # (Georgia/Times have no arrow glyph — confirmed by rendering it next to
+    # a kanji and comparing pixels: identical .notdef box). "->" is legible
+    # and matches arrow_seq()'s own split pattern, so bespoke renderers that
+    # parse arrows out of the row text still work on cleaned input.
+    return s.replace("→", "->").replace("—>", "->")
+
+
+_CJK_RANGES = ((0x3040, 0x30FF), (0x3400, 0x4DBF), (0x4E00, 0x9FFF),
+               (0xF900, 0xFAFF), (0xFF00, 0xFFEF))
+
+
+def _is_cjk(ch):
+    o = ord(ch)
+    return any(a <= o <= b for a, b in _CJK_RANGES)
+
+
+def dtext(d, xy, text, font, fill, cjk_size=None):
+    """Like ImageDraw.text, but a kanji/kana run in `text` draws with the CJK
+    font stack instead of tofu-boxing — SERIF/MONO have no CJK glyphs at all
+    (confirmed: georgia.ttf renders 豊/田/ト as the exact same .notdef box as
+    a missing "→"). Falls straight to d.text when the string is pure Latin —
+    the common case, no cost there."""
+    if not any(_is_cjk(ch) for ch in text):
+        d.text(xy, text, font=font, fill=fill)
+        return
+    x, y = xy
+    size = cjk_size or getattr(font, "size", 60)
+    cjk_font = _font(CJK, size)
+    seg, seg_cjk = "", None
+    for ch in text + "\0":                      # sentinel flushes the last run
+        is_c = _is_cjk(ch) if ch != "\0" else None
+        if seg and is_c != seg_cjk:
+            f = cjk_font if seg_cjk else font
+            d.text((x, y), seg, font=f, fill=fill)
+            x += d.textlength(seg, font=f)
+            seg = ""
+        if ch != "\0":
+            seg += ch
+        seg_cjk = is_c
 
 
 def _salvedad(s):
@@ -580,20 +625,22 @@ def g_route(row):
     return im
 
 
+
+# E001-only, matched on the exact id stem (see the docstring above for why —
+# never a bare word like "signature"/"curve"/"route" a future episode's own
+# id could plausibly contain).
 RENDERERS = [
-    ("pipeline", g_pipeline),
-    ("names", g_names),
-    ("prussian", g_prussian),
-    ("signature", g_signature),
-    ("manji", g_signature),
-    ("ladder", g_ladder),
-    ("mastery", g_mastery),
-    ("curve", g_mastery),
-    ("death", g_death),
-    ("population", g_population),
-    ("moves", g_moves),
+    ("ukiyoe_pipeline", g_pipeline),
+    ("names_timeline", g_names),
+    ("prussian_blue", g_prussian),
+    ("signature_manji", g_signature),
+    ("age_ladder", g_ladder),
+    ("mastery_curve", g_mastery),
+    ("death_card", g_death),
+    ("edo_population", g_population),
+    ("moves_map", g_moves),
     ("36to46", g_count36),
-    ("route", g_route),
+    ("blue_route", g_route),
 ]
 
 
@@ -601,10 +648,11 @@ def generic_card(row):
     im, d = _new()
     frame(d, row["id"].replace("_", " "), row["label"])
     body = _font(SERIF, 104)
-    lines = _wrap(d, row["shows"], body, W - 620)
+    shows = _clean(row["shows"])
+    lines = _wrap(d, shows, body, W - 620)
     y = H // 2 - len(lines) * 66
     for ln in lines:
-        d.text((310, y), ln, font=body, fill=BONE)
+        dtext(d, (310, y), ln, body, BONE)
         y += 132
     return im
 
