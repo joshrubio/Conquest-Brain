@@ -45,10 +45,10 @@
 - **Sujeto elegible:** lo de Documental **+** una obra creativa estrenada y su
   recepción pública documentada, tratada como objeto de crítica, comentario o
   historia cultural (`idea-rubric.md` E1, carve-out de `brain/00` #1).
-- **Material / derechos:** lo de Documental **+ clips de cine/TV/juego/música con
-  copyright bajo fair use**, con los caps de montaje de `brain/20 §4` — stills
-  primero, movimiento solo si el movimiento es el argumento, ≤~10 s por clip,
-  audio siempre reemplazado o atenuado, espejo/zoom/recorte/grade obligatorios.
+- **Material / derechos:** lo de Documental **+ stills de cine/TV/juego/música
+  citados bajo fair use** (`brain/20 §4`) — en la práctica no clips en
+  movimiento (no sobreviven el corte final); recorte/grade/espejo obligatorios
+  sobre el still, igual que cualquier imagen.
 - **Anatomía:** la variante de `brain/20 §3` (la lectura es el hilo, no el recap;
   reflexión como interludio constante).
 - **Título:** cola `| Ensayo` (`brain/13`), no `| Documental`.

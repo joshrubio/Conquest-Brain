@@ -73,7 +73,7 @@ En la espina, un beat `acamara` = se muestra la toma del narrador para ese hueco
 - **`in`** — inicio previsto, `m:ss` (una estimación; en Stage 9 `assemble.py` lo re-alinea a la voz real).
 - **`dur`** — duración objetivo en segundos (entero).
 - **`sección`** — una de: `cold open` · `bumper` · `pivote` · `contexto` · `acto N` · `explicador` · `teorías` · `cierre` · `cta`.
-- **`tipo`** — `acamara` (A-roll: la toma del narrador) · `archivo` (foto/escaneo real) · `stock` (b-roll de vídeo genérico) · `kb` (Ken Burns sobre una fija) · `ia` (ilustración IA — lleva rótulo) · `gráfico` (motion propio) · `negro` (corte a negro) · `cita` (Ensayo: still o clip breve de la obra bajo fair use — `brain/20 §4`; nunca genérico como `stock`, es la cosa real que se analiza).
+- **`tipo`** — `acamara` (A-roll: la toma del narrador) · `archivo` (foto/escaneo real) · `stock` (b-roll de vídeo genérico) · `kb` (Ken Burns sobre una fija) · `ia` (ilustración IA — lleva rótulo) · `gráfico` (motion propio) · `negro` (corte a negro). *(Ensayo: un still de la obra citada bajo fair use es `tipo: archivo` con `Estado de derechos: cita` — en la práctica los clips en movimiento no sobreviven el corte final, ver `brain/20 §4.1`.)*
 - **`asset`** — el id que resuelve contra `07-selection.md` / `07-assets.md` (`E0XX_ai01_…`, `INTRO2`, `S09`, `G1`…). `—` para `acamara` y `negro`, o si aún no elegido.
 - **`rótulo`** — texto en pantalla, o `—`. `Ilustración — Conquest` obligatorio para `ia`; salvedad para cifras dudosas.
 - **`motion`** — token canónico: `push` (empuje 1.00→1.10) · `pan-h` · `pan-v` · `zoom` (a un detalle) · `cut` (hold seco, sin move). Es una **pista** — `assemble.py` la sobrescribe según el aspecto del asset (retrato → `pan-v`, panorámica → `pan-h`) y **nunca deja un still estático**. No uses `static`.
@@ -91,7 +91,7 @@ En la espina, un beat `acamara` = se muestra la toma del narrador para ese hueco
 |---|------------------|-----------------|------------------------|--------------------|-------|
 | 1 | | | | dominio público / CC-__ / licencia / cita | |
 
-**Ensayo, filas `tipo: cita`:** la columna "Notas" lleva título · año · distribuidora/estudio · timecode de la obra (`brain/20 §4.7`) — sin tabla aparte. "Estado de derechos" = `cita — crítica/comentario (fair use)`.
+**Ensayo, filas `Estado de derechos: cita`:** la columna "Notas" lleva título · año · distribuidora/estudio (`brain/20 §4.7`) — sin tabla aparte.
 
 ## Gráficos / motion — guion de cada uno
 
@@ -118,8 +118,7 @@ En la espina, un beat `acamara` = se muestra la toma del narrador para ese hueco
 - [ ] Todo visual con estado de derechos en `03-source-log.csv`
 - [ ] Todo dato en gráfico con fuente [ID] y, si aplica, rótulo de salvedad
 - [ ] `PROMISE n` y `PAY n` usan el mismo `asset` y el mismo `motion`
-- [ ] Sin clip de película dramatizada como registro histórico *(Ensayo: los `tipo: cita` no cuentan — son el objeto de comentario bajo `brain/20 §4`, no un andamiaje prestado)*
-- [ ] (Ensayo) Beats `cita` dentro de presupuesto (`brain/20 §4.4`: ≤~10 s c/u, total ≤ techo del modo) y ninguno es columna vertebral de su beat
+- [ ] Sin clip de película dramatizada como registro histórico *(Ensayo: un still de la obra bajo `Estado de derechos: cita` no cuenta como esto — es el objeto de comentario, no un andamiaje prestado; en la práctica no se usan clips en movimiento — `brain/20 §4.1`)*
 - [ ] Reenactments / IA / colorizado con `rótulo` en pantalla
 - [ ] Cold open: 2–5 planos de hook (vídeo preferido) + bumper en negro; hook+bumper ≤ 50 s
 - [ ] Nº de beats coherente con el ritmo objetivo para la duración
