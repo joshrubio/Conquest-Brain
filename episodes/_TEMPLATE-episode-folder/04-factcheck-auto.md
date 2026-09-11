@@ -13,7 +13,7 @@
 
 ## Layer 2 — analysis (Parts A + C of the prompt)
 
-(tablas 1–6 + resumen)
+(tablas 1–6, + 5b si Track = Ensayo, + resumen)
 
 ## Changelog — corrections applied to 05-script.md
 
