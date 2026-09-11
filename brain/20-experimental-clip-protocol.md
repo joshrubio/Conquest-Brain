@@ -302,6 +302,7 @@ Operating rules:
 | `templates/shotlist-broll.md` | 6 | **Live (light).** `tipo: cita` in the enum (still or short clip); the existing "Detalle por beat" table's Notas column carries title/year/distributor/timecode — no separate budget table. |
 | `templates/fact-check-auto-prompt.md` | 5 | **Live.** Table 5b cross-checks cited authorities against the citation shelf. |
 | `tools/clip_finder.py` | 7 | **Live.** Search (local `.srt` / faster-whisper / **clip.cafe API**, `CLIPCAFE_API_KEY` in `tools/.env`) + extract (ffmpeg seek-cut, or download+strip for a clip.cafe pick). See §4.6. Replaces the smaller `scene_locator.py`/`clip_cut.py` split originally sketched here. |
+| `tools/assemble.py` | 9 | **Live.** Resolves `tipo: cita` beats from `assets/cite/`; applies §4.3's floor automatically — push move + case-file device baked together (`_kb_render`), crop-to-frame, house grade (global on the final render). Audio-strip already happened at extraction. |
 | `brain/12 §1c` fold | — | **To do.** Move the §1c workflow detail here, leave a pointer (keep §1c's PD-first + "no illustrative use" lines). |
 
 ## 7. Cadence cap
@@ -320,10 +321,14 @@ start under it.
 
 ## 8. Still to build
 
-The Ensayo track is live end to end, ideation through extraction — `tools/clip_finder.py`
+The Ensayo track is live end to end, ideation through render — `tools/clip_finder.py`
 (Stage 7, §6) covers search (local `.srt` / faster-whisper / clip.cafe API) and
-extraction (ffmpeg seek-cut, or download+treat for a clip.cafe pick). The
-Whiplash demo, `episodes/_DEMO-ensayo-whiplash/`, is a worked Stage-4 example.
-What's left is genuinely minor: the `brain/12 §1c` fold, and `tools/assemble.py`
-picking up `tipo: cita` at Stage 9 (it doesn't know about it yet — the §4.3
-grade/crop/case-file treatment still gets applied by hand until then).
+extraction (ffmpeg seek-cut, or download+treat for a clip.cafe pick);
+`tools/assemble.py` (Stage 9) resolves `tipo: cita` beats from `assets/cite/`
+and applies §4.3's mandatory technical minimums automatically: house grade
+(already global on the final render), crop-to-frame, a slow push move, and the
+case-file device (an `EXPEDIENTE: CITA` strip naming the work, read from
+`07-cite-selection.md`) — all baked in one ffmpeg pass, cached like a Ken Burns
+move. Audio-strip happens earlier, at `clip_finder.py --extract`. The Whiplash
+demo, `episodes/_DEMO-ensayo-whiplash/`, is a worked Stage-4 example. What's
+left is genuinely minor: the `brain/12 §1c` fold.
