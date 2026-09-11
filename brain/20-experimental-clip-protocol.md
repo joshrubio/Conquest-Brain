@@ -215,10 +215,12 @@ identical Content ID claim. So the rule is not "never an online source"; it's:
 clip.cafe, PlayPhrase, YARN, getyarn, OpenSubtitles, a documentary fragment
 someone posted, your own `.srt` — use whatever's fastest. This is research. For a
 video essay citing 15 films, requiring "rip each from disc first" is not
-realistic. `tools/clip_finder.py` (§6) helps at scale: match against a local
-`.srt` if you have one, or transcribe the work yourself (faster-whisper, the
-same engine `trim_talk.py` already uses) when you don't — either way it's a
-discovery convenience over your own lawfully-held copy, not a gate.
+realistic. `tools/clip_finder.py` (§6) covers three paths: match against a local
+`.srt` if you have one; transcribe the work yourself (faster-whisper, the same
+engine `trim_talk.py` already uses) when you don't; or query the **clip.cafe
+API** (`CLIPCAFE_API_KEY`, requires their paid PRO plan) — their own indexed
+transcript search across ~20,000 titles, which also skips needing your own copy
+at all for anything in their catalogue.
 
 **The published excerpt — best obtainable quality, and log it.** In order of
 preference:
@@ -299,7 +301,7 @@ Operating rules:
 | `templates/outline-template.md` | 3 | **Live (light).** Macro-structure note, the `CITA n` beat marker (spread rule inline), gate carve-outs. |
 | `templates/shotlist-broll.md` | 6 | **Live (light).** `tipo: cita` in the enum (still or short clip); the existing "Detalle por beat" table's Notas column carries title/year/distributor/timecode — no separate budget table. |
 | `templates/fact-check-auto-prompt.md` | 5 | **Live.** Table 5b cross-checks cited authorities against the citation shelf. |
-| `tools/clip_finder.py` | 7 | **Building** (this session) — search + extract tool, see §4.6. Replaces the smaller `scene_locator.py`/`clip_cut.py` split originally sketched here. |
+| `tools/clip_finder.py` | 7 | **Live.** Search (local `.srt` / faster-whisper / **clip.cafe API**, `CLIPCAFE_API_KEY` in `tools/.env`) + extract (ffmpeg seek-cut, or download+strip for a clip.cafe pick). See §4.6. Replaces the smaller `scene_locator.py`/`clip_cut.py` split originally sketched here. |
 | `brain/12 §1c` fold | — | **To do.** Move the §1c workflow detail here, leave a pointer (keep §1c's PD-first + "no illustrative use" lines). |
 
 ## 7. Cadence cap
@@ -318,8 +320,10 @@ start under it.
 
 ## 8. Still to build
 
-The Ensayo track is live end to end for ideation through shotlist (§6; the
-Whiplash demo, `episodes/_DEMO-ensayo-whiplash/`, is a worked Stage-4 example).
-What's left: `tools/clip_finder.py` (Stage 7 — search + extract, this session)
-and the `brain/12 §1c` fold. Until `clip_finder.py` exists, cut cited excerpts
-by hand with ffmpeg and log them the same way (§4.7).
+The Ensayo track is live end to end, ideation through extraction — `tools/clip_finder.py`
+(Stage 7, §6) covers search (local `.srt` / faster-whisper / clip.cafe API) and
+extraction (ffmpeg seek-cut, or download+treat for a clip.cafe pick). The
+Whiplash demo, `episodes/_DEMO-ensayo-whiplash/`, is a worked Stage-4 example.
+What's left is genuinely minor: the `brain/12 §1c` fold, and `tools/assemble.py`
+picking up `tipo: cita` at Stage 9 (it doesn't know about it yet — the §4.3
+grade/crop/case-file treatment still gets applied by hand until then).

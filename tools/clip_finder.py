@@ -21,39 +21,56 @@ Usage
       ventana (mm:ss-mm:ss, opcional — acota la búsqueda), timecode (opcional
       — si ya lo sabes, se salta la búsqueda para esa fila).
 
-  python tools/clip_finder.py E0XX-slug --media OBRA.mkv [--subs OBRA.srt]
+  python tools/clip_finder.py E0XX-slug [--media OBRA.mkv] [--subs OBRA.srt]
                                [--transcribe] [--lang es] [--model small]
+                               [--clipcafe]
       Search. For every 07-cite.tsv row without a manual `timecode`:
         - with --subs: matches the row's search text against the subtitle
           file (SubRip .srt / WebVTT .vtt).
         - with --transcribe (no subs, or subs too thin): runs faster-whisper
           over the file — or just the row's `ventana` if it has one, so you
           don't transcribe a whole film for a single line.
-      Writes 07-cite-pass.html: up to 3 timestamped candidates per beat, a
-      thumbnail each, plus a manual-timecode field that always wins.
+        - with --clipcafe (or CLIPCAFE_API_KEY set in tools/.env — see
+          --check-keys): also queries the clip.cafe API (transcript search
+          over their indexed catalogue) — useful when you don't hold a local
+          copy of the work at all. --media becomes optional in that case.
+      Writes 07-cite-pass.html: up to 3 candidates per beat (local + clip.cafe
+      mixed, each labelled with its source), a thumbnail where one exists,
+      plus a manual-timecode field that always wins.
 
   python tools/clip_finder.py E0XX-slug --extract [--media OBRA.mkv]
       Read 07-cite-picks.txt (the picker's "Finalizar" button downloads it —
-      save it into the episode folder). For each picked beat, cut with
-      ffmpeg: `tipo: clip` -> assets/cite/<beat>_<hhmmss>.mp4 (audio
-      stripped, §4.2; capped at the row's `dur`, default 8 s, inside the
-      brain/20 §4.4 ceiling); `tipo: still` -> assets/cite/<beat>_<hhmmss>.png.
-      Appends assets/CREDITS.md, writes 07-cite-selection.md.
+      save it into the episode folder). For each picked beat:
+        - a **local** pick cuts with ffmpeg from --media: `tipo: clip` ->
+          assets/cite/<beat>_<hhmmss>.mp4 (audio stripped, §4.2; capped at
+          the row's `dur`); `tipo: still` -> assets/cite/<beat>_<hhmmss>.png.
+        - a **clip.cafe** pick downloads the already-cut clip via the API,
+          then still applies §4.2 (audio stripped) and the `dur` cap.
+      Appends assets/CREDITS.md (noting the source — own copy or clip.cafe),
+      writes 07-cite-selection.md.
 
-Deps: ffmpeg (tools/mediabin.py). faster-whisper only for --transcribe — the
-same engine tools/trim_talk.py already uses for Stage 8 takes.
+  python tools/clip_finder.py --check-keys
+      Report whether tools/.env has CLIPCAFE_API_KEY set.
 
-Discovery ≠ rights (brain/20 §4.6): this tool only ever reads a file you
-already have lawfully. It fetches nothing from the internet.
+Deps: ffmpeg (tools/mediabin.py); requests (only touched if --clipcafe is
+used). faster-whisper only for --transcribe — the same engine
+tools/trim_talk.py already uses for Stage 8 takes.
+
+Discovery ≠ rights (brain/20 §4.6): whether the excerpt comes from your own
+copy or from clip.cafe's API changes nothing about the fair-use analysis —
+clip.cafe's own PRO page says as much ("for commercial use... you must ensure
+you have proper rights"). A CLIPCAFE_API_KEY requires their paid PRO plan
+(rate-limited: see https://clip.cafe/pro).
 """
 import re
 import subprocess
 import sys
+import tempfile
 from difflib import SequenceMatcher
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from mediabin import FFMPEG, FFPROBE  # noqa: E402
+from mediabin import FFMPEG  # noqa: E402
 from review_ui import page  # noqa: E402
 
 try:
@@ -63,15 +80,39 @@ except Exception:
 
 ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
+ENV = Path(__file__).resolve().parent / ".env"
+UA = "ConquestOficial/1.0 (educational documentary; contact joshuerubio@gmail.com)"
 CITE_TSV = "07-cite.tsv"
 PICKS_F = "07-cite-picks.txt"
 PASS_HTML = "07-cite-pass.html"
 SELECTION_MD = "07-cite-selection.md"
 DEFAULT_CLIP_DUR = 8           # s — inside brain/20 §4.4's ~10 s ceiling
 N_CANDIDATES = 3
+CLIPCAFE_API = "https://api.clip.cafe/"
 
 TSV_COLS = ["beat", "obra", "año", "distribuidora", "texto", "tipo", "dur",
             "ventana", "timecode"]
+
+
+# ---------- tools/.env ----------
+
+def load_env():
+    keys = {}
+    if ENV.exists():
+        for line in ENV.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            keys[k.strip()] = v.strip().strip('"').strip("'")
+    return keys
+
+
+def check_keys():
+    k = load_env()
+    print(f"tools/.env: {'found' if ENV.exists() else 'MISSING'}\n")
+    v = k.get("CLIPCAFE_API_KEY", "")
+    print(f"  {'OK ' if v else '  ·'} {'CLIPCAFE_API_KEY':22s} {'set' if v else '(not set — get one at https://clip.cafe/api-keys/, requires PRO)'}")
 
 
 def _ep(slug):
@@ -197,7 +238,6 @@ def transcribe_window(media, start, end, lang, model_name):
     tmp = None
     src = str(media)
     if start is not None or end is not None:
-        import tempfile
         tmp = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
         tmp.close()
         cmd = [FFMPEG, "-y"]
@@ -260,6 +300,76 @@ def best_matches(query, segments, n=N_CANDIDATES):
     return scored[:n]
 
 
+# ---------- clip.cafe API (search + download) ----------
+# https://github.com/ClipCafe/clipcafe — requires a PRO subscription for the
+# key (https://clip.cafe/api-keys/). Rate limits per their PRO plan: 10
+# req/min, 2000 req + 1000 downloads/month. NOT wired into pull_assets.py
+# (brain/12 §1c / brain/20 §4.6): discovery here is fine, but the download
+# still only ever produces a `cita` asset, logged as fair use like any other
+# manually-sourced excerpt — clip.cafe's own PRO page is explicit that a
+# subscription is not a commercial licence.
+
+def q_clipcafe(key, movie_title=None, transcript=None, n=N_CANDIDATES):
+    """-> [dict] search hits, each with at least: title, slug, movie_title,
+    movie_year, duration, download_url, transcript, poster. [] on any error
+    or missing key — never raises, so a flaky/exhausted key just yields no
+    clip.cafe candidates instead of breaking the local search path."""
+    if not key:
+        return []
+    import requests
+    params = {"api_key": key, "size": n}
+    if movie_title:
+        params["movie_title"] = movie_title
+    if transcript:
+        params["transcript"] = transcript
+    try:
+        r = requests.get(CLIPCAFE_API, params=params,
+                          headers={"User-Agent": UA}, timeout=20)
+        r.raise_for_status()
+        data = r.json()
+    except Exception as e:
+        print(f"  aviso: clip.cafe búsqueda falló ({e})")
+        return []
+    # response shape isn't pinned down against a live key — try the
+    # documented Elasticsearch-style wrapper first, then a flat list.
+    hits = []
+    if isinstance(data, dict):
+        hits = (data.get("hits") or {}).get("hits") or data.get("results") or data.get("data") or []
+    elif isinstance(data, list):
+        hits = data
+    out = []
+    for h in hits[:n]:
+        src = h.get("_source", h) if isinstance(h, dict) else {}
+        if not src:
+            continue
+        out.append({
+            "title": src.get("title") or "",
+            "slug": src.get("slug") or "",
+            "movie_title": src.get("movie_title") or movie_title or "",
+            "movie_year": src.get("movie_year") or "",
+            "duration": src.get("duration") or "",
+            "download_url": src.get("download") or "",
+            "transcript": src.get("transcript") or "",
+            "poster": src.get("movie_poster") or "",
+        })
+    return out
+
+
+def download_clipcafe(hit, out_path):
+    """Fetch a clip.cafe search hit's clip to `out_path`. -> (ok, msg)."""
+    url = hit.get("download_url")
+    if not url:
+        return False, "el resultado de búsqueda no trae download_url"
+    import requests
+    try:
+        r = requests.get(url, headers={"User-Agent": UA}, timeout=60)
+        r.raise_for_status()
+    except Exception as e:
+        return False, str(e)
+    Path(out_path).write_bytes(r.content)
+    return True, ""
+
+
 # ---------- ffmpeg extraction ----------
 
 def _seek_args(t, lead=2.0):
@@ -287,27 +397,41 @@ def cut_clip(media, t, dur, out_mp4):
     return r.returncode == 0, r.stderr[-500:]
 
 
+def postprocess_download(raw_path, dur, out_mp4):
+    """A clip.cafe download is already the right excerpt — just enforce §4.2
+    (strip audio) and the row's duration cap, from the start of the file."""
+    cmd = [FFMPEG, "-y", "-i", str(raw_path), "-t", f"{dur:.2f}",
+           "-an", "-c:v", "libx264", "-crf", "18", "-preset", "medium",
+           "-pix_fmt", "yuv420p", str(out_mp4)]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    return r.returncode == 0, r.stderr[-500:]
+
+
 # ---------- search pass -> picker HTML ----------
 
-def search(slug, media, subs, transcribe, lang, model_name):
+def search(slug, media, subs, transcribe, lang, model_name, clipcafe_key=None):
     ep = _ep(slug)
     rows = read_tsv(slug)
     if not rows:
         sys.exit(f"{CITE_TSV} está vacío")
+    if not media and not clipcafe_key:
+        sys.exit("nada que buscar: da --media, o --clipcafe con CLIPCAFE_API_KEY en tools/.env")
 
     segments_full = parse_subs(subs) if subs else None
     if segments_full:
         print(f"subtítulos: {len(segments_full)} bloques")
+    if clipcafe_key:
+        print("clip.cafe: activado")
 
     cards = []
     thumb_cache = {}
     for row in rows:
         beat, texto = row["beat"], row["texto"]
         manual = parse_ts(row.get("timecode", ""))
-        cand = []
+        local_cand = []
         if manual is not None:
-            cand = [(1.0, manual, "(timecode manual)")]
-        else:
+            local_cand = [(1.0, manual, "(timecode manual)")]
+        elif media:
             win_start = win_end = None
             if row.get("ventana"):
                 try:
@@ -319,13 +443,13 @@ def search(slug, media, subs, transcribe, lang, model_name):
             if segments_full:
                 segs = [s for s in segments_full
                         if win_start is None or (win_start - 5 <= s[0] <= (win_end or 1e9) + 5)]
-            elif transcribe and media:
+            elif transcribe:
                 segs = transcribe_window(media, win_start, win_end, lang, model_name)
             if segs:
-                cand = best_matches(texto, segs)
-        # thumbnails for each candidate
+                local_cand = best_matches(texto, segs)
+        # thumbnails for each local candidate
         thumbs = []
-        for score, t, text in cand:
+        for score, t, text in local_cand:
             key = round(t, 1)
             if media and key not in thumb_cache:
                 png = ep / "assets" / "cite" / f"_preview_{beat}_{key}.jpg"
@@ -335,7 +459,15 @@ def search(slug, media, subs, transcribe, lang, model_name):
                 if not ok:
                     print(f"  aviso: preview beat {beat} @ {fmt_ts(t)} fallo: {err}")
             thumbs.append((score, t, text, thumb_cache.get(key) if media else None))
-        cards.append((row, thumbs))
+
+        cc_hits = []
+        if clipcafe_key and manual is None:
+            cc_hits = q_clipcafe(clipcafe_key, movie_title=row.get("obra") or None,
+                                  transcript=texto)
+            if cc_hits:
+                print(f"  clip.cafe: {len(cc_hits)} candidato(s) para beat {beat}")
+
+        cards.append((row, thumbs, cc_hits))
 
     Path(ep / "assets" / "cite").mkdir(parents=True, exist_ok=True)
     (ep / PASS_HTML).write_text(_build_html(slug, cards), encoding="utf-8")
@@ -345,6 +477,7 @@ def search(slug, media, subs, transcribe, lang, model_name):
 
 def _build_html(slug, cards):
     import base64
+    import json as _json
     esc = lambda s: (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
     def thumb_img(png):
@@ -354,26 +487,44 @@ def _build_html(slug, cards):
         return f'<img class="thumb" src="data:image/jpeg;base64,{b64}">'
 
     body = ['<section><h2>Búsqueda de citas — Ensayo <span>(' + str(len(cards)) + ')</span></h2>',
-            '<p class="hint">Por beat: elige un candidato o escribe el timecode a mano (siempre gana). '
+            '<p class="hint">Por beat: elige un candidato (local o clip.cafe) o escribe el timecode a mano '
+            '(siempre gana — cuenta como local, contra <code>--media</code>). '
             '«tipo» clip/still y «dur» vienen de <code>07-cite.tsv</code>, editables aquí. '
             '<b>«Finalizar»</b> descarga <code>' + PICKS_F + '</code> — guárdalo en la carpeta del episodio '
             'y corre <code>--extract</code>.</p>',
             '<div class="grid wide">']
-    for row, thumbs in cards:
+    for row, thumbs, cc_hits in cards:
         beat = esc(row["beat"])
-        body.append(f'<div class="card" data-beat="{beat}">')
+        cc_json = esc(_json.dumps(cc_hits, ensure_ascii=False))
+        body.append(f'<div class="card" data-beat="{beat}" data-clipcafe="{cc_json}">')
         body.append(f'<h3>Beat {beat} <span class="tag">{esc(row.get("tipo") or "clip")}</span></h3>')
         body.append(f'<div class="meta"><b>Obra:</b> {esc(row.get("obra"))} ({esc(row.get("año"))}) — {esc(row.get("distribuidora"))}'
                      f'<br><b>Buscado:</b> «{esc(row["texto"])}»</div>')
-        if thumbs:
+        any_cand = bool(thumbs or cc_hits)
+        if any_cand:
             body.append('<div class="row" style="flex-wrap:wrap;gap:.5rem">')
-            for i, (score, t, text, png) in enumerate(thumbs):
-                checked = " checked" if i == 0 else ""
+            first = True
+            for score, t, text, png in thumbs:
+                checked = " checked" if first else ""
+                first = False
                 body.append(
                     f'<label class="opt" style="max-width:220px">'
-                    f'<input type="radio" name="pick_{beat}" value="{t:.2f}"{checked}>'
-                    f'{thumb_img(png)}<br><code>{fmt_ts(t)}</code> · {score:.2f}<br>'
+                    f'<input type="radio" name="pick_{beat}" value="local|{t:.2f}"{checked}>'
+                    f'{thumb_img(png)}<br><code>{fmt_ts(t)}</code> · {score:.2f} · local<br>'
                     f'<span style="font-size:.75rem">{esc(text[:80])}</span></label>')
+            for i, h in enumerate(cc_hits):
+                checked = " checked" if first else ""
+                first = False
+                poster = h.get("poster")
+                thumb = (f'<img class="thumb" src="{esc(poster)}">' if poster
+                         else '<div class="thumb ph">clip.cafe</div>')
+                dur_lbl = f'{h.get("duration")}s' if h.get("duration") else "?"
+                body.append(
+                    f'<label class="opt" style="max-width:220px">'
+                    f'<input type="radio" name="pick_{beat}" value="clipcafe|{i}"{checked}>'
+                    f'{thumb}<br><code>clip.cafe</code> · {dur_lbl}<br>'
+                    f'<span style="font-size:.75rem">{esc(h.get("movie_title"))} ({esc(str(h.get("movie_year")))})'
+                    f' — «{esc((h.get("transcript") or "")[:80])}»</span></label>')
             body.append('</div>')
         else:
             body.append('<p class="empty">sin candidatos — usa el timecode manual</p>')
@@ -391,15 +542,23 @@ def _build_html(slug, cards):
     script = f"""
 const cards=[...document.querySelectorAll('.card')];
 document.getElementById('exp').onclick=()=>{{
-  const L=['beat\\ttimecode\\ttipo\\tdur'];
+  const L=['beat\\ttimecode\\ttipo\\tdur\\tfuente\\textra'];
   cards.forEach(c=>{{
     const beat=c.dataset.beat;
     const manual=c.querySelector('.tc').value.trim();
-    const picked=(c.querySelector('input[type=radio]:checked')||{{}}).value;
-    const tc=manual||picked||'';
+    const picked=(c.querySelector('input[type=radio]:checked')||{{}}).value||'';
     const tipo=c.querySelector('.tipo').value;
     const dur=c.querySelector('.dur').value;
-    if(tc) L.push([beat,tc,tipo,dur].join('\\t'));
+    let tc='', fuente='local', extra='';
+    if(manual){{ tc=manual; fuente='local'; }}
+    else if(picked.startsWith('local|')){{ tc=picked.slice(6); fuente='local'; }}
+    else if(picked.startsWith('clipcafe|')){{
+      const idx=parseInt(picked.slice(9),10);
+      const hits=JSON.parse(c.dataset.clipcafe||'[]');
+      const h=hits[idx];
+      if(h){{ tc='0'; fuente='clipcafe'; extra=h.download_url||''; }}
+    }}
+    if(tc!=='') L.push([beat,tc,tipo,dur,fuente,extra].join('\\t'));
   }});
   saveTxt('{PICKS_F}', L.join('\\n')+'\\n', 'Descargado. Guárdalo en episodes/{slug}/ y corre: python tools/clip_finder.py {slug} --extract');
 }};
@@ -416,14 +575,18 @@ def extract(slug, media=None):
     ep = _ep(slug)
     picks_f = ep / PICKS_F
     if not picks_f.exists():
-        sys.exit(f"no {picks_f.relative_to(ROOT)} — corre --media primero y guarda el export del picker aquí")
+        sys.exit(f"no {picks_f.relative_to(ROOT)} — corre la búsqueda primero y guarda el export del picker aquí")
     tsv_rows = {r["beat"]: r for r in read_tsv(slug)}
     lines = [l for l in picks_f.read_text(encoding="utf-8").splitlines() if l.strip()]
     header = lines[0].split("\t")
-    if media is None:
+    needs_local = any(
+        dict(zip(header, (l.split("\t") + [""] * len(header))[:len(header)])).get("fuente", "local") == "local"
+        for l in lines[1:]
+    )
+    if needs_local and media is None:
         media_str = input("Ruta al archivo de la obra (la misma que usaste en --media): ").strip().strip('"')
         media = Path(media_str)
-    if not media.exists():
+    if needs_local and not media.exists():
         sys.exit(f"no existe: {media}")
 
     out_dir = ep / "assets" / "cite"
@@ -434,31 +597,53 @@ def extract(slug, media=None):
         cells += [""] * (len(header) - len(cells))
         row = dict(zip(header, cells))
         beat = row["beat"]
-        t = parse_ts(row["timecode"])
-        if t is None:
-            print(f"  beat {beat}: timecode ilegible ({row['timecode']!r}) — salto")
-            continue
+        fuente = (row.get("fuente") or "local").strip().lower()
         tipo = (row.get("tipo") or "clip").strip().lower()
         meta = tsv_rows.get(beat, {})
-        stamp = fmt_compact(t)
-        if tipo == "still":
-            out = out_dir / f"beat{beat}_{stamp}.png"
-            ok, err = grab_still(media, t, out)
-        else:
+        obra = meta.get("obra") or "(obra)"
+        año = meta.get("año") or "?"
+        dist = meta.get("distribuidora") or "?"
+
+        if fuente == "clipcafe":
+            url = row.get("extra") or ""
+            if not url:
+                print(f"  beat {beat}: pick de clip.cafe sin download_url — salto")
+                continue
             dur = float(row.get("dur") or DEFAULT_CLIP_DUR)
-            out = out_dir / f"beat{beat}_{stamp}.mp4"
-            ok, err = cut_clip(media, t, dur, out)
+            tmpf = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False)
+            tmpf.close()
+            tmp = Path(tmpf.name)
+            ok, err = download_clipcafe({"download_url": url}, tmp)
+            if not ok:
+                print(f"  FALLO  beat {beat}  descarga clip.cafe: {err}")
+                continue
+            out = out_dir / f"beat{beat}_clipcafe.mp4"
+            ok, err = postprocess_download(tmp, dur, out)
+            tmp.unlink(missing_ok=True)
+            loc_label = "clip.cafe"
+        else:
+            t = parse_ts(row["timecode"])
+            if t is None:
+                print(f"  beat {beat}: timecode ilegible ({row['timecode']!r}) — salto")
+                continue
+            stamp = fmt_compact(t)
+            if tipo == "still":
+                out = out_dir / f"beat{beat}_{stamp}.png"
+                ok, err = grab_still(media, t, out)
+            else:
+                dur = float(row.get("dur") or DEFAULT_CLIP_DUR)
+                out = out_dir / f"beat{beat}_{stamp}.mp4"
+                ok, err = cut_clip(media, t, dur, out)
+            loc_label = fmt_ts(t)
         if not ok:
             print(f"  FALLO  beat {beat}  {err}")
             continue
         rel = f"assets/cite/{out.name}"
-        print(f"  OK  beat {beat}  {tipo}  {fmt_ts(t)}  -> {rel}")
-        obra = meta.get("obra") or "(obra)"
-        año = meta.get("año") or "?"
-        dist = meta.get("distribuidora") or "?"
+        print(f"  OK  beat {beat}  {tipo}  {loc_label}  -> {rel}")
+        via = " — vía clip.cafe API (no es licencia, brain/20 §4.6)" if fuente == "clipcafe" else ""
         credits.append(f"- beat {beat}: cita — crítica/comentario (fair use) — "
-                        f"«{obra}» ({año}, {dist}), {fmt_ts(t)} — `{rel}`")
-        selection.append((beat, tipo, fmt_ts(t), obra, año, dist, rel))
+                        f"«{obra}» ({año}, {dist}), {loc_label}{via} — `{rel}`")
+        selection.append((beat, tipo, loc_label, obra, año, dist, rel))
 
     if credits:
         cf = ep / "assets" / "CREDITS.md"
@@ -486,6 +671,9 @@ def main():
     if not args:
         print(__doc__)
         sys.exit(2)
+    if args[0] == "--check-keys":
+        check_keys()
+        return
     slug = args[0]
     if not (_ep(slug)).exists():
         sys.exit(f"no episodes/{slug}/")
@@ -501,13 +689,18 @@ def main():
     elif "--extract" in args:
         media = opt("--media")
         extract(slug, Path(media) if media else None)
-    elif "--media" in args:
-        media = Path(opt("--media"))
-        if not media.exists():
+    elif "--media" in args or "--clipcafe" in args:
+        media_opt = opt("--media")
+        media = Path(media_opt) if media_opt else None
+        if media and not media.exists():
             sys.exit(f"no existe: {media}")
         subs = opt("--subs")
+        clipcafe_key = load_env().get("CLIPCAFE_API_KEY") if "--clipcafe" in args else None
+        if "--clipcafe" in args and not clipcafe_key:
+            sys.exit("--clipcafe pedido pero no hay CLIPCAFE_API_KEY en tools/.env (--check-keys)")
         search(slug, media, Path(subs) if subs else None,
-               "--transcribe" in args, opt("--lang", "es"), opt("--model", "small"))
+               "--transcribe" in args, opt("--lang", "es"), opt("--model", "small"),
+               clipcafe_key)
     else:
         print(__doc__)
 
