@@ -167,6 +167,25 @@ def _asset_index(ep):
     return idx
 
 
+def _cite_meta(ep):
+    """beat-number (str) -> {obra, año, dist} parsed from 07-cite-selection.md
+    (brain/20 §4.7, written by clip_finder.py --extract) — feeds the case-file
+    label burned onto a `cita` beat's bake (§4.3)."""
+    f = ep / "07-cite-selection.md"
+    if not f.exists():
+        return {}
+    out = {}
+    for line in f.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line.startswith("|") or set(line) <= set("|-: "):
+            continue
+        c = [x.strip() for x in line.strip("|").split("|")]
+        if len(c) < 6 or not c[0].isdigit():
+            continue
+        out[c[0]] = {"obra": c[3], "año": c[4], "dist": c[5]}
+    return out
+
+
 def _the_take(ep):
     """The single trimmed narrator take (A-roll source). Multi-take A-roll isn't
     supported yet — returns the first one and the caller warns."""
@@ -243,6 +262,50 @@ def _negro_card(text, ep):
         for ln in lines:
             d.text(((w - d.textlength(ln, font=fnt)) / 2, y), ln, font=fnt, fill=(214, 203, 181))
             y += lh
+        out.parent.mkdir(parents=True, exist_ok=True)
+        im.save(out)
+        return out
+    except Exception:
+        return None
+
+
+def _cite_card(ep, obra, año, dist, w, h):
+    """The case-file device (brain/03) applied to a `cita` excerpt (brain/20
+    §4.3 — every moving excerpt gets it): a translucent file-strip across the
+    lower frame naming the work under fair-use commentary, Courier Prime (or
+    the nearest mono fallback), thin gold rule. Transparent RGBA, meant to be
+    ffmpeg-`overlay`ed onto the excerpt. Cached by content+resolution."""
+    import hashlib
+    key = hashlib.md5(f"{obra}|{año}|{dist}|{w}x{h}".encode("utf-8")).hexdigest()[:10]
+    out = ep / "assets" / "_proxy" / f"cite_{key}.png"
+    if out.exists():
+        return out
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+        im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        d = ImageDraw.Draw(im)
+        bar_h = round(h * 0.14)
+        d.rectangle([0, h - bar_h, w, h], fill=(6, 5, 3, 190))
+        d.rectangle([0, h - bar_h, w, h - bar_h + max(2, round(h * 0.0025))],
+                    fill=(196, 162, 87, 255))
+        fpath = next((c for c in (r"C:\Windows\Fonts\cour.ttf", r"C:\Windows\Fonts\consola.ttf",
+                                  "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+                                  "/Library/Fonts/Courier New.ttf") if Path(c).exists()), None)
+
+        def _font(px):
+            try:
+                return ImageFont.truetype(fpath, px) if fpath else ImageFont.load_default()
+            except Exception:
+                return ImageFont.load_default()
+
+        size = max(14, round(h * 0.024))
+        f1, f2 = _font(size), _font(round(size * 0.86))
+        pad = round(w * 0.02)
+        y1 = h - bar_h + round(bar_h * 0.22)
+        y2 = h - bar_h + round(bar_h * 0.58)
+        d.text((pad, y1), "EXPEDIENTE: CITA — CRÍTICA/COMENTARIO", font=f1, fill=(214, 203, 181, 255))
+        line2 = f"«{obra}» ({año}) — {dist}" if dist else f"«{obra}» ({año})"
+        d.text((pad, y2), line2, font=f2, fill=(196, 162, 87, 255))
         out.parent.mkdir(parents=True, exist_ok=True)
         im.save(out)
         return out
@@ -636,7 +699,9 @@ def _derive_motion(beats):
         if b["kind"] in GRAPHIC and b.get("motion") in ("cut", "static", "", None):
             b["motion"] = "push"
         if (b.get("file") or "").lower().endswith((".mp4", ".mov", ".webm")):
-            b["motion"] = "cut"
+            # brain/20 §4.3: every moving cita excerpt gets a push/reframe move,
+            # never a flat hold — everything else stays a hard cut (no zoompan).
+            b["motion"] = "push" if b["kind"] == "cita" else "cut"
     return beats
 
 
@@ -1072,21 +1137,32 @@ def _geq_zoom_vf(mv, w, h, dur):
 
 
 def _kb_render(ep, b, w, h, fps):
-    """Bake a still's push/zoom move to a cached clip (geq is too slow to run on
+    """Bake a beat's push/zoom move to a cached clip (geq is too slow to run on
     every render). Keyed by file+mtime+move+dur+resolution — a dur or asset
-    change re-renders just that beat. Returns the clip Path, or None on failure."""
+    change re-renders just that beat. Works on a looped still, or — for a
+    `cita` beat (brain/20 §4.3: every moving excerpt gets a push/reframe move)
+    — a short video clip played once; a `cita` bake also overlays the
+    case-file device (brain/03) in the same pass. Returns the clip Path, or
+    None on failure."""
     import hashlib
     src = ep / b["file"]
     if not src.exists():
         return None
+    is_video = src.suffix.lower() in (".mp4", ".mov", ".webm")
+    is_cita = b["kind"] == "cita"
     mv = _still_move(b, w, h)
     dur = max(0.4, b["out"] - b["in"])
+    card = None
+    if is_cita:
+        meta = _cite_meta(ep).get(str(_idn(b.get("id"))), {})
+        card = _cite_card(ep, meta.get("obra", "?"), meta.get("año", "?"), meta.get("dist", ""), w, h)
     try:
         mt = int(src.stat().st_mtime)
     except OSError:
         mt = 0
     key = hashlib.sha1(
-        f"{b['file']}|{mt}|{mv}|{round(dur, 2)}|{w}x{h}|geq2".encode("utf-8")
+        f"{b['file']}|{mt}|{mv}|{round(dur, 2)}|{w}x{h}|{card.name if card else ''}|geq2"
+        .encode("utf-8")
     ).hexdigest()[:12]
     cache = ep / "assets" / "_kb" / f"kb_{key}.mp4"
     # a good cache entry is a real clip roughly the beat's length (a killed bake
@@ -1096,13 +1172,24 @@ def _kb_render(ep, b, w, h, fps):
     cache.unlink(missing_ok=True)
     cache.parent.mkdir(parents=True, exist_ok=True)
     proxy = w <= 1920
-    cmd = [FFMPEG, "-y", "-loop", "1", "-framerate", str(fps), "-t", f"{dur:.3f}",
-           "-i", str(src), "-an",
-           "-vf", _geq_zoom_vf(mv, w, h, dur) + f",fps={fps},format=yuv420p",
-           "-c:v", "libx264", "-preset", "veryfast" if proxy else "slow",
-           "-crf", "20" if proxy else "16", "-pix_fmt", "yuv420p",
-           "-movflags", "+faststart", str(cache)]
-    print(f"  ken burns  {b['id']} ({mv} {dur:.1f}s) → assets/_kb/{cache.name} …")
+    src_args = (["-t", f"{dur:.3f}", "-i", str(src)] if is_video else
+                ["-loop", "1", "-framerate", str(fps), "-t", f"{dur:.3f}", "-i", str(src)])
+    zoom_vf = _geq_zoom_vf(mv, w, h, dur) + f",fps={fps},format=yuv420p"
+    if card:
+        cmd = [FFMPEG, "-y", *src_args, "-loop", "1", "-i", str(card), "-an",
+               "-filter_complex",
+               f"[0:v]{zoom_vf}[base];[base][1:v]overlay=0:0:shortest=1,format=yuv420p[vout]",
+               "-map", "[vout]",
+               "-c:v", "libx264", "-preset", "veryfast" if proxy else "slow",
+               "-crf", "20" if proxy else "16", "-pix_fmt", "yuv420p",
+               "-movflags", "+faststart", str(cache)]
+    else:
+        cmd = [FFMPEG, "-y", *src_args, "-an",
+               "-vf", zoom_vf,
+               "-c:v", "libx264", "-preset", "veryfast" if proxy else "slow",
+               "-crf", "20" if proxy else "16", "-pix_fmt", "yuv420p",
+               "-movflags", "+faststart", str(cache)]
+    print(f"  ken burns  {b['id']} ({mv} {dur:.1f}s{' + expediente' if card else ''}) → assets/_kb/{cache.name} …")
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT)
     if r.returncode != 0 or not cache.exists() or abs(_duration(cache) - dur) > 0.3:
         print(f"  ⚠ geq falló para {b['id']}: {(r.stderr or r.stdout)[-200:]}")
@@ -1127,6 +1214,23 @@ def _clip_filter(i, b, w, h, fps, mv=None):
     else:                   # cut — hard hold, centred, no move
         f = f"{fill},crop={w}:{h}:x='(iw-{w})/2':y='(ih-{h})/2'"
     return f + f",trim=duration={d:.3f},setpts=PTS-STARTPTS,setsar=1,fps={fps},format=yuv420p[v{i}]"
+
+
+def _video_hold_filter(i, p, dur, w, h, fps):
+    """Plain scale-crop-play-straight treatment for a video clip — no zoompan.
+    Speeds a clip up a touch to fit when it's a bit shorter than the beat;
+    loops only when it's far too short or already long enough. Returns
+    (extra `-i` input args, the filter_complex line producing [v{i}])."""
+    clip_dur = _duration(p)
+    ratio = (dur / clip_dur) if clip_dur > 0.1 else 1.0
+    base = f"scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h},setsar=1"
+    if 1.03 < ratio <= 2.6:
+        return (["-i", str(p)],
+                f"[{i}:v]{base},setpts={ratio:.4f}*PTS,fps={fps},"
+                f"trim=duration={dur:.3f},setpts=PTS-STARTPTS[v{i}]")
+    return (["-stream_loop", "-1", "-t", f"{dur:.3f}", "-i", str(p)],
+            f"[{i}:v]{base},fps={fps},trim=duration={dur:.3f},"
+            f"setpts=PTS-STARTPTS[v{i}]")
 
 
 def render(slug, mode, t0=None, t1=None, dry=False):
@@ -1195,25 +1299,28 @@ def render(slug, mode, t0=None, t1=None, dry=False):
                 else:                           # pan/cut, or geq failed → animate inline
                     inputs += ["-loop", "1", "-framerate", str(fps), "-t", f"{dur:.3f}", "-i", str(p)]
                     filters.append(_clip_filter(i, b, w, h, fps, mv))
+            elif b["kind"] == "cita":
+                # brain/20 §4.3 — every moving excerpt gets a push/reframe move
+                # + the case-file device, baked together in one pass.
+                mv = _still_move(b, w, h)
+                kb = _kb_render(ep, b, w, h, fps) if mv in ("push", "zoom") else None
+                if kb:
+                    inputs += ["-i", str(kb)]
+                    filters.append(
+                        f"[{i}:v]scale={w}:{h},setsar=1,fps={fps},"
+                        f"trim=duration={dur:.3f},setpts=PTS-STARTPTS,format=yuv420p[v{i}]")
+                else:                           # bake failed → plain hold, never crash the render
+                    extra, flt = _video_hold_filter(i, p, dur, w, h, fps)
+                    inputs += extra
+                    filters.append(flt)
             else:
                 # video B-roll: scale-crop to frame, play it straight — NO zoompan
                 # (that would explode the frame count). If the clip is a bit
                 # SHORTER than the beat, slow it to fit (nicer than a visible
                 # loop); only loop when it's far too short or long enough already.
-                clip_dur = _duration(p)
-                ratio = (dur / clip_dur) if clip_dur > 0.1 else 1.0
-                base = (f"[{i}:v]scale={w}:{h}:force_original_aspect_ratio=increase,"
-                        f"crop={w}:{h},setsar=1")
-                if 1.03 < ratio <= 2.6:
-                    inputs += ["-i", str(p)]
-                    filters.append(
-                        f"{base},setpts={ratio:.4f}*PTS,fps={fps},"
-                        f"trim=duration={dur:.3f},setpts=PTS-STARTPTS[v{i}]")
-                else:
-                    inputs += ["-stream_loop", "-1", "-t", f"{dur:.3f}", "-i", str(p)]
-                    filters.append(
-                        f"{base},fps={fps},trim=duration={dur:.3f},"
-                        f"setpts=PTS-STARTPTS[v{i}]")
+                extra, flt = _video_hold_filter(i, p, dur, w, h, fps)
+                inputs += extra
+                filters.append(flt)
         vmaps.append(f"[v{i}]")
 
     vo = next(iter(sorted(ep.glob("assets/*.trimmed.mp4"))), None)
