@@ -56,3 +56,6 @@ intro	custom:5	https://www.pexels.com/es-es/video/escaleras-montanas-vehiculo-ja
 81	ai:ai04	"D:\Conquest\episodes\E001-hokusai\assets\ChatGPT Image 8 sept 2026, 03_43_02 (4).png"
 # --- MÚSICA (consideración; brand/assets/music/) ---
 music	custom:1	"D:\Conquest\episodes\E001-hokusai\assets\inner-outer - Lish Grooves.mp3"	youtube library	CC0	
+
+# --- SALA (asset-id → recurso; swaps hechos en la sala) ---
+swap_6e66013e95	sala	assets/archive/swap_6e66013e95.png

@@ -33,11 +33,11 @@ Si una imagen no llega, la opción es: usarla más pequeña (inserto), cortar un
 
 ## Flujo
 
-**`07-style-pass.html` es el artefacto central del Stage 7.** Todo se decide ahí.
+**`07-style-pass.html` es el artefacto central del Stage 7.** Todo se decide ahí — cada beat (cold open incluido) tiene su propia fila de candidatos, no hay una caja de «intro» aparte.
 
-1. **Pull** — `07-pull.tsv` (beat · kind `stock|stock-img|video|intro|archive` · source · query · opts) + `build_ai_prompts.py` antes → `python tools/pull_assets.py E0XX-slug` → `07-style-pass.md` (registro) + `.html` (la superficie: intro arriba, candidatos por beat a la izquierda, prompts IA a la derecha).
-2. **Pase** (Usuario 001) — intro (hasta 5 propios + sugeridos + checkbox «intro» en cards) · candidatos por beat con los criterios de abajo · rutas de imágenes IA en la columna derecha. **Finalizar Stage 7** (escribe `07-picks.txt`) → `python tools/pull_assets.py E0XX-slug --download` baja todo a `assets/{intro,stock,video,archive,ai}/`, verifica resolución, escribe `assets/CREDITS.md` + **`07-selection.md`**.
-3. **Manifiesto** — plegar `07-selection.md` aquí; una fila por asset **aceptado** (intro / beat / IA), con Uso y Pase.
+1. **Pull** — `07-pull.tsv` (beat · kind `stock|stock-img|video|archive` · source · query · opts) + `build_ai_prompts.py` antes → `python tools/pull_assets.py E0XX-slug` → `07-style-pass.md` (registro) + `.html` (la superficie: candidatos por beat, rutas de imágenes IA, música).
+2. **Pase** (Usuario 001) — candidato por beat con los criterios de abajo, o ruta propia. **«Guardar»** guarda + descarga sin cerrar el stage; **«Finalizar Stage 7»** hace lo mismo y además pliega el gate: baja todo a `assets/{stock,video,archive,ai}/`, verifica resolución, escribe `assets/CREDITS.md` + `07-selection.md`.
+3. **Manifiesto** — se rellena solo al plegar (`advance.py fold` → `_write_assets_manifest`), transcrito de `07-selection.md`. No hace falta tocarlo a mano.
 
 ## Criterios del pase de estilo
 
@@ -50,19 +50,14 @@ Marca cada candidato:
 - **Coherencia de secuencia** — las imágenes que van juntas en un tramo, ¿parecen de la misma familia (misma calidad de escaneo, mismo tratamiento)?
 - **Veredicto** — ✅ aceptada · ⚠️ dudosa (anota qué falta) · ❌ rechazada (motivo)
 
-## Intro / cold open (§0) — orden de pantalla
+## Manifiesto
 
-| # | Qué es | Fuente / enlace | Licencia | Res. real | Pase | Archivo local |
-|---|--------|-----------------|----------|-----------|------|---------------|
-| 1 | | | | | ✅/⚠️/❌ | `assets/intro/intro01_…` |
-| 2 | | | | | | |
+> Esta sección se sobreescribe sola al plegar Stage 7 (`fold_assets` → `_write_assets_manifest`,
+> transcrito de `07-selection.md`) — no la edites a mano, se pierde en el siguiente fold.
 
-## Manifiesto (por beat + IA)
-
-| # | Beat(s) | Qué es | Enlace de descarga | Museo / nº | Licencia | Res. real | Uso (estático / push-in / inserto) | Pase | Archivo local |
-|---|---------|--------|--------------------|------------|----------|-----------|------------------------------------|------|---------------|
-| 1 | | | | | CC0 / PD / licencia / IA (rótulo) / ⚠️ | px reales | | ✅/⚠️/❌ + nota | `assets/…` |
-| 2 | | | | | | | | | |
+| Beat | Fuente | Res. | Archivo |
+|------|--------|------|---------|
+| *(sin picks todavía — se rellena al plegar)* | | | |
 
 ## Gráficos propios (no van en el manifiesto — resumen para el brief de diseño)
 
@@ -76,8 +71,7 @@ Marca cada candidato:
 
 ## Gate Stage 7
 
-- [ ] Cold open (§0): 2–5 assets de intro aceptados, en orden
-- [ ] Cada beat archivístico del shotlist tiene una imagen **aceptada** o un plan B (gráfico propio)
+- [ ] Cada beat del shotlist (cold open incluido) tiene un recurso **aceptado** o un plan B (gráfico propio) — nunca «sin fila» en `07-pull.tsv` (`brain/12`: si el pull no encuentra nada, se afina la búsqueda y se corre de nuevo solo para ese beat antes de recurrir a recreación/ilustración)
 - [ ] Toda imagen con licencia clara (CC0 / PD / licencia obtenida) y **descarga directa sin captcha**
 - [ ] Cada imagen **llega a la resolución** que pide su uso (tabla arriba); si no, se usa como inserto / recorte de detalle / se corta
 - [ ] Coherencia de color/estado revisada por tramos, no solo por imagen

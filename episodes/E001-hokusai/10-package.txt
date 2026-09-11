@@ -1,11 +1,9 @@
-# Descripción de YouTube y créditos — E001 «Hokusai»
-
-> Stage 10. El bloque «Fuentes principales» es obligatorio en todos los episodios. Sin enlace ni pitch de terceros.
-
----
-
-## TEXTO PARA PEGAR EN YOUTUBE
-
+# 10-package.txt — generado por 10-package.html
+titulo	El artista que cambió de nombre 30 veces buscando ser mejor | Hokusai | Documental
+miniatura	
+aprobado	titulo,miniatura,descripcion
+nota	
+---DESCRIPCION---
 A los 88 años, agonizando, Hokusai pidió más tiempo — decía que aún no era «un pintor de verdad». Llevaba setenta años dibujando y había perdido todo tres veces: el nombre de su maestro, la estabilidad, los ahorros. «La gran ola frente a Kanagawa» la pintó a los 70, en medio de la última ruina. Esta es la vida completa detrás de esa imagen.
 
 ⏱ Capítulos
@@ -37,22 +35,3 @@ A los 88 años, agonizando, Hokusai pidió más tiempo — decía que aún no er
 - Archivo: Wikimedia Commons (dominio público), The Metropolitan Museum of Art (CC0), vídeo stock Pexels/Pixabay — detalle en `assets/CREDITS.md`
 
 🔔 Si te interesa este tipo de historias, suscríbete. Próximo episodio: Toyota y Taiichi Ohno.
-
----
-
-## Metadatos
-
-| Campo | Valor |
-|-------|-------|
-| Título elegido | El artista que cambió de nombre 30 veces buscando ser mejor \| Hokusai \| Documental (candidato C — decidido por el revisor en `10-package.html`, Stage 10 cerrado 2026-09-12) |
-| Etiquetas | historia, caso real, documental, Hokusai, La gran ola, ukiyo-e, arte japonés, Edo, Japón, biografía |
-| Categoría | Educación |
-| Idioma | Español |
-| Subtítulos | ES .srt corregido a mano — [ ] listo (no generado aún) |
-| Miniatura | [ ] subida (brief en `08-thumbnail-title.md`, imagen sin producir) |
-| Pantalla final | [ ] configurada (siguiente vídeo + suscripción) |
-| Comentario fijado | sondeo de fuentes / cualquier salvedad — [x] redactado (abajo) |
-
-## Comentario fijado (borrador)
-
-> Fuentes principales de este episodio, con cita exacta por afirmación, en el dossier de investigación (enlace en la bio/comunidad). Dos salvedades que vale la pena repetir aquí: el «~30 nombres» y el «~93 mudanzas» son cifras tradicionales muy repetidas pero de origen impreciso — las presentamos como tal, no como hecho cerrado. Si algo no cuadra con lo que sabes, decímelo abajo.

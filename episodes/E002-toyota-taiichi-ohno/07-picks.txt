@@ -32,3 +32,18 @@
 15	ai:ai04	assets/ai/ChatGPT_Image_11_sept_2026__17_42_10__6_.png
 18	ai:ai05	assets/ai/ChatGPT_Image_11_sept_2026__17_42_08__4_.png
 21	ai:ai06	assets/ai/ChatGPT_Image_11_sept_2026__17_42_09__5_.png
+23	ai:ai07	assets/ai/ChatGPT_Image_11_sept_2026__18_35_53__15__1.png
+24	ai:ai08	assets/ai/ChatGPT_Image_11_sept_2026__18_35_45__2_.png
+56	ai:ai10	assets/ai/ChatGPT_Image_11_sept_2026__18_35_46__4_.png
+64	ai:ai11	assets/ai/ChatGPT_Image_11_sept_2026__18_35_46__3_.png
+70	ai:ai12	assets/ai/ChatGPT_Image_11_sept_2026__18_35_48__5_.png
+75	ai:ai13	assets/ai/ChatGPT_Image_11_sept_2026__18_35_49__6_.png
+82	ai:ai14	assets/ai/ChatGPT_Image_11_sept_2026__18_35_49__7_.png
+87	ai:ai16	assets/ai/ChatGPT_Image_11_sept_2026__18_35_53__14_.png
+91	ai:ai15	assets/ai/ChatGPT_Image_11_sept_2026__18_35_52__13_.png
+102	ai:ai17	assets/ai/ChatGPT_Image_11_sept_2026__18_35_50__9_.png
+104	ai:ai18	assets/ai/ChatGPT_Image_11_sept_2026__18_35_51__11_.png
+110	ai:ai19	assets/ai/ChatGPT_Image_11_sept_2026__18_35_52__12_.png
+# --- MÚSICA (consideración; brand/assets/music/) ---
+music	jamendo:1542223	https://prod-1.storage.jamendo.com/download/track/1542223/mp32/
+music	jamendo:1530537	https://prod-1.storage.jamendo.com/download/track/1530537/mp32/

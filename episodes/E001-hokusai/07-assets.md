@@ -55,6 +55,8 @@ Si no llega: usar como inserto, cortar un **detalle** (un detalle a 2000 px sirv
 | 21 | +F | **Portada de *La Mer*** (1905, Durand) | **IMSLP tiene captcha → no.** Opción real: BnF **Gallica** (IIIF, sin captcha) buscar «Debussy La Mer Durand 1905» · si no hay res buena → **plan B: mostrar la Ola real (#1) y decir en la narración que fue a la portada**, o la portada como inserto de baja res durante 2 s | Gallica / — | PD (1905) | Gallica variable | inserto breve → baja res tolerable | ⚠️ |
 | 22 | +F | **Van Gogh copiando a Hiroshige** (1887) | Commons *Google Art Project* (alta res): https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_Brug_in_de_regen-_naar_Hiroshige_-_Google_Art_Project.jpg | Commons / VG Museum | PD (†1890) | ~10000 px | full-frame | ✅ res |
 | 23 | +E, +F | Interior de Giverny (Monet) | **sin fuente PD** — foto con licencia. **Recomendación: cortar el plano.** La línea "Monet las coleccionaba" se cubre con #22. | — | ❌ | — | — | ❌ manifiesto PD |
+| + | sala | lo último que pidió no fue a despedirse de nadie | traído en la sala: D:\Conquest\episodes\E001-hokusai\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | lo último que pidió no fue a despedirse de nadie | traído en la sala: D:\Conquest\episodes\E001-hokusai\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
 
 ## Decisión: la cara de Hokusai — RESUELTO
 

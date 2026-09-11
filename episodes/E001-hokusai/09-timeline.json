@@ -1,7 +1,7 @@
 {
  "ep": "E001",
  "slug": "E001-hokusai",
- "generated": "2026-09-09",
+ "generated": "2026-09-10",
  "schema": 2,
  "seeded": "2026-09-09",
  "aligned": true,
@@ -35,7 +35,7 @@
    "asset": "intro02",
    "motion": "cut",
    "vo_anchor": "en un cuarto de alquiler de Edo",
-   "in": 0.0,
+   "in": 0,
    "out": 5.833,
    "file": "assets/intro/intro02_pexelsv_2.mp4",
    "state": "ok"
@@ -91,6 +91,7 @@
    "asset": "intro03",
    "motion": "cut",
    "vo_anchor": "una de las imágenes japonesas más reproducidas del mundo",
+   "dur_edited": true,
    "in": 21.333,
    "out": 26.708,
    "file": "assets/intro/intro03_pexelsv_3.mp4",
@@ -101,14 +102,15 @@
    "dur": 3.84,
    "section": "cold open",
    "kind": "archivo",
-   "asset": "beat4_commons_124369341",
+   "asset": "swap_6e66013e95",
    "motion": "pan-v",
    "vo_anchor": "lo último que pidió no fue a despedirse de nadie",
+   "dur_edited": true,
    "in": 26.708,
    "out": 30.542,
-   "file": "assets/_proxy/beat4_commons_124369341.jpg",
+   "file": "assets/archive/swap_6e66013e95.png",
    "state": "ok",
-   "aspect": 0.482
+   "aspect": 1.833
   },
   {
    "id": "b8",
@@ -231,7 +233,7 @@
    "marker": "EXPLICADOR 1",
    "vo_anchor": "un impresor estampa estas planchas encima de otra; la firma es del dibujante",
    "in": 108.583,
-   "out": 118.0,
+   "out": 118,
    "file": "assets/graphic/G1_ukiyoe_pipeline.png",
    "state": "ok",
    "aspect": 1.778
@@ -244,7 +246,7 @@
    "asset": "",
    "motion": "cut",
    "vo_anchor": "el artista no toca la madera ni la tinta",
-   "in": 118.0,
+   "in": 118,
    "out": 136.542,
    "file": "assets/E001-vo.trimmed.mp4",
    "state": "ok"
@@ -563,7 +565,7 @@
    "motion": "cut",
    "vo_anchor": "Así llega a los 50 años",
    "in": 313.5,
-   "out": 322.0,
+   "out": 322,
    "file": "assets/E001-vo.trimmed.mp4",
    "state": "ok"
   },
@@ -575,7 +577,7 @@
    "asset": "manga_detail",
    "motion": "pan-v",
    "vo_anchor": "gente trabajando, animales, olas, plantas",
-   "in": 322.0,
+   "in": 322,
    "out": 329.667,
    "file": "assets/archive/beat45_custom_45.jpg",
    "state": "ok",
@@ -634,7 +636,7 @@
    "out": 384.5,
    "file": "assets/archive/beat18_custom_18.jpg",
    "state": "ok",
-   "aspect": 1.0
+   "aspect": 1
   },
   {
    "id": "b48",
@@ -659,7 +661,7 @@
    "motion": "cut",
    "vo_anchor": "con sesenta y muchos años, le cae encima la peor racha",
    "in": 390.375,
-   "out": 402.0,
+   "out": 402,
    "file": "assets/E001-vo.trimmed.mp4",
    "state": "ok"
   },
@@ -671,7 +673,7 @@
    "asset": "swap_50_2c93b043",
    "motion": "push",
    "vo_anchor": "Hokusai las asume y las paga un nieto, hijo de una de sus hijas, contrae deudas",
-   "in": 402.0,
+   "in": 402,
    "out": 416.042,
    "file": "assets/archive/swap_50_2c93b043.png",
    "state": "ok",
@@ -920,7 +922,7 @@
   },
   {
    "id": "b70",
-   "dur": 17.0,
+   "dur": 17,
    "section": "acto 4",
    "kind": "archivo",
    "asset": "swap_70_81b0d516",
@@ -957,7 +959,7 @@
    "motion": "cut",
    "vo_anchor": "el viejo que sigue obsesionado con esto",
    "in": 625.333,
-   "out": 632.0,
+   "out": 632,
    "file": "assets/E001-vo.trimmed.mp4",
    "state": "ok"
   },
@@ -970,7 +972,7 @@
    "label": "Ilustración — Conquest",
    "motion": "push",
    "vo_anchor": "hacia 1839 un incendio destruyó su casa taller",
-   "in": 632.0,
+   "in": 632,
    "out": 641.458,
    "file": "assets/ai/E001_ai03_studio-fire-night.png",
    "state": "ok",
@@ -992,7 +994,7 @@
   },
   {
    "id": "b76",
-   "dur": 5.0,
+   "dur": 5,
    "section": "acto 4",
    "kind": "acamara",
    "asset": "",
@@ -1195,7 +1197,7 @@
    "motion": "push",
    "vo_anchor": "en la vida hay dos maneras de medir cualquier cosa en la que trabajes",
    "in": 780.167,
-   "out": 791.0,
+   "out": 791,
    "file": "assets/archive/swap_92_1a8716a5.png",
    "state": "ok",
    "aspect": 1.777
@@ -1208,7 +1210,7 @@
    "asset": "",
    "motion": "cut",
    "vo_anchor": "la primera pregunta tiene solo dos respuestas y las dos terminan mal una es preguntarte, ya llegué; la otra, ¿me estoy acercando?",
-   "in": 791.0,
+   "in": 791,
    "out": 819.583,
    "file": "assets/E001-vo.trimmed.mp4",
    "state": "ok"
@@ -1295,5 +1297,6 @@
    "file": "assets/E001-vo.trimmed.mp4",
    "state": "ok"
   }
- ]
+ ],
+ "finalized": "2026-09-11"
 }

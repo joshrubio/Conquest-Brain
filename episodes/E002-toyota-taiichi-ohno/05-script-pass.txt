@@ -1,0 +1,7 @@
+# 05-script-pass.txt — 05-script.html
+episodio	E002-toyota-taiichi-ohno
+version	v2 (expansión)
+revisor	Usuario 001
+aprobado	si
+
+---BEATS---

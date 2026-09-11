@@ -38,4 +38,16 @@
 | 15 | ai04 | 1672x941 | `assets/ai/E002_ai04_loom-autostop.png` |
 | 18 | ai05 | 1672x941 | `assets/ai/E002_ai05_kiichiro-chevy.png` |
 | 21 | ai06 | 1672x941 | `assets/ai/E002_ai06_model-aa.png` |
+| 23 | ai07 | 1672x941 | `assets/ai/E002_ai07_war-trucks.png` |
+| 24 | ai08 | 1672x941 | `assets/ai/E002_ai08_koromo-bombed.png` |
+| 56 | ai10 | 1672x941 | `assets/ai/E002_ai10_shopfloor-chaos.png` |
+| 64 | ai11 | 1672x941 | `assets/ai/E002_ai11_kanban-card.png` |
+| 70 | ai12 | 1672x941 | `assets/ai/E002_ai12_andon-cord.png` |
+| 75 | ai13 | 1672x941 | `assets/ai/E002_ai13_supermarket-slides.png` |
+| 82 | ai14 | 1672x941 | `assets/ai/E002_ai14_ohno-supermarket.png` |
+| 87 | ai16 | 1672x941 | `assets/ai/E002_ai16_supplier-daily.png` |
+| 91 | ai15 | 1672x941 | `assets/ai/E002_ai15_chalk-circle.png` |
+| 102 | ai17 | 1672x941 | `assets/ai/E002_ai17_toyota-seminars.png` |
+| 104 | ai18 | 1672x941 | `assets/ai/E002_ai18_ohno-book.png` |
+| 110 | ai19 | 1672x941 | `assets/ai/E002_ai19_nummi-line.png` |
 
