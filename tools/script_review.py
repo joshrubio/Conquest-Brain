@@ -74,13 +74,13 @@ NOTES = {
 }
 SECTIONS = {
     "COLD OPEN": "Los primeros 20–40 s. Empieza DENTRO de la historia, sin intro de canal. Termina anunciando qué hará el vídeo. Es el momento de más cortes del episodio.",
-    "BUMPER": "3–6 s en negro: wordmark 'Conquest' + 'Soy [nombre]'. El único momento de marca dentro del vídeo, y va DESPUÉS del hook, nunca antes.",
+    "BUMPER": "3–6 s en negro: wordmark 'Conquest' + la línea fija «Hola, mi nombre es [nombre], y esto es Conquest». El único momento de marca dentro del vídeo, y va DESPUÉS del hook, nunca antes.",
     "PIVOTE": "La frase bisagra que sale del hook hacia el trasfondo. Aquí suele ir el primer explicador. 10–20% del metraje.",
     "CONTEXTO": "El mundo en el que pasa la historia: época, institución, personas, lo que estaba en juego.",
-    "NARRATIVA": "La espina dorsal, 55–70%. Cronológica. Personas: nacimiento → detalle que prefigura → ascenso → cima → giro/caída → desenlace.",
+    "NARRATIVA": "La espina dorsal, 55–70%. Cronológica. Personas: nacimiento → detalle que prefigura → ascenso → cima → giro/caída → desenlace. (Ensayo: es el andamio de la obra en presente — el hilo es la lectura, distribuida en interludios, no el recap.)",
     "TEORÍAS": "Módulo opcional: solo si el caso está genuinamente en disputa. Cada posición se presenta, se pesa y se cierra con un veredicto honesto ('no hay pruebas concluyentes').",
     "CIERRE": "8–20%. Convierte 'una cosa que pasó' en 'una cosa sobre cómo funcionan las personas — o sobre qué significa'. Forma A/B/C × registro (psicológico / práctico / filosófico / religioso). Los registros filosófico y religioso van SIEMPRE atribuidos + [S..], como una idea, no como la verdad. Sin sermón.",
-    "CTA": "Beat separado, DESPUÉS de que el cierre aterrice. CTA suave del canal. Sin pitch ni enlace de terceros.",
+    "CTA": "Beat separado, DESPUÉS de que el cierre aterrice. CTA suave del canal. Sin pitch ni enlace de terceros. Cierra con el sign-off fijo «Mi nombre es [nombre] y esto fue: …».",
 }
 # cues that never get spoken — production/technical notes, sidebar material.
 # everything else (NARRACIÓN, EXPLICADOR, PROMISE, PAY, unrecognized cues)
