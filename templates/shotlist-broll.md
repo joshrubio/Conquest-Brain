@@ -74,7 +74,7 @@ En la espina, un beat `acamara` = se muestra la toma del narrador para ese hueco
 - **`dur`** — duración objetivo en segundos (entero).
 - **`sección`** — una de: `cold open` · `bumper` · `pivote` · `contexto` · `acto N` · `explicador` · `teorías` · `cierre` · `cta`.
 - **`tipo`** — `acamara` (A-roll: la toma del narrador) · `archivo` (foto/escaneo real) · `stock` (b-roll de vídeo genérico) · `kb` (Ken Burns sobre una fija) · `ia` (ilustración IA — lleva rótulo) · `gráfico` (motion propio) · `negro` (corte a negro) · `cita` (Ensayo: still o clip breve de la obra bajo fair use — `brain/20 §4`; nunca genérico como `stock`, es la cosa real que se analiza).
-- **`asset`** — el id que resuelve contra `07-selection.md` / `07-assets.md` (`E0XX_ai01_…`, `INTRO2`, `S09`, `G1`…). `—` para `acamara` y `negro`, o si aún no elegido.
+- **`asset`** — el id que resuelve contra `07-selection.md` / `07-assets.md` (`E0XX_ai01_…`, `beat2_…`, `S09`, `G1`…). `—` para `acamara` y `negro`, o si aún no elegido. Cada beat `archivo`/`stock` (los del hook del cold open incluidos) lleva su propia fila en `07-pull.tsv` — nunca queda "sin fila" en el pase de estilo.
 - **`rótulo`** — texto en pantalla, o `—`. `Ilustración — Conquest` obligatorio para `ia`; salvedad para cifras dudosas.
 - **`motion`** — token canónico: `push` (empuje 1.00→1.10) · `pan-h` · `pan-v` · `zoom` (a un detalle) · `cut` (hold seco, sin move). Es una **pista** — `assemble.py` la sobrescribe según el aspecto del asset (retrato → `pan-v`, panorámica → `pan-h`) y **nunca deja un still estático**. No uses `static`.
 - **`marcador`** — `HOOK` · `PROMISE n` · `PAY n` · `EXPLICADOR n` · `—`. `PROMISE n` y su `PAY n` **usan el mismo `asset` y el mismo `motion`**.
@@ -82,7 +82,7 @@ En la espina, un beat `acamara` = se muestra la toma del narrador para ese hueco
 | # | in | dur | sección | tipo | asset | rótulo | motion | marcador | guion (frag.) |
 |---|----|-----|---------|------|-------|--------|--------|----------|---------------|
 | 1 | 0:00 | 10 | cold open | acamara | — | — | cut | HOOK | «…» (narración a cámara) |
-| 2 | 0:10 | 6 | cold open | stock | INTRO2 | — | cut | — | «…» (B-roll encima) |
+| 2 | 0:10 | 6 | cold open | stock | beat2_… | — | cut | — | «…» (B-roll encima) |
 | … | | | | | | | | | |
 
 ## Detalle por beat (para el humano — no se parsea)

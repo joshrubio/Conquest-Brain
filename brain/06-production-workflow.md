@@ -61,14 +61,14 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
 
 ## Stage 7 — Asset selection + style pass  → `07-assets.md` (+ `07b-ai-prompts.md`)
 
-**`07-style-pass.html` is the hub** — every asset decision (per beat, AI images, cold-open intro, music) is made in that one page and exported as `07-picks.txt`; `--download` turns picks into files + `07-selection.md`. Nothing enters the edit that didn't go through it. Detail: [brain/12](12-available-material-protocol.md), [brain/15](15-ai-illustration-protocol.md), `documentación/pipeline/5`.
+**`07-style-pass.html` is the hub** — every asset decision (per beat, AI images, music) is made in that one page and exported as `07-picks.txt`; `--download` turns picks into files + `07-selection.md`. Nothing enters the edit that didn't go through it. **Every beat is a beat** — the cold-open hook shots are ordinary `stock`/`archivo` beats with their own pull row and card, not a separate intro pool. A beat should never sit at "sin fila." Detail: [brain/12](12-available-material-protocol.md), [brain/15](15-ai-illustration-protocol.md), `documentación/pipeline/5`.
 
 1. **AI prompts first** (if needed) — `build_ai_prompts.py E0XX-slug <slug>…` for beats with no real image and no own-graphic, so they render in the pass ([brain/15](15-ai-illustration-protocol.md)).
-2. **Pull** — write `07-pull.tsv` (one row per beat: kind `stock|stock-img|video|archive|intro`, query, `n=3`; `stock` = video-first; `INTRO1…` = cold-open footage). `python tools/pull_assets.py E0XX-slug` → `07-style-pass.md` (git record) + `.html`.
-3. **Style pass** (Usuario 001, in the page) — intro row (5 own slots + suggested + card checkboxes), per-beat candidates judged on resolution / condition / colour / sequence fit vs. [brain/03](03-brand-identity.md), AI prompt paste-ins, music pool. **Finalizar Stage 7** (writes `07-picks.txt`).
-4. **Download** — `pull_assets.py E0XX-slug --download` → `assets/{intro,stock,video,archive,ai}/` + music + `LICENSES.md`, verifies resolution, appends `CREDITS.md`, writes `07-selection.md`.
+2. **Pull** — write `07-pull.tsv`: **one row per shotlist beat** whose `tipo` is `stock`/`stock-img`/`video`/`archive` — no exceptions, cold-open beats included (query, `n=3`; `stock` = video-first). `python tools/pull_assets.py E0XX-slug` → `07-style-pass.md` (git record) + `.html`. If a row comes back empty or weak, refine the query and re-run just that row — `pull_assets.py E0XX-slug --beats 5,12` — instead of the whole file; if it's still empty after ~2 refinements, turn the beat into a recreation (`tipo: ia`, a prompt in `07b-ai-prompts.md`, drop the row) rather than leave it blank.
+3. **Style pass** (Usuario 001, in the page) — per-beat candidates judged on resolution / condition / colour / sequence fit vs. [brain/03](03-brand-identity.md), AI prompt paste-ins, music pool. **Finalizar Stage 7** (writes `07-picks.txt`).
+4. **Download** — `pull_assets.py E0XX-slug --download` → `assets/{stock,video,archive,ai}/` + music + `LICENSES.md`, verifies resolution, appends `CREDITS.md`, writes `07-selection.md`.
 5. **Manifest** — fold `07-selection.md` into `07-assets.md` (one row per accepted asset).
-- **Gate:** every beat covered; cold open 2–5 intro assets; every asset a clear licence + resolution for its use; AI stylised + labelled + no real-person face; credits logged for `09-description.md`.
+- **Gate:** every beat covered — nothing left "sin fila"; every asset a clear licence + resolution for its use; AI stylised + labelled + no real-person face; credits logged for `09-description.md`.
 - Runs in parallel with Stage 8.
 
 ## Stage 8 — Record
@@ -80,7 +80,7 @@ Pipeline for one episode. Stages are gated: do not start a stage until the previ
   1. **Ken Burns clips** — `tools/kenburns.py --all` (Stage 7 stills + AI images → moving clips, move by orientation, 4K).
   2. **Trim** — `tools/trim_talk.py` (faster-whisper → cut silences + fillers, smooth) per Stage 8 take.
   3. **Review** — `tools/edit_review.py` → `07c-edit.html`: watch every KB clip + trimmed take, approve or leave feedback; **Finalizar Stage 9** (writes `07c-review.txt`) → Claude re-runs the tools per the feedback → repeat until all **APROBADO**.
-  4. **B-roll assembly** — only after step 3 is all-green. Lay each beat's asset on the VO per `06-shotlist.md` + `07-selection.md`. Cold open = 2–5 `assets/intro/` clips + bumper on black.
+  4. **B-roll assembly** — only after step 3 is all-green. Lay each beat's asset on the VO per `06-shotlist.md` + `07-selection.md`. Cold open = its own 2–5 hook beats (same `stock`/`archivo` assets as any other beat) + bumper on black.
   5. **Background music** — one ominous-ambient bed from `brand/assets/music/`, ducked under the VO. No music in the bumper.
   6. **Subtitles** — `.srt` from the trimmed VO, hand-corrected against `05-script.md`.
 - Assembly (4–5) with Claude + ffmpeg for now; **DaVinci Resolve MCP** an option later. Output 4K, house grade, −14 LUFS, `E0XX-<slug>-vN.mp4` — all per [brain/16](16-edit-and-delivery.md).

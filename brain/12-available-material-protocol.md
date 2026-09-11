@@ -1,6 +1,6 @@
 ---
 doc: 12-available-material-protocol
-summary: "Never write for a story you can't illustrate. Public-domain archives list, a fair-use tier for rights-managed subjects with no PD alternative (digital-era figures AND 20th-century company histories), recreation/illustration as a first-class way to carry a material-poor episode, a citation tier for copyrighted film/TV, the per-idea worksheet, stock rules, music licensing, subject-with-no-photograph."
+summary: "Never write for a story you can't illustrate. Public-domain archives list, a fair-use tier for rights-managed subjects with no PD alternative (digital-era figures AND 20th-century company histories), recreation/illustration as a first-class way to carry a material-poor episode, the Stage 7 pull rule (one row per beat, never 'sin fila', empty-after-refinement escalates to a recreation), a citation tier for copyrighted film/TV, the per-idea worksheet, stock rules, music licensing, subject-with-no-photograph."
 stage: [0, 2, 7]
 read_when: "judging an idea's feasibility; planning assets; licensing music; a subject with no surviving likeness"
 pairs_with: [06-production-workflow, 15-ai-illustration-protocol, 03-brand-identity]
@@ -127,6 +127,12 @@ Common (Semmelweis, Hokusai, Tulipmania, Radium-era…). Layered approach, most 
 5. **A recurring stylised illustration** of the subject for journey / timeline / abstract sequences — clearly an illustration, labelled once. Needs an illustrator.
 
 **A recurring recreation / illustration register *can* be a primary device** when the subject's real imagery is genuinely scarce or rights-locked (mid-20th-century company histories, pre-1960 non-Western subjects) — decided at Stage 0/2, written into the brief, one style, labelled every appearance ([15](15-ai-illustration-protocol.md)). The one thing that stays out even then: a photoreal AI **face of an identifiable real person** offered as their actual likeness (`brain/15` rule 3) — use a real portrait, a clearly non-photoreal impression, or frame away from the face.
+
+## Stage 7 pull — no beat left uncovered
+
+`07-pull.tsv` gets **one row per shotlist beat** whose `tipo` is `archivo`/`stock`/`kb` — no exceptions, cold-open hook beats included (they're ordinary beats in the pull, not a separate intro pool). `ia`/`gráfico`/`acamara`/`negro` beats are covered another way and don't go here. A beat sitting at "sin fila" in `07-style-pass.html` means exactly one thing: **nobody wrote a row for it yet** — never that something is already assigned.
+
+If a row comes back with 0 candidates, or only weak ones: refine the query (broader terms, drop a `must=`/`min=` filter, try a different source) and re-run **just that row** — `python tools/pull_assets.py <slug> --beats 5,12` — instead of the whole spec (it merges with the last run; other beats' results are untouched). If a beat is still empty after ~2 rounds of refinement, the answer isn't to leave it blank or force a bad fit: **it becomes a recreation** — set its `tipo` to `ia` in `06-shotlist.md`, add a prompt block to `07b-ai-prompts.md` ([brain/15](15-ai-illustration-protocol.md)), and delete its row here. This is the same recreation register the episode may already be leaning on (§ above) — a hard-to-find beat is just one more instance of "real material doesn't exist for this," not a special case.
 
 ## Sign-off
 

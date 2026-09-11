@@ -1,26 +1,35 @@
 # 07-pull.tsv — E002 «Toyota / Taiichi Ohno». Stage 7 candidate-pull spec.
 # Tab-separated. `#` lines ignored.
 #
-# UNA FILA POR ASSET ÚNICO de la espina que es `archivo` / `stock` / `intro`.
-# Los `ia` van a 07b-ai-prompts.md; los `gráfico` son propios (make_graphics);
-# `acamara` y `negro` no llevan asset.
+# UNA FILA POR ASSET ÚNICO de la espina que es `archivo` / `stock` (los
+# beats del hook del cold open van aquí también, como beats normales —
+# sin sección de intro aparte). Los `ia` van a 07b-ai-prompts.md; los
+# `gráfico` son propios (make_graphics); `acamara` y `negro` no llevan asset.
+#
+# Ningún beat debería quedar "sin fila" en el pase de estilo. Si una fila
+# vuelve con 0 candidatos o flojos: afina la query y re-corre solo esa
+# fila — `python tools/pull_assets.py E002-toyota-taiichi-ohno --beats 5,45`
+# — en vez de todo el fichero. Si sigue vacía tras un par de intentos,
+# no se deja en blanco: el beat pasa a `ia` en 06-shotlist.md, se le
+# añade un prompt en 07b-ai-prompts.md, y se borra su fila de aquí.
 #
 # Assets reutilizados — el candidato elegido en el pase de estilo vale para
 # todos sus beats:
-#   beat47_rouge_1950        → beats 47, 50, 52
-#   beat74_supermarket_1950s → beats 74, 76
+#   2 (intro01)               → beat 2 del cold open
+#   3 (intro02)               → beat 3 del cold open
+#   beat47_rouge_1950         → beats 47, 50, 52
+#   beat74_supermarket_1950s  → beats 74, 76
 #   beat77_supermarket_shelves → beats 77, 81
-#   beat97_gasline_1973      → beats 97, 98
-#   beat108_fremont_1980s    → beats 108, 126
+#   beat97_gasline_1973       → beats 97, 98
+#   beat108_fremont_1980s     → beats 108, 126
 #
 # Claves de Pexels/Pixabay/Unsplash en tools/.env: OK.
 # Wikimedia Commons no necesita clave; si da 0, Usuario 001 pega enlaces PD
 # propios (Library of Congress, NARA) en el pase de estilo.
 #
 beat	kind	source	query	opts
-INTRO1	intro	intro	empty factory assembly hall dim	orientation=landscape;min=1920;n=3
-INTRO2	intro	intro	crowd of workers leaving factory gates	orientation=landscape;min=1920;n=3
-INTRO3	intro	intro	vintage car assembly line 1950s	orientation=landscape;min=1920;n=3
+2	stock	stock	empty factory assembly hall dim	orientation=landscape;min=1920;n=3
+3	stock	stock	crowd of workers leaving factory gates	orientation=landscape;min=1920;n=3
 5	archive	commons	Ford Motor Company assembly line	n=4
 25	archive	commons	Japanese civilians listening surrender broadcast 1945	n=3
 29	stock-img	stock-img	old japanese newspaper page	min=1600;n=2

@@ -1,10 +1,10 @@
 # Style pass — E002-toyota-taiichi-ohno
 
 > Stage 7 · central. Pull automático (`tools/pull_assets.py`) — **esto no es selección.**
-> Trabaja en `07-style-pass.html` (miniaturas + prompts IA + intro). Para picar a mano aquí: `- [x]`.
+> Trabaja en `07-style-pass.html` (miniaturas + prompts IA). Para picar a mano aquí: `- [x]`.
 > stock = b-roll ilustrativo genérico, nunca 'lo real' (brain/12).
 
-## intro — "empty factory assembly hall dim"  [intro]
+## beat 2 — "empty factory assembly hall dim"  [stock: pexelsv,pixabayv,pexels,unsplash,pixabay,openverse]
 
 - [ ] `pexelsv:8219164` · 2560x1440 · 17s · Ojyrai Films · Pexels License · https://videos.pexels.com/video-files/8219164/8219164-uhd_2560_1440_30fps.mp4
         page: https://www.pexels.com/video/a-footage-of-an-abandoned-building-8219164/
@@ -12,8 +12,9 @@
         page: https://pixabay.com/videos/id-20837/
 - [ ] `pexelsv:30075964` · 1920x1080 · 16s · Emrul Kausar Emon · Pexels License · https://videos.pexels.com/video-files/30075964/12899884_1920_1080_25fps.mp4
         page: https://www.pexels.com/video/motorcycle-components-assembly-line-in-factory-30075964/
+<!-- openverse: 0 resultados -->
 
-## intro — "crowd of workers leaving factory gates"  [intro]
+## beat 3 — "crowd of workers leaving factory gates"  [stock: pexelsv,pixabayv,pexels,unsplash,pixabay,openverse]
 
 - [ ] `pexelsv:38836318` · 1920x1080 · 15s · Kiwi and Camera · Pexels License · https://videos.pexels.com/video-files/38836318/16509043_1920_1080_25fps.mp4
         page: https://www.pexels.com/video/busy-commuters-exiting-modern-train-station-38836318/
@@ -21,15 +22,7 @@
         page: https://pixabay.com/videos/id-271463/
 - [ ] `pexelsv:38836319` · 1920x1080 · 17s · Kiwi and Camera · Pexels License · https://videos.pexels.com/video-files/38836319/16509055_1920_1080_25fps.mp4
         page: https://www.pexels.com/video/busy-commuter-rush-at-modern-station-38836319/
-
-## intro — "vintage car assembly line 1950s"  [intro]
-
-- [ ] `pexelsv:32028332` · 1920x1080 · 10s · J.S. McDuff · Pexels License · https://videos.pexels.com/video-files/32028332/13651885_1920_1080_30fps.mp4
-        page: https://www.pexels.com/video/vintage-8mm-film-of-classic-cars-in-winter-32028332/
-- [ ] `pixabayv:31140` · 1920x1080 · 28s · 3632036 · Pixabay Content License · https://cdn.pixabay.com/video/2020/01/10/31140-384523216_large.mp4
-        page: https://pixabay.com/videos/id-31140/
-- [ ] `pexelsv:32299853` · 1920x1080 · 14s · J.S. McDuff · Pexels License · https://videos.pexels.com/video-files/32299853/13774719_1920_1080_30fps.mp4
-        page: https://www.pexels.com/video/vintage-1950s-street-scene-with-classic-cars-32299853/
+<!-- openverse: HTTPSConnectionPool(host='api.openverse.org', port=443): Read timed out. (read timeout=30) -->
 
 ## beat 5 — "Ford Motor Company assembly line"  [archive: commons]
 
@@ -51,7 +44,7 @@
 
 - [ ] `pexels:1752724` · 5472x3648 · Mads Thomsen · Pexels License · https://images.pexels.com/photos/1752724/pexels-photo-1752724.jpeg
         page: https://www.pexels.com/photo/newspaper-article-on-pavement-1752724/
-- [ ] `pixabay:350376` · ?x? · ChristopherPluta · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/g131b6ad7568ac0d8c137ba2f88bfa00bd709687814386e3af462e0d1616ffdecb022c663c42a62d37d07f2cce978ad875d7da6f8de039753001f88e969a88925_1280.jpg
+- [ ] `pixabay:350376` · ?x? · ChristopherPluta · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/gc7d54b16ec15948d5b6fbd5c94f0a6a35d9c75e1fd6c792512890a458df645766a35fa6464c4440859d4bec346817d2dc94a814557fd160efad3fd6b274bec84_1280.jpg
         page: https://pixabay.com/photos/old-newspaper-newspaper-retro-sepia-350376/
 <!-- openverse: 0 resultados -->
 
@@ -71,7 +64,7 @@
 
 - [ ] `pexels:7018662` · 5790x3860 · cottonbro studio · Pexels License · https://images.pexels.com/photos/7018662/pexels-photo-7018662.jpeg
         page: https://www.pexels.com/photo/labeled-shelves-in-a-warehouse-7018662/
-- [ ] `pixabay:5619201` · ?x? · tianya1223 · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/gc46c0e6f76c84e68e8c83a8d43a67e98d5d0d0074b1e86a53f01f312bc33cae39795626d7447f7e5234e157d10409fd5a1b2565648aba19e03e3b1da7100c6ae_1280.jpg
+- [ ] `pixabay:5619201` · ?x? · tianya1223 · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/g2be5c78aefddc77e8f880665aab6a863601e5ba410ee6078b61f3ccd03f1ef2977706a5e368cd14545740ebb25c4615fdd0002c3d0c17a0206cfd5bb52a78eac_1280.jpg
         page: https://pixabay.com/photos/store-stacks-shelves-stock-5619201/
 - [ ] `unsplash:GK8x_XCcDZg` · 3024x4032 · Ruchindra Gunasekara · Unsplash License · https://images.unsplash.com/photo-1553413077-190dd305871c?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8aW5kdXN0cmlhbCUyMHdhcmVob3VzZSUyMG1ldGFsJTIwcGFydHMlMjBzaGVsdmVzfGVufDB8fHx8MTc4OTA4MTE0Mnww&ixlib=rb-4.1.0&q=90&fm=jpg
         page: https://unsplash.com/photos/large-warhause-GK8x_XCcDZg
@@ -93,7 +86,7 @@
 
 - [ ] `pexels:14201325` · 6720x4480 · urtimud.89 · Pexels License · https://images.pexels.com/photos/14201325/pexels-photo-14201325.jpeg
         page: https://www.pexels.com/photo/vintage-wooden-cupboard-with-vintage-cans-and-boxes-14201325/
-- [ ] `pixabay:1232944` · ?x? · stevepb · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/g004e26838c8c6c0a54c6a41c6f177c0c2724240661578e7cf2a4c38a4b8ec7e508ac63e1117a2a38c1be75b667268358c13e4d3807deeaf1008eb5682ed06d7f_1280.jpg
+- [ ] `pixabay:1232944` · ?x? · stevepb · Pixabay Content License (entrega <=1280 px) · https://pixabay.com/get/g69484a2d526eaa2ffa8b2bc3ba38b3514d9feb55e40a14e1c378c4a702b26635911e74b0862ded4dc39f12afb669647bf647f8faa188a9a83c9bbfc27fdb6880_1280.jpg
         page: https://pixabay.com/photos/grocery-shopping-supermarket-1232944/
 - [ ] `unsplash:AXBtbNQOAZw` · 4000x6000 · Fabian Kleiser · Unsplash License · https://images.unsplash.com/photo-1777621285403-dfd034d65e64?ixid=M3wxMDQ5NDkxfDB8MXxzZWFyY2h8MXx8dmludGFnZSUyMGdyb2NlcnklMjBzdG9yZSUyMHNoZWx2ZXMlMjBjYW5uZWQlMjBnb29kc3xlbnwwfHx8fDE3ODkwODA2OTF8MA&ixlib=rb-4.1.0&q=90&fm=jpg
         page: https://unsplash.com/photos/vintage-canned-goods-displayed-on-wooden-shelves-AXBtbNQOAZw

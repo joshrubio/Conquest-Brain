@@ -1,14 +1,25 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-pull_assets.py — Stage 7 style pass (archive + free stock + intro).
+pull_assets.py — Stage 7 style pass (archive + free stock).
 Protocol: brain/12-available-material-protocol.md, brain/06 Stage 7.
 
-`07-style-pass.html` is the central artifact of Stage 7. It shows,
-per beat, the resources the pull found (left) and the AI-generation
-prompts from 07b (right); an Intro section at the top collects the cold
-open (brain/02 §0). Usuario 001 works entirely in that page, exports 07-picks.txt,
-and --download turns every choice into files + 07-selection.md.
+`07-style-pass.html` is the central artifact of Stage 7. It shows, per
+beat, the resources the pull found (left) and the AI-generation prompts
+from 07b (right). **Every beat gets its own row and its own card — the
+cold-open hook beats are ordinary beats here too, no separate pool.**
+Usuario 001 works entirely in that page, exports 07-picks.txt, and
+--download turns every choice into files + 07-selection.md.
+
+**No beat should ever sit at "sin fila."** Every shotlist beat whose
+`tipo` is `archivo`/`stock`/`kb` needs a matching row in `07-pull.tsv`
+(`ia`/`gráfico`/`acamara`/`negro` beats don't — they're covered another
+way). If a row's search comes back empty or weak after a couple of
+query refinements, don't leave the beat empty: turn it into a
+recreation — change its `tipo` to `ia` in `06-shotlist.md`, add a prompt
+block to `07b-ai-prompts.md`, and drop its row here (`brain/12`,
+`brain/15`). Use `--beats` (below) to re-run only the rows you're
+refining instead of the whole spec.
 
 APIs
   stock   pexels  pixabay  unsplash  openverse   (video: pexels, pixabay)
@@ -24,9 +35,15 @@ Usage
       run every spec row -> 07-style-pass.md (git record)
       + 07-style-pass.html (the picker). ~3 candidates per beat.
 
+  python tools/pull_assets.py E0XX-slug --beats 5,12,47
+      run only the listed rows (by their `beat` label) — for re-running
+      a handful of refined queries without re-fetching everything.
+      Merges into the existing 07-style-pass.md/.html; other beats keep
+      their last results.
+
   python tools/pull_assets.py E0XX-slug --download
       read 07-picks.txt (from the picker's Finalizar button), download every
-      choice into assets/{intro,stock,video,archive,ai}/, verify resolution,
+      choice into assets/{stock,video,archive,ai}/, verify resolution,
       append assets/CREDITS.md, write 07-selection.md, print manifest rows.
 
   python tools/pull_assets.py --check-keys
@@ -61,6 +78,8 @@ TIMEOUT = 30
 SPEC_F = "07-pull.tsv"
 PASS_MD = "07-style-pass.md"
 PASS_HTML = "07-style-pass.html"
+CACHE_F = "_exports/07-pull-cache.json"   # gitignored — lets --beats re-run a
+                                           # subset without re-searching the rest
 PICKS_F = "07-picks.txt"
 SELECTION_F = "07-selection.md"
 MUSIC_DIR = ROOT / "brand" / "assets" / "music"
@@ -74,20 +93,33 @@ ARCHIVE_ALL = ["met", "commons"]          # the `archive` group keyword
 ARCHIVE_SRCS = set(ARCHIVE_ALL)           # for assets/ folder routing
 
 SPEC_HEADER = """# 07-pull.tsv — Stage 7 candidate-pull spec for this episode.
-# Tab-separated. Lines starting with # are ignored. One row per shotlist beat
-# that needs an image/clip pulled (own-graphics beats do NOT go here).
+# Tab-separated. Lines starting with # are ignored.
+#
+# ONE ROW PER SHOTLIST BEAT whose `tipo` is `archivo`/`stock`/`kb` — no
+# exceptions, including the cold-open hook beats (they're ordinary beats
+# here, not a separate intro pool). `ia`/`gráfico`/`acamara`/`negro` beats
+# don't go here. If a beat's asset is reused across several beats (a
+# PROMISE/PAY pair, an eco), one row still covers all of them — label it
+# with the FIRST beat number.
+#
+# A beat should never end up "sin fila" in the style pass. If a row comes
+# back with 0 or weak candidates: refine the query (broader terms, a
+# different source, drop a `must=`/`min=` filter) and re-run just that
+# beat — `python tools/pull_assets.py <slug> --beats 5,12` — instead of
+# the whole file. If it's STILL empty after ~2 refinements, the honest
+# call isn't to leave it blank: turn the beat into a recreation — set its
+# `tipo` to `ia` in 06-shotlist.md, add a prompt block to
+# 07b-ai-prompts.md, and delete its row here (brain/12, brain/15).
 #
 # columns:
 #   beat    shotlist beat id (1, 25b, +B ...). Free text, just a label.
-#           use INTRO1, INTRO2 ... for cold-open clip searches (brain/02 §0) —
-#           their results land in the Intro section of the pass, not a beat.
-#   kind    stock | stock-img | archive | video | intro
+#   kind    stock | stock-img | archive | video
 #   source  comma list, or a group keyword:
 #             stock     = pexels+pixabay VIDEO first, then pexels/unsplash/
 #                         pixabay/openverse images  (motion b-roll preferred)
 #             stock-img = images only (pexels,pixabay,unsplash,openverse)
-#             video     = pexels,pixabay video only
-#             intro     = pexels,pixabay video — high-impact cold-open footage
+#             video     = pexels,pixabay video only — for the cold-open hook
+#                         shots, prefer this or `stock` (§0: vídeo preferido)
 #             archive   = met,commons
 #   query   search terms
 #   opts    key=value;key=value  (all optional)
@@ -152,6 +184,41 @@ class Cand:
         lic = f" · {self.lic}" if self.lic else ""
         pg = f"\n        page: {self.page}" if self.page else ""
         return f"- [ ] `{self.key}` · {self.dim()}{extra}{who}{lic} · {self.url}{pg}"
+
+    def to_dict(self):
+        return {k: getattr(self, k) for k in self.__slots__}
+
+    @classmethod
+    def from_dict(cls, d):
+        return cls(d["src"], d["id"], d["url"], w=d.get("w", 0), h=d.get("h", 0),
+                    author=d.get("author", ""), lic=d.get("lic", ""), page=d.get("page", ""),
+                    dur=d.get("dur", 0), thumb=d.get("thumb", ""))
+
+
+def load_pull_cache(slug):
+    f = EP_DIR / slug / CACHE_F
+    if not f.exists():
+        return {}
+    try:
+        raw = json.loads(f.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    out = {}
+    for beat, g in raw.items():
+        out[beat] = (g["kind"], g["query"], g["srcs"],
+                     [Cand.from_dict(c) for c in g["cands"]], g["notes"])
+    return out
+
+
+def save_pull_cache(slug, groups):
+    """groups: [(beat, kind, query, srcs, cands, notes), ...] — the FULL merged
+    set (live + reused), so the next --beats run has everything to fall back on."""
+    f = EP_DIR / slug / CACHE_F
+    f.parent.mkdir(parents=True, exist_ok=True)
+    data = {beat: {"kind": kind, "query": query, "srcs": srcs,
+                   "cands": [c.to_dict() for c in cands], "notes": notes}
+            for beat, kind, query, srcs, cands, notes in groups}
+    f.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
 
 
 STOP = {"the", "and", "for", "with", "from", "also", "known", "view", "views",
@@ -357,7 +424,7 @@ def expand_sources(kind, source):
         return list(STOCK_MOTION)      # video first, then images
     if s in ("stock-img", "stockimg"):
         return list(STOCK_IMG)
-    if s in ("video", "intro"):
+    if s == "video":
         return ["pexelsv", "pixabayv"]
     if s == "archive":
         return list(ARCHIVE_ALL)
@@ -481,7 +548,7 @@ def _ai_beatset(beats_field):
     return set(re.findall(r"\d+[a-z]?", beats_field or ""))
 
 
-def _card_html(esc, c, beat, intro_only=False):
+def _card_html(esc, c, beat):
     badges = [f'<b>{esc(c.dim())}</b>']
     if c.dur:
         badges.append(f'<b class="vid">vídeo {c.dur}s</b>')
@@ -492,14 +559,9 @@ def _card_html(esc, c, beat, intro_only=False):
     thumb = esc(c.thumb) if c.thumb else ""
     img = (f'<img loading="lazy" src="{thumb}" alt="">'
            if thumb else '<div class="noimg">sin miniatura</div>')
-    if intro_only:
-        toggles = '<input type="checkbox" class="ick" title="usar en la intro">'
-    else:
-        toggles = ('<input type="checkbox" class="pick" title="aprobar para este beat">'
-                   '<label class="itog" title="incluir en la intro">'
-                   '<input type="checkbox" class="ick"><span>intro</span></label>')
+    toggles = '<input type="checkbox" class="pick" title="aprobar para este beat">'
     return (
-        f'<div class="card{" introcard" if intro_only else ""}" data-key="{esc(c.key)}" '
+        f'<div class="card" data-key="{esc(c.key)}" '
         f'data-beat="{esc(beat)}" data-url="{esc(c.url)}">{toggles}{img}'
         f'<figcaption><span class="badges">{"".join(badges)}</span>'
         f'<code>{esc(c.key)}</code>'
@@ -531,12 +593,11 @@ def parse_music():
     return out
 
 
-def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None,
+def build_html(slug, groups, ai_prompts=("", []), music=None,
                timeline=None, graphics=None):
     import html as _h
     esc = _h.escape
     neg, prompts = ai_prompts
-    intro_sug = intro_sug or []
     music = music or []
     graphics = graphics or {}
     timeline = timeline or []
@@ -549,6 +610,19 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None,
         timeline = [{"n": b, "sec": "", "tipo": (k.lower() if k.lower() in NEED else "archivo"),
                      "asset": "", "rotulo": "", "motion": "", "marcador": "", "frag": q}
                     for b, k, q, s, c, nt in groups]
+
+    # a shotlist asset reused across several beats (a PROMISE/PAY pair, an
+    # "eco") only needs ONE 07-pull.tsv row — labelled with whichever beat
+    # number is first. Every other beat sharing that same `asset` string
+    # resolves to that same row here, so it never shows "sin fila" just
+    # because its own beat number isn't the row's label.
+    asset_to_row = {}
+    for tb in timeline:
+        if tb["n"] in gbybeat and tb.get("asset"):
+            asset_to_row.setdefault(tb["asset"], tb["n"])
+
+    def _row_for(n, asset):
+        return gbybeat.get(n) or (gbybeat.get(asset_to_row.get(asset)) if asset else None)
 
     def _find_prompt(beat_n, asset):
         for p in prompts:
@@ -631,9 +705,13 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None,
                 f'placeholder="ruta local o URL (imagen o vídeo) para el beat {esc(n)}"></label>')
 
         elif tipo in ("archivo", "stock", "kb"):
-            g = gbybeat.get(n)
+            g = _row_for(n, asset)
             if g:
                 used_beats.add(n)
+                if asset and asset_to_row.get(asset) not in (None, n):
+                    cards.append(f'<p class="ref">→ mismo recurso que el beat '
+                                 f'<code>{esc(asset_to_row[asset])}</code> — se elige una vez, '
+                                 f'se aplica a los dos.</p>')
                 query, srcs, cands_, notes = g
                 if not cands_:
                     cards.append('<p class="empty">— sin candidatos. '
@@ -668,27 +746,6 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None,
         cards.append(f'<label class="beatcustom">recurso propio '
                      f'<input class="bcust" data-beat="{esc(b)}" placeholder="ruta o URL"></label></section>')
     body = "\n".join(cards)
-
-    # ---- Intro section (cold open, brain/02 §0) ----
-    slots = "".join(
-        f'<label class="slot"><span>{i}</span><input class="intropath" data-slot="{i}" '
-        f'placeholder="ruta o URL para la intro"></label>'
-        for i in range(1, 6))
-    if intro_sug:
-        sug = ('<h3>Sugeridos — footage de impacto para el tema '
-               f'<span>({len(intro_sug)})</span></h3><div class="grid">'
-               + "\n".join(_card_html(esc, c, "intro", intro_only=True) for c in intro_sug)
-               + '</div>')
-    else:
-        sug = ('<p class="empty">sin clips sugeridos — añade filas '
-               '<code>INTRO1 … intro …</code> en 07-pull.tsv</p>')
-    introbox = (
-        '<section class="introbox"><h2>Intro / cold open '
-        '<span class="q">— §0: hook visual de 2–5 planos (brain/02)</span></h2>'
-        '<p class="hint">pega hasta 5 recursos propios, y/o marca sugeridos, '
-        'y/o marca «intro» en cualquier card de abajo. El orden de exportación es: '
-        'propios (1–5) → sugeridos → cards.</p>'
-        f'<div class="slots">{slots}</div>{sug}</section>')
 
     # ---- Música (consideración) — al final ----
     lic_opts = "".join(f'<option>{l}</option>' for l in
@@ -746,16 +803,10 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None,
 {T.FAVICON}
 {T.CSS}
 <style>
- #cnt,#introcnt,#aicnt{{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.82rem}}
- .introbox,.musicbox{{max-width:1980px;margin:1rem auto 0;padding:1.75rem 2rem;
+ #cnt,#aicnt{{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.82rem}}
+ .musicbox{{max-width:1980px;margin:1rem auto 3rem;padding:1.75rem 2rem;
    background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--shadow)}}
- .musicbox{{margin:0 auto 3rem}}
- .introbox>h2,.musicbox>h2{{margin-top:0}}
- .slots{{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-   gap:.6rem;margin-bottom:1.5rem}}
- .slot{{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted)}}
- .slot>span{{width:1rem;text-align:right;flex:none}}
- .slot input{{font-size:.76rem;padding:.4rem .55rem}}
+ .musicbox>h2{{margin-top:0}}
  .ai input,.bcust{{font-size:.78rem}}
  .slot input:not(:placeholder-shown),
  .bcust:not(:placeholder-shown){{border-color:var(--lime-line);background:var(--lime-soft)}}
@@ -806,13 +857,7 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None,
  .card{{position:relative;padding:0;overflow:hidden;cursor:pointer;gap:0}}
  .card:has(.pick:checked){{border-color:var(--lime-line);
    box-shadow:inset 0 0 0 1px var(--lime-line);background:var(--lime-soft)}}
- .card:has(.ick:checked){{outline:2px dashed var(--bone);outline-offset:2px}}
- .card>input,.card .itog{{position:absolute;z-index:2;margin:8px}}
- .card>input{{left:0;width:20px;height:20px;cursor:pointer}}
- .card .itog{{right:0;display:flex;align-items:center;gap:.25rem;font-size:.66rem;
-   background:#0c0a07d9;color:var(--bone);padding:.15rem .4rem;border-radius:6px;
-   border:1px solid var(--line-2)}}
- .card .itog input{{width:13px;height:13px}}
+ .card>input{{position:absolute;z-index:2;margin:8px;left:0;width:20px;height:20px;cursor:pointer}}
  .card img,.card .noimg{{width:100%;aspect-ratio:4/3;object-fit:cover;
    background:#0d0c09;display:block}}
  .noimg{{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.8rem}}
@@ -841,7 +886,6 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None,
 <header>
  <h1>Style pass · {esc(slug)}</h1>
  <span id="cnt">0 / {total} beats</span>
- <span id="introcnt"></span>
  <span id="aicnt"></span>
  <button class="primary" id="exp">Finalizar Stage 7</button>
  <button id="clr">Limpiar</button>
@@ -849,7 +893,6 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None,
  <span class="small" style="opacity:.7">al finalizar se descargan los recursos elegidos ahí</span>
  <a class="btn ghost spacer" href="http://localhost:8765/">Volver al panel</a>
 </header>
-{introbox}
 <div class="wrap">
 <main>
 {body}
@@ -858,28 +901,20 @@ def build_html(slug, groups, ai_prompts=("", []), intro_sug=None, music=None,
 {musicbox}
 <script>
 const SLUG="{esc(slug)}", HAS_AI={has_ai};
-const LS="conquest-pass:"+SLUG, LSA=LS+":ai", LSI=LS+":intro";
+const LS="conquest-pass:"+SLUG, LSA=LS+":ai";
 const cards=[...document.querySelectorAll('.card')];
-const slots=[...document.querySelectorAll('.intropath')];
 const bcust=[...document.querySelectorAll('.bcust')];
 const mtrk=[...document.querySelectorAll('.mtrk')];
 const mown=[...document.querySelectorAll('.mown')];
 const aip=[...document.querySelectorAll('.aipath')];
-const cnt=document.getElementById('cnt'), icnt=document.getElementById('introcnt'),
-      aicnt=document.getElementById('aicnt');
+const cnt=document.getElementById('cnt'), aicnt=document.getElementById('aicnt');
 function jget(k,d){{try{{return JSON.parse(localStorage.getItem(k))??d}}catch(e){{return d}}}}
 function pk(c){{return c.querySelector('.pick')}}
-function ik(c){{return c.querySelector('.ick')}}
 function bmap(){{const m={{}}; bcust.forEach(i=>{{const v=i.value.trim(); if(v)m[i.dataset.beat]=v}}); return m;}}
 function sync(){{
-  const bm=bmap(), picks=[],intro=[];
-  cards.forEach(c=>{{
-    if(pk(c)&&pk(c).checked)picks.push(c.dataset.key);
-    if(ik(c)&&ik(c).checked)intro.push(c.dataset.key);
-  }});
+  const bm=bmap(), picks=[];
+  cards.forEach(c=>{{ if(pk(c)&&pk(c).checked)picks.push(c.dataset.key); }});
   localStorage.setItem(LS,JSON.stringify(picks));
-  localStorage.setItem(LSI,JSON.stringify(intro));
-  localStorage.setItem(LS+':slots',JSON.stringify(slots.map(s=>s.value)));
   localStorage.setItem(LS+':bcust',JSON.stringify(bm));
   const mus=mtrk.filter(t=>t.querySelector('.mtrack').checked).map(t=>t.dataset.key);
   localStorage.setItem(LS+':music',JSON.stringify(mus));
@@ -887,12 +922,10 @@ function sync(){{
     m:d.querySelector('.mometa').value.trim(), l:d.querySelector('.molic').value,
     g:d.querySelector('.mopage').value.trim()}}));
   localStorage.setItem(LS+':mown',JSON.stringify(mo));
-  const sl=slots.filter(s=>s.value.trim()).length;
   const covered=new Set([...picks.map(k=>cards.find(c=>c.dataset.key===k).dataset.beat),
                          ...Object.keys(bm),
                          ...aip.filter(i=>i.value.trim()).map(i=>i.dataset.beats)]);
   cnt.textContent=covered.size+' / {total} beats'+(Object.keys(bm).length?(' ('+Object.keys(bm).length+' propios)'):'');
-  icnt.textContent='  ·  intro: '+(sl+intro.length)+'  ('+sl+' propios + '+intro.length+' cards)';
 }}
 function syncA(){{
   const o={{}}; aip.forEach(i=>{{const v=i.value.trim(); if(v)o[i.dataset.ai]=v;
@@ -900,19 +933,16 @@ function syncA(){{
   localStorage.setItem(LSA,JSON.stringify(o));
   aicnt.textContent = aip.length ? ('  ·  '+Object.keys(o).length+' / '+aip.length+' IA') : '';
 }}
-const initP=new Set(jget(LS,[])), initI=new Set(jget(LSI,[]));
+const initP=new Set(jget(LS,[]));
 cards.forEach(c=>{{
   if(pk(c)&&initP.has(c.dataset.key))pk(c).checked=true;
-  if(ik(c)&&initI.has(c.dataset.key))ik(c).checked=true;
   c.addEventListener('click',e=>{{
-    if(e.target.closest('a,input,.itog'))return;
-    const box=pk(c)||ik(c);
+    if(e.target.closest('a,input'))return;
+    const box=pk(c);
     if(box){{box.checked=!box.checked; sync();}}
   }});
   c.querySelectorAll('input').forEach(i=>i.addEventListener('change',sync));
 }});
-const initS=jget(LS+':slots',[]);
-slots.forEach((s,ix)=>{{if(initS[ix])s.value=initS[ix]; s.addEventListener('input',sync)}});
 const initB=jget(LS+':bcust',{{}});
 bcust.forEach(i=>{{if(initB[i.dataset.beat])i.value=initB[i.dataset.beat];
   i.addEventListener('input',sync)}});
@@ -941,19 +971,15 @@ document.getElementById('clr').onclick=()=>{{
   cards.forEach(c=>c.querySelectorAll('input').forEach(i=>i.checked=false));
   mtrk.forEach(t=>t.querySelector('.mtrack').checked=false);
   mown.forEach(d=>d.querySelectorAll('input').forEach(i=>i.value=''));
-  slots.forEach(s=>s.value=''); bcust.forEach(i=>i.value=''); aip.forEach(i=>i.value='');
+  bcust.forEach(i=>i.value=''); aip.forEach(i=>i.value='');
   sync(); syncA();
 }};
 document.getElementById('exp').onclick=async()=>{{
   const L=['# {PICKS_F} — generado por {PASS_HTML}',
-           '# col1: <beat> | "intro" | "music"',
-           '# col2: source:id | custom:N (intro / música propia) | custom:<beat> | ai:id',
+           '# col1: <beat> | "music"',
+           '# col2: source:id | custom:<beat> (música propia) | ai:id',
            '# col3: url o ruta.   custom:<beat> ANULA la selección de ese beat.',
            '# música propia: col4 = título · autor · col5 = licencia (CC0/CC-BY/CC-BY-SA) · col6 = página'];
-  const intro=[];
-  slots.forEach(s=>{{const v=s.value.trim(); if(v)intro.push('intro\\tcustom:'+s.dataset.slot+'\\t'+v)}});
-  cards.forEach(c=>{{if(ik(c)&&ik(c).checked)intro.push('intro\\t'+c.dataset.key+'\\t'+c.dataset.url)}});
-  if(intro.length){{L.push('# --- INTRO (cold open §0, en orden) ---'); L.push(...intro);}}
   const bm=bmap(), beats=[];
   Object.keys(bm).forEach(b=>beats.push(b+'\\tcustom:'+b+'\\t'+bm[b]));   // propio -> anula el beat
   cards.forEach(c=>{{if(pk(c)&&pk(c).checked&&!(c.dataset.beat in bm))
@@ -1063,31 +1089,34 @@ def gather_beat(beat, kind, source, query, opts, keys):
     return srcs, merged, notes
 
 
-def run(slug):
+def run(slug, only=None):
+    """only: set of beat labels to actually (re-)search — every other row
+    reuses its cached result from the last full/partial run (07-pull-cache.json)
+    so refining one query doesn't force re-fetching the whole episode."""
     keys = load_env()
     rows = read_spec(slug)
+    cache = load_pull_cache(slug) if only else {}
     md = [f"# Style pass — {slug}", "",
           "> Stage 7 · central. Pull automático (`tools/pull_assets.py`) — **esto no es selección.**",
-          f"> Trabaja en `{PASS_HTML}` (miniaturas + prompts IA + intro). Para picar a mano aquí: `- [x]`.",
+          f"> Trabaja en `{PASS_HTML}` (miniaturas + prompts IA). Para picar a mano aquí: `- [x]`.",
           "> stock = b-roll ilustrativo genérico, nunca 'lo real' (brain/12).", ""]
-    groups, intro_sug, n_c = [], [], 0
+    groups, n_c, reused = [], 0, 0
     for beat, kind, source, query, rawopts in rows:
-        opts = parse_opts(rawopts)
-        srcs, cands, notes = gather_beat(beat, kind, source, query, opts, keys)
-        n_c += len(cands)
-        if kind.lower() == "intro" or beat.lower().startswith("intro"):
-            for c in cands:
-                if len(intro_sug) < 5 and c.key not in {x.key for x in intro_sug}:
-                    intro_sug.append(c)
-            md.append(f"## intro — \"{query}\"  [{kind}]\n")
+        if only and beat not in only and beat in cache:
+            kind, query, srcs, cands, notes = cache[beat]
+            reused += 1
         else:
-            groups.append((beat, kind, query, srcs, cands, notes))
-            md.append(f"## beat {beat} — \"{query}\"  [{kind}: {','.join(srcs)}]\n")
+            opts = parse_opts(rawopts)
+            srcs, cands, notes = gather_beat(beat, kind, source, query, opts, keys)
+        n_c += len(cands)
+        groups.append((beat, kind, query, srcs, cands, notes))
+        md.append(f"## beat {beat} — \"{query}\"  [{kind}: {','.join(srcs)}]\n")
         for c in cands:
             md.append(c.line())
         for note in notes:
             md.append(f"<!-- {note} -->")
         md.append("")
+    missing = [b for b, *_r, cands, _n in groups if not cands]
     ep = EP_DIR / slug
     # the episode's own graphics (make_graphics.py) — render any that are missing
     # so every `gráfico` beat is previewable right here in the style pass. Cheap
@@ -1107,14 +1136,19 @@ def run(slug):
     graphics = parse_graphics_table(slug)
     (ep / PASS_MD).write_text("\n".join(md) + "\n", encoding="utf-8")
     (ep / PASS_HTML).write_text(
-        build_html(slug, groups, ai, intro_sug, music, timeline, graphics), encoding="utf-8")
+        build_html(slug, groups, ai, music, timeline, graphics), encoding="utf-8")
+    save_pull_cache(slug, groups)
     print(f"escrito  episodes/{slug}/{PASS_MD}   ({n_c} candidatos, {len(groups)} beats"
-          + (f", {len(timeline)} beats en la espina" if timeline else "")
-          + (f", {len(intro_sug)} clips intro" if intro_sug else "") + ")")
+          + (f", {reused} reutilizados de la cache" if reused else "")
+          + (f", {len(timeline)} beats en la espina" if timeline else "") + ")")
+    if missing:
+        print(f"AVISO: {len(missing)} beat(s) sin candidatos — {', '.join(missing)}. "
+              "Afina la query y re-corre con --beats " + ",".join(missing) + " "
+              "— o, si sigue vacío, conviértelo en beat `ia` (brain/12/15).")
     print(f"escrito  episodes/{slug}/{PASS_HTML}  <- ábrelo en el navegador"
           + (f"  ({len(ai[1])} prompts IA)" if ai[1] else "")
           + (f"  ({len(music)} tracks música)" if music else ""))
-    print("siguiente: intro + miniaturas + rutas IA, «Finalizar Stage 7», corre --download")
+    print("siguiente: elige candidatos + rutas IA, «Finalizar Stage 7», corre --download")
 
 
 # ---------------------------------------------------------------------- download
@@ -1125,7 +1159,7 @@ EXT_OK = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp",
 
 
 def read_picks(slug):
-    """(beat_or_'intro', src, id, url) list. Prefer 07-picks.txt (from the
+    """(beat, src, id, url) list — beat may be 'music'. Prefer 07-picks.txt (from the
     picker), fall back to '- [x]' lines in 07-style-pass.md (beats only)."""
     ep = EP_DIR / slug
     pf = ep / PICKS_F
@@ -1339,12 +1373,9 @@ def download(slug):
     ep = EP_DIR / slug
     ai_fname = {p["id"]: p["fname"] for p in parse_ai_prompts(slug)[1]}
     mmeta = {m["key"]: m for m in parse_music()}
-    intro_rows, beat_rows, ai_rows, credits = [], [], [], []
-    intro_n = 0
+    beat_rows, ai_rows, credits = [], [], []
 
     for beat, src, cid, url, meta in picks:
-        is_intro = beat.lower() == "intro"
-
         if beat.lower() == "music":
             if src == "custom":
                 if cid in ("", "undefined", "null"):
@@ -1368,11 +1399,10 @@ def download(slug):
                 _dl_music(f"{src}:{cid}", url, mmeta)
             continue
 
-        if src == "ai" and not is_intro:
+        if src == "ai":
             _dl_ai(ep, beat, cid, url, ai_fname.get(cid, f"{cid}.png"), ai_rows, credits)
             continue
 
-        was_custom = src == "custom"
         if src == "custom" and url.lower().startswith("http") and (
                 "pexels.com" in url or "pixabay.com" in url):
             direct, dsrc = _resolve_media_page(url, keys)
@@ -1385,29 +1415,21 @@ def download(slug):
 
         data, final = _fetch(url, src)
         if data is None:
-            print(f"  FALLO  {'intro ' if is_intro else ''}{src}:{cid}  {final}")
+            print(f"  FALLO  {src}:{cid}  {final}")
             continue
         ext = _ext_for(data, final, src)
         dim = _dims(data, ext)
 
-        if is_intro:
-            intro_n += 1
-            # a `custom:N` intro keeps N as its number (the shotlist references
-            # `introNN`) — even after a pexels/pixabay page URL got resolved and
-            # `src` changed; a suggested/card intro uses the running counter.
-            seq = int(cid) if (was_custom and str(cid).isdigit()) else intro_n
-            sub, name = "intro", f"intro{seq:02d}_{src}_{re.sub(r'[^A-Za-z0-9]', '', str(cid))[:14]}{ext}"
+        if src == "custom":                       # the user's own path for this beat
+            sub = "video" if ext in (".mp4", ".mov", ".webm") else "archive"
+        elif src in VIDEO_SRCS:
+            sub = "video"
+        elif src in ARCHIVE_SRCS:
+            sub = "archive"
         else:
-            if src == "custom":                       # the user's own path for this beat
-                sub = "video" if ext in (".mp4", ".mov", ".webm") else "archive"
-            elif src in VIDEO_SRCS:
-                sub = "video"
-            elif src in ARCHIVE_SRCS:
-                sub = "archive"
-            else:
-                sub = "stock"
-            safe = re.sub(r"[^A-Za-z0-9+-]", "", beat)
-            name = f"beat{safe}_{src}_{re.sub(r'[^A-Za-z0-9]', '', cid)[:14]}{ext}"
+            sub = "stock"
+        safe = re.sub(r"[^A-Za-z0-9+-]", "", beat)
+        name = f"beat{safe}_{src}_{re.sub(r'[^A-Za-z0-9]', '', cid)[:14]}{ext}"
         dst = ep / "assets" / sub
         dst.mkdir(parents=True, exist_ok=True)
         (dst / name).write_bytes(data)
@@ -1421,13 +1443,11 @@ def download(slug):
             except Exception:
                 pass
 
-        tag = "intro" if is_intro else beat
         print(f"  OK  {name}  {dim}")
-        row = (beat if not is_intro else str(intro_n), f"{src}:{cid}", final, dim, rel)
-        (intro_rows if is_intro else beat_rows).append(row)
-        credits.append(f"- {tag}: {src}:{cid} — {final if final.startswith('http') else '(archivo propio)'}")
+        beat_rows.append((beat, f"{src}:{cid}", final, dim, rel))
+        credits.append(f"- {beat}: {src}:{cid} — {final if final.startswith('http') else '(archivo propio)'}")
 
-    _write_selection(ep, slug, intro_rows, beat_rows, ai_rows)
+    _write_selection(ep, slug, beat_rows, ai_rows)
     if credits:
         cf = ep / "assets" / "CREDITS.md"
         cf.parent.mkdir(parents=True, exist_ok=True)
@@ -1436,15 +1456,10 @@ def download(slug):
         print(f"\ncréditos    → episodes/{slug}/assets/CREDITS.md")
 
 
-def _write_selection(ep, slug, intro_rows, beat_rows, ai_rows):
+def _write_selection(ep, slug, beat_rows, ai_rows):
     L = [f"# Selección — Stage 7 style pass · {slug}", "",
          f"> Generado por `pull_assets.py --download` desde `{PICKS_F}`. "
          f"Este es el registro de decisiones del pase; se pliega en `07-assets.md`.", ""]
-    if intro_rows:
-        L += ["## Intro / cold open (§0) — orden de pantalla", "",
-              "| # | Fuente | Res. | Archivo |", "|---|--------|------|---------|"]
-        L += [f"| {n} | {s} | {d or '—'} | `{p}` |" for n, s, _u, d, p in intro_rows]
-        L += [""]
     if beat_rows:
         L += ["## Por beat", "", "| Beat | Fuente | Res. | Archivo |",
               "|------|--------|------|---------|"]
@@ -1457,11 +1472,9 @@ def _write_selection(ep, slug, intro_rows, beat_rows, ai_rows):
         L += [""]
     (ep / SELECTION_F).write_text("\n".join(L) + "\n", encoding="utf-8")
     print(f"\nselección   → episodes/{slug}/{SELECTION_F}")
-    hdr = ("| Beat/Intro | Fuente | Enlace | Licencia | Res. | Uso | Pase | Archivo |\n"
+    hdr = ("| Beat | Fuente | Enlace | Licencia | Res. | Uso | Pase | Archivo |\n"
            "|---|---|---|---|---|---|---|---|")
     body = []
-    for n, s, u, d, p in intro_rows:
-        body.append(f"| intro {n} | {s} | {u} |  | {d} |  |  | `{p}` |")
     for b, s, u, d, p in beat_rows:
         body.append(f"| {b} | {s} | {u} |  | {d} |  |  | `{p}` |")
     for b, s, u, d, p in ai_rows:
@@ -1478,7 +1491,7 @@ def init(slug):
     f = d / SPEC_F
     if f.exists():
         sys.exit(f"ya existe {f.relative_to(ROOT)}")
-    sample = ("INTRO1\tintro\tintro\t<tema> cinematic aerial\torientation=landscape;min=1920;n=3\n"
+    sample = ("2\tstock\tstock\t<tema del cold open> cinematic\torientation=landscape;min=1920;n=3\n"
               "1\tarchive\tmet,commons\t<sujeto>\tmust=<sujeto>;n=3\n"
               "7\tstock\tstock\tocean wave breaking slow motion\tmin=1920;n=3\n"
               "12\tstock-img\tstock-img\tworn rice paper texture\tmin=2500;n=3\n")
@@ -1496,10 +1509,16 @@ if __name__ == "__main__":
         check_keys()
         sys.exit(0)
     slug = args[0]
-    rest = set(args[1:])
+    rest = args[1:]
+    only = None
+    if "--beats" in rest:
+        i = rest.index("--beats")
+        only = {b.strip() for b in rest[i + 1].split(",") if b.strip()}
+        del rest[i:i + 2]
+    rest = set(rest)
     if "--init" in rest:
         init(slug)
     elif "--download" in rest:
         download(slug)
     else:
-        run(slug)
+        run(slug, only=only)
