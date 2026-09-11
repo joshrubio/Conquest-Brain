@@ -65,6 +65,7 @@ except Exception:
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from mediabin import FFMPEG, FFPROBE  # noqa: E402
+import pipeline as P  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
@@ -1391,6 +1392,12 @@ def render(slug, mode, t0=None, t1=None, dry=False):
         print("FALLO ffmpeg:\n" + "\n".join(r.stderr.strip().splitlines()[-6:]))
         sys.exit(1)
     print(f"escrito  episodes/{slug}/{out.name}  ({out.stat().st_size // (1024*1024)} MB)")
+    if not proxy:
+        # stamp what got rendered so advance.py's Stage-9 fold can tell a real
+        # edit apart from the timeline's mtime just moving (autosave on open).
+        hf = ep / "_exports" / "09-final-hash.txt"
+        hf.parent.mkdir(parents=True, exist_ok=True)
+        hf.write_text(P.timeline_content_hash(data), encoding="utf-8")
 
 
 def _master_name(ep, slug):

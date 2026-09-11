@@ -261,6 +261,19 @@ def pristine(epid, fname):
     return b.exists() and a.read_bytes() == b.read_bytes()
 
 
+def timeline_content_hash(data):
+    """Hash of a 09-timeline.json's RENDERED content (beats + mix), ignoring
+    file mtimes. assemble.py --final stamps this after a successful render
+    (_exports/09-final-hash.txt); advance.py's Stage-9 fold compares the
+    CURRENT timeline against it to tell "just an autosave, nothing to
+    re-render" apart from "the edit actually changed since the last master"."""
+    import hashlib
+    payload = json.dumps({"beats": data.get("beats", []),
+                          "music": data.get("music", {}),
+                          "vo_end": data.get("vo_end")}, sort_keys=True, ensure_ascii=False)
+    return hashlib.sha1(payload.encode("utf-8")).hexdigest()
+
+
 def slugify(s):
     """'Disney / Mickey' -> 'disney-mickey'. ASCII, kebab, safe for a folder name."""
     s = unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode()

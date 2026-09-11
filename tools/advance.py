@@ -154,7 +154,10 @@ def fold_stash(epid, d, payload):
 
 def fold_edit(epid, d, payload):
     """Stage 9: the timeline is saved as 09-timeline.json. Queue: apply the FIX
-    notes (regen KB clips) then assemble.py --final for the 4K master."""
+    notes (regen KB clips) then assemble.py --final for the 4K master —
+    UNLESS that master already exists and is newer than the timeline (i.e.
+    nothing changed since it rendered), in which case the fold is actually
+    done: firm the gate instead of re-queuing the same render forever."""
     epp = P.ep_path(epid)
     tj = epp / "09-timeline.json"
     fixes = []
@@ -166,6 +169,22 @@ def fold_edit(epid, d, payload):
                     fixes.append(f"beat {i} ({tag}, {b.get('asset') or 'sin asset'}): {b['fix']}")
         except json.JSONDecodeError:
             pass
+    masters = sorted(epp.glob(f"{epid}-*-v*.mp4"), key=lambda f: f.stat().st_mtime)
+    hf = epp / "_exports" / "09-final-hash.txt"
+    # the timeline's mtime alone is a bad staleness signal — opening 09-edit.html
+    # autosaves it even with no real change. Prefer a content hash (stamped by
+    # assemble.py --final on success): if it still matches the current timeline,
+    # or there's no hash yet to compare (a master rendered before this check
+    # existed) and there are no pending fixes, the render already covers it.
+    stale = False
+    if masters and hf.exists() and tj.exists():
+        try:
+            current = P.timeline_content_hash(json.loads(tj.read_text(encoding="utf-8")))
+            stale = current != hf.read_text(encoding="utf-8").strip()
+        except json.JSONDecodeError:
+            stale = True
+    if masters and not fixes and not stale:
+        return True, f"render 4K ya hecho ({masters[-1].name}) · 0 correcciones pendientes"
     note = ("Stage 9 — la timeline canónica está en 09-timeline.json (schema 2). "
             + (f"Aplica las {len(fixes)} correcciones re-corriendo kenburns.py por beat:\n  - "
                + "\n  - ".join(fixes) + "\n" if fixes else "Sin correcciones pendientes. ")
