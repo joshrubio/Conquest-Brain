@@ -147,18 +147,21 @@ Three lines in the idea-pool row, no worksheet:
    digital, a subscription that can be screen-captured)? Name it.
 2. **Reading sources.** Are there **≥3 Tier A/B** secondary sources for the reading
    — criticism, interviews, making-of, scholarship? (These also satisfy E3.)
-3. **Clip budget.** Does the reading plausibly fit inside §4.4 (stills-first, clips
-   ≤ ~10 s, mode ceiling)? A rough "yes" is enough at Stage 0; the shotlist
-   resolves it beat by beat.
+3. **Clip budget.** Does the reading plausibly fit inside §4.4 (clips ≤ ~10 s,
+   mode ceiling; stills as fallback, §4.1)? A rough "yes" is enough at Stage 0;
+   the shotlist resolves it beat by beat.
 Mark `Rights` on the worksheet row as `cita — crítica/comentario (fair use)`.
 
-### 4.1 Stills first, motion only where motion is the argument
-A frame still (screenshot) under narration is far lower-risk than a moving clip
-with audio — Content ID rarely matches stills, and a still is inherently more
-transformative. **Build the visual track from stills by default.** Use a moving
-excerpt **only when the motion is what you are analysing** — a specific cut, a
-camera move, a performance beat, a piece of blocking. If a beat works as a still,
-it is a still.
+### 4.1 Clips are the main resource; stills + Ken Burns are the fallback
+The cited excerpt is normally a **moving clip** — the film/show/game footage
+itself, treated per §4.3. **A still (+ Ken Burns motion, [brain/11](11-visual-rhythm.md))
+is secondary**: use it when a clip isn't obtainable for that beat, when the
+beat doesn't need motion to make its point, or when a specific frame (not a
+sequence) is what the reading is actually about. This mirrors how
+[brain/12](12-available-material-protocol.md) treats stock — prefer the real
+moving thing, a still fills what a clip didn't. Don't default to stills to
+dodge Content ID; the transformation in §4.3 is what does the protecting, not
+the format of the excerpt.
 
 ### 4.2 Audio is a separate copyright — always replace or duck
 Never leave a music cue or a line reading playing clean. Original audio is ducked
@@ -184,8 +187,8 @@ A raw excerpt playing clean is out — same bar as [brain/12 §1b](12-available-
 
 ### 4.4 Budgets (soft ceilings — the real limit is 4.3 applied beat by beat)
 
-| Mode | Per excerpt | Moving-image total / episode | Stills |
-|------|-------------|------------------------------|--------|
+| Mode | Per excerpt | Moving-image total / episode | Stills (fallback, §4.1) |
+|------|-------------|------------------------------|--------------------------|
 | **A — obra como sujeto** | ≤ ~10 s | ≤ ~120 s | no hard cap; still transformative (graded, cropped, under narration), logged, credited |
 | **B / C — cita / suceso** | ≤ ~10 s | ≤ ~60 s (= current §1c) | as above |
 
@@ -212,8 +215,10 @@ identical Content ID claim. So the rule is not "never an online source"; it's:
 clip.cafe, PlayPhrase, YARN, getyarn, OpenSubtitles, a documentary fragment
 someone posted, your own `.srt` — use whatever's fastest. This is research. For a
 video essay citing 15 films, requiring "rip each from disc first" is not
-realistic. `tools/scene_locator.py` (§6) helps by indexing a local `.srt` against
-`06-shotlist.md`, but it's a convenience, not a gate.
+realistic. `tools/clip_finder.py` (§6) helps at scale: match against a local
+`.srt` if you have one, or transcribe the work yourself (faster-whisper, the
+same engine `trim_talk.py` already uses) when you don't — either way it's a
+discovery convenience over your own lawfully-held copy, not a gate.
 
 **The published excerpt — best obtainable quality, and log it.** In order of
 preference:
@@ -229,12 +234,13 @@ preference:
    the studio's — messier disputes. Avoid as the published source when 1 or 2 is
    available.
 
-`tools/clip_cut.py` (§6) takes a local file **or** a URL you supply, cuts to the
-budget length, strips audio, writes to `assets/cite/`. Then the edit applies §4.3.
+`tools/clip_finder.py` (§6) extracts once you've picked the moment: a clip
+(default — strips audio, caps at budget) or a still (fallback, §4.1), from a
+local file **or** a URL you supply. Then the edit applies §4.3.
 
 `pull_assets.py` is untouched — its `archive` source stays PD-only (Met, Commons);
-copyrighted clips never flow through it, they go through `clip_cut.py` and are
-logged as `cita` (§4.7).
+copyrighted excerpts never flow through it, they go through `clip_finder.py` and
+are logged as `cita` (§4.7).
 
 ### 4.7 Logging
 Every excerpt and every still: a `06-shotlist.md` row and a `CREDITS.md` line,
@@ -289,10 +295,11 @@ Operating rules:
 | `research/citation-shelf.md` | 4·5 | **Live.** Verified list of psychologists / theorists / studies the reading can cite — name, field, claim, Tier-A/B source, verified flag. Grows per episode; the fact-check ([brain/14](14-fact-check-protocol.md)) crosses every `[S..]` authority against it. |
 | `templates/script-template.md` | 4 | **Live.** Track field; the «Autoridades citadas» table; the welded-sections + spread-citations notes; the `NARRATIVA`-is-the-scaffold note. |
 | `ideas/idea-rubric.md` · `brain/INDEX.md` | 0 | **Live.** E1's fourth subject type, R3 → §4.0, routing rows. |
-| `tools/scene_locator.py` | 6 | **To build.** Indexes a local `.srt` against `06-shotlist.md` scene notes → candidate timecodes. A discovery convenience, not a gate (§4.6). |
-| `tools/clip_cut.py` | 7 | **To build.** `clip_cut.py <SOURCE-or-URL> 01:12:33 8 --out assets/cite/…` — cut an excerpt from a local file or a URL, strip audio, cap at budget. ffmpeg (`mediabin.py`). |
-| `01-brief.md` template | 1 | **To build.** Ensayo block: mode (A/B/C), work + year + distributor, lawful-copy source, "RPM reducido (clips)" flag. |
-| `06-shotlist.md` `cita` gate | 6 | **To build.** Every `cita` beat has title/year/distributor/timecode and is ≤ budget; moving-image total ≤ mode ceiling; no `cita` beat load-bearing; §4.3 treatment noted. |
+| `templates/episode-brief.md` | 1 | **Live (light).** Modo row, a 2-line Obra block (title/year/studio/distributor + lawful-copy path), the material checklist branches Documental/Ensayo. |
+| `templates/outline-template.md` | 3 | **Live (light).** Macro-structure note, the `CITA n` beat marker (spread rule inline), gate carve-outs. |
+| `templates/shotlist-broll.md` | 6 | **Live (light).** `tipo: cita` in the enum (still or short clip); the existing "Detalle por beat" table's Notas column carries title/year/distributor/timecode — no separate budget table. |
+| `templates/fact-check-auto-prompt.md` | 5 | **Live.** Table 5b cross-checks cited authorities against the citation shelf. |
+| `tools/clip_finder.py` | 7 | **Building** (this session) — search + extract tool, see §4.6. Replaces the smaller `scene_locator.py`/`clip_cut.py` split originally sketched here. |
 | `brain/12 §1c` fold | — | **To do.** Move the §1c workflow detail here, leave a pointer (keep §1c's PD-first + "no illustrative use" lines). |
 
 ## 7. Cadence cap
@@ -311,9 +318,8 @@ start under it.
 
 ## 8. Still to build
 
-The Ensayo track is live for ideation and scriptwriting (the Whiplash demo,
-`episodes/_DEMO-ensayo-whiplash/`, is a worked Stage-4 example). The pipeline
-pieces still marked **"To build" / "To do"** in §6 land as the track is exercised
-stage by stage — `scene_locator.py`, `clip_cut.py`, the `01-brief.md` block, the
-`06-shotlist.md` gate, and the §1c fold. Until `clip_cut.py` exists, cut cited
-excerpts by hand with ffmpeg and log them the same way (§4.7).
+The Ensayo track is live end to end for ideation through shotlist (§6; the
+Whiplash demo, `episodes/_DEMO-ensayo-whiplash/`, is a worked Stage-4 example).
+What's left: `tools/clip_finder.py` (Stage 7 — search + extract, this session)
+and the `brain/12 §1c` fold. Until `clip_finder.py` exists, cut cited excerpts
+by hand with ffmpeg and log them the same way (§4.7).
