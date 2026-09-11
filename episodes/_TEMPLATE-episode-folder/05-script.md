@@ -278,7 +278,7 @@ Justo tras un [PAY] o la salida señalizada de un [EXPLICADOR]. Tipo más ligero
 - [ ] (Ensayo) toda afirmación de carga psicológica/filosófica/religiosa lleva autoridad nombrada por campo + [S..]; cada autoridad está en `research/citation-shelf.md` (añadida y leída si era nueva); tabla «Autoridades citadas» rellena
 - [ ] (Ensayo) las citas están **esparcidas** (≤1 autoridad nombrada cada ~3–4 min), cada una presentada por su escena, ninguna subsección con 3 citas seguidas
 - [ ] (Ensayo) la `NARRATIVA` es andamio de la obra, no recap — quitar la interpretación y no se sigue el hilo; reflexión distribuida, no solo en el cierre
-- [ ] Sin película dramatizada usada como registro histórico (salvo Track = Ensayo bajo `brain/20 §4`: still de la obra como cita/comentario, con tratamiento §4.3)
+- [ ] Sin película dramatizada usada como registro histórico (salvo Track = Ensayo bajo `brain/20 §4`: clip breve como cita/comentario, con tratamiento §4.3)
 - [ ] Sin moralina, sin desprecio al sujeto, sin clickbait
 - [ ] Cumple `brain/08` y `brain/09`
 - [ ] Español neutro-internacional; leído en voz alta sin tropiezos

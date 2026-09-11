@@ -49,9 +49,9 @@ Hay una idea que suena a verdad. Dice que para llegar a ser el mejor en algo, al
 El problema es que su director pasó los años siguientes intentando explicar que no la había hecho como un consejo. En una entrevista de diciembre de 2014, con veintinueve años, dijo que él imaginaba el final así: el profesor siempre creerá que ganó, y el chico «será una cáscara vacía y triste, y morirá a los treinta de una sobredosis». Y añadió: «tengo una visión muy oscura de a dónde va esto». [S02]
 
 [EN PANTALLA / HOOK VISUAL] 4–5 planos, corte seco:
-- v1 — still, ~5 s: Andrew tocando en la oscuridad de la sala de ensayo vacía (aprox. 00:02:10). [S01]
+- v1 — clip, ~5 s: Andrew tocando en la oscuridad de la sala de ensayo vacía (aprox. 00:02:10). [S01]
 - v2 — still: la baqueta con sangre sobre el parche (aprox. 01:03:00). [S01]
-- v3 — still, ~4 s: Fletcher levantando la mano abierta para marcar el tempo, la banda congelada (aprox. 00:18:40). [S01]
+- v3 — clip, ~4 s: Fletcher levantando la mano abierta para marcar el tempo, la banda congelada (aprox. 00:18:40). [S01]
 - v4 — still: Andrew mirando a Fletcher en el último plano, los dos encerrados en la mirada (aprox. 01:42:30). [S01]
 - v5 — «el giro»: still de una crítica de época con el titular «Rise of a Star, Death of a Soul». ~5 s.
 
@@ -104,7 +104,7 @@ Andrew Neiman practica solo, de noche, en un aula vacía de Shaffer. [S01] Apare
 
 El primer ensayo es una emboscada. Fletcher para la música y le pregunta a Andrew si estaba adelantado o atrasado de tempo. Andrew no sabe. Fletcher le lanza una silla a la cabeza, se acerca, lo abofetea mientras le hace contar el compás, y lo deja llorando delante de todos. [S01]
 
-[EN PANTALLA] Still: el gesto de Fletcher un instante antes de lanzar la silla (aprox. 00:18:20). [S01] [NOTA §4.3: grade de la casa, recorte al gesto, plano de expediente, empuje lento.]
+[EN PANTALLA] Clip ≤10 s: «¿Estabas adelantado o atrasado?» hasta el primer golpe de silla (aprox. 00:18:20). Audio de la película reemplazado; solo narración. [S01] [NOTA §4.3: grade de la casa, recorte al gesto de Fletcher, plano de expediente.]
 
 [NARRACIÓN]
 Aquí entra el motor de toda la película: Fletcher no le enseña a Andrew a tocar, le enseña a **tener miedo**, y confía en que el miedo haga el resto. Andrew sale de ese ensayo y se pone a practicar hasta que le sangran las manos, se venda los dedos, mete la mano en un cubo de hielo y vuelve a la batería. [S01]
@@ -169,7 +169,7 @@ Justo antes de empezar, Fletcher se inclina y le dice a Andrew que sabe que fue 
 [NARRACIÓN]
 Y entonces Andrew vuelve. Se sienta, corta a la banda, dice «yo os marco» y arranca *Caravan* él solo. Toca por encima de lo que Fletcher esperaba. Fletcher, que un segundo antes lo odiaba, empieza a dirigirlo. Hay un solo de batería larguísimo, Andrew sangrando otra vez, y al final los dos se miran. Fletcher le hace un gesto mínimo con la cabeza. Corta a negro. [S01]
 
-[EN PANTALLA] Still: la mirada final entre Andrew y Fletcher (aprox. 01:42:25). [S01] [NOTA §4.3.]
+[EN PANTALLA] Clip ≤8 s: el final del solo y la mirada (aprox. 01:42:10–01:42:30). Audio reemplazado por la narración. [S01] [NOTA §4.3.]
 
 Con la película entera delante, la pregunta del principio ya se puede responder.
 
@@ -213,7 +213,7 @@ Mi nombre es [nombre] y esto fue: *Whiplash*, la película que confunde a propó
 
 | Tag | Uso / afirmación | Fuente en source-log |
 |-----|------------------|----------------------|
-| S01 | La obra: trama, escenas, diálogo, stills citados | *Whiplash* (2014), Chazelle |
+| S01 | La obra: trama, escenas, diálogo, clips y stills | *Whiplash* (2014), Chazelle |
 | S02 | «cáscara vacía… muere a los 30… visión muy oscura» | Chazelle, entrevista ScreenCrush, dic. 2014 |
 | S03 | «excavadora para matar una hormiga»; «nada rescatable en él»; «a esto de un infarto»; origen autobiográfico | Chazelle, entrevista The Dissolve, 2014 |
 | S04 | El incidente Parker / Jo Jones: qué pasó de verdad (platillo a los pies, no a la cabeza; testigo Gene Ramey) | Crouch, *Kansas City Lightning* (2013) + CHIRP Radio |
@@ -284,6 +284,6 @@ Mi nombre es [nombre] y esto fue: *Whiplash*, la película que confunde a propó
 - [x] (Ensayo) citas **esparcidas**: 1 por acto (~1 cada 3–4 min), cada una presentada por su escena; **ninguna subsección con 3 citas seguidas** (tabla «Autoridades citadas»)
 - [x] (Ensayo) la `NARRATIVA` es andamio de la obra, no recap — quitar la interpretación y no se sigue el hilo
 - [x] Personaje de ficción tratado como decisión autoral («la película construye a Fletcher…», «Chazelle rodó…»), nunca como psicología real (`brain/20 §2`)
-- [x] Todos los `[EN PANTALLA]` de la obra son stills (`brain/20 §4.1` — en la práctica no se usan clips en movimiento), tratamiento `§4.3` anotado; ninguno load-bearing
+- [x] Clips ≤ ~10 s, audio reemplazado, tratamiento `§4.3` anotado; ninguno load-bearing
 - [x] Sin moralina, sin llamada a creer, sin desprecio al espectador
 - [x] Español neutro-internacional

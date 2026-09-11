@@ -33,21 +33,20 @@ Farid Dieck's catalogue is two different things:
    monetisation expectation. That is this doc.
 
 The research finding in one line: what protects this content is **transformation
-that is editorial, not technical** — your reading, your narration, your structure.
-In practice this plays out as **stills, not moving clips** (§4.1) — every attempt
-so far has replaced the moving excerpt with a still in the edit, which also
-means Content ID rarely has anything to match. Filters, mirror-flips and crops
-are a required *floor* (§4.3) on whatever you do cite, never the argument; alone
-they dodge automated *detection* without strengthening the fair-use case and
-they degrade the video.
+that is editorial, not technical** — your reading, your narration, your structure —
+plus accepting that **a recognisable studio clip draws a Content ID claim that
+redirects ad revenue on the clip-bearing portion** of the video (a haircut, not a
+wipe — §5). Filters, mirror-flips and 3-second cuts are a required *floor* (§4.3),
+never the argument; alone they dodge automated *detection* without strengthening
+the fair-use case and they degrade the video.
 
 ## 1. The three modes
 
-| Mode | The subject is… | Charter fit | Clip role | Typical CPM (`brain/18`) | Footage (§4) |
-|------|-----------------|-------------|-----------|--------------------------|--------------|
-| **A — obra como sujeto** | the creative work itself, read for what it does / means | needs the full carve-out (§2) | throughout, as the object of criticism | **C (baja)** — pure arts criticism | stills, §4.1/§4.4 |
-| **B — obra como cita** | a real public case / person (unchanged) | fine — subject is unchanged | only when the episode is analysing that specific work as part of the story | inherits the host episode | stills, §4.1/§4.4 |
-| **C — obra como suceso** | the **documented public event around a work** — its reception, controversy, litigation, ban, box-office phenomenon, industrial or cultural effect | **strongest of the three** — the event has a public record | brief, as commentary on the work's significance | **B, sometimes A** — culture / business / legal angle | stills, §4.1/§4.4 |
+| Mode | The subject is… | Charter fit | Clip role | Typical CPM (`brain/18`) | Footage budget (§4) |
+|------|-----------------|-------------|-----------|--------------------------|---------------------|
+| **A — obra como sujeto** | the creative work itself, read for what it does / means | needs the full carve-out (§2) | throughout, as the object of criticism | **C (baja)** — pure arts criticism | Tier A |
+| **B — obra como cita** | a real public case / person (unchanged) | fine — subject is unchanged | only when the episode is analysing that specific work as part of the story | inherits the host episode | Tier B (= current §1c) |
+| **C — obra como suceso** | the **documented public event around a work** — its reception, controversy, litigation, ban, box-office phenomenon, industrial or cultural effect | **strongest of the three** — the event has a public record | brief, as commentary on the work's significance | **B, sometimes A** — culture / business / legal angle | Tier B |
 
 **Mode C is the sweet spot** and should be the default reach for Ensayo: the subject
 is a real, documented event (a moral panic, a lawsuit, a studio collapse, a
@@ -148,19 +147,18 @@ Three lines in the idea-pool row, no worksheet:
    digital, a subscription that can be screen-captured)? Name it.
 2. **Reading sources.** Are there **≥3 Tier A/B** secondary sources for the reading
    — criticism, interviews, making-of, scholarship? (These also satisfy E3.)
-3. **Footage plan.** Does the reading plausibly work as cited stills (§4.1/§4.4)?
-   A rough "yes" is enough at Stage 0; the shotlist resolves it beat by beat.
+3. **Clip budget.** Does the reading plausibly fit inside §4.4 (stills-first, clips
+   ≤ ~10 s, mode ceiling)? A rough "yes" is enough at Stage 0; the shotlist
+   resolves it beat by beat.
 Mark `Rights` on the worksheet row as `cita — crítica/comentario (fair use)`.
 
-### 4.1 Stills, not moving clips
+### 4.1 Stills first, motion only where motion is the argument
 A frame still (screenshot) under narration is far lower-risk than a moving clip
 with audio — Content ID rarely matches stills, and a still is inherently more
-transformative. **In practice, moving excerpts don't survive the final cut** —
-every attempt so far has been replaced by a still in the edit. So: **build the
-visual track from stills.** The "motion only when the motion is what you're
-analysing" exception (a specific cut, a camera move, a performance beat) stays
-on the books for the rare case it's genuinely needed, but don't plan around it
-and don't build tooling for it (§6) until it actually happens.
+transformative. **Build the visual track from stills by default.** Use a moving
+excerpt **only when the motion is what you are analysing** — a specific cut, a
+camera move, a performance beat, a piece of blocking. If a beat works as a still,
+it is a still.
 
 ### 4.2 Audio is a separate copyright — always replace or duck
 Never leave a music cue or a line reading playing clean. Original audio is ducked
@@ -173,31 +171,28 @@ A copyrighted excerpt never carries a beat alone. **Two things always apply:**
 1. **Editorial** — narration runs over it, and the beat is about *your point*, not
    the clip. Remove the narration and the beat collapses. This is the
    transformation that matters.
-2. **Technical minimums** — every cited excerpt (a still, in practice — §4.1) gets
-   **all** of: graded into the house look ([brain/03](03-brand-identity.md)),
-   cropped / reframed (not the full original frame), cut into the case-file
-   device, and a slow push or reframe move over it (a still is never static —
-   [brain/11 §2.4](11-visual-rhythm.md)). A mirror-flip or a punch-in on the
-   specific element you're discussing is encouraged where it reads naturally.
-   On the rare moving excerpt, add **audio replaced or ducked hard** (§4.2). These
-   are a **floor, not the argument** — [§0](#0-why-this-exists) stands: filters
-   alone don't make fair use, and a reviewer reads "mirror-flipped, sped up, no
-   commentary" as evasion. Do both, or don't use the excerpt.
+2. **Technical minimums** — every moving excerpt gets **all** of: graded into the
+   house look ([brain/03](03-brand-identity.md)), cropped / reframed (not the full
+   original frame), cut into the case-file device, and a slow push or reframe move
+   over it; **audio replaced or ducked hard** (§4.2). A mirror-flip or a punch-in
+   on the specific element you're discussing is encouraged where it reads
+   naturally. These are a **floor, not the argument** — [§0](#0-why-this-exists)
+   stands: filters alone don't make fair use, and a reviewer reads "mirror-flipped,
+   sped up, no commentary" as evasion. Do both, or don't use the clip.
 
 A raw excerpt playing clean is out — same bar as [brain/12 §1b](12-available-material-protocol.md).
 
-### 4.4 Budgets (soft ceiling — the real limit is 4.3 applied beat by beat)
+### 4.4 Budgets (soft ceilings — the real limit is 4.3 applied beat by beat)
 
-Stills carry no hard cap by count — each one still transformative (graded,
-cropped, under narration, moving per brain/11 §2.4), logged, credited. A
-40-minute slideshow of someone else's frames is substitution, not commentary,
-regardless of count — if a Mode-A edit is mostly cited stills back to back with
-nothing else, that's the signal the reading isn't carrying the episode, not a
-budget to raise.
+| Mode | Per excerpt | Moving-image total / episode | Stills |
+|------|-------------|------------------------------|--------|
+| **A — obra como sujeto** | ≤ ~10 s | ≤ ~120 s | no hard cap; still transformative (graded, cropped, under narration), logged, credited |
+| **B / C — cita / suceso** | ≤ ~10 s | ≤ ~60 s (= current §1c) | as above |
 
-On the rare moving excerpt (§4.1 exception): ≤ ~10 s per excerpt, ≤ ~60 s total
-per episode (= the original §1c ceiling) — kept here as a boundary in case the
-exception is ever used again, not as active guidance.
+If a Mode-A edit wants more than ~120 s of motion, that is the signal the reading
+is not carrying the episode — rebuild the beat, don't raise the ceiling. Stills
+are not a loophole for 4.3: a 40-minute slideshow of someone else's frames is
+substitution, not commentary.
 
 ### 4.5 PD-first still applies
 Films with lapsed or non-renewed copyright (pre-1929 outright; much of pre-1964
@@ -205,36 +200,41 @@ US film never renewed — large corpus on archive.org) carry **no claim** and ar
 used like any archival source. Check status per title first. Trailers are often
 released for promotion but are **not** PD — treat as any other studio footage.
 
-### 4.6 Discovery vs. the published still — two different questions
+### 4.6 Discovery vs. the published excerpt — two different questions
 
 **The source of the bytes changes neither the fair-use analysis nor the Content
 ID outcome.** Fair use is about *your* use — transformative commentary, amount,
-market effect — not where you got the frame. A screenshot pulled via clip.cafe
-and the same frame grabbed from your own Blu-ray get the identical analysis. So
-the rule is not "never an online source"; it's:
+market effect — not where you got the footage. A clip pulled from clip.cafe and
+the same clip ripped from your own Blu-ray get the identical analysis and the
+identical Content ID claim. So the rule is not "never an online source"; it's:
 
 **Discovery — unrestricted.** To *find* the scene, the timecode, the exact line:
 clip.cafe, PlayPhrase, YARN, getyarn, OpenSubtitles, a documentary fragment
-someone posted, your own `.srt` — use whatever's fastest. This is research, not
-the asset itself.
+someone posted, your own `.srt` — use whatever's fastest. This is research. For a
+video essay citing 15 films, requiring "rip each from disc first" is not
+realistic. `tools/scene_locator.py` (§6) helps by indexing a local `.srt` against
+`06-shotlist.md`, but it's a convenience, not a gate.
 
-**The published still — best obtainable quality, and log it.** In order of
-preference: (1) a frame grabbed from a source you can lawfully access (owned
-disc, bought digital, a paid subscription) — cleanest provenance, best quality;
-(2) a still from a clip-service pull — legally no different, use when (1) is
-impractical; **paying clip.cafe buys convenience, not a licence** — it grants no
-rights, don't treat a subscription as clearance; (3) a frame from a YouTube/
-social fragment — last resort, lower quality, can carry a second party's Content
-ID claim stacked on the studio's.
+**The published excerpt — best obtainable quality, and log it.** In order of
+preference:
+1. **A screen-capture from a source you can lawfully access** — a disc you own, a
+   digital purchase, a subscription you pay for. Cleanest provenance, best
+   quality, you control the exact in/out.
+2. **A clip-service pull** (clip.cafe et al.) — legally no different from (1);
+   use it when (1) is impractical. **Caveat:** paying clip.cafe buys convenience,
+   **not a licence** — it cannot grant rights to the underlying film, so don't
+   subscribe under the impression that it makes the use "cleared".
+3. **A fragment sourced from YouTube / social** — last resort. Lower quality, and
+   it can carry a **second** party's Content ID claim (the uploader's) stacked on
+   the studio's — messier disputes. Avoid as the published source when 1 or 2 is
+   available.
 
-Grabbing a single frame is one `ffmpeg -ss <time> -frames:v 1` call — no
-dedicated tool needed. `tools/scene_locator.py` (indexing a local `.srt` against
-`06-shotlist.md` to find the timecode) stays a nice-to-have, not built until a
-real episode actually needs to locate quotes across many works at once — see §6.
+`tools/clip_cut.py` (§6) takes a local file **or** a URL you supply, cuts to the
+budget length, strips audio, writes to `assets/cite/`. Then the edit applies §4.3.
 
 `pull_assets.py` is untouched — its `archive` source stays PD-only (Met, Commons);
-a cited still is grabbed by hand (`ffmpeg -ss <time> -frames:v 1`) into
-`assets/cite/` and logged as `cita` (§4.7), same as any other manually-sourced asset.
+copyrighted clips never flow through it, they go through `clip_cut.py` and are
+logged as `cita` (§4.7).
 
 ### 4.7 Logging
 Every excerpt and every still: a `06-shotlist.md` row and a `CREDITS.md` line,
@@ -250,15 +250,12 @@ governs regardless). No song lyrics reproduced on screen or in narration
 
 ## 5. Monetisation expectation — a haircut, not zero
 
-Since cited excerpts are stills in practice (§4.1), and Content ID rarely
-matches stills, most Ensayo episodes should see little to no claim activity at
-all. The haircut case below is for the rare moving-excerpt exception: it would
-draw Content ID claims that redirect ad revenue **on the clip-bearing portions**
-to the rightsholder — a haircut on the episode's RPM, not a wipe, since the
-talking-head, graphics, and narration-over-stills stretches (most of the
-runtime) still earn normally.
+An Ensayo episode with recognisable clips will draw Content ID claims that
+redirect ad revenue **on the clip-bearing portions** to the rightsholder. That's a
+haircut on the episode's RPM, not a wipe — the talking-head, graphics, and
+narration-over-stills stretches (most of the runtime, §4.1) still earn normally.
 
-Three things keep the (rare) haircut small and the risk contained:
+Three things keep the haircut small and the risk contained:
 
 - **The channel already targets the paying geography.** Every idea-pool row is
   tagged for Spain / US-Hispanic / Europe reach ([brain/18](18-monetization-and-audience.md)) —
@@ -267,9 +264,9 @@ Three things keep the (rare) haircut small and the risk contained:
   → the sala (`09-timeline.json` + the `*.review.html` files) is a dated,
   complete account of the editorial work done to every clip. If a dispute ever
   needs a fair-use showing, it exists already — we don't have to reconstruct it.
-- **[brain/11 §2.2](11-visual-rhythm.md) already caps beat duration.** B-roll beats
-  run 4–11 s with a hard ⚠ at 20 s; only a-roll (our own footage) is uncapped. On
-  the rare moving excerpt, it's B-roll and inherits that cap on top of §4.4.
+- **[brain/11 §2.2](11-visual-rhythm.md) already caps clip duration.** B-roll beats
+  run 4–11 s with a hard ⚠ at 20 s; only a-roll (our own footage) is uncapped. A
+  cited clip is B-roll and inherits that cap on top of §4.4's budget.
 
 Operating rules:
 
@@ -292,32 +289,31 @@ Operating rules:
 | `research/citation-shelf.md` | 4·5 | **Live.** Verified list of psychologists / theorists / studies the reading can cite — name, field, claim, Tier-A/B source, verified flag. Grows per episode; the fact-check ([brain/14](14-fact-check-protocol.md)) crosses every `[S..]` authority against it. |
 | `templates/script-template.md` | 4 | **Live.** Track field; the «Autoridades citadas» table; the welded-sections + spread-citations notes; the `NARRATIVA`-is-the-scaffold note. |
 | `ideas/idea-rubric.md` · `brain/INDEX.md` | 0 | **Live.** E1's fourth subject type, R3 → §4.0, routing rows. |
-| `templates/episode-brief.md` | 1 | **Live (light).** Modo row, a 2-line Obra block (title/year/studio/distributor + lawful-copy path), the material checklist branches Documental/Ensayo. |
-| `templates/outline-template.md` | 3 | **Live (light).** Macro-structure note, the `CITA n` beat marker (spread rule inline), gate carve-outs. |
-| `templates/shotlist-broll.md` | 6 | **Live (light).** A cited still is `tipo: archivo` + `Estado de derechos: cita`, title/year/distributor in the existing Notas column — no new `tipo`, no new table. In practice moving clips don't survive the cut (§4.1), so there is no separate budget gate to build. |
-| `templates/fact-check-auto-prompt.md` | 5 | **Live.** Table 5b cross-checks cited authorities against the citation shelf. |
-| **Not building:** `tools/clip_cut.py` | — | A still grab is one `ffmpeg -ss <t> -frames:v 1` call — not worth a bespoke tool. Revisit only if a real episode needs the rare moving-excerpt exception (§4.1). |
-| `tools/scene_locator.py` | 6 | **Deprioritised**, not built. A nice-to-have for locating quotes across many works at once; not needed yet — every episode so far has found timecodes by hand. |
+| `tools/scene_locator.py` | 6 | **To build.** Indexes a local `.srt` against `06-shotlist.md` scene notes → candidate timecodes. A discovery convenience, not a gate (§4.6). |
+| `tools/clip_cut.py` | 7 | **To build.** `clip_cut.py <SOURCE-or-URL> 01:12:33 8 --out assets/cite/…` — cut an excerpt from a local file or a URL, strip audio, cap at budget. ffmpeg (`mediabin.py`). |
+| `01-brief.md` template | 1 | **To build.** Ensayo block: mode (A/B/C), work + year + distributor, lawful-copy source, "RPM reducido (clips)" flag. |
+| `06-shotlist.md` `cita` gate | 6 | **To build.** Every `cita` beat has title/year/distributor/timecode and is ≤ budget; moving-image total ≤ mode ceiling; no `cita` beat load-bearing; §4.3 treatment noted. |
 | `brain/12 §1c` fold | — | **To do.** Move the §1c workflow detail here, leave a pointer (keep §1c's PD-first + "no illustrative use" lines). |
 
 ## 7. Cadence cap
 
-This only engages for the rare **moving-excerpt exception** (§4.1) — the normal
-case (cited stills) isn't capped, since it carries essentially none of the
-Content ID / RPM risk this cap exists for.
+Until three Ensayo episodes with clips have published **and** been reviewed at
+48 h + 30 d (`tools/metrics.py`) **with their Content ID outcomes recorded**:
 
-Until three episodes using a moving excerpt have published **and** been
-reviewed at 48 h + 30 d (`tools/metrics.py`) **with their Content ID outcomes
-recorded**: **≤ 1 in every 4 published episodes** uses one. After the third,
-review: retention vs. the channel baseline, the Content ID claim rate, whether
-any dispute was needed, the RPM hit. Then re-set the cap (raise, keep, or pause
-the exception).
+- **≤ 1 in every 4 published episodes** uses Mode A, or B/C with clips.
+- After the third, review: retention vs. the channel baseline, the Content ID
+  claim rate, whether any dispute was needed, the RPM hit. Then re-set the cap
+  (raise, keep, or pause the track).
+
+Mode C episodes that use **only PD footage or stills within budget** and draw no
+claims in practice stop counting against the cap after that review — but they
+start under it.
 
 ## 8. Still to build
 
-The Ensayo track is live end to end for the normal case (cited stills) —
-ideation, brief, outline, script, fact-check, and shotlist all have their
-Ensayo handling (§6; the Whiplash demo, `episodes/_DEMO-ensayo-whiplash/`, is a
-worked Stage-4 example). What's left is genuinely optional: `scene_locator.py`
-(deprioritised) and the `brain/12 §1c` fold. `clip_cut.py` isn't being built —
-see §6.
+The Ensayo track is live for ideation and scriptwriting (the Whiplash demo,
+`episodes/_DEMO-ensayo-whiplash/`, is a worked Stage-4 example). The pipeline
+pieces still marked **"To build" / "To do"** in §6 land as the track is exercised
+stage by stage — `scene_locator.py`, `clip_cut.py`, the `01-brief.md` block, the
+`06-shotlist.md` gate, and the §1c fold. Until `clip_cut.py` exists, cut cited
+excerpts by hand with ffmpeg and log them the same way (§4.7).
