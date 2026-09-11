@@ -18,10 +18,13 @@ Atiende el dashboard de Conquest. **Lee SOLO `episodes/_loop.json` y `episodes/_
    - `action: "fold"` → aplica las decisiones de `<ep>/_exports/stage<NN>.json` (o el `.txt` canónico) al fichero fuente del stage.
    - Cuando termines: `python tools/advance.py fold <ep>` y luego, si el stage ≤ `Auto-avance` de ese episodio en `_STATUS.md`, `python tools/advance.py next <ep>`. Si el stage == el techo, para ahí y anótalo en el reporte.
    - Quita la entrada de la cola (`advance.py next` la borra al avanzar; si no avanzaste, bórrala tú con `python -c "...P.dequeue('<ep>', <stage>)"`).
+   - **Si la entrada no se puede drenar** (herramienta ausente, error, bloqueo externo) **déjala en la cola y trátala como "sin trabajo real"** en la cadencia de abajo, aunque siga técnicamente "en cola". Si el motivo del bloqueo es el mismo que dejaste anotado en el tick anterior, **no reintentes el mismo comando** — confírmalo con esa nota y sigue.
 4. Reporta en 3–6 líneas: qué hiciste, qué queda, qué necesita mi visto.
 
-**Cadencia** (programa el próximo tick con este `delaySeconds`, clamped 60–3600):
-- Cola con entradas al terminar, o `wake` estaba activo → **60 s**.
-- Cola vacía: 1º–2º tick vacío seguido → **120 s**; 3º–5º → **300 s**; a partir del 6º → **900 s**. (Lleva la cuenta en `_loop.json` como `idle_streak` vía `P.touch_loop(idle_streak=N)`; resetea a 0 en cuanto haya trabajo.)
+**Cadencia** (programa el próximo tick con este `delaySeconds`, clamped 60–3600). "Trabajo real" = algo cambió de verdad (un stage avanzó, un documento se generó o plegó, se limpió la cola de ideas) — una cola vacía o una entrada que sigue bloqueada por el mismo motivo que antes **no** cuenta:
+- Hubo trabajo real este tick, o `wake` estaba activo → **60 s**.
+- Sin trabajo real: 1º–2º tick seguido así → **120 s**; 3º–5º → **300 s**; 6º–10º → **900 s**; a partir del 11º → **3600 s** (el techo — no tiene sentido reintentar cada 15 min algo que no va a cambiar solo). Lleva la cuenta en `_loop.json` como `idle_streak` vía `P.touch_loop(idle_streak=N)`; resetea a 0 en cuanto haya trabajo real.
+
+**Auto-cierre por inactividad** (para no dejarlo corriendo toda la noche por accidente). Lleva en `_loop.json` un `idle_since_ts`: la primera vez que un tick no tiene trabajo real, si está vacío, ponlo a la hora actual (`P.touch_loop(idle_since_ts=<epoch>)`); en cuanto haya trabajo real, bórralo (`P.touch_loop(idle_since_ts=None)`). Si `ahora - idle_since_ts ≥ 14400` (**4 horas seguidas sin trabajo real**), **detén el loop en vez de programar otro tick**: `P.touch_loop(state="stop", note="auto-cierre: sin cambios reales desde <hora de idle_since_ts>")`, responde una línea explicándolo (qué seguía bloqueado, desde cuándo), y **no llames a ScheduleWakeup** — el loop termina aquí, igual que `{"state":"stop"}` del paso 0. El usuario lo reabre a mano con `/loop` cuando quiera.
 
 No toques stages `human` (grabación, publicación) ni pidas permiso para los `mech`. Para los gates de alto riesgo (tras research = stage 2, tras guion = stage 4) **para y espera mi "sigue"** aunque el techo lo permita, salvo que el techo esté explícitamente por encima.
