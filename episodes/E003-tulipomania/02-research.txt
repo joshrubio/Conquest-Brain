@@ -1,0 +1,16 @@
+# 02-research.txt — 02-research.html
+episodio	E003-tulipomania
+revisor	Usuario 001
+fecha	12/09/2026
+aprobado	si
+
+---FUENTES---
+
+---DOSSIER---
+
+---GATE---
+carga-tier-ab	ok
+disputados	ok
+sin-cd	ok
+derechos	ok
+coi	ok

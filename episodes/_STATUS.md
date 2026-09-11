@@ -12,8 +12,9 @@
 
 | ID | Slug | Título | Track | Narrador | Stage | Gate | Auto-avance | Notas |
 |----|------|--------|-------|----------|-------|------|-------------|-------|
-| E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 10 | abierto | 12 | render 4K ya hecho (E001-hokusai-v1.mp4) · 0 correcciones pendientes |
-| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 7 | abierto | 4 | 2026-09-11: Stage 6 escrito (`06-shotlist.md`, 133 beats). Pase de estilo simplificado — se quitó la caja de «Intro» (confundía «sin fila»); ahora **0 beats sin fila**, cada uno con su propio recurso o candidatos. Falta (Usuario 001): elegir candidatos en `07-style-pass.html`, generar las 19 imágenes IA, «Finalizar Stage 7». |
+| E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 11 | abierto | 12 | Stage 10 aprobado (titulo C, miniatura+descripcion OK) — listo para avanzar a Stage 11 (Publicacion) |
+| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 8 | abierto | 4 | créditos    → episodes/E002-toyota-taiichi-ohno/assets/CREDITS.md |
+| E003 | E003-tulipomania | «Tulipomanía» | Documental | Usuario 002 | 4 | exportado | 12 | Guion v3 revisado (registro mitico + subasta de Alkmaar) — falta aprobar + firmar en 05-script.html |
 
 ## Reglas
 

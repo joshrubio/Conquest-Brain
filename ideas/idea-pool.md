@@ -24,7 +24,7 @@
 | DOC-03 | Disney / Mickey | Le robaron su primer personaje (Oswald); Mickey nació de esa traición | A/B | medio | 18 | aprobada |
 | DOC-04 | Adidas vs Puma | Dos hermanos, un odio que partió un pueblo alemán en dos | A/C | medio | 18 | aprobada |
 | DOC-05 | Ferrari | La muerte de su hijo Dino y la obsesión que hizo el mito | A/B | medio | 18 | aprobada |
-| DOC-06 | El bolígrafo (László Bíró) | Periodista húngaro huyendo de los nazis; inventa el boli en Argentina | A/B | medio | 18 | aprobada |
+| DOC-06 | El bolígrafo (László Bíró) | Periodista húngaro huyendo de los nazis; inventa el boli en Argentina | A/B | medio | 18 | descartada |
 | DOC-07 | Colonel Sanders / KFC | Empezó a los 65 con el cheque de la pensión, durmiendo en el coche | A | medio | 17 | aprobada |
 | DOC-08 | Rolex | El sumergible, probado cruzando el Canal de la Mancha a nado (1927) | A | alto | 19 | aprobada |
 | DOC-09 | Hokusai | Lo perdió todo 3 veces; "La gran ola" a los 70 | A/B | alto | 19 | en producción (E001) |
@@ -37,7 +37,7 @@
 | DOC-16 | Anthropic | Dejaron la empresa de IA más famosa del mundo porque creían que iba demasiado rápido — y fundaron a su competencia | A | medio | 17 | incubando (falta cross-check real de Protocolo 1/1b) |
 | DOC-17 | Radium Girls | Empresa que mintió, EE.UU., 1917–1938 | A | alto | 19 | aprobada |
 | DOC-18 | El colapso del Hyatt Regency | Error de ingeniería, Kansas City, 1981 | A/C | medio | 17 | aprobada |
-| DOC-19 | Tulipomanía | Manía especulativa + mito, Países Bajos, 1637 | C/A | alto | 19 | aprobada |
+| DOC-19 | Tulipomanía | Manía especulativa + mito, Países Bajos, 1637 | C/A | alto | 19 | en producción (E003) |
 | DOC-20 | La plaga del baile de 1518 | Dinámica de grupo, Estrasburgo | A/C | medio-bajo | 16 | incubando (registro fino) |
 | DOC-21 | Talidomida | Empresa que mintió + regulación, 1957–1962 | A/B | medio | 18 | aprobada |
 | DOC-22 | El gran engaño lunar de 1835 | Fraude mediático, Nueva York | A/C | alto | 19 | aprobada |
@@ -57,7 +57,7 @@
 |---|-------------------|---------------|--------|----------------------|------------|--------|
 | ENS-01 | El videojuego que llegó al Senado de EE.UU. | Mortal Kombat / Night Trap → audiencias de 1993 → nace la ESRB | A/C | obra como suceso | — | nueva |
 | ENS-02 | *Whiplash* y el precio de ser el mejor | el film de Chazelle (2014), leído como caso de ambición y abuso | A/B | obra como sujeto | — | nueva |
-| ENS-03 | (por definir) — caso real + su adaptación dramatizada | un caso documentado que cita 2–3 clips de la película que lo cuenta | A/C | obra como cita | — | nueva |
+| ENS-03 | (por definir) — caso real + su adaptación dramatizada | un caso documentado que cita 2–3 clips de la película que lo cuenta | A/C | obra como cita | — | descartada |
 
 ## En espera (no en esta ronda)
 
