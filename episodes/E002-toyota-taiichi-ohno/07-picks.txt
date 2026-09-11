@@ -1,0 +1,9 @@
+# 07-picks.txt — generado por 07-style-pass.html
+# col1: <beat> | "music"
+# col2: source:id | custom:<beat> (música propia) | ai:id
+# col3: url o ruta.   custom:<beat> ANULA la selección de ese beat.
+# música propia: col4 = título · autor · col5 = licencia (CC0/CC-BY/CC-BY-SA) · col6 = página
+# --- BEATS ---
+2	custom:2	https://www.pexels.com/download/video/32063955/
+3	pexelsv:38836318	https://videos.pexels.com/video-files/38836318/16509043_1920_1080_25fps.mp4
+5	commons:133224482	https://upload.wikimedia.org/wikipedia/commons/d/d1/Anonymous%2C_Engine_line_of_Ford_Motor_Company_of_Canada%2C_c_1937.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
