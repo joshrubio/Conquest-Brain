@@ -221,6 +221,11 @@ def build(slug, header, header_raw, nodes, appendix_raw=""):
     e = _h.escape
     real_beats = [b for b in nodes if b["kind"] == "beat"]
     nbeats = len(real_beats)
+    # a short "E003 Tulipomania" label — used as the PDF's on-page title AND
+    # (via document.title, which browsers use as the suggested filename when
+    # printing to PDF) the suggested download name.
+    m = re.match(r"^(E\d+)-(.+)$", slug)
+    pdf_title = f"{m.group(1)} {m.group(2).replace('-', ' ').title()}" if m else slug
 
     # sections that hold spoken beats but whose title doesn't contain a canonical
     # keyword (COLD OPEN / BUMPER / PIVOTE / CONTEXTO / NARRATIVA / TEORÍAS /
@@ -317,6 +322,7 @@ def build(slug, header, header_raw, nodes, appendix_raw=""):
             '</div>')
 
     body = (
+        f'<h1 class="printonly">{e(pdf_title)} — Guion</h1>'
         '<section><h2>Cabecera</h2><table class="mini">' + hdr_rows + '</table></section>'
         '<section><details><summary><b>Leyenda</b> — las notas técnicas del modelo narrativo (léela una vez)</summary>'
         '<table class="mini"><tr><th>Marca</th><th>Qué es</th><th>La regla</th><th>brain/</th></tr>'
@@ -363,6 +369,10 @@ def build(slug, header, header_raw, nodes, appendix_raw=""):
     fp = hashlib.sha1(fp_src.encode("utf-8")).hexdigest()[:12]
     script = f"""
 const EPID={slug[:4]!r}; const STAGE=4;
+const PDF_TITLE={json.dumps(pdf_title)};
+const PAGE_TITLE=document.title;
+window.addEventListener('beforeprint',()=>{{document.title=PDF_TITLE;}});
+window.addEventListener('afterprint',()=>{{document.title=PAGE_TITLE;}});
 const LS="conquest-scriptpass-{slug}";
 const FP={json.dumps(fp)};
 const HEADER_RAW={json.dumps(header_raw)};
@@ -470,10 +480,12 @@ $('#exp').onclick=()=>{{
     {{script_md:scriptMd, ok:ok, firma:firma}});
 }};
 $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
+$('#pdf').onclick=()=>window.print();
 """
     hd = (f'<h1>Script pass · {e(slug)}</h1><span class="count"></span>'
           f'<button class="primary" id="exp">Finalizar Stage 4</button>'
           '<button id="clr">Limpiar</button>'
+          '<button id="pdf" title="Abre el diálogo de impresión del navegador — elige «Guardar como PDF»">Descargar PDF</button>'
           '<a class="btn ghost spacer" href="http://localhost:8765/">Volver al panel</a>')
     extra = ('<style>'
              'table.mini{width:100%;border-collapse:collapse;font-size:.8rem;margin:.3rem 0}'
@@ -522,6 +534,21 @@ $('#clr').onclick=()=>{{localStorage.removeItem(LS);location.reload()}};
              '#appendix summary b{color:var(--fg)}'
              '#appendix pre{margin:.8rem 0 0;color:var(--muted);font-size:.74rem;font-family:var(--mono);'
              'white-space:pre-wrap;word-break:break-word;max-height:28rem;overflow:auto}'
+             '.printonly{display:none}'
+             '@media print{'
+             'header,.count,label.ap,#appendix,summary,.expl,.pill.rev,#global,#firma{display:none!important}'
+             'body,main{background:#fff!important;color:#000!important;max-width:none}'
+             'main{padding:0 .4in}'
+             '.printonly{display:block;font-size:1.3rem;margin:0 0 1rem;color:#000}'
+             '.layout{display:block}'
+             '#sidebar{position:static;max-height:none;overflow:visible;margin-top:1.2rem}'
+             '.node.beat{break-inside:avoid;padding:.25rem 0}'
+             '.sidecard{break-inside:avoid;border-color:#999;background:#fff}'
+             '.node.sech{break-before:auto;margin:1.2rem 0 .1rem}'
+             'h2.sech,.sidecard h3{color:#000}'
+             '.pill,.badge{border-color:#999;background:#eee;color:#000}'
+             '.beattxt{color:#000}'
+             '}'
              '</style>')
     return page(f"Script pass · {slug}", hd, body + extra, script)
 
