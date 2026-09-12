@@ -1,0 +1,25 @@
+# 07-pull.tsv — Stage 7 candidate-pull spec, E003 «Tulipomanía»
+# Generado a partir de 06-shotlist.md (Timeline — la espina): una fila por
+# beat cuyo tipo es archivo/stock (los ia/gráfico/acamara/negro no van aquí).
+# Un asset reusado (PROMISE/PAY, eco) lleva una sola fila, en el primer beat.
+beat	kind	source	query	opts
+3	stock	stock	crowd panic chaos historical reenactment	n=3
+4	archive	commons	tulip still life painting bouquet	must=tulip;n=3
+5	archive	commons	tulip mania	must=tulip;n=3
+6	archive	commons	tulip	must=tulip;n=3
+12	archive	commons,met	rembrandt	must=rembrandt;n=3
+13	archive	commons	dutch garden painting	n=3
+14	archive	commons	clusius	must=clusius;n=3
+16	archive	commons	dutch garden painting	n=3
+17	archive	commons	tulip	must=tulip;n=3
+20	archive	commons	tulip book	must=tulip;n=3
+22	archive	commons	tulip book	must=tulip;n=3
+27	archive	commons	tulip	must=tulip;n=3
+31	archive	commons	tulip	must=tulip;n=3
+35	archive	commons	tulip	must=tulip;n=3
+41	archive	commons	tulip mania print	must=tulip;n=3
+43	stock	stock	torn contract paper document ruin 17th century	n=3
+45	archive	commons	haarlem	n=3
+55	archive	commons	mackay popular delusions	must=mackay;n=3
+56	archive	commons	charles mackay	must=mackay;n=3
+57	archive	commons	tulip mania satire	must=tulip;n=3

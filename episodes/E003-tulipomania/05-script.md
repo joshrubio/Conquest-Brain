@@ -20,8 +20,7 @@
 | Duración estimada | ~15:30 (a 155 pal/min) |
 
 ---
-
-## 0. COLD OPEN / HOOK  (0:00–0:36)
+## 0. COLD OPEN / HOOK (0:00–0:36)
 
 [NARRACIÓN] Ámsterdam, invierno de 1637. Se cuenta que un solo bulbo de tulipán —del tamaño de un puño— podía costar lo mismo que una mansión en el mejor canal de la ciudad [S01][S08]. Se cuenta que un marinero, hambriento, confundió uno carísimo con una cebolla, se lo comió de desayuno, y pasó meses en la cárcel por ello [S02]. Y se cuenta que, cuando todo se vino abajo, arruinó a medio país.
 
@@ -36,7 +35,7 @@ Es, probablemente, la primera burbuja financiera de la historia. La pregunta que
 
 ---
 
-## 0b. BUMPER  (0:36–0:39)
+## 0b. BUMPER (0:36–0:39)
 
 [EN PANTALLA] Corte a negro. Aparece la marca **`Conquest`**.
 
@@ -46,17 +45,17 @@ Es, probablemente, la primera burbuja financiera de la historia. La pregunta que
 
 ---
 
-## 1. PIVOTE A CONTEXTO + ÉPOCA  (0:39–4:01)
+## 1. PIVOTE A CONTEXTO + ÉPOCA (0:39–4:01)
 
 [NARRACIÓN] Para entender cómo se llega a esto, primero hay que entender dónde estamos: la República Holandesa, primeras décadas del siglo diecisiete, en pleno Siglo de Oro.
 
-En apenas unas décadas, esta franja de tierra ganada al mar se convierte en el lugar más rico e innovador del planeta [S07]. En 1602 se funda la Compañía Neerlandesa de las Indias Orientales — la primera gran corporación del mundo, con su propia flota, su propio ejército, y acciones que se compran y venden en lo que se convertirá en la primera bolsa de valores de la historia [S07]. El dinero entra por Ámsterdam a raudales: especias, sedas, grano báltico, aceite de ballena. Se financian canales, se construye el primer banco central moderno, y una generación de pintores — Rembrandt entre ellos — encuentra clientes con dinero de sobra para pagar un retrato [S07].
+En apenas unas décadas, esta franja de tierra ganada al mar se convierte en el lugar más rico e innovador del planeta [S12]. En 1602 se funda la Compañía Neerlandesa de las Indias Orientales — la primera gran corporación del mundo, con su propia flota, su propio ejército, y acciones que se compran y venden en lo que se convertirá en la primera bolsa de valores de la historia [S11]. El dinero entra por Ámsterdam a raudales: especias, sedas, grano báltico, aceite de ballena. Se financian canales, se construye el primer banco central moderno, y una generación de pintores — Rembrandt entre ellos — encuentra clientes con dinero de sobra para pagar un retrato [S12].
 
-Y una sociedad recién enriquecida necesita, como todas, algo con lo que presumir. En Ámsterdam de la década de 1630, ese algo fue, contra todo pronóstico, una flor [S07].
+Y una sociedad recién enriquecida necesita, como todas, algo con lo que presumir. En el Ámsterdam de la década de 1630, ese algo fue, contra todo pronóstico, una flor [S12].
 
-Hay que ir casi cuatrocientos años atrás para encontrar el origen: un jardín botánico en la ciudad de Leiden. En 1593, un botánico llamado Carolus Clusius planta ahí su colección de bulbos de tulipán, una flor que en Europa todavía era una rareza traída de más al este [S07]. Se cuenta que su jardín fue asaltado varias veces, y que esos bulbos robados sembraron el comercio holandés de tulipanes en Leiden, Haarlem y Ámsterdam [S07] — es la versión que se repite; no hay un acta que lo confirme, así que la dejamos exactamente así, como tradición.
+Hay que ir casi cuatrocientos años atrás para encontrar el origen: un jardín botánico en la ciudad de Leiden. En 1593, un botánico llamado Carolus Clusius planta ahí su colección de bulbos de tulipán, una flor que en Europa todavía era una rareza traída de más al este [S01]. Se cuenta que su jardín fue asaltado varias veces, y que esos bulbos robados sembraron el comercio holandés de tulipanes en Leiden, Haarlem y Ámsterdam — es la versión que se repite; no hay un acta que lo confirme, así que la dejamos exactamente así, como tradición, sin cita de respaldo.
 
-Cuarenta años después, el tulipán ya no es una curiosidad de botánico: es el objeto de estatus de una nueva clase de comerciantes ricos, que llenan sus jardines privados de variedades raras y exóticas para demostrar, ante sus vecinos, cuánto habían prosperado [S07]. Y entre todos esos bulbos, hay una familia que se lleva la obsesión de todas las demás: los que salían con pétalos partidos en llamas de color, en vez de un solo tono uniforme. Para la década de 1620, esos bulbos ya alcanzaban precios altísimos [S01].
+Cuarenta años después, el tulipán ya no es una curiosidad de botánico: es el objeto de estatus de una nueva clase de comerciantes ricos, que llenan sus jardines privados de variedades raras y exóticas para demostrar, ante sus vecinos, cuánto habían prosperado [S12]. Y entre todos esos bulbos, hay una familia que se lleva la obsesión de todas las demás: los que salían con pétalos partidos en llamas de color, en vez de un solo tono uniforme. Para la década de 1620, esos bulbos ya alcanzaban precios altísimos [S01].
 
 [EXPLICADOR] ‹entrada señalizada›
 Y aquí hace falta entender cómo funcionaba este mercado, porque no se parece a nada que conozcas. Un bulbo de tulipán pasa la mayor parte del año bajo tierra, dormido. Nadie puede sacarlo a enseñar la flor. Así que se vendía por catálogo: un «libro de tulipanes» pintado a mano, con el precio anotado junto a cada variedad [S05]. El Rijksmuseum conserva uno casi completo, con más de cien dibujos y sus listas de precios adjuntas [S05]. Y se vendía, sobre todo, por contrato a futuro: pagabas hoy por una flor que no ibas a ver hasta la primavera siguiente.
@@ -70,7 +69,7 @@ Agárrate a esta idea, porque la vas a necesitar: comprar, con dinero de verdad,
 
 ## 2. NARRATIVA CRONOLÓGICA
 
-### Acto 1 — El auge  (4:01–6:20)
+### Acto 1 — El auge (4:01–6:20)
 
 [NARRACIÓN] El bulbo más codiciado de toda la República tenía nombre de emperador: Semper Augustus. Pétalos blancos partidos en llamas de un rojo intenso, únicos, impredecibles de una temporada a otra — el tulipán que todos querían y casi nadie podía tener [S01].
 
@@ -89,18 +88,18 @@ Así que la joya más cara de toda la República era, sin que nadie lo supiera, 
 [PAY] ‹pago del foreshadowing 2›
 Ahí tienes la respuesta que prometí: trescientos años pagando fortunas por una flor «perfecta», sin saber que lo perfecto era, literalmente, una enfermedad. Si eso no te saca una sonrisa, no sé qué lo hará.
 
-### Acto 2 — El pico  (6:20–7:45)
+### Acto 2 — El pico (6:20–7:45)
 
 [NARRACIÓN] En noviembre de 1636 los precios se disparan de verdad — y no solo los de las estrellas como el Semper Augustus. Hasta los bulbos más corrientes se contagian de la fiebre.
 
-El Witte Croonen, una variedad barata y sin ningún prestigio especial, pasa de 64 florines el 2 de enero de 1637 a más de 1.600 florines el 5 de febrero — veintiséis veces más en poco más de un mes [S01]. Un artesano cualificado de la época ganaba alrededor de 300 florines al año [S08]: ese único contrato, en apenas cinco semanas, pasó a valer más de cinco años enteros de su salario. Por un bulbo que, seamos honestos, ni siquiera era de los bonitos.
+El Witte Croonen, una variedad barata y sin ningún prestigio especial, pasa de 64 florines el 2 de enero de 1637 a más de 1.600 florines el 5 de febrero — veintiséis veces más en poco más de un mes [S01][S10]. Un artesano cualificado de la época ganaba alrededor de 300 florines al año [S08]: ese único contrato, en apenas cinco semanas, pasó a valer más de cinco años enteros de su salario. Por un bulbo que, seamos honestos, ni siquiera era de los bonitos.
 
 Imagínate el ambiente: tabernas convertidas en bolsas de valores improvisadas, contratos que cambian de manos varias veces al día, sobre servilletas y actas de notario, entre jarras de cerveza. Nadie mueve un solo bulbo real: se comercia, literalmente, con el viento — los holandeses de la época tenían hasta un nombre para esto, «windhandel» [S01]. Todo el mundo, de golpe, se ha vuelto experto en tulipanes.
 
 [PROMISE] ‹foreshadowing 3 de 4›
 Y aquí es donde la palabra que vas a oír una y otra vez entra en escena: ruina. Grábatela — porque cuando volvamos a ella, en un rato, no va a significar lo que crees que significa.
 
-### Acto 3 — El colapso  (7:45–9:53)
+### Acto 3 — El colapso (7:45–9:53)
 
 [NARRACIÓN] El 3 de febrero de 1637, en una subasta rutinaria de bulbos en Haarlem, pasa algo simple: los compradores se niegan a pagar los precios que se habían acordado [S01].
 
@@ -112,23 +111,25 @@ En los días y semanas siguientes, sí, los precios de muchos contratos se hunde
 
 Y aquí es donde la historia que se cuenta —la que abrió este episodio— se pone verdaderamente oscura: fortunas enteras perdidas de la noche a la mañana, familias arruinadas, un país entero que había perdido la cabeza y ahora pagaba el precio.
 
-### Acto 4 — La versión que se contó  (9:53–11:11)
+### Acto 4 — La versión que se contó (9:53–11:11)
 
 [NARRACIÓN] Y aquí hace falta hacer una pausa, porque hay una pregunta que no nos hemos hecho todavía: ¿de dónde sale exactamente esa versión? ¿Quién estaba ahí, contando cuántas familias se arruinaron?
 
 La respuesta es: nadie que estuviera ahí. Esa versión —la ruina generalizada, el país entero enloquecido, el marinero de la cebolla— viene de un libro publicado dos siglos después, en 1841, por un periodista y poeta escocés llamado Charles Mackay [S02].
 
-Mackay escribe sobre lo que él llama las «locuras populares» a lo largo de la historia, y le dedica un capítulo entero a esto. Y no trabaja con actas de notario ni con archivos de la época: se apoya, sobre todo, en panfletos satíricos escritos en 1637 para ridiculizar a los especuladores — no para llevar la cuenta de lo que realmente pasó [S02][S04]. Escribe, además, en su propia época, marcada por otras crisis financieras británicas recientes: tenía un motivo para encontrar, en un episodio holandés de dos siglos atrás, un espejo conveniente de sus propias advertencias [S04].
+Mackay escribe sobre lo que él llama las «locuras populares» a lo largo de la historia, y le dedica un capítulo entero a esto. Y no trabaja con actas de notario ni con archivos de la época: se apoya, sobre todo, en panfletos satíricos escritos en 1637 para ridiculizar a los especuladores — no para llevar la cuenta de lo que realmente pasó [S02][S04]. 
 
-Su versión es más simple, más moral y mucho más memorable que lo que de verdad pasó. Y durante casi ciento setenta años, prácticamente nadie la revisa a fondo [S02].
+Y aquí debemos tener en cuenta una cosa. Mackay, el hombre al que le debemos la popularización de este mito, escribe desde su propia época, marcada por otras crisis financieras británicas recientes. Una lectura posible es que encontrara, en un episodio holandés de dos siglos atrás, un espejo conveniente para sus propias advertencias — una forma de ilustrar, quizás de manera exagerada y satírica, los peligros de la avaricia y la malversación del dinero. Después de todo, Mackay era periodista, no historiador de archivo, y esto se lee mejor como una crítica social de su época que como un reportaje de la de 1637 [S04].
+
+Su versión es más simple, más moral y mucho más memorable que lo que de verdad pasó. Y durante casi ciento setenta años, prácticamente nadie la revisa a fondo. Así es como una historia escrita por un periodista, con sus propios puntos de vista y marcada por la época en que vivió, se convierte en algo más que una historia o una crítica. Se convierte en un mito [S02].
 
 [NOTA] Bisagra al desmontaje: de aquí en adelante el episodio deja de narrar «lo que se cuenta» y empieza a narrar lo que encontró la investigación de archivo — poco a poco, no de golpe.
 
-### Acto 5 — El primer hilo suelto  (11:11–12:25)
+### Acto 5 — El primer hilo suelto (11:11–12:25)
 
-[NARRACIÓN] La primera grieta en la versión de Mackay la abre, casi dos siglos después, una historiadora llamada Anne Goldgar.
+[NARRACIÓN] Todo esto hoy dia lo sabemos gracias a una historiadora llamada Anne Goldgar. Quien luego de casi dos siglos, fascinada por el mito, encuentra una grieta en la historia de Mackay.
 
-Goldgar pasa años revisando el archivo notarial holandés de la época —actas, inventarios, pleitos— buscando esa ruina generalizada [S01]. Y no encuentra, en sus propias palabras, a nadie que se declarara en bancarrota por esto [S04].
+Goldgar pasa años revisando el archivo notarial holandés de la época —actas, inventarios, pleitos— buscando esa ruina generalizada de la que hablaba el mito [S01]. Y no encuentra, en sus propias palabras, a nadie que se declarara en bancarrota por esto [S04].
 
 [PAY] ‹pago parcial del foreshadowing 3 y del HOOK›
 Ni un solo caso. Y de hecho, acuérdate de la subasta de Alkmaar — esos 90.000 florines para los huérfanos de un tabernero: eso sí se pagó, de verdad, con dinero real, documentado en un impreso que todavía existe [S09]. El mercado involucró a un grupo relativamente acotado de comerciantes con dinero de sobra para perder — no a «todo el país» [S01][S04]. Lo que sí encuentra Goldgar es algo más pequeño y más humano: gente que había dado su palabra de comprar, y ahora se negaba a cumplirla — disputas de confianza rota, resueltas en tribunales locales [S01][S04].
@@ -136,17 +137,20 @@ Ni un solo caso. Y de hecho, acuérdate de la subasta de Alkmaar — esos 90.000
 [PAY] ‹pago del foreshadowing 1›
 Y el sistema del que hablábamos al principio —comprar una flor que todavía no existe— no era ninguna locura colectiva. Era exactamente el tipo de contrato que un comerciante experimentado de esa época sabía leer y calcular [S01].
 
-### Acto 6 — El desmentido completo  (12:25–13:27)
+### Acto 6 — El desmentido completo (12:25–13:27)
 
 [NARRACIÓN] Y en 2007, el mismo año en que se publica el libro de Goldgar, un economista llamado Earl Thompson añade una segunda pieza al rompecabezas.
 
 [EXPLICADOR] ‹entrada señalizada›
-Thompson sostiene que buena parte de lo que se lee como un «colapso de precios» fue, en realidad, un cambio legal: los contratos de compra forzosa se reinterpretaron, de facto, como opciones que se podían anular pagando una penalización [S03]. Dos métodos completamente distintos —una historiadora de archivo, un economista de contratos— y la misma conclusión de fondo: no fue la catástrofe de masas que dice la leyenda.
+Thompson sostiene que buena parte de lo que se lee como un «colapso de precios» fue, en realidad, un cambio legal: los contratos de compra forzosa se reinterpretaron, de facto, como opciones que se podían anular pagando una penalización [S03]. Dos métodos completamente distintos —una historiadora de archivo, un economista de contratos— y la misma conclusión de fondo: La Tulipomanía, aunque grandiosa y cargada de una moraleja importante, no fue la catástrofe de masas que dice la leyenda.
 ‹salida señalizada›
+
 Con esto, volvamos a la pregunta que abrió el episodio.
 
 [PAY] ‹pago final del HOOK›
-¿Pasó de verdad como se cuenta? No. Ni la ruina, ni probablemente el marinero de la cebolla, que no aparece en ningún registro de la época — solo en el libro de 1841 [S02]. Pasó otra cosa: más pequeña, más legal, más humana. Y aun así, durante casi dos siglos, la versión falsa fue la que ganó.
+¿Pasó de verdad como se cuenta? La respuesta: No. Ni la ruina, ni probablemente el marinero de la cebolla, que no aparece en ningún registro de la época — solo en el libro de 1841 escrito por Mackay [S02]. 
+
+Pasó en cambio, una cosa más interesante: más pequeña, más legal, más humana. Y aun así, durante casi dos siglos, el mito de la Tulipomanía encantó a lectores en todas parte del planeta.
 
 ---
 
@@ -154,26 +158,26 @@ Con esto, volvamos a la pregunta que abrió el episodio.
 
 [NARRACIÓN] Y ahí está, creo, lo que de verdad vale la pena preguntarse — no qué pasó exactamente en 1637, sino por qué la versión falsa duró tanto.
 
-Una lectura posible es esta: un relato simple y con una lección moral clara —alguien se arruina por avaricia, hay un culpable, hay una advertencia— es más fácil de repetir, y más útil para quien lo cuenta, que un archivo lleno de matices y de gente calculando riesgos razonables.
+Una lectura posible es esta, y tiene nombre propio en psicología: la «falacia narrativa». Un relato simple y con una lección moral clara como el de Mackay se siente más verdadero, y por eso se repite más, que un archivo lleno de matices y de gente calculando riesgos razonables [S13].
 
-Piensa en lo que hemos visto: una flor por una casa entera, sí — pero también noventa y nueve lotes de bulbos, vendidos con toda normalidad, financiando el futuro de siete huérfanos, con recibo de por medio. Las dos imágenes son ciertas. Solo una de ellas cabía en el relato de Mackay.
+Piensa en lo que hemos visto: una flor por una casa entera, sí — pero también noventa y nueve lotes de bulbos, vendidos con toda normalidad, que acabaron financiando el futuro de siete huérfanos. Las dos imágenes son ciertas. Pero, solo una de ellas cabía en el relato de Mackay.
 
-Y eso no es exclusivo de Charles Mackay ni de 1841: es, en general, cómo sobreviven muchos mitos históricos — no porque sean ciertos, sino porque son más cómodos de creer que la alternativa [S04].
+Y eso no es exclusivo de Charles Mackay ni de 1841: así sobreviven muchas historias a lo largo del tiempo — no porque sean ciertas de cabo a rabo, sino porque son más fáciles de entender que la realidad [S04][S13].
 
 [NOTA] Marco interpretativo obligatorio ("una lectura posible es"). Registro psicológico único. Pendiente Stage 5: anclar el mecanismo a literatura/teórico concreto (`brain/09` A6) — ver «Mejoras opcionales».
 
 [NARRACIÓN] ‹para llevar — una idea, ≤ 90 s›
-Así que la próxima vez que una historia se te presente ya perfectamente resuelta —con su villano claro y su moraleja lista para repetir en una sobremesa— vale la pena hacerse una pregunta sencilla: ¿esto lo sé porque alguien revisó el archivo, o porque alguien contó una versión que era más fácil de creer?
+Así que la próxima vez que una historia se te presente ya perfectamente resuelta —con su villano claro y su moraleja lista para repetir a mitad de una charla con amigos— vale la pena hacerse una pregunta sencilla: ¿Es la realidad tan simple, o puede que haya algo más allá?
 
 No se trata de desconfiar de todo lo que oyes. Se trata de notar que la versión más simple casi nunca es la más completa — y que, a veces, lo que de verdad pasó es menos dramático, pero más interesante, que la leyenda que lo reemplazó.
 
 ---
 
-## 4. CTA CODA  (15:09–15:32, ~20 s)
+## 4. CTA CODA (15:09–15:32, ~20 s)
 
 [NOTA] Tipo de CTA: comentar
 
-[NARRACIÓN] ¿Te ha pasado alguna vez que una historia que dabas por segura resultó ser, en realidad, bastante más simple —o bastante más rara— de lo que te habían contado? Cuéntamela en los comentarios, los leo todos. Mi nombre es [Nombre] y esto fue: la verdadera historia de la tulipomanía, y de la mentira que la reemplazó durante casi dos siglos.
+[NARRACIÓN] ¿Te ha pasado alguna vez que una historia que dabas por segura resultó ser, en realidad, bastante más simple —o bastante más rara— de lo que te habían contado? Cuéntamela en los comentarios, los leo todos. Mi nombre es [Nombre] y esto fue: la verdadera historia de la tulipomanía, y del mito que la reemplazó durante casi dos siglos.
 
 [EN PANTALLA] Rótulo «Fuentes principales».
 
@@ -189,9 +193,13 @@ No se trata de desconfiar de todo lo que oyes. Se trata de notar que la versión
 | S04 | Citas y hallazgos directos de Goldgar; el porqué persiste el mito | Boissoneault, Smithsonian Magazine (2017) |
 | S05 | El "libro de tulipanes" / mecanismo de venta por catálogo | Rijksmuseum — Tulip Book, colección Six |
 | S06 | El virus del "romper" de color, descubierto en 1928 | Cayley, *Annals of Applied Biology* (1928) / John Innes Centre |
-| S07 | Origen del comercio vía el jardín de Clusius (tradición, Tier C — marcado en pantalla como tal) | fuentes generales — pendiente subir de tier antes de fact-check si se quiere afirmar con más peso |
+| S07 | *(superseded en Stage 5 — ya no se cita; ver S10–S12)* | fuentes generales, Tier C |
 | S08 | Equivalencia moderna aproximada de precios (casa de canal, salario anual, rango en dólares) | Essential Vermeer (historia económica neerlandesa s. XVII) — Tier C, conversión de poder adquisitivo, siempre con matiz de incertidumbre en pantalla |
 | S09 | La subasta de huérfanos de Alkmaar (5-feb-1637): 99 lotes, ~90.000 florines, la mejor documentada de toda la manía | Liberty Street Economics (Federal Reserve Bank of NY, 2013), corroborado por Goldgar |
+| S10 | Confirmación independiente de la cifra del contrato Witte Croonen (64→1.668 florines, ~26×) | Garber, "Famous First Bubbles" / *Tulipmania* (1989/2000) |
+| S11 | Fundación de la VOC (1602) y nacimiento de la primera bolsa de valores en Ámsterdam | Petram, *The World's First Stock Exchange* (2014) |
+| S12 | Contexto económico/cultural del Siglo de Oro neerlandés; el tulipán como símbolo de estatus | Schama, *The Embarrassment of Riches* (1987) |
+| S13 | El «sesgo narrativo» — por qué un relato simple y moralizado se recuerda y repite más que uno complejo | Kahneman, *Thinking, Fast and Slow* (2011) |
 
 ## Foreshadowing — registro
 
@@ -224,10 +232,10 @@ No se trata de desconfiar de todo lo que oyes. Se trata de notar que la versión
 - [x] 4 foreshadowings, todos pagados
 - [x] 3 interludios explicadores, señalizados
 - [x] Cierre en forma A, 1 registro (psicológico), 2 observaciones ancladas (la casa-precio y la subasta de Alkmaar) antes de ensanchar
-- [ ] **Pendiente Stage 5 (fact-check):** anclar el mecanismo del cierre a literatura/teórico concreto sobre persistencia de mitos simples, con `[S..]` propio (`brain/09` A6)
-- [ ] **Pendiente Stage 5:** confirmar la cifra exacta del contrato Witte Croonen directamente contra Goldgar/Thompson (dossier §6)
-- [ ] **Pendiente Stage 5:** verificar si la anécdota del marinero aparece en el propio texto de Mackay (Gutenberg) antes del fact-check
-- [ ] **Pendiente Stage 5:** el rango en dólares de S08 es deliberadamente amplio/cualitativo — decidir en fact-check si se afina o se deja tan abierto en pantalla
+- [x] **Resuelto Stage 5:** mecanismo del cierre anclado a literatura concreta — «sesgo narrativo» (Kahneman, *Thinking, Fast and Slow*, 2011), `[S13]` propio (`brain/09` A6)
+- [x] **Resuelto Stage 5:** cifra del contrato Witte Croonen confirmada de forma independiente contra Garber (1989/2000, `[S10]`), no solo Goldgar — 64→1.668 florines, ~26×
+- [x] **Resuelto Stage 5:** la anécdota del marinero sí aparece en el texto de Mackay (1841, capítulo «The Tulipomania», vía Beckmann/*Blainville's Travels* 1705) — confirma que el guion la atribuye correctamente solo a Mackay, no a ningún registro de 1637
+- [x] **Resuelto Stage 5:** el rango en dólares de S08 se deja deliberadamente abierto/cualitativo en pantalla — decisión mantenida, no se afina a una cifra puntual
 - [x] Sin película dramatizada como registro histórico
 - [x] Sin moralina, sin desprecio al sujeto
 - [x] Cumple `brain/08` y `brain/09`
@@ -245,3 +253,5 @@ No se trata de desconfiar de todo lo que oyes. Se trata de notar que la versión
 **v1 → v2:** Mismos hechos, mismas fuentes, mismos 4 foreshadowings y 3 explicadores que v1. Cambia la costura y el orden de los Actos: v1 revelaba el hallazgo de archivo (Goldgar) antes de haber presentado siquiera a Mackay — un error de secuencia además de un error de registro (corregía el mito antes de haberlo contado). v2 cuenta primero la leyenda completa y grandiosa (Actos 1–3, sin hedging), revela después de dónde viene esa versión (Acto 4, Mackay nombrado por primera vez), y solo entonces la desarma, pieza a pieza (Actos 5–6). Añadidas las equivalencias en dólares de hoy (`S08`) en los dos precios más citados (Semper Augustus, Witte Croonen).
 
 **v2 → v3:** Episodio alargado (~14 min → ~15:30) ampliando el Pivote con contexto real del Siglo de Oro (VOC, riqueza de Ámsterdam, por qué el tulipán se vuelve símbolo de estatus) y añadiendo la subasta de huérfanos de Alkmaar (`S09`, nueva fuente — 5 de febrero de 1637, la mejor documentada de toda la manía) como beat central del Acto 3 y como ancla adicional del cierre. Los 4 foreshadowings se reescriben con más teatralidad ("vas a necesitarla", "cuando llegue, te vas a reír"), mismas 4 promesas. Corregido en el proceso: el cold open original de v3 se había alargado a 57 s por las nuevas adiciones, por encima del tope duro de 45 s (`brain/02`) — recortado a 36 s sin perder los 3 beats clave (casa-precio, marinero, "arruinó a medio país").
+
+**Fact-check (Stage 5):** `S07` (Tier C) dejó de ser el único respaldo de 5 afirmaciones de contexto general — se añadieron `S10` (Garber, confirma la cifra del Witte Croonen), `S11` (Petram, VOC/bolsa de Ámsterdam), `S12` (Schama, Siglo de Oro/estatus) y `S13` (Kahneman, sesgo narrativo — ancla el mecanismo del cierre). Ver `04-factcheck-auto.md` para el detalle y el changelog completo.

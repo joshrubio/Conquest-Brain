@@ -19,7 +19,7 @@
 
 | # | Título de trabajo | Ángulo oculto / sujeto | Cierre | Material PD | /21 (est.) | Estado |
 |---|-------------------|------------------------|--------|-------------|------------|--------|
-| DOC-01 | Coca-Cola | La inventó un farmacéutico adicto a la morfina | A | alto | 20 | aprobada |
+| DOC-01 | Coca-Cola | La inventó un farmacéutico adicto a la morfina | A | alto | 20 | en producción (E004) |
 | DOC-02 | Nintendo | 80 años de fracasos (naipes, taxis, love hotels) antes de los videojuegos | A | medio | 18 | aprobada |
 | DOC-03 | Disney / Mickey | Le robaron su primer personaje (Oswald); Mickey nació de esa traición | A/B | medio | 18 | aprobada |
 | DOC-04 | Adidas vs Puma | Dos hermanos, un odio que partió un pueblo alemán en dos | A/C | medio | 18 | aprobada |

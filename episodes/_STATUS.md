@@ -14,10 +14,10 @@
 |----|------|--------|-------|----------|-------|------|-------------|-------|
 | E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 11 | abierto | 12 | Stage 10 aprobado (titulo C, miniatura+descripcion OK) — listo para avanzar a Stage 11 (Publicacion) |
 | E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 8 | abierto | 4 | créditos    → episodes/E002-toyota-taiichi-ohno/assets/CREDITS.md |
-| E003 | E003-tulipomania | «Tulipomanía» | Documental | Usuario 002 | 4 | exportado | 12 | Guion v3 revisado (registro mitico + subasta de Alkmaar) — falta aprobar + firmar en 05-script.html |
+| E003 | E003-tulipomania | «Tulipomanía» | Documental | Usuario 002 | 7 | abierto | 12 | guion actualizado directamente en 05-script.md |
+| E004 | E004-coca-cola | «Coca-Cola» | Documental | — | 2 | abierto | 12 | carpeta creada + brief prellenado |
 
 ## Reglas
 
 - Un episodio no avanza de stage sin `Gate = firmado` (`brain/06`, `brain/17`).
-- Máx. 2 episodios en stages 2–5 a la vez.
 - Al publicar: `advance.py` mueve la fila al KPI log de `brain/07`.
