@@ -39,14 +39,14 @@
 - [ ] `commons:14060928` · 2500x2500 · Jebulon — Bunch tulip Paris 2011.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/b/b6/Bunch_tulip_Paris_2011.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Bunch_tulip_Paris_2011.jpg
 
-## beat 12 — "Rembrandt portrait Dutch golden age"  [archive: commons,met]
+## beat 12 — "rembrandt"  [archive: commons,met]
 
-- [ ] `commons:153568713` · 5831x6249 · GoldenArtists — Self-Portrait - Rembrandt.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/4/43/Self-Portrait_-_Rembrandt.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:Self-Portrait_-_Rembrandt.jpg
-- [ ] `met:437394` · ?x? · Rembrandt (Rembrandt van Rijn) — Aristotle with a Bust of Homer · CC0 (The Met) · https://images.metmuseum.org/CRDImages/ep/original/DP-30758-001.jpg
-        page: https://www.metmuseum.org/art/collection/search/437394
-- [ ] `commons:80825047` · 3265x4000 · Unknown painter in the Rembrandt studio, 1650s — Portrait of Rembrandt, Rembrandt studio, 1650s, National Gallery of Art.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/b/b7/Portrait_of_Rembrandt%2C_Rembrandt_studio%2C_1650s%2C_National_Gallery_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:Portrait_of_Rembrandt,_Rembrandt_studio,_1650s,_National_Gallery_of_Art.jpg
+- [ ] `commons:23594212` · 12243x15859 · Rembrandt — Rembrandt van Rijn - Self-Portrait - Google Art Project.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/b/bd/Rembrandt_van_Rijn_-_Self-Portrait_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Rembrandt_van_Rijn_-_Self-Portrait_-_Google_Art_Project.jpg
+- [ ] `met:437398` · ?x? · Rembrandt (Rembrandt van Rijn) — Flora · CC0 (The Met) · https://images.metmuseum.org/CRDImages/ep/original/DP120785.jpg
+        page: https://www.metmuseum.org/art/collection/search/437398
+- [ ] `commons:79710878` · 14168x11528 · Rembrandt — La ronda de noche, por Rembrandt van Rijn.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/3/3a/La_ronda_de_noche%2C_por_Rembrandt_van_Rijn.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:La_ronda_de_noche,_por_Rembrandt_van_Rijn.jpg
 
 ## beat 13 — "dutch garden painting"  [archive: commons]
 
@@ -57,12 +57,14 @@
 - [ ] `commons:164791452` · 800x675 · Dirck van Delen — Dirck van Delen (1604-1605-1671) - A Dutch Garden Scene - TWCMS , C7367 - Shipley Art Gallery.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/b/b5/Dirck_van_Delen_%281604-1605-1671%29_-_A_Dutch_Garden_Scene_-_TWCMS_%2C_C7367_-_Shipley_Art_Gallery.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Dirck_van_Delen_(1604-1605-1671)_-_A_Dutch_Garden_Scene_-_TWCMS_,_C7367_-_Shipley_Art_Gallery.jpg
 
-## beat 14 — "Carolus Clusius botanist portrait"  [archive: commons]
+## beat 14 — "clusius"  [archive: commons]
 
-- [ ] `commons:36401520` · 2394x3198 · Nicolas de Larmessin — Charles de l'Écluse or Carolus Clusius (1526 – 1609) Wellcome V0003456.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/9/95/Charles_de_l%27%C3%89cluse_or_Carolus_Clusius_%281526_%E2%80%93_1609%29_Wellcome_V0003456.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:Charles_de_l%27%C3%89cluse_or_Carolus_Clusius_(1526_%E2%80%93_1609)_Wellcome_V0003456.jpg
-- [ ] `commons:101086547` · 365x535 · Unknown authorUnknown author — Charles de L'Écluse (1526-1609).png · Public domain · https://upload.wikimedia.org/wikipedia/commons/0/05/Charles_de_L%27%C3%89cluse_%281526-1609%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:Charles_de_L%27%C3%89cluse_(1526-1609).png
+- [ ] `commons:1004929` · 1320x1638 · Clusius leaves.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/3/35/Clusius_leaves.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Clusius_leaves.jpg
+- [ ] `commons:3686665` · 2360x2948 · Martin Rota Kolunic (Martinus Rota) c. 1540-1583 — Carolus Clusius by Martin Rota.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/6/67/Carolus_Clusius_by_Martin_Rota.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Carolus_Clusius_by_Martin_Rota.jpg
+- [ ] `commons:171862506` · 600x741 · Carolus Clusius (1526–1609) arcképe Philippe Galle Imagines L. Doctorum virorum, etc. című művében (Antwerpen, 1587) — Carolus ClusiusCarolus Clusius (1526–1609) arcképe Philippe Galle Imagines L. Doctorum virorum, etc. című művében (Antwerpen, 1587).jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/f/fd/Carolus_ClusiusCarolus_Clusius_%281526%E2%80%931609%29_arck%C3%A9pe_Philippe_Galle_Imagines_L._Doctorum_virorum%2C_etc._c%C3%ADm%C5%B1_m%C5%B1v%C3%A9ben_%28Antwerpen%2C_1587%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Carolus_ClusiusCarolus_Clusius_(1526%E2%80%931609)_arck%C3%A9pe_Philippe_Galle_Imagines_L._Doctorum_virorum,_etc._c%C3%ADm%C5%B1_m%C5%B1v%C3%A9ben_(Antwerpen,_1587).jpg
 
 ## beat 16 — "dutch garden painting"  [archive: commons]
 
@@ -98,10 +100,12 @@
 - [ ] `commons:12134982` · 1000x2149 · Pieter Cos — Tulip book cos.tif · Public domain · https://upload.wikimedia.org/wikipedia/commons/a/ab/Tulip_book_cos.tif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Tulip_book_cos.tif
 
-## beat 27 — "Semper Augustus tulip variety illustration"  [archive: commons]
+## beat 27 — "tulip"  [archive: commons]
 
-- [ ] `commons:102729031` · 895x1706 · James St. John — "Semper Augustus" (breaking tulip, diseased by Potyvirus).jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/2/27/%22Semper_Augustus%22_%28breaking_tulip%2C_diseased_by_Potyvirus%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:%22Semper_Augustus%22_(breaking_tulip,_diseased_by_Potyvirus).jpg
+- [ ] `commons:199488` · 1182x1829 · Unknown artistUnknown artist — Semper Augustus Tulip 17th century.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/c/cc/Semper_Augustus_Tulip_17th_century.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Semper_Augustus_Tulip_17th_century.jpg
+- [ ] `commons:14060928` · 2500x2500 · Jebulon — Bunch tulip Paris 2011.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/b/b6/Bunch_tulip_Paris_2011.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Bunch_tulip_Paris_2011.jpg
 
 ## beat 31 — "tulip"  [archive: commons]
 
@@ -110,12 +114,12 @@
 - [ ] `commons:14060928` · 2500x2500 · Jebulon — Bunch tulip Paris 2011.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/b/b6/Bunch_tulip_Paris_2011.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Bunch_tulip_Paris_2011.jpg
 
-## beat 35 — "Semper Augustus tulip painting"  [archive: commons]
+## beat 35 — "tulip"  [archive: commons]
 
 - [ ] `commons:199488` · 1182x1829 · Unknown artistUnknown artist — Semper Augustus Tulip 17th century.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/c/cc/Semper_Augustus_Tulip_17th_century.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Semper_Augustus_Tulip_17th_century.jpg
-- [ ] `commons:5723135` · 1030x783 · Jan Davidsz. de Heem — Jan-Davidsz-de-Heem-festoon-with-flowers-and-fruits-(1670).jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/9/94/Jan-Davidsz-de-Heem-festoon-with-flowers-and-fruits-%281670%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:Jan-Davidsz-de-Heem-festoon-with-flowers-and-fruits-(1670).jpg
+- [ ] `commons:14060928` · 2500x2500 · Jebulon — Bunch tulip Paris 2011.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/b/b6/Bunch_tulip_Paris_2011.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Bunch_tulip_Paris_2011.jpg
 
 ## beat 41 — "tulip mania print"  [archive: commons]
 
@@ -138,19 +142,19 @@
         page: https://commons.wikimedia.org/wiki/File:HaarlemGroteMarkt1.JPG
 - [ ] `commons:136637512` · 793x525 · AnonymousUnknown author — Jeugdfanfarecorps van speeltuinvereniging Oosterkwartier te Haarlem jaren 30.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/d/d5/Jeugdfanfarecorps_van_speeltuinvereniging_Oosterkwartier_te_Haarlem_jaren_30.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Jeugdfanfarecorps_van_speeltuinvereniging_Oosterkwartier_te_Haarlem_jaren_30.jpg
-- [ ] `commons:138637524` · 3536x2361 · Fotopersbureau De Boer — Opening Speeltuin Haarlem-Oost op 14 mei 1960.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/2/2c/Opening_Speeltuin_Haarlem-Oost_op_14_mei_1960.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:Opening_Speeltuin_Haarlem-Oost_op_14_mei_1960.jpg
+- [ ] `commons:21996338` · 7329x5689 · Cornelis van Haarlem — Cornelis Cornelisz. van Haarlem - The Fall of the Titans - Google Art Project.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/a/a4/Cornelis_Cornelisz._van_Haarlem_-_The_Fall_of_the_Titans_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Cornelis_Cornelisz._van_Haarlem_-_The_Fall_of_the_Titans_-_Google_Art_Project.jpg
 
 ## beat 55 — "mackay popular delusions"  [archive: commons]
 
-- [ ] `commons:119717245` · 699x72 · Artist unknown
-
-Charles Mackay (author) — Memoirs of Extraordinary Popular Delusions and the Madness of Crowds Vol 2 - ornament from advertisement.png · Public domain · https://upload.wikimedia.org/wikipedia/commons/8/89/Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_ornament_from_advertisement.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_ornament_from_advertisement.png
 - [ ] `commons:119620156` · 593x871 · Artist unknown
 
 Charles Mackay (author) — Memoirs of Extraordinary Popular Delusions and the Madness of Crowds Vol 2 - Pietro D'Apone.png · Public domain · https://upload.wikimedia.org/wikipedia/commons/0/01/Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Pietro_D%27Apone.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Pietro_D%27Apone.png
+- [ ] `commons:119431420` · 1215x862 · Artist unknown
+
+Charles Mackay (author) — Memoirs of Extraordinary Popular Delusions and the Madness of Crowds Vol 2 - Bethlehem.png · Public domain · https://upload.wikimedia.org/wikipedia/commons/3/32/Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Bethlehem.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Bethlehem.png
 - [ ] `commons:119715880` · 476x515 · Artist unknown
 
 Charles Mackay (author) — Memoirs of Extraordinary Popular Delusions and the Madness of Crowds Vol 2 - Sully.png · Public domain · https://upload.wikimedia.org/wikipedia/commons/4/41/Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Sully.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original

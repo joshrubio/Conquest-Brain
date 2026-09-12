@@ -33,18 +33,18 @@
 | 7 | 0:28 | 8 | cold open | acamara | — | — | cut | HOOK | «¿pasó de verdad...?» |
 | 8 | 0:36 | 3 | bumper | acamara | — | — | cut | — | «Hola, soy... Conquest» |
 | 9 | 0:39 | 10 | pivote | acamara | — | — | cut | — | «para entender... Siglo de Oro» |
-| 10 | 0:49 | 7 | pivote | gráfico | G1_mapa-riqueza-holanda | Fuente: Schama, *Embarrassment of Riches* | push | — | «el lugar más rico... [S12]» |
-| 11 | 0:56 | 8 | pivote | gráfico | G2_voc-fundacion-1602 | Fuente: Petram, *World's First Stock Exchange* | push | — | «se funda la VOC... [S11]» |
+| 10 | 0:49 | 7 | pivote | gráfico | G1_mapa_riqueza_holanda | Fuente: Schama, *Embarrassment of Riches* | push | — | «el lugar más rico... [S12]» |
+| 11 | 0:56 | 8 | pivote | gráfico | G2_voc_fundacion | Fuente: Petram, *World's First Stock Exchange* | push | — | «se funda la VOC... [S11]» |
 | 12 | 1:04 | 8 | pivote | archivo | e003_rembrandt-comercio | — | pan-h | — | «el dinero entra... Rembrandt [S12]» |
 | 13 | 1:12 | 6 | pivote | archivo | e003_jardin-privado-rico | — | push | — | «sociedad enriquecida... una flor [S12]» |
 | 14 | 1:18 | 7 | pivote | archivo | e003_clusius-retrato | — | push | — | «Carolus Clusius... Leiden [S01]» |
 | 15 | 1:25 | 6 | pivote | ia | e003_jardin-asalto | Tradición no confirmada — sin fuente de archivo | cut | — | «se cuenta que su jardín fue asaltado...» |
 | 16 | 1:31 | 7 | pivote | archivo | e003_jardines-burgueses | — | pan-h | — | «objeto de estatus... prosperado [S12]» |
 | 17 | 1:38 | 5 | pivote | archivo | e003_bulbo-llamas-macro | — | zoom | — | «pétalos partidos en llamas» |
-| 18 | 1:43 | 6 | pivote | gráfico | G3_precios-1620s | Fuente: Goldgar [S01] | push | — | «ya alcanzaban precios altísimos [S01]» |
-| 19 | 1:49 | 5 | explicador | gráfico | G4_explicador1-etapa1 | — | push | EXPLICADOR 1 | «bulbo dormido bajo tierra» |
+| 18 | 1:43 | 6 | pivote | gráfico | G3_precios_1620s | Fuente: Goldgar [S01] | push | — | «ya alcanzaban precios altísimos [S01]» |
+| 19 | 1:49 | 5 | explicador | gráfico | G4a_bulbo_dormido | — | push | EXPLICADOR 1 | «bulbo dormido bajo tierra» |
 | 20 | 1:54 | 5 | explicador | archivo | S05_tulpenboek | Fuente: Rijksmuseum | zoom | EXPLICADOR 1 | «libro de tulipanes [S05]» |
-| 21 | 1:59 | 5 | explicador | gráfico | G4_explicador1-etapa3 | — | push | EXPLICADOR 1 | «contrato a futuro» |
+| 21 | 1:59 | 5 | explicador | gráfico | G4b_contrato_futuro | — | push | EXPLICADOR 1 | «contrato a futuro» |
 | 22 | 2:04 | 5 | explicador | archivo | S05_tulpenboek-precios | Fuente: Rijksmuseum | pan-h | EXPLICADOR 1 | «lista de precios adjunta [S05]» |
 | 23 | 2:09 | 5 | pivote | acamara | — | — | cut | — | «volvamos a los bulbos...» |
 | 24 | 2:14 | 4 | pivote | acamara | — | — | cut | — | cutaway pre-PROMISE 1 |
@@ -55,8 +55,8 @@
 | 29 | 4:24 | 6 | acto 1 | ia | e003_cultivadores-experimentos | Ilustración — Conquest | pan-h | — | «distintos suelos, distintos abonos [S06]» |
 | 30 | 4:30 | 4 | acto 1 | acamara | — | — | cut | — | cutaway pre-PROMISE 2 |
 | 31 | 4:34 | 5 | acto 1 | archivo | e003_bulbo-llamas-macro-b | — | zoom | PROMISE 2 | «¿por qué salían partidos en llamas?» |
-| 32 | 4:39 | 5 | explicador | gráfico | G6_explicador2-etapa1 | — | push | EXPLICADOR 2 | «virus transmitido por pulgones [S06]» |
-| 33 | 4:44 | 5 | explicador | gráfico | G6_explicador2-etapa2 | — | push | EXPLICADOR 2 | «se debilita con cada generación [S06]» |
+| 32 | 4:39 | 5 | explicador | gráfico | G6a_virus_pulgon | — | push | EXPLICADOR 2 | «virus transmitido por pulgones [S06]» |
+| 33 | 4:44 | 5 | explicador | gráfico | G6b_bulbo_debilitado | — | push | EXPLICADOR 2 | «se debilita con cada generación [S06]» |
 | 34 | 4:49 | 5 | explicador | ia | e003_laboratorio-ingles-1928 | Ilustración — Conquest · Fuente de datos: Cayley / John Innes Centre [S06] | push | EXPLICADOR 2 | «experimento de 1928» |
 | 35 | 4:54 | 6 | acto 1 | archivo | S01_semper-augustus-c | — | push | — | «una planta enferma muriéndose despacio» |
 | 36 | 5:00 | 6 | acto 1 | archivo | e003_bulbo-llamas-macro-b | — | zoom | PAY 2 | «lo perfecto era una enfermedad» |
@@ -135,20 +135,24 @@
 
 ## Gráficos / motion — guion de cada uno
 
+> **Nota de ids (fix Stage 7):** el `id` de cada fila debe ser **exactamente** el mismo texto que aparece en la columna `asset` de la espina (arriba) — `tools/make_graphics.py` empareja por ese id exacto para decidir si usa un renderer a medida o la tarjeta genérica, y `07-style-pass.html` busca el PNG por ese mismo nombre. Un id corto tipo `G7` sin el sufijo descriptivo es exactamente el bug que causó que el pase de estilo no encontrara los gráficos ya renderizados la primera vez — no lo repitas.
+
 | id | Beat # | Qué muestra | Datos (fuente [ID]) | Rótulo de fuente/salvedad | Notas de estilo |
 |----|--------|-------------|------------------------|------------------------------|-------------------|
-| G1 | 10 | Mapa de la República Holandesa, riqueza/comercio | S12 | Fuente: Schama (1987) | mapa + iconos de mercancías |
-| G2 | 11 | Fundación de la VOC, 1602 | S11 | Fuente: Petram (2014) | documento/sello animado |
-| G3 | 18 | Curva de precios de bulbos "rotos", 1620s | S01 | Fuente: Goldgar (2007) | curva simple ascendente |
-| G4 | 19, 21 | Explicador 1 — bulbo bajo tierra → contrato a futuro | S05 | — | 2 de 3 etapas (la 2ª es archivo real, beat 20) |
-| G5 | 28, 76 | Comparación bulbo Semper Augustus = casa de canal | S01, S08 | Fuente: Goldgar; conversión USD aproximada — Essential Vermeer | reusado en el cierre como `eco` |
-| G6 | 32, 33 | Explicador 2 — virus transmitido por pulgones | S06 | Fuente: Cayley (1928) / John Innes Centre | diagrama biológico simple |
-| G7 | 38 | Witte Croonen: 64 → 1.668 florines (26×) | S01, S10 | Fuente: Goldgar; confirmado por Garber (1989/2000) | curva + contador |
-| G8 | 39 | Salario anual de un artesano (~300 florines) | S08 | Cifra aproximada — Essential Vermeer | comparación de barras, con matiz explícito |
-| G9 | 46 | Mapa Haarlem → Alkmaar, 3–5 feb 1637 | S01, S09 | — | mapa simple con línea de ruta |
-| G10 | 48, 77 | Cifras de la subasta de Alkmaar (lotes, total) | S09 | Fuente: Liberty Street Economics (FRBNY, 2013) | tabla animada de cifras |
-| G11 | 51 | Caída de precios, hasta 95% | S01 | Fuente: Goldgar (2007) | curva descendente |
-| G12 | 70 | Reinterpretación legal: contrato → opción anulable | S03 | Fuente: Thompson (2007) | diagrama de 2 columnas, denso, held |
+| G1_mapa_riqueza_holanda | 10 | Mapa de la República Holandesa, riqueza/comercio | S12 | Fuente: Schama (1987) | mapa + iconos de mercancías |
+| G2_voc_fundacion | 11 | Fundación de la VOC, 1602 | S11 | Fuente: Petram (2014) | documento/sello animado |
+| G3_precios_1620s | 18 | Curva de precios de bulbos "rotos", 1620s | S01 | Fuente: Goldgar (2007) | curva simple ascendente |
+| G4a_bulbo_dormido | 19 | Explicador 1, etapa 1 — el bulbo dormido bajo tierra | S05 | — | icono simple, primera fase de la secuencia |
+| G4b_contrato_futuro | 21 | Explicador 1, etapa 3 — el contrato a futuro (la 2ª etapa, el tulpenboek, es archivo real en el beat 20) | S05 | — | documento estilizado |
+| G5_flor-por-casa | 28, 76 | Comparación bulbo Semper Augustus = casa de canal | S01, S08 | Fuente: Goldgar; conversión USD aproximada — Essential Vermeer | reusado en el cierre como `eco` |
+| G6a_virus_pulgon | 32 | Explicador 2, etapa 1 — virus transmitido por pulgones | S06 | Fuente: Cayley (1928) / John Innes Centre | diagrama biológico simple |
+| G6b_bulbo_debilitado | 33 | Explicador 2, etapa 2 — el bulbo se debilita con cada generación | S06 | Fuente: Cayley (1928) / John Innes Centre | curva de declive simple |
+| G7_witte-croonen-curva | 38 | Witte Croonen: 64 → 1.668 florines (26×) | S01, S10 | Fuente: Goldgar; confirmado por Garber (1989/2000) | curva + contador |
+| G8_salario-artesano | 39 | Salario anual de un artesano (~300 florines) frente al contrato del Witte Croonen | S08 | Cifra aproximada — Essential Vermeer | comparación de barras, con matiz explícito |
+| G9_mapa-haarlem-alkmaar | 46 | Mapa Haarlem → Alkmaar, 3–5 feb 1637 | S01, S09 | — | mapa simple con línea de ruta |
+| G10_cifras-alkmaar | 48, 77 | Cifras de la subasta de Alkmaar (lotes, total) | S09 | Fuente: Liberty Street Economics (FRBNY, 2013) | tabla animada de cifras; reusado en el cierre como `eco` |
+| G11_caida-precios-95pct | 51 | Caída de precios, hasta 95% | S01 | Fuente: Goldgar (2007) | curva descendente |
+| G12_explicador3-contrato-opcion | 70 | Reinterpretación legal: contrato → opción anulable | S03 | Fuente: Thompson (2007) | diagrama de 2 columnas, denso, held |
 
 ## Música / sonido
 

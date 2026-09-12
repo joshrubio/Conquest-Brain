@@ -6,22 +6,44 @@ make_graphics.py — the episode's own graphics, in the house style (brain/03).
 Reads the **Gráficos / motion** table of `06-shotlist.md` and renders one 4K PNG
 per row into `assets/graphic/<id>.png` (id = the `asset` the shotlist names).
 
-Eleven ids have a bespoke renderer — a real drawn graphic, not a text card.
-**These are all E001-Hokusai-specific artwork, not generic templates** — the
-match is on the *exact* id stem (never a loose one-word tag like "signature"
-or "curve") precisely so a future episode's own id can't accidentally get
-hijacked into rendering someone else's picture (E002 hit this: an id merely
-*containing* "signature" rendered Hokusai's Manji signature card):
-  *ukiyoe_pipeline*  the print workshop chain    *age_ladder*    the preface's age scale
-  *names_timeline*  the ~30 art-names on a life  *mastery_curve*  ego vs. maestría curves
-  *prussian_blue*  the pigment swatch            *death_card*     the closing text card
-  *signature_manji*  the late signature + gloss  *edo_population* the number card (S20)
-  *moves_map*  the ~93 moves scattered on Edo    *36to46*        the series counter
-  *blue_route*  Europe → Nagasaki → Edo trade route + price fall
+Each episode gets its own block of bespoke renderers — a real drawn graphic,
+not a generic text card — registered in `RENDERERS` below, one per episode's
+block, comment-labelled by episode. **Match on the *exact* id stem** (never a
+loose one-word tag like "signature" or "curve") precisely so a future
+episode's own id can't accidentally get hijacked into rendering someone
+else's picture (E002 hit this once: an id merely *containing* "signature"
+rendered Hokusai's Manji signature card). Every id used in `06-shotlist.md`
+(the Timeline's `asset` column AND the Gráficos/motion table's `id` column —
+**they must be the identical string**) needs either a bespoke tag here or an
+acceptable generic-card fallback; **write the bespoke renderer as part of
+Stage 7**, right alongside the asset pull, not as an afterthought — the human
+landing on `07-style-pass.html` should already see the house-style graphic,
+not a placeholder card, for every load-bearing gráfico beat.
+
+E001-Hokusai (11 ids): *ukiyoe_pipeline* print workshop chain · *names_timeline*
+the ~30 art-names on a life · *prussian_blue* the pigment swatch ·
+*signature_manji* the late signature + gloss · *age_ladder* the preface's age
+scale · *mastery_curve* ego vs. maestría curves · *death_card* the closing
+text card · *edo_population* the number card (S20) · *moves_map* the ~93
+moves scattered on Edo · *36to46* the series counter · *blue_route* Europe →
+Nagasaki → Edo trade route + price fall.
+
+E003-Tulipomania (14 ids): *mapa_riqueza_holanda* trade wealth converging on
+Amsterdam · *voc_fundacion* the 1602 VOC founding card · *precios_1620s*
+early-bulb price bars · *bulbo_dormido* / *contrato_futuro* the futures-market
+explainer's two stages · *flor-por-casa* one tulip bulb = one canal house ·
+*virus_pulgon* / *bulbo_debilitado* the "breaking" virus explainer's two
+stages · *witte-croonen* the 64→1.668 florin jump ·
+*salario-artesano* a contract vs. five years' wages · *mapa-haarlem-alkmaar*
+the Haarlem→Alkmaar route · *cifras-alkmaar* the orphans' auction numbers ·
+*caida-precios* the February collapse curve · *contrato-opcion* Thompson's
+forced-purchase-vs-option diagram.
+
 Each pulls its content from the row's own "Qué muestra" / "Datos" text where it
 can (the arrows, the «quotes», the pairs); a few constants (the name list from
 S05, the kanji) live at the top of this file. Any id without a renderer falls
-back to a plain titled card carrying the "Qué muestra" text.
+back to a plain titled card carrying the "Qué muestra" text — acceptable for a
+minor/contextual beat, not for a load-bearing number or diagram.
 
 Runs on its own AND is invoked by `pull_assets.py` before it writes the style
 pass, so every `gráfico` beat is previewable there. Also runs on entry to
@@ -626,6 +648,254 @@ def g_route(row):
 
 
 
+# ---------- E003-Tulipomania renderers ----------
+# Same rule as E001's: matched on the *exact* id stem written in
+# 06-shotlist.md (both the Timeline's `asset` column and this file's
+# Gráficos/motion table — they must be the identical string, or the style
+# pass can't find the rendered PNG at all; that mismatch is what sent
+# 07-style-pass.html to "gráfico aún sin generar" for every G-beat the
+# first time E003 hit Stage 7, even though the PNGs already existed under
+# a different, shorter id). Never register a tag short enough to collide
+# with another episode's id by accident.
+
+def g_e003_riqueza(row):
+    im, d = _new()
+    frame(d, "el siglo de oro neerlandés", row["label"])
+    ctext(d, W / 2, 380, "ESPECIAS · SEDA · GRANO · ACEITE DE BALLENA", _font(MONO, 44), MUTED)
+    cx, cy = W / 2, 1150
+    for p in ((420, 700), (W / 2, 500), (W - 420, 700)):
+        arrow(d, p, (cx, cy), color=GOLD, width=6)
+    ctext(d, W / 2, 1300, "ÁMSTERDAM", _font(SERIF_B, 130), BONE)
+    ctext(d, W / 2, 1460, "el lugar más rico e innovador del planeta", _font(SERIF_I, 56), MUTED)
+    return im
+
+
+def g_e003_voc(row):
+    im, d = _new()
+    frame(d, "1602 — nace la voc", row["label"])
+    ctext(d, W / 2, 400, "1602", _font(SERIF_B, 260), GOLD)
+    ctext(d, W / 2, 740, "Compañía Neerlandesa de las Indias Orientales", _font(SERIF, 62), BONE)
+    ctext(d, W / 2, 880, "primera gran corporación del mundo — flota y ejército propios,",
+          _font(SERIF_I, 46), MUTED)
+    ctext(d, W / 2, 946, "acciones negociables en la primera bolsa de valores de la historia",
+          _font(SERIF_I, 46), MUTED)
+    cx, cy = W / 2, 1420
+    d.polygon([(cx - 260, cy + 100), (cx + 260, cy + 100), (cx + 180, cy + 200), (cx - 180, cy + 200)],
+              fill=SURFACE2, outline=FAINT, width=3)
+    d.polygon([(cx, cy - 260), (cx, cy + 100), (cx + 220, cy + 80)], fill=SURFACE, outline=GOLD, width=3)
+    d.line([(cx, cy - 260), (cx, cy + 100)], fill=GOLD, width=6)
+    return im
+
+
+def g_e003_precios1620s(row):
+    im, d = _new()
+    frame(d, "bulbos «rotos» — 1620s", row["label"])
+    labels, heights = ["1610s", "1618", "1622", "1625"], [0.25, 0.42, 0.68, 0.95]
+    m, base_y, top_y = 460, H - 420, 620
+    n = len(labels)
+    bw = 300
+    gap = (W - 2 * m - n * bw) / (n - 1)
+    for i, (lb, hf) in enumerate(zip(labels, heights)):
+        x = m + i * (bw + gap)
+        h = base_y - (base_y - top_y) * hf
+        hot = i == n - 1
+        rrect(d, (x, h, x + bw, base_y), 14, fill=GOLD if hot else SURFACE,
+              outline=GOLD if hot else FAINT, width=3)
+        ctext(d, x + bw / 2, h - 70, lb, _font(MONO, 42), MUTED)
+    d.line([(m, base_y), (W - m, base_y)], fill=MUTED, width=4)
+    ctext(d, W / 2, 380, "ya alcanzaban precios altísimos", _font(SERIF_I, 58), BONE)
+    return im
+
+
+def g_e003_bulbo_dormido(row):
+    im, d = _new()
+    frame(d, "explicador 1 · etapa 1", row["label"])
+    gy = H // 2 + 140
+    d.rectangle((0, gy, W, H), fill=SURFACE)
+    d.line([(0, gy), (W, gy)], fill=GOLD, width=5)
+    cx = W / 2
+    d.ellipse((cx - 140, gy + 40, cx + 140, gy + 260), fill=SURFACE2, outline=FAINT, width=3)
+    dashed(d, (cx, gy), (cx, gy - 360), color=MUTED, width=4)
+    ctext(d, cx, gy - 500, "?", _font(SERIF_B, 220), GOLD)
+    ctext(d, W / 2, 360, "el bulbo duerme bajo tierra —", _font(SERIF_I, 54), BONE)
+    ctext(d, W / 2, 440, "nadie puede verlo florecer todavía", _font(SERIF_I, 54), BONE)
+    return im
+
+
+def g_e003_contrato_futuro(row):
+    im, d = _new()
+    frame(d, "explicador 1 · etapa 3", row["label"])
+    m = 440
+    rrect(d, (m, 560, W - m, H - 560), 20, fill=SURFACE, outline=FAINT, width=3)
+    ctext(d, W / 2, 700, "CONTRATO A FUTURO", _font(MONO, 52), GOLD)
+    ctext(d, W / 2, 940, "pagas hoy", _font(SERIF_B, 108), BONE)
+    arrow(d, (W / 2 - 260, 1160), (W / 2 + 260, 1160), color=GOLD, width=8)
+    ctext(d, W / 2, 1300, "por una flor que verás en primavera", _font(SERIF_I, 60), MUTED)
+    return im
+
+
+def g_e003_flor_casa(row):
+    im, d = _new()
+    frame(d, "una flor, una mansión", row["label"])
+    cy = H / 2 - 40
+    # left: a stylised tulip (bulb + two petals)
+    fx = W / 2 - 760
+    d.polygon([(fx, cy - 40), (fx - 110, cy - 220), (fx, cy - 300), (fx + 110, cy - 220)],
+              fill=GOLD, outline=BONE, width=3)
+    d.line([(fx, cy - 40), (fx, cy + 260)], fill=SURFACE2, width=14)
+    ctext(d, fx, cy + 360, "1 bulbo", _font(SERIF, 60), MUTED)
+    ctext(d, fx, cy + 430, "Semper Augustus", _font(SERIF_I, 44), FAINT)
+    # centre: equals sign
+    ctext(d, W / 2, cy - 40, "=", _font(SERIF_B, 220), BONE)
+    # right: a canal house silhouette
+    hx = W / 2 + 560
+    hw, hh = 420, 460
+    d.rectangle((hx - hw / 2, cy - hh / 2, hx + hw / 2, cy + hh / 2), fill=SURFACE2, outline=FAINT, width=3)
+    d.polygon([(hx - hw / 2 - 40, cy - hh / 2), (hx, cy - hh / 2 - 200), (hx + hw / 2 + 40, cy - hh / 2)],
+              fill=SURFACE, outline=GOLD, width=3)
+    for row_i in range(2):
+        for col_i in range(3):
+            wx = hx - hw / 2 + 70 + col_i * 130
+            wy = cy - hh / 2 + 90 + row_i * 170
+            d.rectangle((wx, wy, wx + 70, wy + 100), fill=GROUND, outline=GOLD, width=2)
+    ctext(d, hx, cy + hh / 2 + 100, "una casa de canal entera", _font(SERIF, 60), MUTED)
+    ctext(d, hx, cy + hh / 2 + 170, "cochera y jardín incluidos", _font(SERIF_I, 44), FAINT)
+    return im
+
+
+def g_e003_virus_pulgon(row):
+    im, d = _new()
+    frame(d, "explicador 2 · etapa 1", row["label"])
+    cx1, cy, cx2 = 900, H / 2, W - 900
+    d.ellipse((cx1 - 90, cy - 60, cx1 + 90, cy + 60), fill=SURFACE2, outline=GOLD, width=4)
+    ctext(d, cx1, cy + 160, "pulgón", _font(SERIF, 52), MUTED)
+    arrow(d, (cx1 + 140, cy), (cx2 - 260, cy), color=GOLD, width=8)
+    ctext(d, (cx1 + cx2) / 2, cy - 120, "transmite un virus", _font(SERIF_I, 50), BONE)
+    d.ellipse((cx2 - 160, cy - 200, cx2 + 160, cy + 200), fill=SURFACE2, outline=FAINT, width=3)
+    for ang in range(0, 360, 45):
+        x2 = cx2 + 150 * math.cos(math.radians(ang))
+        y2 = cy + 150 * math.sin(math.radians(ang))
+        d.line([(cx2, cy), (x2, y2)], fill=GOLD, width=6)
+    ctext(d, cx2, cy + 260, "el bulbo", _font(SERIF, 52), MUTED)
+    return im
+
+
+def g_e003_bulbo_debilitado(row):
+    im, d = _new()
+    frame(d, "explicador 2 · etapa 2", row["label"])
+    ax0, ax1, ay0, ay1 = 460, W - 460, 640, H - 420
+    pts = [(ax0 + (ax1 - ax0) * t / 100, ay0 + (ay1 - ay0) * (t / 100) ** 1.4) for t in range(101)]
+    d.line(pts, fill=GOLD, width=9)
+    for i, lbl in enumerate(["gen. 1", "gen. 2", "gen. 3", "gen. 4"]):
+        t = i / 3 * 100
+        x = ax0 + (ax1 - ax0) * t / 100
+        y = ay0 + (ay1 - ay0) * (t / 100) ** 1.4
+        d.ellipse((x - 14, y - 14, x + 14, y + 14), fill=BONE)
+        ctext(d, x, y + 70, lbl, _font(MONO, 40), MUTED)
+    ctext(d, W / 2, 400, "el bulbo se debilita con cada generación", _font(SERIF_I, 56), BONE)
+    ctext(d, W / 2, H - 260, "hasta dejar de florecer del todo", _font(SERIF, 50), MUTED)
+    return im
+
+
+def g_e003_witte_croonen(row):
+    im, d = _new()
+    frame(d, "witte croonen · feb 1637", row["label"])
+    m, base, top = 460, H - 380, 560
+    b1x = (m, m + 520)
+    b2x = (W - m - 520, W - m)
+    h1 = base - (base - top) * 0.04
+    d.rectangle((b1x[0], h1, b1x[1], base), fill=SURFACE, outline=FAINT, width=3)
+    d.rectangle((b2x[0], top, b2x[1], base), fill=GOLD, outline=GOLD, width=3)
+    ctext(d, (b1x[0] + b1x[1]) / 2, h1 - 70, "64", _font(SERIF_B, 108), MUTED)
+    ctext(d, (b1x[0] + b1x[1]) / 2, base + 40, "2 ene", _font(MONO, 42), FAINT)
+    ctext(d, (b2x[0] + b2x[1]) / 2, top - 140, "1.668", _font(SERIF_B, 158), BONE)
+    ctext(d, (b2x[0] + b2x[1]) / 2, base + 40, "5 feb", _font(MONO, 42), FAINT)
+    arrow(d, (b1x[1] + 40, (h1 + base) / 2), (b2x[0] - 40, (top + base) / 2 - 160), color=GOLD, width=6)
+    ctext(d, W / 2, 380, "26 veces más, en poco más de un mes", _font(SERIF_I, 58), BONE)
+    d.line([(m, base), (W - m, base)], fill=MUTED, width=4)
+    ctext(d, W / 2, H - 260, "florines por un bulbo Witte Croonen", _font(SERIF, 48), MUTED)
+    return im
+
+
+def g_e003_salario(row):
+    im, d = _new()
+    frame(d, "un contrato, cinco años de sueldo", row["label"])
+    m, base, top = 460, H - 420, 620
+    unit_h = (base - top) / 5.5
+    x1 = (m, m + 560)
+    for i in range(5):
+        y0 = base - unit_h * (i + 1)
+        rrect(d, (x1[0], y0, x1[1], base - unit_h * i - 14), 10,
+              fill=SURFACE2 if i % 2 == 0 else SURFACE, outline=FAINT, width=2)
+    ctext(d, (x1[0] + x1[1]) / 2, base + 40, "5 años de salario", _font(MONO, 38), MUTED)
+    ctext(d, (x1[0] + x1[1]) / 2, base + 92, "(~300 florines/año)", _font(MONO, 38), MUTED)
+    x2 = (W - m - 560, W - m)
+    rrect(d, (x2[0], top, x2[1], base), 14, fill=GOLD, outline=GOLD, width=3)
+    ctext(d, (x2[0] + x2[1]) / 2, top - 90, "1 CONTRATO", _font(SERIF_B, 78), BONE)
+    ctext(d, (x2[0] + x2[1]) / 2, base + 40, "5 semanas", _font(MONO, 38), MUTED)
+    ctext(d, W / 2, 380, "el mismo dinero — en cinco semanas, no cinco años", _font(SERIF_I, 56), BONE)
+    return im
+
+
+def g_e003_mapa_ruta(row):
+    im, d = _new()
+    frame(d, "3–5 de febrero de 1637", row["label"])
+    ax0, ax1, ay = 500, W - 500, H / 2 + 60
+    d.line([(ax0, ay), (ax1, ay)], fill=MUTED, width=5)
+    nodes = [(ax0, ay, "HAARLEM", "3 de febrero — el colapso"),
+             (ax1, ay, "ALKMAAR", "5 de febrero — la subasta de los huérfanos")]
+    for x, y, name, cap in nodes:
+        d.ellipse((x - 26, y - 26, x + 26, y + 26), fill=GOLD, outline=BONE, width=3)
+        ctext(d, x, y - 140, name, _font(MONO, 48), BONE)
+        ctext(d, x, y + 60, cap, _font(SERIF_I, 40), MUTED)
+    ctext(d, W / 2, ay - 60, "dos días", _font(SERIF_B, 68), GOLD)
+    return im
+
+
+def g_e003_alkmaar_cifras(row):
+    im, d = _new()
+    frame(d, "alkmaar · 5 de febrero de 1637", row["label"])
+    ctext(d, W / 2, 380, "99 LOTES", _font(SERIF_B, 180), GOLD)
+    ctext(d, W / 2, 660, "≈ 90.000 florines recaudados", _font(SERIF, 68), BONE)
+    rows = [("Admirael van Enkhuizen", "5.200"), ("Virrey (1)", "4.203"), ("Virrey (2)", "3.000")]
+    y = 920
+    for name, val in rows:
+        d.text((520, y), name, font=_font(SERIF, 52), fill=MUTED)
+        rtext(d, W - 520, y, val + " florines", _font(SERIF_B, 52), BONE)
+        y += 110
+    ctext(d, W / 2, H - 320, "a beneficio de siete niños huérfanos", _font(SERIF_I, 52), MUTED)
+    return im
+
+
+def g_e003_caida(row):
+    im, d = _new()
+    frame(d, "el colapso · feb 1637", row["label"])
+    ax0, ax1, ay0, ay1 = 460, W - 460, 620, H - 460
+    pts = [(ax0 + (ax1 - ax0) * t / 100, ay0 + (ay1 - ay0) * (t / 100) ** 0.55) for t in range(101)]
+    d.line(pts, fill=GOLD, width=10)
+    ctext(d, W / 2, 400, "hasta un 95%", _font(SERIF_B, 148), BONE)
+    ctext(d, W / 2, H - 300, "de los precios de contrato, en semanas", _font(SERIF, 52), MUTED)
+    return im
+
+
+def g_e003_contrato_opcion(row):
+    im, d = _new()
+    frame(d, "thompson, 2007 — la reinterpretación", row["label"])
+    m = 380
+    colw = (W - 2 * m - 80) / 2
+    x1, x2 = (m, m + colw), (W - m - colw, W - m)
+    y0, y1 = 560, H - 460
+    rrect(d, (x1[0], y0, x1[1], y1), 20, fill=SURFACE, outline=FAINT, width=3)
+    rrect(d, (x2[0], y0, x2[1], y1), 20, fill=SURFACE2, outline=GOLD, width=3)
+    ctext(d, (x1[0] + x1[1]) / 2, y0 + 110, "CONTRATO DE", _font(MONO, 42), MUTED)
+    ctext(d, (x1[0] + x1[1]) / 2, y0 + 168, "COMPRA FORZOSA", _font(MONO, 42), MUTED)
+    ctext(d, (x2[0] + x2[1]) / 2, y0 + 110, "OPCIÓN", _font(MONO, 42), GOLD)
+    ctext(d, (x2[0] + x2[1]) / 2, y0 + 168, "ANULABLE", _font(MONO, 42), GOLD)
+    arrow(d, (x1[1] + 20, (y0 + y1) / 2), (x2[0] - 20, (y0 + y1) / 2), color=GOLD, width=8)
+    ctext(d, W / 2, H - 300, "reinterpretados de facto tras el colapso", _font(SERIF_I, 52), BONE)
+    return im
+
+
 # E001-only, matched on the exact id stem (see the docstring above for why —
 # never a bare word like "signature"/"curve"/"route" a future episode's own
 # id could plausibly contain).
@@ -641,6 +911,21 @@ RENDERERS = [
     ("moves_map", g_moves),
     ("36to46", g_count36),
     ("blue_route", g_route),
+    # E003-Tulipomania (see block above) — exact id stems, same discipline.
+    ("mapa_riqueza_holanda", g_e003_riqueza),
+    ("voc_fundacion", g_e003_voc),
+    ("precios_1620s", g_e003_precios1620s),
+    ("bulbo_dormido", g_e003_bulbo_dormido),
+    ("contrato_futuro", g_e003_contrato_futuro),
+    ("flor-por-casa", g_e003_flor_casa),
+    ("virus_pulgon", g_e003_virus_pulgon),
+    ("bulbo_debilitado", g_e003_bulbo_debilitado),
+    ("witte-croonen", g_e003_witte_croonen),
+    ("salario-artesano", g_e003_salario),
+    ("mapa-haarlem-alkmaar", g_e003_mapa_ruta),
+    ("cifras-alkmaar", g_e003_alkmaar_cifras),
+    ("caida-precios", g_e003_caida),
+    ("contrato-opcion", g_e003_contrato_opcion),
 ]
 
 
