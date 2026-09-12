@@ -147,18 +147,18 @@
 
 ## beat 55 — "mackay popular delusions"  [archive: commons]
 
-- [ ] `commons:119620156` · 593x871 · Artist unknown
+- [ ] `commons:119717245` · 699x72 · Artist unknown
 
-Charles Mackay (author) — Memoirs of Extraordinary Popular Delusions and the Madness of Crowds Vol 2 - Pietro D'Apone.png · Public domain · https://upload.wikimedia.org/wikipedia/commons/0/01/Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Pietro_D%27Apone.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Pietro_D%27Apone.png
-- [ ] `commons:119431420` · 1215x862 · Artist unknown
-
-Charles Mackay (author) — Memoirs of Extraordinary Popular Delusions and the Madness of Crowds Vol 2 - Bethlehem.png · Public domain · https://upload.wikimedia.org/wikipedia/commons/3/32/Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Bethlehem.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
-        page: https://commons.wikimedia.org/wiki/File:Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Bethlehem.png
+Charles Mackay (author) — Memoirs of Extraordinary Popular Delusions and the Madness of Crowds Vol 2 - ornament from advertisement.png · Public domain · https://upload.wikimedia.org/wikipedia/commons/8/89/Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_ornament_from_advertisement.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_ornament_from_advertisement.png
 - [ ] `commons:119715880` · 476x515 · Artist unknown
 
 Charles Mackay (author) — Memoirs of Extraordinary Popular Delusions and the Madness of Crowds Vol 2 - Sully.png · Public domain · https://upload.wikimedia.org/wikipedia/commons/4/41/Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Sully.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Sully.png
+- [ ] `commons:119620156` · 593x871 · Artist unknown
+
+Charles Mackay (author) — Memoirs of Extraordinary Popular Delusions and the Madness of Crowds Vol 2 - Pietro D'Apone.png · Public domain · https://upload.wikimedia.org/wikipedia/commons/0/01/Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Pietro_D%27Apone.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Memoirs_of_Extraordinary_Popular_Delusions_and_the_Madness_of_Crowds_Vol_2_-_Pietro_D%27Apone.png
 
 ## beat 56 — "charles mackay"  [archive: commons]
 
