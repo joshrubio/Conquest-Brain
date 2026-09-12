@@ -276,11 +276,31 @@ def fold_retro(epid, d, payload):
     return True, note
 
 
+def _fold_marker(epid, stage):
+    return _exp(epid, stage).with_suffix(".folded")
+
+
 def fold_stash(epid, d, payload):
-    """Formats that vary (research / package): stash the export, queue the fold for the agent."""
+    """Formats that vary (research / package): stash the export, queue the fold
+    for the agent to apply by hand (there's no fixed schema to fold in Python
+    the way fold_idea/fold_script do). Idempotent: once the agent has applied
+    the export to the source doc, it stamps a marker (mtime of the export it
+    folded) so a later `advance.py fold` — from the next /atiende --drain tick,
+    say — recognises the work is already done and firms the gate instead of
+    re-queuing the same 'decisiones en cola' forever (found via E004 Stage 2:
+    calling `fold` again after the agent had already applied the decisions
+    just kept re-queuing, since fold_stash itself has no way to tell "already
+    handled" apart from "never touched" without this marker)."""
     st = d["stage"]
+    ef = _exp(epid, st)
+    marker = _fold_marker(epid, st)
+    ef_mtime = str(ef.stat().st_mtime)
+    if marker.exists() and marker.read_text(encoding="utf-8").strip() == ef_mtime:
+        return True, "ya plegado a mano por el agente — nada nuevo que exportar"
     P.enqueue(epid, st, "fold", note=f"aplicar las decisiones de {P.STAGE[st]['name']} "
-              f"(en {_exp(epid, st).relative_to(P.ROOT)}) al fichero fuente")
+              f"(en {ef.relative_to(P.ROOT)}) al fichero fuente — cuando termines, "
+              f"marca `{marker.name}` (mtime del export) en vez de volver a llamar "
+              f"a `advance.py fold` para este stage")
     return "queued", "decisiones en cola para plegar"
 
 

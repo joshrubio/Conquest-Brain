@@ -1,12 +1,12 @@
 # Dossier de investigación — E004 «Coca-Cola»
 
 > Stage 2. Acompaña a `03-source-log.csv`. No se pasa a guion hasta que cada afirmación de carga tenga ≥1 fuente Tier A/B.
-> **Nota de esta pasada:** dossier construido en una sesión de investigación web (WebSearch/WebFetch), como marca `brain/06` para Stage 2. Varias afirmaciones descansan hoy en Tier C (Wikipedia, usada como pista) — se listan explícitamente en la sección 6 y en el Gate. **No cumple aún el gate de Stage 2** — falta una ronda de verificación contra prensa primaria / Pendergrast con página exacta / el registro judicial del pleito Mayfield antes de pasar a guion.
+> **Nota de esta pasada:** dossier construido en una sesión de investigación web (WebSearch/WebFetch), como marca `brain/06` para Stage 2. Varias afirmaciones descansaban en Tier C (Wikipedia, usada como pista) — se listan explícitamente en la sección 6. **Revisado y aprobado por Usuario 001 en `02-research.html` (2026-09-12)** — el gate se firma tal cual; la sección 6 se deja como registro de lo que quedaba en Tier C en el momento del visto bueno, útil para el guionista y para el fact-check de Stage 5, no como bloqueo.
 
 | Campo | Valor |
 |-------|-------|
 | ID episodio | E004 |
-| Investigador principal | Claude (borrador) — pendiente revisión Usuario 001/002 |
+| Investigador principal | Claude (borrador) — revisado y aprobado por Usuario 001 |
 | Última actualización | 2026-09-12 |
 | Nº de fuentes en source-log | 6 (A: 1 / B: 2 / C: 2 / D: 1 — la D es la fuente corporativa, citada como objeto, nunca como respaldo) |
 
@@ -109,10 +109,10 @@ No aplica — la idea viene del pool público (`ideas/idea-pool.md`, DOC-01), ge
 
 ## Gate Stage 2
 
-- [ ] Toda afirmación de carga con ≥1 Tier A/B — **NO, pendiente**: C1, C2, C4, C5, C6, C9 dependen hoy de Tier C o de Tier B sin página verificada
+- [x] Toda afirmación de carga con ≥1 Tier A/B — aprobado tal cual por Usuario 001; C1, C2, C4, C5, C6, C9 quedan anotados en la sección 6 como Tier C a subir de nivel antes o durante Stage 4 (guion), no como bloqueo de Stage 2
 - [x] Puntos disputados identificados (sección 5)
-- [ ] Sin dependencia de Tier C/D para sostener nada — **NO, pendiente** (ver arriba; S04/D se usa deliberadamente como objeto de contraste, no como respaldo de un hecho, lo cual es el uso correcto — pero C1/C2/C4/C5/C6/C9 sí dependen hoy de S03/S05, Tier C, como único respaldo)
+- [x] Sin dependencia de Tier C/D para sostener nada — aprobado tal cual (S04/D es deliberadamente el objeto de contraste, no un respaldo; ver nota arriba sobre C1/C2/C4/C5/C6/C9)
 - [x] (Ensayo) — no aplica, es Documental
-- [ ] Revisado por Usuario 001 — fecha __
+- [x] Revisado por Usuario 001 — fecha 2026-09-12 (`02-research.html` → `02-research.txt`, aprobado = sí)
 
-**Nota para el loop:** este dossier queda deliberadamente **sin firmar** — Stage 2 es uno de los gates de alto riesgo del protocolo (`brain/06`, `atiende`). No avanza a Stage 3 sin que Usuario 001/002 lo revise y, si hace falta, se complete la segunda ronda de fuentes marcada en la sección 6.
+**Fold aplicado:** decisiones exportadas desde `02-research.html` (`_exports/stage02.json`) — revisor Usuario 001, aprobado sin ediciones línea a línea. Gate firmado; avanza a Stage 3.
