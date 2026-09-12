@@ -372,6 +372,15 @@ def do_fold(epid):
         return (f"{epid}: stage {st} ({sm['name']}) — {sm['produces']} sigue sin escribir "
                 f"(o, en Stage 10, sin capítulos reales en la descripción), nada que plegar; "
                 f"encolado para escribir. NO avanza.")
+    if FOLDS.get(sm["key"]) is fold_stash and not ef.exists():
+        # research/package: fold_stash always queues a fold — but there's
+        # nothing to fold until a human has actually exported decisions from
+        # the review page (02-research.html / 10-package.html -> "Finalizar
+        # Stage N" -> _exports/stageNN.json). Calling fold right after just
+        # generating the page (e.g. from /atiende) must NOT flip the gate to
+        # 'exportado' or queue a bogus fold — found via E004 Stage 2.
+        return (f"{epid}: stage {st} ({sm['name']}) — {sm['review_html']} generada, "
+                f"esperando revisión humana («sin exportar» todavía). NO avanza.")
     fn = FOLDS.get(sm["key"])
     if not fn:
         P.set_ep(epid, gate="firmado")

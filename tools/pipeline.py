@@ -181,7 +181,6 @@ def write_status(data):
                     f"{d.get('narrator','—')} | {d['stage']} | {d['gate']} | {d.get('auto',12)} | {d.get('notes','')} |")
     tail = ("\n\n## Reglas\n\n"
             "- Un episodio no avanza de stage sin `Gate = firmado` (`brain/06`, `brain/17`).\n"
-            "- Máx. 2 episodios en stages 2–5 a la vez.\n"
             "- Al publicar: `advance.py` mueve la fila al KPI log de `brain/07`.\n")
     STATUS_F.write_text(hdr + "\n".join(rows) + tail, encoding="utf-8")
 
