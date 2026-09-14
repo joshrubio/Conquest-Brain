@@ -178,19 +178,44 @@ def parse(md):
             # ‹structural markers› (‹entrada señalizada›, ‹foreshadowing 1 de 4›,
             # ‹pago del foreshadowing 2›…) are editorial bookkeeping, never meant
             # to be read aloud — but they sat as their own lines mixed straight
-            # into the same editable text as the real narration. Pull out every
-            # WHOLE line that is only a ‹…› marker, remembering its position
-            # *among the remaining narration lines* (not the raw line number —
-            # that's what makes it possible to put it back in the right spot
-            # after `text` is later edited in the browser and re-split). What's
-            # left is pure narration, one clean box, nothing to misread aloud.
-            markers, kept_lines = [], []
-            for ln in text.split("\n"):
-                if re.match(r"^‹[^›]*›$", ln.strip()):
-                    markers.append((len(kept_lines), ln.strip()))
-                else:
-                    kept_lines.append(ln)
-            text = "\n".join(kept_lines)
+            # into the same editable text as the real narration. Every real
+            # instance in the corpus is either a *lead* run (marker lines before
+            # any real content — «‹entrada señalizada›», a lone foreshadowing/
+            # sign-off tag) or a *trail* run (marker lines after all real
+            # content — «‹salida señalizada›») — never buried mid-paragraph. An
+            # earlier version tracked each marker's *index position* among the
+            # kept lines instead, to reinsert it at "the same spot" after an
+            # edit — but a position is only a snapshot of a line count that an
+            # edit (splitting a paragraph in two, say) immediately invalidates,
+            # and a version of this page that saved once, got re-parsed, and
+            # reconstructed again (both real workflows: Finalizar re-runs after
+            # a fold, and a reviewer can save more than once) does that on its
+            # OWN output — landing an already-correctly-placed marker at a
+            # *new* index next time and duplicating it (found on E002's
+            # NARRACIÓN/EXPLICADOR beats: doubled ‹entrada señalizada› lines
+            # stacked at the top after two such round-trips). Classifying by
+            # lead/trail instead of by index is immune to both: an edit changes
+            # how many lines are *between* the two groups, never which group a
+            # marker belongs to, and reconstruction always emits each marker
+            # exactly once regardless of how many times it runs.
+            lines = text.split("\n")
+
+            def _is_marker(ln):
+                return re.match(r"^‹[^›]*›$", ln.strip())
+
+            i = 0
+            lead = []
+            while i < len(lines) and _is_marker(lines[i]):
+                lead.append(lines[i].strip())
+                i += 1
+            j = len(lines)
+            trail = []
+            while j > i and _is_marker(lines[j - 1]):
+                trail.append(lines[j - 1].strip())
+                j -= 1
+            trail.reverse()
+            markers = {"lead": lead, "trail": trail}
+            text = "\n".join(lines[i:j])
             cue_norm = cue if cue in NOTES else (cue.split()[0] if cue else "NARRACIÓN")
             if cue_norm == "PLANT":  # legacy tag from before the promise/pay rename
                 cue_norm = "PROMISE"
@@ -215,9 +240,10 @@ def _beat_html(b, e):
         badges += '<span class="badge pay">PAY</span>'
     for s in b["src"]:
         badges += f'<span class="badge s">{e(s)}</span>'
-    for _pos, mtxt in b.get("markers", []):
+    _mk = b.get("markers") or {"lead": [], "trail": []}
+    for mtxt in _mk["lead"] + _mk["trail"]:
         badges += f'<span class="pill dirmark">{e(mtxt)}</span>'
-    markers_json = e(json.dumps(b.get("markers", []), ensure_ascii=False))
+    markers_json = e(json.dumps(_mk, ensure_ascii=False))
     expl = ""
     if note:
         expl = (f'<div class="expl" hidden><b>{e(b["cue_norm"])}</b> — {e(note[0])} '
@@ -430,24 +456,30 @@ const cnt=$('.count');
 const boxes=$$('.beattxt');
 function autosize(el){{el.style.height='auto';el.style.height=(el.scrollHeight+2)+'px';}}
 boxes.forEach(autosize);
+// Belt-and-suspenders re-pass: theme.py now reserves the scrollbar gutter up
+// front so this first pass already measures at the final width (that was the
+// actual bug — see theme.py's html{{}} comment) — but re-measuring once more
+// after the browser's first real paint is nearly free and guards against any
+// other late layout shift (a slow-loading system font substitution, etc.)
+// doing the same thing to a box nobody's edited yet to trigger a fix.
+requestAnimationFrame(()=>requestAnimationFrame(()=>boxes.forEach(autosize)));
 // Reassemble a beat's full saved text: its ‹…› structural markers (parse()
 // pulled them out so the editable box holds only narration — data-markers
-// is [[position, text], …], `position` counted among narration lines only,
-// recorded when the page was built) go back at that same position among
-// the CURRENT (possibly hand-edited) lines. Insert earliest-position first
-// and each later one shifts by how many markers already landed before it,
-// or two markers meant for the same spot would land on top of each other.
-// An edit that changes the line count nudges a marker at most a line or two
-// from its ideal spot — it never gets dropped, which is what actually matters.
+// is {{lead:[…], trail:[…]}}, recorded when the page was built) go back
+// where they came from: `lead` in front, `trail` at the back. Also strips
+// any line from the CURRENT box value that already matches a marker's own
+// text before doing that, so this is safe to call more than once on its own
+// output (Finalizar can re-run after a fold; a reviewer can save more than
+// once) — an index-based version of this used to duplicate the markers on a
+// second pass instead (found on E002: doubled ‹entrada señalizada› lines).
 function beatFullText(node){{
   const ta=node.querySelector('.beattxt');
-  let markers=[]; try{{markers=JSON.parse(node.dataset.markers||'[]');}}catch(e){{}}
-  if(!markers.length) return ta.value;
-  const lines=ta.value.split('\\n');
-  markers.slice().sort((a,b)=>a[0]-b[0]).forEach((m,i)=>{{
-    lines.splice(Math.min(m[0]+i, lines.length), 0, m[1]);
-  }});
-  return lines.join('\\n');
+  let mk={{lead:[],trail:[]}}; try{{mk=JSON.parse(node.dataset.markers||'{{}}');}}catch(e){{}}
+  const lead=mk.lead||[], trail=mk.trail||[];
+  if(!lead.length && !trail.length) return ta.value;
+  const markerSet=new Set([...lead,...trail]);
+  const lines=ta.value.split('\\n').filter(ln=>!markerSet.has(ln.trim()));
+  return [...lead,...lines,...trail].join('\\n');
 }}
 function save(){{
   const c={{fp:FP,edit:{{}},rev:{{}},dur:{{}}}};

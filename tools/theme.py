@@ -61,7 +61,19 @@ TOKENS = """
 # ── base elements ────────────────────────────────────────────────────────────
 BASE = """
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+/* A page that only grows a scrollbar once its content overflows the viewport
+   (the default) changes width right under a script measuring it — any JS that
+   sizes something off scrollHeight/clientWidth *before* that scrollbar shows
+   up (e.g. a review page's autosize() pass over a long list of <textarea>s)
+   locks in a value that's too narrow-viewport-wide, and once the real
+   scrollbar appears moments later the true (rewrapped, taller) content no
+   longer fits what got measured — silently clipped by that element's own
+   overflow:hidden. Reserving the gutter up front makes the viewport width
+   the same before and after, so there's nothing for a script to race against.
+   Found via script_review.py's beat boxes: a paragraph read as "cut off" on
+   first load, then reappeared the moment its box was edited (which re-runs
+   autosize at the by-then-correct width). */
+html{-webkit-text-size-adjust:100%;overflow-y:scroll;scrollbar-gutter:stable}
 body{margin:0;background:var(--bg);color:var(--fg);
   font:15px/1.55 var(--sans);letter-spacing:-.006em;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}

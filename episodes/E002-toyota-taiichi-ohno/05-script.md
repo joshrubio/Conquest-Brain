@@ -70,12 +70,13 @@ Para ver cómo, hay que volver a esa fábrica sin dinero.
 
 [NARRACIÓN] Y entonces, el 25 de junio de 1950, recién terminada la huelga, estalla la guerra de Corea. El ejército de Estados Unidos necesita camiones, muchos, y los necesita ya. Los pedidos caen sobre Toyota como lluvia después de una sequía: la empresa, que estaba a semanas de la quiebra, de golpe tiene los libros llenos [S03].
 
-[NARRACIÓN] Así que a Toyota, en 1950, no la salva su fábrica ni ningún método: la salvan un rescate de los bancos, mil seiscientos despidos y una guerra a la puerta de casa [S03]. Pero los pedidos de Corea son pan para hoy. No cambian que Toyota sigue fabricando muchísimo peor que Detroit. Lo que le dan a Ohno es otra cosa — unos años de respiro, con la empresa fuera de la UCI, para rehacer la fábrica por dentro.
+[NARRACIÓN] Así que a Toyota, en 1950, no la salva su fábrica ni ningún método: la salvan un rescate de los bancos, mil seiscientos despidos y una guerra a la puerta de casa [S03]. Pero los pedidos de Corea son pan para hoy y hambre para mañana. No cambian que Toyota sigue fabricando muchísimo peor que Detroit. Lo que le dan a Ohno es otra cosa — unos años de respiro, con la empresa fuera de la sala de emergencias, para rehacer la fábrica por dentro.
 
-[NARRACIÓN] Porque en uno de esos talleres está Taiichi Ohno. Ingeniero mecánico, formado en la sección textil de la empresa; pasó a la fábrica de coches en 1943, cuando Toyota absorbió su filial de telares [S03]. En 1945 le dan un taller de montaje; en 1949, el de motores [S03]. No es un alto directivo — es un jefe de taller con una idea fija y una consigna imposible metida en la cabeza: alcanzar a América.
+[NARRACIÓN] Porque en uno de esos talleres está Taiichi Ohno. Ingeniero mecánico, formado en la sección textil de la empresa; que pasó a la fábrica de coches en 1943, cuando Toyota absorbió su filial de telares [S03]. En 1945 le dan un taller de montaje; y en 1949, el de motores [S03]. No se trata un alto directivo — Ohno es un jefe de taller con una idea fija y una misión imposible metida en la cabeza: alcanzar a Estados Unidos.
 
 [EXPLICADOR] ‹entrada señalizada›
-Para entender lo que hace Ohno hay que saber primero cómo fabricaba coches el mayor monstruo de la epoca, es decir, Estados Unidos.
+Para entender lo que hace Ohno hay que saber primero cómo fabricaba coches el mayor monstruo de la epoca, es decir, la Ford.
+
 El sistema de Henry Ford se basa en hacer muy pocos modelos, en cantidades enormes. Para eso usa máquinas gigantes, dedicadas a una sola pieza, que cuestan mucho tiempo y mucho dinero cambiar. Así que lo lógico es estampar, por ejemplo, quinientas mil puertas derechas de una tirada y guardarlas hasta que la cadena las pida [S12]. Eso exige tres cosas: vender en volúmenes enormes, tener capital para las máquinas, y tener almacenes gigantes llenos de piezas esperando. Ford las tenía. Toyota, en 1950, no tenía ninguna de las tres.
 ‹salida señalizada›
 
@@ -88,14 +89,16 @@ Pero de ese viaje Eiji Toyoda vuelve con una conclusión rara. No dice «tenemos
 
 ## 2. NARRATIVA — la fábrica sin dinero (~6:30–21:30)
 
-[NARRACIÓN] De vuelta en Koromo, el que tiene que hacer algo con esa idea es Ohno. Y lo primero que hace es una cuenta. Para fabricar como Detroit necesitaría dos cosas que Detroit sí tiene: vender cientos de miles de coches idénticos, y dinero para las máquinas que estampan esas piezas. Toyota no tiene ni lo uno ni lo otro. La industria japonesa entera fabricó unos treinta mil vehículos en todo 1950 — lo que Estados Unidos sacaba en un día y medio [S03].
+[NARRACIÓN] De vuelta en Koromo, el que tiene que hacer algo con esa idea es Ohno. Y lo primero que hace es una cuenta. Para fabricar como Detroit necesitaría dos cosas que Detroit sí tiene: vender cientos de miles de coches idénticos, y dinero para las máquinas que estampan esas piezas. Toyota no tiene ni lo uno ni lo otro. La industria japonesa entera fabricó unos treinta mil vehículos en todo el año 1950 — es decir, lo que Estados Unidos sacaba en un día y medio [S03].
 
 [NARRACIÓN] Así que Ohno cambia la pregunta. En vez de «cómo fabrico más coches», se pregunta por qué su fábrica es un caos. Porque lo es. Cada taller va a su ritmo y empuja las piezas al taller siguiente en cuanto las termina, se las hayan pedido o no. Se montan motores que se quedan semanas parados esperando al resto del coche. Los almacenes intermedios se desbordan. Y el montaje final no arranca de verdad hasta el día diecisiete o dieciocho del mes, cuando por fin han aparecido casi todas las piezas [S03]. El trabajo de un mes, hecho en diez días de agobio. Ohno lo describía, en sus palabras traducidas, con una imagen: «igual que un año de la vida de un luchador de sumo se concentra en diez días de combates, nosotros hacíamos el trabajo de un mes en diez días» [S14].
 
 [NARRACIÓN] Lo que se le ocurre para arreglarlo es tan pequeño que cuesta creer que sea eso. Pero antes de contarlo hay que decir de quién era la idea, porque no era suya.
 
 [EXPLICADOR] ‹entrada señalizada›
-Kiichirō Toyoda, el fundador que acaba de dimitir, llevaba desde 1937 repitiendo una frase: cada pieza tiene que llegar a la cadena «justo a tiempo», ni antes ni después [S14][S03]. Sonaba bien y no lo había conseguido nadie, porque va en contra de cómo funciona una fábrica. En una fábrica normal cada paso *empuja*: hago mi parte, se la paso al siguiente, y si el siguiente todavía no la necesita, se amontona. Ohno le da la vuelta: cada paso solo puede *coger* del anterior lo que necesita en ese momento, y el paso anterior solo vuelve a fabricar cuando le han cogido algo, para reponerlo. Nada se hace «por si acaso». En vez de empujar, se tira.
+Kiichirō Toyoda, el fundador que acaba de dimitir, llevaba desde 1937 repitiendo una frase: cada pieza tiene que llegar a la cadena «justo a tiempo», ni antes ni después [S14][S03]. 
+
+Sonaba bien y no lo había conseguido nadie, porque va en contra de cómo funciona una fábrica. En una fábrica normal cada paso *empuja*: hago mi parte, se la paso al siguiente, y si el siguiente todavía no la necesita, se amontona. Ohno le da la vuelta: cada paso solo puede *coger* del anterior lo que necesita en ese momento, y el paso anterior solo vuelve a fabricar cuando le han cogido algo, para reponerlo. Nada se hace «por si acaso». Es una inversión del sistema actual, en vez de empujar, se tira.
 ‹salida señalizada›
 
 [NARRACIÓN] Con eso claro, queda una pregunta práctica: ¿cómo sabe cada taller qué le han cogido y cuánto tiene que reponer? Ahí aparece la herramienta de Ohno. Y aviso, porque no impresiona: es un trozo de cartón.
@@ -103,7 +106,7 @@ Kiichirō Toyoda, el fundador que acaba de dimitir, llevaba desde 1937 repitiend
 [PROMISE] ‹foreshadowing 1 de 4›
 Una tarjeta. Eso es lo que Ohno va a poner en el centro de todo.
 
-[NARRACIÓN] Funciona así. Con cada caja de piezas viaja una ficha — en japonés, *kanban*. Cuando el montaje vacía la caja, la ficha vuelve al taller de atrás, y esa ficha es la orden: fabrica otras tantas, ni una más. Si no ha vuelto ninguna ficha, el taller de atrás no fabrica; se para y espera. La fábrica deja de moverse por previsiones y empieza a moverse por lo que de verdad se está consumiendo, en tiempo real, sin un solo ordenador [S14].
+[NARRACIÓN] Funciona así. Con cada caja de piezas viaja una ficha — en japonés, *kanban*. Cuando el montaje vacía la caja, la ficha vuelve al taller de atrás, y esa ficha es la orden: fabrica otras tantas, ni una más. Y si no ha vuelto ninguna ficha, el taller de atrás no fabrica; se para y espera. La fábrica deja de moverse por previsiones y empieza a moverse por lo que de verdad se está consumiendo, en tiempo real, sin un solo ordenador [S14].
 
 [PAY] ‹pago del foreshadowing 1›
 Esa era la tarjeta de cartón. La respuesta de la fábrica sin dinero al problema más caro de la industria fue una ficha que va y vuelve dentro de una caja.
@@ -118,12 +121,14 @@ La imagen que le faltaba va a llegarle de un sitio insospechado: una tienda amer
 [NARRACIÓN] Hacia 1951 o 1952, un compañero de Toyota vuelve de un viaje a Estados Unidos con diapositivas a color y les cuenta algo que en Japón nadie ha visto: el supermercado. Una tienda enorme, sin un dependiente detrás del mostrador. El cliente entra, coge de la estantería lo que quiere y en la cantidad que quiere, y se va. Y detrás, alguien mira los huecos en los estantes y repone exactamente lo que se ha llevado la gente — no lo que cree que se va a vender [S14].
 
 [PAY] ‹pago del foreshadowing 4›
-Ohno oye eso y ve su fábrica. El taller de delante es el cliente que coge del estante. El taller de atrás es el reponedor que solo rellena el hueco. La ficha es la etiqueta del estante. Dentro de Toyota empiezan a llamarlo, medio en broma, «el sistema del supermercado», y el nombre se queda [S03][S14].
+Ohno oye eso y ve su fábrica. El taller de delante es el cliente que coge del estante. El taller de atrás es el reponedor que solo rellena el hueco. La ficha es la etiqueta del estante. Dentro de Toyota empiezan a llamarlo, medio en broma, «el sistema del 
+supermercado», y el nombre se queda [S03][S14].
 
 [NARRACIÓN] Para entonces Ohno lleva desde 1948 montando el sistema de fichas, taller por taller [S03]. El supermercado no se lo dio hecho; le dio algo casi tan útil: una imagen que cualquier obrero entendía sin necesidad de un diagrama. Él, en cambio, no pisaría uno hasta 1956, en un viaje a Estados Unidos — y lo contó como quien por fin se saca una espina: recorrer en persona los pasillos que llevaba cinco años usando como metáfora [S07].
 
 [PROMISE] ‹foreshadowing 3 de 4›
-Y viene la parte que más importa y la menos épica: esto no lo cambió una reunión. No hubo un día en que Toyota decidiera «a partir de mañana, fichas». Alguien tuvo que meterse en esa fábrica y no salir en veinte años.
+Y viene la parte que más importa y la menos épica: esto no lo cambió una reunión. No hubo un día en que Toyota decidiera «a 
+partir de mañana, fichas». Alguien tuvo que meterse en esa fábrica y no salir en veinte años.
 
 [NARRACIÓN] Ese alguien fue Ohno, y le costó lo que cuesta cambiarle la cabeza a una fábrica entera. La resistencia más dura no venía de los peones — venía de los mandos intermedios. Para un jefe de taller, un almacén lleno de piezas es una manta de seguridad: si algo falla, tira de la reserva y nadie se entera. Ohno les pedía lo contrario: quitaos la manta, fabricad solo lo que os acaban de pedir. Y debajo había un miedo de fondo, con razón: en una fábrica que acababa de echar a mil seiscientos, cualquier método que necesitara menos manos para el mismo coche sonaba a amenaza [S03][S12].
 
@@ -148,7 +153,7 @@ La fábrica que no podía permitirse el método de Detroit resultó ser la que m
 
 [NARRACIÓN] Y el método sale de Japón. Los coches pequeños japoneses —baratos, fiables, hechos sin almacenes llenos de piezas— llevaban años intentando entrar en el mercado americano sin conseguirlo. Con la crisis del petróleo de los setenta, dejaron de ser una curiosidad: pasaron a ser una amenaza para Detroit [S02].
 
-[NARRACIÓN] Y en 1984 llega la prueba de fuego. General Motors y Toyota reabren juntas una fábrica que GM había cerrado en Fremont, California — una planta con fama de tener la peor plantilla de la industria en Estados Unidos: uno de cada cinco trabajadores faltaba, había sabotajes, aparecían botellas metidas dentro de las puertas de los coches [S22]. Toyota la reabre con casi toda la vieja plantilla —los obreros que GM había despedido—, el mismo sindicato, y su método. En unos dos años, Fremont pasa de ser la peor fábrica de GM a una de las mejores, con una calidad a la altura de las plantas de Toyota en Japón [S22][S02][S12].
+[NARRACIÓN] Y en 1984 llega la prueba de fuego. General Motors y Toyota reabren juntas una fábrica que GM había cerrado en Fremont, California — una planta con fama de tener la peor plantilla de la industria en Estados Unidos: uno de cada cinco trabajadores faltaba, había sabotajes, y aparecían botellas metidas dentro de las puertas de los coches [S22]. Toyota la reabre con casi toda la vieja plantilla —los obreros que GM había despedido—, el mismo sindicato, y su método. En unos dos años, Fremont pasa de ser la peor fábrica de GM a una de las mejores, con una calidad a la altura de las plantas de Toyota en Japón [S22][S02][S12].
 
 [NARRACIÓN] En 1990, un equipo del MIT que ha pasado cinco años recorriendo fábricas en catorce países le pone por fin nombre en inglés —*lean production*, producción ajustada— y lo convierte en el modelo que casi toda la industria del planeta intenta copiar [S02]. Cuando ese estudio se publica, Toyota todavía fabrica la mitad de coches que General Motors. Dieciocho años más tarde, en 2008, fabrica más — y termina con setenta y siete años de GM como el mayor fabricante del mundo [S02][S23].
 
@@ -160,7 +165,9 @@ La fábrica que no podía permitirse el método de Detroit resultó ser la que m
 
 [NARRACIÓN] Es fácil salir de esta historia con la lección equivocada. Que fue el genio de un ingeniero. O esa idea que tenemos de que en Japón la gente trabaja distinto. Yo no creo que sea ninguna de las dos. Lo que había era una empresa en quiebra que no tenía otra salida.
 
-[NARRACIÓN] Y ahí hay un mecanismo que se repite fuera de las fábricas. Cuando no puedes permitirte la solución estándar —la que usa todo el mundo, la que se compra con dinero— te ves obligado a diseñar una distinta. La restricción no es solo un obstáculo: es lo que te empuja a mirar el problema desde otro sitio. La investigación sobre creatividad e innovación lo ha revisado a fondo: un poco de restricción produce **más** soluciones nuevas que ninguna restricción, porque estrecha el campo y obliga a buscar donde nadie mira [S16]. Demasiada, eso sí, ahoga [S16][S15].
+[NARRACIÓN] Y ahí hay un mecanismo que se repite fuera de las fábricas. Cuando no puedes permitirte la solución estándar —la que usa todo el mundo, la que se compra con dinero— te ves obligado a diseñar una distinta. La restricción no es solo un obstáculo: es lo que te empuja a mirar el problema desde otro sitio. 
+
+La investigación sobre creatividad e innovación lo ha revisado a fondo: un poco de restricción produce **más** soluciones nuevas que ninguna restricción, porque estrecha el campo y obliga a buscar donde nadie mira [S16]. Demasiada, eso sí, ahoga [S16][S15].
 
 [NOTA] Registro práctico. `[S16]` = Acar, Tarakci & van Knippenberg, revisión en *Journal of Management* (2019); `[S15]` = Stokes, apoyo divulgativo. Se nombra el mecanismo en general, no un estudio único del caso (`brain/09` A6). Marco interpretativo: «yo creo».
 
@@ -169,7 +176,9 @@ La fábrica que no podía permitirse el método de Detroit resultó ser la que m
 [NARRACIÓN] Hay una segunda lectura, más incómoda. Eiji Toyoda fue a la mejor fábrica del mundo y decidió no imitarla. Copiar al que va primero te mantiene, como mucho, en segundo lugar — porque siempre vas un paso por detrás de lo que él ya resolvió. Solo un método propio te pone la posibilidad de adelantar. Y un método propio no lo instala un plan: lo instala alguien dispuesto a plantarse en la fábrica veinte años mientras todos le dicen que se equivoca. Esa parte —la del círculo de tiza— es justo la que no se puede copiar.
 
 [NARRACIÓN] ‹para llevar — una idea, ≤ 90 s›
-Si algo de esto te sirve: la próxima vez que te falte el recurso que «hace falta» para hacer algo bien —el dinero, el equipo, el tiempo, la herramienta que tiene el de al lado—, antes de darlo por perdido, prueba a tratar esa carencia como el enunciado del problema. No «cómo consigo lo que me falta», sino «cómo resuelvo esto sin ello». A veces no hay respuesta. Pero cuando la hay, suele ser mejor que la solución cara — y nadie más la tiene.
+Si algo de esto te sirve: la próxima vez que te falte el recurso que «hace falta» para hacer algo bien, o iniciar un emprendimiento —el dinero, el equipo, el tiempo, la herramienta que tiene el de al lado—, antes de darlo por perdido, prueba a tratar esa carencia como el enunciado del problema. No «cómo consigo lo que me falta», sino «cómo resuelvo esto sin ello». 
+
+A veces no hay respuesta. Pero cuando la hay, suele ser mejor que la solución cara — y nadie más la tiene.
 
 ---
 
@@ -180,7 +189,7 @@ Si algo de esto te sirve: la próxima vez que te falte el recurso que «hace fal
 [NARRACIÓN] Si conoces a alguien que esté intentando construir algo con menos recursos de los que «debería» tener, mándale este vídeo. Puede que le sirva la idea.
 
 [NARRACIÓN] ‹sign-off — redacción fija, `brain/02` §4a›
-Mi nombre es [Nombre] y esto fue: cómo Toyota, demasiado pobre para copiar a Detroit, terminó fabricándole los coches al mundo.
+Mi nombre es [Nombre] y esto fue: cómo Toyota, demasiado pobre para copiar a Detroit, terminó convirtiendo su desventaje en revolución.
 
 [EN PANTALLA] Wordmark **`Conquest`** + rótulo «Fuentes principales».
 
