@@ -53,7 +53,7 @@ Higher care for **living people** and **recent events**.
 
 ## 8. Disclosure & honesty
 
-- [ ] Reenactments / recreations / AI-generated / colorized visuals labeled on screen, every appearance. **Recreation & AI illustration follow [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md):** per-episode style (photoreal allowed), where real material is missing / too scarce / rights-locked — may carry most of a material-poor episode — **never a photoreal face of an identifiable real person**, never a fabricated document/record/photograph.
+- [ ] Reenactments / recreations / AI-generated / colorized visuals labeled on screen, every appearance — burned in at the edit as `Representación pictórica — Conquest` (or `Recreación`). **Recreation & AI illustration follow [15-ai-illustration-protocol.md](15-ai-illustration-protocol.md):** per-episode style (photoreal allowed — including a real person's likeness or a recreated document/record/photograph), where real material is missing / too scarce / rights-locked — may carry most of a material-poor episode. The label is the safeguard, not the style: it's what keeps a photoreal AI shot from being mistaken for the real thing.
 - [ ] Speculation labeled.
 - [ ] Description always carries the "Fuentes principales" list.
 - [ ] Any sponsorship or paid/product element **verbally disclosed** ("esto lo hace posible…" / "publicidad") **and** on-screen labeled (rótulo «Publicidad» or «Producto propio») the moment it starts. Rules for what's allowed at all: [02-content-format.md](02-content-format.md) §4, [05-independence-and-coi.md](05-independence-and-coi.md) §"Sponsorship line".

@@ -55,7 +55,7 @@ find the right doc. **Don't read all 18.** Use the routing table.
 | 12 | available-material-protocol | 0·2·7 | PD archives list, fair-use tier for rights-managed subjects, recreation/illustration as a first-class way to carry a material-poor episode, citation tier for copyrighted film/TV, per-idea worksheet, stock rules, music licensing |
 | 13 | hook-naming | 0·10 | Dieck title anatomy, hook types, templates, ethical rules |
 | 14 | fact-check-protocol | 5 | fully automated — L1 deterministic + L2 agent edit-pass that applies the fixes; no human step |
-| 15 | ai-illustration-protocol | 7 | recreation/AI where real material is missing/scarce/rights-locked (may carry most of a material-poor episode); one style/episode; label always; no real-person photoreal faces, no fake docs |
+| 15 | ai-illustration-protocol | 7 | recreation/AI where real material is missing/scarce/rights-locked (may carry most of a material-poor episode); one style/episode; label always (`Representación pictórica`, burned in at edit) — photoreal real-person likenesses and recreated documents now allowed under that same label rule |
 | 16 | edit-and-delivery | 9 | Ken Burns→trim (silences+fillers+retakes)→review→A/B-roll→music→subs; 4K; house grade; −14 LUFS |
 | 17 | dashboard-and-advance | all | dashboard.html + serve.py + advance.py — one-click gate hand-off; the /loop; _STATUS.md |
 | 18 | monetization-and-audience | 0 | CPM/RPM by category + Spanish-language audience geography — non-blocking tiebreaker at ideation |

@@ -26,9 +26,7 @@ carboncillo / grabado; pictorico sobrio; recreacion fotorrealista
 cinematografica, paleta apagada, luz natural, 16:9. Elegir uno y ser
 consistente en todo el episodio.>"""
 
-NEGATIVE = """text, letters, words, watermark, signature, logo, caption,
-recognizable real person face, deepfake, fake document, fake newspaper,
-fake photograph
+NEGATIVE = """text, letters, words, watermark, signature, logo, caption
 <si el estilo NO es fotorrealista, anadir: photorealistic, photograph, 3D, CGI, render>"""
 
 FNAME_RE = re.compile(r"^([A-Za-z0-9]+)_ai(\d{2})_([a-z0-9-]+)\.(png|jpg|jpeg|webp|tif|tiff)$", re.I)
@@ -50,8 +48,9 @@ def block(eid, n, s):
 ```
 <PEGAR BLOQUE DE ESTILO>
 
-<ESCENA: qué se ve, encuadre, luz. Si hay una persona real → de espaldas /
-silueta / distancia, cara NO visible.>
+<ESCENA: qué se ve, encuadre, luz. Si hay una persona real, mostrar la cara
+ya es una opcion valida (brain/15 regla 3) — de espaldas / silueta / distancia
+sigue siendo una opcion de puesta en escena, no una obligacion.>
 ```
 
 ---
@@ -86,7 +85,7 @@ def scaffold(slug, img_slugs, force):
 | Carpeta destino | `episodes/{slug}/assets/ai/` |
 | Nomenclatura | `{eid}_aiNN_<slug>.png` |
 | Salida | ≥ 4K si el generador lo permite; si no, upscale |
-| Rótulo en pantalla | `Ilustración — Conquest` (o «recreación»), discreto, legible |
+| Rótulo en pantalla | `Representación pictórica — Conquest` (o «Recreación»), quemado en el montaje, discreto, legible |
 | Fecha | (rellenar) |
 
 ## Bloque de estilo (compartido)

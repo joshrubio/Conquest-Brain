@@ -1,0 +1,15 @@
+# 05-script-pass.txt — 05-script.html
+episodio	E003-tulipomania
+version	v3
+revisor	Usuario 001
+aprobado	si
+
+---BEATS---
+7	NARRACIÓN	EDITADO
+17	NARRACIÓN	EDITADO
+19	NARRACIÓN	EDITADO
+23	EXPLICADOR	EDITADO
+24	PAY	EDITADO
+25	NARRACIÓN	EDITADO
+27	NARRACIÓN	EDITADO
+29	NARRACIÓN	EDITADO

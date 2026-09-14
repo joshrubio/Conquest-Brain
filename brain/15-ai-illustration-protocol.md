@@ -1,6 +1,6 @@
 ---
 doc: 15-ai-illustration-protocol
-summary: "Recreation / AI imagery where real material is missing, scarce, or rights-locked — may carry most of a material-poor episode. One style per episode, on-screen label every time, never a photoreal real-person face, never a fabricated document."
+summary: "Recreation / AI imagery where real material is missing, scarce, or rights-locked — may carry most of a material-poor episode. One style per episode, on-screen label every time — including a photoreal likeness of a real person or a recreated document, now allowed under the same label rule."
 stage: [7]
 read_when: "a shotlist beat has no real image and no own-graphic; writing AI prompts"
 pairs_with: [12-available-material-protocol, 04-legal-and-ethics, 03-brand-identity]
@@ -21,11 +21,11 @@ At Stage 7, after the style pass, some `07-assets.md` rows are ❌ (no PD source
 ## Hard rules
 
 1. **One style per episode.** Decided at Stage 7, written into `07b-ai-prompts.md` as a single style block merged into every prompt, so the set reads as one system. It can be a period-illustration register (ukiyo-e for Hokusai, so the AI sits next to the real prints), a painterly look, or **photorealistic cinematic recreation** — whichever serves the story and matches the episode's real material and the channel look ([brain/03](03-brand-identity.md) §Visual identity). A **register**, never "in the style of [living artist/studio]".
-2. **On-screen label, every appearance** — `Ilustración — Conquest` or `Recreación`, discreet but legible. **More important when photoreal**, not less. Same rule as reenactments / colourised visuals ([04-legal-and-ethics.md](04-legal-and-ethics.md) §8).
-3. **Invents nothing that reads as fact.**
+2. **On-screen label, every appearance, burned in at the edit (Stage 9 — [16-edit-and-delivery.md](16-edit-and-delivery.md)).** Every AI-generated image gets a label rendered over the video making clear it's a **representación pictórica** — not archival footage. Wording: `Representación pictórica — Conquest` (or `Recreación`), discreet but legible, same placement/style each time. **More important when photoreal**, not less. Same rule as reenactments / colourised visuals ([04-legal-and-ethics.md](04-legal-and-ethics.md) §8). This is the actual safeguard now that style (rule 3) is unrestricted — it doesn't get skipped or minimised as a trade for allowing photoreal.
+3. **The label carries the honesty, not the style.** Journalistic rigor here means disclosure, not avoiding a particular look — so the bar is "always labelled," not "never photoreal."
    - **Scenes, places, events, atmosphere, abstract shots:** allowed, photoreal or not, with the label.
-   - **The photoreal face of an identifiable real person, as their likeness:** not allowed — pure invention of how someone looked, deepfake-adjacent. Use the figure from behind / in silhouette / at distance, a clearly non-photoreal impression labelled as such, or a real portrait (then it's not AI).
-   - **Documents, records, newspapers, photographs-of-record:** never fabricated. A photoreal "1721 report page" is a forgery.
+   - **The photoreal face of an identifiable real person, as their likeness:** allowed, with the label — a deliberate creative choice (previously restricted for being deepfake-adjacent; that restriction is dropped, the label requirement isn't).
+   - **Documents, records, newspapers, photographs-of-record:** may be recreated photorealistically, with the label — never cut in, captioned, or otherwise presented as if it were the genuine archival item.
 4. **Only where no *usable* real image exists** — none was made, or every one is rights-locked, or what survives is too thin to carry the beat — and an own-graphic (chart / map / card) doesn't fit. For a well-documented subject this still means real archival is the base and recreation is a few beats. For a **material-poor subject** (mid-20th-century company history, pre-1960 non-Western figure), the recreation / illustration register may carry the **majority** of the visual track — a deliberate choice made at Stage 0/2 and written into `01-brief.md`, never a drift discovered in the edit.
 
 ## How the count is set
@@ -38,7 +38,7 @@ Scaffolded by `tools/build_ai_prompts.py`, then the **episode style** and the sc
 
 - **Header:** episode, output spec, save folder, naming convention.
 - **The episode style block** — chosen for *this* episode (rule 1), 3–5 lines. Ties to the channel look ([brain/03](03-brand-identity.md) §Visual identity) and the episode's real archival material. Merged into every prompt below it.
-- **Negative prompt** — shared. When the style is *not* photoreal, it excludes photoreal; when the style *is* photoreal, it still excludes text/watermark/faces-of-real-people and anything that would make it read as an actual archival photo.
+- **Negative prompt** — shared. When the style is *not* photoreal, it excludes photoreal; when the style *is* photoreal, it still excludes text/watermark/generation artifacts. It no longer needs to exclude real-person faces or an archival-photo look — those are allowed now, label permitting.
 - **One block per image:** an ID (`aiNN`), the shotlist beat(s), what it's for, the **full copy-paste prompt** (episode style already merged in), the negative prompt, and the exact **filename to save as**.
 
 ## Folder + naming
@@ -57,6 +57,6 @@ Scaffolded by `tools/build_ai_prompts.py`, then the **episode style** and the sc
 
 - [ ] Every AI beat has a prompt block and a generated, named file in `assets/ai/`
 - [ ] The set is stylistically consistent (one style block)
-- [ ] No AI image shows a recognisable real-person face or a fabricated document
-- [ ] Every AI image has an on-screen label planned in `06-shotlist.md`
+- [ ] No AI image is presented, cut, or captioned as if it were the genuine archival item
+- [ ] Every AI image has a `representación pictórica` on-screen label planned in `06-shotlist.md` (burn-in itself is checked at the Stage 9 edit gate, [16-edit-and-delivery.md](16-edit-and-delivery.md))
 - [ ] `07-assets.md` updated with the AI rows; credits noted

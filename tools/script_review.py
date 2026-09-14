@@ -175,13 +175,29 @@ def parse(md):
             # with this beat's text — it's swallowed in here because it isn't
             # a heading itself. Strip it so it never leaks into a textarea.
             text = re.sub(r"\n+-{3,}\s*$", "", text).rstrip()
+            # ‹structural markers› (‹entrada señalizada›, ‹foreshadowing 1 de 4›,
+            # ‹pago del foreshadowing 2›…) are editorial bookkeeping, never meant
+            # to be read aloud — but they sat as their own lines mixed straight
+            # into the same editable text as the real narration. Pull out every
+            # WHOLE line that is only a ‹…› marker, remembering its position
+            # *among the remaining narration lines* (not the raw line number —
+            # that's what makes it possible to put it back in the right spot
+            # after `text` is later edited in the browser and re-split). What's
+            # left is pure narration, one clean box, nothing to misread aloud.
+            markers, kept_lines = [], []
+            for ln in text.split("\n"):
+                if re.match(r"^‹[^›]*›$", ln.strip()):
+                    markers.append((len(kept_lines), ln.strip()))
+                else:
+                    kept_lines.append(ln)
+            text = "\n".join(kept_lines)
             cue_norm = cue if cue in NOTES else (cue.split()[0] if cue else "NARRACIÓN")
             if cue_norm == "PLANT":  # legacy tag from before the promise/pay rename
                 cue_norm = "PROMISE"
             n += 1
             nodes.append({
                 "kind": "beat", "n": n, "sec_idx": sec_idx, "sec": cur_sec, "seckey": section_key(cur_sec),
-                "cue": cue, "cue_norm": cue_norm, "explicit": explicit, "text": text,
+                "cue": cue, "cue_norm": cue_norm, "explicit": explicit, "text": text, "markers": markers,
                 "side": cue_norm in SIDEBAR_CUES,
                 "src": sorted(set(re.findall(r"\[S\d+\]", text))),
                 "promise": "[PROMISE]" in part or "[PLANT]" in part or cue_norm in ("PROMISE", "PLANT"),
@@ -199,13 +215,16 @@ def _beat_html(b, e):
         badges += '<span class="badge pay">PAY</span>'
     for s in b["src"]:
         badges += f'<span class="badge s">{e(s)}</span>'
+    for _pos, mtxt in b.get("markers", []):
+        badges += f'<span class="pill dirmark">{e(mtxt)}</span>'
+    markers_json = e(json.dumps(b.get("markers", []), ensure_ascii=False))
     expl = ""
     if note:
         expl = (f'<div class="expl" hidden><b>{e(b["cue_norm"])}</b> — {e(note[0])} '
                 f'<i>{e(note[1])}</i> <code>{e(note[2])}</code></div>')
     return (
         f'<div class="node beat" data-n="{b["n"]}" data-sec="{b["sec_idx"]}" data-cue="{e(b["cue"])}" '
-        f'data-explicit="{1 if b["explicit"] else 0}">'
+        f'data-explicit="{1 if b["explicit"] else 0}" data-markers="{markers_json}">'
         '<div class="stampbar">'
         f'<button type="button" class="pill cue" data-cue-btn>{e(b["cue"] or "NARRACIÓN")}</button>'
         f'{badges}'
@@ -214,6 +233,7 @@ def _beat_html(b, e):
         '</div>'
         f'{expl}'
         f'<textarea class="beattxt" data-k="{b["n"]}" rows="1" spellcheck="false">{e(b["text"])}</textarea>'
+        '<div class="beatprint"></div>'
         '</div>')
 
 
@@ -371,8 +391,35 @@ def build(slug, header, header_raw, nodes, appendix_raw=""):
 const EPID={slug[:4]!r}; const STAGE=4;
 const PDF_TITLE={json.dumps(pdf_title)};
 const PAGE_TITLE=document.title;
-window.addEventListener('beforeprint',()=>{{document.title=PDF_TITLE;}});
-window.addEventListener('afterprint',()=>{{document.title=PAGE_TITLE;}});
+// One continuous page, sized to the actual content — no page breaks to lose a
+// paragraph across (the narrator has trouble with his vision; a page turn
+// mid-read was making him skip lines). `.pdf-mode` is the same "print look"
+// `@media print` used to apply, but as a class, added here in `beforeprint`
+// (fires for the toolbar button, Ctrl+P, and the browser's own print menu
+// alike) so `scrollHeight` — which forces the pending layout to flush first —
+// measures the REAL rendered height in that look, not the on-screen one.
+window.addEventListener('beforeprint',()=>{{
+  document.title=PDF_TITLE; document.body.classList.add('pdf-mode');
+  // Printing a live <textarea> risks clipping it to a stale height (it's
+  // overflow:hidden with a JS-managed height — print can relayout form
+  // controls at slightly different font metrics than the screen just did,
+  // and the box doesn't grow to match). Swap each one for a plain, always
+  // auto-height mirror of that SAME live value — never the saved/original
+  // text, so an unsaved edit still prints correctly — rebuilt fresh every
+  // print, nothing here is itself what gets saved.
+  boxes.forEach(el=>{{
+    const pv=el.nextElementSibling;
+    if(!pv||!pv.classList.contains('beatprint'))return;
+    pv.textContent=el.value;
+  }});
+  const inches=(document.documentElement.scrollHeight/96)+0.6;   // 96 css-px/in + a bit of buffer
+  let st=document.getElementById('pdfpage');
+  if(!st){{st=document.createElement('style');st.id='pdfpage';document.head.appendChild(st);}}
+  st.textContent='@page{{size:8.5in '+inches.toFixed(1)+'in;margin:.4in}}';
+}});
+window.addEventListener('afterprint',()=>{{
+  document.title=PAGE_TITLE; document.body.classList.remove('pdf-mode');
+}});
 const LS="conquest-scriptpass-{slug}";
 const FP={json.dumps(fp)};
 const HEADER_RAW={json.dumps(header_raw)};
@@ -383,6 +430,25 @@ const cnt=$('.count');
 const boxes=$$('.beattxt');
 function autosize(el){{el.style.height='auto';el.style.height=(el.scrollHeight+2)+'px';}}
 boxes.forEach(autosize);
+// Reassemble a beat's full saved text: its ‹…› structural markers (parse()
+// pulled them out so the editable box holds only narration — data-markers
+// is [[position, text], …], `position` counted among narration lines only,
+// recorded when the page was built) go back at that same position among
+// the CURRENT (possibly hand-edited) lines. Insert earliest-position first
+// and each later one shifts by how many markers already landed before it,
+// or two markers meant for the same spot would land on top of each other.
+// An edit that changes the line count nudges a marker at most a line or two
+// from its ideal spot — it never gets dropped, which is what actually matters.
+function beatFullText(node){{
+  const ta=node.querySelector('.beattxt');
+  let markers=[]; try{{markers=JSON.parse(node.dataset.markers||'[]');}}catch(e){{}}
+  if(!markers.length) return ta.value;
+  const lines=ta.value.split('\\n');
+  markers.slice().sort((a,b)=>a[0]-b[0]).forEach((m,i)=>{{
+    lines.splice(Math.min(m[0]+i, lines.length), 0, m[1]);
+  }});
+  return lines.join('\\n');
+}}
 function save(){{
   const c={{fp:FP,edit:{{}},rev:{{}},dur:{{}}}};
   boxes.forEach(el=>c.edit[el.dataset.k]=el.value);
@@ -448,7 +514,7 @@ $('#exp').onclick=()=>{{
       .sort((a,b)=>(+a.dataset.n)-(+b.dataset.n))
       .map(node=>{{
         const explicit=node.dataset.explicit==='1', cue=node.dataset.cue;
-        const txt=node.querySelector('.beattxt').value.replace(/\\s+$/,'').replace(/^\\s+/,'');
+        const txt=beatFullText(node).replace(/\\s+$/,'').replace(/^\\s+/,'');
         return explicit?('['+cue+'] '+txt):txt;
       }});
     if(i>0) body+=(s.level===2?'\\n\\n---\\n\\n':'\\n\\n');
@@ -499,6 +565,12 @@ $('#pdf').onclick=()=>window.print();
              '.node.sech{margin:2rem 0 .2rem;cursor:pointer}'
              'h2.sech{margin:0;font-size:.95rem;color:var(--gold);border:0}'
              'p.sechint{margin:.1rem 0 1rem}'
+             # both .hint uses on this page (the top "how this page works"
+             # blurb and each section's production-pacing note) are guidance
+             # about the script, never text to read aloud — bold + the same
+             # note green as everything else that isn't narration, so neither
+             # is mistaken for it while reading.
+             '.hint{color:var(--lime);font-weight:700}'
              '.node.beat{padding:.55rem .2rem;border-radius:8px;transition:background .15s}'
              '.node.beat:focus-within{background:var(--surface-2)}'
              '.stampbar{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-bottom:.3rem}'
@@ -519,6 +591,12 @@ $('#pdf').onclick=()=>window.print();
              'summary{cursor:pointer}'
              '#sidebar{position:sticky;top:1rem;display:flex;flex-direction:column;gap:1rem;'
              'max-height:calc(100vh - 2rem);overflow:auto}'
+             # sidebar notes ([EN PANTALLA]/[NOTA]/[HOOK VISUAL]) stay plain —
+             # they're already structurally out of the read-aloud flow (their
+             # own column on screen; in print, .layout:block + margin-top push
+             # the whole sidebar after all the narration, never interleaved
+             # with it), so there's nothing here for a color/weight to guard
+             # against confusing with narration.
              '.sidecard{border:1px solid var(--line);border-radius:10px;padding:.7rem .8rem;background:var(--surface)}'
              '.sidecard h3{margin:0 0 .5rem;font-size:.78rem;color:var(--gold);cursor:pointer;font-weight:600}'
              '.durfield{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}'
@@ -528,6 +606,10 @@ $('#pdf').onclick=()=>window.print();
              '.sidecard .node.beat{padding:.4rem 0;border-top:1px solid var(--line);border-radius:0}'
              '.sidecard .node.beat:first-of-type{border-top:0}'
              '.sidecard .beattxt{font-size:.8rem}'
+             # extracted ‹…› structural markers (see parse()) — a pill in the
+             # stampbar, out of the readable text entirely, not just colored
+             # differently within it.
+             '.pill.dirmark{color:var(--lime);font-weight:700;border-color:var(--lime-line)}'
              '#appendix{background:var(--surface-2);border:1px dashed var(--line-2);border-radius:10px;'
              'padding:.9rem 1.1rem;margin-top:.5rem}'
              '#appendix summary{color:var(--muted);font-size:.85rem}'
@@ -535,20 +617,45 @@ $('#pdf').onclick=()=>window.print();
              '#appendix pre{margin:.8rem 0 0;color:var(--muted);font-size:.74rem;font-family:var(--mono);'
              'white-space:pre-wrap;word-break:break-word;max-height:28rem;overflow:auto}'
              '.printonly{display:none}'
-             '@media print{'
-             'header,.count,label.ap,#appendix,summary,.expl,.pill.rev,#global,#firma{display:none!important}'
-             'body,main{background:#fff!important;color:#000!important;max-width:none}'
-             'main{padding:0 .4in}'
-             '.printonly{display:block;font-size:1.3rem;margin:0 0 1rem;color:#000}'
-             '.layout{display:block}'
-             '#sidebar{position:static;max-height:none;overflow:visible;margin-top:1.2rem}'
-             '.node.beat{break-inside:avoid;padding:.25rem 0}'
-             '.sidecard{break-inside:avoid;border-color:#999;background:#fff}'
-             '.node.sech{break-before:auto;margin:1.2rem 0 .1rem}'
-             'h2.sech,.sidecard h3{color:#000}'
-             '.pill,.badge{border-color:#999;background:#eee;color:#000}'
-             '.beattxt{color:#000}'
-             '}'
+             # was `@media print{...}` — now a `.pdf-mode` class instead, toggled
+             # in JS on `beforeprint` (see the script below), so the actual
+             # rendered height in this exact look can be measured and turned
+             # into a single `@page` size before printing (one continuous
+             # page, no breaks to lose a paragraph across).
+             '.pdf-mode header,.pdf-mode .count,.pdf-mode label.ap,.pdf-mode #appendix,'
+             '.pdf-mode summary,.pdf-mode .expl,.pdf-mode .pill.rev,.pdf-mode #global,'
+             '.pdf-mode #firma{display:none!important}'
+             # width:8.5in (not max-width:none) is the actual bug fix, not just
+             # cosmetic: beforeprint measures scrollHeight while still on screen,
+             # at whatever the browser window happens to be — if that's wider
+             # than the real printed page, text wraps into fewer/longer lines
+             # than it will at print time, scrollHeight comes out too SHORT, the
+             # computed @page height undershoots, and the real (narrower, taller)
+             # reflow overflows onto an unwanted page 2 — cutting a paragraph
+             # right where that overflow starts. Locking to the exact page width
+             # up front makes the measurement and the real print layout the same.
+             'body.pdf-mode,.pdf-mode main{background:#fff!important;color:#000!important}'
+             'body.pdf-mode{width:8.5in;margin:0 auto}'
+             '.pdf-mode main{width:8.5in;padding:0 .4in;box-sizing:border-box}'
+             '.pdf-mode .printonly{display:block;font-size:1.3rem;margin:0 0 1rem;color:#000}'
+             '.pdf-mode .layout{display:block}'
+             '.pdf-mode #sidebar{position:static;max-height:none;overflow:visible;margin-top:1.2rem}'
+             '.pdf-mode .node.beat{padding:.25rem 0}'
+             '.pdf-mode .sidecard{border-color:#999;background:#fff}'
+             '.pdf-mode .node.sech{margin:1.2rem 0 .1rem}'
+             '.pdf-mode h2.sech,.pdf-mode .sidecard h3{color:#000}'
+             '.pdf-mode .pill,.pdf-mode .badge{border-color:#999;background:#eee;color:#000}'
+             # A <textarea> can't be trusted to print at its full height (see the
+             # beforeprint comment below) — swap it for a plain, always
+             # auto-height mirror of the same live value; the textarea itself
+             # (still the only thing that gets saved) hides.
+             '.pdf-mode .beattxt{color:#000;display:none}'
+             '.beatprint{display:none;white-space:pre-wrap;font-size:.9rem;line-height:1.55;padding:.1rem .2rem}'
+             '.pdf-mode .beatprint{display:block}'
+             # notes bold, not just colored — color alone barely reads on a
+             # printed/exported PDF page, weight does.
+             '.pdf-mode .pill.dirmark{color:#5f6b1e;border-color:#5f6b1e;font-weight:700}'
+             '.pdf-mode .hint{color:#5f6b1e;font-weight:700}'
              '</style>')
     return page(f"Script pass · {slug}", hd, body + extra, script)
 

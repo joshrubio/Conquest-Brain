@@ -1,0 +1,41 @@
+# 07-picks.txt — generado por 07-style-pass.html
+# col1: <beat> | "music"
+# col2: source:id | custom:<beat> (música propia) | ai:id
+# col3: url o ruta.   custom:<beat> ANULA la selección de ese beat.
+# música propia: col4 = título · autor · col5 = licencia (CC0/CC-BY/CC-BY-SA) · col6 = página
+# --- BEATS ---
+20	custom:20	assets/custom/ChatGPT_Image_13_sept_2026__11_48_08__5__1.png
+22	custom:22	assets/custom/ChatGPT_Image_13_sept_2026__11_48_08__4__1.png
+27	custom:27	assets/custom/ChatGPT_Image_13_sept_2026__11_48_08__5__2.png
+31	custom:31	assets/custom/ChatGPT_Image_13_sept_2026__11_48_09__7_.png
+35	custom:35	https://www.pexels.com/es-es/download/video/6092477/
+55	custom:55	assets/custom/71b98HnUtsL._AC_UF1000_1000_QL80_.jpg
+4	commons:96820986	https://upload.wikimedia.org/wikipedia/commons/3/3b/Still_Life_with_Bouquet_of_Flowers_%28SM_1219%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+5	commons:135440978	https://upload.wikimedia.org/wikipedia/commons/a/aa/Flora%27s_Wagon_of_Fools_%28Flora%27s_Mallewagen%29_tulipomania%2C_Hendrik_Gerritsz_Pot_c1637.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+6	commons:199488	https://upload.wikimedia.org/wikipedia/commons/c/cc/Semper_Augustus_Tulip_17th_century.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+12	commons:79710878	https://upload.wikimedia.org/wikipedia/commons/3/3a/La_ronda_de_noche%2C_por_Rembrandt_van_Rijn.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+13	commons:91985874	https://upload.wikimedia.org/wikipedia/commons/6/67/Herman_Mijnerts_Doncker_%28c.1620-c.1656%29_%28attributed_to%29_-_Portrait_of_a_Dutch_Family_Group_in_a_Garden_-_622744_-_National_Trust.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+14	commons:3686665	https://upload.wikimedia.org/wikipedia/commons/6/67/Carolus_Clusius_by_Martin_Rota.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+16	commons:22605738	https://upload.wikimedia.org/wikipedia/commons/6/6d/The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+17	commons:199488	https://upload.wikimedia.org/wikipedia/commons/c/cc/Semper_Augustus_Tulip_17th_century.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+41	commons:135414414	https://upload.wikimedia.org/wikipedia/commons/8/85/Tooneel_van_Flora_Handel_der_Floristen_in_Amsterdam_1637_%28Tulip_mania%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+43	pixabayv:111281	https://cdn.pixabay.com/video/2022/03/19/111281-690770684_large.mp4
+45	commons:136637512	https://upload.wikimedia.org/wikipedia/commons/d/d5/Jeugdfanfarecorps_van_speeltuinvereniging_Oosterkwartier_te_Haarlem_jaren_30.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+56	commons:107432089	https://upload.wikimedia.org/wikipedia/commons/f/f4/Charles_Mackay_by_Herbert_Watkins.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+57	commons:19048320	https://upload.wikimedia.org/wikipedia/commons/e/e7/Allegorie_der_Tulipomanie.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+# --- IA generada ---
+1	ai:ai01	assets/ai/ChatGPT_Image_13_sept_2026__11_48_07__1_.png
+2	ai:ai02	assets/ai/ChatGPT_Image_13_sept_2026__11_48_07__2_.png
+15	ai:ai03	assets/ai/ChatGPT_Image_13_sept_2026__11_48_08__3_.png
+25	ai:ai04	assets/ai/ChatGPT_Image_13_sept_2026__11_48_08__6_.png
+29	ai:ai05	assets/ai/ChatGPT_Image_13_sept_2026__11_48_09__8_.png
+34	ai:ai06	assets/ai/ChatGPT_Image_13_sept_2026__11_48_09__9_.png
+40	ai:ai07	assets/ai/ChatGPT_Image_13_sept_2026__11_48_10__10_.png
+49	ai:ai08	assets/ai/ChatGPT_Image_13_sept_2026__12_07_29__1_.png
+52	ai:ai09	assets/ai/ChatGPT_Image_13_sept_2026__12_07_29__2_.png
+53	ai:ai10	assets/ai/ChatGPT_Image_13_sept_2026__12_07_29__3_.png
+59	ai:ai11	assets/ai/ChatGPT_Image_13_sept_2026__12_07_29__5_.png
+63	ai:ai12	assets/ai/ChatGPT_Image_13_sept_2026__12_07_29__6_.png
+69	ai:ai13	assets/ai/ChatGPT_Image_13_sept_2026__12_07_29__4_.png
+# --- MÚSICA (consideración; brand/assets/music/) ---
+music	jamendo:633222	https://prod-1.storage.jamendo.com/download/track/633222/mp32/

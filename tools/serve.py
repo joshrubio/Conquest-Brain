@@ -18,12 +18,16 @@ import os
 import re
 import subprocess
 import sys
+import threading
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import pipeline as P  # noqa: E402
+import match_audio as MA  # noqa: E402
+import pickup_room as PR  # noqa: E402
 
 
 def _dir_html(d):
@@ -54,6 +58,11 @@ MIME = {".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/ja
 # child tools print unicode (→ « » é); force UTF-8 so a cp1252 console never
 # crashes them, and decode their output the same way.
 _ENV = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
+
+# ThreadingHTTPServer runs each request in its own thread — two /pickup-accept
+# calls landing close together must not race on the same accepted.json's
+# read-modify-write (one accept's row silently clobbering the other's).
+_PICKUP_ACCEPT_LOCK = threading.Lock()
 
 
 def _run(args):
@@ -205,6 +214,93 @@ class H(BaseHTTPRequestHandler):
         return self._send(200, json.dumps({"ok": True,
             "msg": f"{note} · {round(len(body) / (1024 * 1024))} MB · {msg}"}))
 
+    PICKUP_UPLOAD_MAX = 500 * 1024 * 1024   # 500 MB — one short pickup line, generous ceiling
+    PICKUP_CTYPE_EXT = {"audio/webm": ".webm", "video/webm": ".webm", "audio/wav": ".wav",
+                         "audio/x-wav": ".wav", "audio/mp4": ".m4a", "video/mp4": ".mp4",
+                         "audio/mpeg": ".mp3", "audio/ogg": ".ogg"}
+
+    def _pickup_accept(self, qs):
+        """pickup_room.py's «Aceptar»: saves the raw pickup recording/upload,
+        extracts the matching reference window from <take>.review.m4a, runs
+        match_audio.py (loudness match to that reference + highpass + the
+        operator's manual gain), and records the result in
+        <take>.pickups.accepted.json. Doesn't render the take itself — that
+        happens next time it's (re)applied: trim_talk.py --apply already
+        folds in whatever's in that file (brain/16's existing «Re-sincronizar»
+        flow after any re-trim applies here unchanged)."""
+        ep = (qs.get("ep") or [""])[0]
+        take_name = (qs.get("take") or [""])[0]
+        try:
+            idx = int((qs.get("idx") or ["-1"])[0])
+            start = float((qs.get("start") or ["0"])[0])
+            end = float((qs.get("end") or ["0"])[0])
+            gain = float((qs.get("gain") or ["0"])[0])
+        except ValueError:
+            return self._send(400, json.dumps({"error": "start/end/gain/idx inválidos"}))
+        text = (qs.get("text") or [""])[0]  # parse_qs already percent-decodes — don't unquote() again
+        epp = P.ep_path(ep)
+        take = epp / "assets" / take_name
+        if not ep or not epp.is_dir() or not take.is_file():
+            return self._send(404, json.dumps({"error": f"toma «{take_name}» no encontrada para «{ep}»"}))
+        if idx < 0:
+            return self._send(400, json.dumps({"error": "falta idx (qué pickup de la lista es)"}))
+        if end <= start:
+            return self._send(400, json.dumps({"error": "la región (start/end) está vacía o invertida"}))
+        ref_proxy = take.with_suffix(".review.m4a")
+        if not ref_proxy.is_file():
+            return self._send(409, json.dumps({
+                "error": "falta el proxy de audio de la toma — corre trim_talk.py --script primero"}))
+
+        n = int(self.headers.get("Content-Length", 0) or 0)
+        if n <= 0 or n > self.PICKUP_UPLOAD_MAX:
+            return self._send(400, json.dumps({"error": "grabación vacía o demasiado grande (> 500 MB)"}))
+        body = self.rfile.read(n)
+        ctype = self.headers.get("Content-Type", "").split(";")[0].strip()
+        ext = self.PICKUP_CTYPE_EXT.get(ctype, ".webm")
+
+        pick_dir = epp / "assets" / "pickups"
+        pick_dir.mkdir(parents=True, exist_ok=True)
+        stem = take.stem
+        raw = pick_dir / f"{stem}_pick{idx:02d}.raw{ext}"
+        raw.write_bytes(body)
+        matched = pick_dir / f"{stem}_pick{idx:02d}.matched.wav"
+        tmp_ref = pick_dir / f"_ref_pick{idx:02d}.wav"
+        try:
+            MA.extract_segment(ref_proxy, start, end - start, tmp_ref)
+            ok = MA.match_and_render(raw, tmp_ref, matched, gain_db=gain)
+        except Exception as e:
+            return self._send(500, json.dumps({"error": f"match_audio falló: {e}"}))
+        finally:
+            tmp_ref.unlink(missing_ok=True)
+        if not ok:
+            return self._send(500, json.dumps({"error": "ffmpeg no pudo ajustar el audio del pickup"}))
+
+        acc_f = take.with_suffix(".pickups.accepted.json")
+        # identity is the sentence TEXT, not `idx` — `idx` is just a position in
+        # whatever <take>.pickups.json looked like when this page was built, and
+        # a later --script/--rebuild-page re-run can renumber or reorder that
+        # list. Keying on text keeps "did we already accept THIS line" correct
+        # even after a reorder, and the lock keeps two near-simultaneous accepts
+        # (two different lines) from clobbering each other's row.
+        with _PICKUP_ACCEPT_LOCK:
+            data = json.loads(acc_f.read_text(encoding="utf-8")) if acc_f.is_file() else {"pickups": []}
+            rows = [p for p in data.get("pickups", []) if p.get("text", "").strip() != text.strip()]
+            rows.append({"idx": idx, "text": text, "orig_start": round(start, 3), "orig_end": round(end, 3),
+                         "dur": round(end - start, 3), "audio": f"pickups/{matched.name}",
+                         "gain_db": gain, "accepted_ts": int(time.time())})
+            rows.sort(key=lambda p: p["idx"])
+            acc_f.write_text(json.dumps({"pickups": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
+
+        (epp / "09-resync.flag").write_text("pickup", encoding="utf-8")
+        # off the response path — the client already patched its own badge, this
+        # is only so a *later* page load (a fresh reload, a different session)
+        # shows the accepted state too. A long take's word list makes this slow
+        # enough that the operator shouldn't wait on it between accepts.
+        threading.Thread(target=PR.build, args=(take,), daemon=True).start()
+        return self._send(200, json.dumps({"ok": True,
+            "msg": f"pickup {idx + 1} listo — se integra en la próxima «Aplicar corte» de esta toma "
+                   f"(trim_talk.py --apply ya lo incluye solo)."}))
+
     def do_OPTIONS(self):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -318,12 +414,17 @@ class H(BaseHTTPRequestHandler):
         raw_path = self.path
         path = raw_path.split("?")[0]
 
-        if path in ("/upload", "/record-upload"):
-            # a "browse..." button's file picker: the body IS the file's raw
-            # bytes (fetch(url, {method:'POST', body: file})) — not JSON, so
-            # this has to be handled before the generic JSON read below.
+        if path in ("/upload", "/record-upload", "/pickup-accept"):
+            # a "browse..." button's file picker, or a pickup-room recording:
+            # the body IS the file's raw bytes (fetch(url, {method:'POST',
+            # body: file/blob})) — not JSON, so this has to be handled before
+            # the generic JSON read below.
             qs = parse_qs(raw_path.split("?", 1)[1]) if "?" in raw_path else {}
-            return self._record_upload(qs) if path == "/record-upload" else self._upload(qs)
+            if path == "/record-upload":
+                return self._record_upload(qs)
+            if path == "/pickup-accept":
+                return self._pickup_accept(qs)
+            return self._upload(qs)
 
         n = int(self.headers.get("Content-Length", 0))
         try:
@@ -473,6 +574,24 @@ class H(BaseHTTPRequestHandler):
             # a claude/draft stage with no review page (brief, outline, fact-check):
             # confirm its content is written -> fold the gate + advance in one go.
             return self._send(200, json.dumps({"ok": True, "msg": _run(["advance.py", ep])}))
+
+        if path == "/take-undo":
+            # Stage 8's upload dialog, "quitar esta toma": deletes the take and
+            # everything trim_talk.py/match_audio.py/assemble.py derived from
+            # it, puts the episode back at Stage 8 so a new one can be uploaded.
+            msg = _run(["undo_take.py", ep])
+            _run(["dash.py"])
+            return self._send(200, json.dumps({"ok": True, "msg": msg}))
+
+        if path == "/episode-delete":
+            # discards the whole episode (moved to episodes/_trash/, not a
+            # true rm -rf — see delete_episode.py). Requires the client to
+            # have already confirmed with the user; refuses otherwise.
+            if not data.get("confirm"):
+                return self._send(400, json.dumps({"error": "falta confirm:true"}))
+            msg = _run(["delete_episode.py", ep, "--confirm"])
+            _run(["dash.py"])
+            return self._send(200, json.dumps({"ok": True, "msg": msg}))
 
         if path == "/timeline":                       # Stage 9 — save the cutting-room timeline
             slug = data.get("slug") or ep

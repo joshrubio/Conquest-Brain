@@ -1,15 +1,15 @@
-# Manifiesto de recursos — E0XX «<título>»
+# Manifiesto de recursos — E003 «Tulipomanía»
 
 > **Stage 7.** Resuelve cada beat archivístico del shotlist a **una imagen concreta**, con enlace directo, y registra el **pase de estilo** (¿encaja con la estética del vídeo?). Los beats de gráfico propio no van aquí — van al brief de diseño.
 > Depende de: `06-shotlist.md` (los beats) · `brain/03` §Visual identity (grade, paleta, tipografía) · `material-search.md` (qué existe).
 
 | Campo | Valor |
 |-------|-------|
-| ID episodio | E0XX |
+| ID episodio | E003 · narrador Usuario 002 |
 | Responsable | Usuario 001 |
 | Look de referencia | (grade / grano / letterbox / tratamiento de la serie — de `brain/03`) |
 | Salida del canal | 4K (3840×2160) — `brain/03` |
-| Fecha | AAAA-MM-DD |
+| Fecha | 2026-09-13 |
 
 ## Estándar de resolución
 
@@ -50,14 +50,40 @@ Marca cada candidato:
 - **Coherencia de secuencia** — las imágenes que van juntas en un tramo, ¿parecen de la misma familia (misma calidad de escaneo, mismo tratamiento)?
 - **Veredicto** — ✅ aceptada · ⚠️ dudosa (anota qué falta) · ❌ rechazada (motivo)
 
-## Manifiesto
+## Manifiesto (auto — transcrito de `07-selection.md` al plegar Stage 7)
 
-> Esta sección se sobreescribe sola al plegar Stage 7 (`fold_assets` → `_write_assets_manifest`,
-> transcrito de `07-selection.md`) — no la edites a mano, se pierde en el siguiente fold.
+> Cada fila ya pasó el pase de estilo al elegirse entre candidatos en `07-style-pass.html` — no hace falta un veredicto aparte aquí. Licencia y detalle exacto de cada pieza: `assets/CREDITS.md`.
 
 | Beat | Fuente | Res. | Archivo |
 |------|--------|------|---------|
-| *(sin picks todavía — se rellena al plegar)* | | | |
+| 35 | pexelsv:35 | — | `assets/video/beat35_pexelsv_35.mp4` |
+| 4 | commons:96820986 | 1931x2422 | `assets/archive/beat4_commons_96820986.png` |
+| 5 | commons:135440978 | 3296x2404 | `assets/archive/beat5_commons_135440978.jpg` |
+| 6 | commons:199488 | 1182x1829 | `assets/archive/beat6_commons_199488.jpg` |
+| 12 | commons:79710878 | 14168x11528 | `assets/archive/beat12_commons_79710878.jpg` |
+| 13 | commons:91985874 | 1200x900 | `assets/archive/beat13_commons_91985874.jpg` |
+| 14 | commons:3686665 | 2360x2948 | `assets/archive/beat14_commons_3686665.jpg` |
+| 16 | commons:22605738 | ? | `assets/archive/beat16_commons_22605738.jpg` |
+| 17 | commons:199488 | 1182x1829 | `assets/archive/beat17_commons_199488.jpg` |
+| 41 | commons:135414414 | 1348x1747 | `assets/archive/beat41_commons_135414414.png` |
+| 43 | pixabayv:111281 | — | `assets/video/beat43_pixabayv_111281.mp4` |
+| 45 | commons:136637512 | 793x525 | `assets/archive/beat45_commons_136637512.jpg` |
+| 56 | commons:107432089 | 1211x1591 | `assets/archive/beat56_commons_107432089.png` |
+| 57 | commons:19048320 | 1649x1032 | `assets/archive/beat57_commons_19048320.jpg` |
+| 1 | ai:ai01 | 1672x941 | `assets/ai/E003_ai01_hero-amsterdam.png` |
+| 2 | ai:ai02 | 1672x941 | `assets/ai/E003_ai02_marinero-bulbo.png` |
+| 15 | ai:ai03 | 1672x941 | `assets/ai/E003_ai03_jardin-asalto.png` |
+| 25 | ai:ai04 | 1672x941 | `assets/ai/E003_ai04_flor-fantasma.png` |
+| 29 | ai:ai05 | 1672x941 | `assets/ai/E003_ai05_cultivadores-experimentos.png` |
+| 34 | ai:ai06 | 1672x941 | `assets/ai/E003_ai06_laboratorio-1928.png` |
+| 40 | ai:ai07 | 1672x941 | `assets/ai/E003_ai07_taberna-bolsa.png` |
+| 49 | ai:ai08 | 1672x941 | `assets/ai/E003_ai08_impreso-resultados.png` |
+| 52 | ai:ai09 | 1672x941 | `assets/ai/E003_ai09_gremio-haarlem.png` |
+| 53 | ai:ai10 | 1672x941 | `assets/ai/E003_ai10_fortunas-perdidas.png` |
+| 59 | ai:ai11 | 1672x941 | `assets/ai/E003_ai11_crisis-britanicas.png` |
+| 63 | ai:ai12 | 1672x941 | `assets/ai/E003_ai12_archivo-notarial.png` |
+| 69 | ai:ai13 | 1672x941 | `assets/ai/E003_ai13_thompson-articulo.png` |
+
 
 ## Gráficos propios (no van en el manifiesto — resumen para el brief de diseño)
 

@@ -162,9 +162,11 @@ def _episode_card(epid, d, qentry=None):
     if cur >= 6:
         btns.append(f'<a class="btn ghost" href="{served}episodes/{slug}/assets/" target="_blank" '
                     'data-tip="La carpeta donde viven las imágenes, clips, música y tomas de este episodio.">Recursos</a>')
+    has_take = False
     if cur in (8, 9):
         try:
             revs = sorted((P.ep_path(epid) / "assets").glob("*.review.html"))
+            has_take = any((P.ep_path(epid) / "assets").glob(f"{epid}-vo.*"))
         except Exception:
             revs = []
         for rv in revs:
@@ -175,6 +177,12 @@ def _episode_card(epid, d, qentry=None):
                 'data-tip="Sala de recorte: la forma de onda de la toma con cada silencio/retoma como un bloque '
                 'que arrastras. «Aplicar corte» recorta la toma y re-alinea el timeline.">'
                 f'{"✓ " if done else ""}Recortar la voz · {e(rv.name.split(".")[0])}</a>')
+        if has_take:
+            btns.append(
+                f'<button class="btn ghost" data-take-undo="{epid}" '
+                'data-tip="Borra la toma subida y todo lo que se generó a partir de ella (cortes, transcripción, '
+                'timeline si Stage 9 ya arrancó). Los gráficos Ken Burns de los stills no dependen de la toma y se '
+                'quedan. El episodio vuelve a Stage 8, listo para subir una toma nueva.">Quitar toma</button>')
     if sm.get("fold") == "human":
         btns.append(f'<button class="btn" data-human="{epid}:{cur}" '
                     'data-tip="Marca este stage offline como terminado (grabación, subida). Cierra el gate y pasa al siguiente.">'
@@ -203,6 +211,12 @@ def _episode_card(epid, d, qentry=None):
                     f'Avanzar a Stage {sm.get("next","?")}</button>')
     elif d["gate"] == "exportado":
         btns.append('<span class="pill warn" data-tip="Tomaste las decisiones pero falta aplicarlas al fichero. El server o Claude lo harán."><span class="dot"></span>exportado — falta plegar</span>')
+
+    btns.append(
+        f'<button class="btn ghost danger" data-ep-delete="{epid}" data-ep-title="{e(d["title"] or d["slug"])}" '
+        'data-tip="Descarta el proyecto por completo — la carpeta entera, su fila aquí, cualquier tarea en cola, '
+        'y su idea en el pool queda marcada como descartada. Pide confirmación antes de tocar nada.">'
+        'Borrar proyecto</button>')
 
     reads = sm.get("reads", [])
     rules = sm.get("rules", [])
@@ -328,6 +342,17 @@ document.querySelectorAll('[data-adv]').forEach(b=>b.onclick=()=>post('/advance'
 document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>{{
   if(confirm('¿El contenido de este stage está escrito y aprobado?\\n\\nCierra el gate y avanza al siguiente stage.'))
     post('/stage-done',{{ep:b.dataset.done}});}});
+document.querySelectorAll('[data-take-undo]').forEach(b=>b.onclick=()=>{{
+  if(confirm('Borra la toma subida y todo lo que se generó a partir de ella (cortes, transcripción, timeline '
+    + 'si Stage 9 ya arrancó). Los gráficos Ken Burns de los stills no se tocan. El episodio vuelve a Stage 8.'
+    + '\\n\\n¿Seguro?'))
+    post('/take-undo',{{ep:b.dataset.takeUndo}});}});
+document.querySelectorAll('[data-ep-delete]').forEach(b=>b.onclick=()=>{{
+  const title=b.dataset.epTitle||b.dataset.epDelete;
+  if(confirm('Vas a borrar el proyecto '+title+' POR COMPLETO — la carpeta entera, su fila en el panel, '
+    + 'cualquier tarea suya en cola, y su idea en el pool quedará marcada como descartada.\\n\\n'
+    + 'Esto no se puede deshacer desde aquí. ¿Seguro que querés borrar '+title+'?'))
+    post('/episode-delete',{{ep:b.dataset.epDelete, confirm:true}});}});
 document.querySelectorAll('[data-nudge]').forEach(b=>b.onclick=async()=>{{
   try{{const r=await fetch('http://localhost:{P.PORT}/nudge',{{method:'POST',
     headers:{{'content-type':'application/json'}},body:JSON.stringify({{ep:b.dataset.nudge}})}});
@@ -341,27 +366,53 @@ document.querySelectorAll('[data-loop]').forEach(b=>b.onclick=async()=>{{
 // Stage 8 — «Ver más» opens this instead of a page: pick the take, «Subir»
 // copies it into assets/ (renamed) and pliega el gate + avanza a Edición.
 const recDlg=document.getElementById('recmodal'), recFile=document.getElementById('recfile'),
-      recBtn=document.getElementById('recupload'), recSt=document.getElementById('recstatus');
-let recEp='';
+      recBtn=document.getElementById('recupload'), recSt=document.getElementById('recstatus'),
+      recCancel=document.getElementById('reccancel'), recProg=document.getElementById('recprogress'),
+      recProc=document.getElementById('recproc');
+let recEp='', recBusy=false;
 document.querySelectorAll('[data-rec-open]').forEach(b=>b.onclick=()=>{{
   recEp=b.dataset.recOpen;
   document.getElementById('recep').textContent=recEp;
-  recFile.value=''; recSt.textContent=''; recBtn.disabled=true;
+  recFile.value=''; recFile.hidden=false; recFile.disabled=false; recSt.textContent=''; recBtn.disabled=true;
+  recCancel.disabled=false; recProg.hidden=true; recProc.hidden=true; recBusy=false;
   recDlg.showModal();
 }});
-document.getElementById('reccancel').onclick=()=>recDlg.close();
+// Esc closes a <dialog> by default — not mid-upload, the bytes are already
+// on the wire and closing wouldn't stop the server-side chain anyway.
+recDlg.addEventListener('cancel',ev=>{{ if(recBusy) ev.preventDefault(); }});
+document.getElementById('reccancel').onclick=()=>{{ if(!recBusy) recDlg.close(); }};
 recFile.onchange=()=>{{ recBtn.disabled=!recFile.files.length; }};
-recBtn.onclick=async()=>{{
+recBtn.onclick=()=>{{
   const f=recFile.files[0]; if(!f)return;
-  recBtn.disabled=true; recSt.textContent='subiendo… ('+(f.size/1048576).toFixed(0)+' MB)';
-  try{{
-    const url='http://localhost:{P.PORT}/record-upload?ep='+encodeURIComponent(recEp)
-      +'&name='+encodeURIComponent(f.name);
-    const r=await fetch(url,{{method:'POST',body:f}});
-    const j=await r.json().catch(()=>({{}}));
-    if(r.ok){{alert('Toma subida.\\n'+(j.msg||'')+'\\nPanel actualizado.');location.reload();return;}}
-    recSt.textContent=j.error||('server '+r.status); recBtn.disabled=false;
-  }}catch(e){{recSt.textContent='El server no está corriendo (tools/serve.py).'; recBtn.disabled=false;}}
+  recBusy=true; recBtn.disabled=true; recCancel.disabled=true; recFile.hidden=true;
+  recProg.hidden=false; recProg.value=0;
+  recSt.textContent='subiendo… 0% de '+(f.size/1048576).toFixed(0)+' MB';
+  // XHR, not fetch — only XHR exposes real upload-progress events, and the
+  // «Procesando» phase after needs to know exactly when every byte landed.
+  const xhr=new XMLHttpRequest();
+  xhr.upload.onprogress=ev=>{{
+    if(!ev.lengthComputable)return;
+    const pct=Math.round(ev.loaded/ev.total*100);
+    recProg.value=pct; recSt.textContent='subiendo… '+pct+'% de '+(f.size/1048576).toFixed(0)+' MB';
+  }};
+  xhr.upload.onload=()=>{{
+    // every byte is on the server now — from here it's graphics + Ken Burns +
+    // a full whisper pass over the take, with no percentage to show.
+    recProg.hidden=true; recSt.textContent=''; recProc.hidden=false;
+  }};
+  function fail(msg){{
+    recBusy=false; recProc.hidden=true; recProg.hidden=true;
+    recSt.textContent=msg; recBtn.disabled=false; recCancel.disabled=false; recFile.hidden=false;
+  }}
+  xhr.onload=()=>{{
+    let j={{}}; try{{j=JSON.parse(xhr.responseText);}}catch(e){{}}
+    if(xhr.status>=200 && xhr.status<300 && j.ok){{ recDlg.close(); location.reload(); }}
+    else fail(j.error||('server '+xhr.status));
+  }};
+  xhr.onerror=()=>fail('El server no está corriendo (tools/serve.py).');
+  const url='http://localhost:{P.PORT}/record-upload?ep='+encodeURIComponent(recEp)
+    +'&name='+encodeURIComponent(f.name);
+  xhr.open('POST', url); xhr.send(f);
 }};
 """
     welcome = (
@@ -379,6 +430,9 @@ recBtn.onclick=async()=>{{
         '<code>assets/&lt;EPID&gt;-vo.&lt;ext&gt;</code>, cierra el gate y avanza a Stage 9 (Edición) — '
         'sin esperar al /loop.</p>'
         '<input type="file" id="recfile" accept="video/*">'
+        '<progress id="recprogress" value="0" max="100" hidden></progress>'
+        '<div id="recproc" class="recproc" hidden><progress></progress>'
+        '<p class="big">Procesando…</p><p class="warn small">no cierres ni apagues el equipo</p></div>'
         '<p id="recstatus" class="muted small"></p>'
         '<div class="row" style="justify-content:flex-end;gap:.5rem;margin-top:.6rem">'
         '<button type="button" class="btn ghost" id="reccancel">Cancelar</button>'

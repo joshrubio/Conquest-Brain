@@ -110,6 +110,8 @@ button.accent,.btn.accent{background:var(--lime);color:var(--lime-ink);border-co
 button.accent:hover,.btn.accent:hover{filter:brightness(1.06)}
 button.ghost,.btn.ghost{background:transparent;border-color:var(--gold-line);color:var(--bone)}
 button.ghost:hover,.btn.ghost:hover{background:var(--gold-soft);border-color:var(--gold)}
+button.ghost.danger,.btn.ghost.danger{border-color:var(--neg-line);color:var(--neg)}
+button.ghost.danger:hover,.btn.ghost.danger:hover{background:var(--neg-soft);border-color:var(--neg)}
 button:disabled,.btn:disabled{opacity:.45;cursor:not-allowed}
 
 /* fields */
@@ -284,6 +286,10 @@ dialog.recmodal::backdrop{background:#000a}
 dialog.recmodal h3{margin:0 0 .5rem;font-size:1rem}
 dialog.recmodal input[type=file]{margin:.7rem 0;font-size:.78rem;color:var(--muted)}
 dialog.recmodal .row{display:flex}
+dialog.recmodal progress{width:100%;height:8px;accent-color:var(--gold);display:block;margin:.5rem 0}
+dialog.recmodal .recproc{text-align:center;padding:.3rem 0 .1rem}
+dialog.recmodal .recproc .big{font-size:1.05rem;font-weight:700;margin:.5rem 0 .2rem;color:var(--fg)}
+dialog.recmodal .recproc .warn{color:var(--gold);font-weight:600}
 
 /* disclosure blocks: tips + context manifest */
 details.tips{border:1px solid var(--gold-line);border-radius:var(--r);background:var(--surface);

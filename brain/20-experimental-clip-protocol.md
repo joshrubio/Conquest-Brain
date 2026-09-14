@@ -251,10 +251,11 @@ distributor, and the scene / timecode identified**, plus one line of rationale
 (commentary/criticism on this specific work) in `07-assets.md`. Same as [brain/12 §1c](12-available-material-protocol.md).
 
 ### 4.8 Absolutes (no mode, no exception)
-Never anything that could pass as a fabricated document or record. Never a
-photoreal AI stand-in for a real identifiable person ([brain/15](15-ai-illustration-protocol.md)
-governs regardless). No song lyrics reproduced on screen or in narration
-([brain/04 §4](04-legal-and-ethics.md)).
+A photoreal AI recreation of a document/record or of a real identifiable
+person's likeness is allowed, same as everywhere else — always carrying the
+`Representación pictórica` label, never cut in as if it were the genuine item
+([brain/15](15-ai-illustration-protocol.md) governs regardless). No song
+lyrics reproduced on screen or in narration ([brain/04 §4](04-legal-and-ethics.md)).
 
 ## 5. Monetisation expectation — a haircut, not zero
 

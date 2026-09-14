@@ -32,7 +32,10 @@ trim_talk.py — trim silences + fillers + retakes from a recorded take (Stage 9
                    whisper). Keeps any autosaved edits; --reset-cuts discards them.
 
 A gap under 0.45 s is never cut. --keep MM:SS protects a span in phase 1.
-With --script, the trim room lists script lines no surviving span covers.
+With --script, the trim room lists script lines no surviving span covers, and
+writes <take>.pickups.json (full sentence text, match confidence, an
+original-take-second anchor) — the re-record candidate list pickup_room.py
+turns into the pickup UI.
 """
 import re
 import subprocess
@@ -47,7 +50,7 @@ except Exception:
     pass
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from mediabin import FFMPEG  # noqa: E402
+from mediabin import FFMPEG, FFPROBE  # noqa: E402
 
 MIN_GAP = 0.45           # never cut a pause shorter than this, whatever --gap says
 FADE = 0.010             # audio fade at each join, seconds
@@ -183,7 +186,9 @@ def plan_retakes(words, pad, window, min_run=4, sim=0.74):
 def _spoken_script(md):
     """Ordered spoken sentences from 05-script.md — NARRACIÓN/EXPLICADOR/PROMISE/PAY
     text only. Drops cue markers, ‹stage directions›, [EN PANTALLA]/[NOTA]/[HOOK VISUAL]
-    blocks, tables, headings, the appendix."""
+    blocks, tables, headings, the appendix. Returns [(raw_text, norm_words), ...] —
+    raw_text keeps punctuation/casing so a missed sentence can be read back verbatim
+    for a pickup."""
     _, _, body = md.partition("\n---\n")
     body = body.split("\n## Índice de tags")[0]
     out = []
@@ -198,24 +203,51 @@ def _spoken_script(md):
         for sent in re.split(r"(?<=[.?!])\s+|\n{2,}", txt):
             ws = [norm(w) for w in sent.split() if norm(w)]
             if len(ws) >= 4:
-                out.append(ws)
+                out.append((sent.strip(), ws))
     return out
 
 
 def check_script(words, spans, script_sents, sim=0.62):
-    """After cuts: which script sentences does no surviving span cover well?"""
-    surv = [norm(w) for (s, _e, w) in words if remap(s, spans) is not None]
+    """After cuts: which script sentences does no surviving span cover well?
+    script_sents = [(raw_text, norm_words), ...] from _spoken_script. Returns
+    [(raw_text, score, anchor_t), ...] for sentences below `sim` — anchor_t is
+    the ORIGINAL-take second (same clock as <take>.review.m4a and the `spans`
+    render() splices) of the closest-matching (if weak) window: a rough point
+    to sample "how it was said" and to splice a pickup near. None if the take
+    has no surviving words at all."""
+    surv = [(s, w) for (s, _e, w) in words if remap(s, spans) is not None]
+    surv_norm = [norm(w) for _, w in surv]
     missing = []
-    for ws in script_sents:
+    for raw, ws in script_sents:
         L = len(ws)
-        best = 0.0
-        for k in range(0, max(1, len(surv) - L + 1), 2):
-            best = max(best, SequenceMatcher(None, ws, surv[k:k + L]).ratio())
+        best, best_k = 0.0, None
+        for k in range(0, max(1, len(surv_norm) - L + 1), 2):
+            r = SequenceMatcher(None, ws, surv_norm[k:k + L]).ratio()
+            if r > best:
+                best, best_k = r, k
             if best >= sim:
                 break
         if best < sim:
-            missing.append((" ".join(ws)[:90], best))
+            anchor = surv[best_k][0] if best_k is not None and surv else None
+            missing.append((raw, best, anchor))
     return missing
+
+
+def write_pickups_json(take, missing):
+    """<take>.pickups.json — sentence-level re-record candidates for
+    pickup_room.py: full script text verbatim (so the operator reads back
+    exactly what's written, not a word or two — keeps the delivery's tone
+    consistent with the rest of the take), match confidence, and a rough
+    original-take-timeline anchor (`anchor_t`, same clock as <take>.review.m4a)
+    to sample the flub and splice the pickup near. One row per script sentence
+    `check_script` couldn't match well."""
+    import json as _j
+    out = [{"text": t, "score": round(sc, 3),
+            "anchor_t": round(a, 3) if a is not None else None}
+           for t, sc, a in missing]
+    p = take.with_suffix(".pickups.json")
+    p.write_text(_j.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"  escrito  {p.name}  ({len(out)} candidatos a pickup)")
 
 
 def keep_spans(cuts, total):
@@ -251,8 +283,9 @@ def write_cuts_md(take, words, cuts, spans, total, missing=None):
                 f"## ⚠ Líneas del guion sin cobertura clara ({len(missing)})",
                 "Ninguna toma superviviente casa bien con estas frases — se cortaron enteras, "
                 "se dijeron mal siempre, o whisper las transcribió raro. Revísalas: `--keep MM:SS` "
-                "para recuperar una toma, o vuelve a grabar el pickup.", ""]
-        out += [f"- ({sc:.0%}) {txt}…" for txt, sc in missing]
+                "para recuperar una toma, o vuelve a grabar el pickup — lista completa en "
+                f"`{take.with_suffix('.pickups.json').name}`.", ""]
+        out += [f"- ({sc:.0%}) {txt[:90]}…" for txt, sc, _a in missing]
     take.with_suffix(".cuts.md").write_text("\n".join(out) + "\n", encoding="utf-8")
     print(f"  escrito  {take.with_suffix('.cuts.md').name}")
 
@@ -269,44 +302,197 @@ def remap(t, spans):
     return acc
 
 
-def write_words_json(take, words, spans):
+def load_accepted_pickups(take):
+    """Accepted pickups (pickup_room.py / serve.py's /pickup-accept) for this
+    take, `audio` resolved to an absolute path. Each replaces a span — fold
+    `(orig_start, orig_end, "pickup")` into the cut list before `keep_spans()`
+    (same as any other cut), then pass the result to `write_words_json()` /
+    `render()` so it's spliced back in at that point. Shared by both --apply
+    and --apply-now so neither can silently render a take that drops a pickup
+    the other would have included."""
+    import json as _j
+    acc_f = take.with_suffix(".pickups.accepted.json")
+    if not acc_f.is_file():
+        return []
+    pickups = []
+    for p in _j.loads(acc_f.read_text(encoding="utf-8")).get("pickups", []):
+        p = dict(p)
+        p["audio"] = take.parent / p["audio"]
+        pickups.append(p)
+    return pickups
+
+
+def build_timeline(spans, pickups):
+    """Interleave kept original-take `spans` with accepted `pickups`
+    (each {"orig_start","dur",...}) in original-timeline order, and give each
+    item its trimmed-timeline start `t0` (cumulative). With no pickups this is
+    just `spans` in order — the same trimmed clock `remap()` computes alone;
+    with pickups, everything from the first pickup onward shifts, which is
+    exactly why `remap()` alone can't be reused once a pickup is spliced in."""
+    items = [{"kind": "orig", "s": s, "e": e} for s, e in spans]
+    items += [{"kind": "pickup", "pk": pk, "s": pk["orig_start"]} for pk in (pickups or [])]
+    items.sort(key=lambda it: it["s"])
+    t = 0.0
+    for it in items:
+        it["t0"] = t
+        t += (it["e"] - it["s"]) if it["kind"] == "orig" else it["pk"]["dur"]
+    return items, t
+
+
+def remap_with_pickups(t, items):
+    """Like `remap()`, but timeline-aware of spliced-in pickups (see
+    `build_timeline`). None if `t` falls inside a cut — pickup-replaced spans
+    included, same as any other cut."""
+    for it in items:
+        if it["kind"] != "orig":
+            continue
+        if t < it["s"]:
+            return None
+        if t <= it["e"]:
+            return it["t0"] + (t - it["s"])
+    return None
+
+
+def write_words_json(take, words, spans, pickups=None):
     import json
+    if not pickups:
+        out = []
+        for s, _e, w in words:
+            ts = remap(s, spans)
+            if ts is not None:
+                out.append({"w": w.strip(), "t": round(ts, 3)})
+        take.with_suffix(".words.json").write_text(
+            json.dumps(out, ensure_ascii=False), encoding="utf-8")
+        print(f"  escrito  {take.with_suffix('.words.json').name}  ({len(out)} palabras)")
+        return
+    items, _total = build_timeline(spans, pickups)
     out = []
     for s, _e, w in words:
-        ts = remap(s, spans)
+        ts = remap_with_pickups(s, items)
         if ts is not None:
             out.append({"w": w.strip(), "t": round(ts, 3)})
+    for it in items:
+        if it["kind"] != "pickup":
+            continue
+        pk, toks = it["pk"], it["pk"]["text"].split()
+        if not toks:
+            continue
+        # no per-word whisper timing inside a pickup — evenly spread across its
+        # duration. align() matches by text first; sub-word precision here
+        # isn't what it needs, the sentence-level splice point is.
+        step = pk["dur"] / len(toks)
+        for k, tok in enumerate(toks):
+            out.append({"w": tok, "t": round(it["t0"] + k * step, 3)})
+    out.sort(key=lambda w: w["t"])
     take.with_suffix(".words.json").write_text(
         json.dumps(out, ensure_ascii=False), encoding="utf-8")
-    print(f"  escrito  {take.with_suffix('.words.json').name}  ({len(out)} palabras)")
+    print(f"  escrito  {take.with_suffix('.words.json').name}  ({len(out)} palabras, "
+          f"{len(pickups)} pickup(s) integrados)")
 
 
-def render(take, spans, out_path):
-    parts, maps = [], []
-    for i, (s, e) in enumerate(spans):
-        d = e - s
-        fo = max(0.0, d - FADE)
-        parts.append(
-            f"[0:v]trim=start={s:.3f}:end={e:.3f},setpts=PTS-STARTPTS[v{i}];"
-            f"[0:a]atrim=start={s:.3f}:end={e:.3f},asetpts=PTS-STARTPTS,"
-            f"afade=t=in:st=0:d={FADE},afade=t=out:st={fo:.3f}:d={FADE}[a{i}]")
-        maps.append(f"[v{i}][a{i}]")
-    script = ";\n".join(parts) + ";\n" + "".join(maps) + f"concat=n={len(spans)}:v=1:a=1[v][a]"
-    with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
-        f.write(script)
-        sp = f.name
-    # intermediate file — favour speed; the Stage-9 export re-encodes anyway
-    cmd = [FFMPEG, "-y", "-i", str(take), "-filter_complex_script", sp,
-           "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "16",
-           "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "320k",
-           str(out_path)]
-    r = subprocess.run(cmd, capture_output=True, text=True)
-    Path(sp).unlink(missing_ok=True)
-    if r.returncode != 0 or not out_path.exists():
-        print("  FALLO ffmpeg:\n" + "\n".join(r.stderr.strip().splitlines()[-4:]))
-        return False
-    print(f"  escrito  {out_path.name}")
-    return True
+def _probe_video_info(take):
+    r = subprocess.run([FFPROBE, "-v", "error", "-select_streams", "v:0",
+                        "-show_entries", "stream=width,height,r_frame_rate",
+                        "-of", "csv=p=0", str(take)], capture_output=True, text=True)
+    parts = r.stdout.strip().split(",")
+    if len(parts) < 3:
+        raise RuntimeError(f"ffprobe no pudo leer vídeo de {take}: {r.stderr[-300:]}")
+    num, _, den = parts[2].partition("/")
+    den_f = float(den) if den else 0.0
+    fps = float(num) / den_f if den_f else 25.0   # "0/0" (unknown/VFR) — sane fallback, not a crash
+    return int(parts[0]), int(parts[1]), fps
+
+
+def _grab_frame(take, t, out_png):
+    r = subprocess.run([FFMPEG, "-y", "-ss", f"{max(0.0, t):.3f}", "-i", str(take),
+                        "-vframes", "1", str(out_png)], capture_output=True, text=True)
+    if r.returncode != 0 or not Path(out_png).exists():
+        raise RuntimeError(f"no se pudo capturar el frame en {t:.2f}s: {r.stderr[-300:]}")
+
+
+def render(take, spans, out_path, pickups=None):
+    """Cut `take` down to `spans` (original-timeline, kept regions). With
+    `pickups` ({"orig_start","dur","audio"}, from <take>.pickups.accepted.json)
+    also present, each is spliced in at its place in original-timeline order:
+    a still frame grabbed from the take at `orig_start` held for `dur` under
+    the matched pickup audio. The still is a fallback, not a fix — it's
+    invisible for a narration/B-roll beat (only the take's *audio* is used
+    downstream there) but a pickup landing inside a planned `acamara` stretch
+    needs the shot re-recorded for real, not this freeze (brain/16)."""
+    if not pickups:
+        parts, maps = [], []
+        for i, (s, e) in enumerate(spans):
+            d = e - s
+            fo = max(0.0, d - FADE)
+            parts.append(
+                f"[0:v]trim=start={s:.3f}:end={e:.3f},setpts=PTS-STARTPTS[v{i}];"
+                f"[0:a]atrim=start={s:.3f}:end={e:.3f},asetpts=PTS-STARTPTS,"
+                f"afade=t=in:st=0:d={FADE},afade=t=out:st={fo:.3f}:d={FADE}[a{i}]")
+            maps.append(f"[v{i}][a{i}]")
+        script = ";\n".join(parts) + ";\n" + "".join(maps) + f"concat=n={len(spans)}:v=1:a=1[v][a]"
+        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
+            f.write(script)
+            sp = f.name
+        # intermediate file — favour speed; the Stage-9 export re-encodes anyway
+        cmd = [FFMPEG, "-y", "-i", str(take), "-filter_complex_script", sp,
+               "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "16",
+               "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "320k",
+               str(out_path)]
+        r = subprocess.run(cmd, capture_output=True, text=True)
+        Path(sp).unlink(missing_ok=True)
+        if r.returncode != 0 or not out_path.exists():
+            print("  FALLO ffmpeg:\n" + "\n".join(r.stderr.strip().splitlines()[-4:]))
+            return False
+        print(f"  escrito  {out_path.name}")
+        return True
+
+    items, _total = build_timeline(spans, pickups)
+    W, H, FPS = _probe_video_info(take)
+    tmp_pngs, extra_inputs, parts, maps = [], [], [], []
+    vi = 1  # ffmpeg input index; 0 is the take itself
+    try:
+        for i, it in enumerate(items):
+            if it["kind"] == "orig":
+                s, e = it["s"], it["e"]
+                d = e - s
+                fo = max(0.0, d - FADE)
+                parts.append(
+                    f"[0:v]trim=start={s:.3f}:end={e:.3f},setpts=PTS-STARTPTS,format=yuv420p[v{i}];"
+                    f"[0:a]atrim=start={s:.3f}:end={e:.3f},asetpts=PTS-STARTPTS,"
+                    f"aformat=sample_rates=48000:channel_layouts=stereo,"
+                    f"afade=t=in:st=0:d={FADE},afade=t=out:st={fo:.3f}:d={FADE}[a{i}]")
+            else:
+                pk = it["pk"]
+                png = take.with_suffix(f".pick{i}.tmp.png")
+                _grab_frame(take, pk["orig_start"], png)
+                tmp_pngs.append(png)
+                extra_inputs += ["-loop", "1", "-t", f"{pk['dur']:.3f}", "-i", str(png),
+                                  "-i", str(pk["audio"])]
+                iv, ia = vi, vi + 1
+                vi += 2
+                parts.append(
+                    f"[{iv}:v]fps={FPS:.3f},scale={W}:{H},format=yuv420p,setpts=PTS-STARTPTS[v{i}];"
+                    f"[{ia}:a]aformat=sample_rates=48000:channel_layouts=stereo,"
+                    f"asetpts=PTS-STARTPTS[a{i}]")
+            maps.append(f"[v{i}][a{i}]")
+        script = ";\n".join(parts) + ";\n" + "".join(maps) + f"concat=n={len(items)}:v=1:a=1[v][a]"
+        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
+            f.write(script)
+            sp = f.name
+        cmd = [FFMPEG, "-y", "-i", str(take)] + extra_inputs + [
+               "-filter_complex_script", sp, "-map", "[v]", "-map", "[a]",
+               "-c:v", "libx264", "-crf", "16", "-preset", "veryfast", "-pix_fmt", "yuv420p",
+               "-c:a", "aac", "-b:a", "320k", str(out_path)]
+        r = subprocess.run(cmd, capture_output=True, text=True)
+        Path(sp).unlink(missing_ok=True)
+        if r.returncode != 0 or not out_path.exists():
+            print("  FALLO ffmpeg (con pickups):\n" + "\n".join(r.stderr.strip().splitlines()[-8:]))
+            return False
+        print(f"  escrito  {out_path.name}  ({len(pickups)} pickup(s) integrados)")
+        return True
+    finally:
+        for p in tmp_pngs:
+            p.unlink(missing_ok=True)
 
 
 def _merge(cuts):
@@ -381,7 +567,7 @@ def write_review_html(take, words, cuts, total, missing=None, saved=None):
     if missing:
         miss = ('<div class="miss"><b>Líneas del guion sin cobertura clara (' + str(len(missing))
                 + ')</b> — revisa por si alguna es un pickup real, no un encabezado:<ul>'
-                + "".join(f"<li>({s:.0%}) {e(t)}…</li>" for t, s in missing) + '</ul></div>')
+                + "".join(f"<li>({s:.0%}) {e(t[:90])}…</li>" for t, s, _a in missing) + '</ul></div>')
     m4a = e(take.with_suffix(".review.m4a").name)
     html = f"""<!doctype html><meta charset="utf-8"><title>Recorte · {e(take.name)}</title>
 <style>
@@ -694,11 +880,13 @@ if __name__ == "__main__":
         audio_proxy(take)
         write_peaks(take, total)
         write_review_html(take, words, cuts, total, missing, saved=saved)
+        if missing is not None:
+            write_pickups_json(take, missing)
         print(f"  página reconstruida ({len(cuts)} cortes propuestos"
               + (f", {len(saved)} guardados conservados" if saved else "") + ")")
         sys.exit(0)
 
-    # ---- phase B: apply an approved cut list ----
+    # ---- phase B: apply an approved cut list (+ any accepted pickups) ----
     if "--apply" in a:
         if not raw_f.is_file():
             sys.exit(f"falta {raw_f.name} — corre antes el pase de revisión (sin --apply)")
@@ -707,10 +895,15 @@ if __name__ == "__main__":
         total = words[-1][1] + 1.0
         cd = _json.loads(cuts_f.read_text(encoding="utf-8")) if cuts_f.is_file() else {"cuts": []}
         cl = [(float(c[0]), float(c[1]), (c[2] if len(c) > 2 else "corte")) for c in cd.get("cuts", [])]
+
+        pickups = load_accepted_pickups(take)
+        cl += [(p["orig_start"], p["orig_end"], "pickup") for p in pickups]
+
         spans = keep_spans(_merge(cl), total)
-        print(f"aplicar: {len(cl)} cortes · queda {sum(e - s for s, e in spans):.1f}s de {total:.1f}s")
-        write_words_json(take, words, spans)
-        ok = render(take, spans, take.with_suffix(".trimmed.mp4"))
+        print(f"aplicar: {len(cl)} cortes · queda {sum(e - s for s, e in spans):.1f}s de {total:.1f}s"
+              + (f" · {len(pickups)} pickup(s)" if pickups else ""))
+        write_words_json(take, words, spans, pickups=pickups)
+        ok = render(take, spans, take.with_suffix(".trimmed.mp4"), pickups=pickups)
         sys.exit(0 if ok else 1)
 
     gap = float(opt("--gap", "0.45"))
@@ -756,10 +949,15 @@ if __name__ == "__main__":
     audio_proxy(take)
     write_peaks(take, total)
     write_review_html(take, words, cuts, total, missing, saved=saved)
+    if missing is not None:
+        write_pickups_json(take, missing)
 
     if "--apply-now" in a:               # skip the review, render the auto plan
-        write_words_json(take, words, spans)
-        ok = render(take, spans, take.with_suffix(".trimmed.mp4"))
+        pickups = load_accepted_pickups(take)
+        if pickups:
+            spans = keep_spans(_merge(cuts + [(p["orig_start"], p["orig_end"], "pickup") for p in pickups]), total)
+        write_words_json(take, words, spans, pickups=pickups)
+        ok = render(take, spans, take.with_suffix(".trimmed.mp4"), pickups=pickups)
         sys.exit(0 if ok else 1)
     print(f"\n{take.name}: {len(cuts)} cortes propuestos, quita {sum(e - s for s, e, _ in cuts):.1f} s"
           + (f" · {len(missing)} líneas del guion sin cobertura" if missing else ""))

@@ -19,7 +19,7 @@ authority: template
 | Carpeta destino | `episodes/E0XX-<slug>/assets/ai/` |
 | Nomenclatura | `E0XX_aiNN_<slug>.png` |
 | Salida | ≥ 4K si el generador lo permite; si no, upscale |
-| Rótulo en pantalla | `Ilustración — Conquest` (o «recreación»), discreto, legible |
+| Rótulo en pantalla | `Representación pictórica — Conquest` (o «Recreación»), quemado en el montaje, discreto, legible |
 | Fecha | AAAA-MM-DD |
 
 ## Estilo de ESTE episodio (compartido — ya está dentro de cada prompt)
@@ -35,8 +35,9 @@ authority: template
 ```
 text, letters, words, watermark, signature, logo, caption
 <si el estilo NO es fotorrealista, añade:> photorealistic, photograph, 3D, CGI, render
-<siempre:> recognizable real person face, deepfake, fake document, fake newspaper, fake photograph
 ```
+
+> Nota: una cara real identificable o un documento/periódico recreado ya no van en el negative prompt — están permitidos (`brain/15` regla 3). Lo que los mantiene honestos es el rótulo `Representación pictórica`, aplicado en el montaje (Stage 9), no una restricción en la generación.
 
 ---
 
@@ -49,8 +50,10 @@ text, letters, words, watermark, signature, logo, caption
 ```
 <bloque de estilo>
 
-<descripción de la escena: qué se ve, encuadre, luz, y — si hay una persona
-real — de espaldas / silueta / distancia, cara no visible>
+<descripción de la escena: qué se ve, encuadre, luz. Si hay una persona real,
+mostrar la cara ya es una opción válida (`brain/15` regla 3) — de espaldas /
+silueta / distancia sigue siendo una opción de puesta en escena, no una
+obligación>
 ```
 
 ---

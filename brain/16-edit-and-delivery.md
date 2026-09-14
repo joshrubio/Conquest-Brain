@@ -4,7 +4,7 @@ summary: "Stage 9, deliberately minimal. Graphics -> Ken Burns -> trim (transcri
 stage: [9]
 read_when: "editing the video; assembling b-roll; the music bed; export settings"
 pairs_with: [03-brand-identity, 11-visual-rhythm, 06-production-workflow]
-tools: [make_graphics.py, kenburns.py, trim_talk.py, edit_review.py, assemble.py, edit_timeline.py, make_grade.py, find_music.py]
+tools: [make_graphics.py, kenburns.py, trim_talk.py, pickup_room.py, match_audio.py, edit_review.py, assemble.py, edit_timeline.py, make_grade.py, find_music.py]
 authority: canonical
 ---
 
@@ -27,6 +27,7 @@ Then:
    - *review* — `tools/trim_talk.py <take> --script 05-script.md` transcribes and **proposes** cuts (lead-in / tail-out silence, inter-word pauses `> --gap`, fillers, retakes) → `<take>.review.html` (the trim room) + `<take>.words.raw.json` + `<take>.cuts.json` (the proposal) + `<take>.review.m4a` (scrub proxy) + `<take>.peaks.json` (waveform). **Renders nothing.** *(auto on Stage-9 entry; dashboard: «Recortar la voz» on the episode card at Stage 8–9)*
    - The **trim room** (`<take>.review.html`): the take drawn as a waveform, every cut a red block you **drag to move, drag the edges to resize, ✕ to delete**; **drag on empty waveform = a new cut** (retakes, repeated lines); a word-boundary magnet keeps edges clean. Transcript synced below (click a word or the wave = play from there; words inside a cut strike through live). Zoom in for 0.1 s precision. **«Aplicar corte»** → `serve.py /trim`. Self-contained — no CDN.
    - *apply* — `/trim` writes `<take>.cuts.json`, spawns `trim_talk.py <take> --apply` → `<take>.trimmed.mp4` + `<take>.words.json`, then re-aligns the timeline, **detached** (writes `<take>.apply.done`). *(`--apply-now` = both phases with the auto proposal, no review; `--rebuild-page` regenerates the trim room from an existing transcription, no whisper.)*
+   - If the coverage check flagged any script line, `<take>.pickups.json` has the re-record candidates — see **2b** below before re-applying.
 3. **Raw-clip review** *(optional but recommended)* — `tools/edit_review.py` → `07c-edit.html`: watch every KB clip + trimmed take on its own, tick OK or write a fix. Catches a bad KB move before it hits the timeline.
 4. **First cut + timeline** — `tools/assemble.py E0XX-slug --seed` (auto, no agent):
    - **seeds** `09-timeline.json` (schema 2) once from the **"Timeline — la espina"** table in `06-shotlist.md` + the trimmed VO: `align()` maps each beat's frag to real VO time, its aligned span becomes the beat's authored `dur`, `frag` becomes `vo_anchor`. After this the spine and transcript are not re-consulted.
@@ -85,6 +86,20 @@ Stills only (video already moves). The move is chosen from the image's **real as
 - **`--script 05-script.md`** — the review page lists any script line that **no surviving span covers well** (cut entirely, always flubbed, or transcribed oddly). That's the re-record list.
 - `--keep MM:SS` protects a span in phase 1 (also applies to retake cuts).
 - Multi-take: review + apply each; `assemble.py` concatenates in script order and offsets each take's word times.
+
+## 2b. Pickups — only when a line needs a re-record — `tools/pickup_room.py`
+
+Step 2's `--script` coverage check doesn't just flag a bad line — it writes `<take>.pickups.json` (full sentence text verbatim, match confidence, an original-take-second anchor). Nobody has to touch this unless that file has candidates:
+
+1. `python tools/pickup_room.py <take>` → `<take>.pickup-room.html` — the take's waveform, and one card per flagged sentence.
+2. **Seleccionar y trabajar esta línea** loads a draggable region into the waveform (default: ~1.2 s before the anchor to ~3.5 s after, snapped to word boundaries) — drag the edges until it brackets exactly the bad delivery, no more, no less.
+3. **▶ original** samples that exact region from `<take>.review.m4a` as many times as it takes to match the delivery.
+4. **🎙 grabar** (records straight from the browser mic) or **Seleccionar archivo** (upload a take) — either becomes the pickup candidate.
+5. The **ganancia** slider previews live in the browser (Web Audio, before any file is touched) — dial it in by ear against the original sample, then **Aceptar**.
+6. `serve.py`'s `/pickup-accept` saves the raw pickup, extracts that same reference window from `<take>.review.m4a`, and runs `tools/match_audio.py`: two-pass `loudnorm` to the reference clip's *own* measured loudness + a gentle highpass + the manual gain + edge fades. Honest about its limits — this covers "same mic/room, different day/level," not full reverb/room-tone matching. Records the result in `<take>.pickups.accepted.json`, marks `09-resync.flag`.
+7. **Nothing renders yet.** The next `trim_talk.py <take> --apply` (the trim room's «Aplicar corte», or a plain re-run) folds in every accepted pickup automatically — a still frame grabbed from the take at the replaced span, held under the matched pickup audio, spliced into `<take>.trimmed.mp4` at its place in the timeline. From there it's the same **«Re-sincronizar»** (step 4 below) any other re-record goes through — the pickup's own words feed the anchor match same as the rest of the transcript.
+
+**Audio only.** A pickup landing inside a planned `acamara` stretch only gets the frozen-frame fallback here — the shot itself still needs an actual re-take, not this splice. The tool has no way to know which beats are `acamara` at this point in the pipeline; that call is the operator's before accepting.
 
 ## 3. Raw-clip review — `tools/edit_review.py` → `07c-edit.html`  *(optional)*
 
@@ -161,7 +176,7 @@ schema-2 line already exists):
 
 ## On-screen text — minimal
 
-On screen only: the **case-file device** (`EXPEDIENTE: CASO 00XX …`, Courier Prime), **chapter / section cards** (Playfair), and the **AI / reenactment label** (`Ilustración — Conquest` or `Recreación`, permanent, every appearance — `brain/15`, `brain/04` §8). **No source cards** (`brain/03`).
+On screen only: the **case-file device** (`EXPEDIENTE: CASO 00XX …`, Courier Prime), **chapter / section cards** (Playfair), and the **AI / reenactment label** (`Representación pictórica — Conquest` or `Recreación`, permanent, every appearance — `brain/15`, `brain/04` §8). Required on every AI-generated image regardless of style, photoreal ones included — it's the burned-in disclosure that a photoreal AI image isn't archival footage. **No source cards** (`brain/03`).
 
 ## Look / grade
 
@@ -189,6 +204,6 @@ changes) → Usuario 002 watches once, end to end, against `05-script.md` and
 - [ ] Cold open = `intro` clips in order + bumper on black
 - [ ] Ken Burns `motion` matches each image's orientation; `PROMISE n`/`PAY n` share `asset` + `motion`
 - [ ] One music bed, ducked under the VO; no music in the bumper; track licences logged
-- [ ] AI / reenactment / colourised labelled on every appearance (`rótulo` set in the spine)
+- [ ] AI / reenactment / colourised labelled on every appearance (`rótulo` set in the spine); every AI image specifically carries `Representación pictórica` — no photoreal AI shot slips through unlabelled
 - [ ] 4K master rendered; `.srt` generated and hand-corrected against `05-script.md`
 - [ ] −14 LUFS integrated; 4K (or best common resolution); picture lock signed by Usuario 002 in `07c-edit.md`

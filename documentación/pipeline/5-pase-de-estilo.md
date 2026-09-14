@@ -107,7 +107,7 @@ Se pliega `07-selection.md` en `07-assets.md` — una fila por asset **aceptado*
 - **Solo descarga directa, sin captcha.** Museos con Open Access (Met, Wikimedia Commons), stock libre.
 - **NO como fuente de descarga:** agregadores (para localizar, no bajar), sitios con captcha/temporizador, blogs, tiendas de prints, **stock de pago** (fuera por regla actual).
 - **Stock ≠ la pieza real.** El stock es b-roll genérico ilustrativo (una ola, un laboratorio moderno) — solo donde el espectador lo lee como *cutaway*, nunca como "esto es lo real".
-- **IA:** solo donde no existe imagen real; estilo elegido por episodio (fotorrealista permitido); rótulo en pantalla **siempre**; nunca cara fotorrealista de persona real identificable; nunca documento/periódico falso (`brain/15`).
+- **IA:** solo donde no existe imagen real; estilo elegido por episodio (fotorrealista permitido, incluida una cara real identificable o un documento/periódico recreado); rótulo en pantalla **siempre** como `Representación pictórica` — es el rótulo, no el estilo, lo que sostiene el rigor periodístico (`brain/15`).
 
 ## Corre en paralelo con la grabación
 

@@ -53,7 +53,7 @@ Común (Semmelweis, Hokusai, Tulipomanía). Enfoque en capas, de lo más honesto
 4. Parallax 2.5D ligero sobre retratos fijos.
 5. Una ilustración estilizada recurrente, claramente ilustración, rotulada una vez.
 
-**No como recurso primario:** IA fotorrealista "dando vida" a un retrato. Como mucho un momento deliberado, rotulado (`brain/15`).
+**Ahora también disponible:** IA fotorrealista "dando vida" a un retrato — ya no limitado a un momento aislado, es una capa más de la escalera; rotulado siempre como `Representación pictórica`, igual que el resto del registro (`brain/15`).
 
 ### Artefactos que produce
 
