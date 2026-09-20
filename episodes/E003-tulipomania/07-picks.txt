@@ -10,7 +10,7 @@
 27	custom:27	assets/custom/ChatGPT_Image_13_sept_2026__11_48_08__5__2.png
 31	custom:31	assets/custom/ChatGPT_Image_13_sept_2026__11_48_09__7_.png
 35	custom:35	https://www.pexels.com/es-es/download/video/6092477/
-55	custom:55	assets/custom/71b98HnUtsL._AC_UF1000_1000_QL80_.jpg
+55	custom:55	https://iiif.archive.org/image/iiif/2/b33487960_0001%2fb33487960_0001_jp2.zip%2fb33487960_0001_jp2%2fb33487960_0001_0009.jp2/full/full/0/default.jpg
 62	custom:62	assets/custom/descarga.jpg
 4	commons:96820986	https://upload.wikimedia.org/wikipedia/commons/3/3b/Still_Life_with_Bouquet_of_Flowers_%28SM_1219%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 5	commons:135440978	https://upload.wikimedia.org/wikipedia/commons/a/aa/Flora%27s_Wagon_of_Fools_%28Flora%27s_Mallewagen%29_tulipomania%2C_Hendrik_Gerritsz_Pot_c1637.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original

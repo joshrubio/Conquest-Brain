@@ -12,7 +12,7 @@
 | 27 | custom:27 | 1672x941 | `assets/archive/beat27_custom_27.png` |
 | 31 | custom:31 | 1672x941 | `assets/archive/beat31_custom_31.png` |
 | 35 | pexelsv:35 | — | `assets/video/beat35_pexelsv_35.mp4` |
-| 55 | custom:55 | 768x1000 | `assets/archive/beat55_custom_55.jpg` |
+| 55 | custom:55 | 2504x4317 | `assets/archive/beat55_custom_55.jpg` |
 | 62 | custom:62 | 3744x5616 | `assets/archive/beat62_custom_62.jpg` |
 | 4 | commons:96820986 | 1931x2422 | `assets/archive/beat4_commons_96820986.png` |
 | 5 | commons:135440978 | 3296x2404 | `assets/archive/beat5_commons_135440978.jpg` |
