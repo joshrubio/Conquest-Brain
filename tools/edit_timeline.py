@@ -1415,9 +1415,12 @@ $("#dorender")?.addEventListener("click",async()=>{{
   catch(e){{ toast("no se pudo lanzar el render: "+(e.message||e),6000); }}
 }});
 $("#doresync")?.addEventListener("click",async()=>{{
-  if(!confirm("Re-sincronizar la línea con la voz nueva.\\n\\n· Los beats con duración fija (que ajustaste a mano) se conservan.\\n· El resto se re-encaja contra la voz por su ancla.\\n\\nSe guarda un respaldo. ¿Seguir?")) return;
+  if(!confirm("Re-sincronizar la línea con la voz nueva.\\n\\nSe re-encaja cada beat contra la voz por su ancla de texto. Se guarda un respaldo. ¿Seguir?")) return;
+  const nEd=B.filter(b=>b.dur_edited).length;
+  let keep=true;
+  if(nEd) keep=confirm("Tienes "+nEd+" beats con la duración fijada a mano.\\n\\nAceptar = conservar esas duraciones (solo se re-ajusta el resto).\\nCancelar = RE-ANCLAR TODOS a la voz (sueltas esas duraciones; orden, beats añadidos y assets no cambian).\\n\\nSi la línea se ve desfasada de la voz (p. ej. tras recortar la toma), elige Cancelar.");
   toast("re-sincronizando con la voz nueva…",4000);
-  const j=await beatOp({{action:"resync"}},null);
+  const j=await beatOp({{action:"resync",keep_edits:keep}},null);
   if(j){{                                        // keep the bar as a «done» strip with the backups ⌄
     const bar=$("#resyncbar");
     if(bar) bar.innerHTML='<span>✓ Re-sincronizado con la voz nueva.</span>'+

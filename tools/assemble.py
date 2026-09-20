@@ -126,6 +126,24 @@ def _asset_index(ep):
             f = ep / mm.group(2)
             if f.exists():
                 idx[mm.group(1)] = f
+    # 07-picks.txt is the style pass's own decisions. A `<beat>\tcustom:<beat>\t<assets/…>` row is the
+    # editor's OWN file for that beat and "ANULA la selección de ese beat" (its header says so).
+    # Nothing else maps such a file to its beat (pulled candidates are named beatNN_*, a custom
+    # upload isn't), so E003's five custom picks read «sin asset» although the files were on disk.
+    # Registered as beat<n>_custom_<stem> BEFORE the folder scan, so resolve()'s beatNN_ fallback
+    # finds the custom file ahead of any pulled candidate for the same beat.
+    picks, local_picks = ep / "07-picks.txt", []
+    if picks.exists():
+        for line in picks.read_text(encoding="utf-8").splitlines():
+            cols = line.split("\t")
+            if line.startswith("#") or len(cols) < 3 or not cols[0].strip().isdigit():
+                continue
+            if cols[1].strip().startswith("custom:") and cols[2].strip().startswith("assets/"):
+                f = ep / cols[2].strip()
+                if f.exists():
+                    idx.setdefault(f"beat{int(cols[0])}_custom_{f.stem}", f)
+            elif cols[2].strip().startswith("assets/") and (ep / cols[2].strip()).exists():
+                local_picks.append((int(cols[0]), ep / cols[2].strip()))
     for sub in ASSET_SUBDIRS:
         d = ep / "assets" / sub
         if not d.is_dir():
@@ -134,6 +152,22 @@ def _asset_index(ep):
             if f.is_file() and f.suffix.lower() in MEDIA_EXT:
                 idx.setdefault(f.stem, f)
                 idx.setdefault(f.name, f)
+    # 07-selection.md rows `| <beat> | <source> | <res> | `assets/…` |` are decisions: beat <n>
+    # gets that file. Files named beatNN_* are found by resolve() already; the AI illustrations
+    # are saved as `E003_aiNN_<slug>` (07b-ai-prompts.md), and no shotlist asset id derives from
+    # that name (`e003_laboratorio-ingles-1928` <-> `…_ai06_laboratorio-1928`), so 15 `ia` beats
+    # read «sin asset» although their images were on disk. Register them under beat<n>_<stem>,
+    # where resolve()'s beatNN_ fallback looks. setdefault: an explicit id or pin always wins.
+    if sel.exists():
+        for mm in re.finditer(r"^\|\s*(\d+)\s*\|[^\n]*?`(assets/[^`\s|]+)`\s*\|",
+                              sel.read_text(encoding="utf-8"), re.M):
+            f = ep / mm.group(2)
+            if f.exists():
+                idx.setdefault(f"beat{int(mm.group(1))}_{f.stem}", f)
+    # …and only then any other local pick (an ai:/…: row with a path): the generated selection above
+    # names the final files (E003_aiNN_<slug>), so it wins; a `custom:` pick already went first.
+    for n_, f_ in local_picks:                 # any other local pick (an ai:/…: row with a path)
+        idx.setdefault(f"beat{n_}_pick_{f_.stem}", f_)
     # explicit pins (assets/_index.json, written by beat_asset.py) win over the
     # subdir scan — an edit-room swap can never be shadowed by a leftover file
     pin = ep / "assets" / "_index.json"
@@ -512,36 +546,320 @@ def _stage_dir(raw):
         re.search(r"tipo de cta|en pantalla|^nota\b|wordmark", raw, re.I))
 
 
-def _anchors(items, toks, words, ref_end, vo_end):
+def _tag_tok(n):
+    return f"zzs{int(n):02d}"                          # a [S05] source tag as a (rare, precise) token
+
+
+def _is_tag(tok):
+    return tok.startswith("zzs") and tok[3:].isdigit()
+
+
+def _anchor_tokens(raw, keep_tags=False):
+    """The spoken words of a beat's anchor text: source tags [S05] and `code` are not speech (unless
+    `keep_tags`, used to find the beat in the SCRIPT, where the sentence citing that source carries the
+    same tag), and an ellipsis splits two separate quotes («un bulbo... una mansión»), not one phrase."""
+    raw = re.sub(r"`[^`]*`", " ", raw or "")
+    if keep_tags:
+        raw = re.sub(r"\[S(\d+)\]", lambda m: " " + _tag_tok(m.group(1)) + " ", raw)
+    raw = re.sub(r"\[[^\]]*\]", " ", raw)
+    toks = []
+    for seg in re.split(r"\.{2,}|…", raw):
+        toks += [t for t in _norm(seg).split() if t]
+    return toks
+
+
+def _anchors(items, toks, words, ref_end, vo_end, *, thr=0.55, top=8, look=15, mu=0.25, bonus=0.5,
+             keep_tags=False):
     """Confident (ref_time, vo_time) knots for a piecewise-linear time remap.
-    `items` = [(ref_time, anchor_text), ...] in order — the anchor text is
-    fuzzy-matched against the word stream near where its ref_time would fall.
-    Used by align() (ref = shotlist planned time, text = frag) and by
-    resync_timeline() (ref = the beat's current `in`, text = its vo_anchor)."""
-    anchors = [(0.0, 0.0)]
-    cursor = 0
-    for ref_t, raw in items:
+    `items` = [(ref_time, anchor_text), ...] in order. Used by align() (ref = shotlist planned time,
+    text = frag) and by resync_timeline() (ref = the beat's authored start, text = its vo_anchor).
+
+    A monotonic GLOBAL fuzzy alignment instead of «6 exact consecutive words near where the plan
+    predicts»: that needed the take to run as planned and the narrator to read the script verbatim,
+    so a longer take (E003: 1272 s vs 932 s planned), a paraphrase, a short or elliptical anchor or
+    a [S05] tag left most beats unanchored, and everything between two far-apart anchors was
+    stretched linearly (measured: 35 % of E003's beats had their own words inside their window;
+    the same seed now reaches 68 %, E002 74 → 95 %, E001 72 → 88 %).
+      1. every window of the transcript is scored by the idf-weighted share of the anchor's content
+         words it contains (rare words count more; the plan's position is NOT used);
+      2. dynamic programming picks, for the beats in order, the set of windows that maximises match
+         quality with strictly increasing positions (a phrase said twice — intro and sign-off — is
+         resolved by order) minus a small penalty for implausible local time-scaling."""
+    import math
+    N = len(toks)
+    if not N or not items:
+        return [(0.0, 0.0), (ref_end, vo_end)]
+    df, pos = {}, {}
+    for i, t in enumerate(toks):
+        df[t] = df.get(t, 0) + 1
+        pos.setdefault(t, []).append(i)
+
+    def idf(t):
+        return math.log((N + 1) / (df.get(t, 0) + 1)) + 1.0
+
+    g = (vo_end / ref_end) if ref_end else 1.0
+    cands = []                                         # per item: [(score, first_word_index)]
+    for _ref_t, raw in items:
         raw = (raw or "").strip()
-        frag = [t for t in _norm(raw).split() if t]
-        if _stage_dir(raw) or len(frag) < 4:
+        at = _anchor_tokens(raw, keep_tags)
+        content = [t for t in dict.fromkeys(at) if len(t) >= 4 and t in df]
+        if _stage_dir(raw) or len([t for t in at if len(t) >= 4]) < 2 or not content:
+            cands.append([])
             continue
-        exp = int(ref_t / ref_end * len(toks)) if ref_end else 0
-        best, best_i = 0, exp
-        for i in range(max(cursor, exp - 80), min(len(toks) - 1, exp + 200)):
-            score = sum(1 for k, ft in enumerate(frag[:6]) if i + k < len(toks) and toks[i + k] == ft)
-            if score > best:
-                best, best_i = score, i
-        if best >= 4 or best == min(6, len(frag)):
-            vt = round(words[best_i]["t"], 2)
-            pgap = ref_t - anchors[-1][0]          # ref distance since the last anchor
-            vgap = vt - anchors[-1][1]             # VO distance the match implies
-            # accept only if the match lands plausibly: no backwards pull, and the
-            # run since the last anchor isn't compressed/stretched past 0.35×–2.6×.
-            if pgap > 0 and vgap > 0.5 and vgap > 0.35 * pgap and vgap < 2.6 * pgap:
-                anchors.append((ref_t, vt))
-                cursor = best_i + len(frag)
-    anchors.append((ref_end, vo_end))
-    return anchors
+        W = int(len(at) * 2.2) + 5
+        tot = sum(idf(t) for t in content)
+        diff = [0.0] * (N + W + 2)
+        for t in content:
+            w = idf(t)
+            for q in pos[t]:                           # windows starting in [q-W+1, q] contain q
+                diff[max(0, q - W + 1)] += w
+                diff[q + 1] -= w
+        cov, run = [], 0.0
+        for k in range(N):
+            run += diff[k]
+            cov.append(run / tot)
+        peaks = sorted(((cov[k], k) for k in range(N) if cov[k] >= thr
+                        and (k == 0 or cov[k] >= cov[k - 1]) and (k == N - 1 or cov[k] > cov[k + 1])),
+                       reverse=True)
+        out = []
+        for sc, k in peaks:
+            if any(abs(k - o[1]) < W for o in out):
+                continue
+            first = next((m for m in range(k, min(N, k + W)) if toks[m] in content), k)
+            out.append((sc, first))                    # start = first anchor word actually spoken
+            if len(out) >= top:
+                break
+        cands.append(sorted(out, key=lambda x: x[1]))
+
+    n = len(items)
+    best = {}                                          # (item, cand) -> (value, previous key)
+    for i in range(n):
+        for ci, (sc, k) in enumerate(cands[i]):
+            base = sc + bonus
+            bv, bp = base, None
+            for j in range(max(0, i - look), i):
+                for cj, (_sc2, k2) in enumerate(cands[j]):
+                    if k2 >= k or (j, cj) not in best:
+                        continue
+                    dv = words[k]["t"] - words[k2]["t"]
+                    dp = items[i][0] - items[j][0]
+                    if dv < 0.4 or dp < 0:
+                        continue
+                    pen = 0.0
+                    if dp > 1.0:
+                        pen = mu * min(2.0, abs(math.log(max(dv, 0.4) / max(dp, 0.4) / g)))
+                    v = best[(j, cj)][0] + base - pen - 0.02 * (i - j - 1)
+                    if v > bv:
+                        bv, bp = v, (j, cj)
+            best[(i, ci)] = (bv, bp)
+    if not best:
+        return [(0.0, 0.0), (ref_end, vo_end)]
+    key, chain = max(best, key=lambda kk: best[kk][0]), []
+    while key is not None:
+        chain.append(key)
+        key = best[key][1]
+    knots = [(0.0, 0.0)]
+    for i, ci in reversed(chain):
+        r, v = items[i][0], round(words[cands[i][ci][1]]["t"], 2)
+        if r > knots[-1][0] and v > knots[-1][1] + 0.3 and v < vo_end - 0.3 and r < ref_end:
+            knots.append((r, v))
+    knots.append((ref_end, vo_end))
+    return knots
+
+
+def _narration_text(text):
+    """The spoken part of 05-script.md: the [NARRACIÓN] / [A CÁMARA] lines and plain paragraphs; not
+    headings, tables, bullets, quotes or the other [TAG] production notes."""
+    keep = {"NARRACIÓN", "NARRACION", "A CÁMARA", "CÁMARA", "CAMARA", "A CAMARA"}
+    out = []
+    for line in text.splitlines():
+        ln = line.strip()
+        if not ln or ln.startswith(("#", ">", "|", "---", "- ", "* ", "<!--", "```")):
+            continue
+        m = re.match(r"^\[([A-ZÁÉÍÓÚÑ /]+)\]\s*(.*)$", ln)
+        if m:
+            if m.group(1) in keep:
+                out.append(m.group(2))
+            continue
+        out.append(ln)
+    return " ".join(out)
+
+
+def _script_map(ep, words, min_cover=0.8):
+    """Global alignment of the SCRIPT's narration to the transcript, so a beat can be placed by where its
+    text sits in the script even when the narrator rephrased it (E003's script matched 95 % of the
+    voice). Returns {tok, pidx, s2t} or None when there is no usable script (fewer than 80 % of the
+    voice matched: another format, or a take that departs from the script) — the voice-only anchors
+    then run alone, exactly as before."""
+    import bisect
+    import difflib
+    f = ep / "05-script.md"
+    if not f.exists() or not words:
+        return None
+    try:
+        text = _narration_text(f.read_text(encoding="utf-8"))
+        text = re.sub(r"`[^`]*`|\*\*|\*|_", " ", text)
+        tok, pidx, n = [], [], 0                       # tok: with tag tokens; pidx: spoken words before it
+        for m in re.finditer(r"\[S(\d+)\]|([^\[\]]+)|\[[^\]]*\]", text):
+            if m.group(1):
+                tok.append(_tag_tok(m.group(1)))
+                pidx.append(n)
+            elif m.group(2):
+                for w in _norm(m.group(2)).split():
+                    tok.append(w)
+                    pidx.append(n)
+                    n += 1
+        plain = [t for t in tok if not _is_tag(t)]
+        if len(plain) < 200:
+            return None
+        V = [_norm(w["w"]).replace(" ", "") for w in words]
+        blocks = [b for b in difflib.SequenceMatcher(None, plain, V, autojunk=False).get_matching_blocks() if b.size]
+        if sum(b.size for b in blocks) / max(1, len(V)) < min_cover:
+            return None
+        pts = sorted({pt for b in blocks for pt in ((b.a, b.b), (b.a + b.size - 1, b.b + b.size - 1))})
+        si = [pt[0] for pt in pts]
+
+        def s2t(pi):
+            k = bisect.bisect_right(si, pi) - 1
+            if k < 0:
+                j = 0.0
+            elif k >= len(pts) - 1:
+                j = float(pts[-1][1])
+            else:
+                (a0, j0), (a1, j1) = pts[k], pts[k + 1]
+                j = j0 + (pi - a0) / (a1 - a0) * (j1 - j0) if a1 > a0 else float(j0)
+            j = max(0.0, min(len(words) - 1.0, j))
+            lo = int(j)
+            hi = min(len(words) - 1, lo + 1)
+            return words[lo]["t"] + (j - lo) * (words[hi]["t"] - words[lo]["t"])
+        return {"tok": tok, "pidx": pidx, "s2t": s2t}
+    except Exception:                                  # a script we can't parse must never break a seed
+        return None
+
+
+def _knots_with_script(voice, items, ref_end, vo_end, script):
+    """Merge two kinds of evidence into one knot list. `voice` = knots from anchors spoken verbatim
+    (the most direct proof). `script` adds a knot for every beat whose text — including its [Sxx] source
+    tags — can be found in the script: its script position is mapped to voice time through the global
+    alignment. Same beat: the voice wins. Conflicts (non-monotone) drop the script knot."""
+    if not script:
+        return voice
+    tok, pidx = script["tok"], script["pidx"]
+    pseudo = [{"t": float(i)} for i in range(len(tok))]
+    try:
+        sk = _anchors(items, tok, pseudo, ref_end, float(len(tok)), keep_tags=True)[1:-1]
+    except Exception:
+        return voice
+    have = {round(r, 3) for r, _ in voice[1:-1]}
+    cand = [(r, v, 0) for r, v in voice[1:-1]]
+    for r, pidx_f in sk:
+        if round(r, 3) in have:
+            continue
+        k = min(len(tok) - 1, max(0, int(round(pidx_f))))
+        cand.append((r, script["s2t"](pidx[k]), 1))
+    cand.sort()
+    out = []
+    for r, v, pri in cand:
+        while True:
+            if not out or v > out[-1][1] + 0.3:
+                out.append((r, v, pri))
+                break
+            if out[-1][2] > pri:                       # top is a script knot, this is spoken evidence
+                out.pop()
+                continue
+            break
+    knots = [voice[0]]
+    for r, v, _ in out:
+        if r > knots[-1][0] and v > knots[-1][1] + 0.3 and v < vo_end - 0.3 and r < ref_end:
+            knots.append((r, round(v, 2)))
+    knots.append(voice[-1])
+    return knots
+
+
+def sync_report(beats, words, pad=0.75):
+    """Independent sync check (does NOT use the aligner): is each beat's own anchor text actually
+    spoken inside its [in, out] window? Returns {n, ok, pct, worst:[(id, in, spoken_at)]} for the
+    beats with a usable anchor. Low % = the timeline and the voice disagree (E002 sat at 22 %
+    with a 40 s drift at the close and nothing said so)."""
+    rows = []
+    wt = [(_norm(w["w"]), w["t"]) for w in words]
+    if not wt:
+        return {"n": 0, "ok": 0, "pct": 100, "worst": []}
+    toks = [t for t, _ in wt]
+    for b in beats:
+        raw = b.get("vo_anchor") or b.get("frag") or ""
+        if b.get("kind") == "negro" or not raw or _stage_dir(raw.strip()):
+            continue
+        A = [t for t in _anchor_tokens(raw) if len(t) >= 4]
+        if len(A) < 2:
+            continue
+        inside = {t for t, x in wt if b["in"] - pad <= x <= b["out"] + pad}
+        hit = sum(1 for a in A if a in inside) / len(A)
+        rows.append((b, A, hit))
+    ok = sum(1 for _b, _A, h in rows if h >= 0.5)
+    worst = []
+    for b, A, h in rows:
+        if h >= 0.5:
+            continue
+        aset, W = set(A), int(len(A) * 2.5) + 3
+        bc, bt = 0, None
+        for i in range(0, max(1, len(toks) - W)):
+            c = len({t for t in toks[i:i + W] if t in aset})
+            if c > bc:
+                bc, bt = c, wt[i][1]
+        if bt is not None and bc / len(A) >= 0.6:       # only when the phrase can be located
+            worst.append((b["id"], round(b["in"], 1), round(bt, 1)))
+    worst.sort(key=lambda w: -abs(w[1] - w[2]))
+    return {"n": len(rows), "ok": ok, "pct": round(100 * ok / len(rows)) if rows else 100, "worst": worst[:5]}
+
+
+def uncovered_reasons(ep, beats):
+    """Why each `sin cubrir` beat is uncovered, from the Stage-7 files, so the answer isn't «elige
+    uno» for a beat that never had candidates to choose from (E003: 3 of the last 4 had no
+    07-pull.tsv row at all, one had candidates nobody ticked)."""
+    def _rows(name, pred=lambda c: True):
+        f = ep / name
+        out = set()
+        if f.exists():
+            for line in f.read_text(encoding="utf-8").splitlines():
+                c = line.split("\t")
+                if line.startswith("#") or len(c) < 2 or not c[0].strip().isdigit() or not pred(c):
+                    continue
+                out.add(int(c[0]))
+        return out
+    pulled, picked = _rows("07-pull.tsv"), _rows("07-picks.txt")
+    first_of = {}                                       # asset id -> the first beat that uses it (it carries the pull row)
+    for b in beats:
+        if b.get("asset") and b.get("kind") not in ACAMARA:
+            first_of.setdefault(b["asset"], b.get("id") or f"b{b.get('n')}")
+    out = []
+    for b in beats:
+        if b.get("state") != "uncovered":
+            continue
+        bid = b.get("id") or (f"b{b['n']}" if b.get("n") is not None else "?")   # timeline beats carry id, a fresh spine only n
+        n = int(bid[1:]) if bid[1:].isdigit() else None
+        kind = b.get("kind")
+        first = first_of.get(b.get("asset") or "")
+        if kind in ACAMARA:
+            why = "toma recortada aún no disponible"
+        elif first and first != bid:
+            why = f"reutiliza el asset de {first} (PAY/eco): se cubre al elegir el de ese beat"
+        elif not (b.get("asset") or ""):
+            why = "quitado / sin asset asignado"
+        elif n in picked:
+            why = "hay una elección en 07-picks.txt pero su archivo no existe en disco"
+        elif kind in ("archivo", "stock", "video") and n not in pulled:
+            why = "sin fila en 07-pull.tsv (el Stage 7 nunca buscó candidatos para este beat)"
+        elif kind in ("archivo", "stock", "video"):
+            why = "tiene candidatos en el style pass pero no se eligió ninguno"
+        elif kind == "ia":
+            why = "falta generar la imagen IA (07b-ai-prompts.md)"
+        elif kind in GRAPHIC:
+            why = "gráfico sin generar (make_graphics.py)"
+        else:
+            why = "sin archivo"
+        out.append((bid, b.get("asset") or "", why))
+    return out
 
 
 def _remap_fn(anchors, vo_end):
@@ -554,24 +872,41 @@ def _remap_fn(anchors, vo_end):
     return remap
 
 
-def align(beats, words):
+def align(beats, words, script=None):
     """Anchor the shotlist's planned timeline to the real VO — piecewise-linearly
     remap planned times onto VO time between the beats whose frag matches the
-    voice confidently. Runs once, at seed."""
+    voice confidently (plus, when a `script` map is given, the beats located through the script).
+    Runs once, at seed."""
     beats.sort(key=lambda x: x["n"])
     if not words:
         return beats, round(beats[-1]["out"], 2) if beats else 0.0
     toks = [_norm(w["w"]) for w in words]
     vo_end = _vo_end_from_words(words)
     planned_end = beats[-1]["out"] or vo_end
-    anchors = _anchors([(b["in"], b.get("frag")) for b in beats], toks, words, planned_end, vo_end)
+    items = [(b["in"], b.get("frag")) for b in beats]
+    anchors = _anchors(items, toks, words, planned_end, vo_end)
+    anchors = _knots_with_script(anchors, items, planned_end, vo_end, script)
     remap = _remap_fn(anchors, vo_end)
 
-    for b in beats:
-        b["in"] = round(remap(b["in"]), 2)
-        b["out"] = round(remap(b["out"]), 2)
-    for a, nb in zip(beats, beats[1:]):
-        a["out"] = round(max(a["in"] + 0.6, nb["in"]), 2)
+    # Place each START on its anchor, or right after the previous beat's minimum length when the voice
+    # doesn't leave room. Precise anchors leave short beats (a 3 s montage under one quick phrase);
+    # remap() alone squeezed them below the floor and tidy_subfloor() then MERGED them away —
+    # E003 lost its bodegón, its grabado satírico and two AI images that way. A visual beat that
+    # doesn't fit now runs late only until the next anchor, where it snaps back to the voice. Only
+    # a narrator cut too short to register (no asset) is still merged.
+    planned = [remap(b["in"]) for b in beats]
+    starts = []
+    for i, b in enumerate(beats):
+        if i == 0:
+            starts.append(round(planned[0], 2))
+            continue
+        pv = beats[i - 1]
+        hold = 0.6 if pv["kind"] in ACAMARA else (3.0 if pv["kind"] in GRAPHIC else MIN_BEAT)
+        st = max(planned[i], starts[i - 1] + hold)
+        starts.append(round(min(st, vo_end - 0.6 * (len(beats) - i)), 2))
+    for i, b in enumerate(beats):
+        b["in"] = starts[i]
+        b["out"] = starts[i + 1] if i + 1 < len(beats) else round(vo_end, 2)
     total = vo_end
     beats[-1]["out"] = total
     beats = tidy_subfloor(beats, total)
@@ -692,7 +1027,7 @@ def tidy_subfloor(beats, total, merge_same_file=True):
             # a graphic beat is a deliberate structural beat — don't merge it away
             # for being a bit short (it gets a pace flag instead, below)
             graphic_keep = b["kind"] in GRAPHIC and dur >= 3.0 and not (same_file and not promise_pay)
-            if not aroll_keep and not graphic_keep and (dur < floor or (same_file and not promise_pay)):
+            if not aroll_keep and not graphic_keep and (dur < floor - 0.005 or (same_file and not promise_pay)):   # (0.005: 43.40-40.60 is 2.7999999… in floats — a beat exactly at the floor was being merged away)
                 # absorb: the later narration wins the asset unless it has none
                 keep_new = bool(b.get("file")) and (dur >= prev["out"] - prev["in"] or not prev.get("file"))
                 if keep_new:
@@ -847,6 +1182,16 @@ def _report(slug, beats, total, aligned):
           f"({len(beats)} beats · {_fmt(total)} · "
           f"{'alineado a la voz' if aligned else 'tiempos del shotlist (sin voz aún)'} · "
           f"{n_un} sin cubrir · {n_fix} con corrección)")
+    ep = EP_DIR / slug
+    if aligned:
+        sr = sync_report(beats, load_words(ep))
+        if sr["n"]:
+            print(f"  sincronía: {sr['ok']}/{sr['n']} beats ({sr['pct']} %) con su frase dentro de su ventana"
+                  + ("  ⚠ BAJA — la línea y la voz no coinciden; revisa antes de montar" if sr["pct"] < 60 else ""))
+            for bid, at, said in sr["worst"][:3]:
+                print(f"    ⚠ {bid}: empieza en {at:.0f}s y su frase se dice en {said:.0f}s")
+    for bid, asset, why in uncovered_reasons(ep, beats)[:14]:
+        print(f"  sin cubrir {bid} «{asset}» — {why}")
 
 
 def build_timeline(slug):
@@ -876,7 +1221,7 @@ def seed_timeline(slug, force=False):
     beats = parse_spine((ep / "06-shotlist.md").read_text(encoding="utf-8"))
     resolve(ep, beats)
     words = load_words(ep)
-    beats, total = align(beats, words)          # tidy_subfloor + flag_rhythm run inside
+    beats, total = align(beats, words, _script_map(ep, words))   # tidy_subfloor + flag_rhythm run inside
     if not words:
         total = round(beats[-1]["out"], 2)
     _derive_motion(beats)
@@ -1020,11 +1365,15 @@ def _rebuild_schema1(slug, ep, tj):
     return data
 
 
-def resync_timeline(slug):
+def resync_timeline(slug, keep_edits=True):
     """Re-fit a schema-2 timeline to a re-recorded / re-trimmed VO (brain/16).
     3-way merge: a beat the editor set the duration of (`dur_edited`) keeps its
     `dur`; every other beat is re-fitted to the new voice by remapping its
-    current start through its `vo_anchor`. Only fires on «Re-sincronizar»."""
+    current start through its `vo_anchor`. Only fires on «Re-sincronizar».
+    `keep_edits=False` re-anchors EVERY beat to the voice and lets go of the hand-set durations:
+    those were fixed against a voice that has since been re-trimmed, so keeping them keeps the
+    drift (E002: 75 of 98 beats hand-set, 22 % in sync, up to 40 s out at the close). Order,
+    added / split beats and assets are untouched either way."""
     ep = _require_ep(slug)
     tj = ep / "09-timeline.json"
     data = _prev_json(tj)
@@ -1039,21 +1388,57 @@ def resync_timeline(slug):
 
     old_vo_end = float(data.get("vo_end") or beats[-1]["out"])
     new_vo_end = _vo_end_from_words(new_words)
-    old_total = beats[-1]["out"]
-    toks = [_norm(w["w"]) for w in new_words]
-    anchors = _anchors([(b["in"], b.get("vo_anchor")) for b in beats],
-                       toks, new_words, old_total, new_vo_end)
-    remap = _remap_fn(anchors, new_vo_end)
-    prop_in = [round(remap(b["in"]), 3) for b in beats] + [round(new_vo_end, 3)]
 
+    # A timeline that was seeded BEFORE the voice existed (Stage 9 opens before the take is recorded)
+    # was never aligned: its times are the shotlist's plan. Re-fitting a plan is a lossy patch (E003:
+    # it left 464 s in the last beat), so when nothing in it was authored by hand this is really the
+    # FIRST alignment — do the full one.
+    never_aligned = (not data.get("aligned")) or data.get("words_sig") in ("", _words_sig([]))
+    if never_aligned:
+        try:
+            spine = [f"b{b['n']}" for b in parse_spine((ep / "06-shotlist.md").read_text(encoding="utf-8"))]
+        except (OSError, SystemExit):
+            spine = []
+        ids = [b.get("id") for b in beats]
+        authored = (any(b.get("dur_edited") or b.get("fix") or b.get("approved") or b.get("slot") for b in beats)
+                    or ids != spine)
+        if spine and not authored:
+            seeded = seed_timeline(slug, force=True)
+            (ep / "09-resync.flag").unlink(missing_ok=True)
+            note = "primera alineación completa con la voz (la línea se sembró antes de que existiera la toma)"
+            print(note)
+            return {"note": note, "vo_shift": round(new_vo_end - old_vo_end, 1), "kept": 0,
+                    "refit": len(seeded.get("beats", [])), "anchors": 0, "total": seeded.get("total")}
+
+    # the reference clock is the AUTHORED one: `in` = cumulative sum of `dur` (derive_times). The stored
+    # in/out can be stale (a schema-1 migration left E003's last beat at in 558 with total 932).
+    ref = [dict(b) for b in beats]
+    derive_times(ref, old_vo_end)
+    old_total = ref[-1]["out"]
+    toks = [_norm(w["w"]) for w in new_words]
+    items = [(r["in"], b.get("vo_anchor")) for r, b in zip(ref, beats)]
+    anchors = _anchors(items, toks, new_words, old_total, new_vo_end)
+    anchors = _knots_with_script(anchors, items, old_total, new_vo_end, _script_map(ep, new_words))
+    remap = _remap_fn(anchors, new_vo_end)
+    prop_in = [round(remap(r["in"]), 3) for r in ref] + [round(new_vo_end, 3)]
+
+    # Walk forward placing each START: on its anchor (prop_in), or right after the previous beat if the
+    # previous one's minimum length doesn't leave room. The old `dur = max(floor, gap)` inflated every
+    # short beat and the inflation ADDED UP, dragging everything behind it late; here a beat that
+    # can't fit is late only until the next anchor, where the start snaps back to the voice.
     kept = refit = 0
+    starts = [0.0]
     for i, b in enumerate(beats):
-        if b.get("dur_edited"):
+        if b.get("dur_edited") and keep_edits:
             kept += 1
+            starts.append(starts[i] + float(b.get("dur") or 0.0))
             continue
+        b.pop("dur_edited", None)              # (re-anchored: no longer a hand-set duration)
         fl = (MIN_ACAMARA if b["kind"] in ACAMARA
               else MIN_GRAPHIC if b["kind"] in GRAPHIC else MIN_BEAT)
-        b["dur"] = round(max(fl, prop_in[i + 1] - prop_in[i]), 3)
+        nxt = max(prop_in[i + 1], starts[i] + fl)
+        b["dur"] = round(nxt - starts[i], 3)
+        starts.append(nxt)
         refit += 1
 
     resolve(ep, beats)

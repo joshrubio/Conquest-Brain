@@ -411,13 +411,14 @@ def restore(slug, file):
     return tl
 
 
-def resync(slug):
+def resync(slug, keep_edits=True):
     """«Re-sincronizar tras regrabar» — 3-way merge onto the new VO: dur_edited
-    beats keep their duration, the rest are re-fitted. Backs the line up first."""
+    beats keep their duration, the rest are re-fitted. `keep_edits=False` re-anchors
+    every beat to the voice. Backs the line up first."""
     _backup(slug, "resync")
     f = A.EP_DIR / slug / "09-timeline.json"
     with contextlib.redirect_stdout(io.StringIO()):
-        summary = A.resync_timeline(slug)
+        summary = A.resync_timeline(slug, keep_edits=bool(keep_edits))
     tl = json.loads(f.read_text(encoding="utf-8"))
     tl["note"] = summary["note"]
     return tl

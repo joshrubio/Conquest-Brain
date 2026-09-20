@@ -593,6 +593,33 @@ def parse_music():
     return out
 
 
+def _picks_seed(slug):
+    """07-picks.txt as the page's own state: {picks:[card keys], bcust:{beat: path}, ai:{id: path},
+    music:[track keys]}. The page keeps its state in the BROWSER's localStorage; a browser that never
+    saw this episode would show an empty pass, and «Guardar» rewrites 07-picks.txt from what is
+    ticked on screen — silently dropping every earlier choice."""
+    seed = {"picks": [], "bcust": {}, "ai": {}, "music": []}
+    pf = EP_DIR / slug / PICKS_F
+    if not pf.exists():
+        return seed
+    for ln in pf.read_text(encoding="utf-8").splitlines():
+        ln = ln.strip()
+        parts = ln.split("\t")
+        if not ln or ln.startswith("#") or len(parts) < 3:
+            continue
+        beat, key, url = parts[0], parts[1], parts[2].strip().strip('"').strip("'")
+        if beat.lower() == "music":
+            if not key.startswith("custom:"):
+                seed["music"].append(key)
+        elif key.startswith("custom:"):
+            seed["bcust"][beat] = url
+        elif key.startswith("ai:"):
+            seed["ai"][key[3:]] = url
+        else:
+            seed["picks"].append(f"{beat}|{key}")            # beat|image: the same image can be offered in several beats
+    return seed
+
+
 def build_html(slug, groups, ai_prompts=("", []), music=None,
                timeline=None, graphics=None):
     import html as _h
@@ -796,6 +823,7 @@ def build_html(slug, groups, ai_prompts=("", []), music=None,
         oa.append('</section>')
         body += "\n" + "\n".join(oa)
     has_ai = "true" if prompts else "false"
+    seed_json = json.dumps(_picks_seed(slug), ensure_ascii=False).replace("</", "<\\/")
 
     return f"""<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -911,6 +939,18 @@ def build_html(slug, groups, ai_prompts=("", []), music=None,
 <script>
 const SLUG="{esc(slug)}", HAS_AI={has_ai};
 const LS="conquest-pass:"+SLUG, LSA=LS+":ai";
+// This page keeps its state in the browser. A browser that never opened this episode (another one, or
+// cleared data) would start EMPTY, and «Guardar» rewrites 07-picks.txt from what is ticked on screen —
+// wiping every earlier choice. So with no saved state, start from the server's 07-picks.txt.
+const SERVER_PICKS={seed_json};
+if(localStorage.getItem(LS)===null && localStorage.getItem(LS+':bcust')===null && localStorage.getItem(LSA)===null){{
+  try{{
+    localStorage.setItem(LS,JSON.stringify(SERVER_PICKS.picks));
+    localStorage.setItem(LS+':bcust',JSON.stringify(SERVER_PICKS.bcust));
+    localStorage.setItem(LSA,JSON.stringify(SERVER_PICKS.ai));
+    localStorage.setItem(LS+':music',JSON.stringify(SERVER_PICKS.music));
+  }}catch(e){{}}
+}}
 const cards=[...document.querySelectorAll('.card')];
 const bcust=[...document.querySelectorAll('.bcust')];
 const mtrk=[...document.querySelectorAll('.mtrk')];
@@ -922,7 +962,7 @@ function pk(c){{return c.querySelector('.pick')}}
 function bmap(){{const m={{}}; bcust.forEach(i=>{{const v=i.value.trim(); if(v)m[i.dataset.beat]=v}}); return m;}}
 function sync(){{
   const bm=bmap(), picks=[];
-  cards.forEach(c=>{{ if(pk(c)&&pk(c).checked)picks.push(c.dataset.key); }});
+  cards.forEach(c=>{{ if(pk(c)&&pk(c).checked)picks.push(c.dataset.beat+'|'+c.dataset.key); }});
   localStorage.setItem(LS,JSON.stringify(picks));
   localStorage.setItem(LS+':bcust',JSON.stringify(bm));
   const mus=mtrk.filter(t=>t.querySelector('.mtrack').checked).map(t=>t.dataset.key);
@@ -931,7 +971,7 @@ function sync(){{
     m:d.querySelector('.mometa').value.trim(), l:d.querySelector('.molic').value,
     g:d.querySelector('.mopage').value.trim()}}));
   localStorage.setItem(LS+':mown',JSON.stringify(mo));
-  const covered=new Set([...picks.map(k=>cards.find(c=>c.dataset.key===k).dataset.beat),
+  const covered=new Set([...picks.map(k=>k.split('|')[0]),
                          ...Object.keys(bm),
                          ...aip.filter(i=>i.value.trim()).map(i=>i.dataset.beats)]);
   cnt.textContent=covered.size+' / {total} beats'+(Object.keys(bm).length?(' ('+Object.keys(bm).length+' propios)'):'');
@@ -942,9 +982,23 @@ function syncA(){{
   localStorage.setItem(LSA,JSON.stringify(o));
   aicnt.textContent = aip.length ? ('  ·  '+Object.keys(o).length+' / '+aip.length+' IA') : '';
 }}
-const initP=new Set(jget(LS,[]));
+// The same image can be a candidate in several beats (E003: commons:199488 in beats 6, 17, 27, 31, 35), and
+// this page used to remember a pick by image alone — after a reload EVERY beat offering it came back
+// ticked, and the next «Guardar» silently gave each of them that image. Picks are now beat|image.
+// Old saved state (image only) is migrated: the server's exact choices first, else just the first card.
+const _srv=new Set(SERVER_PICKS.picks);
+const _raw=jget(LS,[]);
+const initP=new Set();
+_raw.forEach(k=>{{
+  k=String(k);
+  if(k.includes('|')){{initP.add(k);return;}}
+  const exact=cards.filter(c=>c.dataset.key===k && _srv.has(c.dataset.beat+'|'+k));
+  if(exact.length){{exact.forEach(c=>initP.add(c.dataset.beat+'|'+k));return;}}
+  const first=cards.find(c=>c.dataset.key===k);
+  if(first)initP.add(first.dataset.beat+'|'+k);
+}});
 cards.forEach(c=>{{
-  if(pk(c)&&initP.has(c.dataset.key))pk(c).checked=true;
+  if(pk(c)&&initP.has(c.dataset.beat+'|'+c.dataset.key))pk(c).checked=true;
   c.addEventListener('click',e=>{{
     if(e.target.closest('a,input'))return;
     const box=pk(c);
@@ -1423,6 +1477,10 @@ def _dl_music(key, url, mmeta):
     07-selection.md — brand/assets/music/ is a pool shared across episodes,
     so that's the only place that knows *this* episode picked *this* file."""
     MUSIC_DIR.mkdir(parents=True, exist_ok=True)
+    have = sorted(MUSIC_DIR.glob(f"{key.replace(':', '_')}_*"))
+    if have:                                           # a track already downloaded (this pool is shared)
+        print(f"  ya estaba  {have[0].name}  (música)")
+        return have[0].name, mmeta.get(key, {})
     data, _ = _fetch(url, "music")
     if data is None:
         print(f"  FALLO  música {key}  (sin descarga)")
@@ -1495,6 +1553,26 @@ def download(slug):
                 print(f"  AVISO  {url} es una página, no un archivo — "
                       f"añade la API key o pega el enlace directo / una ruta local")
 
+        if src == "custom" and not url.strip().lower().startswith(("http://", "https://")):
+            # the style pass stores a local pick relative to the EPISODE («assets/custom/x.png»); _fetch only
+            # looks in the repo root / cwd, so every such pick failed with «no existe la ruta» and was never
+            # downloaded or listed in 07-selection.md (E003: five own images)
+            _rel = url.strip().strip('"').strip("'")
+            for base_ in (ep, ROOT):
+                if (base_ / _rel).is_file():
+                    url = str(base_ / _rel)
+                    break
+        if src != "custom":
+            _safe = re.sub(r"[^A-Za-z0-9+-]", "", beat)
+            _cid = re.sub(r"[^A-Za-z0-9]", "", cid)[:14]
+            have = next((f for sub_ in ("video", "archive", "stock")
+                         for f in sorted((ep / "assets" / sub_).glob(f"beat{_safe}_{src}_{_cid}.*"))
+                         if f.stat().st_size > 0), None)
+            if have:                                   # already downloaded by an earlier --download
+                dim = "—" if have.suffix.lower() in (".mp4", ".mov", ".webm") else _dims(have.read_bytes(), have.suffix.lower())
+                print(f"  ya estaba  {have.name}  {dim}")
+                beat_rows.append((beat, f"{src}:{cid}", url, dim, f"assets/{have.parent.name}/{have.name}"))
+                continue
         data, final = _fetch(url, src)
         if data is None:
             print(f"  FALLO  {src}:{cid}  {final}")
@@ -1530,12 +1608,41 @@ def download(slug):
         credits.append(f"- {beat}: {src}:{cid} — {final if final.startswith('http') else '(archivo propio)'}")
 
     _write_selection(ep, slug, beat_rows, ai_rows, music_rows)
+    _report_uncovered(ep, slug)
     if credits:
         cf = ep / "assets" / "CREDITS.md"
         cf.parent.mkdir(parents=True, exist_ok=True)
         prev = cf.read_text(encoding="utf-8") if cf.exists() else "# Créditos de recursos\n"
-        cf.write_text(prev.rstrip() + "\n" + "\n".join(credits) + "\n", encoding="utf-8")
+        fresh = [c for c in dict.fromkeys(credits) if c not in prev]      # a re-run must not duplicate lines
+        if fresh:
+            cf.write_text(prev.rstrip() + "\n" + "\n".join(fresh) + "\n", encoding="utf-8")
         print(f"\ncréditos    → episodes/{slug}/assets/CREDITS.md")
+
+
+def _report_uncovered(ep, slug):
+    """After a download, say which shotlist beats still have no asset and WHY — at Stage 7, where it can
+    still be fixed, instead of the room's «sin asset» two stages later (E003: 5 own picks that were
+    never registered, and 3 beats that never got a row in 07-pull.tsv, so there were no candidates to
+    choose from). Non-blocking; also appended to 07-selection.md."""
+    try:
+        import assemble as A
+        beats = A.parse_spine((ep / "06-shotlist.md").read_text(encoding="utf-8"))
+        A.resolve(ep, beats)
+        rows = [r for r in A.uncovered_reasons(ep, beats)]
+    except Exception as ex:                       # never break a download over a report
+        print(f"  (no se pudo comprobar la cobertura: {ex})")
+        return
+    if not rows:
+        print("\ncobertura   todos los beats del shotlist tienen asset")
+        return
+    print(f"\nAVISO: {len(rows)} beat(s) del shotlist SIN asset tras este pase:")
+    lines = ["", "## Beats sin asset tras el pase", ""]
+    for bid, asset, why in rows:
+        print(f"  {bid:<5} «{asset}» — {why}")
+        lines.append(f"- {bid} «{asset}» — {why}")
+    sel = ep / "07-selection.md"
+    if sel.exists():
+        sel.write_text(sel.read_text(encoding="utf-8").rstrip() + "\n" + "\n".join(lines) + "\n", encoding="utf-8")
 
 
 def _write_selection(ep, slug, beat_rows, ai_rows, music_rows=None):

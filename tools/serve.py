@@ -614,9 +614,12 @@ class H(BaseHTTPRequestHandler):
             txt = (data.get("payload") or {}).get("txt") or data.get("txt", "")
             if not txt:
                 return self._send(400, json.dumps({"error": "sin picks"}))
-            (epp / "07-picks.txt").write_text(txt, encoding="utf-8")
+            pk = epp / "07-picks.txt"
+            if pk.exists():                     # the page rewrites this file from what is ticked in THIS browser
+                (epp / "07-picks.previous.txt").write_bytes(pk.read_bytes())   # so keep the last version recoverable
+            pk.write_text(txt, encoding="utf-8")
             slug = P.read_status().get(ep, {}).get("slug") or ep
-            msg = _run(["pull_assets.py", slug, "--download"])
+            msg = _run(["pull_assets.py", slug, "--download"], timeout=900)
             _run(["dash.py"])
             return self._send(200, json.dumps({"ok": True,
                 "msg": "07-picks.txt guardado · " + (msg.splitlines()[-1] if msg else "descarga hecha")}))
