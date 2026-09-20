@@ -37,34 +37,13 @@ import sys
 from pathlib import Path
 
 
-@contextlib.contextmanager
-def keep_awake():
-    """Ask Windows not to idle-sleep while a long render runs (it's what killed
-    an overnight 4K master mid-bake). Released on exit / crash; does not stop a
-    manual sleep, a laptop lid close, or non-Windows hosts (no-op there)."""
-    ES_CONTINUOUS, ES_SYSTEM_REQUIRED = 0x80000000, 0x00000001
-    set_state = None
-    if sys.platform == "win32":
-        try:
-            import ctypes
-            set_state = ctypes.windll.kernel32.SetThreadExecutionState
-            set_state(ES_CONTINUOUS | ES_SYSTEM_REQUIRED)
-        except Exception:
-            set_state = None
-    try:
-        yield
-    finally:
-        if set_state is not None:
-            with contextlib.suppress(Exception):
-                set_state(ES_CONTINUOUS)
-
 try:
     sys.stdout.reconfigure(encoding="utf-8")
 except Exception:
     pass
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from mediabin import FFMPEG, FFPROBE  # noqa: E402
+from mediabin import FFMPEG, FFPROBE, keep_awake  # noqa: E402
 import pipeline as P  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -1541,15 +1520,15 @@ if __name__ == "__main__":
     elif "--resync" in a:             # 3-way merge a schema-2 line onto a re-recorded VO
         resync_timeline(slug)
     elif "--final" in a:
-        ensure_trimmed(slug)
-        build_timeline(slug)
-        with keep_awake():
+        with keep_awake():                # the whole thing: waiting for / running the 4K trim is
+            ensure_trimmed(slug)          # as long as the render and slept through 3 h once
+            build_timeline(slug)
             render(slug, "final", dry=dry)
     elif "--rough" in a:
-        ensure_trimmed(slug)
-        build_timeline(slug)
-        waveform(slug)
         with keep_awake():
+            ensure_trimmed(slug)
+            build_timeline(slug)
+            waveform(slug)
             render(slug, "proxy", dry=dry)
     elif "--wave" in a:               # refresh only 09-wave.b64 (+ proxies) — no timeline rebuild
         waveform(slug)

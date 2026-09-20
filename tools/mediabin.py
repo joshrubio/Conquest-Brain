@@ -8,7 +8,32 @@ in place of the bare "ffmpeg" / "ffprobe" strings in subprocess calls.
 
   pip install static-ffmpeg     # ffmpeg + ffprobe, no admin, no PATH edit
 """
+import contextlib
 import shutil
+import sys
+
+
+@contextlib.contextmanager
+def keep_awake():
+    """Ask Windows not to idle-sleep while a long job runs (it's what killed an overnight
+    4K master mid-bake, and stalled a 4K trim for 3 h). Released on exit / crash; does not
+    stop a manual sleep, a laptop lid close, or non-Windows hosts (no-op there).
+    SetThreadExecutionState is per-thread: hold it from the thread that waits for the job."""
+    ES_CONTINUOUS, ES_SYSTEM_REQUIRED = 0x80000000, 0x00000001
+    set_state = None
+    if sys.platform == "win32":
+        try:
+            import ctypes
+            set_state = ctypes.windll.kernel32.SetThreadExecutionState
+            set_state(ES_CONTINUOUS | ES_SYSTEM_REQUIRED)
+        except Exception:
+            set_state = None
+    try:
+        yield
+    finally:
+        if set_state is not None:
+            with contextlib.suppress(Exception):
+                set_state(ES_CONTINUOUS)
 
 
 def _resolve():

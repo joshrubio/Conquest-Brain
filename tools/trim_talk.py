@@ -65,7 +65,7 @@ except Exception:
     pass
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from mediabin import FFMPEG, FFPROBE  # noqa: E402
+from mediabin import FFMPEG, FFPROBE, keep_awake  # noqa: E402
 
 MIN_GAP = 0.45           # never cut a pause shorter than this, whatever --gap says
 FADE = 0.010             # audio fade at each join, seconds
@@ -1342,7 +1342,9 @@ if __name__ == "__main__":
 
     # ---- phase B: apply an approved cut list (+ any accepted pickups) ----
     if "--proxy" in a:
-        sys.exit(0 if video_proxy(take) else 1)
+        with keep_awake():                   # decodes the whole 4K original: minutes
+            ok = video_proxy(take)
+        sys.exit(0 if ok else 1)
 
     if "--map" in a:                     # (re)write 09-cuts-map.json from cuts.json — no audio, no render
         _w, _sp, _pk, _g, _cl, _t = _plan(take)
@@ -1360,7 +1362,8 @@ if __name__ == "__main__":
         out = take.with_suffix(".trimmed.mp4")
         _part(out).unlink(missing_ok=True)          # leftover of a killed render
         write_words_json(take, words, spans, pickups=pickups)
-        ok = render(take, spans, out, pickups=pickups, gate_db=gate_db)
+        with keep_awake():                   # tens of minutes of 4K: a 3 h idle-sleep stalled one
+            ok = render(take, spans, out, pickups=pickups, gate_db=gate_db)
         if ok:
             write_cuts_map(take, build_timeline(spans, pickups)[0])
             if _cuts_sig(take) == sig0:
