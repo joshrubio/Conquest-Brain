@@ -171,14 +171,19 @@ def add_sourcelog_stub(slug, label, claim):
     f = EP_DIR / slug / "03-source-log.csv"
     if not f.exists():
         return None
-    rows = list(csv.reader(io.StringIO(f.read_text(encoding="utf-8"))))
+    # Read/write the file as bytes-with-newline="" — csv.writer emits "\r\n" and Path.write_text()
+    # turns each "\n" of that into "\r\n" again ("\r\r\n"), which read_text() then splits into TWO
+    # lines: every blank row doubled on every call (E002's log hit 654 MB and one asset change
+    # spent nine minutes and 8 GB of RAM reading it). Collapse any such runs on the way in, so a
+    # log that is already corrupted heals itself instead of being read row by row.
+    raw = re.sub(rb"[\r\n]{2,}", b"\n", f.read_bytes()).strip(b"\r\n")
+    rows = [r for r in csv.reader(io.StringIO(raw.decode("utf-8"), newline="")) if r]
     ids = [r[0] for r in rows[1:] if r and re.match(r"S\d+", r[0])]
     nxt = f"S{max((int(x[1:]) for x in ids), default=0) + 1:02d}"
     new = [nxt, claim, "", "", "", "", "C", "", "", "", "PENDIENTE — rellenar",
            f"stub creado en la sala para «{label}» — completar fuente y derechos antes del render"]
-    buf = io.StringIO()
-    csv.writer(buf).writerows(rows + [new])
-    f.write_text(buf.getvalue(), encoding="utf-8")
+    with open(f, "w", newline="", encoding="utf-8") as fh:
+        csv.writer(fh, lineterminator="\n").writerows(rows + [new])
     return nxt
 
 

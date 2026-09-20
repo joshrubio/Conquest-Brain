@@ -58,6 +58,7 @@ def build(slug):
     rf = ep / "09-rough.mp4"
     has_rough = rf.exists() and rf.stat().st_size > 0
     has_vo = (ep / "09-vo.m4a").exists()
+    vo_ver = str((ep / "09-vo.m4a").stat().st_mtime_ns) if has_vo else ""
     e = _h.escape
     epid = slug[:4]
     # the live compositor plays the narrator take continuously (muted) as #face —
@@ -66,6 +67,32 @@ def build(slug):
     _af = next((b["file"] for b in data["beats"]
                 if b["kind"] in ("acamara", "a-cámara", "a-camara") and b.get("file")), "")
     take_src = "09-take.mp4" if (ep / "09-take.mp4").exists() else _af
+    # cuts are jumped live over the ORIGINAL take's proxy (trim_talk.py writes
+    # <take>.proxy.mp4 + 09-cuts-map.json in the same step as the room's audio),
+    # so no cut ever has to re-render the camera video. No map → the old plain
+    # proxy (episodes trimmed before this existed); map but proxy still being
+    # built → no video at all rather than a stale one that doesn't match the voice.
+    cuts_map, face_wait = None, False
+    _cm = ep / "09-cuts-map.json"
+    if _cm.exists():
+        try:
+            cuts_map = json.loads(_cm.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            cuts_map = None
+    if cuts_map and cuts_map.get("segs"):
+        if (ep / cuts_map.get("proxy", "")).is_file():
+            take_src = cuts_map["proxy"]
+        else:
+            take_src, face_wait = "", True
+    else:
+        cuts_map = None
+    face_extra = (' <b>Construyendo el proxy de cámara (unos minutos, una vez por toma): '
+                  'hasta entonces los beats a cámara no muestran vídeo.</b>') if face_wait else ''
+    try:                                   # audio cuts made in the room, each with its timestamp
+        import beat_ops as _bo
+        journal = _bo.journal_public(ep)
+    except Exception:
+        journal = {"done": [], "undone": []}
     _rev = next(iter(sorted(ep.glob("assets/*.review.html"))), None)
     review_href = f"http://localhost:8765/episodes/{slug}/assets/{_rev.name}" if _rev else ""
 
@@ -78,6 +105,10 @@ def build(slug):
         resync_avail = A.resync_available(slug)
     except Exception:
         resync_avail = False
+    try:
+        n_pend = len(A._pending_takes(ep))
+    except Exception:
+        n_pend = 0
     rough_running = (ep / "09-rough.progress").exists() and not (ep / "09-rough.done").exists()
     final_running = (ep / "09-final.progress").exists() and not (ep / "09-final.done").exists()
 
@@ -141,6 +172,11 @@ def build(slug):
  #fs{{font-size:.68rem;padding:.2rem .5rem;white-space:nowrap}}
  .resyncbar{{display:flex;align-items:center;gap:.8rem;padding:.5rem .9rem;
    background:#2a2410;border-bottom:1px solid var(--gold);color:var(--bone);font-size:.8rem}}
+ .resyncbar[hidden]{{display:none}}          /* our display:flex out-specifies the UA [hidden] rule */
+ .cutlog{{padding:.3rem .9rem;background:#211d0c;border-bottom:1px solid var(--line-2);font-size:.74rem;color:var(--bone)}}
+ .cutlog summary{{cursor:pointer}}
+ .cutlog ul{{margin:.35rem 0 .1rem 0;padding:0;max-height:8.5rem;overflow:auto}}
+ .cutlog li{{list-style:none;padding:.08rem 0}}
  .split{{display:inline-flex;align-items:stretch}}
  .split .btn:first-child{{border-top-right-radius:0;border-bottom-right-radius:0}}
  .split .caret{{border-top-left-radius:0;border-bottom-left-radius:0;border-left:0;
@@ -191,6 +227,12 @@ def build(slug):
  <span class="split" style="margin-left:auto"><button class="btn" id="doresync" data-tipr data-tip="La voz de la toma cambió (regrabaste o re-recortaste). Esto re-encaja cada beat a la voz nueva por su ancla de texto: los beats con duración fija que ajustaste a mano se conservan, el resto se re-ajusta, y el último cierra en el nuevo final. Se guarda un respaldo antes.">Re-sincronizar</button><button class="btn caret" id="doresync-bak" data-tipr data-tip="Respaldos de re-sincronizados anteriores — restaura la línea tal como estaba antes.">⌄</button></span>
 </div>''' if resync_avail else ''}
 
+<div class="resyncbar" id="pendbar"{'' if (n_pend or journal["done"]) else ' hidden'}>
+ <span id="pendtxt">✂ Hay cortes en cola: el audio y la cámara de la sala ya los reflejan (la cámara salta los cortes en vivo); la toma 4K se renderiza una sola vez al Finalizar.{face_extra}</span>
+ <span class="split" style="margin-left:auto"><button class="btn" id="docutundo" data-tipr data-tip="Deshace el último corte de audio hecho en la sala (cuts, audio y duración del beat), igual que Ctrl+Z. Si has hecho otros cambios después, deshazlos antes con Ctrl+Z.">↶ Deshacer último corte</button><button class="btn" id="dorender" data-tipr data-tip="Renderiza ya la toma recortada en segundo plano (varios minutos) en vez de esperar al Finalizar. Mientras corre no se pueden guardar cortes nuevos.">Renderizar ahora</button></span>
+</div>
+<div class="cutlog" id="cutlog" hidden></div>
+
 <div class="roughbar" id="roughbar"{'' if (rough_running or final_running) else ' hidden'}>
  <div class="rbfill" id="rbfill"></div>
  <span class="rblbl" id="rblbl">Renderizando…</span>
@@ -198,38 +240,42 @@ def build(slug):
 
 <div class="work">
  <section class="preview">
-  <div class="screen" id="screen">
-   {'<video id="vid" preload="auto" src="09-rough.mp4#t=0.01"></video>' if has_rough else ''}
-   <img id="still" alt="" hidden>
-   <video id="clip" playsinline preload="auto" hidden></video>
-   <video id="face" playsinline muted preload="auto" hidden {f'src="{e(take_src)}"' if take_src else ''}></video>
-   <audio id="vo" preload="auto" {'src="09-vo.m4a"' if has_vo else ''}></audio>
-   <audio id="bed" preload="auto" loop></audio>
-   <div class="frame" id="frame" hidden>
-    <div class="big" id="scrtc">0:00</div>
-    <div id="scrbeat">—</div>
-    <div id="scrrot" hidden></div>
+  <div class="preview-controls">
+   <div class="vowords" id="vowords" data-tip="Las palabras de la voz bajo el cabezal — solo referencia. La línea es dueña de su tiempo; para clavar un beat a una frase usa «fijar entrada aquí» en el inspector."></div>
+   <div class="mixrow" id="mixrow">
+    <span class="mixlbl">Mezcla</span>
+    <label class="mixctl">Voz <input type="range" id="mx-vo" min="-6" max="6" step="0.5"><span id="mx-vo-v" class="mixv"></span></label>
+    <label class="mixctl">Música <input type="range" id="mx-bed" min="-44" max="-10" step="1"><span id="mx-bed-v" class="mixv"></span></label>
+    <label class="mixctl">Ducking <input type="range" id="mx-duck" min="0" max="18" step="1"><span id="mx-duck-v" class="mixv"></span></label>
+    <button class="btn ghost sm" id="mx-reset" data-tip="Devuelve la mezcla a los valores por defecto: voz 0 dB, música −30 dB, ducking 8 dB.">↺ restablecer mezcla</button>
    </div>
-   <span class="tag" id="scrtag">en vivo · voz + toma / clip · sin Ken Burns · sin grade</span>
   </div>
-  <div class="transport">
-   <button class="play" id="play" aria-label="Reproducir">
-     <svg viewBox="0 0 16 16" id="playi"><path d="M4 2l10 6-10 6z"/></svg></button>
-   <span class="tc"><span id="tccur">0:00</span><span class="sep">/</span><span class="tot" id="tctot">0:00</span></span>
-   <span class="modeg" id="modeg">
-     <button class="on" data-mode="live">en vivo</button>
-     <button data-mode="rough" {'disabled' if not has_rough else ''}>corte renderizado</button>
-   </span>
-   <button class="btn ghost sm" id="fs" style="margin-left:.2rem" data-tip="Expande el reproductor a pantalla completa. En «corte renderizado» salen los controles del vídeo; en «en vivo» usa espacio para play/pausa y Esc para salir.">⛶ pantalla completa</button>
-   <span class="phint">rueda = scroll · Ctrl+rueda = zoom · espacio = play · arrastra un clip para reubicarlo</span>
-  </div>
-  <div class="vowords" id="vowords" data-tip="Las palabras de la voz bajo el cabezal — solo referencia. La línea es dueña de su tiempo; para clavar un beat a una frase usa «fijar entrada aquí» en el inspector."></div>
-  <div class="mixrow" id="mixrow">
-   <span class="mixlbl">Mezcla</span>
-   <label class="mixctl">Voz <input type="range" id="mx-vo" min="-6" max="6" step="0.5"><span id="mx-vo-v" class="mixv"></span></label>
-   <label class="mixctl">Música <input type="range" id="mx-bed" min="-44" max="-10" step="1"><span id="mx-bed-v" class="mixv"></span></label>
-   <label class="mixctl">Ducking <input type="range" id="mx-duck" min="0" max="18" step="1"><span id="mx-duck-v" class="mixv"></span></label>
-   <button class="btn ghost sm" id="mx-reset" data-tip="Devuelve la mezcla a los valores por defecto: voz 0 dB, música −30 dB, ducking 8 dB.">↺ restablecer mezcla</button>
+  <div class="preview-viewer">
+   <div class="screen" id="screen">
+    {'<video id="vid" preload="auto" src="09-rough.mp4#t=0.01"></video>' if has_rough else ''}
+    <img id="still" alt="" hidden>
+    <video id="clip" playsinline preload="auto" hidden></video>
+    <video id="face" playsinline muted preload="auto" hidden {f'src="{e(take_src)}"' if take_src else ''}></video>
+    <audio id="vo" preload="auto" {'src="09-vo.m4a"' if has_vo else ''}></audio>
+    <audio id="bed" preload="auto" loop></audio>
+    <div class="frame" id="frame" hidden>
+     <div class="big" id="scrtc">0:00</div>
+     <div id="scrbeat">—</div>
+     <div id="scrrot" hidden></div>
+    </div>
+    <span class="tag" id="scrtag">en vivo · voz + toma / clip · sin Ken Burns · sin grade</span>
+   </div>
+   <div class="transport">
+    <button class="play" id="play" aria-label="Reproducir">
+      <svg viewBox="0 0 16 16" id="playi"><path d="M4 2l10 6-10 6z"/></svg></button>
+    <span class="tc"><span id="tccur">0:00</span><span class="sep">/</span><span class="tot" id="tctot">0:00</span></span>
+    <span class="modeg" id="modeg">
+      <button class="on" data-mode="live">en vivo</button>
+      <button data-mode="rough" {'disabled' if not has_rough else ''}>corte renderizado</button>
+    </span>
+    <button class="btn ghost sm" id="fs" data-tip="Expande el reproductor a pantalla completa. En «corte renderizado» salen los controles del vídeo; en «en vivo» usa espacio para play/pausa y Esc para salir.">⛶ pantalla completa</button>
+    <span class="phint">rueda = scroll · Ctrl+rueda = zoom · espacio = play · arrastra un clip para reubicarlo</span>
+   </div>
   </div>
  </section>
  <aside class="inspector" id="inspector">
@@ -245,7 +291,7 @@ def build(slug):
   <div class="zoom"><span class="lbl" style="margin-right:.2rem">Zoom</span>
    <button id="zout" aria-label="Alejar">−</button><button id="zin" aria-label="Acercar">+</button>
    <button class="fit" id="zfit">ajustar</button></div>
-  <div class="undo"><button id="undo" aria-label="Deshacer" disabled data-tip="Deshace el último cambio (Ctrl+Z). Recorre una pila de la sesión — no sobrevive a recargar la página; el autoguardado ya deja el archivo al día. Re-sembrar y re-sincronizar no están en esta pila (cada uno guarda su propio respaldo).">↶</button><button id="redo" aria-label="Rehacer" disabled data-tip="Rehace lo último deshecho (Ctrl+Shift+Z).">↷</button></div>
+  <div class="undo"><button id="undo" aria-label="Deshacer" disabled data-tip="Deshace el último cambio (Ctrl+Z), también los cortes de audio en cola. Recorre una pila de la sesión — no sobrevive a recargar la página; el autoguardado ya deja el archivo al día. Re-sembrar y re-sincronizar no están en esta pila (cada uno guarda su propio respaldo).">↶</button><button id="redo" aria-label="Rehacer" disabled data-tip="Rehace lo último deshecho (Ctrl+Shift+Z).">↷</button></div>
   <span class="range" id="range">0:00 – 0:00</span>
   <button class="btn ghost sm" id="tidy" data-tip="Fusiona en su vecino cualquier beat por debajo del mínimo (2,8 s b-roll · 2,5 s a-cámara · 5 s gráfico). No toca los que estén por encima. Útil tras muchos cortes.">Ordenar sub-mínimos</button>
   <div class="legend">
@@ -268,6 +314,14 @@ def build(slug):
    <div class="lane mtrack" id="mtrack"><div class="mclip" id="music"><span class="mono" id="musicname"></span><span class="wv"></span></div></div>
    <div class="playhead" id="playhead"><span class="grab"></span></div>
    <div class="snapguide" id="snap"></div>
+   <div class="wavemark" id="wavemark"></div>
+   <div class="wavesel" id="wavesel"></div>
+   <div class="wavesel-tools" id="waveseltools">
+    <span class="info" id="wstinfo"></span>
+    <button class="btn ghost sm" id="wstprev" data-tip="Escucha el tramo seleccionado con el salto ya aplicado, antes de recortarlo de verdad.">▶</button>
+    <button class="btn sm" id="wstcut" data-tip="Recorta este tramo. Solo se acorta el beat que lo contiene; el resto de la línea se desliza. El recorte real corre en segundo plano, pero se oye al momento.">✂ cortar</button>
+    <button class="btn ghost sm" id="wstcancel">✕</button>
+   </div>
   </div>
  </div>
 </section>
@@ -290,6 +344,10 @@ const TL = {payload};
 const ASSETS = {assets_js};
 const WORDS = {words_js};
 const WAVE = {json.dumps(wave)};
+// where each stretch of the (collapsed) clock lives on the face proxy, which is
+// the ORIGINAL take: [t0, src, len, hold]. null → the face proxy is on our clock.
+let CMAP = {json.dumps(cuts_map["segs"]) if cuts_map else "null"};
+let VO_VER = {json.dumps(vo_ver)};        // version (mtime) of the 09-vo.m4a this page loaded — see syncVo()
 const EPID = {json.dumps(epid)}, SLUG = {json.dumps(slug)};
 const SECN = {{"cold open":"COLD OPEN","bumper":"BUMPER","pivote":"PIVOTE","contexto":"CONTEXTO",
  "explicador":"EXPLICADOR","teorías":"TEORÍAS","teorias":"TEORÍAS","cierre":"CIERRE","cta":"CTA"}};
@@ -300,7 +358,24 @@ const KVAR = {{archivo:"--k-archive",stock:"--k-stock",kb:"--k-kb",ia:"--k-ai","
 const MOTIONS=[["push","empuje"],["pan-h","paneo H"],["pan-v","paneo V"],["static","estático"],["zoom","zoom a detalle"],["cut","clip (sin move)"]];
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let B = TL.beats;
+const FACE_WAIT = {"true" if face_wait else "false"};
 let TOTAL = TL.total;
+// a red tick on the voice lane at every jump — where the player skips a cut.
+// Positioned in % of the lane, so it follows zoom with no re-layout hook.
+function drawCutMarks(){{
+  document.querySelectorAll(".lane.wave .cutmk").forEach(n=>n.remove());
+  if(!CMAP) return;
+  const lane=document.querySelector(".lane.wave"); if(!lane) return;
+  for(let i=1;i<CMAP.length;i++){{
+    const a=CMAP[i-1], g=CMAP[i], gap=g[1]-(a[1]+a[2]);
+    if(g[3]||a[3]||gap<=0.001) continue;
+    const m=document.createElement("i");
+    m.className="cutmk"; m.style.left=(g[0]/Math.max(TL.total,1)*100)+"%";
+    m.title="✂ corte · quita "+gap.toFixed(2)+"s";
+    lane.appendChild(m);
+  }}
+}}
+drawCutMarks();
 const fmt = s=>{{s=Math.max(0,Math.round(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}};
 const secname = s=>SECN[s]|| (s||"").toUpperCase();
 // schema 2: the beat id is the stable key; the number shown is just its position
@@ -319,6 +394,13 @@ function deriveLocal(){{
   TL.total = TOTAL;
 }}
 let PPS=5, sel=null, playing=false, cur=0, raf=0, lastT=0;
+// audio micro-trims: ranges already committed (cuts.json appended, render
+// queued) but not yet baked into #vo's actual file — in THAT file's own
+// clock, captured verbatim at cut time, so later edits elsewhere can't
+// desync them. Skipping live here is what makes a cut audible instantly.
+let _liveSkips=[];
+// the NOT-yet-committed candidate selection, for the "▶ previsualizar" audition
+let _previewSkip=null;
 let _mmW=0, _playEl=null, _lastTc="";      // per-frame caches (see placePlayhead)
 const vid = $("#vid"), still=$("#still"), clip=$("#clip"), face=$("#face"), vo=$("#vo"), bed=$("#bed");
 const inner=$("#inner"), vtrack=$("#vtrack"), ruler=$("#ruler"), bands=$("#bands"), scroll=$("#scroll");
@@ -363,12 +445,39 @@ applyMix();
 let shownBeat=-1, clipSrc="", lastFaceSync=0;
 const AC=new Set(["acamara","a-cámara","a-camara"]);
 function assetURL(f){{ return f ? (f.startsWith("assets/")? f : "assets/"+f) : ""; }}
-function syncFace(hard){{
-  // #face plays the narrator take start→end alongside #vo (muted); keep it near
-  // the master clock without a cold seek on every beat.
+// clock → face-proxy time. The proxy is the uncut original, so a cut is just a
+// jump in this mapping: no per-frame work, one binary search when a join is crossed.
+function segAt(t){{
+  let lo=0, hi=CMAP.length-1;
+  while(lo<hi){{ const m=(lo+hi+1)>>1; if(CMAP[m][0]<=t) lo=m; else hi=m-1; }}
+  return lo;
+}}
+function faceT(t){{
+  if(!CMAP) return t;
+  const g=CMAP[segAt(t)];
+  return g[3] ? g[1] : g[1]+Math.min(g[2],Math.max(0,t-g[0]));
+}}
+let _faceSeg=-1;
+function faceSeek(){{
   if(!face.getAttribute("src")) return;
-  const d=Math.abs(face.currentTime-cur);
-  if(hard || d>1.2){{ try{{face.currentTime=cur;}}catch(e){{}} lastFaceSync=cur; }}
+  try{{ face.currentTime=faceT(cur); }}catch(e){{}}
+  if(CMAP) _faceSeg=segAt(cur);
+}}
+function syncFace(hard){{
+  // #face plays the narrator take alongside #vo (muted); keep it on the master clock
+  // without a cold seek on every beat.
+  if(!face.getAttribute("src")) return;
+  if(CMAP){{
+    const i=segAt(cur), g=CMAP[i];
+    // a join was crossed (or a hard sync) → land exactly on the far side of the cut;
+    // inside a stretch only correct real drift (native playback is already 1:1).
+    if(hard || i!==_faceSeg){{ _faceSeg=i; try{{face.currentTime=faceT(cur);}}catch(e){{}} lastFaceSync=cur; }}
+    else if(!g[3] && Math.abs(face.currentTime-faceT(cur))>0.25){{ try{{face.currentTime=faceT(cur);}}catch(e){{}} }}
+    if(g[3]){{ if(!face.paused) face.pause(); return; }}   // a pickup: frozen frame
+  }} else {{
+    const d=Math.abs(face.currentTime-cur);
+    if(hard || d>1.2){{ try{{face.currentTime=cur;}}catch(e){{}} lastFaceSync=cur; }}
+  }}
   if(playing && face.paused) face.play().catch(()=>{{}});
 }}
 function updateScreen(force){{
@@ -401,7 +510,7 @@ function updateScreen(force){{
     if(!face.getAttribute("src")){{           // no take / no proxy → labelled frame
       face.hidden=true; still.hidden=true; clip.hidden=true; clip.pause();
       $("#frame").hidden=false; $("#scrrot").hidden=true;
-      $("#scrbeat").textContent="beat "+disp(b)+" · a cámara (sin toma)";
+      $("#scrbeat").textContent="beat "+disp(b)+(FACE_WAIT?" · a cámara (construyendo el proxy de cámara…)":" · a cámara (sin toma)");
       return;
     }}
     syncFace(true); face.hidden=false; still.hidden=true; clip.hidden=true; clip.pause();
@@ -520,7 +629,7 @@ function drawMinimap(){{
 function placePlayhead(){{
   const ph=$("#playhead");
   ph.style.left=(cur*PPS)+"px";
-  if(!ph.style.height) ph.style.height=(20+2+20+2+40+6+66+30)+"px";
+  if(!ph.style.height) ph.style.height=(224+30)+"px";       // mtrack's bottom edge — keep in sync with .theme's lane tops
   const tc=fmt(cur);
   if(tc!==_lastTc){{ $("#tccur").textContent=tc; $("#scrtc").textContent=tc; _lastTc=tc; }}
   const b=B.find(x=>cur>=x.in&&cur<x.out)||B[B.length-1];
@@ -551,6 +660,11 @@ function loop(ts){{
   }}
   else if(MODE==="live" && !vo.paused){{ cur=vo.currentTime; }}
   else {{ if(!lastT)lastT=ts; cur+=(ts-lastT)/1000; lastT=ts; }}
+  if(MODE==="live"){{
+    const ranges=_previewSkip?_liveSkips.concat([_previewSkip]):_liveSkips;
+    const hit=ranges.length && ranges.find(r=>cur>=r.t0&&cur<r.t1);
+    if(hit){{ cur=hit.t1; try{{vo.currentTime=cur;}}catch(e){{}} faceSeek(); }}
+  }}
   if(cur>=TOTAL){{cur=TOTAL;setPlaying(false);}}
   // music bed: only between music.in and music.out (nothing over the CTA coda)
   if(bed && bed.src && MODE==="live"){{
@@ -571,7 +685,7 @@ function setPlaying(p){{
   else if(MODE==="rough" && vid){{ vid.currentTime=cur; vid.play().catch(()=>{{}}); }}
   else {{
     vo.currentTime=cur; vo.play().catch(()=>{{}});
-    if(face.getAttribute("src")){{ try{{face.currentTime=cur;}}catch(e){{}} face.play().catch(()=>{{}}); }}
+    if(face.getAttribute("src")){{ faceSeek(); face.play().catch(()=>{{}}); }}
     if(bed && bed.src && cur>(TL.music.in||0) && cur<(TL.music.out||1e9)) bed.play().catch(()=>{{}});
   }}
   updateScreen(true);
@@ -588,14 +702,22 @@ document.addEventListener("visibilitychange",()=>{{
 function seekTo(t){{
   cur=Math.max(0,Math.min(TOTAL,t));
   if(MODE==="rough" && vid){{ try{{vid.currentTime=cur;}}catch(e){{}} }}
-  else {{ try{{vo.currentTime=cur;}}catch(e){{}} if(face.getAttribute("src")){{try{{face.currentTime=cur;}}catch(e){{}}}} }}
+  else {{ try{{vo.currentTime=cur;}}catch(e){{}} faceSeek(); }}
   updateScreen(true); placePlayhead();
 }}
 $("#play").onclick=()=>setPlaying(!playing);
 addEventListener("keydown",e=>{{if(e.code==="Space"&&e.target.tagName!=="TEXTAREA"&&e.target.tagName!=="SELECT"){{e.preventDefault();setPlaying(!playing);}}}});
 
 scroll.addEventListener("pointerdown",e=>{{
+  if(e.button!==0)return;                   // right-click on the wave lane marks a point, not a seek
   if(e.target.closest(".clip")||e.target.closest(".mclip")||e.target.closest(".playhead"))return;
+  // dragging/clicking the native horizontal scrollbar lands with target===scroll
+  // and a y at/below clientHeight (which excludes the scrollbar strip itself) —
+  // that's browsing ahead while playing, not a seek, so don't pause or jump.
+  if(e.target===scroll){{
+    const rect=scroll.getBoundingClientRect();
+    if((e.clientY-rect.top)>=scroll.clientHeight) return;
+  }}
   const r=inner.getBoundingClientRect();
   setPlaying(false); seekTo((e.clientX-r.left)/PPS);
 }});
@@ -606,6 +728,70 @@ $("#playhead .grab").addEventListener("pointerdown",e=>{{
   const up=()=>{{removeEventListener("pointermove",mv);removeEventListener("pointerup",up);}};
   addEventListener("pointermove",mv);addEventListener("pointerup",up);
 }});
+
+/* audio micro-trims: two right-clicks on the "voz — pista fija" waveform mark
+   the start and end of a range — no snapping, raw click position, so you can
+   place a fragment as small as the zoom level resolves (word-boundary snap
+   used to silently impose its own minimum, and whisper mislabels breath
+   sounds as part of the nearest word anyway — see the E002 breath-sound case).
+   Left click/drag still just seeks, anywhere including the wave lane, so you
+   can scrub the rest of the line to hear how the audio flows without losing
+   the pair of points you've already placed. A 3rd right-click after a
+   complete pair starts a fresh selection rather than adjusting the old one. */
+let _wpt=null, _wsel=null;                  // _wpt: first point waiting for its pair; _wsel: {{t0,t1,beat}}
+function wsRender(){{
+  const mark=$("#wavemark"), box=$("#wavesel"), tools=$("#waveseltools"), info=$("#wstinfo");
+  mark.style.display = (_wpt!=null) ? "block" : "none";
+  if(_wpt!=null) mark.style.left=(_wpt*PPS)+"px";
+  if(!_wsel){{ box.style.display="none"; tools.style.display="none"; return; }}
+  const {{t0,t1,beat}}=_wsel;
+  box.style.display="block"; box.style.left=(t0*PPS)+"px"; box.style.width=Math.max(1,(t1-t0)*PPS)+"px";
+  tools.style.display="flex"; tools.style.left=((t0+t1)/2*PPS)+"px";
+  const d=t1-t0, floor=beat?FLOOR(beat):0, ok=beat && (beat.dur-d)>=floor;
+  box.classList.toggle("invalid",!ok); tools.classList.toggle("invalid",!ok); info.classList.toggle("invalid",!ok);
+  info.textContent = !beat ? "⚠ el tramo cruza más de un beat — marca los dos puntos dentro de uno solo"
+    : !ok ? "⚠ "+d.toFixed(2)+"s dejaría el beat en "+(beat.dur-d).toFixed(2)+"s — por debajo del mínimo ("+floor+"s)"
+    : d.toFixed(2)+"s · beat "+disp(beat);
+  $("#wstcut").disabled=!ok;
+}}
+function wsClear(){{ _wpt=null; _wsel=null; _previewSkip=null; wsRender(); }}
+if($("#waveimg")){{
+  document.querySelector(".lane.wave").addEventListener("contextmenu",e=>{{
+    e.preventDefault();
+    const r=inner.getBoundingClientRect();
+    const t=Math.max(0,Math.min(TOTAL,(e.clientX-r.left)/PPS));
+    if(_wsel){{ _wsel=null; _wpt=t; }}                    // 3rd click after a full pair: start over
+    else if(_wpt==null){{ _wpt=t; }}
+    else {{
+      const t0=Math.min(_wpt,t), t1=Math.max(_wpt+0.01,Math.max(_wpt,t));
+      _wsel={{t0,t1,beat:B.find(b=>t0>=b.in-1e-6 && t1<=b.out+1e-6)||null}};
+      _previewSkip={{t0,t1}};                             // any playback now skips it live, not just «previsualizar»
+      _wpt=null;
+      if(_wsel.beat) select(_wsel.beat.id, true);
+    }}
+    wsRender();
+  }});
+  $("#wstcancel").addEventListener("click",wsClear);
+  $("#wstprev").addEventListener("click",()=>{{
+    if(!_wsel) return;
+    setPlaying(false); seekTo(Math.max(0,_wsel.t0-0.5)); setPlaying(true);
+  }});
+  $("#wstcut").addEventListener("click",async ()=>{{
+    if(!_wsel || !_wsel.beat) return;
+    const {{t0,t1,beat}}=_wsel;
+    if(!confirm("¿Cortar "+(t1-t0).toFixed(2)+"s de este beat? Se oye al momento; el recorte real corre en segundo plano.")) return;
+    $("#wstcut").disabled=true;
+    const j=await beatOp({{action:"audiocut",id:beat.id,t0:t0,t1:t1}});
+    if(j){{
+      _liveSkips.push({{t0,t1}});
+      if(j.cut){{                                       // its own undo point: Ctrl+Z reverses the cut for real
+        undoStack.push({{cut:j.cut.id, skip:{{t0,t1}}}}); if(undoStack.length>UMAX) undoStack.shift();
+        redoStack.length=0; refreshUndoUI(); renderCutLog(j.journal);
+      }}
+    }}
+    wsClear();
+  }});
+}}
 scroll.addEventListener("scroll",updRange);
 
 /* wheel: scroll / zoom-at-cursor / fast-scroll */
@@ -645,9 +831,13 @@ function dragClip(el,b){{
       if(!moved){{ select(b.id); return; }}
       pushUndo(true);
       const cx=(parseFloat(el.style.left)+el.offsetWidth/2)/PPS;         // drop centre, s
-      const others=B.filter(x=>x!==b);
+      // by id, not by reference: a save that lands mid-drag hands out fresh beat
+      // objects (Object.assign(TL,j.timeline)) and this closure's `b` goes stale —
+      // filtering by identity would then miss it and duplicate it in the new slot
+      const others=B.filter(x=>x.id!==b.id);
+      const moved=byId(b.id)||b;                      // prefer the live object over a stale closure
       let i=others.findIndex(x=>((x.in+x.out)/2)>cx); if(i<0) i=others.length;
-      B = others.slice(0,i).concat([b], others.slice(i));
+      B = others.slice(0,i).concat([moved], others.slice(i));
       TL.beats = B;
       deriveLocal();
       toast('beat <span class="mono">'+disp(b)+'</span> → nueva posición · guardando…',2500);
@@ -713,8 +903,11 @@ function assetOpts(b){{
 }}
 async function _dispatch(path, body, msgSel){{
   const msg = msgSel && $(msgSel); if(msg){{msg.hidden=false;msg.textContent='aplicando… (puede tardar)';}}
-  // structural + asset edits are undoable; re-seed / re-sync / restore aren't (they back themselves up)
-  if(!["reseed","resync","restore"].includes(body.action)) pushUndo(true);
+  // structural + asset edits are undoable; re-seed / re-sync / restore aren't (they back themselves up).
+  // audiocut / cutundo / cutredo aren't pushed as a beats snapshot either: a cut isn't only
+  // the beat's dur (it's cuts.json + audio + words too), so it goes on the stack as its own
+  // {{cut}} entry (see undo()), which reverses all of it server-side.
+  if(!["reseed","resync","restore","audiocut","cutundo","cutredo"].includes(body.action)) pushUndo(true);
   try{{
     const r=await fetch(path,{{method:"POST",headers:{{"content-type":"application/json"}},
       body:JSON.stringify(Object.assign({{ep:EPID,slug:SLUG,timeline:TL}},body))}});
@@ -757,6 +950,7 @@ function select(id, quiet){{
   const b=sel, ins=$("#inspbody");
   const showMotion = b.kind!=="negro";
   const durTxt = b.dur.toFixed(1)+'s'+(b.dur_edited?' · editada':'');
+  _previewSkip=null;
   ins.innerHTML =
    '<div class="insp-head"><span class="n">'+disp(b)+'</span>'+
      '<h3>'+esc(anchorOf(b).slice(0,50)||"beat "+disp(b))+'</h3></div>'+
@@ -775,6 +969,7 @@ function select(id, quiet){{
          '<input type="file" id="i-afile" accept="image/*,video/*" hidden></div>'+
        '<div class="notebox" id="i-amsg" hidden></div></div>')
     : '<div class="field"><span class="lbl">Asset</span><div class="notebox muted">este beat es «'+(KLAB[b.kind]||b.kind)+'» — no lleva asset que cambiar</div></div>')+
+   (MODE==="live"?'<div class="field" style="font-size:.66rem;color:var(--faint)">✂ recorte de audio — clic derecho dos veces sobre la onda «voz — pista fija» (abajo) para marcar el inicio y el final del tramo a recortar.</div>':"")+
    '<div class="field" style="display:flex;gap:.7rem">'+
      '<div style="flex:1" data-tip="La medida del beat en segundos. Cambiarla desplaza todo lo que viene después (ripple); la voz no se mueve. Ningún vecino pierde tiempo. El último beat siempre cierra al final de la voz.">'+
        '<span class="lbl">Duración</span><div class="stepper">'+
@@ -890,9 +1085,107 @@ function _restore(s){{
   markDirty();                                          // persist the restored state
   refreshUndoUI();
 }}
-function undo(){{ if(!undoStack.length) return; redoStack.push(_snap()); _restore(undoStack.pop()); toast("deshecho",1200); }}
-function redo(){{ if(!redoStack.length) return; undoStack.push(_snap()); _restore(redoStack.pop()); toast("rehecho",1200); }}
+// An audio cut is an object entry {{cut:id, skip:{{t0,t1}}}} on the same stacks: undoing it asks the
+// server to reverse the cut for real (cuts.json + the beat's dur + words/audio/map), then reloads the
+// timeline it returns. Everything else stays a beats snapshot. LIFO on both sides, so they can't cross.
+let JOURNAL = {json.dumps(journal)};
+const PEND0 = {"true" if n_pend else "false"};
+let _cutBusy=false;
+const _hhmmss=ts=>String(ts||"").slice(11,19);
+function renderCutLog(j){{
+  if(j) JOURNAL=j;
+  const d=JOURNAL.done||[], bar=$("#pendbar"), log=$("#cutlog");
+  if(bar) bar.hidden=!(PEND0||d.length);
+  const ub=$("#docutundo"); if(ub) ub.disabled=!d.length||_cutBusy;
+  if(!log) return;
+  if(!d.length){{ log.hidden=true; log.innerHTML=""; return; }}
+  log.hidden=false;
+  log.innerHTML='<details><summary>✂ '+d.length+' corte'+(d.length>1?'s':'')+' de sala en cola · el último a las <span class="mono">'+
+    _hhmmss(d[d.length-1].ts)+'</span> (beat '+esc(d[d.length-1].beat)+', −'+d[d.length-1].delta.toFixed(2)+'s)</summary><ul>'+
+    d.slice().reverse().map(e=>'<li><span class="mono">'+_hhmmss(e.ts)+'</span> · beat '+esc(e.beat)+' · −'+e.delta.toFixed(2)+
+      ' s · en '+fmt(e.t0)+'–'+fmt(e.t1)+'</li>').join('')+'</ul></details>';
+}}
+async function _cutStep(action, doing){{
+  _cutBusy=true; renderCutLog(); toast(doing,30000);
+  try{{ return await beatOp({{action:action}}); }} finally{{ _cutBusy=false; renderCutLog(); }}
+}}
+async function undo(){{
+  if(_cutBusy||!undoStack.length) return;
+  const top=undoStack[undoStack.length-1];
+  if(typeof top==="object"){{
+    const j=await _cutStep("cutundo","deshaciendo el corte… (~30 s: se regenera el audio)");
+    if(!j) return;                                       // refused: leave both stacks as they were
+    undoStack.pop(); redoStack.push(top);
+    _liveSkips=_liveSkips.filter(r=>!(r.t0===top.skip.t0&&r.t1===top.skip.t1));
+    renderCutLog(j.journal); refreshUndoUI(); return;
+  }}
+  redoStack.push(_snap()); _restore(undoStack.pop()); toast("deshecho",1200);
+}}
+async function redo(){{
+  if(_cutBusy||!redoStack.length) return;
+  const top=redoStack[redoStack.length-1];
+  if(typeof top==="object"){{
+    const j=await _cutStep("cutredo","rehaciendo el corte… (~30 s)");
+    if(!j) return;
+    redoStack.pop(); undoStack.push(top); _liveSkips.push(top.skip);
+    renderCutLog(j.journal); refreshUndoUI(); return;
+  }}
+  undoStack.push(_snap()); _restore(redoStack.pop()); toast("rehecho",1200);
+}}
+// banner button: same as Ctrl+Z when that cut is on top of the stack; after a reload (no stack) it
+// undoes the newest cut on the server. If other edits sit above it on the stack, they must go first —
+// undoing under them would let a later Ctrl+Z put the shrunk beat back with no cut behind it.
+$("#docutundo")?.addEventListener("click",async()=>{{
+  const d=JOURNAL.done||[]; if(!d.length||_cutBusy) return;
+  const id=d[d.length-1].id, k=undoStack.findIndex(x=>typeof x==="object"&&x.cut===id);
+  if(k>=0 && k!==undoStack.length-1){{ toast("hay cambios posteriores a ese corte: deshazlos antes con Ctrl+Z",4500); return; }}
+  if(k>=0) return undo();
+  if($("#save").classList.contains("dirty")) await saveTL();
+  const j=await _cutStep("cutundo","deshaciendo el corte… (~30 s: se regenera el audio)");
+  if(j) renderCutLog(j.journal);
+}});
+renderCutLog();
 $("#undo").onclick=undo; $("#redo").onclick=redo;
+
+/* ---- keep #vo on the file the server has NOW ----
+   After a cut (or a hard render) the server replaces 09-vo.m4a on disk. An <audio> that already
+   loaded part of the old file dies on its next range request (the total size changed) and stays
+   silent until the page is reloaded. So we swap the source ourselves, once the server says its
+   refresh is done: playback position mapped from the old file's clock to the new one (the new file
+   has the cuts baked in, so the live skips go away), face map + cut marks reloaded. */
+let _voSyncing=false, _voErrN=0, _voErrT=0;
+function _oldToNew(t){{
+  let d=0;
+  for(const r of _liveSkips){{ if(t>=r.t1) d+=r.t1-r.t0; else if(t>r.t0) d+=t-r.t0; }}
+  return Math.max(0,t-d);
+}}
+async function syncVo(force){{
+  if(_voSyncing || !VO_VER && !force) return false;
+  _voSyncing=true;
+  try{{
+    const st=await (await fetch("/vo-version?ep="+EPID,{{cache:"no-store"}})).json();
+    if(st.running || !st.ver) return false;                  // refresh still in flight — try again later
+    if(!force && st.ver===VO_VER) return true;
+    if(playing && !force) return false;                      // never yank the audio mid-playback
+    const curNew=Math.min(TOTAL,_oldToNew(cur));
+    const m=await fetch("09-cuts-map.json?v="+st.ver,{{cache:"no-store"}}).then(r=>r.ok?r.json():null).catch(()=>null);
+    if(m && m.segs) CMAP=m.segs;
+    _liveSkips=[];
+    vo.src="09-vo.m4a?v="+st.ver; vo.load();
+    await new Promise(res=>{{ vo.addEventListener("loadedmetadata",res,{{once:true}}); setTimeout(res,8000); }});
+    cur=curNew; try{{vo.currentTime=cur;}}catch(e){{}}
+    VO_VER=st.ver; _faceSeg=-1; faceSeek(); drawCutMarks(); updateScreen(true); placePlayhead();
+    if(playing) vo.play().catch(()=>{{}});
+    return true;
+  }}catch(e){{ return false; }}
+  finally{{ _voSyncing=false; }}
+}}
+setInterval(()=>{{ syncVo(); }},3000);
+vo.addEventListener("error",()=>{{                          // e.g. the file changed under an old range request
+  const n=Date.now(); if(n-_voErrT>30000){{ _voErrT=n; _voErrN=0; }}
+  if(++_voErrN<=3) syncVo(true);
+}});
+syncVo();
 addEventListener("keydown",e=>{{
   const t=e.target.tagName;
   if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT") return;   // let the field's own undo work
@@ -902,16 +1195,20 @@ addEventListener("keydown",e=>{{
 }});
 
 /* ---- save: authored beats persist via /tl-save; the server re-derives ---- */
-let saveT=0, saving=false;
-function markDirty(){{ const s=$("#save"); s.textContent="Guardar •"; s.classList.add("dirty");
+let saveT=0, saving=false, _ver=0;
+function markDirty(){{ _ver++; const s=$("#save"); s.textContent="Guardar •"; s.classList.add("dirty");
   clearTimeout(saveT); saveT=setTimeout(saveTL,900); }}
 async function saveTL(){{
   clearTimeout(saveT); if(saving)return; saving=true;
+  const myVer=_ver;
   const s=$("#save"); s.textContent="Guardando…";
   try{{
     TL.beats=B;
     const j=await post("/tl-save",{{ep:EPID,slug:SLUG,timeline:TL}});
-    if(j && j.timeline && j.timeline.beats){{
+    // if an undo/redo/edit happened while this request was in flight, the
+    // response describes a state we've already moved past — applying it would
+    // silently revert that later change (e.g. redo a just-undone edit)
+    if(j && j.timeline && j.timeline.beats && myVer===_ver){{
       const selId = sel && sel.id;
       Object.assign(TL,j.timeline); B=TL.beats; TOTAL=TL.total||TOTAL; if(typeof applyMix==="function")applyMix();
       $("#tctot").textContent=fmt(TOTAL); status(); layout();
@@ -920,6 +1217,7 @@ async function saveTL(){{
     s.textContent="Guardado ✓"; s.classList.remove("dirty");
   }}catch(e){{ s.textContent="⚠ sin guardar"; }}
   saving=false;
+  if(myVer!==_ver){{ s.textContent="Guardar •"; s.classList.add("dirty"); clearTimeout(saveT); saveT=setTimeout(saveTL,300); }}
 }}
 $("#save").onclick=saveTL;
 addEventListener("beforeunload",e=>{{ if($("#save").classList.contains("dirty")){{ e.preventDefault(); e.returnValue=""; }} }});
@@ -1111,6 +1409,11 @@ $("#reseed").onclick=async()=>{{
   toast("re-sembrando desde la espina…",4000);
   await beatOp({{action:"reseed",confirm:true}},null);
 }};
+$("#dorender")?.addEventListener("click",async()=>{{
+  if(!confirm("Renderizar ahora la toma recortada con todos los cortes en cola.\\n\\nTarda varios minutos y, mientras corre, no se pueden guardar cortes nuevos. Si prefieres, se hace sola al Finalizar. ¿Seguir?")) return;
+  try{{ const j=await post("/trim-render",{{ep:EPID,slug:SLUG}}); toast(j.msg||"ok",6000); }}
+  catch(e){{ toast("no se pudo lanzar el render: "+(e.message||e),6000); }}
+}});
 $("#doresync")?.addEventListener("click",async()=>{{
   if(!confirm("Re-sincronizar la línea con la voz nueva.\\n\\n· Los beats con duración fija (que ajustaste a mano) se conservan.\\n· El resto se re-encaja contra la voz por su ancla.\\n\\nSe guarda un respaldo. ¿Seguir?")) return;
   toast("re-sincronizando con la voz nueva…",4000);

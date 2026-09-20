@@ -64,20 +64,68 @@ _ENV = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
 # read-modify-write (one accept's row silently clobbering the other's).
 _PICKUP_ACCEPT_LOCK = threading.Lock()
 
+# same hazard for 09-timeline.json: /beat-asset and /beat-op each write the
+# client's full timeline snapshot, then shell out to a tool that does its own
+# read-modify-write (beat_ops.py's _mint() included) — two edit-room clicks
+# landing close together raced and minted the same beat id twice (E002, 2026-09-15).
+class EditBusy(Exception):
+    """Another timeline edit has held the lock too long for this one to wait."""
 
-def _run(args):
-    r = subprocess.run([sys.executable, str(TOOLS / args[0])] + args[1:],
-                       capture_output=True, text=True, encoding="utf-8",
-                       errors="replace", env=_ENV)
+
+class _TimedLock:
+    """The timeline-edit lock, but a waiter gives up after `wait` seconds and says what is
+    holding it — instead of every later edit hanging silently behind one stuck operation
+    (E002, 2026-09-20: a runaway asset change left «no acepta ningún cambio»)."""
+
+    def __init__(self, wait=45.0):
+        self._lock = threading.Lock()
+        self.wait, self.what, self.since = wait, "", 0.0
+
+    def __call__(self, what="edición"):
+        outer = self
+
+        class _Ctx:
+            def __enter__(self):
+                if not outer._lock.acquire(timeout=outer.wait):
+                    held = int(time.time() - outer.since) if outer.since else 0
+                    raise EditBusy(f"otra edición sigue en curso ({outer.what or 'desconocida'}, desde hace "
+                                   f"{held} s) — reinténtalo en un momento")
+                outer.what, outer.since = what, time.time()
+                return self
+
+            def __exit__(self, *exc):
+                outer.what, outer.since = "", 0.0
+                outer._lock.release()
+
+        return _Ctx()
+
+
+_TIMELINE_EDIT_LOCK = _TimedLock()
+# an operation run while holding the lock must finish (or be killed) in bounded time
+EDIT_OP_TIMEOUT = 120         # beat_ops / timeline rebuilds
+ASSET_OP_TIMEOUT = 300        # beat_asset may download a stock video
+
+
+def _run(args, timeout=None):
+    try:
+        r = subprocess.run([sys.executable, str(TOOLS / args[0])] + args[1:],
+                           capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", env=_ENV, timeout=timeout)
+    except subprocess.TimeoutExpired:          # the child is killed by subprocess.run
+        return json.dumps({"error": f"{args[0]} tardó más de {timeout:.0f} s y se canceló"},
+                          ensure_ascii=False)
     return (r.stdout or r.stderr).strip()
 
 
-def _spawn_chain(steps, done_flag=None, log=None):
+def _spawn_chain(steps, done_flag=None, log=None, lock_file=None):
     """Run a list of [tool.py, *args] in sequence, detached — the HTTP response
     returns now, the work (a multi-minute render) continues in the background.
     On success writes `done_flag`; if a step exits non-zero (or is killed) it
     stops and writes `<done_flag>.fail` instead, so the UI can tell a crash from
-    a completion. `log` (a Path) captures stdout+stderr of every step."""
+    a completion. `log` (a Path) captures stdout+stderr of every step.
+    `lock_file`, if given, is removed once the chain finishes either way — the
+    caller creates it before spawning so a second request for the same take
+    can refuse itself instead of racing this one's re-render."""
     py = (
         "import subprocess,sys,pathlib\n"
         f"S={steps!r}\n"
@@ -92,8 +140,116 @@ def _spawn_chain(steps, done_flag=None, log=None):
         "if LOG: fh.close()\n"
         + (f"pathlib.Path({str(done_flag)!r} + ('' if ok else '.fail')).write_text('ok' if ok else 'fail')\n"
            if done_flag else "")
+        + (f"pathlib.Path({str(lock_file)!r}).unlink(missing_ok=True)\n" if lock_file else "")
     )
-    subprocess.Popen([sys.executable, "-c", py], cwd=str(TOOLS.parent), env=_ENV)
+    return subprocess.Popen([sys.executable, "-c", py], cwd=str(TOOLS.parent), env=_ENV)
+
+
+# ── queued trim: cuts are cheap to save, the 4K render runs once ──────────
+# «Aplicar corte» / an edit-room audio cut only queue their cuts: trim_talk.py
+# --soft (≈30 s, audio only) refreshes words.json + the room's 09-vo.m4a and
+# leaves <take>.render.pending. The heavy trim_talk --apply runs once, on
+# «Finalizar» (/timeline) or the room's «Renderizar ahora» (/trim-render), and
+# assemble.py --rough/--final run it themselves if it's still pending.
+_SOFT = {"lock": threading.Lock(), "dirty": False, "running": False}
+
+
+def _take_of(epp):
+    """The ORIGINAL take — the one with a transcript. The trimmed 4K can be stale
+    or absent while cuts are queued, so it can't be used to find the take."""
+    raws = sorted((epp / "assets").glob("*.words.raw.json"))
+    return epp / "assets" / raws[0].name.replace(".words.raw.json", ".mp4") if raws else None
+
+
+def _soft_apply_async(epp, take, slug, resync=False):
+    """Queue a refresh of words.json + 09-vo.m4a for the take's CURRENT
+    cuts.json. Runs in a thread; requests arriving while it runs are coalesced
+    (the job loops once more and reads the latest cuts.json)."""
+    with _SOFT["lock"]:
+        _SOFT["dirty"] = True
+        if _SOFT["running"]:
+            return
+        _SOFT["running"] = True
+
+    def work():
+        while True:
+            with _SOFT["lock"]:
+                if not _SOFT["dirty"]:
+                    _SOFT["running"] = False
+                    return
+                _SOFT["dirty"] = False
+            try:
+                r = subprocess.run([sys.executable, str(TOOLS / "trim_talk.py"), str(take), "--soft"],
+                                   capture_output=True, text=True, encoding="utf-8",
+                                   errors="replace", env=_ENV)
+                if r.returncode == 0:
+                    if resync:
+                        (epp / "09-resync.flag").write_text("re-trim", encoding="utf-8")
+                    _run(["assemble.py", slug, "--wave"])
+                    try:
+                        with _TIMELINE_EDIT_LOCK("regenerar la sala"):
+                            _run(["edit_timeline.py", slug], timeout=EDIT_OP_TIMEOUT)
+                    except EditBusy:
+                        pass                       # only the page copy is stale; the next edit regenerates it
+                    _run(["dash.py"])
+            except Exception:                 # never leave "running" stuck on a crash
+                pass
+
+    threading.Thread(target=work, daemon=True).start()
+
+
+def _soft_wait(timeout=240):
+    """Block until the audio refresh (and anything coalesced behind it) is done.
+    Only call this OUTSIDE _TIMELINE_EDIT_LOCK — the job takes that lock itself."""
+    import time
+    end = time.time() + timeout
+    while time.time() < end:
+        with _SOFT["lock"]:
+            if not _SOFT["running"] and not _SOFT["dirty"]:
+                return True
+        time.sleep(0.4)
+    return False
+
+
+def _start_hard_render(epp, take, slug):
+    """Start the queued 4K trim (+ proxy refresh) in the background. Returns
+    'none' (nothing pending), 'running' (already going), 'busy' (the audio
+    refresh is still writing — retry in a moment) or 'started'."""
+    lock_f = take.with_suffix(".apply.lock")
+    if P.lock_alive(lock_f):
+        return "running"
+    if not take.with_suffix(".render.pending").exists():
+        return "none"
+    if _SOFT["running"]:
+        return "busy"
+    flag = take.with_suffix(".apply.done")
+    flag.unlink(missing_ok=True)
+    lock_f.write_text("1", encoding="utf-8")
+    proc = _spawn_chain([["trim_talk.py", str(take), "--apply"],
+                         ["assemble.py", slug], ["edit_timeline.py", slug],
+                         ["dash.py"]], done_flag=flag, lock_file=lock_f)
+    lock_f.write_text(str(proc.pid), encoding="utf-8")     # so a stale lock can be told from a live one
+    return "started"
+
+
+_HARD_MSG = {
+    "started": "renderizando la toma recortada en segundo plano (varios minutos)",
+    "running": "la toma recortada ya se está renderizando en segundo plano",
+    "busy": "el audio de la sala aún se está actualizando — inténtalo en unos segundos",
+    "none": "no hay cortes pendientes de renderizar",
+}
+
+
+def _write_gate(take, gate):
+    """<take>.gate.json — experimental noise-gate threshold from the trim
+    room (brain/16). `gate` is None/falsy (no threshold_db) or {"threshold_db":
+    ...} from the client; absent file / no threshold = no gate, identical
+    render to before this existed. trim_talk.py's load_gate() reads it back."""
+    p = take.with_suffix(".gate.json")
+    if gate and gate.get("threshold_db") is not None:
+        p.write_text(json.dumps({"threshold_db": float(gate["threshold_db"])}), encoding="utf-8")
+    else:
+        p.unlink(missing_ok=True)
 
 
 def _pool_detail(txt, iid):
@@ -319,6 +475,17 @@ class H(BaseHTTPRequestHandler):
             return self._send(200, f.read_bytes(), MIME[".html"])
         if path == "/state":
             return self._send(200, json.dumps(P.read_queue(), ensure_ascii=False))
+        if path == "/vo-version":
+            # the room's audio file is replaced on disk after a cut / a hard render; the page polls
+            # this and swaps its <audio> source itself (an <audio> that loaded part of the old file
+            # dies on its next range request — the total size changed). `running` = a refresh is in flight.
+            epp = P.ep_path(qs.get("ep", [""])[0])
+            f = epp / "09-vo.m4a"
+            take = _take_of(epp)
+            running = bool(_SOFT["running"] or _SOFT["dirty"]) or \
+                bool(take and P.lock_alive(take.with_suffix(".apply.lock")))
+            return self._send(200, json.dumps({"ver": str(f.stat().st_mtime_ns) if f.exists() else "",
+                                               "running": running}))
         if path == "/timeline-backups":
             epp = P.ep_path(qs.get("ep", [""])[0])
             out = []
@@ -411,6 +578,12 @@ class H(BaseHTTPRequestHandler):
         self._send(200, html, MIME[".html"])
 
     def do_POST(self):
+        try:
+            return self._do_POST()
+        except EditBusy as e:                  # a stuck edit holds the lock: say so, don't hang
+            return self._send(503, json.dumps({"error": str(e)}, ensure_ascii=False))
+
+    def _do_POST(self):
         raw_path = self.path
         path = raw_path.split("?")[0]
 
@@ -486,13 +659,15 @@ class H(BaseHTTPRequestHandler):
             return self._send(200, json.dumps({"ok": True, "msg": msg}))
 
         if path == "/trim-save":
-            # autosave from the trim room — write <take>.cuts.json, render nothing.
+            # autosave from the trim room — write <take>.cuts.json (+ its
+            # sibling .gate.json, experimental), render nothing.
             epp = P.ep_path(ep)
             take = epp / "assets" / data.get("take", "")
             if not take.is_file():
                 return self._send(404, json.dumps({"error": "toma no encontrada"}))
             take.with_suffix(".cuts.json").write_text(
                 json.dumps({"cuts": data.get("cuts", [])}, ensure_ascii=False), encoding="utf-8")
+            _write_gate(take, data.get("gate"))
             return self._send(200, json.dumps({"ok": True}))
 
         if path == "/trim":
@@ -505,22 +680,40 @@ class H(BaseHTTPRequestHandler):
             take = epp / "assets" / take_name
             if not take.is_file():
                 return self._send(404, json.dumps({"error": f"no existe la toma {take_name}"}))
+            if P.lock_alive(take.with_suffix(".apply.lock")):
+                return self._send(409, json.dumps({
+                    "error": "la toma se está renderizando ahora mismo (Finalizar) — espera a que termine"}))
             cuts = data.get("cuts", [])
             take.with_suffix(".cuts.json").write_text(
                 json.dumps({"cuts": cuts}, ensure_ascii=False), encoding="utf-8")
+            _write_gate(take, data.get("gate"))
             slug = P.read_status().get(ep, {}).get("slug") or ep
-            (epp / "09-resync.flag").write_text("re-trim", encoding="utf-8")
-            flag = take.with_suffix(".apply.done")
-            flag.unlink(missing_ok=True)
-            # the --apply render is minutes long — run it detached, poll the flag.
-            # `assemble.py <slug>` (no render) just refreshes 09-vo.m4a / 09-take.mp4
-            # / 09-wave.b64 from the new trimmed take.
-            _spawn_chain([["trim_talk.py", str(take), "--apply"],
-                          ["assemble.py", slug], ["edit_timeline.py", slug],
-                          ["dash.py"]], done_flag=flag)
+            (epp / "09-cut-journal.json").unlink(missing_ok=True)   # whole list replaced: old undo points no longer apply
+            # queue, don't render: the 4K trim runs once when the stage is finalized
+            _soft_apply_async(epp, take, slug, resync=True)
             return self._send(200, json.dumps({"ok": True,
-                "msg": f"{len(cuts)} cortes → recortando la toma en segundo plano (unos minutos). "
-                       f"Al terminar, la sala mostrará «Re-sincronizar» para re-ajustar la línea a la voz nueva."}))
+                "msg": f"{len(cuts)} cortes guardados en cola.\n\n"
+                       f"El audio de la sala se actualiza en ~30 s. La toma 4K se renderiza una sola vez, "
+                       f"al Finalizar el stage (o con «Renderizar ahora» en la sala). "
+                       f"Después, la sala mostrará «Re-sincronizar» para re-ajustar la línea a la voz nueva."}))
+
+        if path == "/trim-render":                     # the room's «Renderizar ahora»
+            epp = P.ep_path(ep)
+            slug = data.get("slug") or P.read_status().get(ep, {}).get("slug") or ep
+            take = _take_of(epp)
+            if not take:
+                return self._send(404, json.dumps({"error": "no hay toma con transcripción"}))
+            st = _start_hard_render(epp, take, slug)
+            return self._send(200 if st != "busy" else 409, json.dumps({
+                "ok": st in ("started", "running", "none"), "state": st, "msg": _HARD_MSG[st]}))
+
+        if path == "/script-save":                     # Stage 4 — save WIP, no gate fold
+            epp = P.ep_path(ep)
+            script_md = data.get("script_md")
+            if not script_md:
+                return self._send(400, json.dumps({"error": "guion vacío"}))
+            (epp / "05-script.md").write_text(script_md, encoding="utf-8")
+            return self._send(200, json.dumps({"ok": True}))
 
         if path == "/tl-save":                         # Stage 9 — save WIP, recompute, no gate fold
             slug = data.get("slug") or ep
@@ -528,14 +721,15 @@ class H(BaseHTTPRequestHandler):
             if not tl.get("beats"):
                 return self._send(400, json.dumps({"error": "timeline vacío"}))
             epp = P.ep_path(ep)
-            (epp / "09-timeline.json").write_text(
-                json.dumps(tl, ensure_ascii=False, indent=1), encoding="utf-8")
-            # rebuild_timeline re-derives in/out from the authored `dur`s on the
-            # VO backbone (schema 2) and re-resolves files — no align — then we
-            # hand the recomputed timeline back
-            _run(["assemble.py", slug, "--timeline-only"])
-            _run(["edit_timeline.py", slug])
-            fresh = (epp / "09-timeline.json").read_text(encoding="utf-8")
+            with _TIMELINE_EDIT_LOCK("guardar la línea"):
+                (epp / "09-timeline.json").write_text(
+                    json.dumps(tl, ensure_ascii=False, indent=1), encoding="utf-8")
+                # rebuild_timeline re-derives in/out from the authored `dur`s on the
+                # VO backbone (schema 2) and re-resolves files — no align — then we
+                # hand the recomputed timeline back
+                _run(["assemble.py", slug, "--timeline-only"], timeout=EDIT_OP_TIMEOUT)
+                _run(["edit_timeline.py", slug])
+                fresh = (epp / "09-timeline.json").read_text(encoding="utf-8")
             return self._send(200, json.dumps({"ok": True, "msg": "guardado", "timeline": json.loads(fresh)}))
 
         if path == "/tl-rough":                        # Stage 9 — (re)render the 720p proxy
@@ -616,6 +810,12 @@ class H(BaseHTTPRequestHandler):
             P.set_ep(ep, stage=9, gate="exportado")
             _run(["edit_timeline.py", slug])          # re-render the page with saved state
             msg = _run(["advance.py", "fold", ep])
+            # the queued cuts get rendered now, once — the 4K render waits for it
+            take = _take_of(epp)
+            if take and take.with_suffix(".render.pending").exists():
+                st = _start_hard_render(epp, take, slug)
+                msg = (msg + "\n\n" if msg else "") + "Cortes en cola: " + _HARD_MSG[st] + \
+                      (" — el render 4K final esperará a que termine." if st in ("started", "running") else ".")
             return self._send(200, json.dumps({"ok": True, "msg": msg}))
 
         if path == "/beat-asset":                     # Stage 9 — one beat's visual (swap / clear)
@@ -623,10 +823,6 @@ class H(BaseHTTPRequestHandler):
             if data.get("list"):
                 return self._send(200, _run(["beat_asset.py", slug, "--list"]) or "[]")
             epp = P.ep_path(ep)
-            # persist the edit room's unsaved dur / nudge / approve edits first
-            if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
-                (epp / "09-timeline.json").write_text(
-                    json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
             bid = str(data.get("id") or "")
             if not bid:
                 return self._send(400, json.dumps({"error": "falta el id del beat"}))
@@ -647,36 +843,70 @@ class H(BaseHTTPRequestHandler):
             else:
                 args = ["beat_asset.py", slug, "--set", bid]
                 args += ["--src", str(data["src"])] if data.get("src") else ["--asset", str(data.get("asset", ""))]
-            out = _run(args)
+            with _TIMELINE_EDIT_LOCK("cambiar el asset del beat " + bid):
+                # persist the edit room's unsaved dur / nudge / approve edits first
+                if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
+                    (epp / "09-timeline.json").write_text(
+                        json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
+                out = _run(args, timeout=ASSET_OP_TIMEOUT)
+                if not out:
+                    res = {"error": "sin respuesta"}
+                else:
+                    try:
+                        res = json.loads(out)
+                    except (json.JSONDecodeError, TypeError):
+                        res = None
+                if res is None:
+                    if up_tmp is not None:
+                        up_tmp.unlink(missing_ok=True)
+                    return self._send(500, json.dumps({"error": (out or "sin respuesta")[-400:]}))
+                if not res.get("error"):
+                    _run(["edit_timeline.py", slug])
+                    res["timeline"] = json.loads((epp / "09-timeline.json").read_text(encoding="utf-8"))
             if up_tmp is not None:
                 up_tmp.unlink(missing_ok=True)
-            try:
-                res = json.loads(out)
-            except (json.JSONDecodeError, TypeError):
-                return self._send(500, json.dumps({"error": (out or "sin respuesta")[-400:]}))
-            if not res.get("error"):
-                _run(["edit_timeline.py", slug])
-                res["timeline"] = json.loads((epp / "09-timeline.json").read_text(encoding="utf-8"))
             return self._send(200, json.dumps(res, ensure_ascii=False))
 
         if path == "/beat-op":                        # Stage 9 — structural edit by beat id
             slug = data.get("slug") or ep
             epp = P.ep_path(ep)
-            if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
-                (epp / "09-timeline.json").write_text(
-                    json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
             payload = {k: v for k, v in data.items()
                        if k not in ("slug", "ep", "timeline")}
             if payload.get("action") == "reseed" and not payload.get("confirm"):
                 return self._send(400, json.dumps({"error": "reseed necesita confirm:true"}))
-            out = _run(["beat_ops.py", slug, "--json", json.dumps(payload, ensure_ascii=False)])
-            try:
-                res = json.loads(out)
-            except (json.JSONDecodeError, TypeError):
-                return self._send(500, json.dumps({"error": (out or "sin respuesta")[-400:]}))
-            if not res.get("error"):
-                _run(["edit_timeline.py", slug])
-                res["timeline"] = json.loads((epp / "09-timeline.json").read_text(encoding="utf-8"))
+            # audiocut appends a real cut to the take's cuts.json and needs a
+            # multi-minute re-render (trim_talk --apply) — resolve the take and
+            # refuse a second one while the first is still in flight, same guard
+            # /trim already needs for the exact same race.
+            take = None
+            action = payload.get("action")
+            if action in ("audiocut", "cutundo", "cutredo"):
+                take = _take_of(epp)
+                if not take or not take.is_file():
+                    return self._send(400, json.dumps({"error": "no hay toma trimmeada — nada que recortar"}))
+                if P.lock_alive(take.with_suffix(".apply.lock")):
+                    return self._send(409, json.dumps({
+                        "error": "la toma se está renderizando ahora mismo (Finalizar) — espera a que termine"}))
+            with _TIMELINE_EDIT_LOCK("edición «" + str(payload.get("action")) + "»"):
+                if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
+                    (epp / "09-timeline.json").write_text(
+                        json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
+                out = _run(["beat_ops.py", slug, "--json", json.dumps(payload, ensure_ascii=False)],
+                           timeout=EDIT_OP_TIMEOUT)
+                try:
+                    res = json.loads(out)
+                except (json.JSONDecodeError, TypeError):
+                    return self._send(500, json.dumps({"error": (out or "sin respuesta")[-400:]}))
+                if not res.get("error"):
+                    _run(["edit_timeline.py", slug])
+                    res["timeline"] = json.loads((epp / "09-timeline.json").read_text(encoding="utf-8"))
+                    if take is not None:
+                        _soft_apply_async(epp, take, slug)
+                        if action == "audiocut":
+                            res["note"] = ((res.get("note", "") + " ") if res.get("note") else "") + \
+                                "ya se oye el corte; el audio de la sala se refresca en ~30 s."
+            if take is not None and action in ("cutundo", "cutredo") and not res.get("error"):
+                _soft_wait()          # undo/redo answer only once words + audio + map match the timeline
             return self._send(200, json.dumps(res, ensure_ascii=False))
 
         if path == "/tl-preview":                     # Stage 9 — re-render a region of the proxy

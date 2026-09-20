@@ -14,6 +14,40 @@ import re
 import unicodedata
 from pathlib import Path
 
+
+def lock_alive(lock):
+    """True while the detached render a `.apply.lock` guards is really running.
+    The lock holds its owner's PID ('1' in locks written before PIDs were
+    recorded). An owner that's gone — server restarted, rebooted, the chain
+    killed — leaves a STALE lock that would block the take forever: it's removed
+    here and reported not-alive. Legacy '1' locks count as alive for 6 h."""
+    import os
+    import subprocess
+    import time
+    lock = Path(lock)
+    if not lock.exists():
+        return False
+    try:
+        pid = int((lock.read_text(encoding="utf-8").strip() or "0"))
+    except (ValueError, OSError):
+        pid = 0
+    if pid > 1:
+        if os.name == "nt":       # os.kill(pid, 0) would TERMINATE the process on Windows
+            out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/NH"],
+                                 capture_output=True, text=True).stdout or ""
+            alive = str(pid) in out
+        else:
+            try:
+                os.kill(pid, 0)
+                alive = True
+            except OSError:
+                alive = False
+    else:
+        alive = time.time() - lock.stat().st_mtime < 6 * 3600
+    if not alive:
+        lock.unlink(missing_ok=True)
+    return alive
+
 ROOT = Path(__file__).resolve().parent.parent
 EP_DIR = ROOT / "episodes"
 STATUS_F = EP_DIR / "_STATUS.md"

@@ -22,10 +22,12 @@ import io
 import json
 import re
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import assemble as A  # noqa: E402
+import trim_talk as T  # noqa: E402
 
 DEFAULT_DUR = {"archivo": 4.0, "stock": 4.0, "kb": 5.0, "ia": 6.0,
                "gráfico": 12.0, "grafico": 12.0, "acamara": 6.0, "negro": 3.0}
@@ -66,8 +68,12 @@ def _idx(beats, bid):
 
 
 def _mint(data):
-    bid = f"b{data.get('next_id', 1)}"
-    data["next_id"] = data.get("next_id", 1) + 1
+    used = {b.get("id") for b in data.get("beats", [])}
+    n = data.get("next_id", 1)
+    while f"b{n}" in used:              # defense in depth against a stale/raced next_id
+        n += 1
+    bid = f"b{n}"
+    data["next_id"] = n + 1
     return bid
 
 
@@ -175,6 +181,189 @@ def duplicate(slug, bid):
     return _finish(slug, tj, data)
 
 
+# ── cut journal ───────────────────────────────────────────────────────────
+# Every audio cut is recorded on its own, with a timestamp and the exact cuts.json
+# before/after it, so it can be undone and redone one at a time (LIFO, like the room's
+# Ctrl+Z stack). The cut list itself only stores merged ranges — a cut that lands on
+# an existing one leaves no trace there — which is why this can't be recovered later.
+# Reset by a trim-room «Aplicar corte» (whole list replaced) and by a successful hard
+# render (the cuts are baked into the trimmed take).
+JOURNAL_MAX = 100
+
+
+def _journal_f(ep):
+    return ep / "09-cut-journal.json"
+
+
+def journal_read(ep):
+    try:
+        j = json.loads(_journal_f(ep).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        j = {}
+    return {"done": list(j.get("done", [])), "undone": list(j.get("undone", []))}
+
+
+def journal_write(ep, j):
+    f = _journal_f(ep)
+    tmp = f.with_name(f.name + ".tmp")
+    tmp.write_text(json.dumps(j, ensure_ascii=False, indent=1), encoding="utf-8")
+    tmp.replace(f)
+
+
+def journal_public(ep):
+    """What the room shows: no snapshots, oldest first."""
+    j = journal_read(ep)
+    keep = ("id", "ts", "beat", "t0", "t1", "delta")
+    return {k: [{f: e[f] for f in keep if f in e} for e in j[k]] for k in ("done", "undone")}
+
+
+def _take_of(ep):
+    raws = sorted((ep / "assets").glob("*.words.raw.json"))
+    if not raws:
+        raise SystemExit("no hay toma trimmeada — nada que recortar")
+    return ep / "assets" / raws[0].name.replace(".words.raw.json", ".mp4")
+
+
+def _cuts_of(cuts_f):
+    try:
+        return json.loads(cuts_f.read_text(encoding="utf-8")).get("cuts", [])
+    except (OSError, json.JSONDecodeError):
+        return []
+
+
+def _set_cuts(cuts_f, cuts):
+    cuts_f.write_text(json.dumps({"cuts": cuts}, ensure_ascii=False), encoding="utf-8")
+
+
+def _reflow(data, beats):
+    with contextlib.redirect_stdout(io.StringIO()):    # flag_rhythm prints — keep it off our JSON
+        A.derive_times(beats, data["vo_end"])
+        A.flag_rhythm(beats)
+    data["total"] = round(beats[-1]["out"], 3) if beats else 0.0
+
+
+def cut_undo(slug):
+    """Undo the most recent audio cut: its cuts.json state, and its exact effect on
+    the timeline (that beat's dur and the VO end), leaving every other edit alone."""
+    ep, tj, data = _load(slug)
+    j = journal_read(ep)
+    if not j["done"]:
+        raise SystemExit("no hay cortes que deshacer")
+    e = j["done"][-1]
+    cuts_f = _take_of(ep).with_suffix(".cuts.json")
+    if _cuts_of(cuts_f) != e["after_cuts"]:
+        raise SystemExit("la lista de cortes cambió desde ese corte (¿se aplicó otra desde la sala de "
+                         "recorte?) — no se puede deshacer automáticamente")
+    beats = data["beats"]
+    i = _idx(beats, e["beat"])
+    b = beats[i]
+    _set_cuts(cuts_f, e["before_cuts"])
+    b["dur"] = round(b["dur"] + e["delta"], 3)
+    if not e.get("was_edited"):
+        b.pop("dur_edited", None)
+    data["vo_end"] = round(float(data.get("vo_end") or 0.0) + e["delta"], 3)
+    _reflow(data, beats)
+    tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    j["done"].pop()
+    j["undone"].append(e)
+    journal_write(ep, j)
+    data["cut"] = {"id": e["id"], "t0": e["t0"], "t1": e["t1"]}
+    data["note"] = f"corte de {e['delta']:.2f}s deshecho ({e['ts'][11:19]}, beat {e['beat']})"
+    return data
+
+
+def cut_redo(slug):
+    """Redo the most recently undone audio cut (exact inverse of cut_undo)."""
+    ep, tj, data = _load(slug)
+    j = journal_read(ep)
+    if not j["undone"]:
+        raise SystemExit("no hay cortes que rehacer")
+    e = j["undone"][-1]
+    cuts_f = _take_of(ep).with_suffix(".cuts.json")
+    if _cuts_of(cuts_f) != e["before_cuts"]:
+        raise SystemExit("la lista de cortes cambió desde que se deshizo — no se puede rehacer automáticamente")
+    beats = data["beats"]
+    i = _idx(beats, e["beat"])
+    b = beats[i]
+    new_dur = round(b["dur"] - e["delta"], 3)
+    if new_dur < _floor(b["kind"]):
+        raise SystemExit(f"el beat {e['beat']} quedaría en {new_dur:.1f}s — por debajo del mínimo")
+    _set_cuts(cuts_f, e["after_cuts"])
+    b["dur"] = new_dur
+    b["dur_edited"] = True
+    data["vo_end"] = round(float(data.get("vo_end") or 0.0) - e["delta"], 3)
+    _reflow(data, beats)
+    tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    j["undone"].pop()
+    j["done"].append(e)
+    journal_write(ep, j)
+    data["cut"] = {"id": e["id"], "t0": e["t0"], "t1": e["t1"]}
+    data["note"] = f"corte de {e['delta']:.2f}s rehecho ({e['ts'][11:19]}, beat {e['beat']})"
+    return data
+
+
+def audio_cut(slug, bid, t0, t1):
+    """Trim a slice of VO audio out of one beat, live: shrinks exactly this
+    beat's `dur` by the cut length (nobody else resizes, everyone after it
+    just shifts) and appends the same range — remapped to the ORIGINAL
+    take's clock — to <take>.cuts.json, so the next --apply actually removes
+    it. Writes 09-timeline.json directly with the *predicted* post-render
+    vo_end rather than going through rebuild_timeline() (which would re-probe
+    the old, not-yet-rendered file's real length and stretch the wrong beat
+    in the meantime — the render this kicks off should land on the same
+    numbers once it catches up)."""
+    ep, tj, data = _load(slug)
+    beats = data["beats"]
+    i = _idx(beats, bid)
+    b = beats[i]
+    t0, t1 = float(t0), float(t1)
+    if not t1 > t0:
+        raise SystemExit("rango de corte vacío")
+    if not (b["in"] - 0.01 <= t0 and t1 <= b["out"] + 0.01):
+        raise SystemExit(f"el corte debe caer dentro del beat {bid} ({b['in']:.2f}s–{b['out']:.2f}s)")
+    delta = t1 - t0
+    fl = _floor(b["kind"])
+    new_dur = round(b["dur"] - delta, 3)
+    if new_dur < fl:
+        raise SystemExit(f"el beat quedaría en {new_dur:.1f}s — por debajo del mínimo {fl:g}s "
+                          f"(funde el resto con «fusionar» si de verdad hay que quitarlo todo)")
+    # the ORIGINAL take is the one with a transcript — the trimmed 4K may be
+    # stale or absent (cuts queue up until «Finalizar»)
+    raws = sorted((ep / "assets").glob("*.words.raw.json"))
+    if not raws:
+        raise SystemExit("no hay toma trimmeada — nada que recortar")
+    take = ep / "assets" / raws[0].name.replace(".words.raw.json", ".mp4")
+    orig_s, orig_e = T.orig_range_for_cut(take, t0, t1)
+
+    cuts_f = take.with_suffix(".cuts.json")
+    cd = json.loads(cuts_f.read_text(encoding="utf-8")) if cuts_f.is_file() else {"cuts": []}
+    before_cuts = cd.get("cuts", [])
+    cl = [(float(c[0]), float(c[1]), (c[2] if len(c) > 2 else "corte")) for c in before_cuts]
+    cl.append((orig_s, orig_e, "corte manual (sala de montaje)"))
+    after_cuts = [[round(s, 3), round(e, 3), r] for s, e, r in T._merge(cl)]
+    cuts_f.write_text(json.dumps({"cuts": after_cuts}, ensure_ascii=False), encoding="utf-8")
+
+    was_edited = bool(b.get("dur_edited"))
+    b["dur"] = new_dur
+    b["dur_edited"] = True
+    data["vo_end"] = round(float(data.get("vo_end") or 0.0) - delta, 3)
+    with contextlib.redirect_stdout(io.StringIO()):    # flag_rhythm prints — keep it off our JSON
+        A.derive_times(beats, data["vo_end"])
+        A.flag_rhythm(beats)
+    data["total"] = round(beats[-1]["out"], 3) if beats else 0.0
+    tj.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    j = journal_read(ep)
+    entry = {"id": f"c{int(time.time() * 1000)}", "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+             "beat": bid, "t0": t0, "t1": t1, "delta": round(delta, 3), "orig": [orig_s, orig_e],
+             "was_edited": was_edited, "before_cuts": before_cuts, "after_cuts": after_cuts}
+    j["done"] = (j["done"] + [entry])[-JOURNAL_MAX:]
+    j["undone"] = []                                   # a new cut forks history: nothing left to redo
+    journal_write(ep, j)
+    data["cut"] = {"id": entry["id"], "t0": t0, "t1": t1}
+    data["note"] = f"recorte de {delta:.2f}s en beat {bid} — en cola, se renderiza al Finalizar"
+    return data
+
+
 def reorder(slug, order):
     ep, tj, data = _load(slug)
     beats = data["beats"]
@@ -257,7 +446,8 @@ def run(slug, action, **kw):
           "del": delete, "setdur": set_dur, "set_dur": set_dur,
           "duplicate": duplicate, "dup": duplicate, "reorder": reorder,
           "tidy": tidy, "reseed": reseed, "resync": resync,
-          "restore": restore}.get(action)
+          "restore": restore, "audiocut": audio_cut,
+          "cutundo": cut_undo, "cutredo": cut_redo}.get(action)
     if not fn:
         raise SystemExit(f"acción desconocida: {action}")
     return fn(slug, **kw)
@@ -284,6 +474,10 @@ if __name__ == "__main__":
                     resp["note"] = f"fusionados {tl.pop('tidied')} beats sub-mínimo"
                 if "note" in tl:
                     resp["note"] = tl.pop("note")
+                if "cut" in tl:
+                    resp["cut"] = tl.pop("cut")
+                if action in ("audiocut", "cutundo", "cutredo"):
+                    resp["journal"] = journal_public(A.EP_DIR / slug)
             print(json.dumps(resp, ensure_ascii=False))
         except SystemExit as ex:
             print(json.dumps({"error": ex.code if isinstance(ex.code, str) else "error"},

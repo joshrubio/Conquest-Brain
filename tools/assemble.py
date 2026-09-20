@@ -194,6 +194,45 @@ def _the_take(ep):
     return takes[0] if takes else None
 
 
+def _pending_takes(ep):
+    """Original takes whose cuts are queued but not yet rendered into the 4K
+    <take>.trimmed.mp4 (trim_talk.py --soft leaves <take>.render.pending)."""
+    return [m.with_name(m.name.replace(".render.pending", ".mp4"))
+            for m in sorted(ep.glob("assets/*.render.pending"))]
+
+
+def _soft_vo(ep):
+    """09-vo.m4a while cuts are pending — trim_talk --soft wrote it for the
+    CURRENT cut list, so it (not the stale/absent trimmed take) is the truth
+    for the voice's length and waveform. None when nothing is pending."""
+    f = ep / "09-vo.m4a"
+    return f if _pending_takes(ep) and f.exists() else None
+
+
+def ensure_trimmed(slug):
+    """Bake any queued cuts into the 4K trimmed take before a render that reads
+    it (--rough / --final). If a background render of it is already running
+    («Finalizar» / «Renderizar recorte» start one) wait for it; otherwise do it
+    here. Then refresh the room's proxies from the fresh take."""
+    import time
+    ep = EP_DIR / slug
+    for take in _pending_takes(ep):
+        lock = take.with_suffix(".apply.lock")
+        while P.lock_alive(lock):
+            print(f"  esperando el recorte de {take.name} (en curso en segundo plano)…")
+            time.sleep(10)
+        if not take.with_suffix(".render.pending").exists():
+            continue                       # that render finished and cleared it
+        print(f"  recorte pendiente de {take.name} → renderizando la toma recortada…")
+        r = subprocess.run([sys.executable, str(Path(__file__).parent / "trim_talk.py"),
+                            str(take), "--apply"])
+        if r.returncode != 0:
+            raise SystemExit(f"el recorte de {take.name} falló — no se renderiza con una toma vieja")
+    if _pending_takes(ep) == [] and list(ep.glob("assets/*.trimmed.mp4")):
+        vo_proxy(slug)
+        take_proxy(slug)
+
+
 _ASPECT_CACHE = {}
 MAX_STILL_PX = 4320        # long side; a museum scan at 130 MP chokes ffmpeg's zoompan
 
@@ -338,9 +377,19 @@ def _aspect(path):
     return ar
 
 
+def _planned_take(ep):
+    """The trimmed take a queued cut list WILL render (trim_talk --apply on «Finalizar» / «Renderizar
+    ahora» / --rough / --final), while it doesn't exist yet. None when nothing is pending."""
+    pend = _pending_takes(ep)
+    return pend[0].with_suffix(".trimmed.mp4") if pend else None
+
+
 def resolve(ep, beats):
     idx = _asset_index(ep)
-    take = _the_take(ep)
+    # A-roll beats point at the trimmed take. While cuts are queued that file isn't rendered yet
+    # (or is stale) but it is the one that WILL be — the beats are covered, not «sin asset»
+    # (E002: all 33 a-cámara beats flipped to «sin cubrir» the moment the render was deferred).
+    take = _the_take(ep) or _planned_take(ep)
     for b in beats:
         if b["kind"] in ACAMARA:
             b["file"] = str(take.relative_to(ep).as_posix()) if take else None
@@ -405,7 +454,11 @@ def load_words(ep):
         for w in ws:
             words.append({"w": w["w"], "t": w["t"] + offset})
         trimmed = wj.with_name(wj.name.replace(".words.json", ".trimmed.mp4"))
-        offset += _duration(trimmed) if trimmed.exists() else (ws[-1]["t"] + 1 if ws else 0)
+        soft = _soft_vo(ep) if wj.with_name(wj.name.replace(".words.json", ".render.pending")).exists() else None
+        if soft:                           # cuts queued: the trimmed take is stale/absent
+            offset += _duration(soft)
+        else:
+            offset += _duration(trimmed) if trimmed.exists() else (ws[-1]["t"] + 1 if ws else 0)
     return words
 
 
@@ -420,8 +473,19 @@ def _vo_end_from_words(words):
 
 
 def get_vo_end(ep, stored=None):
-    """The authoritative VO length for a schema-2 timeline. Stored at seed/resync
-    time; only recomputed from the word list when absent."""
+    """The authoritative VO length for a schema-2 timeline. Measures the real
+    trimmed take directly when it's there — exact, no guessing about how long
+    the last word's tail actually runs after its whisper-reported *start*,
+    which is what clipped mid-sentence endings before (E001's last word,
+    "Hokusai", then E002's sign-off — see _vo_end_from_words). Falls back to
+    the stored value, then the word-length heuristic, only when there's no
+    take yet to measure (e.g. mid-seed, before --apply has ever rendered one)."""
+    soft = _soft_vo(ep)                    # queued cuts: the trimmed take is stale/absent
+    take = soft or _the_take(ep)
+    if take:
+        d = _duration(take)
+        if d > 0:
+            return round(d, 2)
     if isinstance(stored, (int, float)) and stored > 0:
         return float(stored)
     return _vo_end_from_words(load_words(ep))
@@ -1093,7 +1157,7 @@ def take_proxy(slug):
 
 def waveform(slug):
     ep = EP_DIR / slug
-    vo = next(iter(sorted(ep.glob("assets/*.trimmed.mp4"))), None)
+    vo = _soft_vo(ep) or next(iter(sorted(ep.glob("assets/*.trimmed.mp4"))), None)
     out = ep / "09-wave.b64"
     vo_proxy(slug)
     take_proxy(slug)
@@ -1289,7 +1353,7 @@ def render(slug, mode, t0=None, t1=None, dry=False):
         f = b.get("file")
         # an A-roll beat whose window falls past the end of the trimmed take
         # (timeline / take out of sync) -> black, never a fatal seek-past-EOF
-        acamara_ok = b["kind"] in ACAMARA and f and (
+        acamara_ok = b["kind"] in ACAMARA and f and (ep / f).exists() and (
             take_dur == 0.0 or b["in"] < take_dur - 0.2)
         dur = max(0.4, b["out"] - b["in"])
         card = _negro_card(b["label"], ep) if (b["kind"] == "negro" and b.get("label")) else None
@@ -1302,7 +1366,10 @@ def render(slug, mode, t0=None, t1=None, dry=False):
                 f"setpts=PTS-STARTPTS[v{i}]")
         elif b["kind"] == "negro" or not f or (b["kind"] in ACAMARA and not acamara_ok):
             if b["kind"] in ACAMARA:
-                print(f"  beat {b.get('n', b.get('id'))}: a cámara pero in={b['in']:.1f}s > toma {take_dur:.1f}s → negro")
+                if f and not (ep / f).exists():
+                    print(f"  beat {b.get('n', b.get('id'))}: a cámara pero la toma recortada aún no está renderizada → negro")
+                else:
+                    print(f"  beat {b.get('n', b.get('id'))}: a cámara pero in={b['in']:.1f}s > toma {take_dur:.1f}s → negro")
             inputs += ["-f", "lavfi", "-t", f"{dur:.3f}",
                        "-i", f"color=c={GROUND}:s={w}x{h}:r={fps}"]
             filters.append(f"[{i}:v]trim=duration={dur:.3f},"
@@ -1474,14 +1541,18 @@ if __name__ == "__main__":
     elif "--resync" in a:             # 3-way merge a schema-2 line onto a re-recorded VO
         resync_timeline(slug)
     elif "--final" in a:
+        ensure_trimmed(slug)
         build_timeline(slug)
         with keep_awake():
             render(slug, "final", dry=dry)
     elif "--rough" in a:
+        ensure_trimmed(slug)
         build_timeline(slug)
         waveform(slug)
         with keep_awake():
             render(slug, "proxy", dry=dry)
+    elif "--wave" in a:               # refresh only 09-wave.b64 (+ proxies) — no timeline rebuild
+        waveform(slug)
     elif "--timeline-only" in a:      # rebuild 09-timeline.json in place (edit-room saves)
         rebuild_timeline(slug)
     else:

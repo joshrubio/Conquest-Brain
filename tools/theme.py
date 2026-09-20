@@ -373,11 +373,25 @@ body.tl{display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden;
 .tl .ep{font-family:var(--mono);font-size:.78rem;color:var(--gold);background:var(--gold-soft);
   border:1px solid var(--gold-line);border-radius:6px;padding:.12rem .5rem}
 
-.work{flex:0 0 auto;height:clamp(320px,42vh,380px);display:grid;
+.work{flex:0 0 auto;height:clamp(370px,46vh,430px);display:grid;
   grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:1px;background:var(--line-2)}
 @media(max-width:860px){.work{grid-template-columns:1fr;height:auto}}
-.preview{background:var(--bg);display:flex;flex-direction:column;padding:1rem 1.15rem;min-width:0}
-.screen{flex:1;position:relative;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line-2);
+/* the Visor: a narrower left column for general controls (mix, word ticker)
+   and a right column that's the viewer's own self-contained unit — the
+   screen plus its own playback controls (play/mode/timecode/fullscreen)
+   stacked right under it, so the screen gets the room a shared column was
+   squeezing out of it instead of splitting that room with unrelated mix
+   sliders. */
+/* min-height:0 down this whole chain: a grid/flex item defaults to
+   min-height:auto (content-based), which refuses to shrink below its
+   content even when .work tries to constrain it to a fixed height — without
+   this the preview/inspector columns silently overflow .work's box and
+   .work's own grid-gap background shows through below them as a stray bar. */
+.preview{background:var(--bg);display:flex;flex-direction:row;gap:1rem;padding:1rem 1.15rem;min-width:0;min-height:0;height:100%;box-sizing:border-box}
+.preview-controls{flex:0 0 15rem;min-width:0;min-height:0;display:flex;flex-direction:column;gap:.6rem;overflow-y:auto}
+.preview-viewer{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;gap:.6rem}
+@media(max-width:640px){.preview{flex-direction:column}.preview-controls{flex:0 0 auto;width:auto}}
+.screen{flex:1;min-height:180px;position:relative;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--line-2);
   background:radial-gradient(120% 90% at 50% 0%,#221d14,#0c0b08 70%);display:grid;place-items:center}
 .screen::before{content:"";position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(#0000 0 12%,#0009 12% 88%,#0000 88%)}
@@ -388,16 +402,16 @@ body.tl{display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden;
 .screen .lab{position:absolute;right:.7rem;bottom:.7rem;z-index:2;font-size:.58rem;letter-spacing:.08em;
   text-transform:uppercase;color:var(--neg);background:#0008;border:1px solid var(--neg);border-radius:5px;padding:.16rem .44rem}
 .screen video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;z-index:1}
-.transport{display:flex;align-items:center;gap:.8rem;padding-top:.7rem}
+.transport{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem .8rem}
 .play{width:2.2rem;height:2.2rem;border-radius:50%;border:1px solid var(--gold-line);background:var(--surface-2);
   display:grid;place-items:center;flex:none;padding:0}
 .play:hover{border-color:var(--gold);background:var(--surface-3)}
 .play svg{width:.95rem;height:.95rem;fill:var(--bone)}
 .tc{font-family:var(--mono);font-size:.92rem;color:var(--bone)}
 .tc .sep{color:var(--faint);margin:0 .3rem}.tc .tot{color:var(--muted)}
-.phint{font-size:.7rem;color:var(--faint);margin-left:auto;max-width:20rem;text-align:right}
+.phint{font-size:.7rem;color:var(--faint);flex-basis:100%}
 
-.inspector{background:var(--bg);padding:1rem 1.15rem 2rem;overflow-y:auto;min-width:0}
+.inspector{background:var(--bg);padding:1rem 1.15rem 2rem;overflow-y:auto;min-width:0;min-height:0}
 .insp-cap{display:flex;align-items:center;gap:.4rem;font-size:.66rem;text-transform:uppercase;
   letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--line-2);
   padding-bottom:.5rem;margin-bottom:.7rem}
@@ -450,8 +464,8 @@ textarea.fixnote{width:100%;min-height:2.6rem;resize:vertical;font:inherit;font-
   border-radius:4px;pointer-events:none}
 .mm-play{position:absolute;top:0;bottom:0;width:1.5px;background:var(--lime)}
 
-.tl-scroll{flex:1 1 auto;min-height:206px;overflow-x:auto;overflow-y:hidden;padding:.55rem 0 .8rem;margin-top:.4rem}
-.tl-inner{position:relative;height:100%;min-height:198px;min-width:100%;padding-right:2.5rem}
+.tl-scroll{flex:1 1 auto;min-height:280px;overflow-x:auto;overflow-y:hidden;padding:.55rem 0 .8rem;margin-top:.4rem}
+.tl-inner{position:relative;height:100%;min-height:272px;min-width:100%;padding-right:2.5rem}
 .lane{position:absolute;left:0;right:0}
 .ruler{top:0;height:20px}
 .tick{position:absolute;top:0;height:20px;border-left:1px solid var(--line-2);font-family:var(--mono);
@@ -460,12 +474,32 @@ textarea.fixnote{width:100%;min-height:2.6rem;resize:vertical;font:inherit;font-
 .band{position:absolute;top:0;height:20px;border-radius:4px;display:flex;align-items:center;padding:0 .5rem;
   font-size:.62rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);
   background:var(--gold-soft);border:1px solid var(--gold-line);overflow:hidden}
-.wave{top:46px;height:40px}
-.wave img{position:absolute;left:0;top:0;height:40px;image-rendering:auto;opacity:.85}
+/* tall on purpose — this is now a click/drag surface (audio micro-trims), not
+   just a glance-at strip, and the source PNG was so short (40px) the actual
+   waveform was barely a visible sliver */
+.wave{top:46px;height:100px;cursor:crosshair}
+.wave img{position:absolute;left:0;top:0;width:100%;height:100px;image-rendering:auto;opacity:.85}
+/* first right-click of a pair — a thin marker while waiting for the second */
+.wavemark{position:absolute;top:0;height:218px;width:2px;background:var(--gold);z-index:6;
+  display:none;pointer-events:none;box-shadow:0 0 6px var(--gold)}
+.wavesel{position:absolute;top:0;height:218px;background:var(--gold-soft);border-left:1px solid var(--gold);
+  border-right:1px solid var(--gold);pointer-events:none;z-index:6;display:none}
+.wavesel.invalid{background:var(--neg-soft);border-color:var(--neg)}
+.wavesel-tools{position:absolute;top:50px;transform:translateX(-50%);display:flex;gap:.3rem;
+  align-items:center;white-space:nowrap;background:var(--surface-3);border:1px solid var(--gold-line);
+  border-radius:7px;padding:.25rem .35rem;z-index:9;box-shadow:0 4px 14px #0008;display:none}
+.wavesel-tools.invalid{border-color:var(--neg)}
+.wavesel-tools .info{font-size:.62rem;color:var(--muted);padding:0 .3rem;max-width:16rem;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.wavesel-tools .info.invalid{color:var(--neg);font-weight:600}
+.wavesel-tools button{font-size:.68rem;padding:.22rem .5rem}
+.wave .cutmk{position:absolute;top:0;bottom:0;width:0;border-left:1px solid var(--neg);opacity:.55;z-index:2}
+.wave .cutmk::before{content:"";position:absolute;left:-3px;top:0;bottom:0;width:7px}
+.wave .cutmk:hover{opacity:1;border-left-width:2px}
 .wave .wlbl{position:absolute;left:0;top:2px;font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;
   color:var(--faint);background:#0a0908cc;padding:0 .3rem;border-radius:3px;z-index:1}
-.vtrack{top:92px;height:66px}
-.mtrack{top:164px;height:30px}
+.vtrack{top:152px;height:66px}
+.mtrack{top:224px;height:30px}
 
 .clip{position:absolute;top:0;height:66px;border-radius:8px;overflow:hidden;cursor:pointer;background:var(--surface);
   border:1px solid var(--line-2);display:flex;flex-direction:column;transition:border-color .1s,transform .06s}

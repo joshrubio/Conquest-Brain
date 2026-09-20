@@ -371,7 +371,15 @@ def do_fold(epid):
         # produced doc actually exists — NOT just because fold was called. A
         # 'claude' stage whose primary doc is still the folder template has not
         # been done: re-queue it and hold the gate, don't wave it through.
-        prim = (P.PRIMARY_DOC.get(st) or "").split()[0]
+        # `human` stages (8, 11) have no PRIMARY_DOC entry at all (nothing to
+        # check for pristine-ness — "8" just means files landed in assets/) so
+        # this must tolerate an empty split() instead of indexing it blind —
+        # found via E002: `advance.py fold` crashed with an IndexError the
+        # first time anyone called it directly on a Stage-8 episode (the
+        # record-upload path apparently never routes through here the same
+        # way, so this had never been hit before).
+        _prim_parts = (P.PRIMARY_DOC.get(st) or "").split()
+        prim = _prim_parts[0] if _prim_parts else ""
         if fold == "claude" and prim and P.pristine(epid, prim):
             P.enqueue(epid, st, "generate", note=_gen_note(epid, st, sm))
             P.set_ep(epid, gate="abierto")
@@ -461,7 +469,7 @@ def do_next(epid, force=False):
                  if ".trimmed" not in t.name and not t.name.startswith(("09-", "intro"))]
         n_rev = n_done = 0
         for t in takes:
-            if t.with_suffix(".trimmed.mp4").exists():
+            if t.with_suffix(".trimmed.mp4").exists() or t.with_suffix(".render.pending").exists():
                 n_done += 1
                 continue
             # phase 1 only: transcribe + propose cuts + review page. The user
