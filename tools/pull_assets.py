@@ -1543,6 +1543,7 @@ def download(slug):
             _dl_ai(ep, beat, cid, url, ai_fname.get(cid, f"{cid}.png"), ai_rows, credits)
             continue
 
+        pick_url = url                                # the URL as picked (the resolver below may rewrite url/src)
         if src == "custom" and url.lower().startswith("http") and (
                 "pexels.com" in url or "pixabay.com" in url):
             direct, dsrc = _resolve_media_page(url, keys)
@@ -1553,6 +1554,16 @@ def download(slug):
                 print(f"  AVISO  {url} es una página, no un archivo — "
                       f"añade la API key o pega el enlace directo / una ruta local")
 
+        if src == "custom" and url.strip().lower().startswith(("http://", "https://")):
+            _sf, _sm = _custom_sources(ep)
+            _safe_b = re.sub(r"[^A-Za-z0-9+-]", "", beat)
+            have = next((f for sub_ in ("video", "archive", "stock")
+                         for f in sorted((ep / "assets" / sub_).glob(f"beat{_safe_b}_*")) if f.stat().st_size > 0), None)
+            if have and _sm.get(str(beat)) == pick_url.strip():  # same URL as last time -> already on disk
+                dim = "—" if have.suffix.lower() in (".mp4", ".mov", ".webm") else _dims(have.read_bytes(), have.suffix.lower())
+                print(f"  ya estaba  {have.name}  {dim}")
+                beat_rows.append((beat, f"{src}:{cid}", url, dim, f"assets/{have.parent.name}/{have.name}"))
+                continue
         if src == "custom" and not url.strip().lower().startswith(("http://", "https://")):
             # the style pass stores a local pick relative to the EPISODE («assets/custom/x.png»); _fetch only
             # looks in the repo root / cwd, so every such pick failed with «no existe la ruta» and was never
@@ -1604,6 +1615,10 @@ def download(slug):
                 pass
 
         print(f"  OK  {name}  {dim}")
+        if pick_url.strip().lower().startswith(("http://", "https://")):
+            _sf, _sm = _custom_sources(ep)
+            _sm[str(beat)] = pick_url.strip()
+            _sf.write_text(json.dumps(_sm, ensure_ascii=False, indent=1), encoding="utf-8")
         beat_rows.append((beat, f"{src}:{cid}", final, dim, rel))
         credits.append(f"- {beat}: {src}:{cid} — {final if final.startswith('http') else '(archivo propio)'}")
 
@@ -1617,6 +1632,17 @@ def download(slug):
         if fresh:
             cf.write_text(prev.rstrip() + "\n" + "\n".join(fresh) + "\n", encoding="utf-8")
         print(f"\ncréditos    → episodes/{slug}/assets/CREDITS.md")
+
+
+def _custom_sources(ep):
+    """assets/_custom_sources.json: beat -> the URL its `custom:` pick was downloaded from. A custom pick
+    by URL is re-downloaded only when the URL for that beat CHANGES (a local path is always re-read: the
+    file may have been replaced) — otherwise every «Guardar» fetched the same 193 MB Pexels video again."""
+    f = ep / "assets" / "_custom_sources.json"
+    try:
+        return f, json.loads(f.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return f, {}
 
 
 def _report_uncovered(ep, slug):
