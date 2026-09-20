@@ -1,10 +1,10 @@
 {
  "ep": "E003",
  "slug": "E003-tulipomania",
- "generated": "2026-09-13",
+ "generated": "2026-09-15",
  "schema": 2,
- "seeded": "2026-09-13",
- "aligned": false,
+ "seeded": "2026-09-14",
+ "aligned": true,
  "fps": 24,
  "w": 3840,
  "h": 2160,
@@ -124,7 +124,8 @@
    "vo_anchor": "¿pasó de verdad...?",
    "in": 28.0,
    "out": 36.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b8",
@@ -136,7 +137,8 @@
    "vo_anchor": "Hola, soy... Conquest",
    "in": 36.0,
    "out": 39.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b9",
@@ -148,7 +150,8 @@
    "vo_anchor": "para entender... Siglo de Oro",
    "in": 39.0,
    "out": 49.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b10",
@@ -343,7 +346,8 @@
    "vo_anchor": "volvamos a los bulbos...",
    "in": 129.0,
    "out": 134.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b24",
@@ -355,7 +359,8 @@
    "vo_anchor": "cutaway pre-PROMISE 1",
    "in": 134.0,
    "out": 138.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b25",
@@ -381,7 +386,8 @@
    "vo_anchor": "bisagra de entrada Acto 1",
    "in": 144.0,
    "out": 152.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b27",
@@ -433,7 +439,8 @@
    "vo_anchor": "cutaway pre-PROMISE 2",
    "in": 173.0,
    "out": 177.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b31",
@@ -528,7 +535,8 @@
    "vo_anchor": "bisagra de entrada Acto 2",
    "in": 209.0,
    "out": 216.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b38",
@@ -597,7 +605,8 @@
    "vo_anchor": "cutaway pre-PROMISE 3",
    "in": 246.0,
    "out": 250.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b43",
@@ -623,7 +632,8 @@
    "vo_anchor": "bisagra de entrada Acto 3",
    "in": 255.0,
    "out": 262.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b45",
@@ -704,7 +714,8 @@
    "vo_anchor": "guárdate esta imagen...",
    "in": 298.0,
    "out": 306.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b51",
@@ -757,7 +768,8 @@
    "vo_anchor": "¿de dónde sale esa versión?",
    "in": 325.0,
    "out": 333.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b55",
@@ -810,7 +822,8 @@
    "vo_anchor": "Mackay tenía... espejo conveniente [S04]",
    "in": 350.0,
    "out": 360.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b59",
@@ -835,7 +848,8 @@
    "vo_anchor": "se convierte en un mito [S02]",
    "in": 366.0,
    "out": 375.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b61",
@@ -847,7 +861,8 @@
    "vo_anchor": "gracias a Anne Goldgar",
    "in": 375.0,
    "out": 383.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b62",
@@ -911,7 +926,8 @@
    "vo_anchor": "grupo acotado... no todo el país [S01][S04]",
    "in": 406.0,
    "out": 415.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b67",
@@ -937,7 +953,8 @@
    "vo_anchor": "Earl Thompson, 2007",
    "in": 421.0,
    "out": 428.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b69",
@@ -978,7 +995,8 @@
    "vo_anchor": "dos métodos, misma conclusión",
    "in": 445.0,
    "out": 453.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b72",
@@ -991,7 +1009,8 @@
    "vo_anchor": "¿pasó de verdad? No. [S02]",
    "in": 453.0,
    "out": 463.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b73",
@@ -1016,7 +1035,8 @@
    "vo_anchor": "por qué la versión falsa duró tanto",
    "in": 468.0,
    "out": 478.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b75",
@@ -1028,7 +1048,8 @@
    "vo_anchor": "la falacia narrativa [S13]",
    "in": 478.0,
    "out": 490.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b76",
@@ -1043,7 +1064,8 @@
    "out": 495.0,
    "file": "assets/graphic/G5_flor-por-casa.png",
    "state": "ok",
-   "aspect": 1.778
+   "aspect": 1.778,
+   "dup": "b28"
   },
   {
    "id": "b77",
@@ -1058,7 +1080,8 @@
    "out": 500.0,
    "file": "assets/graphic/G10_cifras-alkmaar.png",
    "state": "ok",
-   "aspect": 1.778
+   "aspect": 1.778,
+   "dup": "b48"
   },
   {
    "id": "b78",
@@ -1070,7 +1093,8 @@
    "vo_anchor": "las dos imágenes son ciertas",
    "in": 500.0,
    "out": 508.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b79",
@@ -1082,7 +1106,8 @@
    "vo_anchor": "más fáciles de entender [S04][S13]",
    "in": 508.0,
    "out": 518.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b80",
@@ -1094,7 +1119,8 @@
    "vo_anchor": "para llevar: la próxima vez...",
    "in": 518.0,
    "out": 530.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b81",
@@ -1106,7 +1132,8 @@
    "vo_anchor": "no se trata de desconfiar...",
    "in": 530.0,
    "out": 540.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b82",
@@ -1118,7 +1145,8 @@
    "vo_anchor": "pregunta + sign-off + título",
    "in": 540.0,
    "out": 558.0,
-   "state": "uncovered"
+   "file": "assets/E003-vo.trimmed.mp4",
+   "state": "ok"
   },
   {
    "id": "b83",
@@ -1131,7 +1159,8 @@
    "vo_anchor": "wordmark final",
    "in": 558.0,
    "out": 932.0,
-   "state": "plan"
+   "state": "plan",
+   "pace": 374.0
   }
  ]
 }

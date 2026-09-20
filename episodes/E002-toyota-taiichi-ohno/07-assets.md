@@ -95,6 +95,31 @@ Marca cada candidato:
 | 102 | ai:ai17 | 1672x941 | `assets/ai/E002_ai17_toyota-seminars.png` |
 | 104 | ai:ai18 | 1672x941 | `assets/ai/E002_ai18_ohno-book.png` |
 | 110 | ai:ai19 | 1672x941 | `assets/ai/E002_ai19_nummi-line.png` |
+| + | sala | llevan dos meses de huelga | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.jpg | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | en uno de esos talleres está Taiichi Ohno | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.jpg | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | swap_0960d50772 | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | el sistema de Henry Ford: muy pocos modelos, en cantidades enormes | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.jpg | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | vuelve con una conclusión rara | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.jpg | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | swap_0960d50772 | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | cada paso empuja… Ohno hace lo contrario: cada paso solo coge del ante | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.jpg | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | Kiichirō llevaba desde 1937 repitiendo: justo a tiempo | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | una tarjeta. Eso es lo que Ohno pone en el centro de todo | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | la ficha viaja con la caja, vuelve al taller de atrás como la orden; s | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | la fábrica que no podía permitirse el método de Detroit era la que mej | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | no podía escalar como Ford, así que invirtió el flujo | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | en 1924 lo consigue: el telar automático Tipo G | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | se para solo: en el instante en que un hilo se rompe, la máquina se de | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | almacenes gigantes llenos de piezas esperando | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.jpg | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | Igual que un año de la vida de un luchador de sumo. Se concentra en 10 | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | Kiichirō llevaba desde 1937 repitiendo: justo a tiempo | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | Kiichirō llevaba desde 1937 repitiendo: justo a tiempo | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | cada paso empuja… Ohno hace lo contrario: cada paso solo coge del ante | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | una ficha que va y vuelve dentro de una caja | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | todo se detiene hasta que se entiende qué ha pasado | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | dentro de Toyota lo llaman el sistema del supermercado | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | la producción ha caído un setenta por ciento | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | la fábrica que no podía permitirse el método de Detroit era la que mej | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
+| + | sala | la fábrica que no podía permitirse el método de Detroit era la que mej | traído en la sala: D:\Conquest\episodes\E002-toyota-taiichi-ohno\assets\_upload.png | por confirmar | — | por confirmar | full-frame | **añadido en la sala** |
 
 
 ## Gráficos propios (no van en el manifiesto — resumen para el brief de diseño)

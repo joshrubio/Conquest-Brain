@@ -21,7 +21,7 @@ authority: template
 | Guionista | Usuario 001 |
 | Forma del cierre (`brain/09`) | A reflexión + para llevar / B lección distribuida / C pregunta abierta |
 | Registro(s) del cierre (`brain/09`) | psicológico / práctico / filosófico / religioso — **máx. 2** |
-| Duración objetivo | ~15–25 min · ~2.400–4.000 palabras |
+| Duración objetivo | 25 min mínimo, sin techo fijo · ~3.900+ palabras (`brain/02`) |
 | Tema en una frase | … |
 
 ---

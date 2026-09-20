@@ -47,3 +47,23 @@
 # --- MÚSICA (consideración; brand/assets/music/) ---
 music	jamendo:1542223	https://prod-1.storage.jamendo.com/download/track/1542223/mp32/
 music	jamendo:1530537	https://prod-1.storage.jamendo.com/download/track/1530537/mp32/
+
+# --- SALA (asset-id → recurso; swaps hechos en la sala) ---
+swap_8706f9cd22	sala	assets/archive/swap_8706f9cd22.png
+swap_cebff56a22	sala	assets/archive/swap_cebff56a22.png
+swap_ee60420046	sala	assets/archive/swap_ee60420046.png
+swap_d4f6d99e16	sala	assets/archive/swap_d4f6d99e16.png
+swap_327890e775	sala	assets/archive/swap_327890e775.png
+swap_4120298054	sala	assets/archive/swap_4120298054.png
+swap_0e90260bd9	sala	assets/archive/swap_0e90260bd9.png
+swap_cedc46c1f3	sala	assets/archive/swap_cedc46c1f3.jpg
+swap_3cd75e93b3	sala	assets/archive/swap_3cd75e93b3.png
+swap_d77438d177	sala	assets/archive/swap_d77438d177.png
+swap_74ded7609b	sala	assets/archive/swap_74ded7609b.png
+swap_50cd94d0a7	sala	assets/archive/swap_50cd94d0a7.png
+swap_8a5f728428	sala	assets/archive/swap_8a5f728428.png
+swap_bd1c64d57c	sala	assets/archive/swap_bd1c64d57c.png
+swap_19a8638557	sala	assets/archive/swap_19a8638557.jpg
+swap_0960d50772	sala	assets/archive/swap_0960d50772.png
+swap_ef78fb1672	sala	assets/archive/swap_ef78fb1672.jpg
+swap_cec0ab569a	sala	assets/archive/swap_cec0ab569a.jpg

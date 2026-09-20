@@ -7,8 +7,8 @@
 |-------|-------|
 | ID episodio | E004 |
 | Investigador principal | Claude (borrador) — revisado y aprobado por Usuario 001 |
-| Última actualización | 2026-09-12 |
-| Nº de fuentes en source-log | 6 (A: 1 / B: 2 / C: 2 / D: 1 — la D es la fuente corporativa, citada como objeto, nunca como respaldo) |
+| Última actualización | 2026-09-18 (ampliado en Stage 4 — ver notas en §2/§6/§8/§9; el gate original de Stage 2 sigue firmado tal cual, ver abajo) |
+| Nº de fuentes en source-log | 10 (A: 1 / B: 4 / C: 4 / D: 1 — S07-S10 añadidas en Stage 4, 2026-09-18; la D es la fuente corporativa, citada como objeto, nunca como respaldo) |
 
 ## 1. Reinicio de fuentes (si aplica)
 
@@ -27,7 +27,8 @@ No aplica — la idea viene del pool público (`ideas/idea-pool.md`, DOC-01), ge
 | 1886 | Frank Mason Robinson (socio/contable de Pemberton) sugiere el nombre «Coca-Cola» y diseña el logo en script Spencerian | S05 | C | Subir de tier — es un dato muy citado, casi seguro verificable en prensa/registro de marca |
 | 1887 (termina la prohibición de Atlanta) | Pemberton retoma la producción del French Wine Coca (con alcohol), que sigue vendiéndose e incluso supera en ventas a la nueva Coca-Cola hasta su muerte | S02 | B | **Matiz importante para el guion**: la "conversión" a la fórmula sin alcohol no fue limpia ni definitiva en vida de Pemberton — complica la narrativa simple de "prohibición → Coca-Cola para siempre" |
 | 1887-1888 | Enfermo y con problemas de dinero, Pemberton vende participaciones de los derechos de fabricación a **varias partes distintas y superpuestas**: Margaret Dozier y Woolfolk Walker, luego J. C. Mayfield (un tercio de "Pemberton Medicine Company"), y también a Asa Candler — generando un "chain of title" disputado | S05 | C | **Pista de alto valor, sin confirmar en Tier A** — si se sostiene, es un beat mejor que "vendió todo a Candler y punto"; localizar el pleito judicial (Mayfield v. Candler o similar) antes de escribirlo en el guion |
-| 1888-08-16 | Muere John Pemberton en Atlanta, pobre y todavía adicto a la morfina | S01, S02, S03 | B/C | Fecha de muerte sólida (S01 la confirma independientemente) |
+| 1888-08-16 | Muere John Pemberton en Atlanta, pobre y todavía adicto a la morfina — causa de muerte: cáncer de estómago, además de la adicción de fondo | S01, S02, S03, S07 (S07 corrobora la causa, con reserva — ver nota de fiabilidad en source-log) | B/C | Fecha de muerte sólida (S01 la confirma independientemente); causa de muerte (cáncer) nueva en esta pasada — Tier C, subir antes de citarla en pantalla |
+| h. 1894 (seis años después de la muerte del padre) | Charles Ney Pemberton (n. 1854), el único hijo de John Pemberton, sigue vendiendo la fórmula de su padre y muere de una adicción — S03 dice opio, S07 dice alcoholismo crónico + morfina — a una edad similar (~40 años) | S03, S07 | C | **Hallazgo nuevo de Stage 4 (2026-09-18)**, para el cierre reenfocado en la necesidad humana. Corroborado de forma independiente en dos sitios distintos, pero ambos Tier C y con detalles que no coinciden entre sí (sustancia exacta de la adicción) — subir de tier o narrarlo sin especificar la sustancia exacta si no se confirma a tiempo |
 | 1888 (marzo) | Se presenta la petición de incorporación de "The Coca-Cola Company" — antes de la muerte de Pemberton | S01 | B | — |
 | 1888-1891 | Asa Candler consolida progresivamente la propiedad total de la fórmula y la marca (comprando o resolviendo las participaciones superpuestas), por un total citado de $2.300 | S02, S04 (como fecha, no como respaldo del relato completo) | B | La cifra de $2.300 aparece también en la propia web corporativa (S04) — coincide con la literatura secundaria |
 | 1892 | Se incorpora formalmente "The Coca-Cola Company" (Candler + hermano John S. Candler + Frank Robinson + 2 socios más); ventas del sirope crecen ~10× bajo el marketing de Candler | S02, S04 | B/D | S04 es la fuente corporativa — usar solo la fecha/estructura, no su marco narrativo |
@@ -41,6 +42,7 @@ No aplica — la idea viene del pool público (`ideas/idea-pool.md`, DOC-01), ge
 | Asa Griggs Candler | Comprador de los derechos, fundador de The Coca-Cola Company (1892) | Fallecido (1929) | Ninguna — tratar sin caricaturizar (`brain/09` A7): documentar lo que hizo, no inventarle motivos internos | S01, S02, S04 |
 | Frank Mason Robinson | Socio/contable de Pemberton; acuñó el nombre y el logo | Fallecido | Ninguna | S05 |
 | J. C. Mayfield / Margaret Dozier / Woolfolk Walker | Compradores de participaciones superpuestas en los derechos, 1887-88 | Fallecidos | Ninguna — verificar bien antes de nombrarlos, es la parte menos confirmada del dossier | S05 |
+| Charles Ney Pemberton | Único hijo de John Pemberton; continuó vendiendo la fórmula de su padre; murió de adicción (opio o alcohol+morfina, según la fuente) hacia 1894, a una edad similar a la de su padre | Fallecido | Ninguna — figura histórica menor, sin herederos conocidos relevantes para el equipo | S03, S07 |
 | The Coca-Cola Company (moderna) | Corporación pública actual | — (entidad, no persona) | No es el sujeto del episodio — cero branding moderno en pantalla (`brain/04` §4, ya en el brief) | S04 |
 
 ## 4. Afirmaciones de carga (load-bearing) y su respaldo
@@ -75,6 +77,8 @@ No aplica — la idea viene del pool público (`ideas/idea-pool.md`, DOC-01), ge
 - **Prensa de Atlanta 1885-1888** — no se ha buscado aún directamente en Chronicling America (LOC) ni en archivos de Georgia; sería la fuente Tier A más directa para los anuncios de "French Wine Coca" y la ordenanza de prohibición de 1886 citada en el brief.
 - **Fecha exacta de retirada de la cocaína** — fijar el año antes de citarlo con precisión en pantalla.
 - **Frank Robinson** — confirmar la anécdota del nombre/logo contra una fuente mejor que Wikipedia (hay varios sitios de historia de marcas que la repiten, pero conviene una fuente con nota al pie).
+- **Charles Ney Pemberton (hallazgo Stage 4, 2026-09-18)** — S03 y S07 coinciden en que el hijo de Pemberton heredó una adicción y murió joven (~1894, ~40 años) pero difieren en la sustancia exacta (opio vs. alcohol+morfina); S07 además tiene un error de fecha verificado en la muerte del propio John Pemberton, así que su fiabilidad general es baja. Buscar una fuente Tier A/B (Pendergrast con página, o un obituario/registro de la época) antes de fijar la sustancia exacta en el guion; si no se confirma a tiempo, narrarlo sin especificarla ("una adicción similar a la suya").
+- **Causa de muerte de John Pemberton (hallazgo Stage 4, 2026-09-18)** — Wikipedia (S03) y Hektoen International (S07) coinciden en cáncer (de estómago / abdominal), pero ambas son Tier C — subir a Pendergrast con página antes de afirmarlo con precisión en pantalla.
 
 ## 7. Citas textuales candidatas
 
@@ -86,11 +90,29 @@ No aplica — la idea viene del pool público (`ideas/idea-pool.md`, DOC-01), ge
 
 ## 8. Ángulo psicológico / humano
 
+> **Estado final, Stage 4, 2026-09-18 (segunda pasada):** el cierre original (v1) anclaba en la curaduría institucional (S04 vs. el resto) — ver «Enfoque anterior» abajo, se deja como registro. La reescritura pasó primero por una versión intermedia sin atribuir (una "necesidad humana" genérica), y terminó en la versión que sí está en el guion: **dos registros nombrados y sourceados, el techo de `brain/09`:**
+>
+> - **Psicológico** — la hipótesis de la automedicación (Edward Khantzian, 1985, `[S09]`): la adicción como intento de calmar un dolor previo, no de buscar placer. Aplicada a Pemberton, y con matiz explícito de incertidumbre a su hijo ("sabemos mucho menos de él").
+> - **Religioso** — la parábola del buen samaritano (Lucas 10:25-37, `[S10]`), presentada explícitamente como una tradición/lectura, nunca como la verdad (`brain/09` reglas 1-3) — ancla el «para llevar»: detenerse a mirar la necesidad de alguien, no solo pasar cerca.
+>
+> Esto **sí requiere** el anclaje `brain/09 §A6` (a diferencia de lo que decía una nota anterior de esta misma pasada) — cada registro está nombrado, atribuido y logueado en `03-source-log.csv` (S09, S10), exactamente como cualquier afirmación factual. El hallazgo nuevo que sostiene el anclaje concreto (el hijo de Pemberton, Charles Ney Pemberton, heredó su adicción y murió por ella hacia 1894) está narrado en el guion como hecho, en Acto 5 — no en el cierre (`brain/09` A4: nada nuevo se introduce en el cierre) — ver §2 y §6. El contraste S04 sigue en el guion como beat factual de Acto 4, ya no como tesis del cierre.
+
+**Enfoque anterior (v1, registro histórico — no se usa en el guion actual):**
+
 - **Mecanismo (registro práctico, per `brief`):** el relato oficial de una marca/institución es curaduría, no historia completa — lo incómodo se edita de la versión que la propia empresa cuenta de su origen.
-- **Anclaje concreto:** S04 (la página oficial de Candler) frente a S02/S05 (la adicción, la cocaína, la disputa de derechos) — el contraste directo entre lo que la empresa cuenta y lo que el registro histórico documenta es el anclaje, no una teoría psicológica abstracta que necesite un teórico citado aparte. Esto significa que el cierre probablemente **no necesita** un anclaje `brain/09 §A6` de un autor externo (a diferencia de E003) — es una observación editorial/práctica directamente demostrada por el contraste de fuentes, no una afirmación de mecanismo psicológico que requiera respaldo teórico. Revisar en Stage 3/4 si el registro pide reforzarlo con un teórico (p. ej. algo sobre "curación de marca"/narrativa corporativa) — si se nombra uno, sourcearlo igual que cualquier claim (`brain/09` A6).
+- **Anclaje concreto:** S04 (la página oficial de Candler) frente a S02/S05 (la adicción, la cocaína, la disputa de derechos) — el contraste directo entre lo que la empresa cuenta y lo que el registro histórico documenta es el anclaje, no una teoría psicológica abstracta que necesite un teórico citado aparte. Esto significa que el cierre probablemente **no necesita** un anclaje `brain/09 §A6` de un autor externo (a diferencia de E003) — es una observación editorial/práctica directamente demostrada por el contraste de fuentes, no una afirmación de mecanismo psicológico que requiera respaldo teórico.
 - **Momentos concretos a los que se anclará la reflexión:** la página oficial de Candler (S04) sin mención de la adicción/cocaína/disputa; el contraste "una flor/bebida por una imagen pulida" vs. lo que documenta la historiografía (Pendergrast + la enciclopedia estatal).
 
 ## 9. Para llevar — validación
+
+> **Actualizado Stage 4, 2026-09-18** — el takeaway de v1 (abajo, «Enfoque anterior») ya no es el que está en el guion. Validación del takeaway actual:
+
+- **Idea aplicable:** la próxima vez que alguien a tu alrededor esté «bien» de una forma que no cuadra del todo, vale la pena preguntarte qué necesita de verdad — y si se lo has preguntado alguna vez. Detenerse a mirar, no solo pasar cerca.
+- **¿Se deduce del caso tal como lo contamos?** Sí — es literalmente lo que le faltó a Pemberton (nadie resolvió su adicción a tiempo) y lo que le volvió a faltar a su hijo seis años después (mismo patrón, nadie se detuvo la segunda vez tampoco). El caso lo demuestra dos veces, no una.
+- **La prueba quirúrgica (`brain/09` A10):** ¿alguien que conoce el caso asentiría con este takeaway, o diría "pero eso no fue lo que pasó"? Asiente — el takeaway no dice que Pemberton fuera víctima de una institución (eso habría forzado C10/S04 más de la cuenta), dice que nadie notó su necesidad a tiempo, que es exactamente lo que documentan S01/S02/S03/S07/S08.
+- **¿Requiere torcer algún hecho?** No. Sí requiere el hallazgo nuevo del hijo (§2, §6) — narrado como hecho en Acto 5 del guion, no inventado en el cierre.
+
+**Validación del takeaway anterior (v1, ya no vigente):**
 
 - **Idea aplicable:** cuando una marca o institución cuenta su propio origen, la pregunta útil no es "¿es mentira?" sino "¿qué se quedó fuera, y por qué esa parte en concreto?"
 - **¿Se deduce del caso tal como lo contamos?** Sí — es exactamente lo que muestra el contraste S04 vs. S01/S02/S05: la página oficial omite la adicción, la cocaína y la disputa de derechos, no por accidente sino porque esas partes no sirven a la historia que la marca quiere contar.
@@ -106,6 +128,7 @@ No aplica — la idea viene del pool público (`ideas/idea-pool.md`, DOC-01), ge
 | Documento de incorporación de The Coca-Cola Company (marzo 1888) | Archivos de Georgia / registros corporativos históricos | dominio público probable — localizar el documento real en Stage 7 |
 | Escenas de farmacia / mezcla del jarabe (no hay imagen en movimiento de la época) | recreación / ilustración propia (`brain/15`) | IA — rotulada, sin rostro real fotorrealista |
 | Página web actual de la empresa (S04, citada como objeto) | captura propia de la página pública | uso editorial/comentario — nunca branding decorativo, se cita como lo que dice, con atribución en pantalla |
+| Acto 5 (hallazgo Stage 4, `S08`) — Charles Ney Pemberton, hijo de John Pemberton | no se ha localizado retrato — probable que no exista uno de acceso público; revisar en Stage 7 | si no hay retrato: gráfico/tipografía con las fechas (n. 1854 – m. h. 1894), o reencuadre del retrato ya usado de John Pemberton con un rótulo de fecha, no un rostro inventado |
 
 ## Gate Stage 2
 

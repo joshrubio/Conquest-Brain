@@ -100,7 +100,7 @@ Una frase: ¿de qué trata realmente este episodio?
 
 ## Estimación
 
-- Duración objetivo: 15–25 min (~2.400–4.000 palabras)
+- Duración objetivo: 25 min mínimo, sin techo fijo (~3.900+ palabras; `brain/02`)
 - Esfuerzo de investigación: bajo / medio / alto
 - Necesidades de archivo/visual poco habituales: …
 

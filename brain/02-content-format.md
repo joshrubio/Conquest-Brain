@@ -1,6 +1,6 @@
 ---
 doc: 02-content-format
-summary: "Episode anatomy (cold open -> bumper -> context pivot -> chronological narrative -> close -> CTA), length (no hard ceiling, soft notice at 30 min), first-time-telling rule, required devices."
+summary: "Episode anatomy (cold open -> bumper -> context pivot -> chronological narrative -> close -> CTA), length (hard floor 25 min, no hard ceiling, soft notice at 40 min), first-time-telling rule, required devices."
 stage: [3, 4]
 read_when: "outlining or writing a script; laying out the beat sheet"
 pairs_with: [08-tone-of-voice, 09-reflection-rules, 11-visual-rhythm]
@@ -15,7 +15,9 @@ authority: canonical
 
 ## Episode length
 
-**Target: 15–25 minutes.** Reference episodes ran 18:35–28:52. Script ~2,400–4,000 words (Spanish, ~150–165 wpm narrated). Hard floor 12 min. **No hard ceiling** — at ~30 min a soft notice fires (is the runtime earning its length? are the extra beats context and story, or padding?), and that is the whole check. Longer = more biographical and context beats, same structure — not a looser structure.
+**Hard floor: 25 minutes.** (Changed 2026-09-18 — was a 15–25 min target with a 12 min floor; every episode from here on, brief onward, plans for 25 min minimum, not 25 as a ceiling.) Script ~3,900+ words (Spanish, ~150–165 wpm narrated) to clear the floor. **No hard ceiling above that** — at ~40 min a soft notice fires (is the runtime earning its length? are the extra beats context and story, or padding?), and that is the whole check. Longer = more biographical and context beats, same structure — not a looser structure.
+
+Set the floor at Stage 1 (brief) and Stage 3 (outline), not by padding a finished Stage 4 script — an outline built for 25+ min budgets its beats differently (more room per act, more explainer/context beats) than one stretched after the fact. An episode already past Stage 3 under the old target isn't retroactively broken; expand it at Stage 4 by mining the Stage 2 dossier for already-sourced, unused material and giving compressed beats more room — not by inventing new claims to hit the count.
 
 ## Reference
 
@@ -144,6 +146,7 @@ Allowed — a Conquest-owned product (book, course, merch) or a paid sponsor seg
 - **Sections are welded, not stacked.** Headings are a production convenience — the narration must not *feel* sectioned. Every seam (act→act, narrative→explainer, explainer→narrative, narrative→close) gets a **bridge**: the last line of the outgoing block reaches forward, or the first line of the incoming block reaches back, in the narrator's own words. Never "end an idea. new heading. start an unrelated idea." An explainer is *invited by the beat right before it* ("para entender por qué hizo eso, hace falta saber…") and *hands back to the story on exit* ("con eso claro, volvamos a…"). Same for a cited authority (below). Phrase models: [research/dieck-docs/phrasebook.md](../research/dieck-docs/phrasebook.md) §3–§5, §9, §18. Checked at Stage 4 self-review and flagged by the L2 fact-check pass.
 - Explainer interludes and foreshadowing hooks appear in every episode.
 - Any concept invoked in the reflection — psychological, philosophical, or religious — is **named and, where a specific theory / study / thinker / school / text is used, sourced `[S..]`** ([09-reflection-rules.md](09-reflection-rules.md)).
+- **No named person appears without a clause saying why they matter, at the point of first mention.** Not just a role label ("un comerciante de Atlanta") — the audience needs to know, right then, why this name is worth holding onto: what they're about to do, or why the story is about to turn on them. A minor name inside a list (e.g. several co-buyers in one transaction) can share the list's own framing instead of its own clause. Checked at Stage 4 self-review.
 
 ## Series identity elements
 

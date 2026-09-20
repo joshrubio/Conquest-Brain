@@ -1,0 +1,8 @@
+# 05-script-pass.txt — 05-script.html
+episodio	E004-coca-cola
+version	v2
+revisor	Usuario001
+aprobado	si
+
+---BEATS---
+26	NARRACIÓN	EDITADO

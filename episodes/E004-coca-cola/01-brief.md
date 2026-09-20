@@ -43,6 +43,8 @@ El hombre que de verdad inventó Coca-Cola no es el que la convirtió en un impe
 3. **Mecanismo humano / psicológico que revela:** El relato oficial de una marca es curaduría, no historia completa — lo incómodo (la adicción del inventor, la cocaína, quién se quedó con qué) se edita de la versión que la propia empresa cuenta.
 4. **Cierre — forma A:** para llevar — cuando una marca o institución cuenta su propio origen, la pregunta útil no es "¿es mentira?" sino "¿qué se quedó fuera, y por qué esa parte en concreto?". *¿Se deduce del caso sin forzar? Sí — es exactamente lo que le pasó a Pemberton frente al mito de fundación que Coca-Cola cuenta hoy.*
 
+> **Nota Stage 4, 2026-09-18:** el cierre del guion (v2) cambió de enfoque — ya no repite el punto 3/4 de arriba como tesis del cierre (se queda como beat factual en Acto 4). Ancla ahora en la necesidad humana cruda detrás del invento, apoyada en un hallazgo de investigación de Stage 4: el hijo de Pemberton heredó su adicción y murió por ella hacia 1894 (ver dossier §8, source-log S07). La tesis de trabajo (línea 37) sigue vigente sin cambios; ver `02-research-dossier.md` §8 para el detalle del nuevo enfoque.
+
 ## Por qué ahora / por qué nosotros
 
 Encaja de lleno en la dirección Documental del canal (sujeto reconocible + ángulo oculto, `idea-pool.md`): la marca es el reconocimiento máximo posible, y el ángulo (adicción, cocaína, el inventor real olvidado) es genuinamente desconocido para la mayoría de la audiencia. Cierra además, de forma natural, con el tema de fondo del canal — la versión oficial vs. la versión real —, sin necesidad de forzar el frame `Conquest` (`brain/09` regla 4).
@@ -81,7 +83,7 @@ Encaja de lleno en la dirección Documental del canal (sujeto reconocible + áng
 
 ## Estimación
 
-- Duración objetivo: 15–25 min (~2.400–4.000 palabras)
+- Duración objetivo: ~~15–25 min (~2.400–4.000 palabras)~~ **Obsoleto — el canal fijó un piso duro de 25 min el 2026-09-18 (`brain/02`), después de este brief. Guion final (Stage 4, v2): ~18:55 / ~2.990 palabras, todavía bajo el piso nuevo.**
 - Esfuerzo de investigación: medio — material abundante y bien documentado (Pendergrast es una fuente central sólida), pero hay que cruzar cifras/fechas contra prensa primaria
 - Necesidades de archivo/visual poco habituales: recreación/ilustración para las escenas de farmacia y mezcla del jarabe (sin imagen de movimiento de la época); mucho material impreso (anuncios, patentes) que pedirá zooms a documento más que planos de "acción"
 

@@ -13,9 +13,9 @@
 | ID | Slug | Título | Track | Narrador | Stage | Gate | Auto-avance | Notas |
 |----|------|--------|-------|----------|-------|------|-------------|-------|
 | E001 | E001-hokusai | «Hokusai» | Documental | Usuario 002 | 11 | abierto | 12 | Stage 10 aprobado (titulo C, miniatura+descripcion OK) — listo para avanzar a Stage 11 (Publicacion) |
-| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 4 | exportado | 4 | FOLD FALLÓ: guion guardado en 05-script.md, falta aprobar + firmar en 05-script.html |
-| E003 | E003-tulipomania | «Tulipomanía» | Documental | Usuario 002 | 9 | abierto | 12 | créditos    → episodes/E003-tulipomania/assets/CREDITS.md |
-| E004 | E004-coca-cola | «Coca-Cola» | Documental | — | 4 | abierto | 12 | guion v1 escrito (05-script.md) + 05-script.html generado — esperando pase de guion de Usuario 001/002 (Stage 4, gate de alto riesgo) |
+| E002 | E002-toyota-taiichi-ohno | «Toyota / Taiichi Ohno» | Documental | Usuario 002 | 9 | exportado | 4 | timeline guardada · 0 correcciones + render 4K en cola |
+| E003 | E003-tulipomania | «Tulipomanía» | Documental | Usuario 002 | 9 | abierto | 12 | toma nueva subida y procesada — trim + timeline listos, 18 líneas del guion sin cobertura clara (revisar assets/E003-vo.review.html) |
+| E004 | E004-coca-cola | «Coca-Cola» | Documental | — | 6 | abierto | 12 | guion actualizado directamente en 05-script.md |
 
 ## Reglas
 

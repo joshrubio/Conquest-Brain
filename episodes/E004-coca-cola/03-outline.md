@@ -3,6 +3,12 @@
 > Stage 3. La lista de beats en orden, antes del guion. Contra `brain/02` (anatomía del episodio) y `brain/09` (cierre).
 > Rellenado desde `02-research-dossier.md` (aprobado, Stage 2 firmado 2026-09-12) y `01-brief.md`.
 > **Nota de registro (`brain/02` §2):** esto se narra como primera vez, no como corrección de un mito popular concreto — la mayoría de la audiencia no tiene una "versión oficial" específica en la cabeza sobre cómo se inventó Coca-Cola, solo no conoce la historia. El contraste con la página oficial de la empresa (S04) es **un beat honesto, tardío** (Acto 4) más el cierre — nunca hilado como "esto es lo que te han contado mal" a lo largo de la narrativa.
+>
+> **⚠ Desalineado con el guion final — actualizado Stage 4, 2026-09-18.** Este outline sigue siendo el registro de lo que se aprobó en el gate de Stage 3 (2026-09-12) y no se reescribe con carácter retroactivo. Pero el guion (`05-script.md` v2) cambió en varios puntos desde entonces; resumen de las diferencias, con anotaciones puntuales abajo donde importa:
+> 1. **Nuevo Acto 5** ("Lo que quedó atrás") entre el antiguo Acto 4 y el cierre — no existía en este outline. Narra que el hijo de Pemberton, Charles Ney Pemberton, heredó su adicción y murió por ella hacia 1894 (hallazgo de investigación de Stage 4, ver `02-research-dossier.md` §2/§6, fuentes S07/S08 en `03-source-log.csv`).
+> 2. **Cierre reenfocado por completo**: ya no ancla en la curaduría institucional (beats 25-27 abajo) — ancla en dos registros nombrados y sourceados, el techo de `brain/09`: psicológico (hipótesis de la automedicación, Khantzian 1985, `S09`) + religioso (parábola del buen samaritano, Lucas 10:25-37, `S10`). El contraste S04 se queda como beat factual del Acto 4 (beat 24), ya no es la tesis del cierre.
+> 3. **CTA cambiado** para que combine con el nuevo cierre (ver beat 28 abajo).
+> 4. **Duración objetivo superada** — el canal fijó un piso duro de 25 min el 2026-09-18 (`brain/02`, era 15-25 min con piso de 12). Este episodio se planeó bajo el target viejo; el guion final ronda ~18:55/~2.990 palabras, todavía bajo el piso nuevo — pendiente de decisión (ampliar más, o aceptar que se planeó antes del cambio de regla).
 
 | Campo | Valor |
 |-------|-------|
@@ -11,8 +17,8 @@
 | Narrador | Usuario 002 |
 | Guionista | Usuario 001 |
 | Forma del cierre (`brain/09`) | A — reflexión + para llevar |
-| Registro(s) del cierre (`brain/09`) | Práctico (1 registro — el relato de origen de una marca es curaduría, no historia completa) |
-| Duración objetivo | ~15–18 min · ~2.400–2.900 palabras |
+| Registro(s) del cierre (`brain/09`) | ~~Práctico (1 registro)~~ **Obsoleto — ver nota Stage 4 arriba.** Guion final: Psicológico + Religioso (2 registros, techo de `brain/09`) |
+| Duración objetivo | ~~~15–18 min · ~2.400–2.900 palabras~~ **Obsoleto — piso nuevo del canal, 2026-09-18: 25 min mínimo (`brain/02`). Guion final: ~18:55/~2.990 palabras** |
 | Tema en una frase | El hombre que de verdad inventó Coca-Cola no es el que la convirtió en un imperio — y la historia que la marca cuenta de sí misma se salta justo esa parte. |
 
 ---
@@ -51,10 +57,11 @@
 | 22 | 5 · Acto 4 | 1892: se incorpora formalmente The Coca-Cola Company; bajo el marketing de Candler, las ventas del sirope se multiplican por diez en pocos años | | [S02][S04] | — |
 | 23 | 5 · Acto 4 | **EXPLICADOR 2** — qué había realmente en el jarabe original (extracto de coca, sí, con cocaína) y por qué, hacia 1901–1903, se retiró progresivamente por la presión de la era progresista contra la cocaína | | [S02] | **PAY del PROMISE 1**; señalizado, ~140 palabras |
 | 24 | 5 · Acto 4 | El beat honesto de contraste: la propia página oficial de la empresa cuenta la era de Candler — sin mencionar la adicción de Pemberton, la cocaína, ni el reparto caótico de derechos | | [S04] | Un único beat, tardío, no repetido a lo largo del episodio (`brain/02` §2) |
-| 25 | 6 · Cierre · forma A | Bisagra al significado: no qué pasó exactamente, sino qué se cuenta y qué no | | — | Marco interpretativo obligatorio |
-| 26 | 6 · Cierre | El mecanismo, en registro práctico: cuando una marca o institución cuenta su propio origen, la pregunta útil no es "¿es mentira?" sino "¿qué se quedó fuera, y por qué esa parte en concreto?" — anclado directamente al contraste ya mostrado (beat 24), sin necesitar un teórico externo (`brain/09` A6 no aplica — es una observación editorial demostrada por las propias fuentes citadas, no una teoría psicológica nueva) | | [S04] vs. [S01][S02][S05] | **Registro:** práctico, 1 registro |
-| 27 | 6 · Cierre · para llevar | Una idea, ≤ 90 s: la próxima vez que una marca, empresa o institución cuente su propia historia con demasiada pulcritud, pregúntate qué falta | | — | ¿Se deduce sin forzar? Sí — es exactamente el contraste del episodio |
-| 28 | 7 · CTA coda | Pregunta a la audiencia (tipo: comentar) + sign-off fijo: «Mi nombre es [nombre] y esto fue: la verdadera historia del hombre que inventó Coca-Cola» | ~15 s | — | Rótulo «Fuentes principales» |
+| 24b | **Acto 5 (nuevo, no estaba en este outline)** | Charles Ney Pemberton, único hijo de Pemberton: en 1888 el padre intenta reservarle una parte de los derechos, el hijo prefiere el dinero, venden juntos lo que queda de la patente; el hijo muere de una adicción parecida a la de su padre hacia 1894 | | [S03][S07][S08] | **Hallazgo de Stage 4** (2026-09-18) — factual, se narra aquí, no en el cierre (`brain/09` A4) |
+| 25 | 6 · Cierre · forma A | ~~Bisagra al significado: no qué pasó exactamente, sino qué se cuenta y qué no~~ **Obsoleto.** Guion final: bisagra hacia la hipótesis de la automedicación (Khantzian) | | — | Marco interpretativo obligatorio |
+| 26 | 6 · Cierre | ~~El mecanismo, en registro práctico: … anclado directamente al contraste ya mostrado (beat 24)…~~ **Obsoleto — ver nota Stage 4 arriba.** Guion final: 2 registros nombrados — psicológico (automedicación, `S09`) + religioso (buen samaritano, `S10`) | | [S04] vs. [S01][S02][S05] | ~~**Registro:** práctico, 1 registro~~ **2 registros, el techo de `brain/09`** |
+| 27 | 6 · Cierre · para llevar | ~~Una idea, ≤ 90 s: la próxima vez que una marca…~~ **Obsoleto.** Guion final: detenerte a mirar la necesidad de alguien en vez de pasar de largo | | — | ¿Se deduce sin forzar? Sí — el caso lo demuestra dos veces (Pemberton y su hijo) |
+| 28 | 7 · CTA coda | Pregunta a la audiencia (tipo: comentar) + sign-off fijo. **Guion final:** «¿Alguna vez fuiste tú el que se detuvo cuando todos los demás siguieron caminando?» + «Mi nombre es [nombre] y esto fue: la verdadera historia del hombre que inventó Coca-Cola» | ~15 s | — | Rótulo «Fuentes principales» |
 
 ---
 
@@ -62,7 +69,7 @@
 
 | # | Se promete en | Se paga en | Idea |
 |---|----------------|------------|------|
-| 1 (HOOK) | Cold open (beat 2) — «¿qué pasó con el hombre que lo inventó?» | Acto 3 (beat 20, parcial) + Cierre (beat 26, completo) | Pemberton murió pobre y adicto, sin ver nada del imperio que su fórmula se convirtió |
+| 1 (HOOK) | Cold open (beat 2) — «¿qué pasó con el hombre que lo inventó?» | Acto 3 (beat 20, parcial) + **Acto 5 (beat 24b, nuevo)** + Cierre (beat 26, completo) | Pemberton murió pobre y adicto, sin ver nada del imperio que su fórmula se convirtió — y esa misma necesidad se repitió, sin resolverse, en su propio hijo (hallazgo Stage 4) |
 | 2 | Acto 1 (beat 11) — «hay un ingrediente en este tónico que hoy conoces por otro nombre» | Acto 4 / Explicador 2 (beat 23) | La cocaína estuvo en la fórmula original; se retiró hacia 1901-1903 |
 | 3 | Acto 3 (beat 17) — «esta fórmula está a punto de venderse varias veces, a gente distinta, a la vez» | Acto 3 (beat 18, el mismo tramo) | El traspaso de derechos fue un reparto caótico y superpuesto, no una venta limpia a Candler |
 
@@ -73,7 +80,7 @@
 | 1 | La era del "patent medicine" — por qué la coca/cocaína eran ingredientes legales de venta libre en 1880s EE. UU. | 6–7 (Pivote) | ~130 | sí — entrada/salida |
 | 2 | Qué había en el jarabe original y por qué se retiró la cocaína hacia 1901-1903 | 23 (Acto 4) | ~140 | sí — entrada/salida |
 
-Presupuesto total de explicadores: ~270 palabras de ~2.700 (≈10% del episodio) — dentro del <15%.
+Presupuesto total de explicadores: ~270 palabras de ~2.700 (≈10% del episodio) — dentro del <15%. **Actualizado Stage 4:** en el guion final son ~245 palabras (~160+~85) de ~2.990 (≈8%) — sigue dentro del <15%, los números bajaron un poco de precisión pero no de proporción.
 
 ## Chequeo del outline (Gate de Stage 3)
 
@@ -81,9 +88,9 @@ Presupuesto total de explicadores: ~270 palabras de ~2.700 (≈10% del episodio)
 - [x] El HOOK del cold open se retoma y se paga en el cierre (beat 26)
 - [x] Los 3 foreshadowings prometidos **y** pagados (tabla arriba)
 - [x] Explicadores señalizados; presupuesto ≈10% del total (< 15%)
-- [x] La forma del cierre (A, registro práctico) sigue encajando con el material — reconfirmado tras el dossier
-- [x] Cierre: mecanismo nombrado en general, anclado a las propias fuentes citadas (S04 vs. S01/S02/S05) — no requiere un teórico externo nuevo (`brain/09` A6: solo aplica cuando se invoca una teoría/pensador específico; aquí es una observación editorial directamente demostrada)
-- [x] 1 registro en el cierre (≤ 2, `brain/09`) — sin ideas filosóficas/religiosas que necesiten atribución
+- [x] La forma del cierre (A) sigue encajando con el material — reconfirmado tras el dossier. ~~Registro práctico~~ **obsoleto** — ver nota Stage 4 arriba: el guion final usa psicológico + religioso, ambos con `brain/09` A6
+- [x] ~~Cierre: mecanismo nombrado en general, anclado a las propias fuentes citadas (S04 vs. S01/S02/S05) — no requiere un teórico externo nuevo~~ **Obsoleto.** El cierre final SÍ nombra y sourcea dos autoridades externas (Khantzian `S09`, Lucas 10 `S10`) — `brain/09` A6 sí aplica, y se cumplió
+- [x] 2 registros en el cierre (= techo de `brain/09`, no 1 como se planeó aquí) — psicológico + religioso, ambos atribuidos y `[S..]` (cambio de plan documentado en `02-research-dossier.md` §8)
 - [x] La estructura se sostiene sin estirar los hechos; el cierre es honesto con el caso (el contraste S04 vs. resto es literal, no interpretado de más)
 - [x] Sin película dramatizada ni fuente secundaria débil como columna — el beat 18 (reparto caótico de derechos, S05/Tier C) está marcado explícitamente para subir de tier antes de guion (dossier §6), no se apoya en él sin matiz
 - [x] Cifras dudosas marcadas para rótulo de salvedad — fecha de retirada de cocaína (~1901-1903) y cifra del reparto de derechos, ambas con matiz pendiente de afinar en Stage 4/5

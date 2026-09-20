@@ -1,6 +1,6 @@
 ---
 doc: 09-reflection-rules
-summary: "The close in three forms (A takeaway / B distributed / C open question), across four registers (psychological, practical, philosophical, religious — the last two attributed + sourced), the surgical test, failure modes. On the Ensayo track the reflection is distributed through the whole episode and every reading beat carries a named authority from research/citation-shelf.md."
+summary: "The close in three forms (A takeaway / B distributed / C open question), across four registers (psychological, practical, philosophical, religious — psych/phil/religious attributed + sourced, and (2026-09-18) spoken aloud in the narración, not just logged), the surgical test, failure modes. On the Ensayo track the reflection is distributed through the whole episode and every reading beat carries a named authority from research/citation-shelf.md."
 stage: [1, 3, 4]
 read_when: "choosing the close form + register in the brief; writing or checking the close; writing an Ensayo reading"
 pairs_with: [02-content-format, 08-tone-of-voice, 01-editorial-and-sourcing, 20-experimental-clip-protocol]
@@ -23,10 +23,10 @@ The channel's reflection is not "psychology + a life hack". A case can genuinely
 
 | Register | What it lands on | Example anchors | Sourcing |
 |----------|------------------|-----------------|----------|
-| **Psychological** | a human mechanism — why people behaved as they did | prueba social, coste hundido, disonancia, indefensión aprendida, identidad y pertenencia, la esperanza como sesgo | name the concept; a specific study/theorist → `[S..]` (§A6) |
+| **Psychological** | a human mechanism — why people behaved as they did | prueba social, coste hundido, disonancia, indefensión aprendida, identidad y pertenencia, la esperanza como sesgo | name the concept **and say the theorist's name in the narración**; a specific study/theorist → `[S..]` (§A6) |
 | **Practical** | one usable idea the viewer can act on | "distingue la decisión reversible de la irreversible", "el coste de mantener la coherencia" | must follow from the case — the surgical test (§A10) |
-| **Philosophical** | an idea about meaning, value, virtue, freedom, mortality, the good life | Aristóteles (la virtud como término medio — y su reverso: la virtud llevada al extremo, T07); los estoicos (lo que depende de ti); Frankl (sentido); Arendt (la banalidad del mal); Sandel (lo que el dinero no debería comprar, T05); Camus (lo absurdo) | **name the thinker + the work; `[S..]` like any claim.** Present as *an idea*, not a verdict: "hay una lectura estoica de esto…" |
-| **Religious / spiritual** | how a faith tradition or a religious thinker has framed the same human question | la parábola de los talentos; Eclesiastés ("vanidad de vanidades"); Kierkegaard (la desesperación); Simone Weil (la atención); el desapego budista; **el arco Éxodo → Conquista** (Josué: no basta con salir de la versión falsa — hay que tomar y sostener la verdadera) | **name the tradition + the text; `[S..]`.** Present as *an idea people have held*: "el cristianismo lo formula como…", "una tradición… lo expresa así" |
+| **Philosophical** | an idea about meaning, value, virtue, freedom, mortality, the good life | Aristóteles (la virtud como término medio — y su reverso: la virtud llevada al extremo, T07); los estoicos (lo que depende de ti); Frankl (sentido); Arendt (la banalidad del mal); Sandel (lo que el dinero no debería comprar, T05); Camus (lo absurdo) | **name the thinker + the work, spoken in the narración; `[S..]` like any claim.** Present as *an idea*, not a verdict: "hay una lectura estoica de esto…" |
+| **Religious / spiritual** | how a faith tradition or a religious thinker has framed the same human question | la parábola de los talentos; Eclesiastés ("vanidad de vanidades"); Kierkegaard (la desesperación); Simone Weil (la atención); el desapego budista; **el arco Éxodo → Conquista** (Josué: no basta con salir de la versión falsa — hay que tomar y sostener la verdadera) | **name the tradition + the text, spoken in the narración; `[S..]`.** Present as *an idea people have held*: "el cristianismo lo formula como…", "una tradición… lo expresa así" |
 
 ### Rules for the philosophical & religious registers
 
@@ -112,6 +112,7 @@ The reference set does this consistently: Michael Sandel + *Lo que el dinero no 
 - Naming a bias in general terms needs no citation; popular-psychology claims ("usamos el 10% del cerebro", "la regla de las 10.000 horas") are checked or cut.
 - A philosophical or religious idea always names its source ("Frankl, en *El hombre en busca de sentido*…", "Eclesiastés lo dice así…") — the T07 failure is stating one flat in the narrator's voice. For a scripture or a classical text, cite the passage; for a translation, flag it (`brain/01` §4).
 - Attribution is not endorsement: "para los estoicos…", "una lectura cristiana sería…" — the frame stays *this is an idea someone holds*, never *this is the truth*.
+- **Say the name out loud (standard since 2026-09-18, E004).** The attribution belongs in the `[NARRACIÓN]` itself, in the narrator's own words — "el psiquiatra Edward Khantzian propuso…", "hay una parábola en el evangelio de Lucas…" — not only parked in a `[NOTA]` or the source index. E001 (Nicholls/Dweck), E002 (the philosophical beat), and E003 (Kahneman) all logged their authority in the `[NOTA]`/`03-source-log.csv` but never actually said the name in the narrated line — checked in fact-check, never heard by the viewer. That's the old pattern; E004 v2's cierre (Khantzian named on-screen, the buen samaritano parable named on-screen) is the reference from here on. A tag with no spoken name is now a fact-check finding, same tier as an unattributed claim.
 
 ### A7. Don't flatter the audience
 Skip "las personas inteligentes también caen". If the historiography says the actors were rational given their information, say that — it's more interesting and more honest.

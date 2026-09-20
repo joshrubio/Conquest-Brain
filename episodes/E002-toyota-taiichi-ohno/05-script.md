@@ -70,7 +70,7 @@ Para ver cómo, hay que volver a esa fábrica sin dinero.
 
 [NARRACIÓN] Y entonces, el 25 de junio de 1950, recién terminada la huelga, estalla la guerra de Corea. El ejército de Estados Unidos necesita camiones, muchos, y los necesita ya. Los pedidos caen sobre Toyota como lluvia después de una sequía: la empresa, que estaba a semanas de la quiebra, de golpe tiene los libros llenos [S03].
 
-[NARRACIÓN] Así que a Toyota, en 1950, no la salva su fábrica ni ningún método: la salvan un rescate de los bancos, mil seiscientos despidos y una guerra a la puerta de casa [S03]. Pero los pedidos de Corea son pan para hoy y hambre para mañana. No cambian que Toyota sigue fabricando muchísimo peor que Detroit. Lo que le dan a Ohno es otra cosa — unos años de respiro, con la empresa fuera de la sala de emergencias, para rehacer la fábrica por dentro.
+[NARRACIÓN] Así que a Toyota, en 1950, no la salva su fábrica ni ningún método: la salvan un rescate de los bancos, mil seiscientos despidos y una guerra a la puerta de casa [S03]. Pero los pedidos de Corea son pan para hoy y hambre para mañana. No cambian que Toyota sigue fabricando muchísimo peor que Detroit. Lo que le dan a Toyota es otra cosa — unos años de respiro, con la empresa fuera de la sala de emergencias, para rehacer la fábrica por dentro.
 
 [NARRACIÓN] Porque en uno de esos talleres está Taiichi Ohno. Ingeniero mecánico, formado en la sección textil de la empresa; que pasó a la fábrica de coches en 1943, cuando Toyota absorbió su filial de telares [S03]. En 1945 le dan un taller de montaje; y en 1949, el de motores [S03]. No se trata un alto directivo — Ohno es un jefe de taller con una idea fija y una misión imposible metida en la cabeza: alcanzar a Estados Unidos.
 

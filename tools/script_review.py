@@ -512,12 +512,12 @@ if(init){{
   $$('.dur').forEach(el=>{{const v=init.dur&&init.dur[el.dataset.secDur]; if(v!==undefined)el.value=v;}});
   $('#global').value=init.g||''; $('#firma').value=init.f||''; $('#ok').checked=!!init.ok;
 }}
-boxes.forEach(el=>el.addEventListener('input',()=>{{autosize(el);sync();}}));
-$$('.dur').forEach(el=>el.addEventListener('input',sync));
-$('#global').addEventListener('input',sync);
+boxes.forEach(el=>el.addEventListener('input',()=>{{autosize(el);sync();markDirty();}}));
+$$('.dur').forEach(el=>el.addEventListener('input',()=>{{sync();markDirty();}}));
+$('#global').addEventListener('input',()=>{{sync();markDirty();}});
 $('#firma').addEventListener('input',sync);
 $('#ok').addEventListener('change',sync);
-$$('.pill.rev').forEach(b=>b.addEventListener('click',()=>{{b.classList.toggle('on');sync();}}));
+$$('.pill.rev').forEach(b=>b.addEventListener('click',()=>{{b.classList.toggle('on');sync();markDirty();}}));
 $$('[data-cue-btn]').forEach(b=>b.addEventListener('click',()=>{{
   const x=b.closest('.node').querySelector('.expl'); if(x)x.hidden=!x.hidden;
 }}));
@@ -529,16 +529,15 @@ $$('.sidecard').forEach(c=>c.querySelector('h3').addEventListener('click',()=>{{
   const h=$('.node.sech[data-sec="'+c.dataset.sidecard+'"]'); if(h)h.scrollIntoView({{behavior:'smooth',block:'start'}});
 }}));
 sync();
-$('#exp').onclick=()=>{{
-  const firma=$('#firma').value.trim(), ok=$('#ok').checked;
-  if(ok&&!firma){{alert('Falta el nombre del revisor para poder firmar el gate (el guion se guarda igual).');}}
+// Shared by Guardar (WIP, no gate) and Finalizar (WIP + gate signoff) — a
+// "---" divider sat before every top-level (##) section in the source; ###
+// sub-sections (the Acto beats inside Narrativa) never had one. Put them
+// back so the reconstructed .md reads the same as it did on disk.
+function buildScriptMd(){{
   const secs=$$('.node.sech').map(h=>({{
     idx:h.dataset.sec, base:h.dataset.base, level:+h.dataset.level,
     dur:(($('.dur[data-sec-dur="'+h.dataset.sec+'"]')||{{}}).value ?? h.dataset.dur),
   }}));
-  // a "---" divider sat before every top-level (##) section in the source;
-  // ### sub-sections (the Acto beats inside Narrativa) never had one. Put
-  // them back so the reconstructed .md reads the same as it did on disk.
   let body='';
   secs.forEach((s,i)=>{{
     const raw=s.base+(s.dur.trim()?(' ('+s.dur.trim()+')'):'');
@@ -552,7 +551,32 @@ $('#exp').onclick=()=>{{
     if(i>0) body+=(s.level===2?'\\n\\n---\\n\\n':'\\n\\n');
     body+=[raw,...beats].join('\\n\\n');
   }});
-  const scriptMd=HEADER_RAW+'\\n---\\n'+body+(APPENDIX_RAW?('\\n\\n---\\n\\n'+APPENDIX_RAW):'')+'\\n';
+  return HEADER_RAW+'\\n---\\n\\n'+body+(APPENDIX_RAW?('\\n\\n---\\n\\n'+APPENDIX_RAW):'')+'\\n';
+}}
+/* ---- Guardar: WIP save to 05-script.md, no gate — same idiom as Stage 9 ---- */
+let saveT=0, saving=false, _ver=0;
+function markDirty(){{ _ver++; const s=$('#save'); if(!s)return;
+  s.textContent='Guardar •'; s.classList.add('dirty');
+  clearTimeout(saveT); saveT=setTimeout(saveScript,900); }}
+async function saveScript(){{
+  clearTimeout(saveT); if(saving)return; saving=true;
+  const myVer=_ver, s=$('#save');
+  s.textContent='Guardando…';
+  try{{
+    const r=await fetch('/script-save',{{method:'POST',headers:{{'content-type':'application/json'}},
+      body:JSON.stringify({{ep:EPID,script_md:buildScriptMd()}})}});
+    if(!r.ok)throw new Error('server '+r.status);
+    s.textContent='Guardado ✓'; s.classList.remove('dirty');
+  }}catch(e){{ s.textContent='⚠ sin guardar'; }}
+  saving=false;
+  if(myVer!==_ver){{ s.textContent='Guardar •'; s.classList.add('dirty'); clearTimeout(saveT); saveT=setTimeout(saveScript,300); }}
+}}
+$('#save').onclick=saveScript;
+addEventListener('beforeunload',e=>{{ if($('#save').classList.contains('dirty')){{ e.preventDefault(); e.returnValue=''; }} }});
+$('#exp').onclick=()=>{{
+  const firma=$('#firma').value.trim(), ok=$('#ok').checked;
+  if(ok&&!firma){{alert('Falta el nombre del revisor para poder firmar el gate (el guion se guarda igual).');}}
+  const scriptMd=buildScriptMd();
   const L=['# {REVIEW_TXT} — 05-script.html','episodio\\t{slug}',
     'version\\t'+({header_ver}),
     'revisor\\t'+(firma||'(sin firmar)'),
@@ -573,6 +597,10 @@ $('#exp').onclick=()=>{{
   }});
   const g=$('#global').value.trim();
   if(g)L.push('','---GLOBAL---',g);
+  // Finalizar writes 05-script.md too (server-side, before any gate check) —
+  // clear the Guardar indicator so it doesn't sit stale on "Guardar •".
+  clearTimeout(saveT); _ver++;
+  const s=$('#save'); s.textContent='Guardado ✓'; s.classList.remove('dirty');
   finishStage('{REVIEW_TXT}', L.join('\\n')+'\\n', EPID, STAGE,
     'Guion guardado en 05-script.md. El gate a Stage 5 solo se firma con «aprobado» + revisor.',
     {{script_md:scriptMd, ok:ok, firma:firma}});
@@ -582,6 +610,8 @@ $('#pdf').onclick=()=>window.print();
 """
     hd = (f'<h1>Script pass · {e(slug)}</h1><span class="count"></span>'
           f'<button class="primary" id="exp">Finalizar Stage 4</button>'
+          '<button id="save" title="Guarda 05-script.md tal cual está en el editor — no toca el gate. '
+          'Autoguardado a los pocos segundos de dejar de escribir.">Guardar</button>'
           '<button id="clr">Limpiar</button>'
           '<button id="pdf" title="Abre el diálogo de impresión del navegador — elige «Guardar como PDF»">Descargar PDF</button>'
           '<a class="btn ghost spacer" href="http://localhost:8765/">Volver al panel</a>')
@@ -603,6 +633,7 @@ $('#pdf').onclick=()=>window.print();
              # note green as everything else that isn't narration, so neither
              # is mistaken for it while reading.
              '.hint{color:var(--lime);font-weight:700}'
+             '#save.dirty{border-color:var(--gold);color:var(--gold)}'
              '.node.beat{padding:.55rem .2rem;border-radius:8px;transition:background .15s}'
              '.node.beat:focus-within{background:var(--surface-2)}'
              '.stampbar{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-bottom:.3rem}'
