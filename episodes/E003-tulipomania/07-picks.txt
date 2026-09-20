@@ -4,12 +4,14 @@
 # col3: url o ruta.   custom:<beat> ANULA la selección de ese beat.
 # música propia: col4 = título · autor · col5 = licencia (CC0/CC-BY/CC-BY-SA) · col6 = página
 # --- BEATS ---
+3	custom:3	https://www.pexels.com/download/video/29352442/
 20	custom:20	assets/custom/ChatGPT_Image_13_sept_2026__11_48_08__5__1.png
 22	custom:22	assets/custom/ChatGPT_Image_13_sept_2026__11_48_08__4__1.png
 27	custom:27	assets/custom/ChatGPT_Image_13_sept_2026__11_48_08__5__2.png
 31	custom:31	assets/custom/ChatGPT_Image_13_sept_2026__11_48_09__7_.png
 35	custom:35	https://www.pexels.com/es-es/download/video/6092477/
 55	custom:55	assets/custom/71b98HnUtsL._AC_UF1000_1000_QL80_.jpg
+62	custom:62	assets/custom/descarga.jpg
 4	commons:96820986	https://upload.wikimedia.org/wikipedia/commons/3/3b/Still_Life_with_Bouquet_of_Flowers_%28SM_1219%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 5	commons:135440978	https://upload.wikimedia.org/wikipedia/commons/a/aa/Flora%27s_Wagon_of_Fools_%28Flora%27s_Mallewagen%29_tulipomania%2C_Hendrik_Gerritsz_Pot_c1637.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 6	commons:199488	https://upload.wikimedia.org/wikipedia/commons/c/cc/Semper_Augustus_Tulip_17th_century.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
@@ -21,6 +23,7 @@
 41	commons:135414414	https://upload.wikimedia.org/wikipedia/commons/8/85/Tooneel_van_Flora_Handel_der_Floristen_in_Amsterdam_1637_%28Tulip_mania%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 43	pixabayv:111281	https://cdn.pixabay.com/video/2022/03/19/111281-690770684_large.mp4
 45	commons:136637512	https://upload.wikimedia.org/wikipedia/commons/d/d5/Jeugdfanfarecorps_van_speeltuinvereniging_Oosterkwartier_te_Haarlem_jaren_30.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+47	commons:85118993	https://upload.wikimedia.org/wikipedia/commons/0/03/Gezicht_op_het_weeshuis_te_Alkmaar_Gesigt_van_het_Wees-huys_Vue_de_la_Maison_des_Orfelins_%28titel_op_object%29_Gezichten_op_Alkmaar_%28serietitel%29_Alle_de_voornaamste_gesigten_van_de_stadt_Alckmaar_geleegen_in_West-Vriesla%2C_RP-P-AO-9A-55-18.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 56	commons:107432089	https://upload.wikimedia.org/wikipedia/commons/f/f4/Charles_Mackay_by_Herbert_Watkins.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 57	commons:19048320	https://upload.wikimedia.org/wikipedia/commons/e/e7/Allegorie_der_Tulipomanie.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
 # --- IA generada ---

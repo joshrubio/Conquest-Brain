@@ -23,3 +23,5 @@ beat	kind	source	query	opts
 55	archive	commons	mackay popular delusions	must=mackay;n=3
 56	archive	commons	charles mackay	must=mackay;n=3
 57	archive	commons	tulip mania satire	must=tulip;n=3
+47	archive	commons	weeshuis Alkmaar orphanage	must=alkmaar;n=3
+62	archive	commons	Anne Goldgar	must=goldgar;n=3

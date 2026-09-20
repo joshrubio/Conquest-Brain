@@ -176,3 +176,16 @@ Charles Mackay (author) — Memoirs of Extraordinary Popular Delusions and the M
 - [ ] `commons:19048320` · 1649x1032 · Jan Brueghel the Younger — Allegorie der Tulipomanie.jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/e/e7/Allegorie_der_Tulipomanie.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
         page: https://commons.wikimedia.org/wiki/File:Allegorie_der_Tulipomanie.jpg
 
+## beat 47 — "weeshuis Alkmaar orphanage"  [archive: commons]
+
+- [ ] `commons:85049141` · 4450x7604 · Rijksmuseum — Twee gezichten op Alkmaar met het weeshuis en het Sint-Elisabethgasthuis Gesigt van het St. Elisabeth Gasthuys voor de vrouwen Gesigt van het Wees-huys (titel op object) Gezichten op Alkmaar (serietitel) Alle de voorn, RP-P-1888-A-13961.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/c/cd/Twee_gezichten_op_Alkmaar_met_het_weeshuis_en_het_Sint-Elisabethgasthuis_Gesigt_van_het_St._Elisabeth_Gasthuys_voor_de_vrouwen_Gesigt_van_het_Wees-huys_%28titel_op_object%29_Gezichten_op_Alkmaar_%28serietitel%29_Alle_de_voorn%2C_RP-P-1888-A-13961.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Twee_gezichten_op_Alkmaar_met_het_weeshuis_en_het_Sint-Elisabethgasthuis_Gesigt_van_het_St._Elisabeth_Gasthuys_voor_de_vrouwen_Gesigt_van_het_Wees-huys_(titel_op_object)_Gezichten_op_Alkmaar_(serietitel)_Alle_de_voorn,_RP-P-1888-A-13961.jpg
+- [ ] `commons:85118993` · 2506x1890 · Rijksmuseum — Gezicht op het weeshuis te Alkmaar Gesigt van het Wees-huys Vue de la Maison des Orfelins (titel op object) Gezichten op Alkmaar (serietitel) Alle de voornaamste gesigten van de stadt Alckmaar geleegen in West-Vriesla, RP-P-AO-9A-55-18.jpg · CC0 · https://upload.wikimedia.org/wikipedia/commons/0/03/Gezicht_op_het_weeshuis_te_Alkmaar_Gesigt_van_het_Wees-huys_Vue_de_la_Maison_des_Orfelins_%28titel_op_object%29_Gezichten_op_Alkmaar_%28serietitel%29_Alle_de_voornaamste_gesigten_van_de_stadt_Alckmaar_geleegen_in_West-Vriesla%2C_RP-P-AO-9A-55-18.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Gezicht_op_het_weeshuis_te_Alkmaar_Gesigt_van_het_Wees-huys_Vue_de_la_Maison_des_Orfelins_(titel_op_object)_Gezichten_op_Alkmaar_(serietitel)_Alle_de_voornaamste_gesigten_van_de_stadt_Alckmaar_geleegen_in_West-Vriesla,_RP-P-AO-9A-55-18.jpg
+- [ ] `commons:65246229` · 630x736 · Caesar van Everdingen — Portret van Wollebrand Geleynsz de Jongh (1594-1674).jpg · Public domain · https://upload.wikimedia.org/wikipedia/commons/8/89/Portret_van_Wollebrand_Geleynsz_de_Jongh_%281594-1674%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+        page: https://commons.wikimedia.org/wiki/File:Portret_van_Wollebrand_Geleynsz_de_Jongh_(1594-1674).jpg
+
+## beat 62 — "Anne Goldgar"  [archive: commons]
+
+<!-- commons: 0 resultados -->
+

@@ -6,7 +6,14 @@
 
 | Beat | Fuente | Res. | Archivo |
 |------|--------|------|---------|
+| 3 | pexelsv:3 | — | `assets/video/beat3_pexelsv_3.mp4` |
+| 20 | custom:20 | 1672x941 | `assets/archive/beat20_custom_20.png` |
+| 22 | custom:22 | 1672x941 | `assets/archive/beat22_custom_22.png` |
+| 27 | custom:27 | 1672x941 | `assets/archive/beat27_custom_27.png` |
+| 31 | custom:31 | 1672x941 | `assets/archive/beat31_custom_31.png` |
 | 35 | pexelsv:35 | — | `assets/video/beat35_pexelsv_35.mp4` |
+| 55 | custom:55 | 768x1000 | `assets/archive/beat55_custom_55.jpg` |
+| 62 | custom:62 | 3744x5616 | `assets/archive/beat62_custom_62.jpg` |
 | 4 | commons:96820986 | 1931x2422 | `assets/archive/beat4_commons_96820986.png` |
 | 5 | commons:135440978 | 3296x2404 | `assets/archive/beat5_commons_135440978.jpg` |
 | 6 | commons:199488 | 1182x1829 | `assets/archive/beat6_commons_199488.jpg` |
@@ -18,6 +25,7 @@
 | 41 | commons:135414414 | 1348x1747 | `assets/archive/beat41_commons_135414414.png` |
 | 43 | pixabayv:111281 | — | `assets/video/beat43_pixabayv_111281.mp4` |
 | 45 | commons:136637512 | 793x525 | `assets/archive/beat45_commons_136637512.jpg` |
+| 47 | commons:85118993 | 2506x1890 | `assets/archive/beat47_commons_85118993.jpg` |
 | 56 | commons:107432089 | 1211x1591 | `assets/archive/beat56_commons_107432089.png` |
 | 57 | commons:19048320 | 1649x1032 | `assets/archive/beat57_commons_19048320.jpg` |
 
