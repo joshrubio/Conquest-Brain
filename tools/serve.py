@@ -106,11 +106,16 @@ EDIT_OP_TIMEOUT = 120         # beat_ops / timeline rebuilds
 ASSET_OP_TIMEOUT = 300        # beat_asset may download a stock video
 
 
+BELOW_NORMAL = 0x00004000 if os.name == "nt" else 0       # BELOW_NORMAL_PRIORITY_CLASS, inherited by ffmpeg children
+_HEAVY_TOOLS = {"kenburns.py", "make_graphics.py", "pull_assets.py", "trim_talk.py", "edit_review.py", "find_music.py"}
+
+
 def _run(args, timeout=None):
     try:
         r = subprocess.run([sys.executable, str(TOOLS / args[0])] + args[1:],
                            capture_output=True, text=True, encoding="utf-8",
-                           errors="replace", env=_ENV, timeout=timeout)
+                           errors="replace", env=_ENV, timeout=timeout,
+                           creationflags=BELOW_NORMAL if args[0] in _HEAVY_TOOLS else 0)
     except subprocess.TimeoutExpired:          # the child is killed by subprocess.run
         return json.dumps({"error": f"{args[0]} tardó más de {timeout:.0f} s y se canceló"},
                           ensure_ascii=False)
@@ -144,7 +149,7 @@ def _spawn_chain(steps, done_flag=None, log=None, lock_file=None):
     )
     # Detached from serve.py: a chain used to be its CHILD, so restarting the server (Ctrl+C in its console,
     # closing the window) killed an hours-long render with it (E002's 4K master).
-    flags = (0x00000008 | 0x00000200) if os.name == "nt" else 0        # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
+    flags = (0x00000008 | 0x00000200 | BELOW_NORMAL) if os.name == "nt" else 0   # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP | below normal
     return subprocess.Popen([sys.executable, "-c", py], cwd=str(TOOLS.parent), env=_ENV, creationflags=flags,
                             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
@@ -242,18 +247,6 @@ _HARD_MSG = {
     "busy": "el audio de la sala aún se está actualizando — inténtalo en unos segundos",
     "none": "no hay cortes pendientes de renderizar",
 }
-
-
-def _write_gate(take, gate):
-    """<take>.gate.json — experimental noise-gate threshold from the trim
-    room (brain/16). `gate` is None/falsy (no threshold_db) or {"threshold_db":
-    ...} from the client; absent file / no threshold = no gate, identical
-    render to before this existed. trim_talk.py's load_gate() reads it back."""
-    p = take.with_suffix(".gate.json")
-    if gate and gate.get("threshold_db") is not None:
-        p.write_text(json.dumps({"threshold_db": float(gate["threshold_db"])}), encoding="utf-8")
-    else:
-        p.unlink(missing_ok=True)
 
 
 def _pool_detail(txt, iid):
@@ -666,15 +659,13 @@ class H(BaseHTTPRequestHandler):
             return self._send(200, json.dumps({"ok": True, "msg": msg}))
 
         if path == "/trim-save":
-            # autosave from the trim room — write <take>.cuts.json (+ its
-            # sibling .gate.json, experimental), render nothing.
+            # autosave from the trim room — write <take>.cuts.json, render nothing.
             epp = P.ep_path(ep)
             take = epp / "assets" / data.get("take", "")
             if not take.is_file():
                 return self._send(404, json.dumps({"error": "toma no encontrada"}))
             take.with_suffix(".cuts.json").write_text(
                 json.dumps({"cuts": data.get("cuts", [])}, ensure_ascii=False), encoding="utf-8")
-            _write_gate(take, data.get("gate"))
             return self._send(200, json.dumps({"ok": True}))
 
         if path == "/trim":
@@ -693,7 +684,6 @@ class H(BaseHTTPRequestHandler):
             cuts = data.get("cuts", [])
             take.with_suffix(".cuts.json").write_text(
                 json.dumps({"cuts": cuts}, ensure_ascii=False), encoding="utf-8")
-            _write_gate(take, data.get("gate"))
             slug = P.read_status().get(ep, {}).get("slug") or ep
             (epp / "09-cut-journal.json").unlink(missing_ok=True)   # whole list replaced: old undo points no longer apply
             # queue, don't render: the 4K trim runs once when the stage is finalized
@@ -745,6 +735,8 @@ class H(BaseHTTPRequestHandler):
             if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
                 (epp / "09-timeline.json").write_text(
                     json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")
+            if P.lock_alive(epp / "09-rough.lock") or P.lock_alive(epp / "09-final.lock"):
+                return self._send(409, json.dumps({"error": "ya hay un render en marcha para este episodio — espera a que termine"}))
             flag = epp / "09-rough.done"
             flag.unlink(missing_ok=True)
             (epp / "09-rough.done.fail").unlink(missing_ok=True)
@@ -757,6 +749,8 @@ class H(BaseHTTPRequestHandler):
         if path == "/tl-final":                        # Stage 9 — render the 4K master
             slug = data.get("slug") or ep
             epp = P.ep_path(ep)
+            if P.lock_alive(epp / "09-final.lock"):    # a second one would race the first on its chunk files
+                return self._send(409, json.dumps({"error": "el master 4K ya se está renderizando — espera a que termine"}))
             if isinstance(data.get("timeline"), dict) and data["timeline"].get("beats"):
                 (epp / "09-timeline.json").write_text(
                     json.dumps(data["timeline"], ensure_ascii=False, indent=1), encoding="utf-8")

@@ -1,0 +1,3 @@
+ORDEN — beats de la espina fuera de orden: b3→b2, b2→b1. Abre en b3 — comprueba que es lo que quieres
+SINCRONÍA — 22 % de los beats con su frase dentro de su ventana; b48 empieza en 439s y su frase se dice en 37s; b67 empieza en 650s y su frase se dice en 605s; b130 empieza en 1228s y su frase se dice en 1269s
+DERECHOS — 14 asset(s) en uso con fuente/derechos PENDIENTE: swap_0960d50772, swap_19a8638557, swap_327890e775, swap_3cd75e93b3, swap_4120298054, swap_50cd94d0a7

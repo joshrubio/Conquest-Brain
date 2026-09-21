@@ -34,7 +34,8 @@ def lock_alive(lock):
     if pid > 1:
         if os.name == "nt":       # os.kill(pid, 0) would TERMINATE the process on Windows
             out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/NH"],
-                                 capture_output=True, text=True).stdout or ""
+                                 capture_output=True, text=True, encoding="utf-8",
+                                 errors="replace").stdout or ""      # localized OEM output: never let a decode error kill the reader
             alive = str(pid) in out
         else:
             try:

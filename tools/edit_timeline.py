@@ -1180,7 +1180,7 @@ async function syncVo(force){{
   }}catch(e){{ return false; }}
   finally{{ _voSyncing=false; }}
 }}
-setInterval(()=>{{ syncVo(); }},3000);
+setInterval(()=>{{ if(!document.hidden) syncVo(); }},3000);   // a background tab doesn't poll
 vo.addEventListener("error",()=>{{                          // e.g. the file changed under an old range request
   const n=Date.now(); if(n-_voErrT>30000){{ _voErrT=n; _voErrN=0; }}
   if(++_voErrN<=3) syncVo(true);
@@ -1296,7 +1296,10 @@ function status(){{
 async function post(path,body){{
   const r=await fetch(path,{{method:"POST",
     headers:{{"content-type":"application/json"}},body:JSON.stringify(body)}});
-  if(!r.ok)throw new Error("server "+r.status);
+  if(!r.ok){{
+    let m="server "+r.status; try{{ const j=await r.json(); if(j&&j.error) m=j.error; }}catch(_){{}}
+    const err=new Error(m); err.status=r.status; throw err;
+  }}
   return r.json();
 }}
 /* ---- rough-render progress bar: always visible while it runs, never blocks ---- */
@@ -1363,7 +1366,7 @@ $("#rrough").onclick=async()=>{{
     await post("/tl-rough",{{ep:EPID,slug:SLUG,timeline:TL}});
     startRoughBar();
   }}
-  catch(e){{ toast('server no disponible — corre <span class="mono">python tools/assemble.py '+SLUG+' --rough</span>',6000); }}
+  catch(e){{ if(e.status===409){{ toast(e.message,6000); return; }} toast('server no disponible — corre <span class="mono">python tools/assemble.py '+SLUG+' --rough</span>',6000); }}
 }};
 $("#rfinal").onclick=async()=>{{
   if($("#save").classList.contains("dirty")) await saveTL();
@@ -1372,7 +1375,7 @@ $("#rfinal").onclick=async()=>{{
     await post("/tl-final",{{ep:EPID,slug:SLUG,timeline:TL}});
     startFinalBar();
   }}
-  catch(e){{ toast('server no disponible — corre <span class="mono">python tools/assemble.py '+SLUG+' --final</span>',6000); }}
+  catch(e){{ if(e.status===409){{ toast(e.message,6000); startFinalBar(); return; }} toast('server no disponible — corre <span class="mono">python tools/assemble.py '+SLUG+' --final</span>',6000); }}
 }};
 $("#fs")?.addEventListener("click",()=>{{
   const s=$("#screen");

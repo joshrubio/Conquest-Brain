@@ -86,7 +86,7 @@ CITE_TSV = "07-cite.tsv"
 PICKS_F = "07-cite-picks.txt"
 PASS_HTML = "07-cite-pass.html"
 SELECTION_MD = "07-cite-selection.md"
-DEFAULT_CLIP_DUR = 8           # s — inside brain/20 §4.4's ~10 s ceiling
+DEFAULT_CLIP_DUR = 4           # s — brain/20 §4.4: fragments ≤ ~5 s, typically 2–4 s
 N_CANDIDATES = 3
 CLIPCAFE_API = "https://api.clip.cafe/"
 

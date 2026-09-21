@@ -73,6 +73,10 @@ episodes/**/09-timeline.*.bak.json
 episodes/**/09-resync.flag
 episodes/**/09-*.progress
 episodes/**/09-*.log
+episodes/**/09-*.lock
+episodes/**/_chunks/
+episodes/**/09-cut-journal.json
+episodes/**/09-cuts-map.json
 
 # Review pages — generated (the exported *.txt records ARE tracked)
 ideas/idea-review.html

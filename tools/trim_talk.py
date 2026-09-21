@@ -462,33 +462,6 @@ def _grab_frame(take, t, out_png):
         raise RuntimeError(f"no se pudo capturar el frame en {t:.2f}s: {r.stderr[-300:]}")
 
 
-GATE_ATTACK_MS = 5      # fixed — this is an experimental single-knob control,
-GATE_RELEASE_MS = 150   # brain/16: only threshold is user-adjustable (review.html)
-GATE_RATIO = 20         # strong enough to read as "muted", not just quieter
-
-
-def load_gate(take):
-    """<take>.gate.json → threshold_db, or None (no file / null threshold —
-    identical behavior to before this existed). Experimental, review.html
-    only: written by its own autosave, read only here at --apply time."""
-    import json as _j
-    p = take.with_suffix(".gate.json")
-    if not p.is_file():
-        return None
-    try:
-        v = _j.loads(p.read_text(encoding="utf-8")).get("threshold_db")
-    except Exception:
-        return None
-    return float(v) if v is not None else None
-
-
-def _gate_filter(threshold_db):
-    """ffmpeg `agate` filter string for a fixed attack/release/ratio, given
-    only a threshold in dB (agate's own `threshold` is linear 0-1)."""
-    lin = 10 ** (float(threshold_db) / 20)
-    return f"agate=threshold={lin:.6f}:attack={GATE_ATTACK_MS}:release={GATE_RELEASE_MS}:ratio={GATE_RATIO}"
-
-
 def _part(out_path):
     """Where render() writes before swapping into place. `x.trimmed.mp4` ->
     `x.trimmed.part.mp4` — deliberately NOT matched by the `*.trimmed.mp4` globs
@@ -513,7 +486,7 @@ def _swap_in(tmp, out_path):
     return False
 
 
-def render(take, spans, out_path, pickups=None, gate_db=None):
+def render(take, spans, out_path, pickups=None):
     """Cut `take` down to `spans` (original-timeline, kept regions). With
     `pickups` ({"orig_start","dur","audio"}, from <take>.pickups.accepted.json)
     also present, each is spliced in at its place in original-timeline order:
@@ -521,13 +494,7 @@ def render(take, spans, out_path, pickups=None, gate_db=None):
     the matched pickup audio. The still is a fallback, not a fix — it's
     invisible for a narration/B-roll beat (only the take's *audio* is used
     downstream there) but a pickup landing inside a planned `acamara` stretch
-    needs the shot re-recorded for real, not this freeze (brain/16).
-
-    `gate_db`, if given, runs the concatenated audio through one `agate` pass
-    (breath between phrases — below a hard cut, above what loudnorm in
-    assemble.py fixes) before mapping. None (the default — no <take>.gate.json,
-    or a null threshold in it) skips this entirely: identical output to before
-    this existed."""
+    needs the shot re-recorded for real, not this freeze (brain/16)."""
     if not pickups:
         parts, maps = [], []
         for i, (s, e) in enumerate(spans):
@@ -540,9 +507,6 @@ def render(take, spans, out_path, pickups=None, gate_db=None):
             maps.append(f"[v{i}][a{i}]")
         script = ";\n".join(parts) + ";\n" + "".join(maps) + f"concat=n={len(spans)}:v=1:a=1[v][a]"
         amap = "[a]"
-        if gate_db is not None:
-            script += f";\n[a]{_gate_filter(gate_db)}[ag]"
-            amap = "[ag]"
         with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
             f.write(script)
             sp = f.name
@@ -594,9 +558,6 @@ def render(take, spans, out_path, pickups=None, gate_db=None):
             maps.append(f"[v{i}][a{i}]")
         script = ";\n".join(parts) + ";\n" + "".join(maps) + f"concat=n={len(items)}:v=1:a=1[v][a]"
         amap = "[a]"
-        if gate_db is not None:
-            script += f";\n[a]{_gate_filter(gate_db)}[ag]"
-            amap = "[ag]"
         with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as f:
             f.write(script)
             sp = f.name
@@ -629,12 +590,12 @@ def pending_marker(take):
 
 def _cuts_sig(take):
     """Digest of everything --apply reads besides the raw transcript: the cut
-    list, accepted pickups and the gate. A --apply only clears the pending
+    list and accepted pickups. A --apply only clears the pending
     marker if this is unchanged since it started — a cut queued while the render
     was running must stay queued."""
     import hashlib
     h = hashlib.sha1()
-    for suf in (".cuts.json", ".pickups.accepted.json", ".gate.json"):
+    for suf in (".cuts.json", ".pickups.accepted.json"):
         f = take.with_suffix(suf)
         h.update(f.read_bytes() if f.is_file() else b"-")
     return h.hexdigest()
@@ -642,7 +603,7 @@ def _cuts_sig(take):
 
 def _plan(take):
     """The approved cut list resolved into what --apply and --soft both need:
-    (words, spans, pickups, gate_db, cuts, total)."""
+    (words, spans, pickups, cuts, total)."""
     import json as _j
     raw_f = take.with_suffix(".words.raw.json")
     if not raw_f.is_file():
@@ -655,7 +616,7 @@ def _plan(take):
     cl = [(float(c[0]), float(c[1]), (c[2] if len(c) > 2 else "corte")) for c in cd.get("cuts", [])]
     pickups = load_accepted_pickups(take)
     cl += [(p["orig_start"], p["orig_end"], "pickup") for p in pickups]
-    return words, keep_spans(_merge(cl), total), pickups, load_gate(take), cl, total
+    return words, keep_spans(_merge(cl), total), pickups, cl, total
 
 
 SOFT_SR = 48000
@@ -671,9 +632,9 @@ def _pcm(path):
     return np.frombuffer(r.stdout, dtype=np.int16)
 
 
-def _soft_vo(take, items, gate_db, out_path):
+def _soft_vo(take, items, out_path):
     """The edit room's 09-vo.m4a for the CURRENT cut list, without touching the
-    video. Same result as render()'s audio (join fades, pickups, gate) but the
+    video. Same result as render()'s audio (join fades, pickups) but the
     take's small audio proxy (<take>.review.m4a) is decoded ONCE and sliced in
     memory — a 160-way atrim/concat graph in ffmpeg took minutes (every branch
     buffers the whole stream), this is seconds. Mono AAC like assemble.vo_proxy()."""
@@ -711,8 +672,6 @@ def _soft_vo(take, items, gate_db, out_path):
     pcm = np.clip(np.concatenate(chunks), -32768, 32767).astype(np.int16)
     tmp = out_path.with_name(out_path.stem + ".part" + out_path.suffix)
     cmd = [FFMPEG, "-y", "-f", "s16le", "-ar", str(SOFT_SR), "-ac", "1", "-i", "-"]
-    if gate_db is not None:
-        cmd += ["-af", _gate_filter(gate_db)]
     cmd += ["-c:a", "aac", "-b:a", "128k", str(tmp)]
     r = subprocess.run(cmd, input=pcm.tobytes(), capture_output=True)
     if r.returncode != 0 or not tmp.exists():
@@ -729,13 +688,12 @@ def soft_apply(take):
     leaving the pending marker. Seconds, audio only."""
     import json as _j
     import time
-    words, spans, pickups, gate_db, cl, total = _plan(take)
+    words, spans, pickups, cl, total = _plan(take)
     print(f"en cola: {len(cl)} cortes · queda {sum(e - s for s, e in spans):.1f}s de {total:.1f}s"
-          + (f" · {len(pickups)} pickup(s)" if pickups else "")
-          + (f" · gate {gate_db:g}dB" if gate_db is not None else ""))
+          + (f" · {len(pickups)} pickup(s)" if pickups else ""))
     write_words_json(take, words, spans, pickups=pickups)
     items, _t = build_timeline(spans, pickups)
-    if not _soft_vo(take, items, gate_db, take.parent.parent / "09-vo.m4a"):
+    if not _soft_vo(take, items, take.parent.parent / "09-vo.m4a"):
         return False
     print("  escrito  09-vo.m4a  (audio de la sala al día)")
     if write_cuts_map(take, items):
@@ -874,21 +832,13 @@ def write_peaks(take, total, n=3000):
     return out
 
 
-def write_review_html(take, words, cuts, total, missing=None, saved=None, gate_db=None):
+def write_review_html(take, words, cuts, total, missing=None, saved=None):
     """<take>.review.html — a waveform trim room: the take drawn from
     <take>.peaks.json, every cut a red region you drag / resize / delete,
     drag on empty waveform to add one, transcript synced below. Autosaves to
     serve.py /trim-save; «Aplicar corte» POSTs to /trim. Self-contained: no CDN.
     `saved` = the cut list from a previous editing session (loaded in preference
-    to the fresh proposal); None if there is none.
-
-    `gate_db` seeds the experimental noise-gate panel (breath between phrases —
-    below a hard cut, above what loudnorm fixes later) from a previous session's
-    <take>.gate.json; None means the gate has never been touched here, off by
-    default. The panel does its own decode+analysis client-side (Web Audio,
-    fetch + decodeAudioData on the same .review.m4a proxy already loaded for
-    scrubbing) so every threshold nudge previews instantly with no server
-    round-trip; only "Aplicar corte" bakes it in, via agate in render()."""
+    to the fresh proposal); None if there is none."""
     import html as _h
     import json as _j
     e = _h.escape
@@ -898,7 +848,6 @@ def write_review_html(take, words, cuts, total, missing=None, saved=None, gate_d
     W = _j.dumps([[round(s, 3), round(en, 3), w.strip()] for s, en, w in words], ensure_ascii=False)
     PROP = _j.dumps([[round(c[0], 3), round(c[1], 3)] for c in _merge(cuts)])
     SAVED = _j.dumps([[round(float(c[0]), 3), round(float(c[1]), 3)] for c in saved]) if saved else "null"
-    GATE_DB_SAVED = "null" if gate_db is None else f"{float(gate_db):.1f}"
     miss = ""
     if missing:
         miss = ('<div class="miss"><b>Líneas del guion sin cobertura clara (' + str(len(missing))
@@ -938,11 +887,6 @@ def write_review_html(take, words, cuts, total, missing=None, saved=None, gate_d
    background:#161109;border:1px solid var(--cut);border-radius:3px;color:#e0a89c;font:11px monospace;cursor:pointer;opacity:0}}
  .rg:hover .x{{opacity:1}}
  #ph{{position:absolute;top:0;bottom:0;width:2px;background:var(--gold);z-index:5;pointer-events:none}}
- #gatebar{{display:flex;gap:10px;align-items:center;padding:6px 22px;font-family:monospace;font-size:12px;
-   color:var(--mut);border-bottom:1px solid var(--line);background:#0d0a07}}
- #gatebar b{{color:#8db4e0}}
- #gateTh{{width:150px;accent-color:#5a94d8}}
- #gateTh:disabled{{opacity:.35}}
  #tx{{max-width:1000px;margin:1.2rem auto;padding:0 22px}}
  .w{{cursor:pointer;border-radius:3px}} .w:hover{{background:#2e2820}}
  .w.now{{background:var(--gold);color:#161109}}
@@ -970,20 +914,13 @@ def write_review_html(take, words, cuts, total, missing=None, saved=None, gate_d
  <button id="snapl" class="tog on" title="Al soltar, los bordes saltan al límite de palabra más cercano">imán a palabra</button>
  <button id="foll" class="tog" title="Desplaza la onda para seguir la reproducción">seguir voz</button>
 </div>
-<div id="gatebar">
- <button id="gateTog" class="tog" title="EXPERIMENTAL — atenúa automáticamente lo que quede por debajo del umbral (pensado para la respiración entre frases, no reemplaza los cortes duros). Se previsualiza en vivo aquí mismo; no se hornea hasta «Aplicar corte». Umbral en null/desactivado = comportamiento idéntico a hoy.">gate</button>
- <input type="range" id="gateTh" min="-60" max="-10" step="0.5" disabled>
- <span id="gateThV"></span>
- <span id="gateStat"></span>
- <span style="margin-left:auto;color:#5a5040">resaltado azul en la onda = lo que el gate atenuaría</span>
-</div>
 <div id="scroll"><div id="lane"><canvas id="wave"></canvas><div id="ph"></div></div></div>
 <audio id="au" preload="auto" src="/episodes/{e(slug)}/assets/{m4a}"></audio>
 <div id="tx"></div>
 {miss}
 <script>
 const TAKE={_j.dumps(take.name)}, SLUG={_j.dumps(slug)}, TOTAL={total:.3f}, EP=SLUG.slice(0,4);
-const PK={peaks}, PEAKS=PK[1], WORDS={W}, PROP={PROP}, SAVED={SAVED}, GATE_DB_SAVED={GATE_DB_SAVED};
+const PK={peaks}, PEAKS=PK[1], WORDS={W}, PROP={PROP}, SAVED={SAVED};
 const LS='trim:'+SLUG+':'+TAKE, API='';   // same-origin — no CORS, works on localhost or 127.0.0.1
 const au=document.getElementById('au'), scroll=document.getElementById('scroll'),
       lane=document.getElementById('lane'), cv=document.getElementById('wave'),
@@ -999,10 +936,9 @@ let regions=_ls.regions || SAVED || PROP.map(c=>c.slice(0,2));
 regions=regions.map(r=>({{s:+r[0],e:+r[1],retoma:!!r[2]}}));
 
 function cutList(){{return merged().map(r=>[r[0],r[1],'corte']);}}
-function gateBody(){{return GATE_ON ? {{threshold_db:gateThreshold}} : null;}}
 let saveT;
 function markLocal(){{
-  localStorage.setItem(LS,JSON.stringify({{regions:regions.map(r=>[r.s,r.e,r.retoma?1:0]),gate:gateBody()}}));
+  localStorage.setItem(LS,JSON.stringify({{regions:regions.map(r=>[r.s,r.e,r.retoma?1:0])}}));
 }}
 async function doSaveNow(){{
   clearTimeout(saveT);
@@ -1010,7 +946,7 @@ async function doSaveNow(){{
   sd.textContent='guardando…';
   try{{
     await fetch(API+'/trim-save',{{method:'POST',headers:{{'content-type':'application/json'}},
-      body:JSON.stringify({{ep:EP,take:TAKE,cuts:cutList(),gate:gateBody()}})}});
+      body:JSON.stringify({{ep:EP,take:TAKE,cuts:cutList()}})}});
     sd.textContent='guardado ✓ '+new Date().toLocaleTimeString().slice(0,5);
   }}catch(e){{sd.textContent='sin server — solo local';}}
 }}
@@ -1022,73 +958,8 @@ function save(){{                          // autosave path — debounced, coale
 document.getElementById('savebtn').onclick=doSaveNow;
 addEventListener('beforeunload',()=>{{
   try{{navigator.sendBeacon(API+'/trim-save',
-    new Blob([JSON.stringify({{ep:EP,take:TAKE,cuts:cutList(),gate:gateBody()}})],{{type:'application/json'}}));}}catch(e){{}}
+    new Blob([JSON.stringify({{ep:EP,take:TAKE,cuts:cutList()}})],{{type:'application/json'}}));}}catch(e){{}}
 }});
-
-/* ---- experimental noise gate (breath between phrases) ----
-   Decodes the same .review.m4a proxy via Web Audio (fetch + decodeAudioData,
-   a throwaway AudioContext used only for decoding — never routed to
-   destination, so it can't affect or be affected by <audio id=au>'s normal
-   playback). From the raw samples: a per-10ms-window RMS-dB array, then a
-   fixed-attack/release one-pole follower over it -> a 0..1 gain curve. Live
-   preview just sets au.volume from that curve every animation frame (tick(),
-   below) — no ScriptProcessor/AudioWorklet, no graph rewiring, so with the
-   gate off this is 100% inert: same <audio> element, same playback path as
-   before this existed. */
-let GATE_ON = _ls.gate!==undefined ? !!_ls.gate : (GATE_DB_SAVED!==null);
-let gateThreshold = _ls.gate!==undefined ? (_ls.gate?_ls.gate.threshold_db:-34) : (GATE_DB_SAVED!==null?GATE_DB_SAVED:-34);
-let gateEnv=null, gateGainCurve=null;
-const GATE_HOP=0.01;                        // seconds per analysis window
-const gtEl=document.getElementById('gateTog'), thEl=document.getElementById('gateTh'),
-      thV=document.getElementById('gateThV'), gStat=document.getElementById('gateStat');
-gtEl.classList.toggle('on',GATE_ON); thEl.disabled=!GATE_ON;
-thEl.value=gateThreshold; thV.textContent=gateThreshold.toFixed(1)+' dB';
-async function ensureGateAnalysis(){{
-  if(gateEnv) return gateEnv;
-  gStat.textContent='analizando…';
-  const Ctx=window.AudioContext||window.webkitAudioContext, ctx=new Ctx();
-  try{{
-    const buf=await fetch(au.currentSrc||au.src).then(r=>r.arrayBuffer()).then(b=>ctx.decodeAudioData(b));
-    const ch=buf.getChannelData(0), hopN=Math.max(1,Math.round(buf.sampleRate*GATE_HOP));
-    const n=Math.ceil(ch.length/hopN), dbs=new Float32Array(n);
-    for(let i=0;i<n;i++){{
-      let sum=0; const a=i*hopN, b2=Math.min(ch.length,a+hopN);
-      for(let k=a;k<b2;k++) sum+=ch[k]*ch[k];
-      dbs[i]=20*Math.log10(Math.max(1e-6,Math.sqrt(sum/Math.max(1,b2-a))));
-    }}
-    gateEnv={{dbs,n}};
-  }}catch(err){{ gStat.textContent='⚠ no se pudo analizar el audio'; throw err; }}
-  finally{{ try{{ctx.close();}}catch(e){{}} }}
-  gStat.textContent='';
-  return gateEnv;
-}}
-function gateGains(thresholdDb){{
-  // one-pole attack/release follower — fixed 5ms/150ms, matches trim_talk.py's
-  // GATE_ATTACK_MS/GATE_RELEASE_MS so the preview matches what --apply bakes in
-  const {{dbs,n}}=gateEnv, gains=new Float32Array(n), hopMs=GATE_HOP*1000;
-  const aA=Math.exp(-hopMs/5), aR=Math.exp(-hopMs/150), floor=0.03;   // agate ratio=20 ≈ same floor
-  let g=1;
-  for(let i=0;i<n;i++){{
-    const target = dbs[i]>=thresholdDb ? 1 : floor;
-    g = target + (g-target)*(target<g?aA:aR);
-    gains[i]=g;
-  }}
-  return gains;
-}}
-function gateRebuild(){{ if(gateEnv){{ gateGainCurve=gateGains(gateThreshold); drawWave(); }} }}
-function gateGainAt(t){{
-  if(!gateGainCurve) return 1;
-  return gateGainCurve[Math.min(gateGainCurve.length-1,Math.max(0,Math.round(t/GATE_HOP)))];
-}}
-gtEl.onclick=async()=>{{
-  GATE_ON=!GATE_ON; gtEl.classList.toggle('on',GATE_ON); thEl.disabled=!GATE_ON;
-  if(GATE_ON){{ try{{await ensureGateAnalysis(); gateRebuild();}}catch(e){{GATE_ON=false;gtEl.classList.remove('on');thEl.disabled=true;}} }}
-  else {{ gateGainCurve=null; if(!au.paused) au.volume=1; drawWave(); }}
-  save();
-}};
-thEl.oninput=()=>{{ gateThreshold=+thEl.value; thV.textContent=gateThreshold.toFixed(1)+' dB'; gateRebuild(); }};
-thEl.onchange=save;                          // debounced save only once the drag settles
-if(GATE_ON) ensureGateAnalysis().then(gateRebuild).catch(()=>{{}});
 
 function fmt(t){{t=Math.max(0,t);return (t/60|0)+':'+('0'+Math.floor(t%60)).slice(-2);}}
 function bounds(){{const b=[];WORDS.forEach(w=>{{b.push(w[0]);b.push(w[1]);}});return b;}}
@@ -1109,13 +980,6 @@ function sizeWave(){{               // only on resize/zoom — setting cv.width 
 function drawWave(){{               // cheap — called on every scroll
   const vw=scroll.clientWidth, x0=scroll.scrollLeft, mid=24+70;
   ctx.clearRect(0,0,vw,190);
-  if(gateGainCurve){{                // gate highlight first, under the waveform
-    ctx.fillStyle='rgba(90,150,220,.30)';
-    for(let px=0;px<vw;px++){{
-      const t=(x0+px)/pps; if(t>TOTAL)break;
-      if(gateGainAt(t)<0.5) ctx.fillRect(px,24,1,140);
-    }}
-  }}
   ctx.fillStyle='#3a342a'; ctx.beginPath();
   for(let px=0;px<vw;px++){{
     const t=(x0+px)/pps; if(t>TOTAL)break;
@@ -1218,7 +1082,6 @@ function tick(){{
   movePh();
   const t=au.currentTime;
   setNow(t);
-  if(GATE_ON && gateGainCurve) au.volume=gateGainAt(t);
   // keep the PLAYHEAD in view horizontally — never scroll the page (that was fighting the edit)
   if(follow){{
     const px=t*pps;
@@ -1262,12 +1125,11 @@ document.getElementById('reset').onclick=()=>{{
   if(!confirm('Descarta tus ajustes y vuelve a la propuesta automática. ¿Seguro?'))return;
   regions=PROP.map(c=>({{s:+c[0],e:+c[1]}}));save();layout();syncStats();}};
 document.getElementById('apply').onclick=async()=>{{
-  const cuts=cutList(), gate=gateBody();
-  const gateMsg = gate ? (' + gate a '+gate.threshold_db.toFixed(1)+'dB (respiración)') : '';
-  if(!confirm(cuts.length+' cortes · quita '+fmt(cuts.reduce((a,c)=>a+c[1]-c[0],0))+gateMsg+'. ¿Guardar en cola? (la toma 4K se renderiza una vez, al Finalizar el stage)'))return;
+  const cuts=cutList();
+  if(!confirm(cuts.length+' cortes · quita '+fmt(cuts.reduce((a,c)=>a+c[1]-c[0],0))+'. ¿Guardar en cola? (la toma 4K se renderiza una vez, al Finalizar el stage)'))return;
   try{{
     const r=await fetch(API+'/trim',{{method:'POST',headers:{{'content-type':'application/json'}},
-      body:JSON.stringify({{ep:EP,take:TAKE,cuts,gate}})}});
+      body:JSON.stringify({{ep:EP,take:TAKE,cuts}})}});
     const j=await r.json(); alert(r.ok?(j.msg||'ok'):(j.error||('server '+r.status))); return;
   }}catch(e){{}}
   const a=document.createElement('a');
@@ -1333,7 +1195,7 @@ if __name__ == "__main__":
                 encoding="utf-8")
         audio_proxy(take)
         write_peaks(take, total)
-        write_review_html(take, words, cuts, total, missing, saved=saved, gate_db=load_gate(take))
+        write_review_html(take, words, cuts, total, missing, saved=saved)
         spawn_video_proxy(take)
         if missing is not None:
             write_pickups_json(take, missing)
@@ -1348,7 +1210,7 @@ if __name__ == "__main__":
         sys.exit(0 if ok else 1)
 
     if "--map" in a:                     # (re)write 09-cuts-map.json from cuts.json — no audio, no render
-        _w, _sp, _pk, _g, _cl, _t = _plan(take)
+        _w, _sp, _pk, _cl, _t = _plan(take)
         sys.exit(0 if write_cuts_map(take, build_timeline(_sp, _pk)[0]) else 1)
 
     if "--soft" in a:
@@ -1356,15 +1218,14 @@ if __name__ == "__main__":
 
     if "--apply" in a:
         sig0 = _cuts_sig(take)
-        words, spans, pickups, gate_db, cl, total = _plan(take)
+        words, spans, pickups, cl, total = _plan(take)
         print(f"aplicar: {len(cl)} cortes · queda {sum(e - s for s, e in spans):.1f}s de {total:.1f}s"
-              + (f" · {len(pickups)} pickup(s)" if pickups else "")
-              + (f" · gate {gate_db:g}dB" if gate_db is not None else ""))
+              + (f" · {len(pickups)} pickup(s)" if pickups else ""))
         out = take.with_suffix(".trimmed.mp4")
         _part(out).unlink(missing_ok=True)          # leftover of a killed render
         write_words_json(take, words, spans, pickups=pickups)
         with keep_awake():                   # tens of minutes of 4K: a 3 h idle-sleep stalled one
-            ok = render(take, spans, out, pickups=pickups, gate_db=gate_db)
+            ok = render(take, spans, out, pickups=pickups)
         if ok:
             write_cuts_map(take, build_timeline(spans, pickups)[0])
             if _cuts_sig(take) == sig0:
@@ -1416,7 +1277,7 @@ if __name__ == "__main__":
     write_cuts_md(take, words, cuts, spans, total, missing)
     audio_proxy(take)
     write_peaks(take, total)
-    write_review_html(take, words, cuts, total, missing, saved=saved, gate_db=load_gate(take))
+    write_review_html(take, words, cuts, total, missing, saved=saved)
     spawn_video_proxy(take)             # ready before the first cut: the room's face plays from it
     if missing is not None:
         write_pickups_json(take, missing)
@@ -1426,7 +1287,7 @@ if __name__ == "__main__":
         if pickups:
             spans = keep_spans(_merge(cuts + [(p["orig_start"], p["orig_end"], "pickup") for p in pickups]), total)
         write_words_json(take, words, spans, pickups=pickups)
-        ok = render(take, spans, take.with_suffix(".trimmed.mp4"), pickups=pickups, gate_db=load_gate(take))
+        ok = render(take, spans, take.with_suffix(".trimmed.mp4"), pickups=pickups)
         sys.exit(0 if ok else 1)
     print(f"\n{take.name}: {len(cuts)} cortes propuestos, quita {sum(e - s for s, e, _ in cuts):.1f} s"
           + (f" · {len(missing)} líneas del guion sin cobertura" if missing else ""))

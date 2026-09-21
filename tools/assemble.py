@@ -1195,12 +1195,80 @@ def _report(slug, beats, total, aligned):
         print(f"  sin cubrir {bid} «{asset}» — {why}")
 
 
-def build_timeline(slug):
+def build_timeline(slug, freeze=False):
     """Back-compat entry: seed the timeline if there isn't one, then rebuild it.
     Every existing caller (render, --rough, --final, --timeline-only) still works."""
     if not (EP_DIR / slug / "09-timeline.json").exists():
         seed_timeline(slug)
-    return rebuild_timeline(slug)
+    return rebuild_timeline(slug, freeze)
+
+
+@contextlib.contextmanager
+def render_lock(slug, mode):
+    """One 09-<mode> render per episode at a time. A second `--final` (a double click on Finalizar, a manual
+    relaunch) used to race the first on the same _chunks/*.tmp and corrupt it, and reset the room's progress bar.
+    The lock holds this process's PID; a dead owner's lock is stale and is taken over."""
+    import os
+    lock = EP_DIR / slug / f"09-{mode}.lock"
+    if P.lock_alive(lock):
+        raise SystemExit(f"ya hay un render 09-{mode} en marcha para {slug} — espera a que termine")
+    lock.write_text(str(os.getpid()), encoding="utf-8")
+    try:
+        yield
+    finally:
+        lock.unlink(missing_ok=True)
+
+
+def final_audit(slug):
+    """What the render is ABOUT to show, read back from the timeline the room saved — printed and written
+    to 09-final-audit.txt so an unattended render leaves a record. Warn-only: the editor decides, but
+    nothing odd reaches the master unannounced (E002's first frame was beat 3, a swapped unlabelled AI
+    still, while the voice said «primavera de 1950»; the order and sync warnings existed but nobody
+    read a render log)."""
+    ep = EP_DIR / slug
+    data = _prev_json(ep / "09-timeline.json")
+    beats = data.get("beats", [])
+    out = []
+    ids = [(i, int(b["id"][1:])) for i, b in enumerate(beats) if str(b.get("id", ""))[1:].isdigit()]
+    spine_n = max((n for _, n in ids), default=0)
+    try:
+        spine_n = len(parse_spine((ep / "06-shotlist.md").read_text(encoding="utf-8")))
+    except (SystemExit, OSError):
+        pass
+    core = [(i, n) for i, n in ids if n <= spine_n]         # beats added in the room have ids > the spine
+    inv = [(a, b) for (_, a), (_, b) in zip(core, core[1:]) if a > b]
+    if inv:
+        out.append("ORDEN — beats de la espina fuera de orden: "
+                   + ", ".join(f"b{a}→b{b}" for a, b in inv[:8])
+                   + (f" (+{len(inv) - 8})" if len(inv) > 8 else "")
+                   + f". Abre en b{beats[0].get('id', '?')[1:]} — comprueba que es lo que quieres")
+    words = load_words(ep)
+    if words:
+        sr = sync_report(beats, words)
+        if sr["pct"] < 60:
+            out.append(f"SINCRONÍA — {sr['pct']} % de los beats con su frase dentro de su ventana"
+                       + "; " + "; ".join(f"{bid} empieza en {at:.0f}s y su frase se dice en {said:.0f}s"
+                                           for bid, at, said in sr["worst"][:3]))
+        first = [w for w in sr["worst"] if w[1] < 30]
+        if first and sr["pct"] >= 60:
+            out.append("APERTURA — " + "; ".join(f"{bid} empieza en {at:.0f}s, su frase se dice en {said:.0f}s"
+                                                 for bid, at, said in first[:3]))
+    log = ep / "03-source-log.csv"
+    if log.exists():
+        txt = log.read_text(encoding="utf-8", errors="replace")
+        pend = sorted({b["asset"] for b in beats if b.get("asset") and b["kind"] != "acamara"
+                       and any(b["asset"] in ln and "PENDIENTE" in ln for ln in txt.splitlines())})
+        if pend:
+            out.append(f"DERECHOS — {len(pend)} asset(s) en uso con fuente/derechos PENDIENTE: " + ", ".join(pend[:6]))
+    unl = [b["id"] for b in beats if b.get("kind") == "ia" and not b.get("label")]
+    if unl:
+        out.append(f"RÓTULO — imagen IA sin rótulo «Recreación»/«Representación pictórica»: " + ", ".join(unl[:8]))
+    (ep / "09-final-audit.txt").write_text(
+        "\n".join(out) if out else "sin avisos", encoding="utf-8")
+    print("  auditoría previa al render: " + ("sin avisos" if not out else f"{len(out)} aviso(s) → 09-final-audit.txt"))
+    for ln in out:
+        print("    ⚠ " + ln)
+    return out
 
 
 def seed_timeline(slug, force=False):
@@ -1277,7 +1345,7 @@ def authored_doc(slug, ab, *, vo_end, total, words_sig, aligned, music, seeded=N
     }
 
 
-def rebuild_timeline(slug):
+def rebuild_timeline(slug, freeze=False):
     """Recompute 09-timeline.json in place, keeping every edit-room decision.
     Schema 1 → the legacy path (re-parse the spine, re-align, fold the overrides).
     Schema 2 → the authored path: read the beats, lay them on the VO by
@@ -1288,13 +1356,30 @@ def rebuild_timeline(slug):
     if not cur:
         return seed_timeline(slug)
     if cur.get("schema", 1) >= 2:
-        return _rebuild_authored(slug, ep, tj, cur)
+        return _rebuild_authored(slug, ep, tj, cur, freeze)
     return _rebuild_schema1(slug, ep, tj)
 
 
-def _rebuild_authored(slug, ep, tj, data):
+def _rebuild_authored(slug, ep, tj, data, freeze=False):
+    """`freeze` (the render's own rebuild): the edit room is the last word on WHAT is shown. resolve()
+    re-reads Stage 6/7 (07-selection, 07-picks, the asset folders) and could quietly swap a beat's file
+    for a different one than the editor saw; with freeze, a file the room saved that still exists on
+    disk stays, and each disagreement is printed."""
     beats = data.get("beats", [])
+    saved = {b.get("id"): b.get("file") for b in beats}
     resolve(ep, beats)
+    if freeze:
+        for b in beats:
+            was = saved.get(b.get("id"))
+            if (b["kind"] not in ACAMARA and was and b.get("file") != was and (ep / was).exists()
+                    and b.get("asset")):
+                print(f"  ⚠ {b.get('id')}: Stage 7 apunta a «{b.get('file')}» pero la sala guardó «{was}» "
+                      f"— manda la sala")
+                b["file"], b["state"] = was, "ok"
+                if Path(was).suffix.lower() in STILL_EXT:            # Ken Burns is aspect-aware: follow the file we keep
+                    b["aspect"] = _aspect(ep / was)
+                else:
+                    b.pop("aspect", None)
     _derive_motion(beats)
     words = load_words(ep)
     vo_end = get_vo_end(ep, data.get("vo_end"))
@@ -2061,14 +2146,16 @@ if __name__ == "__main__":
     elif "--resync" in a:             # 3-way merge a schema-2 line onto a re-recorded VO
         resync_timeline(slug)
     elif "--final" in a:
-        with keep_awake():                # the whole thing: waiting for / running the 4K trim is
-            ensure_trimmed(slug)          # as long as the render and slept through 3 h once
-            build_timeline(slug)
+        with keep_awake(), (contextlib.nullcontext() if dry else render_lock(slug, "final")):
+            ensure_trimmed(slug)          # the whole thing: waiting for / running the 4K trim is
+            build_timeline(slug, freeze=True)   # as long as the render and slept through 3 h once
+            final_audit(slug)
             render(slug, "final", dry=dry)
     elif "--rough" in a:
-        with keep_awake():
+        with keep_awake(), (contextlib.nullcontext() if dry else render_lock(slug, "rough")):
             ensure_trimmed(slug)
-            build_timeline(slug)
+            build_timeline(slug, freeze=True)
+            final_audit(slug)
             waveform(slug)
             render(slug, "proxy", dry=dry)
     elif "--wave" in a:               # refresh only 09-wave.b64 (+ proxies) — no timeline rebuild
