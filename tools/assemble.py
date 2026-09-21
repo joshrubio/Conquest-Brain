@@ -32,6 +32,7 @@ import base64
 import contextlib
 import json
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -43,7 +44,7 @@ except Exception:
     pass
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from mediabin import FFMPEG, FFPROBE, keep_awake  # noqa: E402
+from mediabin import FFMPEG, FFPROBE, keep_awake, cpu_threads, lower_priority  # noqa: E402
 import pipeline as P  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -1695,6 +1696,112 @@ def _video_hold_filter(i, p, dur, w, h, fps):
             f"setpts=PTS-STARTPTS[v{i}]")
 
 
+CHUNK_BEATS = 10                # beats per ffmpeg run in the 4K master (see render())
+
+
+def _render_chunked(ep, slug, data, beats, build, video_fc, limited, audio, x264, out, prog, fps, w, h, lut, dry):
+    """4K master as: video in runs of CHUNK_BEATS beats (each encoded once, kept), the voice + music mix as one
+    small audio file, then a stream-copy mux. Same picture and sound as the single-pass graph, but memory stays
+    at a few GB and a finished run survives a crash, a sleep or a cancel (relaunch = skip what is done)."""
+    import hashlib
+    import os
+    import threading
+    import time
+    chunks = [beats[k:k + CHUNK_BEATS] for k in range(0, len(beats), CHUNK_BEATS)]
+    cdir = ep / "_chunks"
+
+    def chunk_key(chunk):
+        parts = []
+        for b in chunk:
+            f = b.get("file")
+            st = (ep / f).stat() if f and (ep / f).exists() else None
+            parts.append([f, b.get("kind"), round(b["in"], 3), round(b["out"], 3), b.get("motion"), b.get("label"),
+                          b.get("aspect"), (st.st_size, int(st.st_mtime)) if st else None])
+        parts.append([w, h, fps, lut, x264])
+        return hashlib.sha1(json.dumps(parts, default=str).encode("utf-8")).hexdigest()[:10]
+
+    plan = [(k, c, cdir / f"part_{k:02d}_{chunk_key(c)}.mp4") for k, c in enumerate(chunks)]
+    if dry:
+        print(f"4K master en {len(chunks)} tandas de <= {CHUNK_BEATS} beats + audio aparte + mux; "
+              f"hechas ya: {sum(1 for _, _, pth in plan if pth.exists())}")
+        return
+    cdir.mkdir(exist_ok=True)
+    for old in cdir.glob("part_*.mp4"):                    # runs of an older edit of the timeline
+        if old not in {pth for _, _, pth in plan}:
+            old.unlink(missing_ok=True)
+    total = float(data.get("total") or beats[-1]["out"])
+    print(f"render 4K master · {len(beats)} beats en {len(chunks)} tandas …")
+    done_s = 0.0
+    for k, chunk, part in plan:
+        span = max(0.0, chunk[-1]["out"] - chunk[0]["in"])
+        if part.exists() and part.stat().st_size > 0 and _duration(part) > 0:
+            print(f"  tanda {k + 1}/{len(chunks)} ya hecha ({part.name})")
+            done_s += span
+            continue
+        inp, flt, vm = build(chunk)
+        cmd = [FFMPEG, "-y", "-filter_complex_threads", "2", *limited(inp),
+               "-filter_complex", video_fc(flt, vm, len(chunk)), "-map", "[vout]", "-r", str(fps), *x264, "-an",
+               "-progress", str(cdir / "chunk.progress"), "-stats_period", "2", "-f", "mp4", str(part) + ".tmp"]
+        # the room's bar reads the master's own progress file: mirror this run's clock + the finished runs'
+        stop = threading.Event()
+
+        def mirror(base=done_s):
+            cp = cdir / "chunk.progress"
+            while not stop.is_set():
+                try:
+                    us = re.findall(r"out_time_us=(\d+)", cp.read_text(encoding="utf-8", errors="replace"))
+                    cur = int(us[-1]) / 1e6 if us else 0.0
+                    prog.write_text(f"out_time_us={int((base + cur) * 1e6)}\nprogress=continue\n", encoding="utf-8")
+                except (OSError, ValueError):
+                    pass
+                stop.wait(2.0)
+
+        th = threading.Thread(target=mirror, daemon=True)
+        th.start()
+        t0_ = time.time()
+        r = subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT)
+        stop.set()
+        tmp = Path(str(part) + ".tmp")
+        if r.returncode != 0 or not tmp.exists() or tmp.stat().st_size == 0:
+            tmp.unlink(missing_ok=True)
+            print(f"FALLO ffmpeg (tanda {k + 1}/{len(chunks)}):\n" + "\n".join(r.stderr.strip().splitlines()[-6:]))
+            sys.exit(1)
+        os.replace(tmp, part)
+        done_s += span
+        print(f"  tanda {k + 1}/{len(chunks)} hecha en {(time.time() - t0_) / 60:.1f} min  ({part.stat().st_size // (1024 * 1024)} MB)")
+
+    # voice + music: one small file
+    audio_f = cdir / "audio.m4a"
+    ain, fca, amap = audio(0)
+    if amap:
+        acmd = [FFMPEG, "-y", *ain, "-filter_complex", fca.lstrip(";"), *amap, "-c:a", "aac", "-b:a", "320k", str(audio_f)]
+        print("  mezcla de audio …")
+        r = subprocess.run(acmd, capture_output=True, text=True, cwd=ROOT)
+        if r.returncode != 0 or not audio_f.exists():
+            print("FALLO ffmpeg (audio):\n" + "\n".join(r.stderr.strip().splitlines()[-6:]))
+            sys.exit(1)
+    lst = cdir / "parts.txt"
+    lst.write_text("".join(f"file '{pth.as_posix()}'\n" for _, _, pth in plan), encoding="utf-8")
+    tmp_out = Path(str(out) + ".part")
+    mux = [FFMPEG, "-y", "-f", "concat", "-safe", "0", "-i", str(lst)]
+    if amap:
+        mux += ["-i", str(audio_f), "-map", "0:v", "-map", "1:a"]
+    mux += ["-c", "copy", "-movflags", "+faststart", "-f", "mp4", str(tmp_out)]
+    print("  uniendo tandas + audio …")
+    r = subprocess.run(mux, capture_output=True, text=True, cwd=ROOT)
+    if r.returncode != 0 or not tmp_out.exists() or tmp_out.stat().st_size == 0:
+        tmp_out.unlink(missing_ok=True)
+        print("FALLO ffmpeg (mux):\n" + "\n".join(r.stderr.strip().splitlines()[-6:]))
+        sys.exit(1)
+    os.replace(tmp_out, out)
+    prog.unlink(missing_ok=True)
+    print(f"escrito  episodes/{slug}/{out.name}  ({out.stat().st_size // (1024 * 1024)} MB)")
+    hf = ep / "_exports" / "09-final-hash.txt"
+    hf.parent.mkdir(parents=True, exist_ok=True)
+    hf.write_text(P.timeline_content_hash(data), encoding="utf-8")
+    shutil.rmtree(cdir, ignore_errors=True)                # the master is done: free the intermediates
+
+
 def render(slug, mode, t0=None, t1=None, dry=False):
     ep = EP_DIR / slug
     tj = ep / "09-timeline.json"
@@ -1712,153 +1819,200 @@ def render(slug, mode, t0=None, t1=None, dry=False):
     take_path = _the_take(ep)
     take_dur = _duration(take_path) if take_path else 0.0
 
-    inputs, filters, vmaps = [], [], []
-    for i, b in enumerate(beats):
-        f = b.get("file")
-        # an A-roll beat whose window falls past the end of the trimmed take
-        # (timeline / take out of sync) -> black, never a fatal seek-past-EOF
-        acamara_ok = b["kind"] in ACAMARA and f and (ep / f).exists() and (
-            take_dur == 0.0 or b["in"] < take_dur - 0.2)
-        dur = max(0.4, b["out"] - b["in"])
-        card = _negro_card(b["label"], ep) if (b["kind"] == "negro" and b.get("label")) else None
-        if card:
-            # a black slate with the beat's rótulo burned in
-            inputs += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(card)]
-            filters.append(
-                f"[{i}:v]scale={w}:{h}:force_original_aspect_ratio=increase,"
-                f"crop={w}:{h},setsar=1,fps={fps},trim=duration={dur:.3f},"
-                f"setpts=PTS-STARTPTS[v{i}]")
-        elif b["kind"] == "negro" or not f or (b["kind"] in ACAMARA and not acamara_ok):
-            if b["kind"] in ACAMARA:
-                if f and not (ep / f).exists():
-                    print(f"  beat {b.get('n', b.get('id'))}: a cámara pero la toma recortada aún no está renderizada → negro")
+    def _build(sub):
+        """ffmpeg input args, per-beat filter lines and [vN] labels for a run of beats (index = position in `sub`)."""
+        inputs, filters, vmaps = [], [], []
+        for i, b in enumerate(sub):
+            f = b.get("file")
+            # an A-roll beat whose window falls past the end of the trimmed take
+            # (timeline / take out of sync) -> black, never a fatal seek-past-EOF
+            acamara_ok = b["kind"] in ACAMARA and f and (ep / f).exists() and (
+                take_dur == 0.0 or b["in"] < take_dur - 0.2)
+            dur = max(0.4, b["out"] - b["in"])
+            card = _negro_card(b["label"], ep) if (b["kind"] == "negro" and b.get("label")) else None
+            if card:
+                # a black slate with the beat's rótulo burned in
+                inputs += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(card)]
+                filters.append(
+                    f"[{i}:v]scale={w}:{h}:force_original_aspect_ratio=increase,"
+                    f"crop={w}:{h},setsar=1,fps={fps},trim=duration={dur:.3f},"
+                    f"setpts=PTS-STARTPTS[v{i}]")
+            elif b["kind"] == "negro" or not f or (b["kind"] in ACAMARA and not acamara_ok):
+                if b["kind"] in ACAMARA:
+                    if f and not (ep / f).exists():
+                        print(f"  beat {b.get('n', b.get('id'))}: a cámara pero la toma recortada aún no está renderizada → negro")
+                    else:
+                        print(f"  beat {b.get('n', b.get('id'))}: a cámara pero in={b['in']:.1f}s > toma {take_dur:.1f}s → negro")
+                inputs += ["-f", "lavfi", "-t", f"{dur:.3f}",
+                           "-i", f"color=c={GROUND}:s={w}x{h}:r={fps}"]
+                filters.append(f"[{i}:v]trim=duration={dur:.3f},"
+                               f"setpts=PTS-STARTPTS[v{i}]")
+            elif b["kind"] in ACAMARA:
+                # A-roll: show the narrator take for this beat's slot. The beat's
+                # in/out are already on the VO-spine timeline; for a single take
+                # (offset 0) that is the take's own time, so trim it there.
+                p = ep / f
+                d = max(0.4, b["out"] - b["in"])
+                if take_dur:
+                    d = min(d, take_dur - b["in"])
+                inputs += ["-ss", f'{b["in"]:.3f}', "-t", f'{d:.3f}', "-i", str(p)]
+                filters.append(
+                    f"[{i}:v]scale={w}:{h}:force_original_aspect_ratio=increase,"
+                    f"crop={w}:{h},setsar=1,fps={fps},trim=duration={d:.3f},"
+                    f"setpts=PTS-STARTPTS[v{i}]")
+            else:
+                p = ep / f
+                if p.suffix.lower() in STILL_EXT:
+                    mv = _still_move(b, w, h)
+                    kb = _kb_render(ep, b, w, h, fps) if mv in ("push", "zoom") else None
+                    if kb:                          # pre-baked geq zoom → just normalise it
+                        inputs += ["-i", str(kb)]
+                        filters.append(
+                            f"[{i}:v]scale={w}:{h},setsar=1,fps={fps},"
+                            f"trim=duration={dur:.3f},setpts=PTS-STARTPTS,format=yuv420p[v{i}]")
+                    else:                           # pan/cut, or geq failed → animate inline
+                        inputs += ["-loop", "1", "-framerate", str(fps), "-t", f"{dur:.3f}", "-i", str(p)]
+                        filters.append(_clip_filter(i, b, w, h, fps, mv))
+                elif b["kind"] == "cita":
+                    # brain/20 §4.3 — every moving excerpt gets a push/reframe move
+                    # + the case-file device, baked together in one pass.
+                    mv = _still_move(b, w, h)
+                    kb = _kb_render(ep, b, w, h, fps) if mv in ("push", "zoom") else None
+                    if kb:
+                        inputs += ["-i", str(kb)]
+                        filters.append(
+                            f"[{i}:v]scale={w}:{h},setsar=1,fps={fps},"
+                            f"trim=duration={dur:.3f},setpts=PTS-STARTPTS,format=yuv420p[v{i}]")
+                    else:                           # bake failed → plain hold, never crash the render
+                        extra, flt = _video_hold_filter(i, p, dur, w, h, fps)
+                        inputs += extra
+                        filters.append(flt)
                 else:
-                    print(f"  beat {b.get('n', b.get('id'))}: a cámara pero in={b['in']:.1f}s > toma {take_dur:.1f}s → negro")
-            inputs += ["-f", "lavfi", "-t", f"{dur:.3f}",
-                       "-i", f"color=c={GROUND}:s={w}x{h}:r={fps}"]
-            filters.append(f"[{i}:v]trim=duration={dur:.3f},"
-                           f"setpts=PTS-STARTPTS[v{i}]")
-        elif b["kind"] in ACAMARA:
-            # A-roll: show the narrator take for this beat's slot. The beat's
-            # in/out are already on the VO-spine timeline; for a single take
-            # (offset 0) that is the take's own time, so trim it there.
-            p = ep / f
-            d = max(0.4, b["out"] - b["in"])
-            if take_dur:
-                d = min(d, take_dur - b["in"])
-            inputs += ["-ss", f'{b["in"]:.3f}', "-t", f'{d:.3f}', "-i", str(p)]
-            filters.append(
-                f"[{i}:v]scale={w}:{h}:force_original_aspect_ratio=increase,"
-                f"crop={w}:{h},setsar=1,fps={fps},trim=duration={d:.3f},"
-                f"setpts=PTS-STARTPTS[v{i}]")
-        else:
-            p = ep / f
-            if p.suffix.lower() in STILL_EXT:
-                mv = _still_move(b, w, h)
-                kb = _kb_render(ep, b, w, h, fps) if mv in ("push", "zoom") else None
-                if kb:                          # pre-baked geq zoom → just normalise it
-                    inputs += ["-i", str(kb)]
-                    filters.append(
-                        f"[{i}:v]scale={w}:{h},setsar=1,fps={fps},"
-                        f"trim=duration={dur:.3f},setpts=PTS-STARTPTS,format=yuv420p[v{i}]")
-                else:                           # pan/cut, or geq failed → animate inline
-                    inputs += ["-loop", "1", "-framerate", str(fps), "-t", f"{dur:.3f}", "-i", str(p)]
-                    filters.append(_clip_filter(i, b, w, h, fps, mv))
-            elif b["kind"] == "cita":
-                # brain/20 §4.3 — every moving excerpt gets a push/reframe move
-                # + the case-file device, baked together in one pass.
-                mv = _still_move(b, w, h)
-                kb = _kb_render(ep, b, w, h, fps) if mv in ("push", "zoom") else None
-                if kb:
-                    inputs += ["-i", str(kb)]
-                    filters.append(
-                        f"[{i}:v]scale={w}:{h},setsar=1,fps={fps},"
-                        f"trim=duration={dur:.3f},setpts=PTS-STARTPTS,format=yuv420p[v{i}]")
-                else:                           # bake failed → plain hold, never crash the render
+                    # video B-roll: scale-crop to frame, play it straight — NO zoompan
+                    # (that would explode the frame count). If the clip is a bit
+                    # SHORTER than the beat, slow it to fit (nicer than a visible
+                    # loop); only loop when it's far too short or long enough already.
                     extra, flt = _video_hold_filter(i, p, dur, w, h, fps)
                     inputs += extra
                     filters.append(flt)
-            else:
-                # video B-roll: scale-crop to frame, play it straight — NO zoompan
-                # (that would explode the frame count). If the clip is a bit
-                # SHORTER than the beat, slow it to fit (nicer than a visible
-                # loop); only loop when it's far too short or long enough already.
-                extra, flt = _video_hold_filter(i, p, dur, w, h, fps)
-                inputs += extra
-                filters.append(flt)
-        vmaps.append(f"[v{i}]")
+            vmaps.append(f"[v{i}]")
+        return inputs, filters, vmaps
+
 
     vo = next(iter(sorted(ep.glob("assets/*.trimmed.mp4"))), None)
-    fc = ";\n".join(filters) + ";\n" + "".join(vmaps) + f"concat=n={len(beats)}:v=1:a=0[vraw];"
     # house grade (brain/03) — opt-in and **only on the 4K master**. The proxy
     # skips it (the edit page is tagged "sin grade"); lut3d per frame roughly
     # doubles a slow proxy render for a look you check once.
     grade = ROOT / "brand" / "assets" / "grade.cube"
     lut = f"lut3d={grade.relative_to(ROOT).as_posix()}," if (grade.exists() and not proxy) else ""
-    fc += f"[vraw]{lut}format=yuv420p[vout]"
 
-    cmd = [FFMPEG, "-y", *inputs]
-    a_map = []
-    if vo:
-        cmd += ["-i", str(vo)]
-        vo_idx = len(beats)
-        # a region render (--preview) must trim the VO to that window, or ffmpeg
-        # keeps encoding until the full-length audio ends (a 30 s clip + 16 min)
-        region = t0 is not None or t1 is not None
-        va = f"[{vo_idx}:a]"
-        if region:
-            fc += (f";[{vo_idx}:a]atrim=start={t0 or 0:.3f}"
-                   + (f":end={t1:.3f}" if t1 else "") + ",asetpts=PTS-STARTPTS[voa]")
-            va = "[voa]"
-        mus = data["music"]
-        vg = float(mus.get("vo_gain_db", 0) or 0)
-        if vg:                                      # voice trim, before the mix + sidechain
-            fc += f";{va}volume={vg:+.1f}dB[vog]"
-            va = "[vog]"
-        tracks = [t for t in (mus.get("tracks") or ([mus["bed"]] if mus.get("bed") else []))
-                  if t and (ROOT / t).exists()]
-        if tracks and not proxy:
-            duck = max(0.0, float(mus.get("duck_db", 8) or 8))
-            ratio = max(2.0, min(12.0, 2.0 + duck / 2.0))   # 0 dB → gentle, 18 dB → hard
-            base = vo_idx + 1
-            for t in tracks:
-                cmd += ["-i", str(ROOT / t)]
-            # normalize every track to the same format first — concat refuses
-            # mismatched sample rate/layout, and a jamendo/pixabay/own-file mix
-            # is exactly the case where that happens.
-            for i in range(len(tracks)):
-                fc += (f";[{base+i}:a]aformat=sample_fmts=fltp:sample_rates=48000:"
-                       f"channel_layouts=stereo[mt{i}]")
-            if len(tracks) > 1:
-                # several picks: play them back-to-back once, then loop that
-                # whole sequence — a single track loops on its own instead.
-                seq = "".join(f"[mt{i}]" for i in range(len(tracks)))
-                fc += f";{seq}concat=n={len(tracks)}:v=0:a=1[mseq]"
-                loop_src = "[mseq]"
+    def _video_fc(filters, vmaps, n):
+        return (";\n".join(filters) + ";\n" + "".join(vmaps) + f"concat=n={n}:v=1:a=0[vraw];"
+                + f"[vraw]{lut}format=yuv420p[vout]")
+
+    def _limited(inputs):
+        """One decode thread per input. ffmpeg gives every decoder one thread PER CPU CORE and each thread
+        holds 4K frames: with ~100 inputs that exhausted RAM + the page file («Cannot allocate memory -12»
+        at frame 0, E002's 4K master, 15.7 GB laptop)."""
+        out = []
+        for a in inputs:
+            if a == "-i":
+                out += ["-threads", "1"]
+            out.append(a)
+        return out
+
+    def _audio(vo_idx):
+        """(input args, filter_complex fragment starting with ';', map args) — voice trim/gain + music bed
+        ducked under the voice. `vo_idx` = index the voice input will have in the command."""
+        ain, fca, amap = [], "", []
+        if vo:
+            ain += ["-i", str(vo)]
+            # a region render (--preview) must trim the VO to that window, or ffmpeg
+            # keeps encoding until the full-length audio ends (a 30 s clip + 16 min)
+            region = t0 is not None or t1 is not None
+            va = f"[{vo_idx}:a]"
+            if region:
+                fca += (f";[{vo_idx}:a]atrim=start={t0 or 0:.3f}"
+                        + (f":end={t1:.3f}" if t1 else "") + ",asetpts=PTS-STARTPTS[voa]")
+                va = "[voa]"
+            mus = data["music"]
+            vg = float(mus.get("vo_gain_db", 0) or 0)
+            if vg:                                      # voice trim, before the mix + sidechain
+                fca += f";{va}volume={vg:+.1f}dB[vog]"
+                va = "[vog]"
+            tracks = [t for t in (mus.get("tracks") or ([mus["bed"]] if mus.get("bed") else []))
+                      if t and (ROOT / t).exists()]
+            if tracks and not proxy:
+                duck = max(0.0, float(mus.get("duck_db", 8) or 8))
+                ratio = max(2.0, min(12.0, 2.0 + duck / 2.0))   # 0 dB → gentle, 18 dB → hard
+                base = vo_idx + 1
+                for t in tracks:
+                    ain += ["-i", str(ROOT / t)]
+                # normalize every track to the same format first — concat refuses
+                # mismatched sample rate/layout, and a jamendo/pixabay/own-file mix
+                # is exactly the case where that happens.
+                for i in range(len(tracks)):
+                    fca += (f";[{base+i}:a]aformat=sample_fmts=fltp:sample_rates=48000:"
+                            f"channel_layouts=stereo[mt{i}]")
+                if len(tracks) > 1:
+                    # several picks: play them back-to-back once, then loop that
+                    # whole sequence — a single track loops on its own instead.
+                    seq = "".join(f"[mt{i}]" for i in range(len(tracks)))
+                    fca += f";{seq}concat=n={len(tracks)}:v=0:a=1[mseq]"
+                    loop_src = "[mseq]"
+                else:
+                    loop_src = "[mt0]"
+                # The voice feeds BOTH the sidechain key and the mix. An input stream ([98:a]) can be read
+                # twice, but a filter OUTPUT label ([vog] — the voice with its gain — or [voa]) can be consumed
+                # only once: with vo_gain_db != 0 ffmpeg read the second use as a stream specifier and aborted
+                # with «Stream specifier 'vog' … matches no streams» (E002's 4K master, after 9 h of clips).
+                va_sc = va_mx = va
+                if not va.split(":")[0].strip("[").isdigit():           # a filter-output label → split it
+                    fca += f";{va}asplit=2[vasc][vamx]"
+                    va_sc, va_mx = "[vasc]", "[vamx]"
+                fca += (f";{loop_src}aloop=loop=-1:size=2e9,volume={mus.get('bed_db', -30)}dB[bed];"
+                        f"[bed]{va_sc}sidechaincompress=threshold=0.03:ratio={ratio:.1f}:release=400[ducked];"
+                        f"{va_mx}[ducked]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1[aout]")
+                amap = ["-map", "[aout]"]
             else:
-                loop_src = "[mt0]"
-            fc += (f";{loop_src}aloop=loop=-1:size=2e9,volume={mus.get('bed_db', -30)}dB[bed];"
-                   f"[bed]{va}sidechaincompress=threshold=0.03:ratio={ratio:.1f}:release=400[ducked];"
-                   f"{va}[ducked]amix=inputs=2:normalize=0,loudnorm=I=-14:TP=-1[aout]")
-            a_map = ["-map", "[aout]"]
-        else:
-            fc += f";{va}loudnorm=I=-14:TP=-1[aout]"
-            a_map = ["-map", "[aout]"]
+                fca += f";{va}loudnorm=I=-14:TP=-1[aout]"
+                amap = ["-map", "[aout]"]
+        return ain, fca, amap
 
-    cmd += ["-filter_complex", fc, "-map", "[vout]", *a_map,
-            "-r", str(fps), "-c:v", "libx264",
-            "-preset", "veryfast" if proxy else "slow",
-            "-crf", "26" if proxy else "17", "-pix_fmt", "yuv420p"]
+    X264 = ["-c:v", "libx264", "-preset", "veryfast" if proxy else "slow", "-crf", "26" if proxy else "17",
+            "-threads", str(cpu_threads()), "-pix_fmt", "yuv420p"]
+    out = ep / ("09-rough.mp4" if proxy else _master_name(ep, slug))
+    prog = ep / ("09-rough.progress" if proxy else "09-final.progress")
+    full = t0 is None and t1 is None
+
+    # ── the 4K master, in runs of beats ──────────────────────────────────────
+    # One ffmpeg with ~100 inputs keeps a decoder + queued 4K frames open for EVERY beat at once (measured on
+    # E002: 10.5 GB resident / 24 GB committed on a 15.7 GB laptop — the system was unusable and it failed
+    # twice). A run of CHUNK_BEATS beats needs a few GB, and a finished run is kept, so a crash / sleep /
+    # cancel resumes where it stopped instead of starting the whole encode again.
+    if (not proxy) and full and len(beats) > CHUNK_BEATS:
+        return _render_chunked(ep, slug, data, beats, _build, _video_fc, _limited, _audio, X264, out, prog,
+                               fps, w, h, lut, dry)
+
+    inputs, filters, vmaps = _build(beats)
+    fc = _video_fc(filters, vmaps, len(beats))
+    if not proxy:
+        inputs = _limited(inputs)
+    n_in = sum(1 for a in inputs if a == "-i")
+    cmd = [FFMPEG, "-y", *(["-filter_complex_threads", "2"] if not proxy else []), *inputs]
+    ain, fca, a_map = _audio(n_in)
+    cmd += ain
+    fc += fca
+
+    cmd += ["-filter_complex", fc, "-map", "[vout]", *a_map, "-r", str(fps), *X264]
     if a_map:
         cmd += ["-c:a", "aac", "-b:a", "256k" if proxy else "320k"]
-    out = ep / ("09-rough.mp4" if proxy else _master_name(ep, slug))
 
     # ffmpeg -progress: a key=value stream the edit room polls for the bar.
     # Only for a full render — a region (--preview) is too quick to bother.
     # (Don't pre-delete it — serve.py seeds it at out_time_us=0 so the bar has
     # something to read in the gap before ffmpeg starts writing.)
-    prog = ep / ("09-rough.progress" if proxy else "09-final.progress")
-    if not dry and t0 is None and t1 is None:
+    if not dry and full:
         cmd += ["-progress", str(prog), "-stats_period", "1"]
     cmd.append(str(out))
 
@@ -1895,6 +2049,8 @@ if __name__ == "__main__":
         sys.exit(2)
     slug = a[0]
     dry = "--dry" in a
+    if any(x in a for x in ("--final", "--rough", "--preview")):
+        lower_priority()          # a long render must not make the laptop sluggish (children inherit it)
     if "--preview" in a:
         i = a.index("--preview")
         render(slug, "proxy", float(a[i + 1]), float(a[i + 2]), dry)

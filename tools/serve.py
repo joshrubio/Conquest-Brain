@@ -142,7 +142,11 @@ def _spawn_chain(steps, done_flag=None, log=None, lock_file=None):
            if done_flag else "")
         + (f"pathlib.Path({str(lock_file)!r}).unlink(missing_ok=True)\n" if lock_file else "")
     )
-    return subprocess.Popen([sys.executable, "-c", py], cwd=str(TOOLS.parent), env=_ENV)
+    # Detached from serve.py: a chain used to be its CHILD, so restarting the server (Ctrl+C in its console,
+    # closing the window) killed an hours-long render with it (E002's 4K master).
+    flags = (0x00000008 | 0x00000200) if os.name == "nt" else 0        # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
+    return subprocess.Popen([sys.executable, "-c", py], cwd=str(TOOLS.parent), env=_ENV, creationflags=flags,
+                            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 # ── queued trim: cuts are cheap to save, the 4K render runs once ──────────

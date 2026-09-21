@@ -65,7 +65,7 @@ except Exception:
     pass
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from mediabin import FFMPEG, FFPROBE, keep_awake  # noqa: E402
+from mediabin import FFMPEG, FFPROBE, keep_awake, cpu_threads, lower_priority  # noqa: E402
 
 MIN_GAP = 0.45           # never cut a pause shorter than this, whatever --gap says
 FADE = 0.010             # audio fade at each join, seconds
@@ -549,7 +549,7 @@ def render(take, spans, out_path, pickups=None, gate_db=None):
         # intermediate file — favour speed; the Stage-9 export re-encodes anyway
         tmp = _part(out_path)
         cmd = [FFMPEG, "-y", "-i", str(take), "-filter_complex_script", sp,
-               "-map", "[v]", "-map", amap, "-c:v", "libx264", "-crf", "16",
+               "-map", "[v]", "-map", amap, "-c:v", "libx264", "-crf", "16", "-threads", str(cpu_threads()),
                "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "320k",
                str(tmp)]
         r = subprocess.run(cmd, capture_output=True, text=True)
@@ -603,7 +603,7 @@ def render(take, spans, out_path, pickups=None, gate_db=None):
         tmp = _part(out_path)
         cmd = [FFMPEG, "-y", "-i", str(take)] + extra_inputs + [
                "-filter_complex_script", sp, "-map", "[v]", "-map", amap,
-               "-c:v", "libx264", "-crf", "16", "-preset", "veryfast", "-pix_fmt", "yuv420p",
+               "-c:v", "libx264", "-crf", "16", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-threads", str(cpu_threads()),
                "-c:a", "aac", "-b:a", "320k", str(tmp)]
         r = subprocess.run(cmd, capture_output=True, text=True)
         Path(sp).unlink(missing_ok=True)
@@ -794,7 +794,7 @@ def video_proxy(take):
     tmp = out.with_name(out.stem + ".part" + out.suffix)
     try:
         r = subprocess.run([FFMPEG, "-y", "-i", str(take), "-vf", "scale=-2:540,fps=24",
-                            "-c:v", "libx264", "-preset", "veryfast", "-crf", "32", "-g", "12",
+                            "-c:v", "libx264", "-preset", "veryfast", "-crf", "32", "-g", "12", "-threads", str(cpu_threads()),
                             "-keyint_min", "12", "-sc_threshold", "0", "-an",
                             "-movflags", "+faststart", str(tmp)], capture_output=True, text=True)
         if r.returncode != 0 or not tmp.exists() or not _swap_in(tmp, out):
@@ -1292,6 +1292,7 @@ if __name__ == "__main__":
     take = Path(a[0]).resolve()
     if not take.is_file():
         sys.exit(f"no existe: {take}")
+    lower_priority()          # transcription / trim / proxy are long: never make the laptop sluggish
     import json as _json
 
     def opt(name, d):
