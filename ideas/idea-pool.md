@@ -58,6 +58,7 @@
 | ENS-01 | El videojuego que llegó al Senado de EE.UU. | Mortal Kombat / Night Trap → audiencias de 1993 → nace la ESRB | A/C | obra como suceso | — | nueva |
 | ENS-02 | *Whiplash* y el precio de ser el mejor | el film de Chazelle (2014), leído como caso de ambición y abuso | A/B | obra como sujeto | — | nueva |
 | ENS-03 | (por definir) — caso real + su adaptación dramatizada | un caso documentado que cita 2–3 clips de la película que lo cuenta | A/C | obra como cita | — | descartada |
+| ENS-04 | La vida de Ray Charles, según la película (y según los hechos) | *Ray* (Hackford, 2004) como andamio + archivo/fotos reales; gancho: Georgia 1961 → 1979 | A/B | obra como cita (film como andamio, `brain/20 §3`) | — | nueva |
 
 ## En espera (no en esta ronda)
 
@@ -309,7 +310,7 @@ presupuesto de clips).
 - `Fletcher tenía razón (y por eso da miedo) | Whiplash | Ensayo`
 - **Obra / suceso:** *Whiplash* (Damien Chazelle, 2014) leída como caso de ambición, mentoría tóxica y la pregunta que el film deja abierta a propósito.
 - **Modo:** obra como sujeto (A).
-- **Feasibility:** copia lícita, trivial. Fuentes abundantes (crítica de Sundance/Óscar, entrevistas del director en ScreenCrush/The Dissolve/RogerEbert, más el estante de citas: Ericsson, teoría de la autodeterminación, Eby). Presupuesto de clips: stills primero, 2–3 clips ≤10 s. **Guion demo escrito** — `episodes/_DEMO-ensayo-whiplash/`.
+- **Feasibility:** copia lícita, trivial. Fuentes abundantes (crítica de Sundance/Óscar, entrevistas del director en ScreenCrush/The Dissolve/RogerEbert, más el estante de citas: Ericsson, teoría de la autodeterminación, Eby). Presupuesto de clips: `brain/20 §4.4` (fragmentos ≤~5 s, ≤~15 % de la duración). **Guion demo escrito** — `episodes/_DEMO-ensayo-whiplash/`.
 - **Cierre A/B.** Registro psicológico + filosófico, atribuido (`brain/09` §Ensayo).
 - **Monetización:** Categoría C · Audiencia Tier 1/mixta. Recorte de RPM por los clips.
 
@@ -317,8 +318,19 @@ presupuesto de clips).
 - (hook-titles por redactar)
 - **Obra / suceso:** un caso real documentado del que existe una película dramatizada; el episodio narra el caso y **cita** 2–3 clips de la película para contrastar "lo que pasó" con "cómo lo contaron".
 - **Modo:** obra como cita (B). El sujeto sigue siendo el caso real; los clips son comentario sobre la adaptación, no ilustración (`brain/12 §1c`, `brain/20 §4`).
-- **Feasibility:** depende del caso — copia lícita de la película + el material del caso real (Documental) + ≤~60 s de clips en total.
+- **Feasibility:** depende del caso — copia lícita de la película + el material del caso real (Documental) + clips dentro de `brain/20 §4.4`.
 - **Cierre:** según el caso que se elija.
+
+### ENS-04 · La vida de Ray Charles, según la película (y según los hechos)
+- `Lo prohibieron en su propio estado… y luego lo hicieron su canción oficial | Ray Charles | Ensayo`
+- `La vida de Ray Charles, según la película (y según los hechos) | Ensayo`
+- `¿Cuánto de RAY es verdad? La historia de Ray Charles | Ensayo`
+- **Obra / suceso:** la vida completa de Ray Charles (1930–2004) contada **siguiendo la película *Ray*** (Taylor Hackford, 2004), que hace de andamio. Gancho: Georgia 1961 (se niega a tocar ante un público segregado y el estado lo veta) → cierre: la disculpa de 1979 y «Georgia on My Mind» como canción oficial del estado. *(Todos los hechos a verificar en Stage 2.)*
+- **Modo:** obra como cita (B) con el film como andamio de todo el episodio (`brain/20 §3`). Sujeto = persona real (E1). Método: la película manda el orden; la narración cuenta, contextualiza y **matiza** lo demasiado conveniente o polémico (teorías, meta-comentario); los hechos salen del registro, no de la película.
+- **Material (mezcla de ambos motores):** archivo/fotos reales/stock/ilustraciones (`brain/12`, `brain/15`) para el hombre y los lugares; fragmentos cortos de *Ray* vía clip.cafe (`brain/20 §4.4`) para lo que solo la película escenificó. Sin rótulos. **Sin audio de la película ni de sus canciones** — voz + base (`brain/16`).
+- **Feasibility (`brain/20 §4.0`):** copia lícita de *Ray* — **pendiente**; ≥3 fuentes de lectura — candidatas: *Brother Ray* (Charles y Ritz, 1978), la resolución de la Asamblea de Georgia de 1979 (Tier A), entrevistas de Hackford, prensa de la época — **por confirmar**; clip.cafe — **pendiente comprobar** que *Ray* está y que tiene las escenas (Augusta, la disculpa, el contrato con ABC, la infancia).
+- **Cierre A/B** (por decidir). Registro por definir en Stage 3.
+- **Monetización:** Categoría C · Audiencia Tier 1/mixta. Recorte de RPM por los clips (`brain/20 §5`); cuenta para el tope de cadencia (`brain/20 §7`).
 
 ---
 

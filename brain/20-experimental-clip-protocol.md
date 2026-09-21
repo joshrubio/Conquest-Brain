@@ -45,7 +45,7 @@ the fair-use case and they degrade the video.
 | Mode | The subject is… | Charter fit | Clip role | Typical CPM (`brain/18`) | Footage budget (§4) |
 |------|-----------------|-------------|-----------|--------------------------|---------------------|
 | **A — obra como sujeto** | the creative work itself, read for what it does / means | needs the full carve-out (§2) | throughout, as the object of criticism | **C (baja)** — pure arts criticism | Tier A |
-| **B — obra como cita** | a real public case / person (unchanged) | fine — subject is unchanged | only when the episode is analysing that specific work as part of the story | inherits the host episode | Tier B (= current §1c) |
+| **B — obra como cita** | a real public case / person (unchanged) | fine — subject is unchanged | whenever the episode cites that work to tell or analyse the case — from one beat to the whole episode with the film as its scaffold (§3) | inherits the host episode | Tier B (= §1c) |
 | **C — obra como suceso** | the **documented public event around a work** — its reception, controversy, litigation, ban, box-office phenomenon, industrial or cultural effect | **strongest of the three** — the event has a public record | brief, as commentary on the work's significance | **B, sometimes A** — culture / business / legal angle | Tier B |
 
 **Mode C is the sweet spot** and should be the default reach for Ensayo: the subject
@@ -104,9 +104,15 @@ whose event happens to be the reception of a work. Standard spine (era → build
 handled as Mode-B citations (§4). Most Ensayo clip episodes should be this.
 
 ### Mode B — obra como cita
-**No change to [brain/02](02-content-format.md).** A normal episode about a real
-case that cites a work in one or two beats. The existing §1c rules already cover
-it; this doc just routes it through the same logging (§4.7).
+The subject is always the **real case or person** (E1 as in Documental); the work is cited to tell or analyse it. It scales with how much the work carries the telling:
+
+- **A few beats** — **no change to [brain/02](02-content-format.md).** A normal episode that cites a work in one or two beats. The existing §1c rules already cover it; this doc just routes it through the same logging (§4.7).
+- **The film as the scaffold of the whole telling** — the dramatised film about the case guides the episode instead of being one resource among others (T05 / *The Founder* is the closest reference; the Ray Charles episode, ENS-04, is the first). It is how the reference channel cuts its film-based biographies:
+  - **Order = the film's order.** The narration walks the film's beats (a real-event cold open, e.g. the film's own climax, is fine). The film decides *what comes next*, not *what is true*.
+  - **Per beat the narrator does one of three things:** tells what the scene shows; adds context/analysis where it earns it (era, system, the people behind it); or **matiza** where the scene is *too convenient* or the record is disputed — the T01/T02/T03 gesture: lay out the versions and weigh each («no hay pruebas concluyentes»), or make the meta-comment (a biopic made with its subject alive and consulting is itself a fact about the film). A debunk only where the record actually contradicts the film; where they agree, tell it straight.
+  - **Facts come from the record, never from the film.** Stage 2's chronology is a table per film scene: *what the film tells* · *what the record says (≥3 Tier A/B for anything we matiz)* · *too convenient? y/n*. This is the fix for T05's sourcing weakness.
+  - **Picture = real where it exists, film where nobody filmed.** Archive, period photos, stills and stock ([brain/12](12-available-material-protocol.md)) for the real person and place; short fragments of the film for what only the film staged. Mixed freely, **no on-screen label** — the narration ("en la película…") tells them apart. (`brain/15`'s label for AI recreations is unchanged.)
+  - Footage and audio: §4.4 and §4.2, the same as for every other use.
 
 ### Mode A — obra como sujeto (variant of [brain/02](02-content-format.md) §Episode anatomy)
 
@@ -147,8 +153,8 @@ Three lines in the idea-pool row, no worksheet:
    digital, a subscription that can be screen-captured)? Name it.
 2. **Reading sources.** Are there **≥3 Tier A/B** secondary sources for the reading
    — criticism, interviews, making-of, scholarship? (These also satisfy E3.)
-3. **Clip budget.** Does the reading plausibly fit inside §4.4 (clips ≤ ~10 s,
-   mode ceiling; stills as fallback, §4.1)? A rough "yes" is enough at Stage 0;
+3. **Clip budget.** Does the reading plausibly fit inside §4.4 (per-fragment and
+   the fragment and runtime ceilings; stills as fallback, §4.1)? A rough "yes" is enough at Stage 0;
    the shotlist resolves it beat by beat.
 Mark `Rights` on the worksheet row as `cita — crítica/comentario (fair use)`.
 
@@ -163,10 +169,14 @@ moving thing, a still fills what a clip didn't. Don't default to stills to
 dodge Content ID; the transformation in §4.3 is what does the protecting, not
 the format of the excerpt.
 
-### 4.2 Audio is a separate copyright — always replace or duck
-Never leave a music cue or a line reading playing clean. Original audio is ducked
-hard under narration or replaced entirely. A film's **score** is its own Content
-ID surface; a clean 8-second musical moment draws a claim by itself.
+### 4.2 Audio is a separate copyright — we never use it
+**Settled house rule ([brain/16](16-edit-and-delivery.md) §The soundtrack): the
+episode's audio is the narrator's voice + our own licensed bed, never anything
+from the subject.** A clip is used picture-only — `clip_finder.py` strips its
+audio at extraction. A film's **score** is its own Content ID surface; a clean
+8-second musical moment draws a claim by itself, so it never plays. Plan every
+`cita` beat as narration over a silent picture, and pick scenes for what they
+*show*, not for what they sound like.
 
 ### 4.3 Never load-bearing + the minimum treatment
 A copyrighted excerpt never carries a beat alone. **Two things always apply:**
@@ -185,17 +195,18 @@ A copyrighted excerpt never carries a beat alone. **Two things always apply:**
 
 A raw excerpt playing clean is out — same bar as [brain/12 §1b](12-available-material-protocol.md).
 
-### 4.4 Budgets (soft ceilings — the real limit is 4.3 applied beat by beat)
+### 4.4 Clip length and share — one rule for every mode (soft ceilings; the real limit is 4.3 applied beat by beat)
 
-| Mode | Per excerpt | Moving-image total / episode | Stills (fallback, §4.1) |
-|------|-------------|------------------------------|--------------------------|
-| **A — obra como sujeto** | ≤ ~10 s | ≤ ~120 s | no hard cap; still transformative (graded, cropped, under narration), logged, credited |
-| **B / C — cita / suceso** | ≤ ~10 s | ≤ ~60 s (= current §1c) | as above |
+Confirmed against how the reference channel cuts (clips counted second by second in the opening of a Dieck episode) and valid for **every Ensayo episode and any video that uses a film / series / game as a resource**:
 
-If a Mode-A edit wants more than ~120 s of motion, that is the signal the reading
-is not carrying the episode — rebuild the beat, don't raise the ceiling. Stills
+- **Per fragment ≤ ~5 s** (typically 2–4 s), used only to dramatise or illustrate the point being narrated — never a long scene. **Fragment a scene into several beats rather than holding it.**
+- **Never two fragments of the same scene back-to-back** without narration-covered other picture between them: that rebuilds the scene out of pieces, which is substitution (below), not dramatisation.
+- **Total moving footage ≤ ~15 % of runtime** (≈3 min in a 20-min episode), not a fixed number of seconds.
+- **Stills** (fallback, §4.1): no hard cap; still transformative (graded, cropped, under narration), logged, credited.
+
+If an edit wants more than that, the beat is leaning on someone else's work — rebuild it, don't raise the ceiling. Stills
 are not a loophole for 4.3: a 40-minute slideshow of someone else's frames is
-substitution, not commentary.
+substitution, not commentary. The Content ID claim rate and RPM of the first episodes are recorded (§7) and decide whether the ceilings move.
 
 ### 4.5 PD-first still applies
 Films with lapsed or non-renewed copyright (pre-1929 outright; much of pre-1964

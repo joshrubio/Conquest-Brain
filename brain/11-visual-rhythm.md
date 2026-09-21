@@ -126,7 +126,7 @@ still avoided.
 - Own-made graphic: chart, timeline, diagram, animated map, counter.
 - Plain text card — a quote, a date, a caveat, a chapter marker.
 - Free stock footage/photo — generic b-roll only (`brain/12`); **preferred in the cold-open visual hook** and anywhere a real moving shot beats hand-animating a still.
-- **No** dramatized-film clips as if they were record; **no** AI/reenactment unless labeled ([brain/04](04-legal-and-ethics.md), [brain/08](08-tone-of-voice.md)). *(The **Ensayo** track uses brief copyrighted clips **as commentary on the work itself**, under [brain/20](20-experimental-clip-protocol.md) §4 — stills-first, ≤~10 s, mirror/zoom/crop/grade, audio replaced. That is not "clip as record" — the clip is the thing being analysed.)*
+- **No** dramatized-film clips as if they were record; **no** AI/reenactment unless labeled ([brain/04](04-legal-and-ethics.md), [brain/08](08-tone-of-voice.md)). *(The **Ensayo** track uses brief copyrighted clips **as commentary on the work itself**, under [brain/20](20-experimental-clip-protocol.md) §4 — clips as the main resource, ≤~5 s per fragment, mirror/zoom/crop/grade, audio never used. That is not "clip as record" — the clip is the thing being analysed.)*
 
 ### 2.4 Motion & treatment defaults
 

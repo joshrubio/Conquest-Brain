@@ -119,7 +119,7 @@ En la espina, un beat `acamara` = se muestra la toma del narrador para ese hueco
 - [ ] Todo dato en gráfico con fuente [ID] y, si aplica, rótulo de salvedad
 - [ ] `PROMISE n` y `PAY n` usan el mismo `asset` y el mismo `motion`
 - [ ] Sin clip de película dramatizada como registro histórico *(Ensayo: los `tipo: cita` no cuentan — son el objeto de comentario bajo `brain/20 §4`, no un andamiaje prestado)*
-- [ ] (Ensayo) Beats `cita` dentro de presupuesto (`brain/20 §4.4`: ≤~10 s c/u, total ≤ techo del modo) y ninguno es columna vertebral de su beat
+- [ ] (Ensayo) Beats `cita` dentro de presupuesto (`brain/20 §4.4`: ≤~5 s por fragmento, sin dos seguidos de la misma escena, total ≤~15 % de la duración) y ninguno es columna vertebral de su beat
 - [ ] Reenactments / IA / colorizado con `rótulo` en pantalla
 - [ ] Cold open: 2–5 planos de hook (vídeo preferido) + bumper en negro; hook+bumper ≤ 50 s
 - [ ] Nº de beats coherente con el ritmo objetivo para la duración

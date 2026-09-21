@@ -14,6 +14,10 @@ Deliberately minimal. **If an effect isn't in this doc, it doesn't go in the epi
 
 Per-episode files: `07c-edit.md` (checklist, from `templates/edit-checklist.md`) · `07c-edit.html` (raw-clip review, generated) · `07c-review.txt` (raw-clip approvals) · **`09-edit.html`** (the timeline, generated) · **`09-timeline.json`** (the authored edit, schema 2 — tracked; each beat owns `id` + `dur`, `in`/`out` derived) · `09-decisions.txt` (changelog — tracked) · `09-take.mp4` (take proxy, gitignored).
 
+## The soundtrack — always voice + our own bed (settled rule)
+
+**Every episode's audio is the narrator's voice plus a licensed background bed (§5). Nothing else, ever.** Never the audio, music, songs, recordings or dialogue of the thing the episode is about — not from a clip, a film, an archive reel, a stock video or a "the song is the point" beat. Every video asset — Ensayo clips (`brain/20`), stock, archive footage — is used **picture only, muted** (`clip_finder.py` extracts with `-an`; `assemble.py`'s mix takes exactly two inputs: the trimmed take and the bed). If a beat only works when we hear the original sound, it's told over the picture by the narrator (or described), never played. This is why a music-centred subject (a musician, a score, a soundtrack) is fine to cover: we show the person and the scenes, we don't play the work. Don't re-ask; don't plan "ducked original audio" in a brief.
+
 ## The run
 
 Stage 7 assets are chosen; Stage 8 footage is in. **Entering Stage 9,
